@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Automaton</title>
+    <style>
+        .matrix-row {
+            display: flex;
+            margin-bottom: 5px;
+        }
+        .matrix-cell {
+            margin: 0 5px;
+            padding: 5px;
+            border: 1px solid black;
+            width: 20px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        let matrix = [[1]];
+        let size = 1;
+
+        function negate(value) {
+            return value === 1 ? 0 : 1;
+        }
+
+      function nextIteration(input) {
+    const newSize = size + 1;
+    const newMatrix = Array.from({ length: newSize }, () => Array(newSize).fill(null));
+
+    // Copy the existing matrix into the new matrix
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size; j++) {
+            newMatrix[i][j] = matrix[i][j];
+        }
+    }
+
+    // Add the new input into the new diagonal position
+    newMatrix[size][size] = input;
+
+    // Determine the new row and column based on the negated diagonal
+    for (let i = 0; i < size; i++) {
+        // Negate the diagonal values only for determining the new row and column
+        const negatedDiagonalValue = negate(matrix[i][i]); 
+        newMatrix[size][i] = negatedDiagonalValue;
+        newMatrix[i][size] = negatedDiagonalValue;
+    }
+
+    // Only the bottom-right corner should be left as '?'
+    matrix = newMatrix;
+    size++;
+
+    addMatrixToPage();
+}
+        function addMatrixToPage() {
+            const container = document.getElementById('matrix-container');
+            const matrixDiv = document.createElement('div');
+            matrixDiv.className = 'matrix';
+
+            // Create and display the matrix rows
+            matrix.forEach(row => {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'matrix-row';
+                row.forEach(cell => {
+                    const cellDiv = document.createElement('div');
+                    cellDiv.className = 'matrix-cell';
+                    cellDiv.textContent = cell !== null ? cell : '?';
+                    rowDiv.appendChild(cellDiv);
+                });
+                matrixDiv.appendChild(rowDiv);
+            });
+
+            container.appendChild(matrixDiv);
+
+            // Add new input question below the current matrix
+            const inputDiv = document.createElement('div');
+            inputDiv.className = 'input-section';
+            inputDiv.innerHTML = `
+                <p>Enter 0 or 1:</p>
+                <button onclick="handleInput(0)">0</button>
+                <button onclick="handleInput(1)">1</button>
+            `;
+            container.appendChild(inputDiv);
+        }
+
+        function handleInput(input) {
+            // Remove the input section after selection
+            const inputSections = document.getElementsByClassName('input-section');
+            inputSections[inputSections.length - 1].remove();
+            
+            // Process the next iteration
+            nextIteration(input);
+        }
+
+        window.onload = function() {
+            addMatrixToPage();  // Display the initial state
+        };
+    </script>
+</head>
+<body>
+    <h1>Matrix Automaton</h1>
+    <div id="matrix-container"></div>
+</body>
+</html>
