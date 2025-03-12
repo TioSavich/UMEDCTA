@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rearranging to Make Bases (RMB) Addition</title>
+    <style>
+        body { font-family: sans-serif; }
+        #diagramRMBSVG { border: 1px solid #d3d3d3; } /* Style SVG like canvas */
+        #outputContainer { margin-top: 20px; }
+        .diagram-label { font-size: 14px; display: block; margin-bottom: 5px; } /* Improved label styling */
+    </style>
+</head>
+<body>
+
+    <h1>Addition Strategies: Rearranging to Make Bases (RMB)</h1>
+
+    <div>
+        <label for="addend1">Addend 1:</label>
+        <input type="number" id="addend1" value="18">
+    </div>
+    <div>
+        <label for="addend2">Addend 2:</label>
+        <input type="number" id="addend2" value="15">
+    </div>
+
+    <button onclick="runRMBAutomaton()">Calculate and Visualize</button>
+
+    <div id="outputContainer">
+        <h2>Explanation:</h2>
+        <div id="rmbOutput">
+            <!-- Text output will be displayed here -->
+        </div>
+    </div>
+
+    <h2>Diagram:</h2>
+    <svg id="diagramRMBSVG" width="600" height="700"></svg> <!-- Increased height -->
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const rmbOutputElement = document.getElementById('rmbOutput');
+    const rmbAddend1Input = document.getElementById('addend1');
+    const rmbAddend2Input = document.getElementById('addend2');
+    const diagramRMBSVG = document.getElementById('diagramRMBSVG');
+
+    if (!rmbOutputElement || !diagramRMBSVG) {
+        console.warn("Element rmbOutput or diagramRMBSVG not found");
+        return;
+    }
+
+    window.runRMBAutomaton = function() {
+        try {
+            const addend1 = parseInt(rmbAddend1Input.value);
+            const addend2 = parseInt(rmbAddend2Input.value);
+
+            if (isNaN(addend1) || isNaN(addend2)) {
+                rmbOutputElement.textContent = "Please enter valid numbers for both addends";
+                return;
+            }
+
+            let output = '';
+            output += `<h2>Rearranging to Make Bases (RMB)</h2><br><br>`;
+            output += `<p><strong>Problem:</strong> ${addend1} + ${addend2}</p><br><br>`;
+
+            const toMakeBase = (10 - (addend1 % 10)) % 10;
+
+            if (toMakeBase === 0) {
+                output += `${addend1} is already a multiple of 10.<br>`;
+                output += 'Directly add: ${addend1} + ${addend2} = ${addend1 + addend2}';
+                rmbOutputElement.textContent = output;
+                drawRMBDiagram('diagramRMBSVG', addend1, addend2, toMakeBase, addend1, addend2, addend1 + addend2);
+                return;
+            }
+
+            if (addend2 < toMakeBase) {
+                output += 'Cannot make a base from ${addend1} because ${addend2} is too small to provide the needed ${toMakeBase} units.<br>';
+                output += 'Directly add: ${addend1} + ${addend2} = ${addend1 + addend2}';
+                rmbOutputElement.textContent = output;
+                drawRMBDiagram('diagramRMBSVG', addend1, addend2, toMakeBase, addend1, addend2, addend1 + addend2);
+                return;
+            }
+
+            // Apply RMB strategy
+            const newAddend1 = addend1 + toMakeBase;
+            const newAddend2 = addend2 - toMakeBase;
+            const result = newAddend1 + newAddend2;
+
+            output += `Step 1: Move ${toMakeBase} from ${addend2} to ${addend1}<br>`;
+            output += ` ${addend1} + ${toMakeBase} = ${newAddend1} (now a multiple of 10)<br>`;
+            output += ` ${addend2} - ${toMakeBase} = ${newAddend2}<br><br>`;
+            output += `Step 2: Add the rearranged numbers<br>`;
+            output += `${newAddend1} + ${newAddend2} = ${result}<br><br>`;
+            output += `Result: ${addend1} + ${addend2} = ${result}`;
+
+            rmbOutputElement.innerHTML = output;
+
+            // Draw RMB Diagram
+            drawRMBDiagram('diagramRMBSVG', addend1, addend2, toMakeBase, newAddend1, newAddend2, result);
+
+
+        } catch (error) {
+            rmbOutputElement.textContent = `Error: ${error.message}`;
+        }
+    };
+
+
+    function drawRMBDiagram(svgId, addend1, addend2, toMakeBase, newAddend1, newAddend2, result) {
+        const svg = document.getElementById(svgId);
+        if (!svg) return;
+        svg.innerHTML = ''; // Clear SVG
+
+        const svgWidth = parseFloat(svg.getAttribute('width'));
+        const svgHeight = parseFloat(svg.getAttribute('height'));
+        const blockUnitSize = 15; // Size of individual unit block
+        const tenBlockWidth = blockUnitSize; // Width of 10-block rectangle
+        const tenBlockHeight = blockUnitSize * 10; // Height of 10-block rectangle
+        const blockSpacing = 5;
+        const sectionSpacingY = 120; // Vertical spacing between sections
+        const startX = 50;
+        let currentY = 50;
+        const colors = ['lightblue', 'lightcoral']; // Colors for addend blocks
+
+        // --- Original Addends (Horizontal Layout) ---
+        createText(svg, startX, currentY, `Original Addends: ${addend1} + ${addend2}`); // Label
+        currentY += 30; // Space after label
+
+        // Draw Addend 1 (purple) on left
+        let addend1X = startX;
+        const a1_tens = Math.floor(addend1 / 10);
+        const a1_ones = addend1 % 10;
+        for (let i = 0; i < a1_tens; i++) {
+            drawTenBlock(svg, addend1X, currentY, tenBlockWidth, tenBlockHeight, 'purple');
+            addend1X += tenBlockWidth + blockSpacing;
+        }
+        let a1_onesX = addend1X;
+        for (let i = 0; i < a1_ones; i++) {
+            drawBlock(svg, a1_onesX, currentY + i*(blockUnitSize + blockSpacing), blockUnitSize, blockUnitSize, 'purple');
+        }
+        const addend1Width = (a1_tens > 0 ? (a1_tens*(tenBlockWidth + blockSpacing)) : 0) + (a1_ones > 0 ? blockUnitSize : 0);
+
+        // Draw Addend 2 (blue) to the right of Addend 1
+        let addend2X = startX + addend1Width + 50; // 50px horizontal spacing between addend groups
+        const a2_tens = Math.floor(addend2 / 10);
+        const a2_ones = addend2 % 10;
+        for (let i = 0; i < a2_tens; i++) {
+            drawTenBlock(svg, addend2X, currentY, tenBlockWidth, tenBlockHeight, 'blue');
+            addend2X += tenBlockWidth + blockSpacing;
+        }
+        const addend2OnesX = addend2X;
+        let movedBlockTopY = null, movedBlockBottomY = null;
+        for (let i = 0; i < a2_ones; i++) {
+            drawBlock(svg, addend2OnesX, currentY + i*(blockUnitSize + blockSpacing), blockUnitSize, blockUnitSize, 'blue');
+            if (i < toMakeBase) {
+                if (movedBlockTopY === null) {
+                    movedBlockTopY = currentY + i*(blockUnitSize + blockSpacing);
+                }
+                movedBlockBottomY = currentY + i*(blockUnitSize + blockSpacing) + blockUnitSize;
+            }
+        }
+        currentY += tenBlockHeight + sectionSpacingY; // Move down for the rearranged addends section
+
+        // --- Rearranged Addends ---
+        createText(svg, startX+20, currentY, `Rearranged to Make Base: ${newAddend1} + ${newAddend2}`); // Label
+        currentY += 30; // Space after label
+
+        // Draw Rearranged Addend 1 Blocks (Tens only, since newAddend1 is a multiple of 10)
+        let currentX_newAddend1 = startX;
+        const newAddend1_tens = Math.floor(newAddend1 / 10);
+        for (let i = 0; i < newAddend1_tens; i++) {
+             drawTenBlock(svg, currentX_newAddend1, currentY, tenBlockWidth, tenBlockHeight, 'red'); 
+             currentX_newAddend1 += tenBlockWidth + blockSpacing;
+        }
+        // Draw Rearranged Addend 2 Blocks (Split into tens and ones)
+        const newAddend2_tens = Math.floor(newAddend2 / 10);
+        const newAddend2_ones = newAddend2 % 10;
+        let currentX_newAddend2 = currentX_newAddend1 + 40; // Horizontal spacing after newAddend1 blocks
+        for (let i = 0; i < newAddend2_tens; i++) {
+            drawTenBlock(svg, currentX_newAddend2, currentY, tenBlockWidth, tenBlockHeight, 'blue');
+            currentX_newAddend2 += tenBlockWidth + blockSpacing;
+        }
+        for (let i = 0; i < newAddend2_ones; i++) {
+            drawBlock(svg, currentX_newAddend2, currentY + i*(blockUnitSize + blockSpacing), blockUnitSize, blockUnitSize, 'blue');
+        }
+
+        // --- Curved Arrow ---
+        if (toMakeBase > 0 && addend2 >= toMakeBase && movedBlockTopY !== null) {
+            // Arrow from center of moved (vertical) ones in addend2 to the rearranged tens block assembly
+            const arrowStartX = addend2OnesX + blockUnitSize/2;
+            const arrowStartY = movedBlockTopY + (movedBlockBottomY - movedBlockTopY) / 2;
+            const arrowEndX = startX + tenBlockWidth/2;
+            const arrowEndY = currentY; // top of rearranged addend1 blocks
+            // Use control point midway vertically between arrowStartY and arrowEndY
+            const controlY = (arrowStartY + arrowEndY) / 2;
+            createCurvedArrow(svg, arrowStartX, arrowStartY, arrowEndX, arrowEndY, arrowEndX, controlY);
+            createText(svg, arrowEndX + 30, controlY + 35, `${toMakeBase} moved`);
+        }
+
+        // --- Helper SVG drawing functions ---
+        function drawBlock(svg, x, y, width, height, fill) {
+            const rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+            rect.setAttribute('x', x);
+            rect.setAttribute('y', y);
+            rect.setAttribute('width', width);
+            rect.setAttribute('height', height);
+            rect.setAttribute('fill', fill);
+            rect.setAttribute('stroke', 'black');
+            rect.setAttribute('stroke-width', '1');
+            svg.appendChild(rect);
+        }
+
+        function drawTenBlock(svg, x, y, width, height, fill) {
+            const group = document.createElementNS("http://www.w3.org/2000/svg", 'g'); // Group for 10-block
+            const backgroundRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+            backgroundRect.setAttribute('x', x);
+            backgroundRect.setAttribute('y', y);
+            backgroundRect.setAttribute('width', width);
+            backgroundRect.setAttribute('height', height);
+            backgroundRect.setAttribute('fill', fill);
+            backgroundRect.setAttribute('stroke', 'black');
+            backgroundRect.setAttribute('stroke-width', '1');
+            group.appendChild(backgroundRect);
+
+            // Draw 10 unit blocks inside - vertical column
+            for (let i = 0; i < 10; i++) {
+                const unitBlock = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+                unitBlock.setAttribute('x', x ); // Same x for vertical column
+                unitBlock.setAttribute('y', y + i * blockUnitSize); // Stacked vertically
+                unitBlock.setAttribute('width', blockUnitSize);
+                unitBlock.setAttribute('height', blockUnitSize);
+                unitBlock.setAttribute('fill', fill); // Same fill as outer rect
+                unitBlock.setAttribute('stroke', 'lightgrey'); // Lighter border for units
+                unitBlock.setAttribute('stroke-width', '0.5');
+                group.appendChild(unitBlock);
+            }
+            svg.appendChild(group);
+        }
+
+        function drawGroupRect(svg, x, y, width, height) {
+            const rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+            rect.setAttribute('x', x);
+            rect.setAttribute('y', y);
+            rect.setAttribute('width', width);
+            rect.setAttribute('height', height);
+            rect.setAttribute('fill', 'none'); // No fill for group rect
+            rect.setAttribute('stroke', 'black');
+            rect.setAttribute('stroke-dasharray', '5 5'); // Dashed border for grouping
+            rect.setAttribute('stroke-width', '1');
+            svg.appendChild(rect);
+        }
+
+
+        function createText(svg, x, y, textContent) {
+            const text = document.createElementNS("http://www.w3.org/2000/svg", 'text');
+            text.setAttribute('x', x);
+            text.setAttribute('y', y);
+            text.setAttribute('class', 'diagram-label');
+            text.setAttribute('text-anchor', 'start');
+            text.setAttribute('font-size', '14px');
+            text.textContent = textContent;
+            svg.appendChild(text);
+        }
+
+
+        function createCurvedArrow(svg, x1, y1, x2, y2, cx, cy) {
+            const path = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+            path.setAttribute('d', `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`);
+            path.setAttribute('fill', 'none');
+            path.setAttribute('stroke', 'black');
+            path.setAttribute('stroke-width', '2');
+            svg.appendChild(path);
+
+             // Arrowhead
+            const arrowHead = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+            const arrowSize = 5;
+            arrowHead.setAttribute('d', `M ${x2} ${y2} L ${x2 - arrowSize} ${y2 - arrowSize} L ${x2 + arrowSize} ${y2 - arrowSize} Z`);
+            arrowHead.setAttribute('fill', 'black');
+            svg.appendChild(arrowHead);
+        }
+
+    }
+
+});
+    </script>
+
+</body>
+</html>
