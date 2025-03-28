@@ -1,0 +1,80 @@
+body {
+    font-family: sans-serif;
+    line-height: 1.4;
+    margin: 0;
+    padding: 10px;
+    background-color: #f0f0f0;
+}
+
+.visualization-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: space-around;
+    align-items: flex-start; /* Align items to the top */
+    gap: 20px; /* Space between items */
+    margin-bottom: 20px;
+}
+
+.zcm-container, .speaker-container {
+    border: 1px solid #ccc;
+    padding: 15px;
+    background-color: white;
+    box-shadow: 3px 3px 5px 0px #ddd;
+    flex: 1 1 450px; /* Flex basis of 450px, allow grow/shrink */
+    min-width: 320px; /* Prevent excessive shrinking */
+    box-sizing: border-box; /* Include padding/border in width */
+}
+
+#zcm-svg-wrapper, #speaker-svg-wrapper {
+    width: 100%;
+    max-width: 500px; /* Max width for SVGs */
+    margin: 0 auto; /* Center SVG wrappers */
+    background-color: #f9f9f9; /* Slight background for SVG area */
+    border: 1px solid #eee;
+}
+
+#zcm-svg, #speaker-svg {
+    display: block; /* Remove extra space below SVG */
+    width: 100%;
+    height: auto; /* Maintain aspect ratio defined by viewBox */
+    cursor: crosshair;
+}
+
+#speaker-svg {
+    background-color: #e8f0ff; /* Air color */
+    cursor: default;
+}
+
+.coords-display {
+    font-family: monospace;
+    font-size: 0.9em;
+    color: #333;
+    text-align: center;
+    margin-top: 10px;
+    min-height: 1.2em; /* Prevent layout shift */
+}
+
+.explanation {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 0 15px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 15px;
+     box-shadow: 3px 3px 5px 0px #ddd;
+}
+.explanation h4 {
+    margin-top: 1.5em;
+}
+.explanation ul {
+    margin-bottom: 1em;
+}
+.explanation li {
+    margin-bottom: 0.5em;
+}
+
+
+h2, h3 {
+    text-align: center;
+    color: #444;
+}

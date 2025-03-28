@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "PDF_Documentation_Of_Strategies"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "UMEDCTA"
+	}
+}
