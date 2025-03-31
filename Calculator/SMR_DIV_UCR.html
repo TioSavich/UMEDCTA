@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Division: Using Commutative Reasoning (Dealing by Rounds)</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; }
+        .container { max-width: 800px; margin: 10px auto; padding: 10px;}
+        .control-section, .pile-section, .groups-section, .result-section {
+             margin-bottom: 20px; padding: 10px; border: 1px solid #eee;
+             background-color: #f9f9f9; border-radius: 5px;
+        }
+        label { margin-right: 5px;}
+        input[type=number] { width: 60px; margin-right: 15px;}
+        button { padding: 5px 10px; font-size: 1em; margin-right: 5px; }
+        #statusMessage { color: #e65c00; font-weight: bold; margin-left: 15px;}
+        .pile-container, .groups-container {
+             min-height: 40px; padding: 5px; background-color: #fff; border: 1px dashed #ccc;
+             margin-top: 5px;
+             /* Allow wrapping for pile items */
+             display: flex;
+             flex-wrap: wrap;
+             align-items: flex-start;
+         }
+        .groups-container {
+            justify-content: space-around; /* Space out group boxes */
+        }
+        .group-box {
+             display: inline-flex; /* Use flex for internal alignment */
+             flex-direction: column; /* Stack label and items */
+             align-items: center; /* Center items horizontally */
+             vertical-align: top;
+             width: 100px; /* Fixed width for each group box */
+             min-height: 100px; /* Increased height */
+             border: 1px solid #999;
+             padding: 5px;
+             margin: 5px;
+             background-color: #e8f4ff;
+         }
+         .group-box-label {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 5px;
+            display: block;
+            text-align: center;
+            width: 100%;
+         }
+         .group-items-container { /* Container for items inside the box */
+             display: flex;
+             flex-wrap: wrap;
+             justify-content: center; /* Center items */
+             width: 100%;
+         }
+        .item-block { /* Individual item */
+            flex-shrink: 0; /* Prevent shrinking */
+            width: 12px; height: 12px; margin: 1px;
+            background-color: cornflowerblue; border: 1px solid #666;
+        }
+         #resultValue { font-size: 1.5em; font-weight: bold; color: darkgreen; }
+         #remainderValue { font-size: 1.2em; font-weight: bold; color: darkred; margin-left: 10px;}
+
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>Division Strategies - Using Commutative Reasoning (Dealing by Rounds)</h1>
+    <p>Reframing Sharing (Total ÷ Groups = ?) as Measurement (How many "Groups" fit in Total?). Each round deals 1 item to each group.</p>
+
+    <div class="control-section">
+        <label for="commTotalInput">Total Items:</label>
+        <input type="number" id="commTotalInput" value="56" min="0">
+        <label for="commGroupsInput">Number of Groups:</label>
+        <input type="number" id="commGroupsInput" value="8" min="1">
+        <button onclick="setupCommutativeSimulation()">Set Up / Reset</button>
+        <button onclick="dealNextRound()" id="dealBtn" disabled>Deal Next Round (Deal 1 to each Group)</button>
+         <span id="statusMessage"></span>
+    </div>
+
+    <div class="pile-section">
+        <strong>Items Remaining in Pile:</strong> <span id="pileCount">0</span>
+        <div id="pileDisplay" class="pile-container"></div>
+    </div>
+
+    <div class="groups-section">
+         <strong>Groups (Items dealt):</strong>
+         <div id="groupsDisplay" class="groups-container">
+             <!-- Group boxes will be added here -->
+         </div>
+    </div>
+
+     <div class="result-section">
+        <strong>Result (Items per group):</strong> <span id="resultValue">?</span>
+        <span id="remainderValue"></span> <!-- For remainder -->
+    </div>
+
+
+    <script>
+        // --- Simulation State Variables ---
+        let initialTotalItems = 0;
+        let numGroups = 0;
+        let itemsRemaining = 0;
+        let itemsInEachGroup = 0; // How many items are currently *in* each group box
+        let roundsCompleted = 0; // How many rounds of dealing have happened (this *is* the items per group)
+        let isDealingComplete = true;
+
+        // --- DOM Element References ---
+        let resultValueSpan, pileDisplay, pileCountSpan, groupsDisplay, dealBtn, statusMessage, totalInput, groupsInput, remainderValueSpan;
+
+        // --- Helper: Draw Block ---
+        function drawBlock(parent, size, color) {
+            const item = document.createElement("div");
+            item.className = "item-block";
+            item.style.width = size + 'px';
+            item.style.height = size + 'px';
+            item.style.backgroundColor = color;
+            parent.appendChild(item);
+        }
+        // --- End Helpers ---
+
+
+        // --- Simulation Functions ---
+        function setupCommutativeSimulation() {
+            // Get elements if not already assigned (needed for reset)
+            resultValueSpan = resultValueSpan || document.getElementById("resultValue");
+            pileDisplay = pileDisplay || document.getElementById("pileDisplay");
+            pileCountSpan = pileCountSpan || document.getElementById("pileCount");
+            groupsDisplay = groupsDisplay || document.getElementById("groupsDisplay");
+            dealBtn = dealBtn || document.getElementById("dealBtn");
+            statusMessage = statusMessage || document.getElementById("statusMessage");
+            totalInput = totalInput || document.getElementById("commTotalInput");
+            groupsInput = groupsInput || document.getElementById("commGroupsInput");
+            remainderValueSpan = remainderValueSpan || document.getElementById("remainderValue");
+
+
+            initialTotalItems = parseInt(totalInput.value);
+            numGroups = parseInt(groupsInput.value);
+
+            if (isNaN(initialTotalItems) || isNaN(numGroups) || numGroups <= 0 || initialTotalItems < 0) {
+                statusMessage.textContent = "Please enter valid positive numbers (Groups > 0).";
+                dealBtn.disabled = true;
+                isDealingComplete = true;
+                resultValueSpan.textContent = "?";
+                remainderValueSpan.textContent = "";
+                pileCountSpan.textContent = "0";
+                pileDisplay.innerHTML = "";
+                groupsDisplay.innerHTML = "";
+                return;
+            }
+
+            itemsRemaining = initialTotalItems;
+            itemsInEachGroup = 0; // Reset items *in* boxes
+            roundsCompleted = 0; // Reset rounds
+            isDealingComplete = (itemsRemaining < numGroups); // Cannot deal even one round if not enough items
+
+            statusMessage.textContent = isDealingComplete ? `Not enough items (${itemsRemaining}) to deal into ${numGroups} groups.` : "Ready to deal first round.";
+            resultValueSpan.textContent = "?";
+            remainderValueSpan.textContent = "";
+            updatePileDisplay();
+            drawGroupContainers(); // Draw the empty boxes
+            dealBtn.disabled = isDealingComplete;
+        }
+
+        function dealNextRound() {
+            if (isDealingComplete) {
+                statusMessage.textContent = "Dealing complete!";
+                dealBtn.disabled = true;
+                return;
+            }
+
+            // Check if enough items remain for this round
+            if (itemsRemaining < numGroups) {
+                 isDealingComplete = true;
+                 dealBtn.disabled = true;
+                 const remainder = itemsRemaining;
+                 resultValueSpan.textContent = roundsCompleted; // Result is rounds completed
+                 remainderValueSpan.textContent = remainder > 0 ? ` Remainder ${remainder}` : "";
+                 statusMessage.textContent = `Dealing complete! Not enough items left for a full round.`;
+                 updatePileDisplay(); // Update pile to show final remainder
+                 return;
+            }
+
+
+            statusMessage.textContent = ""; // Clear message
+
+            // 1. Decrement remaining items by number of groups
+            itemsRemaining -= numGroups;
+            roundsCompleted++; // This round added 1 item to each group
+            itemsInEachGroup = roundsCompleted; // Update items shown per box
+
+            // 2. Visually update pile and ALL group boxes
+            updatePileDisplay();
+            updateAllGroupBoxes();
+
+            // 3. Check for completion
+            if (itemsRemaining < numGroups) { // Check if enough remain for the *next* round
+                isDealingComplete = true;
+                dealBtn.disabled = true;
+                const remainder = itemsRemaining;
+                resultValueSpan.textContent = roundsCompleted;
+                remainderValueSpan.textContent = remainder > 0 ? ` Remainder ${remainder}` : "";
+                statusMessage.textContent = "Dealing complete!" + (remainder > 0 ? ` ${remainder} items remaining.` : "");
+                 updatePileDisplay(); // Show final pile count (remainder)
+            } else {
+                 statusMessage.textContent = `Dealt Round ${roundsCompleted} (1 item to each of ${numGroups} groups). ${itemsRemaining} left.`;
+            }
+        }
+
+        function updatePileDisplay() {
+            if (!pileDisplay || !pileCountSpan) return;
+            pileCountSpan.textContent = itemsRemaining;
+            pileDisplay.innerHTML = ""; // Clear previous
+            // Draw remaining items in pile
+            for (let i = 0; i < itemsRemaining; i++) {
+                drawBlock(pileDisplay, 12, 'dodgerblue'); // Use helper
+            }
+        }
+
+        function drawGroupContainers() {
+            if (!groupsDisplay) return;
+            groupsDisplay.innerHTML = ""; // Clear previous
+            for (let i = 0; i < numGroups; i++) {
+                const groupBox = document.createElement("div");
+                groupBox.className = "group-box";
+
+                const label = document.createElement("div");
+                label.className = "group-box-label";
+                label.textContent = `Group ${i + 1}`;
+                groupBox.appendChild(label);
+
+                const itemContainer = document.createElement("div");
+                itemContainer.id = `group-items-${i}`; // Assign ID for adding items later
+                itemContainer.className = 'group-items-container'; // Add class for flexbox styling
+                groupBox.appendChild(itemContainer);
+
+                groupsDisplay.appendChild(groupBox);
+            }
+        }
+
+         function updateAllGroupBoxes() {
+            // Redraw items in *all* boxes based on itemsInEachGroup
+             for (let i = 0; i < numGroups; i++) {
+                 const itemContainer = document.getElementById(`group-items-${i}`);
+                 if(itemContainer) {
+                     itemContainer.innerHTML = ''; // Clear previous items in this box
+                     for(let j = 0; j < itemsInEachGroup; j++) {
+                        drawBlock(itemContainer, 12, 'cornflowerblue');
+                     }
+                 }
+             }
+         }
+
+        // --- Initialize after DOM is loaded ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Assign elements to variables now that DOM is ready
+            resultValueSpan = document.getElementById("resultValue");
+            pileDisplay = document.getElementById("pileDisplay");
+            pileCountSpan = document.getElementById("pileCount");
+            groupsDisplay = document.getElementById("groupsDisplay");
+            dealBtn = document.getElementById("dealBtn");
+            statusMessage = document.getElementById("statusMessage");
+            totalInput = document.getElementById("commTotalInput");
+            groupsInput = document.getElementById("commGroupsInput");
+            remainderValueSpan = document.getElementById("remainderValue");
+
+
+            // Make functions globally available for HTML onclick
+            window.setupCommutativeSimulation = setupSimulation;
+            window.dealNextRound = dealOneItem; // OOPS! Needs to call dealNextRound
+
+            // Fix the above line:
+            window.dealNextRound = dealNextRound;
+
+
+            // Initialize the display on page load
+            setupCommutativeSimulation();
+
+        }); // End of DOMContentLoaded
+    </script>
+
+</div> <!-- End Container -->
+</body>
+</html>

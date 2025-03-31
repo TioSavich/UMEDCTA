@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Subtraction Strategies: Decomposition</title>
+    <style>
+        body { font-family: sans-serif; }
+        #diagramDecompositionSVG { border: 1px solid #d3d3d3; min-height: 750px; /* Ensure ample space */ }
+        #outputContainer { margin-top: 20px; }
+        /* Notation Styles */
+        .notation-line { padding-left: 1em; margin: 0.1em 0; font-family: monospace; /* Monospace for alignment */ }
+        .notation-line.problem { font-weight: bold; padding-left: 0; margin-bottom: 0.5em;}
+        .notation-line.indent-1 { padding-left: 1em; }
+        .notation-line.indent-2 { padding-left: 2em; }
+        .notation-line.indent-3 { padding-left: 3em; }
+        .notation-line.decompose-arrow { padding-left: 3em; font-size: 1.2em; margin: 0.2em 0; }
+        .notation-line.final-step { margin-top: 0.5em; }
+        .cancel-group { text-decoration: line-through; color: #888; }
+
+        /* Diagram Styles */
+        .diagram-label { font-size: 14px; display: block; margin-bottom: 10px; font-weight: bold;}
+        .calc-label { font-size: 12px; text-anchor: middle; }
+        .block { stroke: black; stroke-width: 0.5; }
+        .ten-block-bg { stroke: black; stroke-width: 1; }
+        .hundred-block-bg { stroke: black; stroke-width: 1; }
+        .unit-block-inner { stroke: lightgrey; stroke-width: 0.5; }
+        .decomposed-block-visual { /* Style for the visually decomposed TEN block */
+             fill: none; /* Make transparent */
+             stroke: black;
+             stroke-width: 1.5;
+             stroke-dasharray: 4 4; /* Dashed line */
+         }
+         /* Removed decomposed-block-overlay */
+        .cross-out { stroke: red; stroke-width: 2.5; stroke-opacity: 0.8; }
+        .number-line-arrow { fill: black; stroke: black;} /* Reuse for general arrows if needed */
+
+    </style>
+</head>
+<body>
+
+<h1>Subtraction Strategies: Decomposition</h1>
+
+<div>
+    <label for="decompMinuend">Minuend:</label>
+    <input type="number" id="decompMinuend" value="45"> <!-- Default to Joe's example -->
+</div>
+<div>
+    <label for="decompSubtrahend">Subtrahend:</label>
+    <input type="number" id="decompSubtrahend" value="27"> <!-- Default to Joe's example -->
+</div>
+
+<button onclick="runDecompositionAutomaton()">Calculate and Visualize</button>
+
+<div id="outputContainer">
+    <h2>Explanation (Notation):</h2>
+    <div id="decompositionOutput">
+        <!-- Text notation will be displayed here -->
+    </div>
+</div>
+
+<h2>Diagram:</h2>
+<svg id="diagramDecompositionSVG" width="700" height="800"></svg> <!-- Adjusted height -->
+
+<script>
+    // --- Helper SVG Functions --- (Keep functions from previous version: drawBlock, drawTenBlock, drawHundredBlock, createText, drawCrossOut) ---
+     function drawBlock(svg, x, y, width, height, fill, className = 'block') {
+        const rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        rect.setAttribute('x', x); rect.setAttribute('y', y);
+        rect.setAttribute('width', width); rect.setAttribute('height', height);
+        rect.setAttribute('fill', fill);
+        rect.setAttribute('class', className);
+        svg.appendChild(rect);
+        return { x, y, width, height, type: 'o' }; // Return info including type
+    }
+
+    function drawTenBlock(svg, x, y, width, height, fill, unitBlockSize, isDecomposed = false) {
+        const group = document.createElementNS("http://www.w3.org/2000/svg", 'g');
+        const backgroundRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        backgroundRect.setAttribute('x', x); backgroundRect.setAttribute('y', y);
+        backgroundRect.setAttribute('width', width); backgroundRect.setAttribute('height', height);
+        backgroundRect.setAttribute('fill', isDecomposed ? 'none' : fill); // Transparent if visually decomposed
+        backgroundRect.setAttribute('class', isDecomposed ? 'decomposed-block-visual' : 'ten-block-bg block');
+        group.appendChild(backgroundRect);
+
+        // Draw inner units only if NOT visually decomposed
+        if (!isDecomposed) {
+            for (let i = 0; i < 10; i++) {
+                const unitBlock = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+                unitBlock.setAttribute('x', x); unitBlock.setAttribute('y', y + i * unitBlockSize);
+                unitBlock.setAttribute('width', unitBlockSize); unitBlock.setAttribute('height', unitBlockSize);
+                unitBlock.setAttribute('fill', fill);
+                unitBlock.setAttribute('class', 'unit-block-inner');
+                group.appendChild(unitBlock);
+            }
+        }
+        svg.appendChild(group);
+        return { x, y, width, height, type: 't', decomposed: isDecomposed }; // Return info
+    }
+
+     function drawHundredBlock(svg, x, y, size, fill, unitBlockSize, isDecomposed = false) {
+        const group = document.createElementNS("http://www.w3.org/2000/svg", 'g');
+        const backgroundRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        backgroundRect.setAttribute('x', x); backgroundRect.setAttribute('y', y);
+        backgroundRect.setAttribute('width', size); backgroundRect.setAttribute('height', size);
+        backgroundRect.setAttribute('fill', isDecomposed ? 'none' : fill); // Transparent if visually decomposed
+         backgroundRect.setAttribute('class', isDecomposed ? 'decomposed-block-visual' : 'hundred-block-bg block');
+        group.appendChild(backgroundRect);
+
+        if (!isDecomposed) {
+            for (let row = 0; row < 10; row++) {
+                for (let col = 0; col < 10; col++) {
+                    const unitBlock = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+                    unitBlock.setAttribute('x', x + col * unitBlockSize);
+                    unitBlock.setAttribute('y', y + row * unitBlockSize);
+                    unitBlock.setAttribute('width', unitBlockSize);
+                    unitBlock.setAttribute('height', unitBlockSize);
+                    unitBlock.setAttribute('fill', fill);
+                    unitBlock.setAttribute('class', 'unit-block-inner');
+                    group.appendChild(unitBlock);
+                }
+            }
+        }
+        svg.appendChild(group);
+        return { x, y, width: size, height: size, type: 'h', decomposed: isDecomposed }; // Return info
+    }
+
+    function createText(svg, x, y, textContent, className = 'diagram-label', anchor = 'start') {
+        const text = document.createElementNS("http://www.w3.org/2000/svg", 'text');
+        text.setAttribute('x', x); text.setAttribute('y', y);
+        text.setAttribute('class', className);
+        text.setAttribute('text-anchor', anchor);
+        text.textContent = textContent;
+        svg.appendChild(text);
+    }
+
+    function drawCrossOut(svg, x, y, width, height) {
+         const line1 = document.createElementNS("http://www.w3.org/2000/svg", 'line');
+         line1.setAttribute('x1', x); line1.setAttribute('y1', y);
+         line1.setAttribute('x2', x + width); line1.setAttribute('y2', y + height);
+         line1.setAttribute('class', 'cross-out');
+         svg.appendChild(line1);
+          const line2 = document.createElementNS("http://www.w3.org/2000/svg", 'line');
+         line2.setAttribute('x1', x + width); line2.setAttribute('y1', y);
+         line2.setAttribute('x2', x); line2.setAttribute('y2', y + height);
+         line2.setAttribute('class', 'cross-out');
+         svg.appendChild(line2);
+    }
+    // --- End Helper Functions ---
+
+    // --- Refactored Diagram Function for Notation Alignment ---
+    function drawDecompositionDiagram(svgId, m, s,
+                                        mHunsOrig, mTensOrig, mOnesOrig,
+                                        sHuns, sTens, sOnes,
+                                        diffAfterTens, // Value after tens subtraction (for stage 2 start)
+                                        didDecomposeTen, // Flag
+                                        finalResult)
+    {
+        const svg = document.getElementById(svgId);
+        if (!svg) return;
+        svg.innerHTML = '';
+
+        const svgWidth = parseFloat(svg.getAttribute('width'));
+        const svgHeight = parseFloat(svg.getAttribute('height'));
+        const blockUnitSize = 10;
+        const tenBlockWidth = blockUnitSize;
+        const tenBlockHeight = blockUnitSize * 10;
+        const hundredBlockSize = blockUnitSize * 10;
+        const blockSpacing = 4;
+        const groupSpacingX = 20;
+        const sectionSpacingY = 150; // Increased vertical spacing
+        const startX = 30;
+        let currentY = 40;
+        const colorM = 'lightblue';
+        const colorResult = 'gold';
+        const maxBlockHeight = Math.max(tenBlockHeight, hundredBlockSize, blockUnitSize);
+        let blockDataStage2 = []; // Store blocks drawn in stage 2
+
+        // --- 1. Initial Minuend Visualization ---
+        createText(svg, startX, currentY, `Initial Minuend: ${m}`);
+        currentY += 30;
+        let currentX = startX;
+        let section1MaxY = currentY;
+
+        for (let i = 0; i < mHunsOrig / 100; i++) { drawHundredBlock(svg, currentX, currentY, hundredBlockSize, colorM, blockUnitSize); currentX += hundredBlockSize + groupSpacingX; section1MaxY = Math.max(section1MaxY, currentY + hundredBlockSize); }
+        for (let i = 0; i < mTensOrig / 10; i++) { drawTenBlock(svg, currentX, currentY, tenBlockWidth, tenBlockHeight, colorM, blockUnitSize); currentX += tenBlockWidth + blockSpacing; section1MaxY = Math.max(section1MaxY, currentY + tenBlockHeight); }
+        for (let i = 0; i < mOnesOrig; i++) { drawBlock(svg, currentX, currentY + maxBlockHeight - blockUnitSize, blockUnitSize, blockUnitSize, colorM); currentX += blockUnitSize + blockSpacing; section1MaxY = Math.max(section1MaxY, currentY + maxBlockHeight); }
+
+        currentY = section1MaxY + sectionSpacingY;
+
+
+        // --- 2. Subtract Tens & Decompose/Subtract Ones ---
+        createText(svg, startX, currentY, `Subtracting ${s} (${sTens} tens, ${sOnes} ones)${didDecomposeTen ? ' - Decomposing 1 Ten' : ''}`);
+        currentY += 30;
+        currentX = startX;
+        let section2MaxY = currentY;
+        blockDataStage2 = []; // Reset for this stage
+
+        // Draw the state *after* TENS subtraction, marking decomposition visually
+        let hunsAfterTens = Math.floor(diffAfterTens / 100) * 100;
+        let tensAfterTens = Math.floor((diffAfterTens % 100) / 10) * 10;
+        let onesAfterTens = diffAfterTens % 10;
+
+        // Draw hundreds remaining
+        for (let i = 0; i < hunsAfterTens / 100; i++) {
+            let info = drawHundredBlock(svg, currentX, currentY, hundredBlockSize, colorM, blockUnitSize);
+            blockDataStage2.push({ status: 'keep', ...info });
+            currentX += hundredBlockSize + groupSpacingX;
+            section2MaxY = Math.max(section2MaxY, currentY + hundredBlockSize);
+        }
+        // Draw tens remaining, mark the one to be decomposed
+        let decomposedTenIndex = -1; // Index relative to *drawn* tens in this stage
+        for (let i = 0; i < tensAfterTens / 10; i++) {
+            let isDecomposed = didDecomposeTen && i === (tensAfterTens / 10) - 1;
+            let info = drawTenBlock(svg, currentX, currentY, tenBlockWidth, tenBlockHeight, colorM, blockUnitSize, isDecomposed);
+            if (isDecomposed) {
+                decomposedTenIndex = blockDataStage2.length; // Store index if decomposed
+                 blockDataStage2.push({ status: 'decomposed', ...info });
+            } else {
+                 blockDataStage2.push({ status: 'keep', ...info });
+            }
+            currentX += tenBlockWidth + blockSpacing;
+            section2MaxY = Math.max(section2MaxY, currentY + tenBlockHeight);
+        }
+         // Draw ones remaining
+         let onesStartX = currentX + groupSpacingX;
+         currentX = onesStartX;
+        for (let i = 0; i < onesAfterTens; i++) {
+            let info = drawBlock(svg, currentX, currentY + maxBlockHeight - blockUnitSize, blockUnitSize, blockUnitSize, colorM);
+            blockDataStage2.push({ status: 'keep', ...info }); // Mark as 'keep' initially
+            currentX += blockUnitSize + blockSpacing;
+            section2MaxY = Math.max(section2MaxY, currentY + maxBlockHeight);
+        }
+
+        // Perform Cross Out for sOnes
+        let onesToCrossOut = sOnes;
+        // Cross out original ones first
+        blockDataStage2.filter(b => b.type === 'o' && b.status === 'keep').forEach(block => {
+            if (onesToCrossOut > 0) {
+                drawCrossOut(svg, block.x, block.y, block.width, block.height);
+                block.status = 'crossed'; // Mark as crossed
+                onesToCrossOut--;
+            }
+        });
+
+        // If still need to cross out more, cross them out *conceptually* from the decomposed ten
+        if (onesToCrossOut > 0 && decomposedTenIndex !== -1) {
+            let decompBlock = blockDataStage2[decomposedTenIndex];
+             // Draw cross-outs *inside* the dashed ten block outline
+             for(let i = 0; i < onesToCrossOut; i++) {
+                 // Calculate position of unit block inside the ten block
+                 let unitY = decompBlock.y + i * blockUnitSize;
+                 drawCrossOut(svg, decompBlock.x, unitY, blockUnitSize, blockUnitSize);
+             }
+        }
+
+
+        currentY = section2MaxY + sectionSpacingY;
+
+
+        // --- 3. Final Result Visualization ---
+        createText(svg, startX, currentY, `Final Result: ${finalResult}`);
+        currentY += 30;
+        currentX = startX;
+        let section3MaxY = currentY;
+
+        // Draw Result Blocks based on finalResult calculation
+        let finalHuns = Math.floor(finalResult / 100) * 100;
+        let finalTens = Math.floor((finalResult % 100) / 10) * 10;
+        let finalOnes = finalResult % 10;
+
+        for (let i = 0; i < finalHuns / 100; i++) { drawHundredBlock(svg, currentX, currentY, hundredBlockSize, colorResult, blockUnitSize); currentX += hundredBlockSize + groupSpacingX; section3MaxY = Math.max(section3MaxY, currentY + hundredBlockSize); }
+        for (let i = 0; i < finalTens / 10; i++) { drawTenBlock(svg, currentX, currentY, tenBlockWidth, tenBlockHeight, colorResult, blockUnitSize); currentX += tenBlockWidth + blockSpacing; section3MaxY = Math.max(section3MaxY, currentY + tenBlockHeight); }
+        for (let i = 0; i < finalOnes; i++) { drawBlock(svg, currentX, currentY + maxBlockHeight - blockUnitSize, blockUnitSize, blockUnitSize, colorResult); currentX += blockUnitSize + blockSpacing; section3MaxY = Math.max(section3MaxY, currentY + maxBlockHeight); }
+
+    } // End drawDecompositionDiagram
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const outputDiv = document.getElementById('decompositionOutput');
+        const mInput = document.getElementById('decompMinuend');
+        const sInput = document.getElementById('decompSubtrahend');
+        const diagramSVG = document.getElementById('diagramDecompositionSVG');
+
+        if (!outputDiv || !mInput || !sInput || !diagramSVG) {
+            console.error("Required HTML elements not found!");
+            return;
+        }
+
+        window.runDecompositionAutomaton = function() {
+            try {
+                const m = parseInt(mInput.value);
+                const s = parseInt(sInput.value);
+
+                if (isNaN(m) || isNaN(s)) {
+                    outputDiv.innerHTML = "<p>Please enter valid numbers</p>";
+                    diagramSVG.innerHTML = ''; return;
+                }
+                if (s > m) {
+                    outputDiv.innerHTML = "<p>Subtrahend cannot be greater than Minuend.</p>";
+                    diagramSVG.innerHTML = ''; return;
+                }
+
+                let steps = '';
+
+                // --- Generate Notation Step-by-Step ---
+                steps += `<p class="notation-line problem">${m} - ${s} = ?</p>`;
+                const sTens = Math.floor(s / 10) * 10;
+                const sOnes = s % 10;
+                const diffAfterTens = m - sTens;
+                steps += `<p class="notation-line">${m} - ${sTens} = ${diffAfterTens}</p>`;
+                steps += `<p class="notation-line">${diffAfterTens} - ${sOnes} = ?</p>`;
+                const diffTensVal = Math.floor((diffAfterTens % 100) / 10);
+                const diffOnesVal = diffAfterTens % 10;
+                steps += `<p class="notation-line indent-1">${diffTensVal} tens + ${diffOnesVal} ones - ${sOnes} ones</p>`;
+
+                let finalTens_calc = diffTensVal * 10;
+                let finalOnes_calc = diffOnesVal;
+                let didDecomposeTen = false;
+
+                if (diffOnesVal < sOnes) {
+                    didDecomposeTen = true;
+                    let onesNeeded = sOnes - diffOnesVal;
+                    if (diffTensVal > 0) {
+                        finalTens_calc = (diffTensVal - 1) * 10;
+                        let currentOnesPool = 10 + diffOnesVal;
+                        steps += `<p class="notation-line indent-1">${diffTensVal - 1} ten + 1 ten + ${diffOnesVal} ones - ${sOnes} ones</p>`;
+                        steps += `<p class="notation-line decompose-arrow">↓ DECOMPOSE</p>`;
+                        steps += `<p class="notation-line indent-1">${diffTensVal - 1} ten + 10 ones + ${diffOnesVal} ones - ${sOnes} ones</p>`;
+                        let onesLeftAfterCancel = currentOnesPool - sOnes;
+                        finalOnes_calc = onesLeftAfterCancel;
+                         steps += `<p class="notation-line indent-1">${diffTensVal - 1} ten + ${onesLeftAfterCancel} ones + <span class="cancel-group">${sOnes} ones - ${sOnes} ones</span></p>`;
+                         steps += `<p class="notation-line final-step">${diffTensVal - 1} ten + ${onesLeftAfterCancel} ones</p>`;
+                    } else {
+                        // Error: Cannot decompose hundred yet
+                        steps += `<p>ERROR: Cannot decompose - Not enough tens!</p>`;
+                         finalOnes_calc = diffOnesVal - sOnes;
+                    }
+                } else {
+                     finalOnes_calc = diffOnesVal - sOnes;
+                     steps += `<p class="notation-line final-step">${diffTensVal} tens + ${finalOnes_calc} ones</p>`;
+                }
+
+                const finalResult = (m - s);
+                const finalResultTens = Math.floor((finalResult % 100) / 10); // Only tens part of final result
+                const finalResultOnes = finalResult % 10;
+                 steps += `<p class="notation-line problem">Result: ${finalResultTens} tens + ${finalResultOnes} ones = ${finalResult}</p>`;
+
+
+                outputDiv.innerHTML = steps;
+                typesetMath();
+
+                // --- Call Diagram Function ---
+                const mHuns_orig = Math.floor(m / 100) * 100;
+                const mTens_orig_for_draw = Math.floor((m % 100) / 10) * 10;
+                const mOnes_orig_for_draw = m % 10;
+                const sHuns = Math.floor(s / 100) * 100;
+
+                drawDecompositionDiagram('diagramDecompositionSVG',
+                                         m, s, // Originals
+                                         mHuns_orig, mTens_orig_for_draw, mOnes_orig_for_draw, // Initial M parts
+                                         sHuns, sTens, sOnes, // S parts
+                                         diffAfterTens, // Value after tens subtraction
+                                         didDecomposeTen, // Flag
+                                         finalResult);
+
+            } catch (error) {
+                console.error("Error in runDecompositionAutomaton:", error);
+                outputDiv.textContent = `Error: ${error.message}`;
+            }
+
+        }; // End of runDecompositionAutomaton
+
+        function typesetMath() { /* Placeholder */ }
+
+        // Initialize on page load
+        runDecompositionAutomaton();
+
+    }); // End of DOMContentLoaded
+</script>
+
+</body>
+</html>

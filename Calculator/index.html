@@ -1,758 +1,173 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>From Counting to Arithmetic: An Algorithmic Journey through Automata</title>
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-    </script>
-    <script type="text/javascript" 
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>   
-    
-    <!-- JointJS and its dependencies -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.7.5/joint.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.1/backbone-min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.7.5/joint.js"></script>
-    <script src="js/shared.js"></script>
-    <script>
-function initializePage() {
-    initializeAllDiagrams();
-    
-    // Set initial outputs
-    const outputs = {
-        'countingOutput': 'Current Count: ' + getStackNumber(),
-        'rmbOutput': '8 + 5',
-        'coboOutput': '46 + 37',
-        'chunkingOutput': '46 + 37',
-        'abaoOutput': '65 + 25',
-        'subChunkingOutput': '83 - 37',
-        'countBackOutput': '83 - 37',
-        'subRoundingOutput': '83 - 37',
-        'c2cOutput': '3 * 4',
-        'strategicOutput': '5 * 6',
-        'doublingOutput': '4 * 8',
-        'cboOutput': '3 * 9',
-        'drOutput': '6 * 14',
-        'commuteOutput': '3 * 5',
-        'divisionOutput': '24 / 4',
-        'inverseOutput': '84 / 6',
-        'dealingOutput': '15 / 3',
-        'trialOutput': '56 / 7',
-        'commDivOutput': '20 / 4'
-    };
-
-    Object.entries(outputs).forEach(([id, text]) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.innerHTML = `<strong>Current Values:</strong> ${text}<br>`;
-        }
-    });
-
-    if (window.MathJax) {
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', initializePage);
-</script>
-
-    <!-- Load your JavaScript files after all dependencies -->
-    <script defer src="js/counting.js"></script>
-    <script defer src="js/rmb.js"></script>
-    <script defer src="js/rounding.js"></script>
-    <script defer src="js/cobo.js"></script>
-    <script defer src="js/chunking.js"></script>
-    <script defer src="js/abao.js"></script>
-    <script defer src="js/subChunking.js"></script>
-    <script defer src="js/subCounting.js"></script>
-    <script defer src="js/subRounding.js"></script>
-    <script defer src="js/c2c.js"></script>
-    <script defer src="js/strategicCounting.js"></script>
-    <script defer src="js/doubling.js"></script>
-    <script defer src="js/cbo.js"></script>
-    <script defer src="js/distributive.js"></script>
-    <script defer src="js/commutative.js"></script>
-    <script defer src="js/division.js"></script>
-    <script defer src="js/inverseDistributive.js"></script>
-    <script defer src="js/dealing.js"></script>
-    <script defer src="js/strategicTrials.js"></script>
-    <script defer src="js/commutativeDivision.js"></script>
-
-    <!-- Your existing styles -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Hermeneutic Calculator</title>
     <style>
-        /* Basic styling */
         body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            line-height: 1.6;
+            font-family: 'Orbitron', sans-serif; /* A font that looks a bit digital/retro */
+            background-color: #e0e0e0; /* Light grey background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
         }
-        h1, h2, h3, h4 {
+
+        /* Import Orbitron font */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+        #calculator-body {
+            background-color: #c0c0c0; /* Silver/grey calculator body */
+            border: 2px solid #555;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4), inset 1px 1px 3px #fff, inset -1px -1px 3px #888;
+            width: 600px; /* Adjust width as needed */
+            max-width: 90%;
+            text-align: center;
+        }
+
+        #display {
+            background-color: #4a4a4a; /* Dark grey display */
+            border: 2px solid #333;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        #display h1 {
+            color: #90ee90; /* Light green text like old LCD */
+            font-size: 1.8em;
+            margin: 0;
+            text-shadow: 0 0 5px #90ee90;
+            font-weight: 700;
+        }
+
+        #button-panel {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 columns for buttons */
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .calc-button {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8em; /* Smaller font for buttons */
+            font-weight: 400;
+            padding: 12px 5px; /* Adjust padding */
+            border: 1px solid #888;
+            border-radius: 5px;
+            background-color: #d8d8d8; /* Light grey button */
             color: #333;
+            cursor: pointer;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2), inset 1px 1px 1px #fff, inset -1px -1px 1px #aaa;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            min-height: 50px; /* Ensure buttons have some height */
+            display: flex; /* Center text vertically */
+            justify-content: center;
+            align-items: center;
+            text-align: center; /* Center text horizontally */
         }
-        .automaton {
-            background-color: #f9f9f9;
-            padding: 20px;
-            margin-bottom: 40px;
-            border: 1px solid #ccc;
+
+        .calc-button:hover {
+            background-color: #e8e8e8; /* Lighter on hover */
         }
-        .automaton input[type="number"] {
-            width: 60px;
-            margin-right: 10px;
+
+        .calc-button:active {
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3);
+            background-color: #ccc;
         }
-        .automaton button {
+
+        #pdf-button {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9em;
+            padding: 10px 15px;
+            border: 1px solid #888;
+            border-radius: 5px;
+            background-color: #ffacac; /* A slightly different color */
+            color: #500;
+            cursor: pointer;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2), inset 1px 1px 1px #fff, inset -1px -1px 1px #aaa;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            display: inline-block;
             margin-top: 10px;
         }
-        .output {
-            margin-top: 20px;
-            font-family: monospace;
-            white-space: pre-wrap;
-            background-color: #fff;
-            padding: 10px;
-            border: 1px solid #ddd;
+
+        #pdf-button:hover {
+            background-color: #ffc0c0;
         }
-        label {
-            display: inline-block;
-            width: 120px;
+
+        #pdf-button:active {
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3);
+            background-color: #f09a9a;
         }
+
     </style>
-      <script>
- function typesetMath() {
-        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-    }
-    </script>
+    <!-- Link Orbitron font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<h1>From Counting to Arithmetic: An Algorithmic Journey through Automata</h1>
-
-<p>This document presents a coherent narrative that traces the algorithmic elaboration from counting to addition, subtraction, multiplication, commutative reasoning, and division. Each section introduces an automaton that models the respective arithmetic operation, building upon the previous ones. The goal is to demonstrate how these computational models are interconnected, using consistent symbols and notations, to represent the evolving complexity of arithmetic practices and abilities.</p>
-
-<hr>
-
-<h2>1. Counting</h2>
-
-<h3>1.1 Understanding the Recursive Nature of Counting</h3>
-
-<p>Counting is the most fundamental arithmetic operation. In base 10, counting involves incrementing digits and managing carry-over across multiple place values:</p>
-
-<ul>
-    <li><strong>Units (Ones):</strong> \(10^0 = 1\)</li>
-    <li><strong>Tens:</strong> \(10^1 = 10\)</li>
-    <li><strong>Hundreds:</strong> \(10^2 = 100\)</li>
-    <li><strong>Thousands:</strong> \(10^3 = 1,000\), etc.</li>
-</ul>
-
-<p>The recursive process for counting follows these steps:</p>
-
-<ol>
-    <li><strong>Increment the units digit.</strong></li>
-    <li><strong>If the units digit reaches 10, reset it to 0 and increment the tens digit.</strong></li>
-    <li><strong>Repeat this process recursively for higher place values as needed.</strong></li>
-</ol>
-
-<p>This recursive nature allows for counting indefinitely by reusing the same increment and carry-over logic for each digit.</p>
-
-<h3>1.2 Modeling Counting with a Pushdown Automaton (PDA)</h3>
-
-<p>A <strong>Pushdown Automaton (PDA)</strong> is suitable for modeling recursive counting due to its ability to use a stack for memory. The stack can represent digit states and manage carry-over recursively, making it an appropriate choice. Here's why:</p>
-
-<ul>
-    <li><strong>Finite State Automaton (FSA):</strong> Lacks the memory to handle arbitrary-length counts and carry-over.</li>
-    <li><strong>Pushdown Automaton (PDA):</strong> Uses a stack to provide additional memory, enabling nested operations like carry-over in counting.</li>
-    <li><strong>Turing Machine:</strong> While capable, it is more complex than needed for this task.</li>
-</ul>
-
-<h3>1.3 Designing the PDA for Recursive Counting</h3>
-
-<h4>Components of the PDA</h4>
-
-<ul>
-    <li><strong>States:</strong>
-        <ol>
-            <li>\(q_{\text{start}}\): Start state.</li>
-            <li>\(q_{\text{count}}\): Handles incrementing and carry-over.</li>
-            <li>\(q_{\text{output}}\): Outputs the current count.</li>
-        </ol>
-    </li>
-    <li><strong>Input Alphabet:</strong> \(\Sigma = \{ \emptyset \}\) (each \(\emptyset\) represents a unit to count).</li>
-    <li><strong>Stack Alphabet:</strong> \(\Gamma = \{ \#, D_0, D_1, D_2, \ldots, D_9 \}\), where:
-        <ul>
-            <li>\(\#\) is the bottom-of-stack marker.</li>
-            <li>\(D_n\) represents the digit \(n\).</li>
-        </ul>
-    </li>
-</ul>
-
-<h4>Automaton Behavior</h4>
-
-<ol>
-    <li><strong>Initialization:</strong>
-        <ul>
-            <li>Start in \(q_{\text{start}}\), push \(\#\) onto the stack as a marker.</li>
-            <li>Push \(D_0\) onto the stack to represent the initial digit (0).</li>
-            <li>Transition to \(q_{\text{count}}\) to begin counting.</li>
-        </ul>
-    </li>
-    <li><strong>Counting and Handling Carry-Over:</strong>
-        <ul>
-            <li>In \(q_{\text{count}}\), increment the top digit \(D_n\).</li>
-            <li>If \(n < 9\), replace \(D_n\) with \(D_{n+1}\).</li>
-            <li>If \(n = 9\), reset to \(D_0\) and handle carry-over by incrementing the next digit down the stack or pushing \(D_1\) if needed.</li>
-        </ul>
-    </li>
-    <li><strong>Output the Current Count:</strong>
-        <ul>
-            <li>In \(q_{\text{output}}\), traverse the stack to read the current count from top to bottom.</li>
-            <li>Transition back to \(q_{\text{count}}\) for the next input.</li>
-        </ul>
-    </li>
-</ol>
-
-<div class="automaton">
-    <h4>Interactive Counting Automaton</h4>
-    <p>Click the button to increment the count:</p>
-    <button onclick="runCountingAutomaton()">Increment Count</button>
-    <div id="countingOutput" class="output"></div>
-</div>
-
-<hr>
-
-<h2>2. Addition</h2>
-
-Building upon the counting automaton, we introduce addition strategies that utilize counting and extend the automaton's capabilities.
-
-<!-- RMB Automaton Section -->
-<h3>2.1 Rearranging to Make Bases (RMB)</h3>
-
-<p><strong>Objective:</strong> Make one of the addends a whole number of bases by moving ones from the other addend.</p>
-
-<p><strong>Example:</strong> \(8 + 5\)</p>
-<ul>
-    <li>Move 2 ones from 5 to 8 to make 10.</li>
-    <li>Remaining ones in the second addend: \(5 - 2 = 3\).</li>
-    <li>Add the adjusted numbers: \(10 + 3 = 13\).</li>
-</ul>
-
-<div class="automaton">
-    <h4>Interactive Automaton for Rearranging to Make Bases (RMB)</h4>
-    <p>Enter two numbers to add:</p>
-    <label for="addend1">First Addend:</label>
-    <input type="number" id="addend1" value="8" min="0">
-    <br><br>
-    <label for="addend2">Second Addend:</label>
-    <input type="number" id="addend2" value="5" min="0">
-    <br><br>
-    <button onclick="runRMBAutomaton()">Calculate</button>
-    <div id="rmbOutput" class="output"></div>
-    <div id="rmbDiagram" style="height: 400px;"></div>
-</div>
-
-<h3>2.2 Rounding and Adjusting</h3>
-<p><strong>Objective:</strong> Round one addend to a convenient number (usually a base multiple), perform the addition, then adjust the result.</p>
-<p><strong>Example:</strong> $46 + 37$</p>
-<ul>
-    <li>Round $46$ up to $50$ (adding $4$).</li>
-    <li>Add: $50 + 37 = 87$.</li>
-    <li>Adjust: Subtract the $4$ added earlier: $87 - 4 = 83$.</li>
-</ul>
-<div class="automaton">
-    <h4>Interactive Automaton for Rounding and Adjusting</h4>
-    <p>Enter two numbers to add:</p>
-    <label for="roundAddend1">First Addend:</label>
-    <input type="number" id="roundAddend1" value="46" min="0">
-    <br><br>
-    <label for="roundAddend2">Second Addend:</label>
-    <input type="number" id="roundAddend2" value="37" min="0">
-    <br><br>
-    <button onclick="runRoundingAutomaton()">Calculate</button>
-    <div id="roundingOutput" class="output"></div>
-</div>
-
-<h3>2.3 Counting On by Bases and Then Ones (COBO)</h3>
-<p><strong>Objective:</strong> Start with one addend, add bases from the other addend one by one, then add ones one by one.</p>
-<p><strong>Example:</strong> $46 + 37$</p>
-<ul>
-    <li>Start at $46$.</li>
-    <li>Add tens one by one: $46 \rightarrow 56 \rightarrow 66 \rightarrow 76$.</li>
-    <li>Add ones one by one: $76 \rightarrow 77 \rightarrow \ldots \rightarrow 83$.</li>
-</ul>
-
-<div class="automaton">
-    <h4>Interactive Automaton for Counting On by Bases and Then Ones (COBO)</h4>
-    <p>Enter two numbers to add:</p>
-    <label for="coboAddend1">First Addend:</label>
-    <input type="number" id="coboAddend1" value="46" min="0">
-    <br><br>
-    <label for="coboAddend2">Second Addend:</label>
-    <input type="number" id="coboAddend2" value="37" min="0">
-    <br><br>
-    <button onclick="runCOBOAutomaton()">Calculate</button>
-    <div id="coboOutput" class="output"></div>
-        <div id="coboDiagram" style="height: 400px;"></div>
-</div>
-
-<h3>2.4 Chunking by Bases and Ones</h3>
-<p><strong>Objective:</strong> Similar to COBO but add bases and ones in larger, strategic chunks.</p>
-<p><strong>Example:</strong> $46 + 37$</p>
-<ul>
-    <li>Start at $46$.</li>
-    <li>Add all tens at once: $46 + 30 = 76$.</li>
-    <li>Add ones strategically: $76 + 4 = 80$, then $80 + 3 = 83$.</li>
-</ul>
-<div class="automaton">
-    <h4>Interactive Automaton for Chunking by Bases and Ones</h4>
-    <p>Enter two numbers to add:</p>
-    <label for="chunkAddend1">First Addend:</label>
-    <input type="number" id="chunkAddend1" value="46" min="0">
-    <br><br>
-    <label for="chunkAddend2">Second Addend:</label>
-    <input type="number" id="chunkAddend2" value="37" min="0">
-    <br><br>
-    <button onclick="runChunkingAutomaton()">Calculate</button>
-    <div id="chunkingOutput" class="output"></div>
-        <div id="chunkDiagram" style="height: 400px;"></div>
-
-</div>
-
-<h3>2.5 Adding Bases and Adding Ones (ABAO)</h3>
-<p><strong>Objective:</strong> Split both addends into bases and ones, add bases together and ones together, then combine the partial sums.</p>
-<p><strong>Example:</strong> $65 + 25$</p>
-<ul>
-    <li>Split: $65 = 60 + 5$, $25 = 20 + 5$.</li>
-    <li>Add bases: $60 + 20 = 80$.</li>
-    <li>Add ones: $5 + 5 = 10$.</li>
-    <li>Combine: $80 + 10 = 90$.</li>
-</ul>
-<div class="automaton">
-    <h4>Interactive Automaton for Adding Bases and Adding Ones (ABAO)</h4>
-    <p>Enter two numbers to add:</p>
-    <label for="abaoAddend1">First Addend:</label>
-    <input type="number" id="abaoAddend1" value="65" min="0">
-    <br><br>
-    <label for="abaoAddend2">Second Addend:</label>
-    <input type="number" id="abaoAddend2" value="25" min="0">
-    <br><br>
-    <button onclick="runABAOAutomaton()">Calculate</button>
-    <div id="abaoOutput" class="output"></div>
-        <div id="abaoDiagram" style="height: 400px;"></div>
-
-</div>
-
-<h2>3. Subtraction</h2>
-<h3>3.1 Chunking by Bases and Ones (Forwards or Backwards)</h3>
-<p><strong>Objective:</strong> Subtract the subtrahend from the minuend by breaking the subtrahend into bases and ones and subtracting in strategic chunks.</p>
-<p><strong>Example:</strong> $83 - 37$</p>
-<ul>
-    <li>Split subtrahend: $37 = 30 + 7$.</li>
-    <li>Subtract bases: $83 - 30 = 53$.</li>
-    <li>Subtract ones: $53 - 7 = 46$.</li>
-</ul>
-<div class="automaton">
-    <h4>Interactive Automaton for Chunking by Bases and Ones (Subtraction)</h4>
-    <p>Enter minuend and subtrahend:</p>
-    <label for="chunkMinuend">Minuend:</label>
-    <input type="number" id="chunkMinuend" value="83" min="0">
-    <br><br>
-    <label for="chunkSubtrahend">Subtrahend:</label>
-    <input type="number" id="chunkSubtrahend" value="37" min="0">
-    <br><br>
-    <button onclick="runSubtractionChunkingAutomaton()">Calculate</button>
-    <div id="subChunkingOutput" class="output"></div>
-        <div id="subChunkDiagram" style="height: 400px;"></div>
-
-</div>
-<h3>3.2 Counting On or Back by Bases and Then Ones</h3>
-<p><strong>Objective:</strong> Start from the subtrahend and count up by bases and ones to reach the minuend, summing the counts to find the difference.</p>
-<p><strong>Example:</strong> $37$ to $83$</p>
-<ul>
-    <li>Count up tens: $37 \rightarrow 47 \rightarrow 57 \rightarrow 67 \rightarrow 77$ (added $40$).</li>
-    <li>Count up ones: $77 \rightarrow 83$ (added $6$).</li>
-    <li>Total difference: $40 + 6 = 46$.</li>
-</ul>
-<div class="automaton">
-    <h4>Interactive Automaton for Counting On or Back by Bases and Then Ones</h4>
-    <p>Enter minuend and subtrahend:</p>
-    <label for="countMinuend">Minuend:</label>
-    <input type="number" id="countMinuend" value="83" min="0">
-    <br><br>
-    <label for="countSubtrahend">Subtrahend:</label>
-    <input type="number" id="countSubtrahend" value="37" min="0">
-    <br><br>
-    <button onclick="runCountingBackAutomaton()">Calculate</button>
-    <div id="countBackOutput" class="output"></div>
-        <div id="countBackDiagram" style="height: 400px;"></div>
-
-</div>
-<h3>3.3 Rounding and Adjusting</h3>
-<p><strong>Objective:</strong> Round the subtrahend or minuend to a convenient number (usually a base multiple), perform the subtraction, then adjust the result.</p>
-<p><strong>Example:</strong> $83 - 37$</p>
-<ul>
-    <li>Round subtrahend down to $30$ (subtracting $7$).</li>
-    <li>Subtract: $83 - 30 = 53$.</li>
-    <li>Adjust: Subtract the $7$ subtracted earlier: $53 - 7 = 46$.</li>
-</ul>
-<div class="automaton">
-    <h4>Interactive Automaton for Rounding and Adjusting (Subtraction)</h4>
-    <p>Enter minuend and subtrahend:</p>
-    <label for="roundSubMinuend">Minuend:</label>
-    <input type="number" id="roundSubMinuend" value="83" min="0">
-    <br><br>
-    <label for="roundSubSubtrahend">Subtrahend:</label>
-    <input type="number" id="roundSubSubtrahend" value="37" min="0">
-    <br><br>
-    <button onclick="runSubtractionRoundingAutomaton()">Calculate</button>
-    <div id="subRoundingOutput" class="output"></div>
-        <div id="subRoundingDiagram" style="height: 400px;"></div>
-
-</div>
-
-<!-- Continue from where we left off -->
-
-<!-- Multiplication Section -->
-<h2>4. Multiplication</h2>
-
-Multiplication extends addition by representing repeated addition. The automata for multiplication build upon the addition automata, incorporating counting and grouping.
-
-<h3>4.1 Coordinating Two Counts by Ones (C2C)</h3>
-
-<p><strong>Objective:</strong> Count the total number of items by counting each item one by one, while keeping track of both the number of groups and the number of items in each group.</p>
-
-<p><strong>Example:</strong> $3 \times 4$</p>
-<ul>
-    <li>Count each of the 3 groups of 4 items individually.</li>
-    <li>Total count: $4 + 4 + 4 = 12$.</li>
-</ul>
-
-<div class="automaton">
-    <h4>Interactive Automaton for Coordinating Two Counts by Ones (C2C)</h4>
-    <p>Enter number of groups and items per group:</p>
-    <label for="c2cGroups">Number of Groups:</label>
-    <input type="number" id="c2cGroups" value="3" min="1">
-    <br><br>
-    <label for="c2cItems">Items per Group:</label>
-    <input type="number" id="c2cItems" value="4" min="1">
-    <br><br>
-    <button onclick="runC2CAutomaton()">Calculate</button>
-    <div id="c2cOutput" class="output"></div>
-       <div id="c2cDiagram" style="height: 400px;"></div>
-</div>
-
----
-
-<h3>4.2 Strategic Counting</h3>
-
-<p><strong>Objective:</strong> Use additive strategies to efficiently add group sizes without counting by ones.</p>
-
-<p><strong>Example:</strong> $5 \times 6$</p>
-<ul>
-    <li>Add groups strategically: $6 + 6 = 12$, $12 + 12 = 24$, $24 + 6 = 30$.</li>
-</ul>
-
-<div class="automaton">
-    <h4>Interactive Automaton for Strategic Counting</h4>
-    <p>Enter number of groups and items per group:</p>
-    <label for="stratGroups">Number of Groups:</label>
-    <input type="number" id="stratGroups" value="5" min="1">
-    <br><br>
-    <label for="stratItems">Items per Group:</label>
-    <input type="number" id="stratItems" value="6" min="1">
-    <br><br>
-    <button onclick="runStrategicCountingAutomaton()">Calculate</button>
-    <div id="strategicOutput" class="output"></div>
-    <div id="strategicDiagram" style="height: 400px;"></div>
-</div>
-
----
-
-<h3>4.3 Doubling</h3>
-
-<p><strong>Objective:</strong> Use doubling to quickly reach the total number of items by doubling group sizes or totals.</p>
-
-<p><strong>Example:</strong> $4 \times 8$</p>
-<ul>
-    <li>Double $8$ to get $16$.</li>
-    <li>Double $16$ to get $32$.</li>
-    <li>Total: $32$.</li>
-</ul>
-
-<div class="automaton">
-    <h4>Interactive Automaton for Doubling</h4>
-    <p>Enter number of groups and items per group:</p>
-    <label for="doubleGroups">Number of Groups:</label>
-    <input type="number" id="doubleGroups" value="4" min="1">
-    <br><br>
-    <label for="doubleItems">Items per Group:</label>
-    <input type="number" id="doubleItems" value="8" min="1">
-    <br><br>
-    <button onclick="runDoublingAutomaton()">Calculate</button>
-    <div id="doublingOutput" class="output"></div>
-       <div id="doublingDiagram" style="height: 400px;"></div>
-
-</div>
-
----
-
-<h3>4.4 Conversion to Bases and Ones (CBO)</h3>
-
-<p><strong>Objective:</strong> Rearrange the items from groups to make complete base units, combining ones from different groups.</p>
-
-<p><strong>Example:</strong> $3 \times 9$</p>
-<ul>
-    <li>Total items: $27$.</li>
-    <li>Convert to bases: $2$ tens and $7$ ones.</li>
-</ul>
-
-<div class="automaton">
-    <h4>Interactive Automaton for Conversion to Bases and Ones (CBO)</h4>
-    <p>Enter number of groups and items per group:</p>
-    <label for="cboGroups">Number of Groups:</label>
-    <input type="number" id="cboGroups" value="3" min="1">
-    <br><br>
-    <label for="cboItems">Items per Group:</label>
-    <input type="number" id="cboItems" value="9" min="1">
-    <br><br>
-    <button onclick="runCBOAutomaton()">Calculate</button>
-    <div id="cboOutput" class="output"></div>
-       <div id="cboDiagram" style="height: 400px;"></div>
-
-</div>
-
----
-
-<h3>4.5 Distributive Reasoning (DR)</h3>
-
-<p><strong>Objective:</strong> Break apart the group size or number of groups to simplify the multiplication problem into easier computations.</p>
-
-<p><strong>Example:</strong> $6 \times 14$</p>
-<ul>
-    <li>Break $14$ into $10$ and $4$.</li>
-    <li>Compute $6 \times 10 = 60$.</li>
-    <li>Compute $6 \times 4 = 24$.</li>
-    <li>Sum: $60 + 24 = 84$.</li>
-</ul>
-
-<div class="automaton">
-    <h4>Interactive Automaton for Distributive Reasoning (DR)</h4>
-    <p>Enter number of groups and items per group:</p>
-    <label for="drGroups">Number of Groups:</label>
-    <input type="number" id="drGroups" value="6" min="1">
-    <br><br>
-    <label for="drItems">Items per Group:</label>
-    <input type="number" id="drItems" value="14" min="1">
-    <br><br>
-    <button onclick="runDRAutomaton()">Calculate</button>
-    <div id="drOutput" class="output"></div>
-       <div id="drDiagram" style="height: 400px;"></div>
-
-</div>
-
----
-
-<h2>5. Commutative Reasoning</h2>
-
-<h3>5.1 Commutative Packaging</h3>
-
-<p><strong>Objective:</strong> Demonstrate that $a \times b = b \times a$ by reorganizing the grouping structure.</p>
-
-<p><strong>Example:</strong> $3 \times 5 = 5 \times 3$</p>
-<ul>
-    <li>Original: 3 groups of 5 items.</li>
-    <li>Reorganized: 5 groups of 3 items.</li>
-    <li>Total items remain the same: 15.</li>
-</ul>
-
-<div class="automaton">
-    <h4>Interactive Automaton for Commutative Packaging</h4>
-    <p>Enter factors to multiply:</p>
-    <label for="commuteA">Factor A:</label>
-    <input type="number" id="commuteA" value="3" min="1">
-    <br><br>
-    <label for="commuteB">Factor B:</label>
-    <input type="number" id="commuteB" value="5" min="1">
-    <br><br>
-    <button onclick="runCommutativeAutomaton()">Demonstrate Commutativity</button>
-    <div id="commuteOutput" class="output"></div>
-       <div id="commuteDiagram" style="height: 400px;"></div>
-</div>
-
----
-
-<h2>6. Division</h2>
-
-Division involves partitioning a set of items into equal groups and builds upon multiplication and subtraction.
-
-<h3>6.1 Conversion to Groups Other than Bases</h3>
-
-<p><strong>Objective:</strong> Reorganize the total number of items into groups of a specified size.</p>
-
-<p><strong>Example:</strong> Divide 24 items into groups of 4.</p>
-<ul>
-    <li>Total items: 24.</li>
-    <li>Groups of 4: $24 \div 4 = 6$ groups.</li>
-</ul>
-
-<div class="automaton">
-    <h4>Interactive Automaton for Conversion to Groups Other than Bases</h4>
-    <p>Enter total items and group size:</p>
-    <label for="divTotalItems">Total Items:</label>
-    <input type="number" id="divTotalItems" value="24" min="1">
-    <br><br>
-    <label for="divGroupSize">Group Size:</label>
-    <input type="number" id="divGroupSize" value="4" min="1">
-    <br><br>
-    <button onclick="runDivisionAutomaton()">Calculate</button>
-    <div id="divisionOutput" class="output"></div>
-       <div id="divisionDiagram" style="height: 400px;"></div>
-</div>
-
----
-
-<h3>6.2 Inverse of the Distributive Property</h3>
-
-<p><strong>Objective:</strong> Reverse the distributive property used in multiplication to aid in solving division problems.</p>
-
-<p><strong>Example:</strong> $84 \div 6$</p>
-<ul>
-    <li>Break $84$ into $60$ and $24$.</li>
-    <li>Compute $60 \div 6 = 10$.</li>
-    <li>Compute $24 \div 6 = 4$.</li>
-    <li>Sum: $10 + 4 = 14$.</li>
-</ul>
-
-<div class="automaton">
-    <h4>Interactive Automaton for Inverse of the Distributive Property</h4>
-    <p>Enter total and divisor:</p>
-    <label for="invTotal">Total:</label>
-    <input type="number" id="invTotal" value="84" min="1">
-    <br><br>
-    <label for="invDivisor">Divisor:</label>
-    <input type="number" id="invDivisor" value="6" min="1">
-    <br><br>
-    <button onclick="runInverseDistributiveAutomaton()">Calculate</button>
-    <div id="inverseOutput" class="output"></div>
-       <div id="inverseDiagram" style="height: 400px;"></div>
-
-</div>
-
----
-
-<h3>6.3 Dealing by Ones</h3>
-
-<p><strong>Objective:</strong> Perform division by incrementally removing one item at a time and counting the number of groups formed.</p>
-
-<p><strong>Example:</strong> $15 \div 3$</p>
-<ul>
-    <li>Remove items one by one into groups of 3.</li>
-    <li>Number of groups formed: 5.</li>
-</ul>
-
-<div class="automaton">
-    <h4>Interactive Automaton for Dealing by Ones</h4>
-    <p>Enter total items and group size:</p>
-    <label for="dealTotalItems">Total Items:</label>
-    <input type="number" id="dealTotalItems" value="15" min="1">
-    <br><br>
-    <label for="dealGroupSize">Group Size:</label>
-    <input type="number" id="dealGroupSize" value="3" min="1">
-    <br><br>
-    <button onclick="runDealingAutomaton()">Calculate</button>
-    <div id="dealingOutput" class="output"></div>
-       <div id="dealingDiagram" style="height: 400px;"></div>
-
-</div>
-
----
-
-<h3>6.4 Strategic Trials</h3>
-
-<p><strong>Objective:</strong> Test different grouping configurations to find the correct division outcome.</p>
-
-<p><strong>Example:</strong> $56 \div 7$</p>
-<ul>
-    <li>Try $7 \times 5 = 35$ (too low).</li>
-    <li>Try $7 \times 8 = 56$ (exact match).</li>
-    <li>Quotient: 8.</li>
-</ul>
-
-<div class="automaton">
-    <h4>Interactive Automaton for Strategic Trials</h4>
-    <p>Enter total and divisor:</p>
-    <label for="trialTotal">Total:</label>
-    <input type="number" id="trialTotal" value="56" min="1">
-    <br><br>
-    <label for="trialDivisor">Divisor:</label>
-    <input type="number" id="trialDivisor" value="7" min="1">
-    <br><br>
-    <button onclick="runStrategicTrialAutomaton()">Calculate</button>
-    <div id="trialOutput" class="output"></div>
-       <div id="trialDiagram" style="height: 400px;"></div>
-
-</div>
-
----
-
-<h3>6.5 Using Commutative Reasoning</h3>
-
-<p><strong>Objective:</strong> Leverage the commutative property of multiplication to facilitate division by swapping the number of groups and the number of items in each group.</p>
-
-<p><strong>Example:</strong> $20 \div 4$</p>
-<ul>
-    <li>Know that $4 \times 5 = 20$.</li>
-    <li>Thus, $20 \div 4 = 5$.</li>
-</ul>
-
-<div class="automaton">
-    <h4>Interactive Automaton for Using Commutative Reasoning</h4>
-    <p>Enter total and divisor:</p>
-    <label for="commDivTotal">Total:</label>
-    <input type="number" id="commDivTotal" value="20" min="1">
-    <br><br>
-    <label for="commDivDivisor">Divisor:</label>
-    <input type="number" id="commDivDivisor" value="4" min="1">
-    <br><br>
-    <button onclick="runCommutativeDivisionAutomaton()">Calculate</button>
-    <div id="commDivOutput" class="output"></div>
-           <div id="commDivDiagram" style="height: 400px;"></div>
-</div>
-    
-<hr>
-
-<h3>Key Takeaways:</h3>
-
-<ul>
-    <li><strong>Consistent Symbol Usage:</strong> Ensuring all automata use the same symbols when appropriate allows for seamless linkage between different arithmetic operations.</li>
-    <li><strong>Building Complexity:</strong> Each automaton builds upon the previous ones, adding layers of complexity to handle more advanced arithmetic.</li>
-    <li><strong>Automata Types:</strong> Utilizing appropriate automata (FSA, PDA) based on the memory and computational requirements of each operation.</li>
-</ul>
-
-<p>This structured approach not only provides a formal representation of arithmetic strategies but also deepens our understanding of the computational processes involved in elementary mathematics.</p>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize all diagrams first
-    initializeAllDiagrams();
-
-    // Set initial outputs
-    const outputs = {
-        'countingOutput': 'Current Count: ' + getStackNumber(),
-        'rmbOutput': '8 + 5',
-        // ...existing output mappings...
-    };
-
-    // Update outputs
-    for (const [id, text] of Object.entries(outputs)) {
-        const element = document.getElementById(id);
-        if (element) {
-            element.innerHTML = `<strong>Current Values:</strong> ${text}<br>`;
+    <div id="calculator-body">
+        <div id="display">
+            <h1>The Hermeneutic Calculator</h1>
+        </div>
+
+        <div id="button-panel">
+            <!-- Addition Strategies -->
+            <button class="calc-button" onclick="window.location.href='SAR_ADD_COBO.html'">Add: COBO</button>
+            <button class="calc-button" onclick="window.location.href='SAR_ADD_CHUNKING.html'">Add: Chunking</button>
+            <button class="calc-button" onclick="window.location.href='SAR_ADD_ABAO.html'">Add: ABAO</button>
+            <button class="calc-button" onclick="window.location.href='SAR_ADD_RMB.html'">Add: RMB</button>
+            <button class="calc-button" onclick="window.location.href='SAR_ADD_Rounding.html'">Add: Rounding</button>
+
+            <!-- Subtraction Strategies -->
+            <button class="calc-button" onclick="window.location.href='SAR_SUB_COBO.html'">Sub: COBO</button>
+            <button class="calc-button" onclick="window.location.href='SAR_SUB_CHUNKING.html'">Sub: Chunking</button>
+            <button class="calc-button" onclick="window.location.href='SAR_SUB_Decomposition.html'">Sub: Decomp</button>
+            <button class="calc-button" onclick="window.location.href='SAR_SUB_Sliding.html'">Sub: Sliding</button>
+            <button class="calc-button" onclick="window.location.href='SAR_SUB_Rounding.html'">Sub: Rounding</button>
+
+            <!-- Multiplication Strategies -->
+            <button class="calc-button" onclick="window.location.href='SMR_Multiplication_Coordinating_Two_Counts.html'">Mult: C2C</button>
+            <button class="calc-button" onclick="window.location.href='SMR_MULT_Commutative_Reasoning.html'">Mult: Commute</button>
+            <button class="calc-button" onclick="window.location.href='SMR_MULT_DR.html'">Mult: Distribute</button>
+            <button class="calc-button" onclick="window.location.href='SMR_MULTIPLICATION_Strategic_Counting.html'">Mult: Strat Count</button>
+             <button class="calc-button" onclick="window.location.href='SMR_Multiplication_CBO.html'">Mult: CBO</button>
+
+            <!-- Division Strategies -->
+            <button class="calc-button" onclick="window.location.href='SMR_DIV_Dealing_By_Ones.html'">Div: Dealing Ones</button>
+            <button class="calc-button" onclick="window.location.href='SMR_DIV_UCR.html'">Div: Dealing Rounds</button>
+            <button class="calc-button" onclick="window.location.href='SMR_DIV_Strategic_Trials.html'">Div: Strat Trials</button>
+            <button class="calc-button" onclick="window.location.href='SMR_DIV_IDP.html'">Div: Inv Distribute</button>
+            <button class="calc-button" onclick="window.location.href='SMR_DIV_CGOB.html'">Div: CGOB</button>
+
+            <!-- Other/Fundamental -->
+            <button class="calc-button" onclick="window.location.href='counting.html'">Counting</button>
+            <button class="calc-button" onclick="window.location.href='AceofBases/index.html'">Ace of Base</button>
+
+            <!-- Placeholder for empty grid slots if needed, or add more buttons -->
+             <button class="calc-button" disabled style="background-color: #b0b0b0; cursor: default; box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);"></button>
+             <button class="calc-button" disabled style="background-color: #b0b0b0; cursor: default; box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);"></button>
+
+
+        </div>
+
+        <button id="pdf-button" onclick="openPdfDocumentation()">More Complex Representations (PDF)</button>
+
+    </div>
+
+    <script>
+        function openPdfDocumentation() {
+            // *** IMPORTANT: Replace 'path/to/your/documentation.pdf' with the actual path to your PDF file ***
+            // Example: If it's in the same folder, just use 'documentation.pdf'
+            // Example: If it's in a subfolder called 'docs', use 'docs/documentation.pdf'
+            window.open('../PDF_Documentation_Of_Strategies/SAR_SUB_COBO.pdf', '_blank'); // Opens in a new tab
         }
-    }
+    </script>
 
-    // Typeset math
-    if (window.MathJax) {
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    }
-});
-</script>
 </body>
 </html>

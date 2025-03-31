@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multiplication: Coordinating Two Counts by Ones (C2C)</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; }
+        .representation-section { margin-bottom: 20px; padding: 10px; border: 1px solid #eee; min-height: 50px;}
+        .control-section { margin-bottom: 20px; }
+        label { margin-right: 5px;}
+        input[type=number] { width: 60px; margin-right: 15px;}
+        .box { /* Style for individual item box */
+            display: inline-block;
+            width: 15px; height: 15px; margin: 1px;
+            background-color: lightblue; border: 1px solid #666;
+            vertical-align: middle;
+        }
+        .tally-mark { /* Style for group tally */
+            font-family: monospace;
+            font-size: 24px;
+            margin-right: 4px; /* Spacing between tallies */
+            display: inline-block;
+            vertical-align: middle;
+            color: darkgreen;
+        }
+         .group-spacer { /* Visual space between groups of boxes */
+             display: inline-block;
+             width: 10px;
+             height: 15px;
+             vertical-align: middle;
+         }
+        button { padding: 5px 10px; font-size: 1em; margin-right: 5px; }
+        #numericValue { font-size: 1.5em; font-weight: bold; color: darkblue; }
+        #statusMessage { color: red; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+    <h1>Strategic Multiplicative Reasoning - Coordinating Two Counts by Ones (C2C)</h1>
+
+    <div class="control-section">
+        <label for="groupSizeInput">Group Size (S):</label>
+        <input type="number" id="groupSizeInput" value="6" min="1">
+        <label for="numGroupsInput">Number of Groups (N):</label>
+        <input type="number" id="numGroupsInput" value="3" min="1">
+        <button onclick="resetSimulation()">Start/Reset</button>
+        <button onclick="countNextItem()" id="incrementBtn">Count Next Item</button>
+         <span id="statusMessage"></span>
+    </div>
+
+    <p><strong>Total Items Counted:</strong> <span id="numericValue">0</span></p>
+
+    <div class="representation-section">
+        <strong>Groups Tracked (Tallies represent completed groups):</strong><br />
+        <span id="tallyDisplay"></span>
+    </div>
+
+    <div class="representation-section">
+        <strong>Items Counted (Boxes grouped by Group Size):</strong><br />
+        <span id="boxesDisplay"></span>
+    </div>
+
+
+    <script>
+        // --- Simulation State Variables ---
+        let groupSize = 6;
+        let numGroups = 3;
+        let currentGroupNum = 0; // How many groups *completed*
+        let currentItemInGroup = 0; // How many items counted *in the current group*
+        let currentTotalCount = 0; // Total items overall
+        let isComplete = true; // Start in a non-counting state
+
+        // --- DOM Element References ---
+        const numericValueSpan = document.getElementById("numericValue");
+        const boxesContainer = document.getElementById("boxesDisplay");
+        const tallyContainer = document.getElementById("tallyDisplay");
+        const incrementBtn = document.getElementById("incrementBtn");
+        const statusMessage = document.getElementById("statusMessage");
+        const groupSizeInput = document.getElementById("groupSizeInput");
+        const numGroupsInput = document.getElementById("numGroupsInput");
+
+        // --- Simulation Functions ---
+        function resetSimulation() {
+            groupSize = parseInt(groupSizeInput.value) || 1; // Ensure at least 1
+            numGroups = parseInt(numGroupsInput.value) || 1; // Ensure at least 1
+            groupSizeInput.value = groupSize; // Update input in case of default
+            numGroupsInput.value = numGroups;
+
+            currentGroupNum = 0;
+            currentItemInGroup = 0;
+            currentTotalCount = 0;
+            isComplete = (numGroups <= 0 || groupSize <= 0); // Complete if invalid input
+
+            updateDisplay();
+            statusMessage.textContent = isComplete ? "Set Group Size and Num Groups > 0, then Reset." : "Ready to count.";
+        }
+
+        function countNextItem() {
+            if (isComplete) {
+                statusMessage.textContent = "Counting complete! Press Reset to start again.";
+                return;
+            }
+
+            statusMessage.textContent = ""; // Clear message
+
+            // Increment total count (State q_count_items: Increment T)
+            currentTotalCount++;
+
+            // Increment item within the current group (State q_count_items: Increment I)
+            currentItemInGroup++;
+
+            // Check if current group is finished (State q_count_items -> q_next_group transition check: I == S?)
+            if (currentItemInGroup === groupSize) {
+                currentGroupNum++; // Increment completed group count (Action: G = G + 1)
+                currentItemInGroup = 0; // Reset item count for next group (Action: I = 0)
+
+                // Check if all groups are finished (State q_next_group -> q0/accept check: G == N?)
+                if (currentGroupNum === numGroups) {
+                    isComplete = true; // All groups done
+                    statusMessage.textContent = "Counting complete!";
+                } else {
+                    // Transition back to q_count_items conceptually for the next group
+                    statusMessage.textContent = `Finished Group ${currentGroupNum}. Starting Group ${currentGroupNum + 1}...`;
+                }
+            } else {
+                 statusMessage.textContent = `Counting item ${currentItemInGroup} in Group ${currentGroupNum + 1}...`;
+            }
+
+
+            updateDisplay();
+        }
+
+
+        function updateDisplay() {
+            // Update numeric display
+            numericValueSpan.textContent = currentTotalCount;
+
+            // Enable/Disable Increment Button
+            incrementBtn.disabled = isComplete;
+
+            // --- Update Tallies (Groups Tracked) ---
+            tallyContainer.innerHTML = ""; // Clear previous
+            // Draw one tally for each *completed* group
+            tallyContainer.textContent = "|".repeat(currentGroupNum);
+            tallyContainer.className = 'tally-mark'; // Apply class
+
+
+            // --- Update Boxes (Items Counted) ---
+            boxesContainer.innerHTML = ""; // Clear previous
+            for (let i = 1; i <= currentTotalCount; i++) {
+                 const box = document.createElement("div");
+                 box.className = "box";
+                 boxesContainer.appendChild(box);
+
+                 // Add a visual spacer after each completed group (except the last item)
+                 if (i % groupSize === 0 && i < currentTotalCount) {
+                     const spacer = document.createElement("span");
+                     spacer.className = "group-spacer";
+                     boxesContainer.appendChild(spacer);
+                 }
+            }
+
+        } // End of updateDisplay
+
+        // Initialize the display on page load
+        resetSimulation(); // Start with defaults loaded
+
+    </script>
+
+</body>
+</html>
