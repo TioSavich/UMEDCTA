@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multiplication: Strategic Counting</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; }
+        #diagramStratCountSVG { border: 1px solid #d3d3d3; }
+        #outputContainer { margin-top: 10px; max-height: 200px; overflow-y: auto; border: 1px solid #eee; padding: 5px;}
+        fieldset { margin: 15px 0; border: 1px solid #ccc; padding: 10px;}
+        legend { font-weight: bold; }
+        label { margin-right: 5px; }
+        input[type=number] { width: 60px; margin-right: 15px;}
+        button { padding: 5px 10px; font-size: 1em; margin-right: 5px; }
+        /* Number line styles */
+        .number-line-tick { stroke: black; stroke-width: 1; }
+        .number-line-break { stroke: black; stroke-width: 1; } /* Solid for zig-zag */
+        .number-line-label { font-size: 10px; text-anchor: middle; } /* Smaller labels */
+        .jump-arrow { fill: none; stroke-width: 1.5; }
+        .jump-arrow-head { stroke-width: 1.5; }
+        .jump-label { font-size: 10px; text-anchor: middle; } /* Smaller jump labels */
+        .group-landing-point { fill: red; stroke: black; stroke-width: 1; } /* Mark end of each group addition */
+        .number-line-arrow { fill: black; stroke: black;}
+        /* Strategy specific colors for jumps */
+        .strategy-cobo { stroke: blue; fill: none; }
+        .strategy-chunking { stroke: green; fill: none; }
+        .strategy-rmb { stroke: purple; fill: none; }
+        .strategy-rounding { stroke: darkorange; fill: none; }
+         /* ABAO omitted visually for number line simplicity */
+
+    </style>
+</head>
+<body>
+
+<h1>Multiplication Strategies: Strategic Counting (Repeated Addition)</h1>
+
+<div>
+    <label for="stratGroupSize">Group Size (S):</label>
+    <input type="number" id="stratGroupSize" value="7" min="1">
+    <label for="stratNumGroups">Number of Groups (N):</label>
+    <input type="number" id="stratNumGroups" value="6" min="1">
+</div>
+
+<fieldset>
+    <legend>Choose Addition Strategy for Each Step:</legend>
+    <input type="radio" id="stratCOBO" name="additionStrategy" value="COBO" checked>
+    <label for="stratCOBO">COBO</label><br>
+    <input type="radio" id="stratChunking" name="additionStrategy" value="Chunking">
+    <label for="stratChunking">Chunking (Add)</label><br>
+    <input type="radio" id="stratRMB" name="additionStrategy" value="RMB">
+    <label for="stratRMB">Rearranging (RMB)</label><br>
+    <input type="radio" id="stratRounding" name="additionStrategy" value="Rounding">
+    <label for="stratRounding">Rounding & Adjusting</label><br>
+</fieldset>
+
+<button onclick="runStrategicCountingAutomaton()">Calculate and Visualize</button>
+
+<div id="outputContainer">
+    <h2>Explanation (Steps):</h2>
+    <div id="strategicOutput">
+        <!-- Text output will be displayed here -->
+    </div>
+</div>
+
+<h2>Diagram:</h2>
+<svg id="diagramStratCountSVG" width="900" height="400"></svg> <!-- Wider SVG -->
+
+<script>
+    // --- Helper SVG Functions --- (Define globally or within DOMContentLoaded)
+    function createText(svg, x, y, textContent, className = 'number-line-label', anchor = 'middle') { // Default anchor middle
+        const text = document.createElementNS("http://www.w3.org/2000/svg", 'text');
+        text.setAttribute('x', x); text.setAttribute('y', y);
+        text.setAttribute('class', className);
+        text.setAttribute('text-anchor', anchor);
+        text.textContent = textContent;
+        svg.appendChild(text);
+    }
+
+    function drawTick(svg, x, y, size) {
+        const tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        tick.setAttribute('x1', x); tick.setAttribute('y1', y - size / 2);
+        tick.setAttribute('x2', x); tick.setAttribute('y2', y + size / 2);
+        tick.setAttribute('class', 'number-line-tick');
+        svg.appendChild(tick);
+    }
+
+     function drawScaleBreakSymbol(svg, x, y) {
+        const breakOffset = 4; const breakHeight = 8;
+        const breakLine1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        breakLine1.setAttribute('x1', x - breakOffset); breakLine1.setAttribute('y1', y - breakHeight);
+        breakLine1.setAttribute('x2', x + breakOffset); breakLine1.setAttribute('y2', y + breakHeight);
+        breakLine1.setAttribute('class', 'number-line-break'); svg.appendChild(breakLine1);
+        const breakLine2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        breakLine2.setAttribute('x1', x + breakOffset); breakLine2.setAttribute('y1', y - breakHeight);
+        breakLine2.setAttribute('x2', x - breakOffset); breakLine2.setAttribute('y2', y + breakHeight);
+        breakLine2.setAttribute('class', 'number-line-break'); svg.appendChild(breakLine2);
+    }
+
+     function createJumpArrow(svg, x1, y1, x2, y2, jumpArcHeight, direction = 'forward', colorClass = 'strategy-cobo', arrowSize = 4) {
+         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+         const cx = (x1 + x2) / 2;
+         const cy = y1 - jumpArcHeight;
+         path.setAttribute('d', `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y1}`);
+         path.setAttribute('class', `jump-arrow ${colorClass}`);
+         svg.appendChild(path);
+
+         const arrowHead = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+         const dx = x2 - cx;
+         const dy = y1 - cy;
+         const angleRad = Math.atan2(dy, dx);
+         let angleDeg = angleRad * (180 / Math.PI);
+         arrowHead.setAttribute('class', `jump-arrow-head ${colorClass}`);
+
+         if (direction === 'forward') {
+             angleDeg += 180;
+             arrowHead.setAttribute('d', `M 0 0 L ${arrowSize} ${arrowSize/2} L ${arrowSize} ${-arrowSize/2} Z`);
+         } else {
+             arrowHead.setAttribute('d', `M 0 0 L ${-arrowSize} ${arrowSize/2} L ${-arrowSize} ${-arrowSize/2} Z`);
+         }
+         arrowHead.setAttribute('transform', `translate(${x2}, ${y1}) rotate(${angleDeg})`);
+         svg.appendChild(arrowHead);
+     }
+
+     function drawStoppingPoint(svg, x, y, labelText, labelOffsetBase) {
+         const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+         circle.setAttribute('cx', x); circle.setAttribute('cy', y);
+         circle.setAttribute('r', 4);
+         circle.setAttribute('class', 'group-landing-point');
+         svg.appendChild(circle);
+          if(labelText) {
+             createText(svg, x, y + labelOffsetBase * 1.5, labelText, 'number-line-label');
+          }
+     }
+    // --- End Helper Functions ---
+
+
+    // --- Function to Simulate ONE Step of Addition --- (Keep from previous version) ---
+    function performStrategicAddition(startValue, valueToAdd, strategy) {
+        let current = startValue;
+        const steps = [];
+        let labelSuffix = ` (${strategy})`;
+
+        switch (strategy) {
+            case 'COBO':
+                const tens = Math.floor(valueToAdd / 10) * 10;
+                const ones = valueToAdd % 10;
+                for (let i = 10; i <= tens; i += 10) {
+                    steps.push({ from: current, to: current + 10, label: '+10' });
+                    current += 10;
+                }
+                for (let i = 1; i <= ones; i++) {
+                    steps.push({ from: current, to: current + 1, label: '+1' });
+                    current += 1;
+                }
+                break;
+            case 'Chunking':
+                let tensToAdd = Math.floor(valueToAdd / 10) * 10;
+                let onesToAdd = valueToAdd % 10;
+                if (tensToAdd > 0) {
+                     steps.push({ from: current, to: current + tensToAdd, label: `+${tensToAdd}` });
+                     current += tensToAdd;
+                }
+                if (onesToAdd > 0) {
+                    const onesToNextTen = (10 - (current % 10)) % 10;
+                    if (onesToNextTen > 0 && onesToAdd >= onesToNextTen) {
+                        steps.push({ from: current, to: current + onesToNextTen, label: `+${onesToNextTen}`});
+                        current += onesToNextTen;
+                        onesToAdd -= onesToNextTen;
+                    }
+                    if (onesToAdd > 0) {
+                         steps.push({ from: current, to: current + onesToAdd, label: `+${onesToAdd}`});
+                         current += onesToAdd;
+                    }
+                }
+                break;
+             case 'RMB':
+                const toMakeBase = (10 - (current % 10)) % 10;
+                if (toMakeBase > 0 && valueToAdd >= toMakeBase) {
+                    let adjustedStart = current + toMakeBase;
+                    let adjustedAdd = valueToAdd - toMakeBase;
+                     steps.push({ from: current, to: adjustedStart, label: `+${toMakeBase}`});
+                     if(adjustedAdd > 0) { // Only add second step if there's a remainder
+                        steps.push({ from: adjustedStart, to: adjustedStart + adjustedAdd, label: `+${adjustedAdd}`});
+                     }
+                     current = adjustedStart + adjustedAdd;
+                } else {
+                     const tensRMB = Math.floor(valueToAdd / 10) * 10;
+                     const onesRMB = valueToAdd % 10;
+                     if(tensRMB > 0) {steps.push({from: current, to: current + tensRMB, label: `+${tensRMB}`}); current+= tensRMB;}
+                     if(onesRMB > 0) {steps.push({from: current, to: current + onesRMB, label: `+${onesRMB}`}); current+= onesRMB;}
+                }
+                 break;
+             case 'Rounding':
+                  const remainder = current % 10;
+                  // Round UP the *valueToAdd* (group size) for this strategy, easier to visualize addition
+                  const adjustment = (valueToAdd % 10 === 0) ? 0 : 10 - (valueToAdd % 10);
+                  const roundedValueToAdd = valueToAdd + adjustment;
+
+                  if (adjustment > 0) {
+                      let preliminarySum = current + roundedValueToAdd;
+                      // Show Add Rounded, then Adjust Back
+                      steps.push({ from: current, to: preliminarySum, label: `+${roundedValueToAdd}` });
+                      steps.push({ from: preliminarySum, to: preliminarySum - adjustment, label: `-${adjustment}` });
+                      current = preliminarySum - adjustment;
+                  } else { // Already multiple of 10, add directly
+                       steps.push({from: current, to: current + valueToAdd, label: `+${valueToAdd}`});
+                       current += valueToAdd;
+                  }
+                 break;
+            default: // Fallback to COBO-like
+                 const tensDef = Math.floor(valueToAdd / 10) * 10;
+                 const onesDef = valueToAdd % 10;
+                 if(tensDef > 0) {steps.push({from: current, to: current + tensDef, label: `+${tensDef}`}); current+= tensDef;}
+                 if(onesDef > 0) {steps.push({from: current, to: current + onesDef, label: `+${onesDef}`}); current+= onesDef;}
+                break;
+        }
+        // Add suffix to labels AFTER generating steps
+        steps.forEach(step => step.label += labelSuffix);
+        return { newTotal: current, steps: steps };
+    }
+    // --- End Addition Strategy Function ---
+
+
+    // --- Main Automaton Function ---
+    document.addEventListener('DOMContentLoaded', function() { // NESTED DOMContentLoaded REMOVED
+        const outputElement = document.getElementById('strategicOutput');
+        const groupSizeInput = document.getElementById('stratGroupSize');
+        const numGroupsInput = document.getElementById('stratNumGroups');
+        const diagramSVG = document.getElementById('diagramStratCountSVG');
+        const strategyRadios = document.getElementsByName('additionStrategy');
+
+        if (!outputElement || !groupSizeInput || !numGroupsInput || !diagramSVG) {
+            console.error("Required HTML elements not found!");
+            return;
+        }
+
+        window.runStrategicCountingAutomaton = function() {
+            try {
+                const groupSize = parseInt(groupSizeInput.value);
+                const numGroups = parseInt(numGroupsInput.value);
+                let selectedStrategy = 'COBO'; // Default
+                for (const radio of strategyRadios) {
+                    if (radio.checked) {
+                        selectedStrategy = radio.value;
+                        break;
+                    }
+                }
+
+                if (isNaN(groupSize) || isNaN(numGroups) || groupSize <= 0 || numGroups <= 0) {
+                    outputElement.innerHTML = '<p>Please enter valid positive numbers for Group Size and Number of Groups.</p>';
+                    diagramSVG.innerHTML = ''; return;
+                }
+
+                let output = `<h2>Strategic Counting: ${numGroups} groups of ${groupSize}</h2>\n\n`;
+                output += `<p>Using <strong>${selectedStrategy}</strong> addition strategy for each group.</p>\n`;
+
+                let currentTotal = 0;
+                const allSteps = [];
+                let groupStartValue = 0; // Track start for group landing point label
+
+                 output += `<p>Start at 0.</p>\n`
+
+                for (let g = 1; g <= numGroups; g++) {
+                     output += `<p><strong>Adding Group ${g} (Adding ${groupSize} to ${currentTotal}):</strong></p>\n`;
+                     groupStartValue = currentTotal; // Store start value for this group addition
+                     const additionResult = performStrategicAddition(currentTotal, groupSize, selectedStrategy);
+
+                     additionResult.steps.forEach(step => {
+                         let cleanLabel = step.label.replace(/ \(.+\)$/, ''); // Remove suffix for text
+                         if (selectedStrategy == 'Rounding' && cleanLabel.startsWith('-')) {
+                              output += `<p style="margin-left: 1em;">Adjust: ${step.from} ${cleanLabel} = ${step.to}</p>\n`;
+                         } else if (selectedStrategy == 'Rounding' && step.label.includes('+'+(groupSize+ (10 - groupSize % 10)%10) )) { // Check if it's the rounded add
+                              output += `<p style="margin-left: 1em;">Add Rounded ${groupSize}: ${step.from} ${cleanLabel} = ${step.to}</p>\n`;
+                         }
+                         else {
+                             output += `<p style="margin-left: 1em;">${step.from} ${cleanLabel} = ${step.to}</p>\n`;
+                         }
+                     });
+
+                     allSteps.push(...additionResult.steps);
+                     currentTotal = additionResult.newTotal;
+                      output += `<p><em>Current Total after Group ${g}: ${currentTotal}</em></p>\n`;
+                }
+
+                 output += `<br><p><strong>Final Result: ${numGroups} × ${groupSize} = ${currentTotal}</strong></p>`;
+                 outputElement.innerHTML = output;
+
+
+                // --- Draw Number Line Diagram ---
+                let allPointsForTicks = new Set([0, currentTotal]); // Start and final end
+                allSteps.forEach(step => { allPointsForTicks.add(step.from); allPointsForTicks.add(step.to); });
+
+                drawStrategicNumberLine(diagramSVG,
+                    0, // Overall Start
+                    currentTotal, // Overall End
+                    Array.from(allPointsForTicks), // Points needing ticks
+                    allSteps, // All intermediate jumps
+                    selectedStrategy,
+                    groupSize, // Pass groupSize for landing point logic
+                    numGroups
+                    );
+
+            } catch (error) {
+                console.error("Error in runStrategicCountingAutomaton:", error);
+                outputElement.textContent = `Error: ${error.message}`;
+            }
+        }; // End of runStrategicCountingAutomaton
+
+
+        function drawStrategicNumberLine(svg, overallStart, overallEnd, tickValues, allSteps, strategy, groupSize, numGroups) { // Added groupSize, numGroups
+             if (!svg || typeof svg.setAttribute !== 'function') { return; }
+             svg.innerHTML = '';
+
+             const svgWidth = parseFloat(svg.getAttribute('width'));
+             const svgHeight = parseFloat(svg.getAttribute('height'));
+             const startX = 50;
+             const endX = svgWidth - 50;
+             const numberLineY = svgHeight / 2 + 40;
+             const tickHeight = 10;
+             const labelOffsetBase = 20;
+             const jumpHeightBase = 30;
+             const jumpLabelOffset = 10;
+             const arrowSize = 4;
+             const scaleBreakThreshold = 40;
+
+             // Calculate scale and handle potential break
+             let displayRangeStart = 0;
+             let scaleStartX = startX;
+             let drawScaleBreak = false;
+             const diagramMin = 0;
+             const diagramMax = overallEnd;
+
+            if (diagramMin === 0 && overallStart > scaleBreakThreshold ) { // Check overallStart (which is 0) against threshold - condition simplified
+                 displayRangeStart = 0; // Start drawing from 0
+                 scaleStartX = startX; // No shift needed if starting from 0
+                 drawScaleBreak = false; // Don't draw break if starting at 0
+                 // Draw 0 Tick explicitly if no break
+                  drawTick(svg, startX, numberLineY, tickHeight);
+                  createText(svg, startX, numberLineY + labelOffsetBase, '0', 'number-line-label');
+             } else { // This case handles if diagramMin wasn't 0, or if overallStart is small
+                 displayRangeStart = 0; // Start from 0
+                  drawTick(svg, startX, numberLineY, tickHeight);
+                  createText(svg, startX, numberLineY + labelOffsetBase, '0', 'number-line-label');
+             }
+
+
+             const displayRangeEnd = diagramMax + 10;
+             const displayRange = Math.max(displayRangeEnd - displayRangeStart, 1);
+             // Adjust scale calculation to use full width if no break
+             const effectiveDrawWidth = endX - scaleStartX;
+             const scale = effectiveDrawWidth / displayRange;
+
+            // Function to convert value to X coordinate
+            function valueToX(value) {
+                if (value < displayRangeStart && drawScaleBreak) { return scaleStartX - 10; }
+                // Use scaleStartX which is adjusted if there's a break
+                const scaledValue = scaleStartX + (value - displayRangeStart) * scale;
+                return Math.max(scaleStartX, Math.min(scaledValue, endX));
+            }
+
+             // Draw the main visible segment of the number line
+             const mainLineStartX = valueToX(displayRangeStart);
+             const mainLineEndX = valueToX(displayRangeEnd);
+             const numberLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+             numberLine.setAttribute('x1', mainLineStartX); numberLine.setAttribute('y1', numberLineY);
+             numberLine.setAttribute('x2', mainLineEndX); numberLine.setAttribute('y2', numberLineY);
+             numberLine.setAttribute('class', 'number-line-tick'); svg.appendChild(numberLine);
+
+             // Add arrowhead
+             const mainArrowHead = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+             mainArrowHead.setAttribute('d', `M ${mainLineEndX - arrowSize*1.5} ${numberLineY - arrowSize} L ${mainLineEndX} ${numberLineY} L ${mainLineEndX - arrowSize*1.5} ${numberLineY + arrowSize} Z`);
+             mainArrowHead.setAttribute('class', 'number-line-arrow'); svg.appendChild(mainArrowHead);
+
+
+            // Draw Ticks and Labels for relevant points
+            function drawTickAndLabel(value, index) {
+                const x = valueToX(value);
+                 // Only draw if within the scaled area or is exactly 0 when starting from 0
+                 if (x < scaleStartX - 5 && !(value === 0 && !drawScaleBreak)) return;
+
+                drawTick(svg, x, numberLineY, tickHeight);
+                const labelOffset = labelOffsetBase * (index % 2 === 0 ? 1 : -1.5); // Stagger
+                createText(svg, x, numberLineY + labelOffset, value.toString(), 'number-line-label');
+            }
+
+             // Draw ticks for all unique points generated
+            let sortedPoints = Array.from(tickValues).sort((a, b) => a - b);
+            let pointIndexMap = {};
+            let currentIndex = 0;
+            sortedPoints.forEach(point => {
+                 if (point >= displayRangeStart || (point === 0 && !drawScaleBreak)) {
+                     if (!(point < displayRangeStart && drawScaleBreak)){
+                         pointIndexMap[point] = currentIndex++;
+                         drawTickAndLabel(point, pointIndexMap[point]);
+                     }
+                 }
+            });
+
+            // Draw all the intermediate jumps
+             let strategyColorClass = `strategy-${strategy.toLowerCase()}`;
+             allSteps.forEach((step, index) => {
+                 const x1 = valueToX(step.from);
+                 const x2 = valueToX(step.to);
+                 if (x1 > endX || x2 > endX || x1 < scaleStartX || x2 < scaleStartX || x1 == x2) return;
+
+                 const isLargeJump = Math.abs(step.to - step.from) >= 10;
+                 const currentJumpHeight = jumpHeightBase + (isLargeJump ? 10 : 0);
+                 const staggerOffset = index % 3 === 1 ? currentJumpHeight * 0.3 : (index % 3 === 2 ? currentJumpHeight * 0.6 : 0);
+
+                 createJumpArrow(svg, x1, numberLineY, x2, numberLineY, currentJumpHeight + staggerOffset, 'forward', strategyColorClass, arrowSize);
+                 // Pass true to createText for jump label class
+                 createText(svg, (x1 + x2) / 2, numberLineY - (currentJumpHeight + staggerOffset) - jumpLabelOffset, step.label.replace(/ \(.+\)$/,''), `jump-label ${strategyColorClass}`);
+             });
+
+              // Mark landing point after each full group addition
+              let groupLandingTotal = 0;
+              for (let g = 1; g <= numGroups; g++) {
+                  groupLandingTotal += groupSize;
+                  const landingX = valueToX(groupLandingTotal);
+                  if(landingX >= scaleStartX) {
+                     // Use pointIndexMap to stagger landing point labels if possible
+                     let landingIndex = pointIndexMap[groupLandingTotal] !== undefined ? pointIndexMap[groupLandingTotal] : g*100; // Use group number if not an exact step end
+                     drawStoppingPoint(svg, landingX, numberLineY, `End G${g}`, labelOffsetBase, landingIndex); // Pass index for staggering
+                  }
+              }
+        }
+
+
+        // Need drawStoppingPoint to accept index for staggering
+        function drawStoppingPoint(svg, x, y, labelText, labelOffsetBase, index=0) { // Added index
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('cx', x); circle.setAttribute('cy', y);
+            circle.setAttribute('r', 4);
+            circle.setAttribute('class', 'group-landing-point');
+            svg.appendChild(circle);
+            if(labelText) {
+                const labelOffset = labelOffsetBase * (index % 2 === 0 ? 1.5 : -1.8); // Apply stagger
+                createText(svg, x, numberLineY + labelOffset, labelText, 'number-line-label'); // Use numberLineY + offset
+            }
+        }
+
+
+        function typesetMath() { /* Placeholder */ }
+
+        // Initialize on page load
+        runStrategicCountingAutomaton();
+
+    }); // End of DOMContentLoaded
+</script>
+
+</body>
+</html>

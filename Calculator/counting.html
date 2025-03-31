@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Counting with Two Representations</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; }
+        .representation-section { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        .box { /* Style for individual box */
+            display: inline-block;
+            width: 18px; height: 18px; margin: 1px;
+            background-color: lightblue; border: 1px solid #666;
+            vertical-align: middle;
+        }
+        .rectangle-10 { /* Style for composed ten rectangle */
+            display: inline-block;
+            width: 198px; height: 18px; margin: 1px;
+            background-color: lightgreen; border: 1px solid #333;
+            vertical-align: middle;
+            text-align: center; line-height: 18px;
+            font-size: 12px; font-weight: bold;
+        }
+        .clickable { cursor: pointer; } /* Indicate clickable */
+        .clickable:hover { border-color: red; outline: 1px solid red; /* Add outline on hover */ }
+
+        .tally-svg-group { /* Style for the SVG container */
+            display: inline-block; /* Allow spacing */
+            vertical-align: middle;
+            margin-right: 5px; /* Space between tally groups */
+            height: 30px; /* Set height for alignment */
+        }
+        .tally-svg-group line { /* Style for lines within SVG */
+            stroke: black;
+            stroke-width: 2;
+        }
+
+        .button-row { margin: 10px 0; }
+        button { padding: 5px 10px; font-size: 1em; margin-right: 5px; }
+        #numericValue { font-size: 1.5em; font-weight: bold; color: darkblue; }
+
+    </style>
+</head>
+<body>
+
+    <h1>Counting in Base 10 with Two Representations</h1>
+    <p>Illustrating sublation: how 10 individual 'ones' become 1 'ten'.</p>
+
+    <div class="button-row">
+        <button onclick="decrementCount()" id="decrementBtn">- Decrement</button>
+        <button onclick="incrementCount()">+ Increment</button>
+    </div>
+
+    <p><strong>Numerical Value:</strong> <span id="numericValue">0</span></p>
+
+    <div class="representation-section">
+        <strong>Boxes Representation:</strong> (Click on '10' representations to toggle)<br />
+        <span id="boxesDisplay"></span>
+    </div>
+
+    <div class="representation-section">
+        <strong>Tally Representation:</strong> (Click on '10' representations to toggle)<br />
+        <span id="tallyDisplay"></span>
+    </div>
+
+
+    <script>
+        let count = 0;
+        let tenAsSingleBox = false;
+        let tenAsSlashTally = false; // Use this state for the diagonal slash tally
+
+        const numericValueSpan = document.getElementById("numericValue");
+        const boxesContainer = document.getElementById("boxesDisplay");
+        const tallyContainer = document.getElementById("tallyDisplay");
+        const decrementBtn = document.getElementById("decrementBtn");
+
+        function incrementCount() { count++; updateDisplay(); }
+        function decrementCount() { if (count > 0) { count--; updateDisplay(); } }
+
+        function toggleTenBoxRepresentation() {
+            if (count === 10) { tenAsSingleBox = !tenAsSingleBox; updateDisplay(); }
+        }
+        function toggleTenTallyRepresentation() {
+             if (count === 10) { tenAsSlashTally = !tenAsSlashTally; updateDisplay(); } // Toggle new state
+        }
+
+        // --- SVG Tally Group Drawing Function ---
+        function drawTallyGroupSVG(parentContainer, isSlashed = true, isClickable = false) {
+            const svgNS = "http://www.w3.org/2000/svg";
+            const svg = document.createElementNS(svgNS, "svg");
+            const verticalBarHeight = 25;
+            const verticalBarSpacing = 4;
+            const groupWidth = (verticalBarSpacing + 2) * 9 + 2; // 9 bars + spacing + stroke width
+            const svgWidth = groupWidth + (isSlashed ? 10 : 0); // Extra width for slash overhang? Adjust as needed
+             const svgHeight = 30;
+
+            svg.setAttribute("width", svgWidth);
+            svg.setAttribute("height", svgHeight);
+            svg.setAttribute("class", "tally-svg-group" + (isClickable ? " clickable" : ""));
+            if (isClickable) {
+                svg.onclick = toggleTenTallyRepresentation;
+                svg.setAttribute("title", isSlashed ? "1 Ten (Composed - Click to decompose)" : "10 Ones (Click to compose)");
+            } else {
+                 svg.setAttribute("title", isSlashed ? "1 Ten (Composed)" : "10 Ones");
+            }
+
+
+            // Draw 10 vertical bars if NOT slashed
+            if (!isSlashed) {
+                for (let i = 0; i < 10; i++) {
+                    const line = document.createElementNS(svgNS, "line");
+                    const x = i * (verticalBarSpacing + 2) + 1; // +1 for stroke width offset
+                    line.setAttribute("x1", x); line.setAttribute("y1", (svgHeight - verticalBarHeight) / 2);
+                    line.setAttribute("x2", x); line.setAttribute("y2", (svgHeight + verticalBarHeight) / 2);
+                    svg.appendChild(line);
+                }
+            } else { // Draw 9 vertical + 1 diagonal slash
+                 for (let i = 0; i < 9; i++) {
+                    const line = document.createElementNS(svgNS, "line");
+                    const x = i * (verticalBarSpacing + 2) + 1;
+                    line.setAttribute("x1", x); line.setAttribute("y1", (svgHeight - verticalBarHeight) / 2);
+                    line.setAttribute("x2", x); line.setAttribute("y2", (svgHeight + verticalBarHeight) / 2);
+                    svg.appendChild(line);
+                }
+                // Draw diagonal slash
+                const slash = document.createElementNS(svgNS, "line");
+                const startX = 0; // Start slightly before first bar
+                const startY = (svgHeight + verticalBarHeight) / 2 + 2; // Start lower left
+                const endX = groupWidth + 4; // End slightly after last bar
+                const endY = (svgHeight - verticalBarHeight) / 2 - 2; // End upper right
+                slash.setAttribute("x1", startX); slash.setAttribute("y1", startY);
+                slash.setAttribute("x2", endX); slash.setAttribute("y2", endY);
+                svg.appendChild(slash);
+            }
+
+            parentContainer.appendChild(svg);
+        }
+        // --- End SVG Tally Group ---
+
+        function updateDisplay() {
+            numericValueSpan.textContent = count;
+            decrementBtn.disabled = (count === 0);
+
+            // --- Update Boxes ---
+            boxesContainer.innerHTML = ""; // Clear previous
+            const boxTens = Math.floor(count / 10);
+            const boxOnes = count % 10;
+
+            for (let t = 0; t < boxTens; t++) {
+                const isToggleable = (count === 10 && t === 0); // Only clickable at EXACTLY 10
+                if (isToggleable && tenAsSingleBox) {
+                    const rect = document.createElement("div");
+                    rect.className = "rectangle-10 clickable";
+                    rect.title = "1 Ten (Click to decompose)";
+                    rect.onclick = toggleTenBoxRepresentation;
+                    boxesContainer.appendChild(rect);
+                } else if (isToggleable && !tenAsSingleBox) {
+                    for (let i = 0; i < 10; i++) {
+                        const box = document.createElement("div");
+                        box.className = "box clickable";
+                        box.title = "1 One (Click to compose)";
+                        box.onclick = toggleTenBoxRepresentation;
+                         boxesContainer.appendChild(box);
+                    }
+                 } else { // For tens groups when count > 10 or default state at 10
+                     if (tenAsSingleBox) { // Use the *current* toggle state for display
+                        const rect = document.createElement("div");
+                        rect.className = "rectangle-10";
+                        rect.title = "1 Ten";
+                        boxesContainer.appendChild(rect);
+                    } else {
+                        for (let i = 0; i < 10; i++) {
+                            const box = document.createElement("div");
+                            box.className = "box";
+                            box.title = "1 One";
+                            boxesContainer.appendChild(box);
+                        }
+                    }
+                 }
+                 // Add spacer between tens groups or before ones
+                  if (boxTens > 0 && boxOnes > 0 || t < boxTens - 1) {
+                     const spacer = document.createElement("span");
+                     spacer.style.display = "inline-block"; spacer.style.width = "8px";
+                     boxesContainer.appendChild(spacer);
+                 }
+            }
+            // Draw ones boxes
+            for (let i = 0; i < boxOnes; i++) {
+                const box = document.createElement("div");
+                box.className = "box";
+                boxesContainer.appendChild(box);
+            }
+
+
+            // --- Update Tallies ---
+            tallyContainer.innerHTML = ""; // Clear previous
+            const tallyTens = Math.floor(count / 10);
+            const tallyOnes = count % 10;
+
+             // Draw tens groups using SVG
+             for (let t = 0; t < tallyTens; t++) {
+                 const isToggleable = (count === 10 && t === 0); // Clickable only at count 10
+                 const useSlashed = isToggleable ? tenAsSlashTally : tenAsSlashTally; // Draw based on toggle state
+                 drawTallyGroupSVG(tallyContainer, useSlashed, isToggleable);
+
+                  // No extra spacer needed, margin on SVG handles it
+             }
+
+             // Draw remainder (ones) tallies as simple text |
+             if (tallyOnes > 0) {
+                 const onesSpan = document.createElement("span");
+                 onesSpan.className = "tally-mark";
+                 onesSpan.textContent = "|".repeat(tallyOnes);
+                 tallyContainer.appendChild(onesSpan);
+             }
+
+        } // End of updateDisplay
+
+        // Initialize the display on page load
+        updateDisplay();
+
+    </script>
+
+</body>
+</html>

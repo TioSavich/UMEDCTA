@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Division: Strategic Trials</title>
+    <style>
+        body { font-family: sans-serif; }
+        .container { max-width: 800px; margin: 10px auto; padding: 10px;}
+        .control-section, .trials-section, .result-section {
+             margin-bottom: 20px; padding: 10px; border: 1px solid #eee;
+             background-color: #f9f9f9; border-radius: 5px;
+        }
+        label { margin-right: 5px;}
+        input[type=number] { width: 60px; margin-right: 15px;}
+        button { padding: 5px 10px; font-size: 1em; margin-right: 5px; }
+        #statusMessage { color: #e65c00; font-weight: bold; margin-left: 15px;}
+
+        .trial-visualization {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px dashed #ccc;
+        }
+         .group-container { /* Container for all groups in a trial */
+             display: flex;
+             flex-wrap: wrap; /* Allow groups to wrap */
+             gap: 10px; /* Space between groups */
+             margin-bottom: 5px;
+         }
+        .group-box {
+             display: inline-block; /* Display groups inline */
+             border: 1px solid #999;
+             padding: 4px;
+             background-color: #e8f4ff;
+             min-width: 40px; /* Minimum width */
+             text-align: center; /* Center items */
+         }
+         .group-box-label { font-size: 0.8em; color: #555; margin-bottom: 3px; display: block;}
+        .item-block {
+            display: inline-block; /* Items side-by-side */
+            width: 8px; height: 8px; margin: 1px; /* Smaller items */
+            background-color: #6495ED; /* Cornflower blue */
+            border: 1px solid #444;
+        }
+        .trial-summary { font-weight: bold; margin-top: 5px; }
+        .trial-correct { color: darkgreen; }
+        .trial-incorrect { color: darkred; }
+        #finalResultValue { font-size: 1.5em; font-weight: bold; color: darkgreen; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>Division Strategies - Strategic Trials</h1>
+
+    <div class="control-section">
+        <label for="stratTotalInput">Total Items:</label>
+        <input type="number" id="stratTotalInput" value="56" min="1"> <!-- Example -->
+        <label for="stratGroupsInput">Number of Groups:</label>
+        <input type="number" id="stratGroupsInput" value="8" min="1"> <!-- Example -->
+        <button onclick="setupTrialSimulation()">Set Up / Reset</button>
+        <button onclick="performNextTrial()" id="trialBtn" disabled>Perform Next Trial</button>
+         <span id="statusMessage"></span>
+    </div>
+
+    <div class="trials-section">
+         <strong>Trials:</strong>
+         <div id="trialsDisplay">
+             <!-- Trial visualizations will be added here -->
+         </div>
+    </div>
+
+     <div class="result-section">
+        <strong>Result (Items per group):</strong> <span id="finalResultValue">?</span>
+    </div>
+
+
+    <script>
+        // --- Simulation State Variables ---
+        let totalItems = 0;
+        let numGroups = 0;
+        let currentTrialSize = -1; // -1 indicates simulation not started or needs initial guess
+        let attempts = []; // Stores history: { trialSize: number, trialResult: number, outcome: string }
+        let finalGroupSize = null; // The correct answer when found
+        let isTrialComplete = true;
+
+        // --- DOM Element References ---
+        const totalInput = document.getElementById("stratTotalInput");
+        const groupsInput = document.getElementById("stratGroupsInput");
+        const finalResultValueSpan = document.getElementById("finalResultValue");
+        const trialsDisplay = document.getElementById("trialsDisplay");
+        const trialBtn = document.getElementById("trialBtn");
+        const statusMessage = document.getElementById("statusMessage");
+
+        // --- Simulation Functions ---
+        function setupTrialSimulation() {
+            totalItems = parseInt(totalInput.value);
+            numGroups = parseInt(groupsInput.value);
+
+            if (isNaN(totalItems) || isNaN(numGroups) || numGroups <= 0 || totalItems < 0) {
+                statusMessage.textContent = "Please enter valid positive numbers (Groups > 0).";
+                trialBtn.disabled = true;
+                isTrialComplete = true;
+                finalResultValueSpan.textContent = "?";
+                trialsDisplay.innerHTML = ""; // Clear previous trials
+                return;
+            }
+
+            // Make the first guess intentionally off (e.g., +/- 1 or 2 from rough estimate)
+            let roughEstimate = Math.max(1, Math.round(totalItems / numGroups)); // Ensure guess is at least 1
+            let randomOffset = Math.random() < 0.5 ? (roughEstimate > 1 ? -1 : 1) : 1; // Offset by +/- 1
+            currentTrialSize = roughEstimate + randomOffset;
+            // Ensure guess isn't accidentally correct if estimate was close
+            if (currentTrialSize * numGroups === totalItems && currentTrialSize > 1) {
+                currentTrialSize--; // Adjust if first guess happens to be right
+            }
+             if (currentTrialSize <= 0) currentTrialSize = 1; // Ensure guess is at least 1
+
+
+            attempts = []; // Clear history
+            finalGroupSize = null;
+            isTrialComplete = false;
+
+            statusMessage.textContent = `Ready. Initial trial guess: ${currentTrialSize} items per group.`;
+            finalResultValueSpan.textContent = "?";
+            trialsDisplay.innerHTML = ""; // Clear previous trials visually
+            trialBtn.disabled = false;
+        }
+
+        function performNextTrial() {
+            if (isTrialComplete) {
+                statusMessage.textContent = "Found correct group size! Press Reset to start again.";
+                trialBtn.disabled = true;
+                return;
+            }
+
+            statusMessage.textContent = `Trying ${currentTrialSize} items per group...`;
+
+            // 1. Multiply to get trial total
+            const trialResult = currentTrialSize * numGroups;
+
+            // 2. Check against actual total
+            let outcome = "";
+            let outcomeClass = "";
+            if (trialResult === totalItems) {
+                outcome = "Correct!";
+                outcomeClass = "trial-correct";
+                finalGroupSize = currentTrialSize;
+                isTrialComplete = true;
+                trialBtn.disabled = true; // Disable button once correct
+                 statusMessage.textContent = `Found correct group size: ${finalGroupSize}!`;
+                 finalResultValueSpan.textContent = finalGroupSize;
+            } else if (trialResult < totalItems) {
+                outcome = `Too Low (${trialResult} < ${totalItems})`;
+                outcomeClass = "trial-incorrect";
+            } else { // trialResult > totalItems
+                outcome = `Too High (${trialResult} > ${totalItems})`;
+                 outcomeClass = "trial-incorrect";
+            }
+
+            // 3. Store attempt
+            attempts.push({
+                trialSize: currentTrialSize,
+                trialResult: trialResult,
+                outcome: outcome,
+                outcomeClass: outcomeClass
+            });
+
+             // 4. Draw this attempt
+             drawTrialVisualization(currentTrialSize, numGroups, trialResult, outcome, outcomeClass);
+
+
+            // 5. Adjust for next trial (if not correct)
+            if (!isTrialComplete) {
+                if (trialResult < totalItems) {
+                     // Increase guess (could be smarter, e.g., based on how far off)
+                     currentTrialSize++;
+                } else {
+                     // Decrease guess
+                     currentTrialSize--;
+                     if (currentTrialSize <= 0) currentTrialSize = 1; // Don't guess 0 or negative
+                }
+                 statusMessage.textContent += ` Adjusting guess to ${currentTrialSize}.`;
+            }
+        }
+
+        function drawTrialVisualization(trialSize, groups, result, outcome, outcomeClass) {
+            const trialDiv = document.createElement('div');
+            trialDiv.className = 'trial-visualization';
+
+            const groupContainer = document.createElement('div');
+            groupContainer.className = 'group-container';
+
+            for (let g = 0; g < groups; g++) {
+                const groupBox = document.createElement("div");
+                groupBox.className = "group-box";
+                // groupBox.innerHTML = `<span class="group-box-label">Group ${g + 1}</span>`; // Optional label
+
+                 // Arrange items within the box (e.g., simple horizontal flow)
+                 let itemsHtml = '';
+                 let itemsPerRow = Math.max(5, Math.ceil(Math.sqrt(trialSize))); // Simple layout heuristic
+                 for(let i = 0; i < trialSize; i++) {
+                     itemsHtml += `<span class="item-block"></span>`;
+                     if ((i + 1) % itemsPerRow === 0) itemsHtml += '<br>'; // Add line break
+                 }
+                 groupBox.innerHTML += itemsHtml;
+                 groupContainer.appendChild(groupBox);
+            }
+            trialDiv.appendChild(groupContainer);
+
+             const summary = document.createElement('div');
+             summary.className = 'trial-summary';
+             summary.innerHTML = `Trial: ${groups} groups × ${trialSize} items/group = ${result}. <span class="${outcomeClass}">${outcome}</span>`;
+             trialDiv.appendChild(summary);
+
+
+            trialsDisplay.appendChild(trialDiv);
+            trialsDisplay.scrollTop = trialsDisplay.scrollHeight; // Scroll to bottom
+        }
+
+
+        // --- Helper SVG/Typeset Functions (Not needed for this block viz) ---
+        function typesetMath() { /* Placeholder */ }
+
+        // --- Initialize ---
+        setupTrialSimulation(); // Initialize state on load
+
+    
+</script>
+
+</div> <!-- End Container -->
+</body>
+</html>
