@@ -34,6 +34,16 @@
     <h2>Diagram:</h2>
     <svg id="diagramRASVG" width="100%" height="100%" viewBox="0 0 400 700" preserveAspectRatio="xMidYMid meet"></svg>
 
+    <!-- New button for viewing PDF documentation -->
+    <button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+
+    <script>
+        function openPdfViewer() {
+            // Opens the PDF documentation for the strategy.
+            window.open('../SAR_ADD_ROUNDING.pdf', '_blank');
+        }
+    </script>
+
     <script>
 document.addEventListener('DOMContentLoaded', function() {
     const outputDiv = document.getElementById('roundingOutput');

@@ -60,6 +60,16 @@
 <h2>Diagram:</h2>
 <svg id="diagramDecompositionSVG" width="700" height="800"></svg> <!-- Adjusted height -->
 
+<!-- New button for viewing PDF documentation -->
+<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+
+<script>
+    function openPdfViewer() {
+        // Opens the PDF documentation for the strategy.
+        window.open('../SAR_SUB_Decomposition.pdf', '_blank');
+    }
+</script>
+
 <script>
     // --- Helper SVG Functions --- (Keep functions from previous version: drawBlock, drawTenBlock, drawHundredBlock, createText, drawCrossOut) ---
      function drawBlock(svg, x, y, width, height, fill, className = 'block') {
@@ -241,15 +251,30 @@
             }
         });
 
-        // If still need to cross out more, cross them out *conceptually* from the decomposed ten
+        // If still need to cross out more, visualize the decomposed tens as individual units
         if (onesToCrossOut > 0 && decomposedTenIndex !== -1) {
             let decompBlock = blockDataStage2[decomposedTenIndex];
-             // Draw cross-outs *inside* the dashed ten block outline
-             for(let i = 0; i < onesToCrossOut; i++) {
-                 // Calculate position of unit block inside the ten block
-                 let unitY = decompBlock.y + i * blockUnitSize;
-                 drawCrossOut(svg, decompBlock.x, unitY, blockUnitSize, blockUnitSize);
-             }
+            
+            // First, draw the 10 individual unit blocks from the decomposed ten
+            let decompUnitBlocks = [];
+            for(let i = 0; i < 10; i++) {
+                // Calculate position of unit block inside the ten block
+                let unitY = decompBlock.y + i * blockUnitSize;
+                let info = drawBlock(svg, decompBlock.x, unitY, blockUnitSize, blockUnitSize, colorM, 'unit-from-decomposed');
+                decompUnitBlocks.push(info);
+            }
+            
+            // Now cross out the required number of ones from the decomposed ten
+            for(let i = 0; i < onesToCrossOut; i++) {
+                if (i < decompUnitBlocks.length) {
+                    let unitBlock = decompUnitBlocks[i];
+                    drawCrossOut(svg, unitBlock.x, unitBlock.y, unitBlock.width, unitBlock.height);
+                }
+            }
+            
+            // Add an annotation to explain the decomposition
+            createText(svg, decompBlock.x + tenBlockWidth + 10, decompBlock.y + tenBlockHeight/2, 
+                      "1 ten decomposed into 10 ones", "calc-label", "start");
         }
 
 

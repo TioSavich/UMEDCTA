@@ -64,6 +64,16 @@
 <h2>Diagram:</h2>
 <svg id="diagramStratCountSVG" width="900" height="400"></svg> <!-- Wider SVG -->
 
+<!-- New button for viewing PDF documentation -->
+<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+
+<script>
+    function openPdfViewer() {
+        // Opens the PDF documentation for the strategy.
+        window.open('../SMR_MULTIPLICATION_Strategic_Counting.pdf', '_blank');
+    }
+</script>
+
 <script>
     // --- Helper SVG Functions --- (Define globally or within DOMContentLoaded)
     function createText(svg, x, y, textContent, className = 'number-line-label', anchor = 'middle') { // Default anchor middle
@@ -434,7 +444,7 @@
             svg.appendChild(circle);
             if(labelText) {
                 const labelOffset = labelOffsetBase * (index % 2 === 0 ? 1.5 : -1.8); // Apply stagger
-                createText(svg, x, numberLineY + labelOffset, labelText, 'number-line-label'); // Use numberLineY + offset
+                createText(svg, x, y + labelOffset, labelText, 'number-line-label'); // Use y parameter instead of numberLineY
             }
         }
 

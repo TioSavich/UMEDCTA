@@ -141,15 +141,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-     function drawStoppingPoint(svg, x, y, labelText, labelOffsetBase) {
-         const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-         circle.setAttribute('cx', x);
-         circle.setAttribute('cy', y);
-         circle.setAttribute('r', 5);
-         circle.setAttribute('class', 'stopping-point');
-         svg.appendChild(circle);
-         createText(svg, x, y + labelOffsetBase * 1.5, labelText, 'number-line-label');
-     }
+     function drawStoppingPoint(svg, x, y, labelText, size = 5) {
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('cx', x);
+            circle.setAttribute('cy', y);
+            circle.setAttribute('r', size);
+            circle.setAttribute('class', 'stopping-point');
+            svg.appendChild(circle);
+            
+            // Use the provided y parameter instead of numberLineY
+            if (labelText) {
+                createText(svg, x, y + labelOffsetBase * 1.5, labelText, 'number-line-label');
+            }
+        }
     // --- End Helper Functions ---
 
     // --- Main Automaton Function ---

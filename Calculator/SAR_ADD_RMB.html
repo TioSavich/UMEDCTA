@@ -34,6 +34,9 @@
     <h2>Diagram:</h2>
     <svg id="diagramRMBSVG" width="600" height="700"></svg> <!-- Increased height -->
 
+    <!-- New button for viewing PDF documentation -->
+    <button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+
     <script>
 document.addEventListener('DOMContentLoaded', function() {
     const rmbOutputElement = document.getElementById('rmbOutput');
@@ -61,31 +64,78 @@ document.addEventListener('DOMContentLoaded', function() {
             output += `<p><strong>Problem:</strong> ${addend1} + ${addend2}</p><br><br>`;
 
             const toMakeBase = (10 - (addend1 % 10)) % 10;
+            
+            // Strategy variables
+            let newAddend1, newAddend2, result, transferAmount;
+            let fromFirst = false; // Whether we're transferring from addend1 to addend2
 
+            // Case 1: When addend1 is already a multiple of 10
             if (toMakeBase === 0) {
+                // Instead of direct calculation, decompose addend2 into tens and ones
+                const a2_tens = Math.floor(addend2 / 10);
+                const a2_ones = addend2 % 10;
+                
                 output += `${addend1} is already a multiple of 10.<br>`;
-                output += 'Directly add: ${addend1} + ${addend2} = ${addend1 + addend2}';
-                rmbOutputElement.textContent = output;
-                drawRMBDiagram('diagramRMBSVG', addend1, addend2, toMakeBase, addend1, addend2, addend1 + addend2);
+                output += `Step 1: Break down ${addend2} into tens and ones<br>`;
+                output += ` ${addend2} = ${a2_tens * 10} + ${a2_ones}<br><br>`;
+                output += `Step 2: Add the parts to ${addend1}<br>`;
+                output += ` ${addend1} + ${a2_tens * 10} = ${addend1 + a2_tens * 10}<br>`;
+                output += ` ${addend1 + a2_tens * 10} + ${a2_ones} = ${addend1 + addend2}<br><br>`;
+                output += `Result: ${addend1} + ${addend2} = ${addend1 + addend2}`;
+                
+                newAddend1 = addend1;
+                newAddend2 = addend2;
+                transferAmount = 0;
+                result = addend1 + addend2;
+                
+                rmbOutputElement.innerHTML = output;
+                drawRMBDiagram('diagramRMBSVG', addend1, addend2, transferAmount, newAddend1, newAddend2, result, fromFirst);
                 return;
             }
 
+            // Case 2: When addend2 is too small to provide needed units
             if (addend2 < toMakeBase) {
-                output += 'Cannot make a base from ${addend1} because ${addend2} is too small to provide the needed ${toMakeBase} units.<br>';
-                output += 'Directly add: ${addend1} + ${addend2} = ${addend1 + addend2}';
-                rmbOutputElement.textContent = output;
-                drawRMBDiagram('diagramRMBSVG', addend1, addend2, toMakeBase, addend1, addend2, addend1 + addend2);
+                // Instead of direct calculation, transfer from addend1 to complete addend2 to a base
+                fromFirst = true;
+                const a1_ones = addend1 % 10;
+                const toCompleteAddend2 = 10 - addend2;
+                
+                // We'll move units from addend1 to addend2
+                transferAmount = Math.min(a1_ones, toCompleteAddend2);
+                newAddend1 = addend1 - transferAmount;
+                newAddend2 = addend2 + transferAmount;
+                result = newAddend1 + newAddend2; // Will equal addend1 + addend2
+                
+                output += `${addend2} is too small to provide the ${toMakeBase} units needed for ${addend1}.<br>`;
+                output += `Step 1: Move ${transferAmount} from ${addend1} to ${addend2}<br>`;
+                output += ` ${addend1} - ${transferAmount} = ${newAddend1}<br>`;
+                output += ` ${addend2} + ${transferAmount} = ${newAddend2}<br><br>`;
+                
+                // If we made a complete base in addend2
+                if (newAddend2 % 10 === 0) {
+                    output += `Step 2: Now ${newAddend2} is a complete base (multiple of 10)<br>`;
+                } else {
+                    output += `Step 2: Even after moving, we can't make a complete base, but we rearranged for easier mental addition<br>`;
+                }
+                
+                output += `Step 3: Add the rearranged numbers<br>`;
+                output += `${newAddend1} + ${newAddend2} = ${result}<br><br>`;
+                output += `Result: ${addend1} + ${addend2} = ${result}`;
+                
+                rmbOutputElement.innerHTML = output;
+                drawRMBDiagram('diagramRMBSVG', addend1, addend2, transferAmount, newAddend1, newAddend2, result, fromFirst);
                 return;
             }
 
-            // Apply RMB strategy
-            const newAddend1 = addend1 + toMakeBase;
-            const newAddend2 = addend2 - toMakeBase;
-            const result = newAddend1 + newAddend2;
+            // Original case: Standard RMB strategy
+            transferAmount = toMakeBase;
+            newAddend1 = addend1 + transferAmount;
+            newAddend2 = addend2 - transferAmount;
+            result = newAddend1 + newAddend2;
 
-            output += `Step 1: Move ${toMakeBase} from ${addend2} to ${addend1}<br>`;
-            output += ` ${addend1} + ${toMakeBase} = ${newAddend1} (now a multiple of 10)<br>`;
-            output += ` ${addend2} - ${toMakeBase} = ${newAddend2}<br><br>`;
+            output += `Step 1: Move ${transferAmount} from ${addend2} to ${addend1}<br>`;
+            output += ` ${addend1} + ${transferAmount} = ${newAddend1} (now a multiple of 10)<br>`;
+            output += ` ${addend2} - ${transferAmount} = ${newAddend2}<br><br>`;
             output += `Step 2: Add the rearranged numbers<br>`;
             output += `${newAddend1} + ${newAddend2} = ${result}<br><br>`;
             output += `Result: ${addend1} + ${addend2} = ${result}`;
@@ -93,16 +143,14 @@ document.addEventListener('DOMContentLoaded', function() {
             rmbOutputElement.innerHTML = output;
 
             // Draw RMB Diagram
-            drawRMBDiagram('diagramRMBSVG', addend1, addend2, toMakeBase, newAddend1, newAddend2, result);
-
-
+            drawRMBDiagram('diagramRMBSVG', addend1, addend2, transferAmount, newAddend1, newAddend2, result, fromFirst);
         } catch (error) {
             rmbOutputElement.textContent = `Error: ${error.message}`;
         }
     };
 
 
-    function drawRMBDiagram(svgId, addend1, addend2, toMakeBase, newAddend1, newAddend2, result) {
+    function drawRMBDiagram(svgId, addend1, addend2, transferAmount, newAddend1, newAddend2, result, fromFirst = false) {
         const svg = document.getElementById(svgId);
         if (!svg) return;
         svg.innerHTML = ''; // Clear SVG
@@ -116,7 +164,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const sectionSpacingY = 120; // Vertical spacing between sections
         const startX = 50;
         let currentY = 50;
-        const colors = ['lightblue', 'lightcoral']; // Colors for addend blocks
+        const colorAddend1 = 'purple';
+        const colorAddend2 = 'blue';
+        const colorBase = 'red';
+        const colorTransfer = 'orange';
 
         // --- Original Addends (Horizontal Layout) ---
         createText(svg, startX, currentY, `Original Addends: ${addend1} + ${addend2}`); // Label
@@ -127,12 +178,23 @@ document.addEventListener('DOMContentLoaded', function() {
         const a1_tens = Math.floor(addend1 / 10);
         const a1_ones = addend1 % 10;
         for (let i = 0; i < a1_tens; i++) {
-            drawTenBlock(svg, addend1X, currentY, tenBlockWidth, tenBlockHeight, 'purple');
+            drawTenBlock(svg, addend1X, currentY, tenBlockWidth, tenBlockHeight, colorAddend1);
             addend1X += tenBlockWidth + blockSpacing;
         }
         let a1_onesX = addend1X;
+        let movedFromFirstBlockPositions = [];
         for (let i = 0; i < a1_ones; i++) {
-            drawBlock(svg, a1_onesX, currentY + i*(blockUnitSize + blockSpacing), blockUnitSize, blockUnitSize, 'purple');
+            const isTransferBlock = fromFirst && i >= a1_ones - transferAmount;
+            const blockColor = isTransferBlock ? colorTransfer : colorAddend1;
+            const blockY = currentY + i*(blockUnitSize + blockSpacing);
+            drawBlock(svg, a1_onesX, blockY, blockUnitSize, blockUnitSize, blockColor);
+            
+            if (isTransferBlock) {
+                movedFromFirstBlockPositions.push({
+                    x: a1_onesX + blockUnitSize/2,
+                    y: blockY + blockUnitSize/2
+                });
+            }
         }
         const addend1Width = (a1_tens > 0 ? (a1_tens*(tenBlockWidth + blockSpacing)) : 0) + (a1_ones > 0 ? blockUnitSize : 0);
 
@@ -141,56 +203,131 @@ document.addEventListener('DOMContentLoaded', function() {
         const a2_tens = Math.floor(addend2 / 10);
         const a2_ones = addend2 % 10;
         for (let i = 0; i < a2_tens; i++) {
-            drawTenBlock(svg, addend2X, currentY, tenBlockWidth, tenBlockHeight, 'blue');
+            drawTenBlock(svg, addend2X, currentY, tenBlockWidth, tenBlockHeight, colorAddend2);
             addend2X += tenBlockWidth + blockSpacing;
         }
         const addend2OnesX = addend2X;
-        let movedBlockTopY = null, movedBlockBottomY = null;
+        let movedFromSecondBlockPositions = [];
         for (let i = 0; i < a2_ones; i++) {
-            drawBlock(svg, addend2OnesX, currentY + i*(blockUnitSize + blockSpacing), blockUnitSize, blockUnitSize, 'blue');
-            if (i < toMakeBase) {
-                if (movedBlockTopY === null) {
-                    movedBlockTopY = currentY + i*(blockUnitSize + blockSpacing);
-                }
-                movedBlockBottomY = currentY + i*(blockUnitSize + blockSpacing) + blockUnitSize;
+            const isTransferBlock = !fromFirst && i < transferAmount;
+            const blockColor = isTransferBlock ? colorTransfer : colorAddend2;
+            const blockY = currentY + i*(blockUnitSize + blockSpacing);
+            drawBlock(svg, addend2OnesX, blockY, blockUnitSize, blockUnitSize, blockColor);
+            
+            if (isTransferBlock) {
+                movedFromSecondBlockPositions.push({
+                    x: addend2OnesX + blockUnitSize/2,
+                    y: blockY + blockUnitSize/2
+                });
             }
         }
         currentY += tenBlockHeight + sectionSpacingY; // Move down for the rearranged addends section
 
         // --- Rearranged Addends ---
-        createText(svg, startX+20, currentY, `Rearranged to Make Base: ${newAddend1} + ${newAddend2}`); // Label
+        createText(svg, startX, currentY, `Rearranged to Make Base: ${newAddend1} + ${newAddend2}`); // Label
         currentY += 30; // Space after label
 
-        // Draw Rearranged Addend 1 Blocks (Tens only, since newAddend1 is a multiple of 10)
+        // Draw Rearranged Addend 1 Blocks
         let currentX_newAddend1 = startX;
         const newAddend1_tens = Math.floor(newAddend1 / 10);
+        const newAddend1_ones = newAddend1 % 10;
+        
+        // First draw tens
+        let tensPositions = [];
         for (let i = 0; i < newAddend1_tens; i++) {
-             drawTenBlock(svg, currentX_newAddend1, currentY, tenBlockWidth, tenBlockHeight, 'red'); 
-             currentX_newAddend1 += tenBlockWidth + blockSpacing;
+            const useColorBase = !fromFirst && newAddend1_tens > a1_tens && i === newAddend1_tens - 1;
+            const blockColor = useColorBase ? colorBase : colorAddend1;
+            drawTenBlock(svg, currentX_newAddend1, currentY, tenBlockWidth, tenBlockHeight, blockColor);
+            
+            if (useColorBase) {
+                tensPositions.push({
+                    x: currentX_newAddend1 + tenBlockWidth/2,
+                    y: currentY + tenBlockHeight/2
+                });
+            }
+            
+            currentX_newAddend1 += tenBlockWidth + blockSpacing;
         }
-        // Draw Rearranged Addend 2 Blocks (Split into tens and ones)
-        const newAddend2_tens = Math.floor(newAddend2 / 10);
-        const newAddend2_ones = newAddend2 % 10;
-        let currentX_newAddend2 = currentX_newAddend1 + 40; // Horizontal spacing after newAddend1 blocks
-        for (let i = 0; i < newAddend2_tens; i++) {
-            drawTenBlock(svg, currentX_newAddend2, currentY, tenBlockWidth, tenBlockHeight, 'blue');
-            currentX_newAddend2 += tenBlockWidth + blockSpacing;
-        }
-        for (let i = 0; i < newAddend2_ones; i++) {
-            drawBlock(svg, currentX_newAddend2, currentY + i*(blockUnitSize + blockSpacing), blockUnitSize, blockUnitSize, 'blue');
+        
+        // Then draw ones
+        for (let i = 0; i < newAddend1_ones; i++) {
+            drawBlock(svg, currentX_newAddend1, currentY + i*(blockUnitSize + blockSpacing), 
+                     blockUnitSize, blockUnitSize, colorAddend1);
         }
 
-        // --- Curved Arrow ---
-        if (toMakeBase > 0 && addend2 >= toMakeBase && movedBlockTopY !== null) {
-            // Arrow from center of moved (vertical) ones in addend2 to the rearranged tens block assembly
-            const arrowStartX = addend2OnesX + blockUnitSize/2;
-            const arrowStartY = movedBlockTopY + (movedBlockBottomY - movedBlockTopY) / 2;
-            const arrowEndX = startX + tenBlockWidth/2;
-            const arrowEndY = currentY; // top of rearranged addend1 blocks
-            // Use control point midway vertically between arrowStartY and arrowEndY
-            const controlY = (arrowStartY + arrowEndY) / 2;
-            createCurvedArrow(svg, arrowStartX, arrowStartY, arrowEndX, arrowEndY, arrowEndX, controlY);
-            createText(svg, arrowEndX + 30, controlY + 35, `${toMakeBase} moved`);
+        // Draw Rearranged Addend 2 Blocks
+        const newAddend2_tens = Math.floor(newAddend2 / 10);
+        const newAddend2_ones = newAddend2 % 10;
+        let currentX_newAddend2 = currentX_newAddend1 + 40 + (newAddend1_ones > 0 ? blockUnitSize : 0); // Spacing after newAddend1
+        
+        // Draw tens
+        for (let i = 0; i < newAddend2_tens; i++) {
+            const useColorBase = fromFirst && newAddend2_tens > a2_tens && i === newAddend2_tens - 1;
+            const blockColor = useColorBase ? colorBase : colorAddend2;
+            drawTenBlock(svg, currentX_newAddend2, currentY, tenBlockWidth, tenBlockHeight, blockColor);
+            
+            if (useColorBase) {
+                tensPositions.push({
+                    x: currentX_newAddend2 + tenBlockWidth/2,
+                    y: currentY + tenBlockHeight/2
+                });
+            }
+            
+            currentX_newAddend2 += tenBlockWidth + blockSpacing;
+        }
+        
+        // Draw ones
+        let onesPositions = [];
+        for (let i = 0; i < newAddend2_ones; i++) {
+            const isTransferredBlock = fromFirst && i >= a2_ones;
+            const blockColor = isTransferredBlock ? colorTransfer : colorAddend2;
+            const blockY = currentY + i*(blockUnitSize + blockSpacing);
+            drawBlock(svg, currentX_newAddend2, blockY, blockUnitSize, blockUnitSize, blockColor);
+            
+            if (isTransferredBlock) {
+                onesPositions.push({
+                    x: currentX_newAddend2 + blockUnitSize/2,
+                    y: blockY + blockUnitSize/2
+                });
+            }
+        }
+
+        // --- Draw Arrows Based on Strategy ---
+        if (transferAmount > 0) {
+            if (fromFirst) {
+                // Case 2: Draw arrows from addend1 to addend2
+                for (let i = 0; i < Math.min(movedFromFirstBlockPositions.length, onesPositions.length); i++) {
+                    const start = movedFromFirstBlockPositions[i];
+                    const end = onesPositions[i];
+                    const controlX = (start.x + end.x) / 2;
+                    const controlY = Math.min(start.y, end.y) - 40; // Control point above both
+                    createCurvedArrow(svg, start.x, start.y, end.x, end.y, controlX, controlY);
+                }
+                
+                // If we formed a full ten, draw arrow to tens block
+                if (newAddend2 % 10 === 0 && tensPositions.length > 0) {
+                    const start = movedFromFirstBlockPositions[0];
+                    const end = tensPositions[0];
+                    createText(svg, end.x + 15, end.y - 20, `Formed a base (10)`);
+                }
+            } else {
+                // Standard case: Draw arrows from addend2 to addend1
+                for (let i = 0; i < Math.min(movedFromSecondBlockPositions.length, tensPositions.length); i++) {
+                    const start = movedFromSecondBlockPositions[i];
+                    const end = tensPositions[i];
+                    const controlX = (start.x + end.x) / 2;
+                    const controlY = Math.min(start.y, end.y) - 40; // Control point above both
+                    createCurvedArrow(svg, start.x, start.y, end.x, end.y, controlX, controlY);
+                }
+                createText(svg, tensPositions[0]?.x + 15 || startX + 100, tensPositions[0]?.y - 20 || currentY - 20, 
+                         `${transferAmount} moved to form base (10)`);
+            }
+        } else if (addend1 % 10 === 0) {
+            // Case 1: Already a multiple of 10, show the decomposition
+            const a2_tens = Math.floor(addend2 / 10);
+            if (a2_tens > 0) {
+                createText(svg, startX + 80, currentY - 40, `Break down ${addend2} = ${a2_tens * 10} + ${addend2 % 10}`);
+            }
         }
 
         // --- Helper SVG drawing functions ---
@@ -246,7 +383,6 @@ document.addEventListener('DOMContentLoaded', function() {
             svg.appendChild(rect);
         }
 
-
         function createText(svg, x, y, textContent) {
             const text = document.createElementNS("http://www.w3.org/2000/svg", 'text');
             text.setAttribute('x', x);
@@ -257,7 +393,6 @@ document.addEventListener('DOMContentLoaded', function() {
             text.textContent = textContent;
             svg.appendChild(text);
         }
-
 
         function createCurvedArrow(svg, x1, y1, x2, y2, cx, cy) {
             const path = document.createElementNS("http://www.w3.org/2000/svg", 'path');
@@ -274,7 +409,12 @@ document.addEventListener('DOMContentLoaded', function() {
             arrowHead.setAttribute('fill', 'black');
             svg.appendChild(arrowHead);
         }
+    }
 
+    // New function for opening PDF documentation
+    function openPdfViewer() {
+        // Opens the PDF documentation for the strategy.
+        window.open('../SAR_ADD_RMB.pdf', '_blank');
     }
 
 });
