@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Next Steps</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+      margin: 20px auto;
+      max-width: 800px;
+    }
+    h1, h2, h3 {
+      color: #333;
+    }
+    a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Next Steps</h1>
+
+<p>
+  These next steps outline the continued development of our project to extend 
+  analytic pragmatism to arithmetic learning. In particular, we are building a 
+  system of simple automata (abstract computing machines) that model children’s 
+  strategies for solving basic math problems. By integrating these automata and 
+  even embedding them within arithmetic itself, we aim to create a unified, 
+  self-improving model of arithmetic reasoning. The ultimate goal is to connect 
+  this theoretical work to real educational challenges – for example, by powering 
+  intelligent tutoring systems that can adapt to students’ own ways of thinking.
+</p>
+
+<h2>1. Integrating Automata into a Unified Inferential Network</h2>
+
+<p>
+  Children don’t use just one method to solve math problems; they naturally switch 
+  between various strategies (counting on fingers, making tens, etc.). Our first 
+  development direction is to build a framework where multiple strategy-automata 
+  can work together as one network of reasoning. In practice, this means the output 
+  of one strategy can become the input for another. For example, one automaton 
+  might rearrange an addition problem (turning <em>8 + 5</em> into <em>10 + 3</em> 
+  to make a round number), and then another automaton could carry out the remaining 
+  addition. In this way, different problem-solving tactics are coordinated in a 
+  single environment.
+</p>
+
+<p>
+  Crucially, our unified system can include not just “correct” procedures but also 
+  common student errors or naive strategies. Modeling both correct and incorrect 
+  moves in the same space creates an automatic check: if a strategy leads to a 
+  contradiction or a wrong result, the system can recognize that conflict. (This is 
+  essentially an “incompatibility semantics” for arithmetic strategies—a formal way 
+  to capture when two approaches cannot both be right. For more on this concept, 
+  see our <a href="Incompatibility_Semantics.html">technical notes on incompatibility semantics</a>.) 
+  This integrated approach lets an educational tool detect exactly how a student is 
+  approaching a problem. If the student is using a known strategy—whether it’s a 
+  standard method or an inventive alternative—the system will identify it and 
+  respond appropriately. For instance, an intelligent tutor could notice that a 
+  child is trying to “make tens” (as in the 8 + 5 example) or perhaps following a 
+  flawed pattern, and then provide feedback or hints tailored to that strategy.
+</p>
+
+<p>
+  <strong>Progress so far:</strong> We have already implemented individual strategy 
+  automata (for example, a machine that performs the “rearrange to make tens” 
+  addition strategy) and shown that we can chain their operations by using a shared 
+  representation for numbers. This is an encouraging step toward a full network of 
+  strategies working in harmony—much like a well-coordinated toolkit of 
+  problem-solving methods rather than a single algorithm.
+</p>
+
+<h2>2. Arithmetizing the Automata to Bootstrap Complex Behavior</h2>
+
+<p>
+  The next step is to turn the mirror on these automata themselves. <em>Arithmetizing</em> 
+  an automaton means representing the automaton’s own states and rules as numbers – 
+  effectively encoding the machine in the language of arithmetic. This is analogous 
+  to Gödel’s trick of assigning numbers to logical statements, allowing a system to 
+  “talk about” itself. Once a strategy automaton can be described as a number, we 
+  can actually feed that description back into the automaton as an input. In other 
+  words, the machine can encounter a representation of its <em>own</em> procedure 
+  and process it just like any other math problem. This introduces a form of 
+  self-reference: the automaton can run into its own limitations and, in a sense, 
+  become aware of them.
+</p>
+
+<p>
+  In our initial experiments, we encoded a simple addition strategy into numbers 
+  and then presented that encoded description to the automaton. The result was 
+  striking: for certain inputs, the automaton entered a kind of infinite loop – 
+  a behavior we never explicitly programmed. It kept cycling because it recognized 
+  a scenario (expressed as a number) that it didn’t know how to handle under its 
+  current rules. In effect, the machine “noticed” a gap in its strategy and got 
+  stuck repeating steps. This sort of unplanned outcome is a sign of 
+  <strong>emergent behavior</strong> – a complex action arising from the interaction 
+  of simple rules. (For a detailed example of such emergent behavior in our model, 
+  see our <a href="Emergent_Behavior.html">case study on an automaton that develops a looping behavior</a>.) 
+  In practical terms, the automaton hitting a loop is like a student realizing 
+  their method isn’t sufficient for a tough problem.
+</p>
+
+<p>
+  This phenomenon points the way toward the system improving itself. When a student 
+  finds their current strategy failing, it’s an opportunity to invent or learn a 
+  new strategy. Similarly, when our automaton gets stuck, we can design it to 
+  respond by <em>adding</em> a new rule or switching to a new strategy rather than 
+  simply halting. In the future, we want the automaton to effectively say, “I need 
+  a new technique to solve this,” and then incorporate that new technique into its 
+  repertoire. By encoding the automaton in arithmetic and letting it confront its 
+  own code, we lay the groundwork for a machine that can <strong>bootstrap</strong> 
+  more complex behaviors from simpler ones – expanding its problem-solving arsenal 
+  as needed.
+</p>
+
+<h2>3. Building a Simulated Computer Based on These Automata</h2>
+
+<p>
+  With multiple strategies integrated and the ability for self-reflection in place, 
+  a natural question arises: how far can this system go? One ambitious direction is 
+  to assemble a collection of these strategy automata into something resembling a 
+  general-purpose computer. This would be a kind of “simulated computer” built 
+  entirely out of arithmetic strategies. The idea is not about physical hardware, 
+  but a theoretical construction: using the children’s strategies as the building 
+  blocks of a simple computing engine. If we can show that a network of child-like 
+  arithmetic strategies can carry out any calculation (at least in principle) that 
+  a normal computer could, it would powerfully demonstrate the completeness and 
+  strength of our approach.
+</p>
+
+<p>
+  In computer science terms, we are curious whether these combined automata could 
+  become <em>universal</em> – capable of not just doing grade-school arithmetic, 
+  but performing arbitrary computations given the right programming. We already 
+  have the key ingredients: by arithmetizing the automata, we can encode one machine’s 
+  instructions inside another. This means one strategy could effectively “call” or 
+  trigger another strategy, similar to how a program might call a subroutine. For 
+  example, imagine one automaton that knows how to break a task into smaller steps, 
+  another that can do basic addition, and another that can decide which strategy to 
+  use when. Linked together, they start to resemble the parts of a simple computer 
+  (control, calculation, and decision-making). Building such a composite system is 
+  a long-term goal, but it follows naturally from our progress so far.
+</p>
+
+<p>
+  Why attempt this? Beyond satisfying our theoretical curiosity, constructing a 
+  strategy-based “computer” would confirm that our model isn’t limited to a few 
+  predefined tricks. It would show that even the intuitive methods children use 
+  contain the seeds of very advanced reasoning. For educators, this is a powerful 
+  idea: it suggests that the same basic strategies children use to add or subtract 
+  can, when properly combined and extended, scale up to solve much more complex 
+  problems. In essence, we’re hypothesizing that there’s a continuum from a child 
+  figuring out <em>8 + 5</em> in a clever way, to a system solving sophisticated 
+  computations – and that continuum can be made explicit. Demonstrating this would 
+  reinforce the value of nurturing diverse, strategy-rich thinking in math learners, 
+  since those simple building blocks really can grow into something extraordinary.
+</p>
+
+<h2>4. Applications and Broader Implications</h2>
+
+<p>
+  These directions are not only theoretically exciting; they also suggest concrete 
+  ways to improve math education. Here are a few implications and applications of 
+  this work:
+</p>
+<ul>
+  <li><strong>Arithmetic knowledge as a network, not a single path:</strong> Our 
+    framework treats arithmetic understanding as a web of interlinked strategies 
+    rather than one monolithic method. In the classroom, this perspective encourages 
+    teaching multiple approaches to a problem and helping students see how they 
+    connect. Instead of presenting one “right” way to do addition or subtraction, 
+    teachers can validate different strategies (making tens, counting on, using 
+    doubles, etc.) and show how each strategy fits into the bigger picture of 
+    number sense. This could lead to more robust learning, as students develop a 
+    flexible toolkit of methods and know when to use each one.</li>
+  <li><strong>Intelligent tutors that adapt to student thinking:</strong> A major 
+    practical goal of our project is to embed these strategy-automata in educational 
+    software. Imagine an AI tutor that doesn’t just check answers but actually 
+    observes how a student is solving a problem. If the student is breaking numbers 
+    apart or following another specific technique, the tutor recognizes that 
+    strategy and can respond in a targeted way (for example, acknowledging the 
+    approach and guiding them through it). If the student is using a flawed method, 
+    the tutor can pinpoint the misunderstanding and help correct it by suggesting 
+    a different strategy. This kind of personalized feedback is especially valuable 
+    in <em>low-resource settings</em> where large class sizes or limited access to 
+    expert teachers make one-on-one coaching rare. An AI tutor informed by our 
+    model could provide each student with tailored guidance, almost like a personal 
+    teacher’s aide, ensuring that even in crowded or under-resourced classrooms, 
+    students’ individual thought processes are supported.</li>
+  <li><strong>Ever-expanding learning and a culture of reflection:</strong> One 
+    striking implication of our approach is that there may be no fixed end-point to 
+    the strategies one can use. In other words, just as our system can keep extending 
+    itself with new rules, students can continually discover or learn more advanced 
+    methods. This echoes the spirit of Gödel’s incompleteness idea in mathematics – 
+    there’s always something new outside any given set of rules. In practical terms, 
+    it reinforces to both learners and educators that mathematics is not a closed 
+    system of procedures, but an open-ended exploration. By framing arithmetic this 
+    way, we encourage a classroom culture where students reflect on their thinking 
+    (“Is my method working? Could there be another way?”) and feel empowered to 
+    invent or embrace new strategies. This mindset not only helps them in arithmetic 
+    but fosters creativity and resilience in problem solving more broadly.</li>
+</ul>
+
+<p>
+  In summary, by extending analytic pragmatism into the concrete domain of children’s 
+  arithmetic, we are bridging deep theoretical ideas about meaning and inference with 
+  real classroom practice. These “next steps” – integrating strategies, enabling 
+  self-reflection, and aiming for general computational power – all serve a larger 
+  vision of math education. It’s a vision in which learning mathematics becomes a 
+  dynamic, interactive process between student and system: deeply informed by how 
+  reasoning actually develops, and dedicated to helping every learner build on their 
+  own intuitions to reach new heights of understanding.
+</p>
+
+</body>
+</html>

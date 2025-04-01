@@ -17,6 +17,8 @@
         .factor-label { font-size: 10px; text-anchor: middle; fill: #555; }
         .remainder-segment { fill: lightcoral; stroke: black; stroke-width: 1; }
         .quotient-calc { font-size: 14px; font-weight: bold; }
+        .stopping-point { fill: red; }
+        .number-line-label { font-size: 10px; fill: #333; }
     </style>
 </head>
 <body>
@@ -214,6 +216,16 @@
         runInvDistAutomaton();
 
     }); // End DOMContentLoaded
+</script>
+
+<!-- New button for viewing PDF documentation -->
+<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+
+<script>
+    function openPdfViewer() {
+        // Opens the PDF documentation for the strategy.
+        window.open('../SMR_DIV_IDP.pdf', '_blank');
+    }
 </script>
 
 </body>

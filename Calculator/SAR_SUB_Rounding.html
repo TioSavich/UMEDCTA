@@ -234,9 +234,35 @@
         svg.appendChild(arrowHead);
     }
 
+    function drawStoppingPoint(svg, x, y, labelText, labelOffsetBase = 20, index = 0) {
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('cx', x);
+            circle.setAttribute('cy', y);
+            circle.setAttribute('r', 4);
+            circle.setAttribute('class', 'stopping-point');
+            svg.appendChild(circle);
+            
+            // Use the provided y parameter instead of numberLineY
+            if (labelText) {
+                // Add staggering based on index to prevent overlap with large values
+                const labelOffset = labelOffsetBase * (index % 2 === 0 ? 1.5 : -1.8);
+                createText(svg, x, y + labelOffset, labelText, 'number-line-label');
+            }
+        }
+
 
 });
   </script>
+
+  <!-- New button for viewing PDF documentation -->
+<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+
+<script>
+    function openPdfViewer() {
+        // Opens the PDF documentation for the strategy.
+        window.open('../SAR_SUB_Rounding.pdf', '_blank');
+    }
+</script>
 
 </body>
 </html>

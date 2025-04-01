@@ -3,20 +3,141 @@
 <head>
     <title>Subtraction Strategies: Sliding to Make Bases</title>
     <style>
-        body { font-family: sans-serif; }
-        #diagramSlidingSVG { border: 1px solid #d3d3d3; }
-        #outputContainer { margin-top: 20px; }
-        .number-line-tick { stroke: black; stroke-width: 1; }
-        .number-line-break { stroke: black; stroke-width: 1; } /* Solid for zig-zag */
-        .number-line-label { font-size: 12px; text-anchor: middle; }
-        .original-marker { fill: blue; }
-        .adjusted-marker { fill: green; }
-        .slide-arrow { fill: none; stroke: darkorange; stroke-width: 1.5; }
-        .slide-arrow-head { fill: darkorange; stroke: darkorange; }
-        .slide-label { font-size: 10px; fill: darkorange; text-anchor: middle; }
-        .difference-bracket { stroke: red; stroke-width: 1.5; fill: none; }
-        .difference-label { font-size: 12px; fill: red; text-anchor: middle; }
-        .number-line-arrow { fill: black; stroke: black;} /* Arrowhead for the main line */
+        /* Global styles */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        h1, h2 {
+            color: #2c3e50;
+            margin-top: 20px;
+        }
+        
+        input, button {
+            padding: 8px 12px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        /* SVG container styles */
+        #diagramSlidingSVG { 
+            border: 1px solid #d3d3d3; 
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        #outputContainer { 
+            margin-top: 20px; 
+            padding: 15px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        /* Number line styles */
+        .number-line-tick { 
+            stroke: #555; 
+            stroke-width: 1; 
+        }
+        
+        .number-line-break { 
+            stroke: #555; 
+            stroke-width: 1; 
+        }
+        
+        .number-line-label { 
+            font-size: 12px; 
+            text-anchor: middle;
+            fill: #444;
+        }
+        
+        .original-marker { 
+            fill: #3498db; /* Blue */
+            font-weight: bold;
+        }
+        
+        .adjusted-marker { 
+            fill: #2ecc71; /* Green */
+            font-weight: bold;
+        }
+        
+        .slide-arrow { 
+            fill: none; 
+            stroke: #e67e22; /* Orange */
+            stroke-width: 2;
+            filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.2));
+        }
+        
+        .slide-arrow-head { 
+            fill: #e67e22;
+            stroke: #e67e22;
+        }
+        
+        .slide-label { 
+            font-size: 11px; 
+            fill: #e67e22;
+            text-anchor: middle;
+            font-weight: bold;
+        }
+        
+        .label-box {
+            fill: rgba(255, 255, 255, 0.8);
+            stroke: #ddd;
+            stroke-width: 1;
+            rx: 3;
+            ry: 3;
+        }
+        
+        .difference-bracket { 
+            stroke: #e74c3c; /* Red */
+            stroke-width: 2; 
+            fill: none;
+        }
+        
+        .difference-label { 
+            font-size: 13px; 
+            fill: #e74c3c;
+            text-anchor: middle;
+            font-weight: bold;
+        }
+        
+        .number-line-arrow { 
+            fill: #555; 
+            stroke: #555;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -43,6 +164,16 @@
 
 <h2>Diagram:</h2>
 <svg id="diagramSlidingSVG" width="700" height="300"></svg>
+
+<!-- New button for viewing PDF documentation -->
+<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+
+<script>
+    function openPdfViewer() {
+        // Opens the PDF documentation for the strategy.
+        window.open('../SAR_SUB_Sliding.pdf', '_blank');
+    }
+</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -108,6 +239,22 @@ document.addEventListener('DOMContentLoaded', function() {
         svg.appendChild(path);
         createText(svg, (x1 + x2) / 2, y + 15, label, `${colorClass}label`);
     }
+
+    function drawStoppingPoint(svg, x, y, labelText, labelOffsetBase = 20, index = 0) {
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('cx', x);
+            circle.setAttribute('cy', y);
+            circle.setAttribute('r', 4);
+            circle.setAttribute('class', 'stopping-point');
+            svg.appendChild(circle);
+            
+            // Use the provided y parameter instead of numberLineY
+            if (labelText) {
+                // Add staggering based on index to prevent overlap with large values
+                const labelOffset = labelOffsetBase * (index % 2 === 0 ? 1.5 : -1.8);
+                createText(svg, x, y + labelOffset, labelText, 'number-line-label');
+            }
+        }
     // --- End Helper Functions ---
 
 
@@ -130,24 +277,34 @@ document.addEventListener('DOMContentLoaded', function() {
             output += `<p><strong>Problem:</strong> ${minuend} - ${subtrahend}</p>\n\n`;
 
             // Calculate adjustment (usually round subtrahend UP)
-            const adjustment = (10 - (subtrahend % 10)) % 10;
+            // For better learning, we'll always "slide" using one of two approaches:
+            // 1. If subtrahend is not a multiple of 10, adjust to make it one
+            // 2. If subtrahend is already a multiple of 10, we'll slide by +5 to demonstrate the invariance
+            
+            let adjustment;
+            let slideReason;
+            
+            if (subtrahend % 10 === 0) {
+                // Even though subtrahend is already a multiple of 10, we'll slide by +5
+                // to demonstrate that sliding works regardless of the amount
+                adjustment = 5;
+                slideReason = `Even though ${subtrahend} is already a multiple of 10, we'll slide by +${adjustment} to demonstrate the technique.`;
+            } else {
+                adjustment = (10 - (subtrahend % 10)) % 10;
+                slideReason = `Calculate adjustment to make ${subtrahend} a multiple of 10.`;
+            }
 
             const adjustedMinuend = minuend + adjustment;
             const adjustedSubtrahend = subtrahend + adjustment;
             const difference = adjustedMinuend - adjustedSubtrahend; // Should equal minuend - subtrahend
 
-            if (adjustment > 0) {
-                 output += `Step 1: Calculate adjustment to make ${subtrahend} a multiple of 10.\n`;
-                 output += `<p>Adjustment = +${adjustment}</p>\n`;
-                 output += `Step 2: Adjust (slide) both numbers by +${adjustment}.\n`
-                 output += `<p>New Minuend: ${minuend} + ${adjustment} = ${adjustedMinuend}</p>\n`;
-                 output += `<p>New Subtrahend: ${subtrahend} + ${adjustment} = ${adjustedSubtrahend}</p>\n`;
-                 output += `Step 3: Subtract adjusted numbers.\n`;
-                 output += `<p>${adjustedMinuend} - ${adjustedSubtrahend} = ${difference}</p>\n\n`;
-            } else {
-                 output += `Subtrahend ${subtrahend} is already a multiple of 10. No slide needed.\n`;
-                 output += `<p>Direct Subtraction: ${minuend} - ${subtrahend} = ${difference}</p>\n\n`;
-            }
+            output += `Step 1: ${slideReason}\n`;
+            output += `<p>Adjustment = +${adjustment}</p>\n`;
+            output += `Step 2: Adjust (slide) both numbers by +${adjustment}.\n`
+            output += `<p>New Minuend: ${minuend} + ${adjustment} = ${adjustedMinuend}</p>\n`;
+            output += `<p>New Subtrahend: ${subtrahend} + ${adjustment} = ${adjustedSubtrahend}</p>\n`;
+            output += `Step 3: Subtract adjusted numbers.\n`;
+            output += `<p>${adjustedMinuend} - ${adjustedSubtrahend} = ${difference}</p>\n\n`;
 
 
             output += `<strong>Result:</strong> ${difference}`;
@@ -172,12 +329,15 @@ document.addEventListener('DOMContentLoaded', function() {
          const startX = 50;
          const endX = svgWidth - 50;
          const numberLineY = svgHeight * 0.6; // Position number line lower
-         const tickHeight = 10;
+         const tickHeight = 12; // Slightly larger ticks
          const labelOffsetY = 20; // Offset for labels below line
          const slideArrowY = numberLineY - 40; // Y position for slide arrows
-         const diffBracketY = numberLineY + 40; // Y position for difference bracket
-         const arrowSize = 5;
+         const diffBracketY = numberLineY + 45; // Increased spacing for difference bracket
+         const arrowSize = 6; // Slightly larger arrows
          const scaleBreakThreshold = 40;
+
+         // Title for the diagram at the top
+         createLabelWithBackground(svg, 20, 20, "Number Line Visualization of Sliding Strategy", "diagram-label");
 
          // Determine range for scaling
          let diagramMin = Math.min(0, S);
@@ -194,11 +354,11 @@ document.addEventListener('DOMContentLoaded', function() {
              drawScaleBreak = true;
              drawScaleBreakSymbol(svg, scaleStartX - 15, numberLineY);
              drawTick(svg, startX, numberLineY, tickHeight);
-             createText(svg, startX, numberLineY + labelOffsetY, '0');
+             createLabelWithBackground(svg, startX, numberLineY + labelOffsetY, '0', 'number-line-label');
          } else {
              displayRangeStart = 0; // Include 0
              drawTick(svg, startX, numberLineY, tickHeight);
-             createText(svg, startX, numberLineY + labelOffsetY, '0');
+             createLabelWithBackground(svg, startX, numberLineY + labelOffsetY, '0', 'number-line-label');
          }
 
          const displayRangeEnd = diagramMax + 10;
@@ -219,49 +379,114 @@ document.addEventListener('DOMContentLoaded', function() {
          numberLine.setAttribute('x1', mainLineStartX); numberLine.setAttribute('y1', numberLineY);
          numberLine.setAttribute('x2', mainLineEndX); numberLine.setAttribute('y2', numberLineY);
          numberLine.setAttribute('class', 'number-line-tick'); svg.appendChild(numberLine);
+         
          // Add arrowhead
          const mainArrowHead = document.createElementNS('http://www.w3.org/2000/svg', 'path');
          mainArrowHead.setAttribute('d', `M ${mainLineEndX - arrowSize} ${numberLineY - arrowSize/2} L ${mainLineEndX} ${numberLineY} L ${mainLineEndX - arrowSize} ${numberLineY + arrowSize/2} Z`);
          mainArrowHead.setAttribute('class', 'number-line-arrow'); svg.appendChild(mainArrowHead);
 
-
-         // Mark Original Points (Blue)
-         const xS = valueToX(S);
-         const xM = valueToX(M);
-         drawTick(svg, xS, numberLineY, tickHeight, 'original-marker');
-         createText(svg, xS, numberLineY + labelOffsetY, S.toString(), 'original-marker');
-         drawTick(svg, xM, numberLineY, tickHeight, 'original-marker');
-         createText(svg, xM, numberLineY + labelOffsetY, M.toString(), 'original-marker');
-
-         if (adj > 0) { // Only draw adjusted points and arrows if there was a slide
-             // Mark Adjusted Points (Green)
-             const xS_adj = valueToX(S_adj);
-             const xM_adj = valueToX(M_adj);
-             drawTick(svg, xS_adj, numberLineY, tickHeight, 'adjusted-marker');
-             createText(svg, xS_adj, numberLineY + labelOffsetY + 15, S_adj.toString(), 'adjusted-marker'); // Offset adjusted label slightly more
-             drawTick(svg, xM_adj, numberLineY, tickHeight, 'adjusted-marker');
-             createText(svg, xM_adj, numberLineY + labelOffsetY + 15, M_adj.toString(), 'adjusted-marker'); // Offset adjusted label
-
-             // Draw Slide Arrows (Orange)
-             createStraightArrow(svg, xS, slideArrowY, xS_adj, slideArrowY);
-             createText(svg, (xS + xS_adj) / 2, slideArrowY - 10, `+${adj}`, 'slide-label');
-             createStraightArrow(svg, xM, slideArrowY, xM_adj, slideArrowY);
-             createText(svg, (xM + xM_adj) / 2, slideArrowY - 10, `+${adj}`, 'slide-label');
-
-             // Draw Difference Bracket (Red) below adjusted points
-              drawDifferenceBracket(svg, xS_adj, xM_adj, diffBracketY, `Difference = ${diff}`);
-         } else {
-             // Draw Difference Bracket (Red) below original points if no slide
-              drawDifferenceBracket(svg, xS, xM, diffBracketY, `Difference = ${diff}`);
+         // Draw key markers based on values
+         const keyValues = [];
+         for (let i = Math.ceil(displayRangeStart / 10) * 10; i <= displayRangeEnd; i += 10) {
+             if (i !== S && i !== M && i !== S_adj && i !== M_adj) { // Don't draw if it's already one of our special points
+                 keyValues.push(i);
+             }
+         }
+         
+         // Draw key value markers (multiples of 10)
+         keyValues.forEach(val => {
+             const x = valueToX(val);
+             // Only draw if not too close to other markers
+             if (!isNearSpecialPoint(val, [S, M, S_adj, M_adj], 5)) {
+                 drawTick(svg, x, numberLineY, tickHeight * 0.7); // Smaller ticks for regular values
+                 createText(svg, x, numberLineY + labelOffsetY, val.toString(), 'number-line-label');
+             }
+         });
+         
+         // Helper function to check if a value is near any special point
+         function isNearSpecialPoint(val, specialPoints, threshold) {
+             return specialPoints.some(sp => Math.abs(val - sp) < threshold);
          }
 
+         // Mark Original Points (Blue) with background boxes to prevent overlap
+         const xS = valueToX(S);
+         const xM = valueToX(M);
+         
+         drawTick(svg, xS, numberLineY, tickHeight * 1.2, 'original-marker'); // Larger ticks for important points
+         createLabelWithBackground(svg, xS, numberLineY + labelOffsetY, S.toString(), 'original-marker');
+         
+         drawTick(svg, xM, numberLineY, tickHeight * 1.2, 'original-marker');
+         createLabelWithBackground(svg, xM, numberLineY + labelOffsetY, M.toString(), 'original-marker');
+
+         // Section label for original values
+         createLabelWithBackground(svg, 20, numberLineY - 70, "Original Values", "diagram-label");
+
+         if (adj > 0) { // Only draw adjusted points and arrows if there was a slide
+             // Section label for adjusted values
+             createLabelWithBackground(svg, 20, numberLineY - 10, "Adjusted Values (+" + adj + ")", "diagram-label");
+         
+             // Mark Adjusted Points (Green) with background boxes
+             const xS_adj = valueToX(S_adj);
+             const xM_adj = valueToX(M_adj);
+             
+             drawTick(svg, xS_adj, numberLineY, tickHeight * 1.2, 'adjusted-marker');
+             // Position the label with offset to avoid overlap
+             createLabelWithBackground(svg, xS_adj, numberLineY + labelOffsetY + 20, S_adj.toString(), 'adjusted-marker');
+             
+             drawTick(svg, xM_adj, numberLineY, tickHeight * 1.2, 'adjusted-marker');
+             createLabelWithBackground(svg, xM_adj, numberLineY + labelOffsetY + 20, M_adj.toString(), 'adjusted-marker');
+
+             // Draw Slide Arrows (Orange) with varied positioning to avoid overlap
+             // First arrow (for subtrahend)
+             createStraightArrow(svg, xS, slideArrowY, xS_adj, slideArrowY);
+             createLabelWithBackground(svg, (xS + xS_adj) / 2, slideArrowY - 15, `+${adj}`, 'slide-label');
+             
+             // Second arrow (for minuend) - offset slightly to avoid overlap if points are close
+             const arrowYOffset = (Math.abs(xM - xS) < 50) ? -15 : 0;
+             createStraightArrow(svg, xM, slideArrowY + arrowYOffset, xM_adj, slideArrowY + arrowYOffset);
+             createLabelWithBackground(svg, (xM + xM_adj) / 2, slideArrowY + arrowYOffset - 15, `+${adj}`, 'slide-label');
+
+             // Draw Difference Bracket (Red) below adjusted points
+             drawDifferenceBracket(svg, xS_adj, xM_adj, diffBracketY, `Difference = ${diff}`);
+         } else {
+             // Draw Difference Bracket (Red) below original points if no slide
+             drawDifferenceBracket(svg, xS, xM, diffBracketY, `Difference = ${diff}`);
+         }
+    }
+    
+    // Helper function to create a label with a background box for better readability
+    function createLabelWithBackground(svg, x, y, text, className) {
+        // First create text element to measure its size
+        const textElem = document.createElementNS("http://www.w3.org/2000/svg", 'text');
+        textElem.setAttribute('x', x);
+        textElem.setAttribute('y', y);
+        textElem.setAttribute('class', className);
+        textElem.setAttribute('text-anchor', 'middle');
+        textElem.textContent = text;
+        svg.appendChild(textElem);
+        
+        // Get the bounding box
+        const bbox = textElem.getBBox();
+        
+        // Create the background rectangle
+        const padding = 3;
+        const rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        rect.setAttribute('x', bbox.x - padding);
+        rect.setAttribute('y', bbox.y - padding);
+        rect.setAttribute('width', bbox.width + (padding * 2));
+        rect.setAttribute('height', bbox.height + (padding * 2));
+        rect.setAttribute('class', 'label-box');
+        
+        // Insert rectangle before text so it appears behind
+        svg.insertBefore(rect, textElem);
+        
+        return textElem;
     }
 
-    function typesetMath() { /* Placeholder */ }
-
-    // Initial run on page load
-    runSlidingAutomaton();
-
+    function typesetMath() {
+        // Placeholder function to prevent errors
+        console.log("typesetMath called - no operation performed.");
+    }
 });
 </script>
 
