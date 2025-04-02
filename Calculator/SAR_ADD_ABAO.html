@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Addition Strategies: Adding Bases and Adding Ones (ABAO)</title>
+    <style>
+        body { font-family: sans-serif; }
+        #abaoDiagram { border: 1px solid #d3d3d3; }
+        #outputContainer { margin-top: 20px; }
+        .diagram-label { font-size: 14px; display: block; margin-bottom: 5px; }
+        .calc-label { font-size: 12px; text-anchor: middle; }
+        .group-rect { fill: none; stroke: black; stroke-dasharray: 5 5; stroke-width: 1; }
+        .arrow { fill: none; stroke: black; stroke-width: 2; }
+        .arrow-head { fill: black; stroke: black; }
+        .stopping-point { fill: red; }
+        .number-line-label { font-size: 12px; }
+    </style>
+</head>
+<body>
+
+    <h1>Addition Strategies: Adding Bases and Adding Ones (ABAO)</h1>
+
+    <div>
+        <label for="abaoAddend1">Addend 1:</label>
+        <input type="number" id="abaoAddend1" value="65"> <!-- Changed default back -->
+    </div>
+    <div>
+        <label for="abaoAddend2">Addend 2:</label>
+        <input type="number" id="abaoAddend2" value="25"> <!-- Changed default back -->
+    </div>
+
+    <button onclick="runABAOAutomaton()">Calculate and Visualize</button>
+
+    <div id="outputContainer">
+        <h2>Explanation:</h2>
+        <div id="abaoOutput">
+             <strong>Current Addends:</strong> 65+25<br> <!-- Initial content -->
+        </div>
+    </div>
+
+    <h2>Diagram:</h2>
+    <svg id="abaoDiagram" width="700" height="950"></svg> <!-- Increased height significantly -->
+
+    <script>
+    // --- Helper SVG Functions --- (Keep these the same as the previous version) ---
+    function drawBlock(svg, x, y, width, height, fill) {
+        const rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        rect.setAttribute('x', x);
+        rect.setAttribute('y', y);
+        rect.setAttribute('width', width);
+        rect.setAttribute('height', height);
+        rect.setAttribute('fill', fill);
+        rect.setAttribute('stroke', 'black');
+        rect.setAttribute('stroke-width', '0.5'); // Thinner lines for blocks
+        svg.appendChild(rect);
+    }
+
+    function drawTenBlock(svg, x, y, width, height, fill, unitBlockSize) {
+        const group = document.createElementNS("http://www.w3.org/2000/svg", 'g');
+        const backgroundRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        backgroundRect.setAttribute('x', x);
+        backgroundRect.setAttribute('y', y);
+        backgroundRect.setAttribute('width', width);
+        backgroundRect.setAttribute('height', height);
+        backgroundRect.setAttribute('fill', fill);
+        backgroundRect.setAttribute('stroke', 'black');
+        backgroundRect.setAttribute('stroke-width', '1');
+        group.appendChild(backgroundRect);
+
+        for (let i = 0; i < 10; i++) {
+            const unitBlock = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+            unitBlock.setAttribute('x', x);
+            unitBlock.setAttribute('y', y + i * unitBlockSize);
+            unitBlock.setAttribute('width', unitBlockSize);
+            unitBlock.setAttribute('height', unitBlockSize);
+            unitBlock.setAttribute('fill', fill);
+            unitBlock.setAttribute('stroke', 'lightgrey');
+            unitBlock.setAttribute('stroke-width', '0.5');
+            group.appendChild(unitBlock);
+        }
+        svg.appendChild(group);
+    }
+
+    function drawHundredBlock(svg, x, y, size, fill, unitBlockSize) {
+        const group = document.createElementNS("http://www.w3.org/2000/svg", 'g');
+        const backgroundRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        backgroundRect.setAttribute('x', x);
+        backgroundRect.setAttribute('y', y);
+        backgroundRect.setAttribute('width', size);
+        backgroundRect.setAttribute('height', size);
+        backgroundRect.setAttribute('fill', fill);
+        backgroundRect.setAttribute('stroke', 'black');
+        backgroundRect.setAttribute('stroke-width', '1');
+        group.appendChild(backgroundRect);
+
+        for (let row = 0; row < 10; row++) {
+            for (let col = 0; col < 10; col++) {
+                 const unitBlock = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+                 unitBlock.setAttribute('x', x + col * unitBlockSize);
+                 unitBlock.setAttribute('y', y + row * unitBlockSize);
+                 unitBlock.setAttribute('width', unitBlockSize);
+                 unitBlock.setAttribute('height', unitBlockSize);
+                 unitBlock.setAttribute('fill', fill);
+                 unitBlock.setAttribute('stroke', 'lightgrey');
+                 unitBlock.setAttribute('stroke-width', '0.5');
+                 group.appendChild(unitBlock);
+            }
+        }
+        svg.appendChild(group);
+    }
+
+
+    function drawGroupRect(svg, x, y, width, height) {
+        const rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        rect.setAttribute('x', x);
+        rect.setAttribute('y', y);
+        rect.setAttribute('width', width);
+        rect.setAttribute('height', height);
+        rect.setAttribute('class', 'group-rect');
+        svg.appendChild(rect);
+    }
+
+    function createText(svg, x, y, textContent, className = 'diagram-label', anchor = 'start') {
+        const text = document.createElementNS("http://www.w3.org/2000/svg", 'text');
+        text.setAttribute('x', x);
+        text.setAttribute('y', y);
+        text.setAttribute('class', className);
+        text.setAttribute('text-anchor', anchor);
+        // text.setAttribute('font-size', '14px'); // Use CSS
+        text.textContent = textContent;
+        svg.appendChild(text);
+    }
+
+    function createCurvedArrow(svg, x1, y1, x2, y2, cx, cy, arrowClass='arrow', headClass='arrow-head') {
+        const path = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+        path.setAttribute('d', `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`);
+        path.setAttribute('class', arrowClass);
+        svg.appendChild(path);
+
+        const arrowHead = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+        const arrowSize = 5;
+         // Calculate angle at the end of the curve (approx)
+        const dx = x2 - cx;
+        const dy = y2 - cy;
+        const angleRad = Math.atan2(dy, dx);
+        const angleDeg = angleRad * (180 / Math.PI);
+        arrowHead.setAttribute('d', `M 0 0 L ${arrowSize} ${arrowSize/2} L ${arrowSize} ${-arrowSize/2} Z`);
+        arrowHead.setAttribute('class', headClass);
+        arrowHead.setAttribute('transform', `translate(${x2}, ${y2}) rotate(${angleDeg + 180})`);
+        svg.appendChild(arrowHead);
+    }
+
+    function drawStoppingPoint(svg, x, y, labelText, labelOffsetBase = 20, index = 0) {
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('cx', x);
+            circle.setAttribute('cy', y);
+            circle.setAttribute('r', 4);
+            circle.setAttribute('class', 'stopping-point');
+            svg.appendChild(circle);
+            
+            // Use the provided y parameter instead of numberLineY
+            if (labelText) {
+                // Add staggering based on index to prevent overlap with large values
+                const labelOffset = labelOffsetBase * (index % 2 === 0 ? 1.5 : -1.8);
+                createText(svg, x, y + labelOffset, labelText, 'number-line-label');
+            }
+        }
+    // --- End Helper Functions ---
+
+
+    function drawABAODiagram(svgId, a1, a2, hunsA1, tensA1, onesA1, hunsA2, tensA2, onesA2,
+                             initialHunsSum, initialTensSum, initialOnesSum,
+                             onesCarry, tensCarry,
+                             finalHunsSum, finalTensSum, finalOnesSum, finalSum)
+    {
+        const svg = document.getElementById(svgId);
+        if (!svg) return;
+        svg.innerHTML = ''; // Clear SVG
+
+        const svgWidth = parseFloat(svg.getAttribute('width'));
+        const svgHeight = parseFloat(svg.getAttribute('height'));
+        const blockUnitSize = 10;
+        const tenBlockWidth = blockUnitSize;
+        const tenBlockHeight = blockUnitSize * 10;
+        const hundredBlockSize = blockUnitSize * 10;
+        const blockSpacing = 4;
+        const groupSpacingX = 30;
+        const sectionSpacingY = 140; // Increased spacing slightly
+        const startX = 30;
+        let currentY = 40;
+        const colorA1 = 'purple';
+        const colorA2 = 'cyan';
+        const colorOnesCarry = 'orange';
+        const colorTensCarry = 'lightgreen';
+        const maxBlockHeight = Math.max(tenBlockHeight, hundredBlockSize, blockUnitSize);
+        const calcLabelYOffset = 20; // Offset below blocks for calc labels
+        const textHeightApproximation = 10; // Approximate height of text for arrow start Y
+
+        // --- 1. Initial Split Visualization ---
+        createText(svg, startX, currentY, `Initial Split: ${a1} = ${hunsA1 > 0 ? hunsA1 + '+': ''}${tensA1}+${onesA1}, ${a2} = ${hunsA2 > 0 ? hunsA2 + '+' : ''}${tensA2}+${onesA2}`);
+        currentY += 30;
+
+        let currentX = startX;
+        let section1MaxY = currentY;
+
+        // A1 Blocks
+        for (let i = 0; i < hunsA1 / 100; i++) { drawHundredBlock(svg, currentX, currentY, hundredBlockSize, colorA1, blockUnitSize); currentX += hundredBlockSize + groupSpacingX; section1MaxY = Math.max(section1MaxY, currentY + hundredBlockSize); }
+        for (let i = 0; i < tensA1 / 10; i++) { drawTenBlock(svg, currentX, currentY, tenBlockWidth, tenBlockHeight, colorA1, blockUnitSize); currentX += tenBlockWidth + blockSpacing; section1MaxY = Math.max(section1MaxY, currentY + tenBlockHeight); }
+        for (let i = 0; i < onesA1; i++) { drawBlock(svg, currentX, currentY + maxBlockHeight - blockUnitSize, blockUnitSize, blockUnitSize, colorA1); currentX += blockUnitSize + blockSpacing; section1MaxY = Math.max(section1MaxY, currentY + maxBlockHeight); }
+        const a1EndX = currentX;
+
+        // A2 Blocks
+        currentX = a1EndX + groupSpacingX * 2;
+        const a2StartX = currentX;
+        for (let i = 0; i < hunsA2 / 100; i++) { drawHundredBlock(svg, currentX, currentY, hundredBlockSize, colorA2, blockUnitSize); currentX += hundredBlockSize + groupSpacingX; section1MaxY = Math.max(section1MaxY, currentY + hundredBlockSize); }
+        for (let i = 0; i < tensA2 / 10; i++) { drawTenBlock(svg, currentX, currentY, tenBlockWidth, tenBlockHeight, colorA2, blockUnitSize); currentX += tenBlockWidth + blockSpacing; section1MaxY = Math.max(section1MaxY, currentY + tenBlockHeight); }
+        for (let i = 0; i < onesA2; i++) { drawBlock(svg, currentX, currentY + maxBlockHeight - blockUnitSize, blockUnitSize, blockUnitSize, colorA2); currentX += blockUnitSize + blockSpacing; section1MaxY = Math.max(section1MaxY, currentY + maxBlockHeight); }
+        currentY = section1MaxY + sectionSpacingY;
+
+
+        // --- 2. Combine Like Units (Before Composition) ---
+        createText(svg, startX, currentY, `Combine Like Units`);
+        currentY += 30;
+
+        let section2MaxY = currentY;
+        let combinedHunsX = startX;
+        let combinedTensX = 0;
+        let combinedOnesX = 0;
+        let hunsEndX = startX;
+        let tensEndX = 0;
+        let onesEndX = 0;
+        let onesGroupEndX = 0; // For composition grouping rect later
+        let tensGroupStartX = 0; // For composition grouping rect later
+        let tensGroupEndX = 0;   // For composition grouping rect later
+
+
+        // Draw Combined Hundreds
+        if(initialHunsSum > 0) {
+            for (let i = 0; i < initialHunsSum / 100; i++) { let color = (i < hunsA1 / 100) ? colorA1 : colorA2; drawHundredBlock(svg, combinedHunsX, currentY, hundredBlockSize, color, blockUnitSize); combinedHunsX += hundredBlockSize + blockSpacing; }
+            hunsEndX = combinedHunsX;
+            createText(svg, startX + (hunsEndX - startX - blockSpacing) / 2, currentY + hundredBlockSize + calcLabelYOffset, `${hunsA1}+${hunsA2}=${initialHunsSum}`, 'calc-label', 'middle');
+            section2MaxY = Math.max(section2MaxY, currentY + hundredBlockSize);
+            combinedTensX = hunsEndX + groupSpacingX;
+        } else {
+            combinedTensX = startX;
+        }
+
+        // Draw Combined Tens
+        tensGroupStartX = combinedTensX; // Mark start for potential grouping
+        currentX = combinedTensX;
+        for (let i = 0; i < initialTensSum / 10; i++) {
+            let color = (i < tensA1 / 10) ? colorA1 : colorA2;
+            drawTenBlock(svg, currentX, currentY, tenBlockWidth, tenBlockHeight, color, blockUnitSize);
+             if (i < 10) tensGroupEndX = currentX + tenBlockWidth; // Track end of first 10 tens
+            currentX += tenBlockWidth + blockSpacing;
+        }
+        tensEndX = currentX;
+        const tensLabelX = combinedTensX + (tensEndX - combinedTensX - blockSpacing) / 2;
+        const tensLabelY = currentY + tenBlockHeight + calcLabelYOffset;
+        createText(svg, tensLabelX, tensLabelY, `${tensA1}+${tensA2}=${initialTensSum}`, 'calc-label', 'middle');
+        section2MaxY = Math.max(section2MaxY, currentY + tenBlockHeight);
+
+
+        // Draw Combined Ones
+        combinedOnesX = tensEndX + groupSpacingX;
+        currentX = combinedOnesX;
+        for (let i = 0; i < initialOnesSum; i++) {
+            let color = (i < onesA1) ? colorA1 : colorA2;
+            drawBlock(svg, currentX, currentY + maxBlockHeight - blockUnitSize, blockUnitSize, blockUnitSize, color);
+            if (i < 10) onesGroupEndX = currentX + blockUnitSize; // Track end of first 10 ones
+            currentX += blockUnitSize + blockSpacing;
+        }
+        onesEndX = currentX;
+        const onesLabelX = combinedOnesX + (onesEndX - combinedOnesX - blockSpacing) / 2;
+        const onesLabelY = currentY + maxBlockHeight + calcLabelYOffset;
+        createText(svg, onesLabelX, onesLabelY, `${onesA1}+${onesA2}=${initialOnesSum}`, 'calc-label', 'middle');
+        section2MaxY = Math.max(section2MaxY, currentY + maxBlockHeight);
+
+
+        // --- Store Coordinates for Arrows ---
+        const onesArrowStartY = onesLabelY + textHeightApproximation; // Start below the ones calculation text
+        const tensArrowStartY = tensLabelY + textHeightApproximation; // Start below the tens calculation text
+
+
+        // --- 3. Skip separate composition step, move Y ---
+        currentY = section2MaxY + sectionSpacingY;
+
+
+        // --- 4. Final Sum Visualization ---
+        createText(svg, startX, currentY, `Final Result (After Composition): ${finalSum}`);
+        currentY += 30;
+
+        let finalMaxY = currentY;
+        currentX = startX;
+        let finalHunsStartX = startX;
+        let finalTensStartX = 0;
+        let finalOnesStartX = 0;
+
+
+        // Final Hundreds
+        let composedHundredX = 0, composedHundredY = 0;
+        for (let i = 0; i < finalHunsSum / 100; i++) {
+             let color;
+             if (i < hunsA1 / 100) color = colorA1;
+             else if (i < initialHunsSum / 100) color = colorA2;
+             else {
+                 color = colorTensCarry; // Color for hundred composed from tens
+                 composedHundredX = currentX + hundredBlockSize / 2; // Store center of composed hundred
+                 composedHundredY = currentY + hundredBlockSize / 2;
+             }
+             drawHundredBlock(svg, currentX, currentY, hundredBlockSize, color, blockUnitSize);
+             currentX += hundredBlockSize + blockSpacing;
+        }
+        let finalHunsEndX = currentX > startX ? currentX - blockSpacing : startX;
+
+        // Final Tens
+        currentX = finalHunsEndX + (finalHunsEndX > startX ? groupSpacingX : 0);
+        finalTensStartX = currentX; // Store start X for final tens
+        let composedTenX = 0, composedTenY = 0;
+        for (let i = 0; i < finalTensSum / 10; i++) {
+             let color = colorA1; // Default/placeholder color
+              // More precise coloring: Check if this ten block is the one created by onesCarry
+             if (onesCarry > 0 && i === initialTensSum / 10) { // If it's the position right after initial tens
+                 color = colorOnesCarry;
+                 composedTenX = currentX + tenBlockWidth / 2; // Store center of composed ten
+                 composedTenY = currentY + tenBlockHeight / 2;
+             } else if (i < tensA1 / 10 && tensCarry == 0) { // Original A1 if no tens->hundred carry
+                 color = colorA1;
+             } else if (i < initialTensSum / 10 && tensCarry == 0) { // Original A2 if no tens->hundred carry
+                  color = colorA2;
+             }
+             // If tensCarry happened, coloring remaining tens accurately is complex, using carry color as fallback
+             else if (tensCarry > 0) {
+                 color = colorOnesCarry; // Might be remaining original or from ones carry
+             }
+
+             drawTenBlock(svg, currentX, currentY, tenBlockWidth, tenBlockHeight, color, blockUnitSize);
+             currentX += tenBlockWidth + blockSpacing;
+        }
+        let finalTensEndX = currentX > finalTensStartX ? currentX - blockSpacing : finalTensStartX;
+
+        // Final Ones Blocks
+        currentX = finalTensEndX + (finalTensEndX > finalTensStartX ? groupSpacingX : 0);
+        finalOnesStartX = currentX;
+        for (let i = 0; i < finalOnesSum; i++) {
+             let color = (i < onesA1 && onesCarry == 0) ? colorA1 : colorA2;
+             drawBlock(svg, currentX, currentY + maxBlockHeight - blockUnitSize, blockUnitSize, blockUnitSize, color);
+             currentX += blockUnitSize + blockSpacing;
+        }
+        finalMaxY = Math.max(currentY + maxBlockHeight, currentY + hundredBlockSize);
+
+        // --- Draw Composition Arrows ---
+        // Arrow from ones sum text to composed ten block
+        if (onesCarry > 0 && composedTenX > 0) {
+             createCurvedArrow(svg,
+                 onesLabelX, onesArrowStartY,             // Start below ones calculation text
+                 composedTenX, composedTenY - tenBlockHeight/2, // End at top-center of composed ten block
+                 onesLabelX + 30, onesArrowStartY + sectionSpacingY / 2 // Control point
+             );
+        }
+        // Arrow from tens sum text to composed hundred block
+         if (tensCarry > 0 && composedHundredX > 0) {
+              createCurvedArrow(svg,
+                 tensLabelX, tensArrowStartY,             // Start below tens calculation text
+                 composedHundredX, composedHundredY - hundredBlockSize/2, // End at top-center of composed hundred block
+                 tensLabelX + 50, tensArrowStartY + sectionSpacingY / 2 // Control point
+             );
+         }
+    }
+
+
+    (function() { // IIFE
+        window.runABAOAutomaton = function() {
+            const outputDiv = document.getElementById('abaoOutput');
+            const a1 = parseInt(document.getElementById('abaoAddend1').value);
+            const a2 = parseInt(document.getElementById('abaoAddend2').value);
+
+            if (isNaN(a1) || isNaN(a2)) {
+                outputDiv.textContent = "Please enter valid numbers for both addends";
+                diagramABAOSVG.innerHTML = ''; // Clear diagram on error
+                return;
+            }
+
+            let steps = '';
+
+            // Split both addends
+            const hunsA1 = Math.floor(a1 / 100) * 100;
+            const tensA1 = Math.floor((a1 % 100) / 10) * 10;
+            const onesA1 = a1 % 10;
+            const hunsA2 = Math.floor(a2 / 100) * 100;
+            const tensA2 = Math.floor((a2 % 100) / 10) * 10;
+            const onesA2 = a2 % 10;
+            steps += '<strong>Splitting Addends:</strong><br>';
+            steps += `${a1} = ${hunsA1 > 0 ? hunsA1 + ' + ' : ''}${tensA1} + ${onesA1}<br>`;
+            steps += `${a2} = ${hunsA2 > 0 ? hunsA2 + ' + ' : ''}${tensA2} + ${onesA2}<br>`;
+
+            // Add like units
+            const initialHunsSum = hunsA1 + hunsA2;
+            const initialTensSum = tensA1 + tensA2;
+            const initialOnesSum = onesA1 + onesA2;
+            steps += '<br><strong>Combine Like Units:</strong><br>';
+            if(initialHunsSum > 0) steps += `Hundreds: ${hunsA1} + ${hunsA2} = ${initialHunsSum}<br>`;
+            steps += `Tens: ${tensA1} + ${tensA2} = ${initialTensSum}<br>`;
+            steps += `Ones: ${onesA1} + ${onesA2} = ${initialOnesSum}<br>`;
+
+            // Handle Compositions
+            steps += '<br><strong>Composition:</strong><br>';
+            let onesCarry = Math.floor(initialOnesSum / 10) * 10;
+            let finalOnesSum = initialOnesSum % 10;
+            if (onesCarry > 0) {
+                steps += `- Compose ${onesCarry} from ones into ${onesCarry/10} ten(s). Remaining ones: ${finalOnesSum}<br>`;
+            } else {
+                 steps += `- No composition needed for ones.<br>`;
+            }
+
+            let tensSumAfterOnesCarry = initialTensSum + onesCarry;
+            let tensCarry = Math.floor(tensSumAfterOnesCarry / 100) * 100;
+            let finalTensSum = tensSumAfterOnesCarry % 100;
+             if (tensCarry > 0) {
+                 steps += `- Compose ${tensCarry} from tens into ${tensCarry/100} hundred(s). Remaining tens: ${finalTensSum}<br>`;
+             } else {
+                  steps += `- No composition needed for tens.<br>`;
+             }
+
+             let finalHunsSum = initialHunsSum + tensCarry;
+
+            // Combine for final result
+            const finalSum = finalHunsSum + finalTensSum + finalOnesSum;
+            steps += '<br><strong>Final Result:</strong><br>';
+            steps += `${finalHunsSum > 0 ? finalHunsSum + ' + ': ''}${finalTensSum} + ${finalOnesSum} = ${finalSum}`; // Hide 0 hundreds in final sum text
+
+
+            outputDiv.innerHTML = steps;
+            typesetMath();
+
+            // Draw Diagram
+             drawABAODiagram('abaoDiagram', a1, a2, hunsA1, tensA1, onesA1, hunsA2, tensA2, onesA2,
+                             initialHunsSum, initialTensSum, initialOnesSum,
+                             onesCarry, tensCarry,
+                             finalHunsSum, finalTensSum, finalOnesSum, finalSum);
+        };
+
+        function typesetMath() { /* Placeholder */ }
+
+        // Initialize on load
+         const initialOutputDiv = document.getElementById('abaoOutput');
+        if (initialOutputDiv) {
+            // Run with default values on load
+            runABAOAutomaton();
+        }
+
+    })(); // End of IIFE
+
+</script>
+
+<!-- New button for viewing PDF documentation -->
+<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+
+<script>
+    function openPdfViewer() {
+        // Opens the PDF documentation for the strategy.
+        window.open('../SAR_ADD_ABAO.pdf', '_blank');
+    }
+</script>
+
+</body>
+</html>
