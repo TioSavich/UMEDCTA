@@ -1,547 +1,495 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Multiplication: Conversion to Bases and Ones (CBO - Redistribution)</title>
-    <style>
-        body { 
-            font-family: sans-serif; 
-            margin: 0;
-            padding: 20px;
-        }
-        
-        /* Layout improvements */
-        .page-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .controls-container {
-            position: sticky;
-            top: 0;
-            background-color: white;
-            padding: 10px 0;
-            border-bottom: 1px solid #ccc;
-            z-index: 100;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            align-items: center;
-        }
-        
-        .input-group {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        .visualization-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        /* Step controls improvements */
-        .step-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-left: auto;
-        }
-        
-        /* Make the diagram more compact */
-        #cboDiagram { 
-            border: 1px solid #d3d3d3; 
-            min-height: 500px; /* Increased from 400px */
-            width: 100%;
-        }
-        
-        /* More spacing between visualization sections */
-        .section-spacer {
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-        
-        /* Existing styles */
-        .diagram-label { font-size: 14px; display: block; margin-bottom: 10px; font-weight: bold;}
-        .notation-line { margin: 0.2em 0; margin-left: 1em; font-family: monospace;}
-        .notation-line.problem { font-weight: bold; margin-left: 0;}
-        /* Block Styles */
-        .block { stroke: black; stroke-width: 0.5; }
-        .ten-block-bg { stroke: black; stroke-width: 1; }
-        .hundred-block-bg { stroke: black; stroke-width: 1; }
-        .unit-block-inner { stroke: lightgrey; stroke-width: 0.5; }
-        .initial-group-item { fill: teal; } /* Color for items in initial groups */
-        .final-ten { fill: lightgreen; } /* Color for final ten blocks */
-        .final-one { fill: gold; } /* Color for final one blocks */
-        .redistribute-arrow { 
-            fill: none !important;
-            stroke: orange;
-            stroke-width: 1.5;
-        }
-        .redistribute-arrow-head {
-            fill: orange;
-            stroke: orange;
-        }
-
-        /* Animation controls */
-        .step-button {
-            padding: 8px 15px;
-            background-color: #4a4a4a;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: sans-serif;
-        }
-        
-        .step-button:hover {
-            background-color: #666;
-        }
-        
-        .step-button:disabled {
-            background-color: #999;
-            cursor: not-allowed;
-        }
-        
-        .step-indicator {
-            margin: 0 10px;
-            font-family: sans-serif;
-        }
-        
-        .step-explanation {
-            background-color: #f9f9f9;
-            padding: 15px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            margin: 10px 0;
-            font-family: sans-serif;
-            text-align: left;
-        }
-        
-        /* Highlighting for current step */
-        .highlight-source {
-            stroke: red;
-            stroke-width: 2px;
-            animation: pulse 1s infinite alternate;
-        }
-        
-        .highlight-target {
-            stroke: blue;
-            stroke-width: 2px;
-            animation: pulse 1s infinite alternate;
-        }
-        
-        @keyframes pulse {
-            from { stroke-opacity: 0.5; }
-            to { stroke-opacity: 1; }
-        }
-        
-        /* For arrows in the current step */
-        .current-step-arrow {
-            stroke: orange;
-            stroke-width: 2.5;
-            fill: none !important;
-        }
-        
-        .current-step-arrow-head {
-            fill: orange;
-            stroke: orange;
-        }
-    </style>
+  <title>Multiplication: Conversion to Bases and Ones (CBO - Redistribution)</title>
+  <style>
+    body { 
+      font-family: sans-serif; 
+      margin: 0;
+      padding: 20px;
+    }
+    /* Layout improvements */
+    .page-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .controls-container {
+      position: sticky;
+      top: 0;
+      background-color: white;
+      padding: 10px 0;
+      border-bottom: 1px solid #ccc;
+      z-index: 100;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+    }
+    .input-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .visualization-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    /* Step controls improvements */
+    .step-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: auto;
+    }
+    /* Make the diagram more compact */
+    #cboDiagram { 
+      border: 1px solid #d3d3d3; 
+      min-height: 500px; /* Increased from 400px */
+      width: 100%;
+    }
+    /* More spacing between visualization sections */
+    .section-spacer {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    /* Existing styles */
+    .diagram-label { font-size: 14px; display: block; margin-bottom: 10px; font-weight: bold; }
+    .notation-line { margin: 0.2em 0; margin-left: 1em; font-family: monospace; }
+    .notation-line.problem { font-weight: bold; margin-left: 0; }
+    /* Block Styles */
+    .block { stroke: black; stroke-width: 0.5; }
+    .ten-block-bg { stroke: black; stroke-width: 1; }
+    .hundred-block-bg { stroke: black; stroke-width: 1; }
+    .unit-block-inner { stroke: lightgrey; stroke-width: 0.5; }
+    .initial-group-item { fill: teal; } /* Color for items in initial groups */
+    .final-ten { fill: lightgreen; } /* Color for final ten blocks */
+    .final-one { fill: gold; } /* Color for final one blocks */
+    .redistribute-arrow { 
+      fill: none !important;
+      stroke: orange;
+      stroke-width: 1.5;
+    }
+    .redistribute-arrow-head {
+      fill: orange;
+      stroke: orange;
+    }
+    /* Animation controls */
+    .step-button {
+      padding: 8px 15px;
+      background-color: #4a4a4a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: sans-serif;
+    }
+    .step-button:hover {
+      background-color: #666;
+    }
+    .step-button:disabled {
+      background-color: #999;
+      cursor: not-allowed;
+    }
+    .step-indicator {
+      margin: 0 10px;
+      font-family: sans-serif;
+    }
+    .step-explanation {
+      background-color: #f9f9f9;
+      padding: 15px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      margin: 10px 0;
+      font-family: sans-serif;
+      text-align: left;
+    }
+    /* Highlighting for current step */
+    .highlight-source {
+      stroke: red;
+      stroke-width: 2px;
+      animation: pulse 1s infinite alternate;
+    }
+    .highlight-target {
+      stroke: blue;
+      stroke-width: 2px;
+      animation: pulse 1s infinite alternate;
+    }
+    @keyframes pulse {
+      from { stroke-opacity: 0.5; }
+      to { stroke-opacity: 1; }
+    }
+    /* For arrows in the current step */
+    .current-step-arrow {
+      stroke: orange;
+      stroke-width: 2.5;
+      fill: none !important;
+    }
+    .current-step-arrow-head {
+      fill: orange;
+      stroke: orange;
+    }
+  </style>
+  <!-- Add MathJax support -->
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
 </head>
 <body>
 
 <div class="page-container">
-    <h1>Strategic Multiplicative Reasoning: Conversion to Bases and Ones (CBO)</h1>
-    
-    <!-- Sticky control panel -->
-    <div class="controls-container">
-        <div class="input-group">
-            <label for="cboGroups">Groups (N):</label>
-            <input type="number" id="cboGroups" value="7" min="1">
-            
-            <label for="cboItems">Items per Group (S):</label>
-            <input type="number" id="cboItems" value="9" min="1">
-            
-            <button class="action-button" onclick="runCBOAutomaton()">Calculate</button>
-        </div>
-        
-        <!-- Step navigation controls -->
-        <div class="step-controls">
-            <button id="prevStepBtn" class="step-button" disabled>◀ Previous</button>
-            <span id="stepIndicator" class="step-indicator">Step 0/0</span>
-            <button id="nextStepBtn" class="step-button">Next ▶</button>
-        </div>
+  <h1>Strategic Multiplicative Reasoning: Conversion to Bases and Ones (CBO)</h1>
+  
+  <!-- Sticky control panel -->
+  <div class="controls-container">
+    <div class="input-group">
+      <label for="cboGroups">Groups (N):</label>
+      <input type="number" id="cboGroups" value="7" min="1">
+      
+      <label for="cboItems">Items per Group (S):</label>
+      <input type="number" id="cboItems" value="9" min="1">
+      
+      <button class="action-button" onclick="runCBOAutomaton()">Calculate</button>
     </div>
     
-    <!-- Step explanation appears directly below controls -->
-    <div id="stepExplanation" class="step-explanation">
-        Click "Calculate" to begin.
+    <!-- Step navigation controls -->
+    <div class="step-controls">
+      <button id="prevStepBtn" class="step-button" disabled>◀ Previous</button>
+      <span id="stepIndicator" class="step-indicator">Step 0/0</span>
+      <button id="nextStepBtn" class="step-button">Next ▶</button>
     </div>
+  </div>
+  
+  <!-- Step explanation appears directly below controls -->
+  <div id="stepExplanation" class="step-explanation">
+    Click "Calculate" to begin.
+  </div>
+  
+  <!-- Main visualization section -->
+  <div class="visualization-container">
+    <!-- Diagram is now above the notation so it's visible immediately -->
+    <h2>Diagram:</h2>
+    <svg id="cboDiagram" width="100%" height="600"></svg> <!-- Increased from 400 to 600 -->
     
-    <!-- Main visualization section -->
-    <div class="visualization-container">
-        <!-- Diagram is now above the notation so it's visible immediately -->
-        <h2>Diagram:</h2>
-        <svg id="cboDiagram" width="100%" height="600"></svg> <!-- Increased from 400 to 600 -->
-        
-        <div id="outputContainer">
-            <h2>Notation:</h2>
-            <div id="cboOutput">
-                <!-- Text output will be displayed here -->
-            </div>
-        </div>
+    <div id="outputContainer">
+      <h2>Notation:</h2>
+      <div id="cboOutput">
+        <!-- MathJax notation will be displayed here -->
+      </div>
     </div>
+  </div>
 </div>
 
 <script>
-    // --- Helper SVG Functions ---
-    function drawBlock(svg, x, y, size, fill, className = 'block') {
-        const rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-        rect.setAttribute('x', x); rect.setAttribute('y', y);
-        rect.setAttribute('width', size); rect.setAttribute('height', size);
-        rect.setAttribute('fill', fill);
-        rect.setAttribute('class', className);
-        svg.appendChild(rect);
-        return { x, y, width: size, height: size, type: 'o', cx: x + size/2, cy: y + size/2 }; // Add center point
+  // --- Simulation Function for CBO Redistribution ---
+  // This function simulates the redistribution process. It creates an array of groups
+  // (each starting with S items) and then repeatedly “donates” items from the right‐most group(s)
+  // to left groups until as many groups as possible are filled to 10.
+  function simulateRedistribution(numGroups, itemsPerGroup) {
+    let groups = new Array(numGroups).fill(itemsPerGroup);
+    let steps = [];
+    let receiverIndex = 0;
+    let donorIndex = numGroups - 1;
+    // While there is at least one receiver (index < donor) that is not yet full
+    while (receiverIndex < donorIndex) {
+      if (groups[receiverIndex] < 10) {
+        let needed = 10 - groups[receiverIndex];
+        if (groups[donorIndex] >= needed) {
+          // Donor can completely fill the receiver group.
+          groups[receiverIndex] = 10;
+          groups[donorIndex] -= needed;
+          steps.push({ fromGroup: donorIndex, toGroup: receiverIndex, itemsToMove: needed });
+          receiverIndex++;
+        } else if (groups[donorIndex] > 0) {
+          // Donor has some items but not enough to completely fill the receiver.
+          let move = groups[donorIndex];
+          groups[receiverIndex] += move;
+          groups[donorIndex] = 0;
+          steps.push({ fromGroup: donorIndex, toGroup: receiverIndex, itemsToMove: move });
+          if (groups[receiverIndex] < 10) {
+            donorIndex--;
+            if (donorIndex <= receiverIndex) break;
+          } else {
+            receiverIndex++;
+          }
+        } else {
+          // If the current donor is empty, move to the next available donor.
+          donorIndex--;
+          if (donorIndex <= receiverIndex) break;
+        }
+      } else {
+        receiverIndex++;
+      }
     }
-
-    function drawTenBlock(svg, x, y, width, height, fill, unitBlockSize) { // Keep vertical ten block
-        const group = document.createElementNS("http://www.w3.org/2000/svg", 'g');
-        const backgroundRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-        backgroundRect.setAttribute('x', x); backgroundRect.setAttribute('y', y);
-        backgroundRect.setAttribute('width', width); backgroundRect.setAttribute('height', height);
-        backgroundRect.setAttribute('fill', fill);
-        backgroundRect.setAttribute('class', 'ten-block-bg block');
-        group.appendChild(backgroundRect);
-
-        for (let i = 0; i < 10; i++) {
-            const unitBlock = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-            unitBlock.setAttribute('x', x); unitBlock.setAttribute('y', y + i * unitBlockSize);
-            unitBlock.setAttribute('width', unitBlockSize); unitBlock.setAttribute('height', unitBlockSize);
-            unitBlock.setAttribute('fill', fill);
-            unitBlock.setAttribute('class', 'unit-block-inner');
-            group.appendChild(unitBlock);
-        }
-        svg.appendChild(group);
-        return { x, y, width, height, type: 't', cx: x + width/2, cy: y + height/2};
+    return { groups, steps };
+  }
+  
+  // --- Notation Generation ---
+  // Based on the total number of items (N×S), we know the final result can be written as
+  // (fullTens) × 10 + (remainder). In the CBO strategy, each “full” group is originally S but receives
+  // an extra (10–S) donated items. We then build equivalent expressions.
+  function generateNotation(numGroups, itemsPerGroup) {
+    const total = numGroups * itemsPerGroup;
+    const fullTens = Math.floor(total / 10); // number of complete tens
+    const remainder = total - fullTens * 10;
+    let notation = "";
+    // Original multiplication
+    notation += `$$${numGroups} \\times ${itemsPerGroup}$$\n`;
+    // Express as sum of groups that remain unchanged plus donated items
+    notation += `$$= ${fullTens} \\times ${itemsPerGroup} + ${fullTens} \\times (${10 - itemsPerGroup}) + ${remainder}$$\n`;
+    // Factor out the full tens
+    notation += `$$= ${fullTens} \\times (${itemsPerGroup} + ${10 - itemsPerGroup}) + ${remainder}$$\n`;
+    // Simplify the parenthesis
+    notation += `$$= ${fullTens} \\times 10 + ${remainder}$$\n`;
+    // Write as numerical addition
+    const tensValue = fullTens * 10;
+    notation += `$$= ${tensValue} + ${remainder}$$\n`;
+    // Final result
+    notation += `$$= ${total}$$\n`;
+    return notation;
+  }
+  
+  // --- Global Animation Variables ---
+  let currentStep = 0;
+  let totalSteps = 0;
+  let animationSteps = [];
+  let finalGroupsState = [];  // Final state of each group after redistribution
+  let numGroups, itemsPerGroup, totalItems, finalTensCount, finalOnesCount;
+  
+  // --- drawTenBlock Function ---
+  // This function draws a consolidated "ten block" (a rod representing 10 items) vertically.
+  function drawTenBlock(svg, x, y, width, height, fill, unitBlockSize) {
+    const group = document.createElementNS("http://www.w3.org/2000/svg", 'g');
+    const backgroundRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+    backgroundRect.setAttribute('x', x);
+    backgroundRect.setAttribute('y', y);
+    backgroundRect.setAttribute('width', width);
+    backgroundRect.setAttribute('height', height);
+    backgroundRect.setAttribute('fill', fill);
+    backgroundRect.setAttribute('class', 'ten-block-bg block');
+    group.appendChild(backgroundRect);
+    // Draw inner lines (optional) to denote the 10 parts.
+    for (let i = 0; i < 10; i++) {
+      const unitBlock = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+      unitBlock.setAttribute('x', x);
+      unitBlock.setAttribute('y', y + i * unitBlockSize);
+      unitBlock.setAttribute('width', unitBlockSize);
+      unitBlock.setAttribute('height', unitBlockSize);
+      unitBlock.setAttribute('fill', fill);
+      unitBlock.setAttribute('class', 'unit-block-inner');
+      group.appendChild(unitBlock);
     }
-
-    function createText(svg, x, y, textContent, className = 'diagram-label', anchor = 'start') {
-        const text = document.createElementNS("http://www.w3.org/2000/svg", 'text');
-        text.setAttribute('x', x); text.setAttribute('y', y);
-        text.setAttribute('class', className);
-        text.setAttribute('text-anchor', anchor);
-        text.textContent = textContent;
-        svg.appendChild(text);
+    svg.appendChild(group);
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    const outputElement = document.getElementById('cboOutput');
+    const groupsInput = document.getElementById('cboGroups');
+    const itemsInput = document.getElementById('cboItems');
+    const diagramSVG = document.getElementById('cboDiagram');
+    const prevStepBtn = document.getElementById('prevStepBtn');
+    const nextStepBtn = document.getElementById('nextStepBtn');
+    const stepIndicator = document.getElementById('stepIndicator');
+    const stepExplanation = document.getElementById('stepExplanation');
+    
+    function numberToWord(num) {
+      const words = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
+      return (num >= 0 && num < words.length) ? words[num] : num.toString();
     }
-
-    function createCurvedArrow(svg, x1, y1, x2, y2, cx, cy, arrowClass='redistribute-arrow', headClass='redistribute-arrow-head', arrowSize=4) {
-        const path = document.createElementNS("http://www.w3.org/2000/svg", 'path');
-        path.setAttribute('d', `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`);
-        path.setAttribute('class', arrowClass);
-        path.setAttribute('fill', 'none'); // Explicitly set fill to none
-        svg.appendChild(path);
-
-        const arrowHead = document.createElementNS("http://www.w3.org/2000/svg", 'path');
-        const dx = x2 - cx; const dy = y2 - cy;
-        const angleRad = Math.atan2(dy, dx);
-        const angleDeg = angleRad * (180 / Math.PI);
-        arrowHead.setAttribute('d', `M 0 0 L ${arrowSize} ${arrowSize/2} L ${arrowSize} ${-arrowSize/2} Z`);
-        arrowHead.setAttribute('class', headClass);
-        arrowHead.setAttribute('transform', `translate(${x2}, ${y2}) rotate(${angleDeg + 180})`);
-        svg.appendChild(arrowHead);
-    }
-    // --- End Helper Functions ---
-
-    // --- Main CBO Automaton Function ---
-    // Animation state variables
-    let currentStep = 0;
-    let totalSteps = 0;
-    let animationSteps = [];
-
-    let numGroups = 7;
-    let itemsPerGroup = 9;
-    let totalItems = numGroups * itemsPerGroup;
-    let finalTensCount = Math.floor(totalItems / 10);
-    let finalOnesCount = totalItems % 10;
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const outputElement = document.getElementById('cboOutput');
-        const groupsInput = document.getElementById('cboGroups');
-        const itemsInput = document.getElementById('cboItems');
-        const diagramSVG = document.getElementById('cboDiagram');
-
-        const prevStepBtn = document.getElementById('prevStepBtn');
-        const nextStepBtn = document.getElementById('nextStepBtn');
-        const stepIndicator = document.getElementById('stepIndicator');
-        const stepExplanation = document.getElementById('stepExplanation');
-
-        if (!outputElement || !groupsInput || !itemsInput || !diagramSVG) {
-            console.error("Required HTML elements not found!");
-            return;
-        }
-
-        function numberToWord(num) {
-            const words = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"];
-            if (num >= 0 && num < words.length) {
-                return words[num];
-            }
-            return num.toString();
-        }
-
-        prevStepBtn.addEventListener('click', function() {
-            if (currentStep > 0) {
-                currentStep--;
-                updateVisualization();
-            }
-        });
-
-        nextStepBtn.addEventListener('click', function() {
-            if (currentStep < totalSteps) {
-                currentStep++;
-                updateVisualization();
-            }
-        });
-
-        function updateVisualization() {
-            prevStepBtn.disabled = currentStep === 0;
-            nextStepBtn.disabled = currentStep === totalSteps;
-            stepIndicator.textContent = `Step ${currentStep} of ${totalSteps}`;
-            
-            if (currentStep === 0) {
-                stepExplanation.innerHTML = `<p><strong>Initial State:</strong> We have ${numGroups} groups with ${itemsPerGroup} items each.</p>`;
-            } else if (currentStep === totalSteps) {
-                stepExplanation.innerHTML = `<p><strong>Final Result:</strong> After redistribution, we have ${finalTensCount} complete base-10 groups and ${finalOnesCount} individual items.</p>
-                                            <p>This demonstrates that ${numGroups} × ${itemsPerGroup} = ${finalTensCount * 10 + finalOnesCount}</p>`;
-            } else {
-                const step = animationSteps[currentStep - 1];
-                stepExplanation.innerHTML = `<p><strong>Step ${currentStep}:</strong> Moving ${step.itemsToMove} item(s) from Group ${step.fromGroup + 1} to Group ${step.toGroup + 1}.</p>
-                                            <p>This helps Group ${step.toGroup + 1} reach exactly 10 items, forming a complete base-10 unit.</p>`;
-            }
-            
-            drawCBODiagram('cboDiagram', numGroups, itemsPerGroup, finalTensCount, finalOnesCount);
-
-            document.getElementById('cboDiagram').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        window.runCBOAutomaton = function() {
-            try {
-                numGroups = parseInt(groupsInput.value);
-                itemsPerGroup = parseInt(itemsInput.value);
-
-                if (isNaN(numGroups) || isNaN(itemsPerGroup) || numGroups <= 0 || itemsPerGroup <= 0) {
-                    outputElement.textContent = "Please enter valid positive numbers";
-                    diagramSVG.innerHTML = ''; return;
-                }
-
-                totalItems = numGroups * itemsPerGroup;
-                finalTensCount = Math.floor(totalItems / 10);
-                finalOnesCount = totalItems % 10;
-
-                const numGroupsWord = numberToWord(numGroups);
-
-                let output = `<h2>Conversion to Bases and Ones (CBO) - Notation</h2>\n\n`;
-                output += `<p class="notation-line problem">${numGroupsWord} × ${itemsPerGroup} = ?</p>\n`;
-
-                if (itemsPerGroup < 10 && numGroups > 1) {
-                    const neededPerGroup = 10 - itemsPerGroup;
-                    const groupsToComplete = numGroups - 1;
-                    const totalNeeded = groupsToComplete * neededPerGroup;
-                    const onesLeftInLastGroup = itemsPerGroup - totalNeeded;
-
-                    if (onesLeftInLastGroup >= 0) {
-                         output += `<p class="notation-line">= ${numberToWord(groupsToComplete)} × ${itemsPerGroup} + ${itemsPerGroup}</p>\n`;
-                         output += `<p class="notation-line">= ${numberToWord(groupsToComplete)} × ${itemsPerGroup} + ${totalNeeded} + ${onesLeftInLastGroup}</p>\n`;
-                         output += `<p class="notation-line">= ${numberToWord(groupsToComplete)} × (${itemsPerGroup} + ${neededPerGroup}) + ${onesLeftInLastGroup}</p>\n`;
-                         output += `<p class="notation-line">= ${numberToWord(groupsToComplete)} × 10 + ${onesLeftInLastGroup}</p>\n`;
-                         output += `<p class="notation-line">= ${groupsToComplete * 10} + ${onesLeftInLastGroup}</p>\n`;
-                         output += `<p class="notation-line">= ${totalItems}</p>\n`;
-                    } else {
-                         output += `<p class="notation-line">= ${totalItems} (Direct Calculation)</p>\n`;
-                    }
-                } else {
-                     output += `<p class="notation-line">= ${totalItems} (Direct Calculation)</p>\n`;
-                }
-
-                outputElement.innerHTML = output;
-
-                drawCBODiagram('cboDiagram', numGroups, itemsPerGroup, finalTensCount, finalOnesCount);
-
-                animationSteps = [];
-                currentStep = 0;
-
-                const neededPerGroup = (itemsPerGroup < 10) ? 10 - itemsPerGroup : 0;
-
-                if (neededPerGroup > 0 && numGroups > 1) {
-                    for (let g = 0; g < numGroups - 1; g++) {
-                        animationSteps.push({
-                            fromGroup: numGroups - 1,
-                            toGroup: g,
-                            itemsToMove: neededPerGroup
-                        });
-                    }
-                }
-
-                totalSteps = animationSteps.length + 1;
-
-                updateVisualization();
-
-                document.getElementById('cboDiagram').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-            } catch (error) {
-                 console.error("Error in runCBOAutomaton:", error);
-                 outputElement.textContent = `Error: ${error.message}`;
-            }
-        };
-
-        function drawCBODiagram(svgId, numGroups, itemsPerGroup, finalTensCount, finalOnesCount) {
-            const svg = document.getElementById(svgId);
-             if (!svg) return;
-             svg.innerHTML = '';
-
-             const svgWidth = parseFloat(svg.getAttribute('width'));
-             const svgHeight = parseFloat(svg.getAttribute('height'));
-             const blockUnitSize = 10;
-             const tenBlockWidth = blockUnitSize;
-             const tenBlockHeight = blockUnitSize * 10;
-             const blockSpacing = 4;
-             const groupSpacingX = 30;
-             const sectionSpacingY = 180; // Increased from 150 to give more vertical space
-             const startX = 30;
-             let currentY = 40;
-             const colorGroup = 'teal';
-             const colorResultTen = 'lightgreen';
-             const colorResultOne = 'gold';
-             const arrowOffsetY = -15;
-             const arrowControlOffsetY = -60;
-
-             createText(svg, startX, currentY, `Initial State: ${numberToWord(numGroups)} groups of ${itemsPerGroup}`);
-             currentY += 30;
-             let currentX = startX;
-             let section1MaxY = currentY;
-             let initialGroupsData = [];
-
-             for (let g = 0; g < numGroups; g++) {
-                 let groupStartX = currentX;
-                 let itemYOffset = 0;
-                 let effectiveItemCount = itemsPerGroup;
-
-                 if (currentStep > 0 && currentStep < totalSteps) {
-                     for (let s = 0; s < currentStep; s++) {
-                         const step = animationSteps[s];
-
-                         if (g === step.fromGroup) {
-                             effectiveItemCount -= step.itemsToMove;
-                         }
-
-                         if (g === step.toGroup) {
-                             effectiveItemCount += step.itemsToMove;
-                         }
-                     }
-                 }
-
-                 for (let i = 0; i < effectiveItemCount; i++) {
-                     let blockClass = 'initial-group-item';
-
-                     if (currentStep > 0 && currentStep <= animationSteps.length) {
-                         const step = animationSteps[currentStep - 1];
-
-                         if (g === step.fromGroup && i >= effectiveItemCount - step.itemsToMove) {
-                             blockClass += ' highlight-source';
-                         }
-
-                         if (g === step.toGroup && i >= itemsPerGroup) {
-                             blockClass += ' highlight-target';
-                         }
-                     }
-
-                     let blockInfo = drawBlock(svg, currentX, currentY + itemYOffset, blockUnitSize, colorGroup, blockClass);
-                     initialGroupsData.push({
-                         group: g,
-                         item: i,
-                         x: blockInfo.x,
-                         y: blockInfo.y,
-                         cx: blockInfo.cx,
-                         cy: blockInfo.cy,
-                         size: blockUnitSize
-                     });
-
-                     itemYOffset += blockUnitSize + blockSpacing;
-                 }
-
-                 currentX = groupStartX + blockUnitSize + groupSpacingX;
-                 section1MaxY = Math.max(section1MaxY, currentY + itemYOffset);
-             }
-
-             if (currentStep > 0 && currentStep <= animationSteps.length) {
-                 const step = animationSteps[currentStep - 1];
-
-                 let sourceBlocks = initialGroupsData.filter(d => d.group === step.fromGroup)
-                     .slice(-(step.itemsToMove));
-
-                 let targetBlock = initialGroupsData.find(d => d.group === step.toGroup && 
-                                                          d.item === itemsPerGroup - 1);
-
-                 if (targetBlock && sourceBlocks.length > 0) {
-                     sourceBlocks.forEach((sourceBlock, idx) => {
-                         createCurvedArrow(svg,
-                             sourceBlock.cx, sourceBlock.cy,
-                             targetBlock.cx, targetBlock.y - 10,
-                             (sourceBlock.cx + targetBlock.cx) / 2, Math.min(sourceBlock.cy, targetBlock.cy) - 50,
-                             'current-step-arrow', 'current-step-arrow-head'
-                         );
-                     });
-                 }
-             }
-
-             currentY = section1MaxY + sectionSpacingY;
-
-             if (currentStep === totalSteps) {
-                 // Add more vertical space between sections for clarity
-                 currentY = section1MaxY + sectionSpacingY;
-                 
-                 let finalSum = numGroups * itemsPerGroup;
-                 createText(svg, startX, currentY, `Final Result (Converted to Base-10): ${finalSum}`);
-                 currentY += 30;
-                 currentX = startX;
-                 let section2MaxY = currentY;
-
-                 for (let i = 0; i < finalTensCount; i++) { drawTenBlock(svg, currentX, currentY, tenBlockWidth, tenBlockHeight, colorResultTen, blockUnitSize); currentX += tenBlockWidth + blockSpacing; section2MaxY = Math.max(section2MaxY, currentY + tenBlockHeight); }
-                 let finalOnesY = currentY + Math.max(0, tenBlockHeight - (finalOnesCount * (blockUnitSize + blockSpacing)));
-                 for (let i = 0; i < finalOnesCount; i++) { drawBlock(svg, currentX, finalOnesY + i * (blockUnitSize + blockSpacing), blockUnitSize, blockUnitSize, colorResultOne); section2MaxY = Math.max(section2MaxY, finalOnesY + (i+1)*(blockUnitSize+blockSpacing)); }
-                 currentX += blockUnitSize + blockSpacing;
-
-                 // Ensure SVG is tall enough to contain all content
-                 const neededHeight = section2MaxY + 50; // Add 50px padding at bottom
-                 if (neededHeight > parseInt(svg.getAttribute('height'))) {
-                     svg.setAttribute('height', neededHeight);
-                 }
-             }
-
-             // Add more space for larger problems
-             if (numGroups > 7 || itemsPerGroup > 9) {
-                 // Calculate additional vertical space needed for larger problems
-                 const extraHeight = Math.max(0, numGroups - 7) * 40 + Math.max(0, itemsPerGroup - 9) * 20;
-                 svg.setAttribute('height', 600 + extraHeight);
-             }
-        }
-
-        runCBOAutomaton();
-
+    
+    prevStepBtn.addEventListener('click', function() {
+      if (currentStep > 0) {
+        currentStep--;
+        updateVisualization();
+      }
     });
+    
+    nextStepBtn.addEventListener('click', function() {
+      if (currentStep < totalSteps) {
+        currentStep++;
+        updateVisualization();
+      }
+    });
+    
+    // Update the visualization and explanation according to the current step.
+    function updateVisualization() {
+      prevStepBtn.disabled = currentStep === 0;
+      nextStepBtn.disabled = currentStep === totalSteps;
+      stepIndicator.textContent = `Step ${currentStep} of ${totalSteps}`;
+      
+      if (currentStep === 0) {
+        stepExplanation.innerHTML = `<p><strong>Initial State:</strong> We have ${numGroups} groups, each with ${itemsPerGroup} items (Total = ${totalItems}).</p>`;
+      } else if (currentStep === totalSteps) {
+        stepExplanation.innerHTML = `<p><strong>Final State:</strong> After redistribution, we have ${finalTensCount} complete base‑10 groups and ${finalOnesCount} remaining items, showing that \\( ${numGroups} \\times ${itemsPerGroup} = ${finalTensCount} \\times 10 + ${finalOnesCount} \\).</p>`;
+        if (window.MathJax) {
+          MathJax.typesetPromise([stepExplanation]);
+        }
+      } else {
+        const step = animationSteps[currentStep - 1];
+        stepExplanation.innerHTML = `<p><strong>Step ${currentStep}:</strong> Move ${numberToWord(step.itemsToMove).toLowerCase()} item(s) from Group ${step.fromGroup + 1} to Group ${step.toGroup + 1}.</p>`;
+      }
+      
+      // Redraw the diagram using the current step to simulate partial redistribution.
+      drawCBODiagram('cboDiagram', currentStep);
+    }
+    
+    // Main function triggered by the "Calculate" button.
+    window.runCBOAutomaton = function() {
+      try {
+        numGroups = parseInt(groupsInput.value);
+        itemsPerGroup = parseInt(itemsInput.value);
+        if (isNaN(numGroups) || isNaN(itemsPerGroup) || numGroups <= 0 || itemsPerGroup <= 0) {
+          outputElement.textContent = "Please enter valid positive numbers for groups and items.";
+          diagramSVG.innerHTML = '';
+          return;
+        }
+        totalItems = numGroups * itemsPerGroup;
+        // If items per group is 10 or more, the strategy is not used.
+        if (itemsPerGroup >= 10) {
+          outputElement.innerHTML = `$$${numGroups} \\times ${itemsPerGroup} = ${totalItems}$$ (Direct calculation)`;
+          diagramSVG.innerHTML = '';
+          return;
+        }
+        if (numGroups === 1) {
+          outputElement.innerHTML = "CBO strategy requires at least two groups for redistribution.";
+          diagramSVG.innerHTML = '';
+          return;
+        }
+        // Simulate the redistribution process.
+        const simulationResult = simulateRedistribution(numGroups, itemsPerGroup);
+        finalGroupsState = simulationResult.groups;
+        animationSteps = simulationResult.steps;
+        totalSteps = animationSteps.length + 1; // The last step shows the final state.
+        currentStep = 0;
+    
+        // Determine final tens and ones.
+        finalTensCount = finalGroupsState.filter(g => g === 10).length;
+        finalOnesCount = totalItems - finalTensCount * 10;
+    
+        // Generate MathJax notation.
+        const notationStr = generateNotation(numGroups, itemsPerGroup);
+        outputElement.innerHTML = notationStr;
+        if (window.MathJax) {
+          MathJax.typesetPromise();
+        }
+    
+        updateVisualization();
+      } catch (error) {
+        console.error("Error in runCBOAutomaton:", error);
+        outputElement.textContent = `Error: ${error.message}`;
+        stepExplanation.textContent = "An error occurred.";
+        diagramSVG.innerHTML = '';
+      }
+    };
+    
+    // --- Drawing Function with Consolidated Ten Block ---
+    // This function redraws the groups according to the redistribution steps.
+    // If a group reaches exactly 10 items, it is drawn as one consolidated "ten block".
+    function drawCBODiagram(svgId, currentStep) {
+      const svg = document.getElementById(svgId);
+      if (!svg) return;
+      svg.innerHTML = '';
+      
+      const blockUnitSize = 20; // Size of each individual block.
+      const tenBlockWidth = blockUnitSize;
+      const tenBlockHeight = blockUnitSize * 10;
+      const blockSpacing = 5;
+      const groupSpacingX = 50;
+      const startX = 30;
+      let currentY = 50;
+      
+      // Make a copy of the initial state.
+      let currentGroups = new Array(numGroups).fill(itemsPerGroup);
+      // Apply the animation steps up to the currentStep.
+      for (let s = 0; s < currentStep && s < animationSteps.length; s++) {
+        const step = animationSteps[s];
+        currentGroups[step.fromGroup] -= step.itemsToMove;
+        currentGroups[step.toGroup] += step.itemsToMove;
+      }
+      
+      // Draw each group.
+      for (let g = 0; g < numGroups; g++) {
+        let groupX = startX + g * groupSpacingX;
+        let items = currentGroups[g];
+        if (items === 10) {
+          // Group is exactly full, so draw a consolidated ten block.
+          drawTenBlock(svg, groupX, currentY, tenBlockWidth, tenBlockHeight, 'lightgreen', blockUnitSize);
+        } else {
+          // Otherwise, draw the group as individual unit blocks.
+          for (let i = 0; i < items; i++) {
+            let x = groupX;
+            let y = currentY + i * (blockUnitSize + blockSpacing);
+            const rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+            rect.setAttribute('x', x);
+            rect.setAttribute('y', y);
+            rect.setAttribute('width', blockUnitSize);
+            rect.setAttribute('height', blockUnitSize);
+            rect.setAttribute('fill', 'teal');
+            rect.setAttribute('stroke', 'black');
+            svg.appendChild(rect);
+          }
+        }
+        // Label each group.
+        const text = document.createElementNS("http://www.w3.org/2000/svg", 'text');
+        text.setAttribute('x', groupX);
+        text.setAttribute('y', currentY - 10);
+        text.textContent = `G${g+1}`;
+        text.setAttribute('font-size', '14px');
+        svg.appendChild(text);
+      }
+      
+      // If we are in the middle of an animation step, draw an arrow indicating the current move.
+      if (currentStep > 0 && currentStep <= animationSteps.length) {
+        const step = animationSteps[currentStep - 1];
+        let donorX = startX + step.fromGroup * groupSpacingX;
+        let receiverX = startX + step.toGroup * groupSpacingX;
+        
+        let donorY;
+        // If the donor group is consolidated (i.e. has 10 items), point to the center of the ten block.
+        if (currentGroups[step.fromGroup] === 10) {
+          donorY = currentY + tenBlockHeight / 2;
+        } else {
+          donorY = currentY + (currentGroups[step.fromGroup] + step.itemsToMove - 1) * (blockUnitSize + blockSpacing) + blockUnitSize / 2;
+        }
+        
+        let receiverY;
+        // For the receiver, if it's now full (consolidated), target the center of its ten block.
+        if (currentGroups[step.toGroup] === 10) {
+          receiverY = currentY + tenBlockHeight / 2;
+        } else {
+          receiverY = currentY + (currentGroups[step.toGroup] - step.itemsToMove) * (blockUnitSize + blockSpacing) + blockUnitSize / 2;
+        }
+        
+        const arrow = document.createElementNS("http://www.w3.org/2000/svg", 'line');
+        arrow.setAttribute('x1', donorX + blockUnitSize);
+        arrow.setAttribute('y1', donorY);
+        arrow.setAttribute('x2', receiverX);
+        arrow.setAttribute('y2', receiverY);
+        arrow.setAttribute('stroke', 'orange');
+        arrow.setAttribute('stroke-width', 2);
+        svg.appendChild(arrow);
+      }
+      
+      // Adjust the SVG height to ensure all blocks are visible.
+      const maxItems = Math.max(...currentGroups.map(count => (count === 10 ? 10 : count)));
+      let diagramHeight = currentY + (maxItems === 10 ? tenBlockHeight : maxItems * (blockUnitSize + blockSpacing)) + 50;
+      svg.setAttribute('height', diagramHeight);
+    }
+    
+    // Run the automaton on page load.
+    runCBOAutomaton();
+  });
 </script>
-
 
 <!-- New button for viewing PDF documentation -->
 <button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
 
 <script>
-    function openPdfViewer() {
-        // Opens the PDF documentation for the strategy.
-        window.open('../SMR_Multiplication_CBO.pdf', '_blank');
-    }
+  function openPdfViewer() {
+    // Opens the PDF documentation for the strategy.
+    window.open('../SMR_Multiplication_CBO.pdf', '_blank');
+  }
 </script>
 
 </body>
