@@ -147,13 +147,15 @@
 
             <!-- Other/Fundamental -->
             <button class="calc-button" onclick="window.location.href='counting.html'">Counting</button>
-            <button class="calc-button" onclick="window.location.href='Calculator/AceofBases/index.html'">Ace of Base</button>
-            <button class="calc-button" onclick="window.location.href='Calculator/presentation.html'">IMERS 2025</button>
+            <button class="calc-button" onclick="window.location.href='AceofBases/index.html'">Ace of Base</button>
+
             <!-- Placeholder for empty grid slots if needed, or add more buttons -->
-            
+            <button class="calc-button" onclick="window.location.href='presentation.html'">IMERS 2025 Presentation</button>
              <button class="calc-button" disabled style="background-color: #b0b0b0; cursor: default; box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);"></button>
 
+            
 
+             
         </div>
 
         <button id="pdf-button" onclick="openPdfDocumentation()">More Complex Representations (PDF)</button>
@@ -162,10 +164,8 @@
 
     <script>
         function openPdfDocumentation() {
-            // *** IMPORTANT: Replace 'path/to/your/documentation.pdf' with the actual path to your PDF file ***
-            // Example: If it's in the same folder, just use 'documentation.pdf'
-            // Example: If it's in a subfolder called 'docs', use 'docs/documentation.pdf'
-            window.open('https://tiosavich.github.io/UMEDCTA/Calculator/Combined_Strategies_and_Automata.pdf', '_blank'); // Opens in a new tab
+            // Updated to point to combined_strategies_and_automata.pdf in the same folder
+            window.open('Combined_Strategies_and_Automata.pdf', '_blank'); // Opens in a new tab
         }
     </script>
 
