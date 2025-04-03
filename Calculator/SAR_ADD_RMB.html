@@ -34,9 +34,7 @@
     <h2>Diagram:</h2>
     <svg id="diagramRMBSVG" width="600" height="700"></svg> <!-- Increased height -->
 
-    <!-- New button for viewing PDF documentation -->
-    <button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
-
+   
     <script>
 document.addEventListener('DOMContentLoaded', function() {
     const rmbOutputElement = document.getElementById('rmbOutput');
@@ -411,14 +409,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // New function for opening PDF documentation
+   
+});
+    </script>
+
+<!-- New button for viewing PDF documentation -->
+<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+
+<script>
     function openPdfViewer() {
         // Opens the PDF documentation for the strategy.
         window.open('https://tiosavich.github.io/UMEDCTA/Calculator/SAR_ADD_RMB.pdf', '_blank');
     }
-
-});
-    </script>
-
+</script>
 </body>
 </html>
