@@ -330,8 +330,9 @@
 
     <main>
 
-        <section id="intro">
-            <h2>What is a "Hermeneutic" Calculator?</h2>
+        <details open>
+            <summary><h2>What is a "Hermeneutic" Calculator?</h2></summary>
+            <section id="intro">
             <p>In education, we often see a gap between the formal, structured world of mathematics and the dynamic, sometimes messy ways students actually <span class="highlight">invent strategies</span> and make sense of numbers.</p>
             
             <p><span class="highlight">"Hermeneutic"</span> means "meaningful" or "interpretive." The term comes from the practice of interpreting texts, where understanding operates in a circle: the parts of a text make sense only in relation to the whole, and the whole can only be understood through its parts. Binary terms like "conceptual/procedural" or "inside/outside" are hard to define without contradiction &mdash; their meanings depend on each other in ways that are often paradoxical.</p>
@@ -368,9 +369,11 @@
                 <p>By formalizing these strategies using automata theory, we create precise descriptions of how students think about numbers, which helps us better understand student cognition and design more effective instructional approaches.</p>
             </details>
         </section>
+        </details>
 
-        <section id="sneetches">
-            <h2>Understanding Transcendence: A Foundational Star</h2>
+        <details open>
+            <summary><h2>Understanding Transcendence: A Foundational Star</h2></summary>
+            <section id="sneetches">
             
             <div class="key-concept">
                 <h3>Dr. Seuss's Sneetches: A Metaphor for Development and Diagonalization</h3>
@@ -488,9 +491,11 @@
                 <p>By attempting to "escape" these supposedly complete categories, you'll experience firsthand how mathematical thinking transcends boundaries. This example demonstrates Cantor's insight that no matter how comprehensive our list of patterns seems, there's always a way to construct something new that doesn't fit.</p>
             </div>
         </section>
+        </details>
 
-        <section id="pattern">
-            <h2>Diagonalization: Mathematics That Transcends Itself</h2>
+        <details open>
+            <summary><h2>Diagonalization: Mathematics That Transcends Itself</h2></summary>
+            <section id="pattern">
             <p>When we formalize arithmetic strategies and examine foundational mathematical proofs, a recurring pattern emerges: <span class="highlight">"A Foundational Star."</span></p>
             
             <h3>From Sneetches to Mathematics: The Same Pattern</h3>
@@ -532,9 +537,11 @@
                 Both sublation and diagonalization demonstrate how systems <b>grow and transcend limitations from within</b> - just like the Sneetches had to move beyond their star-based identity.
             </div>
         </section>
+        </details>
 
-        <section id="student-thinking">
-            <h2>The Hermeneutic Calculator in Action: Rearranging to Make Bases</h2>
+        <details open>
+            <summary><h2>The Hermeneutic Calculator in Action: Rearranging to Make Bases</h2></summary>
+            <section id="student-thinking">
             <p>Students often develop intuitive strategies to simplify addition by rearranging numbers to form complete base units.</p>
             
             <div>
@@ -592,204 +599,11 @@
             
             <a href="https://tiosavich.github.io/UMEDCTA/Calculator/index.html" target="_blank" class="resource-link">Explore the Calculator Interface</a>
           </section>
+        </details>
           
-<!-- 
-        <section id="student-thinking">
-            <h2>Student Strategies and Their Formalization</h2>
-            <p>Children don't just follow prescribed algorithms—they invent rich, meaningful strategies:</p>
-            
-            
-                <div>
-                    <h3>Student Strategies</h3>
-                    <ul>
-                        <li><b>Adding 46 + 37:</b> Counting on by tens (46 → 56 → 66 → 76), then adding ones (76 → 83) - (<span class="concept">COBO</span>)</li>
-                        <li><b>Subtracting 84 - 29:</b> Rounding 29 to 30, calculating 84 - 30 = 54, then adding 1 back = 55 (<span class="concept">Rounding & Adjusting</span>)</li>
-                        <li><b>Multiplying five 7s:</b> Thinking $5 \times 7 = 5\times (5+2) = 5 \times 5 + 5 \times 2 = 25 + 10 = 35$ (<span class="concept">Distributive Reasoning</span>)</li>
-                    </ul>
-                    <p>These are <span class="highlight">meaningful mathematical actions</span>.</p>
-                </div>
-
-                <div class="content-block">
-                    <img src="./images/Easy_Pictures/SAR_ADD_COBO/2x/Asset 1@2x.png" alt="Counting On By Ones visualization" style="max-width: 70%; margin: 0 auto; display: block;">
-                    <p style="text-align: center;"><small>Counting On By Ones (COBO) strategy visualization</small></p>
-                </div>
-
-                <div>
-                    <h3>Formal Representation</h3>
-                    <p>Using automata theory, we can model these strategies precisely:</p>
-                    <ul>
-                        <li>Each strategy becomes a formal <b>state machine</b> with defined transitions</li>
-                        <li>The <b>states</b> represent stages in student thinking</li>
-                        <li>The <b>transitions</b> capture how students move between stages</li>
-                        <li>This formalization reveals the <b>logic</b> within seemingly intuitive approaches</li>
-                    </ul>
-                    <p>This modeling allows us to compare strategies and identify patterns across different operations.</p>
-                </div>
-            
-            
-            
-            
-            <details>
-                <summary><strong>Example: Formal Automaton for Addition Chunking</strong> (click to expand)</summary>
-                <div class="content-block">
-                    <p>For those interested in the formal representation, here's how the Addition Chunking strategy can be described as an automaton:</p>
-                    <p><b>A = (Q, Σ, δ, q₀, F)</b> where:</p>
-                    <ul>
-                        <li><b>Q</b> = {start, processing_tens, processing_ones, make_ten, done} is the set of states</li>
-                        <li><b>Σ</b> = {digits, operations, number decomposition} is the input alphabet</li>
-                        <li><b>δ</b> = Q × Σ → Q is the transition function</li>
-                        <li><b>q₀</b> = start is the initial state</li>
-                        <li><b>F</b> = {done} is the set of accepting states</li>
-                    </ul>
-                    
-                    <p><strong>State Transition Table:</strong></p>
-                    <table class="state-table">
-                        <tr>
-                            <th>Current State</th>
-                            <th>Input</th>
-                            <th>Next State</th>
-                            <th>Action</th>
-                        </tr>
-                        <tr>
-                            <td>start</td>
-                            <td>first_addend</td>
-                            <td>processing_tens</td>
-                            <td>set_current_value(first_addend)</td>
-                        </tr>
-                        <tr>
-                            <td>processing_tens</td>
-                            <td>second_addend</td>
-                            <td>processing_tens</td>
-                            <td>decompose(second_addend); add_tens()</td>
-                        </tr>
-                        <tr>
-                            <td>processing_tens</td>
-                            <td>tens_added</td>
-                            <td>make_ten</td>
-                            <td>identify_distance_to_next_ten()</td>
-                        </tr>
-                        <tr>
-                            <td>make_ten</td>
-                            <td>distance_to_ten</td>
-                            <td>processing_ones</td>
-                            <td>add_to_next_ten(); calculate_remaining_ones()</td>
-                        </tr>
-                        <tr>
-                            <td>processing_ones</td>
-                            <td>remaining_ones</td>
-                            <td>done</td>
-                            <td>add_remaining_ones(); return_result()</td>
-                        </tr>
-                    </table>
-                    
-                </div>
-            </details>
-            
-            <h3>Why Formalize Student Thinking?</h3>
-            <div class="content-block">
-                <p><strong>The ethical motivation:</strong> Some educational approaches treat teachers and learners as finite 'things' with fixed capacities. Such approaches are not just pedagogically limited but <span class="highlight">mathematically incoherent</span>. I got irritated by some of those approaches and wanted to 'prove' they were incoherent.</p>
-                
-                <p><strong>The mathematical insight:</strong> Techniques like <span class="highlight">diagonalization</span> demonstrate how systems transcend their own limits. The Hermeneutic Calculator uses these same techniques to demonstrate emergent behaviors in arithmetic.</p>
-                
-                <p><strong>What formalizing does NOT do:</strong> In formalizing student thinking I am not suggesting that human learners develop through formal diagonalization. However, opaque notions like 'reflection' can be partially understood through such procedures. A very serious worry of mine is that the symbolic approach might further colonize the space of human interaction. That would be unfortunate. Diagonalization is merely a deep, complicated, and mildly infuriating metaphor for freedom - not a path to deeper forms of emancipation through reciprocal intersubjective recognition.</p>
-                
-            </div>
-            
-            <a href="https://tiosavich.github.io/UMEDCTA/Calculator/index.html" target="_blank" class="resource-link">Explore the Calculator Interface</a>
-        </section>
-
-        
-
-        <section id="calculator">
-            <h2>The Hermeneutic Calculator in Action</h2>
-            <p>
-                The online calculator interface demonstrates how these strategies (modeled as automata) work step-by-step.
-            </p>
-            <div class="content-block">
-                <img src="./images/Easy_Pictures/SMR_CBO/2x/Asset 1@2x.png" alt="Multiplication counting by ones strategy" style="max-width: 80%; margin: 0 auto; display: block;">
-                <p style="text-align: center;"><small>Multiplication: Counting by ones visualization</small></p>
-            </div>
-            <p>
-                Let's look briefly at <span class="highlight">Addition: Chunking (Flexible)</span> for 46 + 37:
-            </p>
-            <ol>
-                <li>Start at 46.</li>
-                <li>Split 37 into 30 (tens) + 7 (ones).</li>
-                <li>Add the tens chunk: 46 + 30 = 76.</li>
-                <li>Strategically add ones: Add 4 to make the next ten: 76 + 4 = 80.</li>
-                <li>Add remaining ones: 3 left (7 - 4 = 3). 80 + 3 = 83.</li>
-            </ol>
-            
-            <details>
-                <summary><strong>Formal Automaton Representation</strong> (click to expand)</summary>
-                <div class="content-block">
-                    <p>
-                        For those interested in the formal representation, here's how the Addition Chunking strategy can be described as an automaton:
-                    </p>
-                    <p>
-                        <b>A = (Q, Σ, δ, q₀, F)</b> where:
-                    </p>
-                    <ul>
-                        <li><b>Q</b> = {start, processing_tens, processing_ones, make_ten, done} is the set of states</li>
-                        <li><b>Σ</b> = {digits, operations, number decomposition} is the input alphabet</li>
-                        <li><b>δ</b> = Q × Σ → Q is the transition function (shown in table below)</li>
-                        <li><b>q₀</b> = start is the initial state</li>
-                        <li><b>F</b> = {done} is the set of accepting states</li>
-                    </ul>
-                    
-                    <p><strong>State Transition Table:</strong></p>
-                    <table class="state-table">
-                        <tr>
-                            <th>Current State</th>
-                            <th>Input</th>
-                            <th>Next State</th>
-                            <th>Action</th>
-                        </tr>
-                        <tr>
-                            <td>start</td>
-                            <td>first_addend</td>
-                            <td>processing_tens</td>
-                            <td>set_current_value(first_addend)</td>
-                        </tr>
-                        <tr>
-                            <td>processing_tens</td>
-                            <td>second_addend</td>
-                            <td>processing_tens</td>
-                            <td>decompose(second_addend); add_tens()</td>
-                        </tr>
-                        <tr>
-                            <td>processing_tens</td>
-                            <td>tens_added</td>
-                            <td>make_ten</td>
-                            <td>identify_distance_to_next_ten()</td>
-                        </tr>
-                        <tr>
-                            <td>make_ten</td>
-                            <td>distance_to_ten</td>
-                            <td>processing_ones</td>
-                            <td>add_to_next_ten(); calculate_remaining_ones()</td>
-                        </tr>
-                        <tr>
-                            <td>processing_ones</td>
-                            <td>remaining_ones</td>
-                            <td>done</td>
-                            <td>add_remaining_ones(); return_result()</td>
-                        </tr>
-                    </table>
-                    </div>
-            </details>
-            
-            <p>
-                The visualizations (number lines, block diagrams) generated by the calculator aim to make the <span class="highlight">structure and movement</span> of the strategy explicit. You can try different strategies and numbers:
-            </p>
-             <a href="https://tiosavich.github.io/UMEDCTA/Calculator/index.html" target="_blank" class="resource-link">Try the Strategies</a>
-             <p>
-                Notice how different strategies navigate the number space differently, but all rely on decomposing, recomposing, and relating numbers based on the base system – instances of <span class="concept">sublation</span> in action. The ability to *choose* a strategy reflects a freedom beyond a single algorithm.
-             </p>
-        </section>
- -->
-        <section id="implications">
-            <h2>Implications: Freedom, Recognition, and Math Ed</h2>
+        <details open>
+            <summary><h2>Implications: Freedom, Recognition, and Math Ed</h2></summary>
+            <section id="implications">
             <p>What does connecting student strategies, automata, and diagonalization offer math educators?</p>
             <div class="content-block">
                 <p><b>A Richer View of Student Thinking:</b> Instead of just "right" or "wrong," we see student strategies as steps in a developmental process, reflecting their current understanding of number structure (<span class="concept">structuration</span>).</p>
@@ -817,9 +631,11 @@
                 </p>
                 </details>
         </section>
+        </details>
 
-        <section id="resources">
-            <h2>Conclusion & Resources</h2>
+        <details open>
+            <summary><h2>Conclusion & Resources</h2></summary>
+            <section id="resources">
             <p>
                 The Hermeneutic Calculator project argues that by formally modeling student thinking, we uncover deep connections between math education, formal mathematics, and philosophical ideas about growth and transcendence.
             </p>
@@ -836,8 +652,8 @@
                 </ol>
             </div>
             
-            <section id="next-steps">
-                <h2>Next Steps: Extending the Hermeneutic Calculator</h2>
+            <details>
+                <summary><h3>Next Steps: Extending the Hermeneutic Calculator</h3></summary>
                 <p>Where does this research go from here? Two promising directions:</p>
                 
                 <div class="content-block">
@@ -869,7 +685,7 @@
                 </p>
                 
                 <p>These extensions further reinforce our core argument: the mathematical mind is fundamentally <span class="highlight">creative and transcendent</span>, not merely computational.</p>
-            </section>
+            </details>
             
             <h3>Explore Further:</h3>
              <a href="https://tiosavich.github.io/UMEDCTA/Calculator/index.html" target="_blank" class="resource-link">Hermeneutic Calculator</a>
@@ -880,7 +696,10 @@
              <p>Thank you for your attention. Questions?</p>
              <p>Contact: <span class="contact-info">tmsavich AT iu DOT edu</span></p>
         </section>
-<h2>References</h2>
+        </details>
+
+        <details open>
+            <summary><h2>References</h2></summary>
 
 <p>Brandom, R. B. (1994). <i>Making it explicit: Reasoning, representing, and discursive commitment</i>. Harvard University Press.</p>
 
@@ -929,6 +748,7 @@
 <p>Taylor, C. (2021). The politics of recognition. In <i>Campus wars</i> (pp. 249–263). Routledge.</p>
 
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://tiosavich.github.io/UMEDCTA/Calculator/index.html">The Hermeneutic Calculator</a> by <span property="cc:attributionName">Theodore M. Savich</span> is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">Creative Commons Attribution-ShareAlike 4.0 International<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt=""></a></p>
+        </details>
     </main>
 
     <footer>
