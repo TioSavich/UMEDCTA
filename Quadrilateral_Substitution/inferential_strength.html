@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Brandom Ch 4: Why Singular Terms?</title>
+    <!-- Link rel="stylesheet" href="brandom_styles.css" --> <!-- Link to your CSS file -->
+    <style>
+        /* Basic Styles */
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f8f9fa; color: #212529; }
+        header { background-color: #343a40; color: #fff; padding: 1.2em 0; text-align: center; margin-bottom: 2em; }
+        main { max-width: 950px; margin: 2em auto; padding: 2em; background-color: #fff; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); border-radius: 8px; }
+        .module { border: 1px solid #dee2e6; padding: 1.5em 2em; margin-bottom: 2.5em; background-color: #fff; transition: opacity 0.4s ease-in-out; border-radius: 5px;}
+        .current-module { display: block; opacity: 1; }
+        .hidden-module { display: none; opacity: 0; }
+
+        /* Typography and Structure */
+        h1, h2, h3, h4 { color: #343a40; }
+        h2 { border-bottom: 2px solid #ced4da; padding-bottom: 0.4em; margin-top: 0; margin-bottom: 1em;}
+        h3 { border-bottom: 1px solid #e9ecef; padding-bottom: 0.3em; margin-top: 1.5em;}
+        h4 { margin-top: 1.2em; color: #495057; }
+        p { margin-bottom: 1em; }
+        ul, ol { margin-bottom: 1em; padding-left: 1.5em; }
+        li { margin-bottom: 0.5em; }
+        code, .term { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; background-color: #e9ecef; padding: 0.2em 0.4em; border-radius: 3px; font-size: 0.9em; }
+        .concept { font-weight: bold; color: #0056b3; }
+
+        /* Explanations and Examples */
+        .explanation { background: #f1f3f5; padding: 1em; border: 1px solid #dee2e6; border-left: 5px solid #6c757d; margin-top: 1.2em; font-size: 0.95em; border-radius: 0 4px 4px 0; }
+        .example { border-left: 4px solid #17a2b8; padding-left: 1em; margin: 1.2em 0; font-style: italic; background-color: #f8f9fa; padding: 0.8em; border-radius: 4px;}
+
+        /* Interactive Elements */
+        .interactive-area { margin: 1.5em 0; padding: 1.5em; border: 1px dashed #adb5bd; background-color: #fdfdfe; border-radius: 5px;}
+        label { margin-right: 0.5em; display: inline-block; min-width: 150px; font-weight: 500; }
+        select, input[type=range], button { font-size: 1em; padding: 0.4em; margin: 0.5em 0; vertical-align: middle; border-radius: 4px; border: 1px solid #ced4da; }
+        input[type=range] { width: 50%; margin: 0 0.5em;}
+        button { cursor: pointer; background-color: #6c757d; color: white; border: none; padding: 0.5em 1em; transition: background-color 0.2s; }
+        button:hover:not(:disabled) { background-color: #5a687d; }
+        button:disabled { cursor: not-allowed; opacity: 0.6; }
+
+        /* Navigation */
+        #navigation { text-align: center; margin-top: 2.5em; padding-bottom: 2em; }
+        #navigation button { padding: 0.7em 1.5em; margin: 0 1em; background-color: #007bff; font-size: 1em; }
+        #navigation button:hover:not(:disabled) { background-color: #0056b3; }
+        #navigation button:disabled { background-color: #6c757d; }
+        #moduleIndicator { font-weight: bold; color: #555; margin: 0 1em; }
+
+        /* Visualization */
+        .viz-container { display: flex; align-items: center; justify-content: center; gap: 1em; margin: 1.5em 0; flex-wrap: wrap; padding: 15px; background-color: #e9ecef; border-radius: 5px;}
+        .shape-viz svg { border: 1px solid #ced4da; background-color: white; border-radius: 3px;}
+        .arrow { font-size: 1.8em; margin: 0 0.8em; color: #495057; }
+
+        /* Status Indicators */
+        .status-indicator { font-weight: bold; padding: 0.3em 0.6em; border-radius: 4px; display: inline-block; margin-left: 0.5em; font-size: 0.9em; }
+        .valid { color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; }
+        .invalid { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; }
+
+        /* Substitution Styles */
+        .frame-style { color: #495057; background-color: #e9ecef; padding: 0.2em 0.4em; border: 1px solid #ced4da; border-radius: 3px; font-family: monospace; }
+        .substituted-for-style { color: #0056b3; font-weight: bold; border-bottom: 2px solid #0056b3; }
+        .substituting-style { color: #28a745; font-weight: bold; border-bottom: 2px solid #28a745; }
+        .expression-box { display: inline-block; padding: 0.3em 0.6em; border: 1px solid #dee2e6; background-color: #fff; border-radius: 4px; margin: 0 0.5em; min-width: 80px; text-align: center; transition: transform 0.3s ease-out, opacity 0.3s ease-out; }
+        .sentence-display .substituted-part { display: inline-block; background-color: #e7f5ff; padding: 0 3px; border-radius: 2px; border: 1px dashed #99cfff; }
+        .sentence-display .substituting-part { display: inline-block; background-color: #e6ffe6; padding: 0 3px; border-radius: 2px; border: 1px dashed #a3e9a4; opacity: 0; }
+
+        /* Animation Classes */
+        .highlight-replace { box-shadow: 0 0 8px 2px rgba(0, 86, 179, 0.6); }
+        .lift-out { transform: translateY(-8px) scale(1.03); opacity: 0.7; }
+        .fade-out { opacity: 0 !important; transform: translateY(-15px) scale(0.9); }
+        .move-in { opacity: 1 !important; transform: translateY(0) scale(1); }
+
+        /* Matrix Table */
+        .matrix-table { border-collapse: collapse; width: 100%; margin: 1.5em 0; font-size: 0.9em; }
+        .matrix-table th, .matrix-table td { border: 1px solid #dee2e6; padding: 10px; text-align: left; vertical-align: top;}
+        .matrix-table th { background-color: #e9ecef; color: #495057; }
+        .matrix-table td ul { padding-left: 1.2em; margin-top: 0.5em;}
+
+        /* Info Icons & Tooltips (Basic) */
+        .info-icon { display: inline-block; width: 18px; height: 18px; background-color: #0d6efd; color: white; border-radius: 50%; text-align: center; font-size: 12px; line-height: 18px; cursor: help; margin-left: 5px; font-weight: bold; vertical-align: middle; position: relative; }
+        .tooltip-text { visibility: hidden; width: 220px; background-color: #343a40; color: #fff; text-align: left; border-radius: 6px; padding: 8px; position: absolute; z-index: 1; bottom: 130%; /* Position above the icon */ left: 50%; margin-left: -110px; /* Center the tooltip */ opacity: 0; transition: opacity 0.3s; font-size: 0.9em; font-weight: normal; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        .info-icon:hover .tooltip-text { visibility: visible; opacity: 1; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Why Singular Terms? An Interactive Guide to Brandom (AR Ch 4)</h1>
+        <p style="font-size: 0.9em; color: #ccc;">Exploring Substitution, Polarity, and the Structure of Concepts</p>
+    </header>
+
+    <main id="lessonContainer">
+
+        <!-- MODULE 1: Intro to Inferential Roles -->
+        <section id="module1" class="module current-module">
+            <h2>Module 1: Meaning as Inferential Role</h2>
+            <p>Welcome! This guide explores Robert Brandom's idea that the meaning of concepts lies in how they are used in reasoning (<span class="concept">inference</span>), rather than just what they point to (<span class="concept">reference</span>).</p>
+            <p>We'll use geometric shapes like squares and rectangles. Their relationships provide clear examples of <span class="concept">material inferences</span> – inferences valid because of the *content* of the concepts, not just their logical form.</p>
+            <div class="example">
+                Consider the inference: "If X is a <span class="term">Square</span>, then X is a <span class="term">Rectangle</span>."
+                This is a good inference because the concept 'Square' includes all the properties of 'Rectangle' (and more). Understanding 'Square' involves knowing this connection.
+            </div>
+            <div class="viz-container">
+                <div class="shape-viz" id="viz-square-m1"></div>
+                <div class="arrow">⇒</div>
+                <div class="shape-viz" id="viz-rectangle-m1"></div>
+            </div>
+            <div class="explanation">
+                Brandom calls 'Square' <span class="concept">inferentially stronger</span> than 'Rectangle'. The stronger concept entails the weaker one. In the next modules, we'll see how this simple idea, combined with substitution, helps explain the structure of language.
+            </div>
+        </section>
+
+        
+        
+<!-- MODULE 2: Quadrilateral Checklist & Strength -->
+<section id="module2" class="module hidden-module">
+    <h2>Module 2: Content Example - Incompatibility & Strength</h2>
+    <p>In Module 1, we saw that meaning involves inferential connections (like "Square ⇒ Rectangle"). Brandom suggests another way to grasp content is through <span class="concept">incompatibility</span> – what a concept *rules out*. A more specific concept rules out more, making it <span class="concept">inferentially stronger</span>.</p>
+    <p>Let's quantify this strength using quadrilaterals. We'll define strength as the <span class="concept">number of incompatibility restrictions</span> a shape rejects (its "hard no's").</p>
+    <p>Use the checkboxes below. Each checked box enforces a "hard no". See which shapes remain possible and note their calculated strength.</p>
+
+    <div class="interactive-area">
+        <h3>Quadrilateral Incompatibility Restrictions</h3>
+        <div class="checkbox-group" id="restrictionCheckboxesM2"> <!-- Added ID for easier JS targeting -->
+             <label title="Shape cannot have all sides of different lengths.">
+                 <input type="checkbox" id="r1" data-property-key="r1" checked> Reject: "No sides are equal"
+             </label>
+             <label title="Shape cannot have every pair of adjacent sides be of different lengths.">
+                 <input type="checkbox" id="r2" data-property-key="r2" checked> Reject: "No pair of adjacent sides are equal"
+             </label>
+             <label title="Shape cannot have every pair of opposite sides be of different lengths.">
+                 <input type="checkbox" id="r3" data-property-key="r3" checked> Reject: "No pair of opposite sides are equal"
+             </label>
+             <label title="Shape cannot have unequal non-parallel sides (if applicable).">
+                 <input type="checkbox" id="r4" data-property-key="r4" checked> Reject: "Non-parallel sides are not congruent"
+             </label>
+             <label title="Shape cannot have zero pairs of parallel sides.">
+                 <input type="checkbox" id="r5" data-property-key="r5" checked> Reject: "No pair of opposite sides are parallel"
+             </label>
+             <label title="Shape cannot lack right angles.">
+                 <input type="checkbox" id="r6" data-property-key="r6" checked> Reject: "No angles are right angles"
+             </label>
+        </div>
+
+        <div class="explanation">
+            <p><strong>How It Works:</strong> Checking a box means the shape *must be incompatible* with that property (it must have a 'No' for it in Table 1, represented as `false` in the data). Unchecking a box *eases* that restriction.</p>
+            <p>A shape's <span class="concept">Strength</span> is the count of checked restrictions it satisfies (i.e., the number of properties it rejects).</p>
+        </div>
+
+        <h4>Possible Quadrilaterals (and their Strength):</h4>
+        <div id="shapesContainerM2" class="viz-container" style="min-height: 100px; justify-content: flex-start;"> <!-- Added ID, changed display slightly -->
+            <!-- The list of matching shapes with SVG graphics and strength will appear here -->
+            <p>Initializing...</p>
+        </div>
+    </div>
+
+    <div class="explanation" style="margin-top: 2em;">
+        <h4>Connecting to Inferential Roles</h4>
+        <p>This demonstrates how the specific incompatibilities defining a concept determine its <span class="concept">inferential strength</span>. A Square (Strength 6) rejects all restrictions, while a general Quadrilateral (Strength 0) rejects none. Crucially, a Square rejects *all* the restrictions a Rectangle rejects, which reflects the inferential entailment: <span class="term">Square ⇒ Rectangle</span>. This strength metric will help us understand polarity inversion in Module 4.</p>
+    </div>
+</section>
+        
+        <!-- MODULE 3: Substitution Roles & Significance -->
+        
+
+
+
+
+        <section id="module3" class="module hidden-module">
+            <h2>Module 3: Substitution Roles & Significance</h2>
+            <p>To understand Brandom's argument, we first need to grasp how he analyzes sentences using <span class="concept">substitution</span>. This involves seeing sentences as built from parts that can be swapped out.</p>
+
+            <h3>Substitution Roles (Syntax)</h3>
+            <p>When we substitute one expression for another within a sentence, we can distinguish two main roles:</p>
+            <ul>
+                <li><span class="concept substituted-for-style">Substituted-For:</span> The expression being replaced (e.g., '<span class="term">Mark Twain</span>' in "Mark Twain wrote HF"). These are typically the basic building blocks.</li>
+                <li><span class="concept frame-style">Substitutional Frame:</span> The part of the sentence that remains constant when substitution occurs (e.g., '<span class="term">... wrote Huckleberry Finn</span>'). These frames are derived from sentences by seeing them as patterns.</li>
+            </ul>
+            <div class="example">
+                Sentence: "<span class="term">Fido is a dog</span>"<br>
+                If we substitute '<span class="term">Fido</span>' with '<span class="term">Rex</span>', the frame is "<span class="term">... is a dog</span>". '<span class="term">Fido</span>' is <span class="substituted-for-style">substituted-for</span>.<br>
+                If we replace '<span class="term">... is a dog</span>' with '<span class="term">... is a mammal</span>', the frame itself is replaced. '<span class="term">... is a dog</span>' acts as the <span class="frame-style">frame</span>.
+            </div>
+
+            <h3>Substitution Significance (Semantics)</h3>
+            <p>The *meaning* or content contributed by an expression is revealed by how substitution affects inferences:</p>
+            <ul>
+                <li><span class="concept">Symmetric Significance:</span> Substituting A for B (or B for A) always preserves the correctness of inferences the sentence is involved in. Typical of <span class="concept">singular terms</span> that co-refer. The inference is reversible (A ⇔ B).</li>
+                <li><span class="concept">Asymmetric Significance:</span> Substituting A for B preserves correctness only one way. Typical of <span class="concept">predicates</span> related by strength (e.g., 'Square' ⇒ 'Rectangle', but not vice-versa). The inference is one-way (A ⇒ B).</li>
+            </ul>
+             <div class="example">
+                Symmetric: "Mark Twain wrote HF" ⇔ "Samuel Clemens wrote HF".<br>
+                Asymmetric: "Shape S is a Square" ⇒ "Shape S is a Rectangle", but "Shape S is a Rectangle" <span style="text-decoration: line-through;">⇒</span> "Shape S is a Square".
+             </div>
+            <div class="explanation">
+                Brandom argues that expressions playing the <span class="substituted-for-style">substituted-for</span> syntactic role (like terms) have <span class="concept">symmetric</span> semantic significance, while expressions playing the <span class="frame-style">frame</span> role (like predicates) typically have <span class="concept">asymmetric</span> significance. Module 4 explores *why* this specific combination is necessary in a logically expressive language.
+            </div>
+        </section>
+
+        <!-- MODULE 4: Polarity & Logical Operators -->
+<section id="module4" class="module hidden-module">
+    <h2>Module 4: Inferential Polarity - Strength & Logic</h2> <!-- Updated Title -->
+    <p>Logical operators like <span class="term">if...then...</span> and <span class="term">not</span> interact with the <span class="concept">inferential strength</span> of concepts (measured by rejected restrictions from Module 2). Some logical contexts <span class="concept">invert</span> the relationship between concept strength and the strength/validity of the overall claim.</p>
+
+    <div class="interactive-area">
+        <h3>Polarity Demonstration</h3>
+
+        <div style="margin-bottom: 1em;">
+           <label for="fixedConceptSelectM4">Fixed Concept (Q):</label> <!-- Added M4 to ID -->
+           <select id="fixedConceptSelectM4"></select>
+           <strong style="margin-left:10px;">Strength: <span id="strengthQM4">-</span></strong> <!-- Display Q Strength -->
+           <span class="info-icon" title="This concept remains constant in the Base/Converse/Contrapositive/Inverse inferences.">?</span>
+        </div>
+
+        <div style="margin-bottom: 1em;">
+            <label for="strengthSliderM4">Variable Concept (P):</label> <!-- Added M4 to ID -->
+            <span id="sliderMinLabelM4" style="font-size: 0.8em;">Weaker</span>
+            <input type="range" id="strengthSliderM4" min="0" max="4" value="4" step="1"> <!-- Adjusted max based on sliderChain -->
+            <span id="sliderMaxLabelM4" style="font-size: 0.8em;">Stronger</span>
+            <br>
+            <span style="margin-left: 155px; font-weight: bold;" id="variableConceptLabelM4">Square</span> <!-- Updated Default -->
+            <strong style="margin-left:10px;">Strength: <span id="strengthPM4">-</span></strong> <!-- Display P Strength -->
+             <span class="info-icon" title="Slide to change Concept P along the hierarchy: Quadrilateral ↔ Trapezoid ↔ Parallelogram ↔ Rectangle ↔ Square. Note its strength changes.">?</span>
+        </div>
+
+        <div class="viz-container">
+            <div class="shape-viz" id="vizPM4"></div> <!-- Added M4 -->
+            <div class="arrow" id="relationArrowM4">?</div> <!-- Added M4 -->
+            <div class="shape-viz" id="vizQM4"></div> <!-- Added M4 -->
+        </div>
+        <hr>
+
+        <h4>1. Base Material Inference (P vs Q)</h4>
+        <div id="baseInferM4" class="example">P ⇒ Q: ...</div> <!-- Added M4 -->
+        <div id="converseInferM4" class="example">Q ⇒ P: ...</div> <!-- Added M4 -->
+        <div class="explanation">Observe how validity changes as you alter P's strength relative to Q's strength. <span class="concept">P ⇒ Q is valid if P is stronger than or equivalent to Q</span> (meaning P rejects at least all the properties Q rejects, i.e., `isSubclass(P, Q)`).</div>
+
+        <h4>2. Negation & Polarity (Contrapositive & Inverse)</h4>
+        <div id="contraInferM4" class="example">¬Q ⇒ ¬P: ...</div> <!-- Added M4 -->
+        <div id="inverseInferM4" class="example">¬P ⇒ ¬Q: ...</div> <!-- Added M4 -->
+         <div class="explanation">
+             The <span class="concept">Contrapositive</span> (¬Q ⇒ ¬P) validity matches the Base Inference (P ⇒ Q). Why? Negation reverses the direction of inference: If having P's properties *forces* having Q's properties (P ⇒ Q), then *lacking* Q's properties must *force* lacking P's properties (¬Q ⇒ ¬P). The <span class="concept">Inverse</span> (¬P ⇒ ¬Q) validity matches the Converse (Q ⇒ P) for the same reason.
+         </div>
+
+        <h4>3. Conditional Embedding Polarity</h4>
+         <div style="margin-bottom: 1em;">
+             <label for="propertyRSelectM4">Fixed Property (R):</label> <!-- Added M4 -->
+             <select id="propertyRSelectM4"></select>
+             <span class="info-icon" title="Select the property used in the 'if' or 'then' clause of the conditionals below.">?</span>
+         </div>
+         <p style="font-size: 0.9em;">Comparing conditionals using the variable concept P (<span style="font-weight:bold;" id="variableConceptLabelCondM4">...</span>) and the fixed property R (<span style="font-weight:bold;" id="propertyRLabelM4">...</span>):</p>
+
+         <div id="condAntecedentM4" class="example"> <!-- Added M4 -->
+              Antecedent Position: "If X is <span class="term">[P]</span>, then X <span class="term">[R]</span>"
+              <span id="condAntecedentStatusM4" class="status-indicator"></span>
+         </div>
+         <div id="condConsequentM4" class="example"> <!-- Added M4 -->
+              Consequent Position: "If X <span class="term">[R]</span>, then X is <span class="term">[P]</span>"
+              <span id="condConsequentStatusM4" class="status-indicator"></span>
+         </div>
+         <div class="explanation">
+             The antecedent ('if...') position <span class="concept">inverts polarity</span>. Making P <span style="color:red;">weaker</span> (sliding left, <span style="color:red;">decreasing Strength P</span>) makes the conditional statement 'If P then R' <span style="color:green;">stronger overall</span> as a claim. It demands R hold true under *more* conditions (e.g., for all Rectangles, not just Squares). Stronger claims are *less* likely to be valid. Conversely, making P <span style="color:green;">stronger</span> (sliding right, <span style="color:green;">increasing Strength P</span>) makes 'If P then R' <span style="color:red;">weaker overall</span> (applies to fewer cases), making it *more* likely to be valid. <br>
+             The consequent ('then...') position does <span class="concept">not invert polarity</span>. Making P <span style="color:red;">weaker</span> (<span style="color:red;">decreasing Strength P</span>) makes the conditional 'If R then P' <span style="color:red;">weaker overall</span> (easier to satisfy, *more* likely valid).
+         </div>
+    </div>
+</section>
+
+        <!-- MODULE 5: The Argument - Why Terms Must Be Symmetric -->
+<!-- MODULE 5: The Argument - Why Terms Must Be Symmetric -->
+<section id="module5" class="module hidden-module">
+    <h2>Module 5: The Argument - Why Terms Must Be Symmetric</h2>
+    <p>We've seen that expressions have <span class="concept">syntactic roles</span> (<span class="substituted-for-style">Substituted-For</span> vs. <span class="frame-style">Frame</span>) and <span class="concept">semantic significance</span> (Symmetric vs. Asymmetric inferential behavior, reflected in <span class="concept">Strength</span>). We also saw how logical contexts (<code class="term">if</code>, <code class="term">not</code>) can <span class="concept">invert polarity</span>, flipping inferential relationships (Module 4).</p>
+    <p><strong>Brandom's Core Question:</strong> Can expressions playing the <span class="substituted-for-style">Substituted-For</span> role (the role singular terms play) consistently have *Asymmetric* significance (like predicates, e.g., 'Square' ⇒ 'Rectangle') in a language that also uses logic?</p>
+    <p>Let's test this. Use the visualization with the improved "If S {expr}, then S is a Rhombus" context. Pay close attention to how the validity of the sentences and the inferences *changes*.</p>
+
+    <div class="interactive-area">
+        <h3>Substitution Visualization & Argument</h3>
+
+        <label for="substExampleSelectViz">1. Choose Substitution Type:</label>
+        <select id="substExampleSelectViz">
+             <option value="singularTerms">Symmetric: Terms ('Mark Twain' ↔ 'Samuel Clemens')</option>
+             <option value="predicatesStrongerToWeaker" selected>Asymmetric: Predicates ('Square' ⇒ 'Rectangle')</option>
+             <option value="predicatesWeakerToStronger">Asymmetric: Predicates ('Rectangle' ⇒ 'Square')</option>
+        </select>
+        <span class="info-icon">? <span class="tooltip-text">Symmetric: Inference A⇒B and B⇒A are both valid (like co-referring terms). Asymmetric: Only one direction holds (A⇒B or B⇒A, like stronger/weaker predicates).</span></span>
+        <br>
+
+        <label for="frameSelectViz">2. Choose Sentence Context (Frame):</label>
+        <select id="frameSelectViz">
+            <option value="simple_assertion">Simple: "Shape S {expr}." (Non-Inverting)</option>
+            <!-- UPDATED OPTION TEXT -->
+            <option value="conditional_antecedent">Conditional Antecedent: "If Shape S {expr}, then S is a Rhombus." (Inverting)</option>
+            <option value="negation">Negation: "It is NOT the case that Shape S {expr}." (Inverting)</option>
+        </select>
+         <span class="info-icon">? <span class="tooltip-text">The context where substitution happens. Conditional antecedents and negations are 'polarity-inverting' - they flip the strength relationship needed for validity compared to a simple assertion.</span></span>
+        <br><br>
+
+        <!-- Animation Area remains the same -->
+        <div id="substitutionAnimationArea" style="margin-top: 1.5em; text-align: center; font-size: 1.1em;">
+            <p style="margin-bottom: 0.5em;"><strong>Context/Frame:</strong> <span id="frameViz" class="frame-style">Frame Text...</span></p>
+            <div style="margin: 1em 0; display: flex; justify-content: center; align-items: center; gap: 1em; flex-wrap: wrap;">
+                 <span style="text-align: center;">Original Expression (A):<br><span id="exprA_Viz" class="expression-box substituted-for-style">Expr A</span></span>
+                 <span class="arrow" style="flex-shrink: 0;">→ Substituting with →</span>
+                 <span style="text-align: center;">New Expression (B):<br><span id="exprB_Viz" class="expression-box substituting-style">Expr B</span></span>
+            </div>
+             <button id="animateSubstButtonViz">▶️ Animate Substitution</button>
+             <button id="resetSubstButtonViz">🔄 Reset View</button>
+        </div>
+        <hr style="margin: 1.5em 0;">
+
+        <!-- Results Area remains the same structure -->
+        <div id="substitutionResultAreaViz" style="margin-top: 1em;">
+            <h4>3. Resulting Sentences & Inferences:</h4>
+             <p><strong>Base Sentence:</strong> <span id="baseSentenceViz" class="term sentence-display">Initial sentence structure.</span></p>
+             <p><strong>Result Sentence:</strong> <span id="resultSentenceViz" class="term sentence-display">Sentence after substitution.</span></p>
+
+            <div id="subInfer1Viz" class="example">
+                Inference 1: <span class="term">[Base]</span> implies <span class="term">[Result]</span>?
+                <span id="infer1StatusViz" class="status-indicator"></span>
+                 <span class="info-icon">?<span class="tooltip-text">Is inferring the Result sentence FROM the Base sentence valid? Depends on the expressions' rule (A⇒B or A⇔B) AND the context's polarity.</span></span>
+            </div>
+            <div id="subInfer2Viz" class="example">
+                Inference 2: <span class="term">[Result]</span> implies <span class="term">[Base]</span>?
+                <span id="infer2StatusViz" class="status-indicator"></span>
+                 <span class="info-icon">?<span class="tooltip-text">Is inferring the Base sentence FROM the Result sentence valid? Depends on the expressions' rule (B⇒A or A⇔B) AND the context's polarity.</span></span>
+            </div>
+        </div>
+        <hr style="margin: 1.5em 0;">
+
+        <!-- SIGNIFICANTLY UPDATED Explanation -->
+        <div id="substAnalysisViz" class="explanation" aria-live="polite">
+             <h4>4. Analysis: Why Terms MUST Be Symmetric</h4>
+             <p>Select "Asymmetric: Predicates ('Square' ⇒ 'Rectangle')" and the "Conditional Antecedent (...then S is a Rhombus)" context, then Animate.</p>
+             <ul>
+                 <li><strong>Base Sentence:</strong> "If S is <span class='term'>Square</span>, then S is a Rhombus" is <span class='valid'>Valid</span> (geometrically true).</li>
+                 <li><strong>Result Sentence:</strong> "If S is <span class='term'>Rectangle</span>, then S is a Rhombus" is <span class='invalid'>Invalid</span> (geometrically false).</li>
+                 <li><strong>Inference 1 (Base ⇒ Result):</strong> Valid Sentence ⇒ Invalid Sentence. This inference is <span class='invalid'>Invalid</span>.</li>
+                 <li><strong>Inference 2 (Result ⇒ Base):</strong> Invalid Sentence ⇒ Valid Sentence. This inference is <span class='valid'>Valid</span> (a falsehood implies anything).</li>
+                 <li style="margin-top:1em;">
+                    <strong style="color:purple;">The Flip in Action:</strong> The underlying material rule is <span class="term">Square</span> ⇒ <span class="term">Rectangle</span> (A ⇒ B).
+                    <ul>
+                        <li>In a Simple Context (Module 3), substituting A with weaker B makes the inference A⇒B <span class="valid">Valid</span>.</li>
+                        <li>But here, in the <span class="concept">Inverting Context</span> (Conditional Antecedent), the valid substitution inference was Inference 2 (Result ⇒ Base). This direction corresponds to needing the material rule B ⇒ A (<span class="term">Rectangle</span> ⇒ <span class="term">Square</span>), which is false! The direction required for a valid substitution has <span style="font-weight:bold;">flipped</span> compared to the simple context.</li>
+                    </ul>
+                 </li>
+                 <li style="margin-top:1em;">
+                    <strong style="color:red;">The Contradiction for Hypothetical "Asymmetric Terms":</strong>
+                    Imagine '<span class='substituted-for-style'>SquareTerm</span>' was a Substituted-For term with the rule "<span class='term'>SquareTerm ⇒ RectangleTerm</span>".
+                    <ul>
+                        <li>This single rule (A⇒B) would need to make the substitution <span class="term">[Base]</span>⇒<span class="term">[Result]</span> valid in simple contexts.</li>
+                        <li>But it would also need to make the substitution <span class="term">[Result]</span>⇒<span class="term">[Base]</span> valid in inverting contexts (like the one above).</li>
+                        <li>One fixed asymmetric rule (A⇒B) cannot simultaneously satisfy both requirements! It leads to a contradiction depending on the logical context.</li>
+                    </ul>
+                 </li>
+                  <li style="margin-top:1em;">
+                     <strong style="color:green;">✅ Brandom's Conclusion:</strong>
+                     To allow consistent substitution across *all* logical contexts, the <span class="substituted-for-style">Substituted-For</span> role *must* have <span class="concept">Symmetric</span> significance (A ⇔ B). This is why we have singular terms that behave like 'Mark Twain' ⇔ 'Samuel Clemens', providing stable reference. The asymmetries essential to meaning (like Square ⇒ Rectangle) belong to the <span class="frame-style">Frame</span> (predicate) role, where logical operators correctly handle the necessary polarity flips.
+                  </li>
+            </ul>
+             <p><em>Try substituting Symmetric Terms ('Twain'/'Clemens') - notice both Inference 1 and 2 remain Valid in *all* contexts. Symmetry provides the required stability.</em></p>
+        </div>
+    </div>
+</section>
+
+        <!-- MODULE 6: The Matrix of Possibilities -->
+         <section id="module6" class="module hidden-module">
+             <h2>Module 6: The Matrix of Substitutional Possibilities</h2>
+             <p>Brandom considers four theoretical ways a language could structure substitutional roles based on the syntactic role (<span class="concept substituted-for-style">Substituted-For</span> vs. <span class="concept frame-style">Frame</span>) and the semantic significance (<span class="concept">Symmetric</span> vs. <span class="concept">Asymmetric</span>).</p>
+             <table class="matrix-table">
+                 <thead>
+                     <tr>
+                         <th></th>
+                         <th>Substitutional Frame has SYMMETRIC Significance</th>
+                         <th>Substitutional Frame has ASYMMETRIC Significance</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     <tr>
+                         <th>Substituted-For expression has SYMMETRIC Significance</th>
+                         <td><strong>(i) Both Symmetric</strong><br>
+                            <ul><li>*Problem:* Fails to capture asymmetric predicate inferences (e.g., genus/species). Too expressively weak.</li></ul>
+                         </td>
+                         <td><strong>(iv) Terms Symmetric, Predicates Asymmetric</strong><br>
+                            <ul><li>*Result:* This is Brandom's proposed structure, corresponding to Singular Terms (Substituted-For, Symmetric) and Predicates (Frames, Asymmetric). It allows both stable object reference and hierarchical conceptual relations, and is compatible with logic. ✅</li></ul>
+                        </td>
+                     </tr>
+                     <tr>
+                         <th>Substituted-For expression has ASYMMETRIC Significance</th>
+                         <td><strong>(ii) Terms Asymmetric, Predicates Symmetric</strong><br>
+                            <ul><li>*Problem:* Fails to capture asymmetric predicate inferences (as roles are swapped vs. (iv)). Also too weak.</li></ul>
+                         </td>
+                         <td><strong>(iii) Both Asymmetric</strong><br>
+                            <ul><li>*Problem:* Leads to incoherence when combined with logical operators (conditionals/negation) that invert polarity, as demonstrated in Module 4. Cannot consistently project inferences.</li></ul>
+                        </td>
+                     </tr>
+                 </tbody>
+             </table>
+             <div class="explanation">
+                 The argument presented in Module 4 aims to rule out options (i), (ii), and especially (iii) for any language rich enough to contain basic sentential logic. This leaves only option (iv), the familiar structure distinguishing singular terms from predicates based on their different syntactic roles and semantic (substitution-inferential) significances.
+             </div>
+         </section>
+
+        <!-- MODULE 7: Conclusion -->
+        <section id="module7" class="module hidden-module">
+            <h2>Module 7: Conclusion - The Expressive Deduction</h2>
+            <p>Brandom's argument provides an <span class="concept">expressive deduction of the necessity of singular terms and predicates</span>. It's 'expressive' because it relies on what's needed for a language to explicitly express its own inferential structure using logic. It's a 'deduction' because it argues this structure is a necessary consequence of combining basic substitution with logical operators.</p>
+            <p>The argument shows that:</p>
+            <ul>
+                <li>Languages use <span class="concept">substitution</span> to create novel sentences from existing parts (projectibility).</li>
+                <li>Understanding meaning <span class="concept">inferentially</span> involves tracking symmetric vs. asymmetric substitution patterns.</li>
+                <li><span class="concept">Logical vocabulary</span> (conditionals, negation) makes these inferential patterns explicit but also introduces <span class="concept">polarity-inverting</span> contexts.</li>
+                <li>Compatibility with these inverting contexts <span class="concept">requires</span> that the basic substituted-for expressions have <span class="concept">symmetric</span> significance (functioning as singular terms) while the substitutional frames have <span class="concept">asymmetric</span> significance (functioning as predicates).</li>
+            </ul>
+            <div class="explanation">
+                Ultimately, the reason we structure our talk around <span class="concept">objects</span> (named by singular terms) having <span class="concept">properties</span> (ascribed by predicates) is deeply connected to our capacity for logical, inferential reasoning. It's the structure demanded by a language that can not only make claims but reflect on the inferential connections between them.
+            </div>
+        </section>
+    </main>
+
+    <nav id="navigation">
+        <button id="prevButton" disabled>Previous Module</button>
+        <span id="moduleIndicator">Module 1 of 6</span>
+        <button id="nextButton">Next Module</button>
+    </nav>
+
+    <footer>
+        <p>Based on Robert Brandom's "Articulating Reasons", Chapter 4.</p>
+    </footer>
+
+    <script src="brandom_lesson.js"></script> <!-- Link to your JS file -->
+</body>
+</html>
