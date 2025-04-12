@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <title>The Sound of Time: Dialog as Catastrophe (SVG)</title>
-    <link rel="stylesheet" href="style.css" /> <script src="zeeman.js"></script> </head>
+    <link rel="stylesheet" href="style.css" /> <script src="zeeman.js"></script>
+</head>
 <body>
 
     <h2>The Sound of Time: Dialog as Catastrophe & Compression (SVG)</h2>
@@ -64,41 +65,38 @@
 
     <script type="text/javascript">
 
-        // --- ZCM Calculation Logic (Adapted - Assumes Elm handles the *visual* ZCM state) ---
-        // We need this JS mainly to calculate dTheta based on perceived state changes
-        // potentially driven by observing the Elm output or by running a parallel physics simulation
-        // based on the mouse input received from the Elm container.
+        // --- ZCM Calculation Logic (Parallel JS Simulation) ---
+        const scale = 60;
+        const Ox = 125;
+        const Oy = 250;
+        const la = 1.40407148348;
 
-        // --- Constants (Match original JS logic driving the speaker wave) ---
-        const scale = 60; // Scale pixels <-> dimensionless coords (used for u,v calc)
-        const Ox = 125;   // Origin X for original canvas coord system
-        const Oy = 250;   // Origin Y for original canvas coord system
-        const la = 1.40407148348; // Bifurcation constant
+        let mX = Ox - scale;
+        let mY = Oy;
+        let u = 0, v = 0;
+        let globalTheta = -1.011929266; // Renamed from theta
+        let previousGlobalTheta = globalTheta; // Renamed from previousTheta
 
-        let mX = Ox - scale; // Mouse X equivalent in original canvas coords -> Will be updated by listener
-        let mY = Oy;      // Mouse Y equivalent in original canvas coords -> Will be updated by listener
-        let u = 0, v = 0; // Control parameters derived from mX, mY
-        let theta = -1.011929266; // ZCM angle state - *This needs to track the Elm state ideally*
-        let previousTheta = theta; // For calculating dTheta
-
-        // --- Speaker SVG & Wave Vars ---
-        let speakerSvg, pistonRect, airParticles = [];
-        const numAirParticles = 250;
+        // --- Speaker SVG & Wave Vars (Renamed to avoid conflicts) ---
+        let js_speakerSvg; // Renamed from speakerSvg
+        let js_pistonRect; // Renamed from pistonRect
+        let js_airParticles = []; // Renamed from airParticles
+        const numAirParticles = 500;
         const particleRadius = 1.5;
         const speakerBaseX = 50;
         const speakerWidth = 30;
         const speakerHeight = 100;
-        const speakerY = 125; // Adjusted Y position if needed for new viewBox
+        const speakerY = 125;
         const chamberEndX = 500;
         const chamberWidth = chamberEndX - speakerBaseX;
-        let speakerDisplacement = 0;
-        const maxSpeakerDisplacement = 20;
-        const sensitivityScale = 6;
-        const waveSpeed = 10; // Propagation speed (pixels per frame? Needs tuning)
+        let speakerDisplacement = 0; // This is calculated displacement, name OK
+        const maxSpeakerDisplacement = 40;
+        const sensitivityScale = 10;
+        const waveSpeed = 5;
         const fps = 60;
         const historySeconds = 1.0;
-        const speakerHistory = new Array(Math.ceil(fps * historySeconds)).fill(0);
-        let historyIndex = 0;
+        const js_speakerHistory = new Array(Math.ceil(fps * historySeconds)).fill(0); // Renamed
+        let js_historyIndex = 0; // Renamed
         const particleSpacing = chamberWidth / Math.sqrt(numAirParticles);
 
         // --- Elm App ---
@@ -106,20 +104,16 @@
         let zcmSvgContainer;
 
 
-        // --- Core Calculation Functions (getTheta, getVt - needed for parallel simulation) ---
+        // --- Core Calculation Functions (getTheta, getVt) ---
         function getTheta(theta0, u_calc, v_calc) {
             let currentTheta = theta0;
             const ACC_theta = 1e-4;
             const maxIter = 300;
             let dt_factor = 0.08;
             let Vt_old = 0;
-
             for (let j = 0; j < maxIter; j++) {
                 Vt_old = getVt(currentTheta, u_calc, v_calc);
-                if (isNaN(Vt_old)) { // Add guard against NaN
-                    console.warn("Vt calculation returned NaN. Using previous theta.");
-                    return theta0; // Or return currentTheta? Returning theta0 might be safer.
-                }
+                if (isNaN(Vt_old)) { console.warn("Vt NaN"); return theta0; }
                 if (Math.abs(Vt_old) < ACC_theta) break;
                 currentTheta -= dt_factor * Vt_old;
                 while (currentTheta >= Math.PI) currentTheta -= 2 * Math.PI;
@@ -129,113 +123,89 @@
             while (currentTheta < -Math.PI) currentTheta += 2 * Math.PI;
             return currentTheta;
         }
-
         function getVt(theta_calc, u_calc, v_calc) {
-             var c = Math.cos(theta_calc);
-             var s = Math.sin(theta_calc);
-             var rf_sq = 17 / 4 - 2 * c;
-             if (rf_sq < 0) rf_sq = 1e-9; // Prevent negative sqrt
+             var c = Math.cos(theta_calc); var s = Math.sin(theta_calc);
+             var rf_sq = 17 / 4 - 2 * c; if (rf_sq < 0) rf_sq = 1e-9;
              var rf = Math.sqrt(rf_sq);
-             var rg_sq = u_calc * (u_calc + c) + v_calc * (v_calc - s) + 1 / 4;
-             if (rg_sq < 0) rg_sq = 1e-9; // Prevent negative sqrt
+             var rg_sq = u_calc * (u_calc + c) + v_calc * (v_calc - s) + 1 / 4; if (rg_sq < 0) rg_sq = 1e-9;
              var rg = Math.sqrt(rg_sq);
-             var ft = 2 * s;
-             var gt = -u_calc * s - v_calc * c;
-             var rfp = (rf > 1e-9) ? (1 - 1 / rf) : 0;
-             var rgp = (rg > 1e-9) ? (1 - 1 / rg) : 0;
-             if (isNaN(rfp) || isNaN(rgp) || isNaN(ft) || isNaN(gt)) {
-                 console.warn("NaN detected in getVt calculation", {theta_calc, u_calc, v_calc, rf, rg, rfp, rgp, ft, gt});
-                 return 0; // Return 0 gradient if NaN occurs
-             }
+             var ft = 2 * s; var gt = -u_calc * s - v_calc * c;
+             var rfp = (rf > 1e-9) ? (1 - 1 / rf) : 0; var rgp = (rg > 1e-9) ? (1 - 1 / rg) : 0;
+             if (isNaN(rfp) || isNaN(rgp) || isNaN(ft) || isNaN(gt)) { console.warn("getVt NaN"); return 0; }
              return rfp * ft + rgp * gt;
         }
 
-        // --- SVG Speaker Initialization ---
+        // --- SVG Speaker Initialization (Using Renamed Vars) ---
         function initSpeakerSvg() {
-            speakerSvg = document.getElementById('speaker-svg');
-            if (!speakerSvg) {
-                console.error("Speaker SVG element not found");
-                return;
-            }
+            // Assign to renamed global variable
+            js_speakerSvg = document.getElementById('speaker-svg');
+            if (!js_speakerSvg) { console.error("Speaker SVG not found"); return; }
             const svgNS = "http://www.w3.org/2000/svg";
+            while (js_speakerSvg.firstChild) { js_speakerSvg.removeChild(js_speakerSvg.firstChild); }
 
-            // Clear previous elements if any (useful for hot-reloading/re-init)
-            while (speakerSvg.firstChild) {
-                speakerSvg.removeChild(speakerSvg.firstChild);
-            }
-
-            // Chamber Walls
             let wallTop = document.createElementNS(svgNS, 'line');
             wallTop.setAttribute('x1', speakerBaseX); wallTop.setAttribute('y1', speakerY);
             wallTop.setAttribute('x2', chamberEndX); wallTop.setAttribute('y2', speakerY);
             wallTop.setAttribute('stroke', '#666'); wallTop.setAttribute('stroke-width', '2');
-            speakerSvg.appendChild(wallTop);
-             let wallBottom = document.createElementNS(svgNS, 'line');
+            js_speakerSvg.appendChild(wallTop);
+            let wallBottom = document.createElementNS(svgNS, 'line');
             wallBottom.setAttribute('x1', speakerBaseX); wallBottom.setAttribute('y1', speakerY + speakerHeight);
             wallBottom.setAttribute('x2', chamberEndX); wallBottom.setAttribute('y2', speakerY + speakerHeight);
             wallBottom.setAttribute('stroke', '#666'); wallBottom.setAttribute('stroke-width', '2');
-            speakerSvg.appendChild(wallBottom);
+            js_speakerSvg.appendChild(wallBottom);
             let wallEnd = document.createElementNS(svgNS, 'line');
             wallEnd.setAttribute('x1', chamberEndX); wallEnd.setAttribute('y1', speakerY);
             wallEnd.setAttribute('x2', chamberEndX); wallEnd.setAttribute('y2', speakerY + speakerHeight);
             wallEnd.setAttribute('stroke', '#666'); wallEnd.setAttribute('stroke-width', '2');
-            speakerSvg.appendChild(wallEnd);
+            js_speakerSvg.appendChild(wallEnd);
 
-            // Piston
-            pistonRect = document.createElementNS(svgNS, 'rect');
-            pistonRect.setAttribute('x', speakerBaseX - speakerWidth);
-            pistonRect.setAttribute('y', speakerY);
-            pistonRect.setAttribute('width', speakerWidth);
-            pistonRect.setAttribute('height', speakerHeight);
-            pistonRect.setAttribute('fill', '#888');
-            pistonRect.setAttribute('stroke', '#333'); pistonRect.setAttribute('stroke-width', '1');
-            speakerSvg.appendChild(pistonRect);
+            // Assign to renamed global variable
+            js_pistonRect = document.createElementNS(svgNS, 'rect');
+            js_pistonRect.setAttribute('x', speakerBaseX - speakerWidth);
+            js_pistonRect.setAttribute('y', speakerY);
+            js_pistonRect.setAttribute('width', speakerWidth);
+            js_pistonRect.setAttribute('height', speakerHeight);
+            js_pistonRect.setAttribute('fill', '#888');
+            js_pistonRect.setAttribute('stroke', '#333'); js_pistonRect.setAttribute('stroke-width', '1');
+            js_speakerSvg.appendChild(js_pistonRect);
 
-            // Air Particles
-             airParticles = []; // Clear previous particles
-             const particleGroup = document.createElementNS(svgNS, 'g'); // Group particles
-             speakerSvg.appendChild(particleGroup);
-
-             const startX = speakerBaseX + particleRadius + 5;
-             const endX = chamberEndX - particleRadius - 5;
-             const startY = speakerY + particleRadius + 5;
-             const endY = speakerY + speakerHeight - particleRadius - 5;
-             const numX = Math.ceil(Math.sqrt(numAirParticles * (endX - startX) / (endY - startY)));
-             const numY = Math.ceil(numAirParticles / numX);
-             const stepX = (numX > 1) ? (endX - startX) / (numX -1) : 0;
-             const stepY = (numY > 1) ? (endY - startY) / (numY -1) : 0;
-
+            // Use renamed global variable
+            js_airParticles = [];
+            const particleGroup = document.createElementNS(svgNS, 'g');
+            js_speakerSvg.appendChild(particleGroup);
+            const startX = speakerBaseX + particleRadius + 5; const endX = chamberEndX - particleRadius - 5;
+            const startY = speakerY + particleRadius + 5; const endY = speakerY + speakerHeight - particleRadius - 5;
+            const numX = Math.ceil(Math.sqrt(numAirParticles * (endX - startX) / (endY - startY)));
+            const numY = Math.ceil(numAirParticles / numX);
+            const stepX = (numX > 1) ? (endX - startX) / (numX -1) : 0; const stepY = (numY > 1) ? (endY - startY) / (numY -1) : 0;
             for (let i = 0; i < numX; i++) {
                 for (let j = 0; j < numY; j++) {
-                     if (airParticles.length >= numAirParticles) break;
+                     if (js_airParticles.length >= numAirParticles) break;
                      let baseX = startX + i * stepX + (Math.random() - 0.5) * (stepX || 10) * 0.3;
                      let baseY = startY + j * stepY + (Math.random() - 0.5) * (stepY || 10) * 0.3;
                      let circle = document.createElementNS(svgNS, 'circle');
-                     circle.setAttribute('cx', baseX.toFixed(1));
-                     circle.setAttribute('cy', baseY.toFixed(1));
-                     circle.setAttribute('r', particleRadius);
-                     circle.setAttribute('fill', '#369');
+                     circle.setAttribute('cx', baseX.toFixed(1)); circle.setAttribute('cy', baseY.toFixed(1));
+                     circle.setAttribute('r', particleRadius); circle.setAttribute('fill', '#369');
                      particleGroup.appendChild(circle);
-                     airParticles.push({ element: circle, baseX: baseX, baseY: baseY });
+                     js_airParticles.push({ element: circle, baseX: baseX, baseY: baseY });
                 }
-                 if (airParticles.length >= numAirParticles) break;
+                 if (js_airParticles.length >= numAirParticles) break;
             }
         }
 
-        // --- Animation Loop ---
+        // --- Animation Loop (Using Renamed Vars) ---
         let animationFrameId = null;
         function animate() {
-            // 1. Calculate ZCM state (theta) based on current mX, mY
-            v = (mX - Ox) / scale;
-            u = (mY - Oy) / scale + la;
+            // 1. Calculate ZCM state (globalTheta)
+            v = (mX - Ox) / scale; u = (mY - Oy) / scale + la;
             if (!isFinite(u) || !isFinite(v)) {
-                 console.warn("Invalid u/v values:", {u, v});
+                 // Skip update if u/v invalid
             } else {
-                 theta = getTheta(theta, u, v);
+                 globalTheta = getTheta(globalTheta, u, v);
             }
 
-            // 2. Calculate change in theta
-            let dTheta = theta - previousTheta;
+            // 2. Calculate dTheta
+            let dTheta = globalTheta - previousGlobalTheta;
             if (!isFinite(dTheta)) dTheta = 0;
             if (dTheta > Math.PI) dTheta -= 2 * Math.PI;
             if (dTheta < -Math.PI) dTheta += 2 * Math.PI;
@@ -243,23 +213,24 @@
             // 3. Calculate speaker displacement & update history
             speakerDisplacement = maxSpeakerDisplacement * Math.tanh(dTheta * sensitivityScale);
             if (!isFinite(speakerDisplacement)) speakerDisplacement = 0;
-            speakerHistory[historyIndex] = speakerDisplacement;
-            historyIndex = (historyIndex + 1) % speakerHistory.length;
+            // Use renamed history array and index
+            js_speakerHistory[js_historyIndex] = speakerDisplacement;
+            js_historyIndex = (js_historyIndex + 1) % js_speakerHistory.length;
 
-            // 4. Update Speaker Piston SVG
-            if (pistonRect) {
-                 pistonRect.setAttribute('x', (speakerBaseX - speakerWidth + speakerDisplacement).toFixed(1));
+            // 4. Update Speaker Piston SVG (use renamed rect var)
+            if (js_pistonRect) {
+                 js_pistonRect.setAttribute('x', (speakerBaseX - speakerWidth + speakerDisplacement).toFixed(1));
             }
 
-            // 5. Update Air Particle SVGs (Wave Propagation)
-            const currentHistoryIndex = historyIndex;
-            for(let i = 0; i < airParticles.length; i++) {
-                const p = airParticles[i];
+            // 5. Update Air Particle SVGs (use renamed particle array and history)
+            const currentHistoryIndex = js_historyIndex; // Use renamed index
+            for(let i = 0; i < js_airParticles.length; i++) { // Use renamed particle array
+                const p = js_airParticles[i];
                 const distance = p.baseX - speakerBaseX;
                 const timeDelay = distance / waveSpeed;
                 let lookBackIndex = Math.round(currentHistoryIndex - 1 - timeDelay);
-                lookBackIndex = (lookBackIndex % speakerHistory.length + speakerHistory.length) % speakerHistory.length;
-                const historicalDisplacement = speakerHistory[lookBackIndex] || 0;
+                lookBackIndex = (lookBackIndex % js_speakerHistory.length + js_speakerHistory.length) % js_speakerHistory.length; // Use renamed history
+                const historicalDisplacement = js_speakerHistory[lookBackIndex] || 0; // Use renamed history
                 const damping = Math.exp(-0.003 * distance);
                 const currentX = p.baseX + historicalDisplacement * damping;
                 const pistonFaceX = speakerBaseX + speakerDisplacement;
@@ -271,7 +242,7 @@
             }
 
             // 6. Store theta for next frame
-            previousTheta = theta;
+            previousGlobalTheta = globalTheta; // Use renamed variable
 
             // 7. Request next frame
             animationFrameId = requestAnimationFrame(animate);
@@ -283,11 +254,18 @@
             console.log("Initializing visualization...");
              if (animationFrameId) {
                  cancelAnimationFrame(animationFrameId);
+                 animationFrameId = null;
              }
             zcmSvgContainer = document.getElementById('zcm-svg-elm-node');
             if (!zcmSvgContainer) {
-                console.error("Cannot find node for Elm application (#zcm-svg-elm-node)");
+                console.error("CRITICAL: Elm container node '#zcm-svg-elm-node' not found!");
+                document.body.insertAdjacentHTML('afterbegin', "<p style='color: red; font-weight: bold;'>Error: HTML container for the ZCM visualization is missing.</p>");
                 return;
+            }
+            if (typeof Elm === 'undefined') {
+                 console.error("Elm object not found. Ensure zeeman.js is loaded correctly and before this script potentially.");
+                 zcmSvgContainer.innerHTML = "<p style='color: red;'>Error: Could not load Elm application (Elm object not found). Please ensure zeeman.js loaded correctly.</p>";
+                 return;
             }
             try {
                  console.log("Initializing Elm app...");
@@ -299,16 +277,22 @@
                  zcmSvgContainer.innerHTML = "<p style='color: red;'>Error loading ZCM visualization. Check console.</p>";
                  return;
             }
-            initSpeakerSvg();
+            initSpeakerSvg(); // Initialize speaker visuals
              zcmSvgContainer.addEventListener('mousemove', (e) => {
                 const rect = zcmSvgContainer.getBoundingClientRect();
                  mX = e.clientX - rect.left;
                  mY = e.clientY - rect.top;
              });
-             animate();
+             animate(); // Start speaker animation loop
              console.log("Initialization complete, animation started.");
         }
-        window.onload = initialize;
+
+        // Defer initialization until the DOM is fully loaded
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", initialize);
+        } else {
+            initialize();
+        }
 
     </script>
 
