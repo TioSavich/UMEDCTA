@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> ZCM in HTML 5</title>
+<meta name="keywords" content="zcm, zeeman catastrophe machine, zeeman, catastrophe, animation, applet" />
+<meta http-equiv="content-type" content="text/html; charset=UTF8">
+<script type="text/javascript">
+
+// global vars
+touch=0; // toggle for first interaction
+rad=0.5; // radius of zcm wheel
+scale = 60; // scale from dimensionless coords to pixels
+Ox = 125; // origin for zcm
+Oy = 250;
+gOx = 400; // origin for graph
+gOy = 300;
+gsx = 100; // scale for graph
+gsy = 100;
+la = 1.40407148348; // locations of bifurcation set limits
+la2 = 1.108737838;
+mX = Ox-scale;// u start
+mY = Oy;      // v start
+theta=-1.011929266; // angle start
+
+// shim for refreshing display
+window.requestAnimFrame = (function(){
+  return window.requestAnimationFrame ||
+  window.webkitRequestAnimationFrame ||
+  window.mozRequestAnimationFrame ||
+  window.oRequestAnimationFrame ||
+  window.msRequestAnimationFrame ||
+  function(callback){
+    window.setTimeout(callback, 1000 / 60);
+  };
+})();
+
+// draw image at x,y rotated angle about center (and scale to fit size)
+function rotIm(c,image, x, y, angle) { 
+  c.save(); 
+  c.translate(x, y);
+  c.rotate(angle);
+  var myscale=rad*scale/(image.width/2);
+  c.scale(myscale,myscale);
+  c.drawImage(image, -(image.width/2), -(image.height/2));
+  c.restore(); 
+}
+
+// set up the background layer
+// draw the bifurcation set using Newton-Raphson
+// the (u,v) points where DV=0 and D^2V=0
+function bset(){
+  var ACC=1e-7; // set accuracy of method
+  for (var i=0;i<=1;i++){
+    if (i==0) var u=la+.1;
+    if (i==1) var u=la+la2-.05;
+    var theta=0;
+    bgctx.beginPath();
+    bgctx.moveTo(Ox,Oy+la2*scale*i);
+    var dv=0.7/15;
+    for (var v=dv;v<=0.7;v+=dv){
+    var j=0;
+    do{	
+      j++;
+      var c=Math.cos(theta);
+      var s=Math.sin(theta);
+      var rf=Math.sqrt(17/4-2*c);
+      var rf3=rf*rf*rf;
+      var rg=Math.sqrt(u*(u+c)+v*(v-s)+1/4);
+      var rg3=rg*rg*rg;
+      var ft=2*s;
+      var gt=-u*s-v*c;
+      var gu=2*u+c;
+      var gtu=-s;
+      var gtt=v*s-u*c;
+      var rg5=rg3*rg*rg;
+      var rfp=1-1/rf;
+      var rgp=1-1/rg;
+      var Vt=rfp*ft+rgp*gt;
+      var Vtt=ft*ft/(2*rf3)+2*c*rfp + gt*gt/(2*rg3)+gtt*rgp;
+      // quit if close enough to zero
+      if (Math.abs(Vt)+Math.abs(Vtt)<ACC) break;
+      // now to check derivs and do N-R
+      var Vtu=gt*gu/(2*rg3)+gtu*rgp;
+      var Vttt=-3/4*(ft*ft*ft)/(rf3*rf*rf)+3*ft*c/rf3-2*s*rfp
+               -3/4*(gt*gt*gt)/(rg5)+(3/2)*gt*gtt/rg3-gt*rgp;
+      var Vttu=(-3/4)*gt*gt*gu/rg5+gt*gtu/rg3+gtt*gu/(2*rg3)-c*rgp;
+      var Det=Vtt*Vttu-Vtu*Vttt;
+      // solution steps
+      var dt=(Vtu*Vtt-Vttu*Vt)/Det;  
+      var du=(Vttt*Vt-Vtt*Vtt)/Det;
+      u+=du;
+      theta+=dt;
+      if (j==500) break; // check for too many iterates
+    } while (Math.abs(du)+Math.abs(dt)>=ACC);
+    bgctx.lineTo(Ox+v*scale,Oy+(u-la)*scale);
+  }  
+  bgctx.strokeStyle = 'black';
+  bgctx.stroke();
+  }  
+
+  // make a mirror copy
+  bgctx.translate(Ox,0);
+  bgctx.scale(-1,1);
+  bgctx.translate(-Ox,0);
+  bgctx.drawImage(bgcan,0,0);
+  bgctx.translate(Ox,0);
+  bgctx.scale(-1,1);
+  bgctx.translate(-Ox,0);
+
+  // draw u-v axes
+  bgctx.strokeStyle = 'black';
+  bgctx.beginPath();
+  bgctx.moveTo(Ox-1.5*scale,Oy);
+  bgctx.lineTo(Ox+1.5*scale,Oy);
+  bgctx.stroke();
+  bgctx.beginPath();
+  bgctx.moveTo(Ox,Oy-(2+la)*scale);
+  bgctx.lineTo(Ox,Oy+1.5*scale);
+  bgctx.stroke();
+  bgctx.font = "12px sans-serif";
+  bgctx.textAlign="center";
+  bgctx.textBaseline="top";
+  bgctx.fillText("u", Ox, Oy+1.5*scale);
+  bgctx.textAlign="left";
+  bgctx.textBaseline="middle";
+  bgctx.fillText("v", Ox+1.5*scale+5, Oy);
+}
+
+// mouse down function
+function myDown(e){
+  var cX=e.pageX-offX;
+  var cY=e.pageY-offY;
+  if ( (cX <= mX+4) && (cX >= mX-4) && (cY <= mY+4) && (cY >= mY-4)  ){
+    dX = cX-mX;
+    dY = cY-mY;
+    dragok = true;
+    window.onmousemove = myMoveDown;
+    if (!touch){ // we touched the dot -- remove message
+      touch=1;
+      mctx.clearRect(0, 0, WIDTH, HEIGHT);
+    }
+  }
+}
+
+// mouse up function
+function myUp(e){
+  dragok = false;
+  window.onmousemove = myMoveUp;
+}
+
+// mouse move if mouse up
+function myMoveUp(e){
+  var cX=e.pageX-offX;
+  var cY=e.pageY-offY;
+  if ( (cX <= mX+4) && (cX >= mX-4) && (cY <= mY+4) && (cY >= mY-4)  ){
+    fgcan.style.cursor = 'pointer';
+  } else {
+    fgcan.style.cursor = 'auto';    
+  }
+}
+
+// mouse move if mouse down
+function myMoveDown(e){
+  if (dragok){
+    var cX=e.pageX-offX;
+    var cY=e.pageY-offY;
+    mX = cX-dX;
+    mY = cY-dY;
+  }
+  if (mY<Oy-30) mY=Oy-20;
+}
+
+// animation loop
+function animloop(){
+  requestAnimFrame(animloop);
+  animate();
+}
+
+// main routine for drawing fgnd
+function animate(){
+  fgctx.clearRect(0, 0, WIDTH, HEIGHT);
+  drawDot(fgctx,3,mX,mY); // control parameter dot
+  // get angle from min of V and u,v coords
+  u=(mY-Oy)/scale+la;
+  v=(mX-Ox)/scale;
+  theta=getTheta(theta,u,v);
+  thetaX=Math.sin(theta);
+  thetaY=Math.cos(theta);
+  // get coords on wheel
+  Px=Ox+thetaX*scale*rad;
+  Py=Oy-la*scale-thetaY*scale*rad;
+  rotIm(fgctx,Zimg,Ox,Oy-la*scale,theta); // rotate wheel
+  drawDot(fgctx,2,Ox,Oy-(2+la)*scale); // spring end
+  drawDot(fgctx,2,Px,Py); // spring junction on wheel
+  // springs
+  fgctx.beginPath();
+  fgctx.moveTo(mX,mY);
+  fgctx.lineTo(Px,Py);
+  fgctx.lineTo(Ox,Oy-(2+la)*scale);
+  fgctx.stroke();
+
+  // draw graph
+  var V0=0;
+  var dtheta=4*Math.PI/gsx;
+  var first=1;
+  var theta0=theta;
+  var mytheta=theta;
+  fgctx.translate(gOx,gOy); // move to graph origin
+  do{
+    var c=Math.cos(mytheta);
+    var s=Math.sin(mytheta);
+    var rf=Math.sqrt(17/4-2*c);
+    var rg=Math.sqrt(u*(u+c)+v*(v-s)+1/4);
+    var V=(rf-1)*(rf-1)+(rg-1)*(rg-1);
+    if (first){
+      V0=V;
+      first=0;
+      // write current angle
+      fgctx.textAlign="left";
+      fgctx.textBaseline="top";
+      fgctx.fillStyle="black";
+      fgctx.font = "14px sans-serif";
+      var string="\u03B8="+roundIt(theta,2);
+      fgctx.fillText(string,-20,5);
+      fgctx.beginPath();
+      mytheta=-Math.PI;
+      if ((mytheta-theta0)<-Math.PI) theta0-=2*Math.PI;
+    } else {
+      if (mytheta==-Math.PI){
+        fgctx.moveTo(((mytheta-theta0)/Math.PI)*gsx,-(V-V0)*gsy);
+      } else{
+        fgctx.lineTo(((mytheta-theta0)/Math.PI)*gsx,-(V-V0)*gsy);
+	if ((mytheta-theta0)>Math.PI){
+	  fgctx.stroke();
+	  fgctx.beginPath();
+	  theta0+=2*Math.PI;
+	  fgctx.moveTo(((mytheta-theta0)/Math.PI)*gsx,-(V-V0)*gsy);  
+	}
+      }
+      mytheta+=dtheta;
+    }
+  } while (mytheta<=Math.PI+dtheta);
+  fgctx.stroke();
+  fgctx.translate(-gOx,-gOy); // restore origin
+}
+
+// find potential minumum by following the gradient
+// this was because N-R was unstable near the cusp
+// but the "flow" feeling this gives is nice
+function getTheta(theta0,u,v){
+  var j=0;
+  ACC=1e-6;
+  var theta=theta0;
+  var dt=1; // controls convergence rate
+  var first=1;
+  var Vt=0;
+  do{
+    Vto=Vt;
+    var c=Math.cos(theta);
+    var s=Math.sin(theta);
+    var rf=Math.sqrt(17/4-2*c);
+    var rg=Math.sqrt(u*(u+c)+v*(v-s)+1/4);
+    var ft=2*s;
+    var gt=-u*s-v*c;
+    var rfp=1-1/rf;
+    var rgp=1-1/rg;
+    var Vt=rfp*ft+rgp*gt;
+    theta-=dt*(Vt);
+  } while((Vt*Vto>0)&&(first--));
+  // return to fundamental domain
+  while (theta>=Math.PI) theta-=2*Math.PI;
+  while (theta<-Math.PI) theta+=2*Math.PI;
+  return theta;
+}
+
+// helper functions
+function sgn(x){
+  return (x<0)?-1:1;
+}
+function roundIt(num, dec) {
+  return Math.round(num*Math.pow(10,dec))/Math.pow(10,dec);
+}
+
+function drawDot(c,r,x,y){
+  c.beginPath();
+  c.arc(x,y,r,0,2 * Math.PI, false);
+  c.fillStyle="yellow";
+  c.fill();
+  c.lineWidth=1;
+  c.strokeStyle="black";
+  c.stroke();
+}
+
+
+// start it up!
+window.onload = function(){
+  // define canvases
+  fgcan = document.getElementById("fgcan");
+  fgctx = fgcan.getContext("2d");
+  bgcan = document.getElementById("bgcan");
+  bgctx = bgcan.getContext("2d");
+  mcan = document.getElementById("mcan");
+  mctx = mcan.getContext("2d");
+  // global size of canvas
+  WIDTH=fgcan.width;
+  HEIGHT=fgcan.height;
+  // canvas relative to screen -- loop through all parent objects
+  offX=0;
+  offY=0;
+  var obj=fgcan;
+  while (obj && obj.tagName != 'BODY') {
+    offY += obj.offsetTop;
+    offX += obj.offsetLeft;
+    obj = obj.offsetParent;
+  }
+
+  // get wheel pic ready
+  Zimg = new Image();
+  Zimg.src = "z.png";
+
+  // draw the bifurcation set
+  bset();
+
+  // static elements for graph
+  bgctx.translate(gOx,gOy);
+  drawDot(bgctx,3,0,0);
+  bgctx.fillStyle="black";
+  bgctx.beginPath();
+  bgctx.moveTo(-gsx,-2*gsy);
+  bgctx.lineTo(-gsx,0);
+  bgctx.lineTo(gsx+5,0);
+  bgctx.lineTo(gsx+5,-2*gsy);
+  bgctx.stroke();
+  bgctx.textAlign="right";
+  bgctx.fillText("V",-gsx-5,-gsy);
+  bgctx.translate(-gOx,-gOy);
+
+  // put message in message canvas
+  mctx.fillStyle="green";
+  mctx.font = "12px sans-serif";
+  mctx.textAlign="left";
+  mctx.textBaseline="bottom";
+  mctx.fillText("Click &", Ox-1.8*scale, Oy+15);
+  mctx.fillText("Drag Me", Ox-1.8*scale, Oy+30);
+
+  // static circle for zcm wheel for testing
+  //bgctx.beginPath();
+  //bgctx.strokeStyle="black";  
+  //bgctx.arc(Ox,Oy-la*scale,scale*rad,0,2*Math.PI,false)
+  //bgctx.stroke();
+  
+  // define event listeners for interaction
+  window.onmousedown=myDown;
+  window.onmouseup=myUp;
+  window.onmousemove=myMoveUp;
+
+  // enter main animation loop
+  animloop();
+}
+</script>
+
+
+</head>
+<body>
+<div style="width:550px;margin:0 auto;border:1px solid black;">
+  <h2 style="text-align:center;">Zeeman's Catastrophe Machine</h2>
+  <div id="zcm" style="position:relative;">
+    <!-- 3 stacked canvases-->
+    <canvas id="mcan" width="550" height="400" style="position: absolute; left: 0; top: 0;z-index: 0;"></canvas>
+    <canvas id="bgcan" width="550" height="400" style="position: absolute; left: 0; top: 0;z-index: 1;"></canvas>
+    <canvas id="fgcan" width="550" height="400" style="position: relative; left: 0; top: 0; z-index: 2;"></canvas>
+  </div>
+</div>
+
+<p>This applet is an interactive rendering of Zeeman's Catastrophe Machine (ZCM), which is a simple mechanical device that represents the cusp catastrophe.  The physical setup consists of a wheel, free to rotate about its axis, with two springs connected to a common point on its rim. One of the springs is fastened to a point along the <i>u</i>-axis, while the other is held by hand and freely movable in the <i>uv</i>-plane.  The state of the system is the angle <i>θ</i> of the disk relative to the -<i>u</i>-axis when in equilibrium.  The system is controlled by the location of the second spring, so the two control parameters are its <i>u</i> and <i>v</i> coordinates.  Naturally, the equilibrium angle changes as the control parameters are varied, but what's particularly interesting is that system response is not always smooth: equilibria can vanish, leading to a sudden loss of stability and causing the system to jump to a completely new equilibrium state.  This is called a catastrophe.  For this system a catastrophe may occur when passing through the star-shaped region in the <i>uv</i>-plane.  The system has a single equilibrium outside this region, but three inside (two stable, one unstable).</p>
+
+<h2>Further details</h2>
+
+
+
+
+      <p>The potential energy of the system is given by</p>
+      <img src="img1a.png"/>
+      <p>for a wheel diameter of 1, an equilibrium spring lengths of 1, a distance between the end of the top spring and the wheel center of 2, and where <i>a</i> denotes the distance of the wheel center from the origin.  One of the cusps occur at the origin.  In a neighborhood of that point there exists diffeomorphisms <i>x</i>,<i>y</i>, and <i>z</i> and a smooth function <i>w</i>,such that, in that neighborhood, the potential has the functional form</p>
+      <img src="img3.png"/>
+      <p>where the function <i>F</i> is given by</p>
+      <img src="img4.png"/>
+      <p>which is called the cusp and is one of Thom's seven elementary catastrophes.  Here, <i>x</i> is the state variable, while <i>y</i> and <i>z</i> are the control parameters.</p>
+      <p>The catastrophe surface of the cusp is given by the set of points (<i>x,y,z</i>) that are critical points of <i>F</i> for constant control parameters (that is, the extrema of the potential function) and is given by<p>
+      <img src="img5.png"/>
+      <p>which is the following surface in 3-space:</p>
+      <img src="cusp_surface.png"/>
+      <p>The castrophe set is the subset of the above surface which consists of those critical points that are degenerate, that is, where the second derivative also vanishes.  These points define where local minima are created and destroyed and thus dictate the "interesting" behavior of the potential as control parameters vary.  This set is given by</p>
+<img src="img6.png"/>
+      <p>Finally, there is the bifuraction set, which is the projection of the catastrophe set onto the control parameters.  It is given simply by</p>
+      <img src="img7.png"/>
+      <p>and its shape is the reason for calling this catastrophe the cusp.</p>
+      <p>The cusp is such an interesting catastrophe because it possesses the features of bimodality and hysteresis, that is, there are two equilibrium positions, but which state the system ends up in depends on the path taken through parameter space.  What is also interesting to note is that the system is all the time governed by a smooth potential function.  The catastrophe surface and set are also smooth.  However, the projection of a smooth object down onto the plane (the bifurcation set) develops singularities which drive the interesting behavior of the system.  This is a common theme throughout nonlinear dynamics.</p>
+      <p>Finally, the ZCM also gives rise to interesting dynamical behavior when periodically driven, rather than moved quasistatically.  In fact, the driven ZCM displays a period doubling route to chaos and a chaotic attractor based on the parameters of the driving term.  A good discussion of this chaotic dynamical behavior can be found in the article T. J. Litherland, and A.  Siahmakoun, <a href="https://aapt.scitation.org/doi/10.1119/1.17906"><i>Chaotic Behavior of the Zeeman Catastrophe Macine</i></a>, Am. J. Phys. <b>63</b>, 426 (1995).</p>
+
+</body>
+</html>
