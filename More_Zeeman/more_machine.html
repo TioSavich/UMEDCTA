@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Friction and Abstraction: The Catastrophe Machine and the More Machine</title>
+<style>
+    body {
+        font-family: "Times New Roman", serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+        margin: 0;
+        color: #333;
+    }
+    #mainContainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 40px;
+    }
+    #zcmContainer, #moreMachineContainer {
+        text-align: center;
+    }
+    #moreMachineContainer {
+        border-left: 1px solid #ccc;
+        padding-left: 40px;
+    }
+    svg {
+        background-color: white;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    }
+    #zcmSvg {
+        cursor: crosshair;
+    }
+    .label {
+        font-size: 16px;
+        font-weight: bold;
+        color: #444;
+        margin-bottom: 10px;
+    }
+    #instructions {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 800px;
+        text-align: center;
+        font-size: 14px;
+        line-height: 1.5;
+        color: #666;
+    }
+    .band {
+        stroke-width: 3;
+        transition: stroke 0.1s;
+    }
+</style>
+</head>
+<body>
+
+<div id="instructions">
+    <b>Interaction:</b> Drag the RED Control Point (representing attention or conversational pressure).<br>
+    <b>Observe:</b> Tension builds (sound/color) as the Disc (current state of understanding) resists change. Moving into the unstable central region causes a "Catastrophe"—a sudden SNAP to a new equilibrium.<br>
+    <b>The Link:</b> Each snap triggers the "More Machine" (right), symbolizing how dynamic shifts generate conceptual proliferation, which exhausts over time.
+</div>
+
+<div id="mainContainer">
+    <div id="zcmContainer">
+        <div class="label">Embodied Dynamics (ZCM)</div>
+        <svg id="zcmSvg" width="500" height="400"></svg>
+    </div>
+    <div id="moreMachineContainer">
+        <div class="label">Conceptual Proliferation (More Machine)</div>
+        <svg id="moreMachineSvg" width="250" height="250"></svg>
+    </div>
+</div>
+
+<script>
+    // === ZCM Configuration ===
+    const ZCM_WIDTH = 500;
+    const ZCM_HEIGHT = 400;
+    const CENTER_X = ZCM_WIDTH / 2;
+    const CENTER_Y = ZCM_HEIGHT / 2;
+    const DISC_RADIUS = 60;
+    const ATTACHMENT_RADIUS = 50; 
+
+    let discAngle = Math.PI / 2; // Current state (pointing down initially)
+    let controlPoint = { x: CENTER_X + 100, y: CENTER_Y - 100 };
+    const fixedPoint = { x: CENTER_X, y: CENTER_Y + 150 }; // Fixed anchor below disc
+    
+    // === More Machine Configuration ===
+    let mmGridData = [];
+    let mmSize = 0;
+    const MM_MAX_SIZE = 12;
+    let mmIteration = 0;
+    const MM_SVG_SIZE = 250;
+
+    // === Audio Context ===
+    let audioContext;
+    let tensionGain;
+    let tensionOsc;
+    let isInteracting = false; // Tracks if the user is currently dragging
+    
+    // === Audio Initialization ===
+    function initAudio() {
+        if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            tensionOsc = audioContext.createOscillator();
+            tensionGain = audioContext.createGain();
+            tensionOsc.connect(tensionGain);
+            tensionGain.connect(audioContext.destination);
+            tensionOsc.type = 'sawtooth'; // Straining sound
+            tensionOsc.frequency.setValueAtTime(80, audioContext.currentTime);
+            tensionGain.gain.setValueAtTime(0, audioContext.currentTime); // Start silent
+            tensionOsc.start();
+        }
+    }
+
+    // === ZCM Dynamics (Physics Simulation) ===
+
+    function getAttachmentPoint(angle) {
+        return {
+            x: CENTER_X + ATTACHMENT_RADIUS * Math.cos(angle),
+            y: CENTER_Y + ATTACHMENT_RADIUS * Math.sin(angle)
+        };
+    }
+
+    // Calculate potential energy (proportional to the square of the spring lengths - Hooke's Law)
+    function calculateEnergy(angle) {
+        const P = getAttachmentPoint(angle);
+        
+        // Energy = k * (Length)^2
+        const L1_sq = Math.pow(P.x - fixedPoint.x, 2) + Math.pow(P.y - fixedPoint.y, 2);
+        const L2_sq = Math.pow(P.x - controlPoint.x, 2) + Math.pow(P.y - controlPoint.y, 2);
+        
+        return L1_sq + L2_sq;
+    }
+
+    // Find the global minimum energy state by searching all angles.
+    // This is the core of the ZCM logic: the system instantly seeks the lowest energy state.
+    function findEquilibrium() {
+        let minEnergy = Infinity;
+        let bestAngle = discAngle;
+        const searchSteps = 180; // Resolution of search
+
+        for (let i = 0; i < searchSteps; i++) {
+            const testAngle = (i / searchSteps) * 2 * Math.PI;
+            const energy = calculateEnergy(testAngle);
+            if (energy < minEnergy) {
+                minEnergy = energy;
+                bestAngle = testAngle;
+            }
+        }
+        return { angle: bestAngle, energy: minEnergy };
+    }
+
+    function updateDiscState() {
+        const equilibrium = findEquilibrium();
+        
+        // Detect the "Snap" (Catastrophe)
+        let angleDiff = equilibrium.angle - discAngle;
+        // Normalize the difference to find the shortest path (-PI to PI)
+        while (angleDiff > Math.PI) angleDiff -= 2 * Math.PI;
+        while (angleDiff < -Math.PI) angleDiff += 2 * Math.PI;
+
+        let snapped = false;
+        // If the angle changes significantly in one step, it means the minimum shifted discontinuously.
+        if (Math.abs(angleDiff) > 0.4) { // Threshold for detecting a snap
+            snapped = true;
+            playSnapSound();
+        }
+
+        discAngle = equilibrium.angle;
+        updateTensionAudio(equilibrium.energy);
+        return snapped;
+    }
+    
+    // === Audio Feedback ===
+    // Approximate max energy for normalization
+    const MAX_ENERGY = 250000; 
+
+    function updateTensionAudio(energy) {
+        if (!audioContext) return;
+        
+        // Fade out if interaction stops
+        if (!isInteracting) {
+             tensionGain.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.1);
+             return;
+        }
+        
+        // Map energy to audio parameters
+        const normalizedEnergy = Math.min(1, energy / MAX_ENERGY);
+
+        const volume = normalizedEnergy * 0.3;
+        const frequency = 80 + normalizedEnergy * 800; // 80Hz to 880Hz
+
+        tensionGain.gain.linearRampToValueAtTime(volume, audioContext.currentTime + 0.05);
+        tensionOsc.frequency.linearRampToValueAtTime(frequency, audioContext.currentTime + 0.05);
+    }
+    
+    function playSnapSound() {
+        if (!audioContext) return;
+        // A sharp, brief sound for the release of energy
+        const snap = audioContext.createOscillator();
+        const snapGain = audioContext.createGain();
+        snap.connect(snapGain);
+        snapGain.connect(audioContext.destination);
+        snap.type = 'square';
+        snap.frequency.setValueAtTime(800, audioContext.currentTime);
+        // Rapid frequency drop simulates the physical snap
+        snap.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.1);
+
+        snapGain.gain.setValueAtTime(0.6, audioContext.currentTime);
+        snapGain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.15);
+        snap.start();
+        snap.stop(audioContext.currentTime + 0.15);
+    }
+
+    // === ZCM Visualization ===
+    function drawZCM() {
+        const svg = document.getElementById('zcmSvg');
+        svg.innerHTML = '';
+
+        // 1. Attachment Point Calculation
+        const P = getAttachmentPoint(discAngle);
+
+        // 2. Calculate Tension for Visualization (Color)
+        const energy = calculateEnergy(discAngle);
+        const tensionNormalized = Math.min(1, energy / MAX_ENERGY);
+        // Color map: Blue (low tension) to Red (high tension)
+        const tensionColor = `hsl(${240 * (1-tensionNormalized)}, 80%, 50%)`;
+
+
+        // 3. Elastic Bands (Tension)
+        function drawBand(start, end, color) {
+            const band = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            band.setAttribute('x1', start.x);
+            band.setAttribute('y1', start.y);
+            band.setAttribute('x2', end.x);
+            band.setAttribute('y2', end.y);
+            band.setAttribute('stroke', color);
+            band.setAttribute('class', 'band');
+            svg.appendChild(band);
+        }
+
+        drawBand(fixedPoint, P, tensionColor);
+        drawBand(controlPoint, P, tensionColor);
+
+        // 4. The Disc (The State)
+        const disc = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        disc.setAttribute('cx', CENTER_X);
+        disc.setAttribute('cy', CENTER_Y);
+        disc.setAttribute('r', DISC_RADIUS);
+        disc.setAttribute('fill', '#e0e0e0');
+        disc.setAttribute('stroke', '#333');
+        svg.appendChild(disc);
+        
+        // 5. Fixed Point (Anchor)
+        const fixedP = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        fixedP.setAttribute('cx', fixedPoint.x);
+        fixedP.setAttribute('cy', fixedPoint.y);
+        fixedP.setAttribute('r', 6);
+        fixedP.setAttribute('fill', 'blue');
+        svg.appendChild(fixedP);
+
+        // 6. Attachment Point visualization
+        const attachP = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        attachP.setAttribute('cx', P.x);
+        attachP.setAttribute('cy', P.y);
+        attachP.setAttribute('r', 5);
+        attachP.setAttribute('fill', '#333');
+        svg.appendChild(attachP);
+
+        // 7. Control Point (User Input)
+        const controlP = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        controlP.setAttribute('cx', controlPoint.x);
+        controlP.setAttribute('cy', controlPoint.y);
+        controlP.setAttribute('r', 8);
+        controlP.setAttribute('fill', 'red');
+        svg.appendChild(controlP);
+    }
+
+    // === ZCM Interaction Handlers ===
+    let isDragging = false;
+
+    function handleStart(e) {
+        initAudio();
+        isDragging = true;
+        isInteracting = true;
+        updateControlPoint(e);
+    }
+    
+    function handleMove(e) {
+        if (isDragging) {
+            updateControlPoint(e);
+        }
+    }
+
+    function handleEnd() {
+        isDragging = false;
+        isInteracting = false;
+         // Fade out audio when interaction stops
+         if (audioContext) {
+            tensionGain.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.2);
+        }
+    }
+
+    // Mouse Events
+    document.getElementById('zcmSvg').addEventListener('mousedown', handleStart);
+    document.getElementById('zcmSvg').addEventListener('mousemove', handleMove);
+    document.getElementById('zcmSvg').addEventListener('mouseup', handleEnd);
+
+    // Touch Events
+    document.getElementById('zcmSvg').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        handleStart(e.touches[0]);
+    });
+
+    document.getElementById('zcmSvg').addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        handleMove(e.touches[0]);
+    });
+
+    document.getElementById('zcmSvg').addEventListener('touchend', handleEnd);
+
+
+    function updateControlPoint(e) {
+        const rect = document.getElementById('zcmSvg').getBoundingClientRect();
+        controlPoint.x = e.clientX - rect.left;
+        controlPoint.y = e.clientY - rect.top;
+        
+        // Constrain movement
+        controlPoint.x = Math.max(0, Math.min(ZCM_WIDTH, controlPoint.x));
+        controlPoint.y = Math.max(0, Math.min(ZCM_HEIGHT, controlPoint.y));
+
+        const snapped = updateDiscState();
+        drawZCM();
+        
+        if (snapped) {
+            // When a catastrophe occurs, trigger the More Machine
+            generateMore();
+        }
+    }
+
+    // === More Machine Logic and Visualization ===
+    function drawMoreMachine() {
+        const svg = document.getElementById('moreMachineSvg');
+        svg.innerHTML = '';
+        const cellSize = MM_SVG_SIZE / MM_MAX_SIZE;
+        const svgSize = cellSize * mmSize;
+        svg.setAttribute('width', svgSize);
+        svg.setAttribute('height', svgSize);
+
+        // Visualization of Exhaustion (Desaturation and loss of contrast)
+        const hue = 20; // Orange hue
+        const saturation = Math.max(0, 100 - mmIteration * 10);
+        // Dark color gets lighter, light color gets darker -> Fading to gray
+        const lightness1 = Math.min(95, 40 + mmIteration * 5);
+        const lightness0 = Math.max(40, 85 - mmIteration * 5);
+
+        for (let i = 0; i < mmSize; i++) {
+            for (let j = 0; j < mmSize; j++) {
+                const value = mmGridData[i][j];
+                const color = value === 1 ? `hsl(${hue}, ${saturation}%, ${lightness1}%)` : `hsl(${hue}, ${saturation}%, ${lightness0}%)`;
+                const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                rect.setAttribute('x', j * cellSize);
+                rect.setAttribute('y', i * cellSize);
+                rect.setAttribute('width', cellSize);
+                rect.setAttribute('height', cellSize);
+                rect.setAttribute('fill', color);
+                rect.setAttribute('stroke', '#aaa');
+                rect.setAttribute('stroke-width', '0.5');
+                svg.appendChild(rect);
+            }
+        }
+    }
+
+    // The Diagonalization Algorithm
+    function generateMore() {
+        if (mmSize >= MM_MAX_SIZE) {
+            return;
+        }
+        
+        mmIteration++;
+
+        if (mmSize === 0) {
+            // Initialize if empty
+            mmGridData = [[Math.round(Math.random())]];
+            mmSize = 1;
+        } else {
+            // Diagonalization (The Critique)
+            let newPattern = [];
+            for (let i = 0; i < mmSize; i++) {
+                // Flip the diagonal
+                newPattern.push(1 - mmGridData[i][i]);
+            }
+
+            // Proliferation (The "More")
+            mmGridData.push(newPattern);
+            mmSize++;
+
+            // Fill out the square randomly to maintain structure for the next iteration
+            for (let i = 0; i < mmSize - 1; i++) {
+                mmGridData[i].push(Math.round(Math.random()));
+            }
+            mmGridData[mmSize-1].push(Math.round(Math.random()));
+        }
+
+        drawMoreMachine();
+    }
+
+    // === Initialization ===
+    drawZCM();
+    drawMoreMachine(); // Start empty
+
+</script>
+</body>
+</html>
