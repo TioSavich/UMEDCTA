@@ -5,62 +5,56 @@
 <style>
     body {
         font-family: "Cantarell", "Verdana", sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        background-color: #efefef;
+        background-color: #f4f4f9;
+        color: #333;
         margin: 0;
         padding: 20px;
-        color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         user-select: none;
         -webkit-user-select: none;
     }
     #mainContainer {
         display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content: center;
-        gap: 40px;
-        width: 100%;
-        max-width: 1400px;
-        user-select: none;
-        -webkit-user-select: none;
-    }
-    .visualization-box {
-        text-align: center;
-        border: 1px solid #aaa;
-        padding: 15px;
-        background-color: white;
-        box-shadow: 3px 3px 5px 0px #ccc;
-        flex: 1 1 300px;
-        display: flex;
         flex-direction: column;
         align-items: center;
+        gap: 20px;
+        max-width: 800px;
+        width: 100%;
+    }
+    .visualization-box {
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        width: 100%;
+    }
+    .controls-box {
+        background: #fdfdfd;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+    }
+    #zcmContainer {
+        text-align: center;
     }
     svg {
-        background-color: #e8f0ff;
-        box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-        border: 1px solid #999;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.05);
+        border: 1px solid #eee;
     }
     #zcmSvg {
         cursor: crosshair;
-        background-color: white;
-    }
-    #moreMachineSvg {
-        background-color: white;
     }
     .label {
-        font-size: 1em;
+        font-size: 16px;
         font-weight: bold;
-        color: #333;
+        color: #444;
         margin-bottom: 10px;
-    }
-    .caption {
-        font-size: smaller;
-        text-align: center;
-        color: #555;
-        margin-top: 10px;
     }
     #instructions {
         position: absolute;
@@ -91,17 +85,21 @@
     <div id="zcmContainer" class="visualization-box">
         <div class="label">Embodied Dynamics (ZCM)</div>
         <svg id="zcmSvg" width="500" height="400"></svg>
-        <p class="caption">Drag the red point to see the system state (disc) jump between equilibria.</p>
     </div>
-    <div id="moreMachineContainer" class="visualization-box">
-        <div class="label">Conceptual Proliferation</div>
+
+    <div class="controls-box">
+        <label><input type="checkbox" id="toggleMoreMachine"> Show More Machine</label>
+        <label><input type="checkbox" id="toggleAcoustic"> Show Acoustic Metaphor</label>
+    </div>
+
+    <div id="moreMachineContainer" class="visualization-box" style="display: none;">
+        <div class="label">Conceptual Proliferation (More Machine)</div>
         <svg id="moreMachineSvg" width="250" height="250"></svg>
-        <p class="caption">Each jump ("catastrophe") in the ZCM triggers the 'More Machine,' which generates a new pattern by negating its own past state.</p>
     </div>
-    <div id="acousticContainer" class="visualization-box">
+
+    <div id="acousticContainer" class="visualization-box" style="display: none;">
         <div class="label">Acoustic Metaphor</div>
         <svg id="speakerSvg" width="400" height="300"></svg>
-        <p class="caption">The *change* in the ZCM's state drives a wave. Sudden jumps create large waves, representing the 'sound' of a conceptual shift.</p>
     </div>
 </div>
 
@@ -258,8 +256,9 @@
         // 2. Calculate Tension for Visualization (Color)
         const energy = calculateEnergy(discAngle);
         const tensionNormalized = Math.min(1, energy / MAX_ENERGY);
-        // Color map: Blue (low tension) to Red (high tension)
-        const tensionColor = `hsl(${240 * (1-tensionNormalized)}, 80%, 50%)`;
+        // Color map: Light grey (low tension) to dark blue (high tension)
+        const tensionLightness = 70 - (tensionNormalized * 30);
+        const tensionColor = `hsl(220, 60%, ${tensionLightness}%)`;
 
 
         // 3. Elastic Bands (Tension)
@@ -282,16 +281,17 @@
         disc.setAttribute('cx', CENTER_X);
         disc.setAttribute('cy', CENTER_Y);
         disc.setAttribute('r', DISC_RADIUS);
-        disc.setAttribute('fill', '#e0e0e0');
-        disc.setAttribute('stroke', '#333');
+        disc.setAttribute('fill', '#f0f0f0');
+        disc.setAttribute('stroke', '#666');
+        disc.setAttribute('stroke-width', '1.5');
         svg.appendChild(disc);
         
         // 5. Fixed Point (Anchor)
         const fixedP = document.createElementNS("http://www.w3.org/2000/svg", "circle");
         fixedP.setAttribute('cx', fixedPoint.x);
         fixedP.setAttribute('cy', fixedPoint.y);
-        fixedP.setAttribute('r', 6);
-        fixedP.setAttribute('fill', 'blue');
+        fixedP.setAttribute('r', 7);
+        fixedP.setAttribute('fill', '#4a90e2'); // A pleasant blue
         svg.appendChild(fixedP);
 
         // 6. Attachment Point visualization
@@ -299,15 +299,17 @@
         attachP.setAttribute('cx', P.x);
         attachP.setAttribute('cy', P.y);
         attachP.setAttribute('r', 5);
-        attachP.setAttribute('fill', '#333');
+        attachP.setAttribute('fill', '#555');
         svg.appendChild(attachP);
 
         // 7. Control Point (User Input)
         const controlP = document.createElementNS("http://www.w3.org/2000/svg", "circle");
         controlP.setAttribute('cx', controlPoint.x);
         controlP.setAttribute('cy', controlPoint.y);
-        controlP.setAttribute('r', 8);
-        controlP.setAttribute('fill', 'red');
+        controlP.setAttribute('r', 9);
+        controlP.setAttribute('fill', '#d9534f'); // A softer red
+        controlP.setAttribute('stroke', '#333');
+        controlP.setAttribute('stroke-width', '1');
         svg.appendChild(controlP);
     }
 
@@ -364,7 +366,13 @@
         controlPoint.x = Math.max(0, Math.min(ZCM_WIDTH, controlPoint.x));
         controlPoint.y = Math.max(0, Math.min(ZCM_HEIGHT, controlPoint.y));
 
-        // The main loop will handle the state update and drawing
+        const snapped = updateDiscState();
+        drawZCM();
+
+        if (snapped) {
+            // When a catastrophe occurs, trigger the More Machine
+            generateMore();
+        }
     }
 
     // === More Machine Logic and Visualization ===
@@ -436,56 +444,55 @@
 
     // === Speaker/Acoustic Metaphor Visualization ===
     let speakerSvg, pistonRect, airParticles = [];
-    const numAirParticles = 300;
+    const numAirParticles = 200;
     const particleRadius = 1.5;
     const speakerBaseX = 50;
     const speakerWidth = 30;
     const speakerHeight = 100;
     const speakerY = 100;
     const chamberEndX = 380;
-    const waveSpeed = 5;
-    const historySeconds = 1.0;
+    const waveSpeed = 4;
+    const historySeconds = 1.5;
     const fps = 60;
     const speakerHistory = new Array(Math.ceil(fps * historySeconds)).fill(0);
     let historyIndex = 0;
-    const maxSpeakerDisplacement = 40;
-    const sensitivityScale = 8;
+    const maxSpeakerDisplacement = 35;
+    const sensitivityScale = 10;
+    let smoothedDisplacement = 0;
+    const smoothingFactor = 0.15; // Lower is smoother
 
     function initSpeakerSvg() {
         speakerSvg = document.getElementById('speakerSvg');
         if (!speakerSvg) return;
         const svgNS = "http://www.w3.org/2000/svg";
-        speakerSvg.innerHTML = ''; // Clear previous content
+        speakerSvg.innerHTML = '';
 
-        // Walls
         let wallTop = document.createElementNS(svgNS, 'line');
         wallTop.setAttribute('x1', speakerBaseX); wallTop.setAttribute('y1', speakerY);
         wallTop.setAttribute('x2', chamberEndX); wallTop.setAttribute('y2', speakerY);
-        wallTop.setAttribute('stroke', '#666'); wallTop.setAttribute('stroke-width', '2');
+        wallTop.setAttribute('stroke', '#999'); wallTop.setAttribute('stroke-width', '1');
         speakerSvg.appendChild(wallTop);
         let wallBottom = document.createElementNS(svgNS, 'line');
         wallBottom.setAttribute('x1', speakerBaseX); wallBottom.setAttribute('y1', speakerY + speakerHeight);
         wallBottom.setAttribute('x2', chamberEndX); wallBottom.setAttribute('y2', speakerY + speakerHeight);
-        wallBottom.setAttribute('stroke', '#666'); wallBottom.setAttribute('stroke-width', '2');
+        wallBottom.setAttribute('stroke', '#999'); wallBottom.setAttribute('stroke-width', '1');
         speakerSvg.appendChild(wallBottom);
 
-        // Piston
         pistonRect = document.createElementNS(svgNS, 'rect');
         pistonRect.setAttribute('x', speakerBaseX - speakerWidth);
         pistonRect.setAttribute('y', speakerY);
         pistonRect.setAttribute('width', speakerWidth);
         pistonRect.setAttribute('height', speakerHeight);
-        pistonRect.setAttribute('fill', '#888');
-        pistonRect.setAttribute('stroke', '#333');
+        pistonRect.setAttribute('fill', '#aaa');
+        pistonRect.setAttribute('stroke', '#666');
         speakerSvg.appendChild(pistonRect);
 
-        // Air Particles
         const particleGroup = document.createElementNS(svgNS, 'g');
         speakerSvg.appendChild(particleGroup);
-        const startX = speakerBaseX + particleRadius + 10;
-        const endX = chamberEndX - particleRadius - 10;
-        const startY = speakerY + particleRadius + 5;
-        const endY = speakerY + speakerHeight - particleRadius - 5;
+        const startX = speakerBaseX + particleRadius + 15;
+        const endX = chamberEndX - particleRadius - 15;
+        const startY = speakerY + particleRadius + 10;
+        const endY = speakerY + speakerHeight - particleRadius - 10;
         const numX = Math.ceil(Math.sqrt(numAirParticles * (endX - startX) / (endY - startY)));
         const numY = Math.ceil(numAirParticles / numX);
         const stepX = (numX > 1) ? (endX - startX) / (numX - 1) : 0;
@@ -494,13 +501,14 @@
         for (let i = 0; i < numX; i++) {
             for (let j = 0; j < numY; j++) {
                 if (airParticles.length >= numAirParticles) break;
-                let baseX = startX + i * stepX + (Math.random() - 0.5) * (stepX || 10) * 0.3;
-                let baseY = startY + j * stepY + (Math.random() - 0.5) * (stepY || 10) * 0.3;
+                let baseX = startX + i * stepX + (Math.random() - 0.5) * (stepX || 10) * 0.4;
+                let baseY = startY + j * stepY + (Math.random() - 0.5) * (stepY || 10) * 0.4;
                 let circle = document.createElementNS(svgNS, 'circle');
                 circle.setAttribute('cx', baseX.toFixed(1));
                 circle.setAttribute('cy', baseY.toFixed(1));
                 circle.setAttribute('r', particleRadius);
-                circle.setAttribute('fill', '#369');
+                circle.setAttribute('fill', '#5a8fcd');
+                circle.setAttribute('opacity', '0.7');
                 particleGroup.appendChild(circle);
                 airParticles.push({ element: circle, baseX: baseX, baseY: baseY });
             }
@@ -508,22 +516,22 @@
     }
 
     function animateSpeaker() {
-        if (!speakerSvg) return;
+        if (!speakerSvg || !document.getElementById('toggleAcoustic').checked) return;
 
-        // Calculate dTheta
         let dTheta = discAngle - previousDiscAngle;
         while (dTheta > Math.PI) dTheta -= 2 * Math.PI;
         while (dTheta < -Math.PI) dTheta += 2 * Math.PI;
 
-        // Calculate speaker displacement & update history
-        const speakerDisplacement = maxSpeakerDisplacement * Math.tanh(dTheta * sensitivityScale);
-        speakerHistory[historyIndex] = speakerDisplacement;
+        const targetDisplacement = maxSpeakerDisplacement * Math.tanh(dTheta * sensitivityScale);
+
+        // Apply smoothing
+        smoothedDisplacement += (targetDisplacement - smoothedDisplacement) * smoothingFactor;
+
+        speakerHistory[historyIndex] = smoothedDisplacement;
         historyIndex = (historyIndex + 1) % speakerHistory.length;
 
-        // Update Piston SVG
-        pistonRect.setAttribute('x', (speakerBaseX - speakerWidth + speakerDisplacement).toFixed(1));
+        pistonRect.setAttribute('x', (speakerBaseX - speakerWidth + smoothedDisplacement).toFixed(1));
 
-        // Update Air Particle SVGs
         const currentHistoryIndex = historyIndex;
         for (let p of airParticles) {
             const distance = p.baseX - speakerBaseX;
@@ -531,11 +539,10 @@
             let lookBackIndex = Math.round(currentHistoryIndex - 1 - timeDelay);
             lookBackIndex = (lookBackIndex % speakerHistory.length + speakerHistory.length) % speakerHistory.length;
             const historicalDisplacement = speakerHistory[lookBackIndex] || 0;
-            const damping = Math.exp(-0.003 * distance);
+            const damping = Math.exp(-0.004 * distance);
             const currentX = p.baseX + historicalDisplacement * damping;
-            const pistonFaceX = speakerBaseX - speakerWidth + speakerDisplacement;
+            const pistonFaceX = speakerBaseX - speakerWidth + smoothedDisplacement;
 
-            // Prevent particles from overlapping the piston
             const clampedX = Math.max(
                 pistonFaceX + speakerWidth + particleRadius,
                 Math.min(chamberEndX - particleRadius, currentX)
@@ -546,19 +553,18 @@
         previousDiscAngle = discAngle;
     }
 
-
     // === Main Animation Loop ===
     function mainLoop() {
-        // ZCM is only updated when the user is interacting with it.
-        if (isDragging) {
+        // Only update ZCM when user is interacting
+        if (isInteracting) {
             const snapped = updateDiscState();
             drawZCM();
-            if (snapped) {
+            if (snapped && document.getElementById('toggleMoreMachine').checked) {
                 generateMore();
             }
         }
 
-        // The acoustic metaphor animates continuously based on the latest state change.
+        // Always run speaker animation, but the function checks if it's visible
         animateSpeaker();
 
         requestAnimationFrame(mainLoop);
@@ -566,9 +572,23 @@
 
     // === Initialization ===
     drawZCM();
-    drawMoreMachine(); // Start empty
-    initSpeakerSvg();
-    mainLoop(); // Start the main animation loop
+    drawMoreMachine(); // Draw it once to initialize the data, even though it's hidden
+
+    document.getElementById('toggleMoreMachine').addEventListener('change', (e) => {
+        document.getElementById('moreMachineContainer').style.display = e.target.checked ? 'flex' : 'none';
+    });
+
+    document.getElementById('toggleAcoustic').addEventListener('change', (e) => {
+        const acousticContainer = document.getElementById('acousticContainer');
+        acousticContainer.style.display = e.target.checked ? 'flex' : 'none';
+        if (e.target.checked) {
+            if (!speakerSvg) { // Initialize only once
+                initSpeakerSvg();
+            }
+        }
+    });
+
+    mainLoop();
 
 </script>
 </body>
