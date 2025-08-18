@@ -366,13 +366,8 @@
         controlPoint.x = Math.max(0, Math.min(ZCM_WIDTH, controlPoint.x));
         controlPoint.y = Math.max(0, Math.min(ZCM_HEIGHT, controlPoint.y));
 
-        const snapped = updateDiscState();
-        drawZCM();
-
-        if (snapped) {
-            // When a catastrophe occurs, trigger the More Machine
-            generateMore();
-        }
+        // The main animation loop is now responsible for all updates and drawing.
+        // This function only needs to update the coordinates.
     }
 
     // === More Machine Logic and Visualization ===
