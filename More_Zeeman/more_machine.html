@@ -1,92 +1,194 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Friction and Abstraction: The Catastrophe Machine and the More Machine</title>
+<title>The Feeling Body: Dynamics, Catastrophe, and Indeterminacy</title>
 <style>
+    /* Global Styles and Typography */
     body {
-        font-family: "Times New Roman", serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #f0f0f0;
-        margin: 0;
+        font-family: "Georgia", serif;
+        background-color: #f4f4f9;
         color: #333;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        user-select: none;
+        -webkit-user-select: none;
+        line-height: 1.6;
     }
+    h1 {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        color: #444;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+    #contentWrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        max-width: 1250px;
+        width: 100%;
+    }
+
+    /* Layout for visualization area - allows "smooshing" */
     #mainContainer {
         display: flex;
         flex-direction: row;
+        align-items: stretch;
+        gap: 25px;
+        width: 100%;
+        justify-content: center;
+        /* Flex-wrap allows the side panel to wrap below the ZCM on smaller screens */
+        flex-wrap: wrap;
+    }
+
+    /* Visualization Boxes */
+    .visualization-box {
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        display: flex;
+        flex-direction: column;
         align-items: center;
-        gap: 40px;
     }
-    #zcmContainer, #moreMachineContainer {
-        text-align: center;
+    #zcmContainer {
+        flex-grow: 1;
+        max-width: 740px; /* 700px svg + padding */
+        min-width: 400px;
     }
-    #moreMachineContainer {
-        border-left: 1px solid #ccc;
-        padding-left: 40px;
+    #sideContainer {
+        display: none; /* Hidden by default, shown by JS */
+        flex-direction: column;
+        gap: 25px;
+        min-width: 300px;
+        justify-content: center;
     }
+
+    /* Controls */
+    .controls-box {
+        background: #fdfdfd;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 15px;
+        display: flex;
+        gap: 25px;
+        justify-content: center;
+        align-items: center;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+    .controls-box label {
+        font-size: 1em;
+        cursor: pointer;
+    }
+
+    /* SVG Specifics */
     svg {
-        background-color: white;
-        box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        border: 1px solid #eee;
+        border-radius: 4px;
     }
     #zcmSvg {
         cursor: crosshair;
     }
     .label {
-        font-size: 16px;
+        font-size: 18px;
         font-weight: bold;
         color: #444;
-        margin-bottom: 10px;
-    }
-    #instructions {
-        position: absolute;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        max-width: 800px;
+        margin-bottom: 15px;
         text-align: center;
-        font-size: 14px;
-        line-height: 1.5;
-        color: #666;
+        font-family: "Helvetica Neue", Arial, sans-serif;
     }
     .band {
-        stroke-width: 3;
-        transition: stroke 0.1s;
+        stroke-width: 4;
+    }
+
+    /* Explanatory Text Styling */
+    #instructions {
+        max-width: 900px;
+        text-align: left;
+        font-size: 16px;
+        color: #333;
+        background-color: #e9e9f0;
+        padding: 20px 25px;
+        border-radius: 8px;
+        border-left: 4px solid #a0a0b5;
+    }
+    #instructions b {
+        color: #000;
+        display: inline-block;
+        margin-top: 8px;
     }
 </style>
 </head>
 <body>
 
-<div id="instructions">
-    <b>Interaction:</b> Drag the RED Control Point (representing attention or conversational pressure).<br>
-    <b>Observe:</b> Tension builds (sound/color) as the Disc (current state of understanding) resists change. Moving into the unstable central region causes a "Catastrophe"—a sudden SNAP to a new equilibrium.<br>
-    <b>The Link:</b> Each snap triggers the "More Machine" (right), symbolizing how dynamic shifts generate conceptual proliferation, which exhausts over time.
-</div>
+<div id="contentWrapper">
 
-<div id="mainContainer">
-    <div id="zcmContainer">
-        <div class="label">Embodied Dynamics (ZCM)</div>
-        <svg id="zcmSvg" width="500" height="400"></svg>
+    <h1>The Feeling Body: Dynamics, Catastrophe, and Indeterminacy</h1>
+
+    <div id="instructions">
+        We often model systems using Finite State Automata (FSA), assuming smooth transitions. The "feeling body," however, experiences tension, ambiguity, and sudden shifts. This visualization uses an accurate physics simulation of the Zeeman Catastrophe Machine (ZCM) to model these non-linear dynamics.
+        <br>
+        <b>Interaction:</b> Drag the <b>RED</b> Control Point (representing pressure or tension). Dashed lines indicate slack bands (not under tension).
+        <br>
+        <b>The States (M/W) and Hysteresis:</b> The disc represents the current embodied state. It exhibits <i>hysteresis</i>—it remains in its current local energy minimum (readable as 'M' or 'W') until that minimum disappears.
+        <br>
+        <b>Chaotic Superposition (Indeterminacy):</b> As the control point moves into the cusp region, the stability of the current state weakens (the energy minimum flattens). When stability drops near zero, the system is in a chaotic superposition. In this indeterminate state, <b>no clear output ('M' or 'W') is gleaned</b>.
+        <br>
+        <b>Catastrophe:</b> When the pressure forces the current local minimum to vanish, a "Catastrophe" occurs—a sudden, discontinuous snap to the new equilibrium.
     </div>
-    <div id="moreMachineContainer">
-        <div class="label">Conceptual Proliferation (More Machine)</div>
-        <svg id="moreMachineSvg" width="250" height="250"></svg>
+
+    <div id="mainContainer">
+        <div id="zcmContainer" class="visualization-box">
+            <div class="label">Embodied State Dynamics (ZCM)</div>
+            <!-- Increased Sandbox Size -->
+            <svg id="zcmSvg" width="700" height="700"></svg>
+        </div>
+
+        <!-- Side container holds optional visualizations -->
+        <div id="sideContainer">
+            <div id="acousticContainer" class="visualization-box" style="display: none;">
+                <div class="label">Acoustic Metaphor (Tension & Release)</div>
+                <svg id="speakerSvg" width="450" height="350"></svg>
+            </div>
+
+            <div id="moreMachineContainer" class="visualization-box" style="display: none;">
+                <div class="label">Conceptual Proliferation (More Machine)</div>
+                <svg id="moreMachineSvg" width="250" height="250"></svg>
+            </div>
+        </div>
     </div>
+
+    <div class="controls-box">
+        <label><input type="checkbox" id="toggleAcoustic"> Show Acoustic Metaphor</label>
+        <label><input type="checkbox" id="toggleMoreMachine"> Show More Machine</label>
+    </div>
+
 </div>
 
 <script>
     // === ZCM Configuration ===
-    const ZCM_WIDTH = 500;
-    const ZCM_HEIGHT = 400;
+    const ZCM_WIDTH = 700;
+    const ZCM_HEIGHT = 700;
     const CENTER_X = ZCM_WIDTH / 2;
-    const CENTER_Y = ZCM_HEIGHT / 2;
-    const DISC_RADIUS = 60;
-    const ATTACHMENT_RADIUS = 50; 
+    const CENTER_Y = ZCM_HEIGHT / 2 - 50; // Shift slightly up (e.g., 350, 300)
+    const DISC_RADIUS = 90;
+    const ATTACHMENT_RADIUS = 75; // R
+    
+    // *** PHYSICS UPDATE ***
+    // L0: Natural (unstretched) length of the elastic bands. 
+    // This is crucial for defining the cusp catastrophe geometry.
+    const L0 = 100; 
 
-    let discAngle = Math.PI / 2; // Current state (pointing down initially)
-    let controlPoint = { x: CENTER_X + 100, y: CENTER_Y - 100 };
-    const fixedPoint = { x: CENTER_X, y: CENTER_Y + 150 }; // Fixed anchor below disc
+    let discAngle = Math.PI / 2; // Current state (pointing down initially - 'M')
+    let previousDiscAngle = discAngle;
+    let currentStability = 1.0; // Normalized stability for visualization (0=unstable, 1=very stable)
+    let controlPoint = { x: CENTER_X + 150, y: CENTER_Y - 150 };
+    // Fixed anchor significantly below the disc
+    const fixedPoint = { x: CENTER_X, y: ZCM_HEIGHT - 80 };
     
     // === More Machine Configuration ===
     let mmGridData = [];
@@ -99,24 +201,34 @@
     let audioContext;
     let tensionGain;
     let tensionOsc;
-    let isInteracting = false; // Tracks if the user is currently dragging
-    
+    let isInteracting = false;
+    // Recalibrated MAX_ENERGY based on new physics (L0=100)
+    const MAX_ENERGY = 250000; 
+
     // === Audio Initialization ===
     function initAudio() {
         if (!audioContext) {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            tensionOsc = audioContext.createOscillator();
-            tensionGain = audioContext.createGain();
-            tensionOsc.connect(tensionGain);
-            tensionGain.connect(audioContext.destination);
-            tensionOsc.type = 'sawtooth'; // Straining sound
-            tensionOsc.frequency.setValueAtTime(80, audioContext.currentTime);
-            tensionGain.gain.setValueAtTime(0, audioContext.currentTime); // Start silent
-            tensionOsc.start();
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                tensionOsc = audioContext.createOscillator();
+                tensionGain = audioContext.createGain();
+                tensionOsc.connect(tensionGain);
+                tensionGain.connect(audioContext.destination);
+                tensionOsc.type = 'sawtooth';
+                tensionOsc.frequency.setValueAtTime(80, audioContext.currentTime);
+                tensionGain.gain.setValueAtTime(0, audioContext.currentTime);
+                tensionOsc.start();
+            } catch (e) {
+                console.log("Audio initialization failed.");
+                audioContext = null;
+            }
+        }
+        if (audioContext && audioContext.state === 'suspended') {
+            audioContext.resume();
         }
     }
 
-    // === ZCM Dynamics (Physics Simulation) ===
+    // === ZCM Dynamics (Accurate Physics Simulation using Gradient Descent) ===
 
     function getAttachmentPoint(angle) {
         return {
@@ -125,101 +237,197 @@
         };
     }
 
-    // Calculate potential energy (proportional to the square of the spring lengths - Hooke's Law)
+    // Calculate potential energy (V) using Hooke's Law (E = 0.5*k*(L-L0)^2)
+    // We assume k=2 for simplicity. Energy is 0 if the band is slack (L <= L0).
     function calculateEnergy(angle) {
         const P = getAttachmentPoint(angle);
         
-        // Energy = k * (Length)^2
-        const L1_sq = Math.pow(P.x - fixedPoint.x, 2) + Math.pow(P.y - fixedPoint.y, 2);
-        const L2_sq = Math.pow(P.x - controlPoint.x, 2) + Math.pow(P.y - controlPoint.y, 2);
+        // Calculate current lengths L1 (Fixed to P) and L2 (Control to P)
+        const L1 = Math.sqrt(Math.pow(P.x - fixedPoint.x, 2) + Math.pow(P.y - fixedPoint.y, 2));
+        const L2 = Math.sqrt(Math.pow(P.x - controlPoint.x, 2) + Math.pow(P.y - controlPoint.y, 2));
         
-        return L1_sq + L2_sq;
+        const E1 = (L1 > L0) ? Math.pow(L1 - L0, 2) : 0;
+        const E2 = (L2 > L0) ? Math.pow(L2 - L0, 2) : 0;
+            
+        return E1 + E2;
     }
 
-    // Find the global minimum energy state by searching all angles.
-    // This is the core of the ZCM logic: the system instantly seeks the lowest energy state.
-    function findEquilibrium() {
-        let minEnergy = Infinity;
-        let bestAngle = discAngle;
-        const searchSteps = 180; // Resolution of search
+    // Calculate the first derivative of the energy (dE/dA) - The Gradient (Torque)
+    // Derived analytically from the energy function V.
+    // dV/dA = 2R * [ (1 - L0/L1)*(FxsinA - FycosA) + (1 - L0/L2)*(CxsinA - CycosA) ]
+    function calculateGradient(angle) {
+        const R = ATTACHMENT_RADIUS;
+        
+        // Coordinates relative to the center of the disc
+        const Fx = fixedPoint.x - CENTER_X;
+        const Fy = fixedPoint.y - CENTER_Y;
+        const Cx = controlPoint.x - CENTER_X;
+        const Cy = controlPoint.y - CENTER_Y;
 
-        for (let i = 0; i < searchSteps; i++) {
-            const testAngle = (i / searchSteps) * 2 * Math.PI;
-            const energy = calculateEnergy(testAngle);
-            if (energy < minEnergy) {
-                minEnergy = energy;
-                bestAngle = testAngle;
-            }
+        // Attachment point coordinates relative to center
+        const Px = R * Math.cos(angle);
+        const Py = R * Math.sin(angle);
+
+        // Calculate lengths L1 and L2
+        const L1 = Math.sqrt(Math.pow(Px - Fx, 2) + Math.pow(Py - Fy, 2));
+        const L2 = Math.sqrt(Math.pow(Px - Cx, 2) + Math.pow(Py - Cy, 2));
+
+        let Term1 = 0;
+        // Only calculate gradient contribution if the band is stretched (L1 > L0)
+        if (L1 > L0 && L1 > 0.001) { // Check L1>0.001 to prevent division by zero
+            // (1 - L0/L1) * (FxsinA - FycosA)
+            Term1 = (1 - L0 / L1) * (Fx * Math.sin(angle) - Fy * Math.cos(angle));
         }
-        return { angle: bestAngle, energy: minEnergy };
+
+        let Term2 = 0;
+        // Only calculate gradient contribution if the band is stretched (L2 > L0)
+        if (L2 > L0 && L2 > 0.001) {
+             // (1 - L0/L2) * (CxsinA - CycosA)
+            Term2 = (1 - L0 / L2) * (Cx * Math.sin(angle) - Cy * Math.cos(angle));
+        }
+
+        const gradient = 2 * R * (Term1 + Term2);
+        return gradient;
     }
 
-    function updateDiscState() {
-        const equilibrium = findEquilibrium();
+
+    // Numerically estimate the stability (second derivative d^2E/dA^2) using central differences.
+    // Stability characterizes the steepness of the energy minimum.
+    // Stability = (Gradient(A + dA) - Gradient(A - dA)) / (2 * dA)
+    function estimateStability(angle) {
+        const dA = 0.01; // Small change in angle (radians)
+        const gradientPlus = calculateGradient(angle + dA);
+        const gradientMinus = calculateGradient(angle - dA);
         
+        const stability = (gradientPlus - gradientMinus) / (2 * dA);
+        // Return the stability value (positive means minimum, negative means maximum)
+        return stability;
+    }
+
+    // Update the disc state using Gradient Descent to find the LOCAL minimum (Hysteresis)
+    function updateDiscState() {
+        let newAngle = discAngle;
+        // Tuned parameters for the physics model
+        const learningRate = 0.001; 
+        const maxIterations = 250;
+        const convergenceThreshold = 0.05; // Stop when gradient (torque) is very flat
+        let stability = 0;
+
+        // Gradient Descent Loop
+        for(let i=0; i<maxIterations; i++) {
+            const gradient = calculateGradient(newAngle);
+
+            // Stop if the gradient is flat (we found an extremum)
+            if (Math.abs(gradient) < convergenceThreshold) {
+                // We found an extremum, now check if it's a minimum by estimating stability
+                stability = estimateStability(newAngle);
+                // If stability is negative, we found a maximum, not a minimum. 
+                // The system is unstable here and the GD process should naturally move away.
+                if (stability > 0) {
+                     break;
+                }
+            }
+
+            // Standard Gradient Descent step
+            let step = learningRate * gradient;
+
+            // Clamp the step size to prevent massive jumps that overshoot the minimum
+            const maxStep = 0.1; // Max rotation per iteration (in radians)
+            if (step > maxStep) step = maxStep;
+            if (step < -maxStep) step = -maxStep;
+
+            newAngle -= step;
+
+             // Normalize angle
+            newAngle = (newAngle + 4 * Math.PI) % (2 * Math.PI);
+        }
+
+        // If the loop finished without converging to a stable minimum (e.g., during a rapid catastrophe)
+        // we estimate stability at the final point for visualization purposes.
+        if (stability <= 0) {
+             stability = estimateStability(newAngle);
+        }
+
+
         // Detect the "Snap" (Catastrophe)
-        let angleDiff = equilibrium.angle - discAngle;
-        // Normalize the difference to find the shortest path (-PI to PI)
+        let angleDiff = newAngle - discAngle;
+        // Normalize the difference
         while (angleDiff > Math.PI) angleDiff -= 2 * Math.PI;
         while (angleDiff < -Math.PI) angleDiff += 2 * Math.PI;
 
         let snapped = false;
-        // If the angle changes significantly in one step, it means the minimum shifted discontinuously.
-        if (Math.abs(angleDiff) > 0.4) { // Threshold for detecting a snap
+        // A large jump indicates the previous local minimum vanished.
+        if (Math.abs(angleDiff) > 0.6) {
             snapped = true;
             playSnapSound();
         }
 
-        discAngle = equilibrium.angle;
-        updateTensionAudio(equilibrium.energy);
-        return snapped;
+        discAngle = newAngle;
+        const energy = calculateEnergy(discAngle);
+        updateTensionAudio(energy);
+        // Return stability (even if negative/zero) for normalization in the main loop
+        return { snapped: snapped, stability: stability };
     }
     
     // === Audio Feedback ===
-    // Approximate max energy for normalization
-    const MAX_ENERGY = 250000; 
 
     function updateTensionAudio(energy) {
-        if (!audioContext) return;
+        if (!audioContext || audioContext.state !== 'running') return;
         
-        // Fade out if interaction stops
         if (!isInteracting) {
-             tensionGain.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.1);
              return;
         }
         
-        // Map energy to audio parameters
         const normalizedEnergy = Math.min(1, energy / MAX_ENERGY);
 
-        const volume = normalizedEnergy * 0.3;
-        const frequency = 80 + normalizedEnergy * 800; // 80Hz to 880Hz
+        let volume = normalizedEnergy * 0.4;
+        let frequency = 80 + normalizedEnergy * 800;
 
-        tensionGain.gain.linearRampToValueAtTime(volume, audioContext.currentTime + 0.05);
-        tensionOsc.frequency.linearRampToValueAtTime(frequency, audioContext.currentTime + 0.05);
+        // Add audio instability (wobble) when visual stability is low
+        const STABILITY_THRESHOLD = 0.6;
+        if (currentStability < STABILITY_THRESHOLD) {
+            // Ensure stability is treated as 0 if negative for indeterminacy calculation
+            const effectiveStability = Math.max(0, currentStability);
+            const indeterminacy = 1.0 - (effectiveStability / STABILITY_THRESHOLD);
+            const wobble = Math.sin(audioContext.currentTime * 60) * indeterminacy * 80;
+            frequency += wobble;
+            volume *= (1 + Math.sin(audioContext.currentTime * 40) * indeterminacy * 0.2);
+        }
+
+        // Ensure volume and frequency are valid numbers before setting (safety check for physics simulations)
+        if (!isNaN(volume) && isFinite(volume) && volume >= 0) {
+            tensionGain.gain.linearRampToValueAtTime(volume, audioContext.currentTime + 0.05);
+        }
+        if (!isNaN(frequency) && isFinite(frequency) && frequency > 0) {
+            tensionOsc.frequency.linearRampToValueAtTime(frequency, audioContext.currentTime + 0.05);
+        }
     }
     
     function playSnapSound() {
-        if (!audioContext) return;
-        // A sharp, brief sound for the release of energy
+        if (!audioContext || audioContext.state !== 'running') return;
         const snap = audioContext.createOscillator();
         const snapGain = audioContext.createGain();
         snap.connect(snapGain);
         snapGain.connect(audioContext.destination);
         snap.type = 'square';
-        snap.frequency.setValueAtTime(800, audioContext.currentTime);
-        // Rapid frequency drop simulates the physical snap
-        snap.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.1);
+        snap.frequency.setValueAtTime(1000, audioContext.currentTime);
+        snap.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.15);
 
-        snapGain.gain.setValueAtTime(0.6, audioContext.currentTime);
-        snapGain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.15);
+        snapGain.gain.setValueAtTime(0.7, audioContext.currentTime);
+        snapGain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.2);
         snap.start();
-        snap.stop(audioContext.currentTime + 0.15);
+        snap.stop(audioContext.currentTime + 0.2);
     }
 
     // === ZCM Visualization ===
     function drawZCM() {
         const svg = document.getElementById('zcmSvg');
+        const svgNS = "http://www.w3.org/2000/svg";
+        
+        // Clear previous frame, retaining definitions
+        const defs = svg.querySelector('defs');
         svg.innerHTML = '';
+        if (defs) svg.appendChild(defs);
 
         // 1. Attachment Point Calculation
         const P = getAttachmentPoint(discAngle);
@@ -228,60 +436,148 @@
         const energy = calculateEnergy(discAngle);
         const tensionNormalized = Math.min(1, energy / MAX_ENERGY);
         // Color map: Blue (low tension) to Red (high tension)
-        const tensionColor = `hsl(${240 * (1-tensionNormalized)}, 80%, 50%)`;
+        const hue = 240 - (tensionNormalized * 200); // 240 (Blue) to 40 (Orange/Red)
+        const saturation = 60 + tensionNormalized * 40;
+        const tensionColor = `hsl(${hue}, ${saturation}%, 50%)`;
 
 
-        // 3. Elastic Bands (Tension)
-        function drawBand(start, end, color) {
-            const band = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        // 3. Elastic Bands (Tension and Slackness Visualization)
+        function drawBand(start, end, color, length) {
+            const band = document.createElementNS(svgNS, "line");
             band.setAttribute('x1', start.x);
             band.setAttribute('y1', start.y);
             band.setAttribute('x2', end.x);
             band.setAttribute('y2', end.y);
             band.setAttribute('stroke', color);
             band.setAttribute('class', 'band');
+
+            // Visualize slackness (L <= L0)
+            if (length <= L0) {
+                band.setAttribute('stroke-dasharray', '5, 5'); // Dashed line
+                band.setAttribute('stroke', '#999'); // Grey color
+            }
+            
             svg.appendChild(band);
         }
 
-        drawBand(fixedPoint, P, tensionColor);
-        drawBand(controlPoint, P, tensionColor);
+        // Calculate lengths for visualization
+        const L1 = Math.sqrt(Math.pow(P.x - fixedPoint.x, 2) + Math.pow(P.y - fixedPoint.y, 2));
+        const L2 = Math.sqrt(Math.pow(P.x - controlPoint.x, 2) + Math.pow(P.y - controlPoint.y, 2));
+
+        drawBand(fixedPoint, P, tensionColor, L1);
+        drawBand(controlPoint, P, tensionColor, L2);
 
         // 4. The Disc (The State)
-        const disc = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        const disc = document.createElementNS(svgNS, "circle");
         disc.setAttribute('cx', CENTER_X);
         disc.setAttribute('cy', CENTER_Y);
         disc.setAttribute('r', DISC_RADIUS);
-        disc.setAttribute('fill', '#e0e0e0');
-        disc.setAttribute('stroke', '#333');
+        disc.setAttribute('fill', '#f9f9f9');
+        disc.setAttribute('stroke', '#888');
+        disc.setAttribute('stroke-width', '2');
         svg.appendChild(disc);
+
+        // 4a. Add "M" / "W" (The Output State)
+        const text = document.createElementNS(svgNS, "text");
+        text.setAttribute('x', CENTER_X);
+        text.setAttribute('y', CENTER_Y);
+        const angleInDegrees = discAngle * 180 / Math.PI + 90; // +90 aligns M downwards
+        text.setAttribute('transform', `rotate(${angleInDegrees}, ${CENTER_X}, ${CENTER_Y})`);
+        text.setAttribute('font-family', 'Georgia, serif');
+        text.setAttribute('font-size', '70px');
+        text.setAttribute('font-weight', 'bold');
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('dominant-baseline', 'middle');
+        text.textContent = 'M';
+
+        // 4b. Visualize Indeterminacy (Chaotic Superposition) when stability is low
+        const STABILITY_THRESHOLD = 0.6;
+        // Ensure currentStability (normalized) is treated as 0 if it's negative (unstable)
+        const effectiveStability = Math.max(0, currentStability);
+
+        if (effectiveStability < STABILITY_THRESHOLD) {
+            // Indeterminacy ranges from 0 (at threshold) to 1 (at stability 0)
+            const indeterminacy = 1.0 - (effectiveStability / STABILITY_THRESHOLD);
+
+            // Apply filter to signify "no output gleaned"
+            const filterId = 'chaosFilter';
+            let defs = svg.querySelector('defs');
+            if (!defs) {
+                defs = document.createElementNS(svgNS, "defs");
+                svg.appendChild(defs);
+            }
+            let filter = defs.querySelector(`#${filterId}`);
+            if (!filter) {
+                // Create a filter using turbulence and displacement for a dynamic, chaotic look
+                filter = document.createElementNS(svgNS, "filter");
+                filter.setAttribute('id', filterId);
+                const turbulence = document.createElementNS(svgNS, "feTurbulence");
+                turbulence.setAttribute('type', 'fractalNoise');
+                turbulence.setAttribute('baseFrequency', '0.05');
+                turbulence.setAttribute('numOctaves', '2');
+                turbulence.setAttribute('result', 'noise');
+                const displacement = document.createElementNS(svgNS, "feDisplacementMap");
+                displacement.setAttribute('in', 'SourceGraphic');
+                displacement.setAttribute('in2', 'noise');
+                displacement.setAttribute('xChannelSelector', 'R');
+                displacement.setAttribute('yChannelSelector', 'G');
+                const blur = document.createElementNS(svgNS, "feGaussianBlur");
+                
+                filter.appendChild(turbulence);
+                filter.appendChild(displacement);
+                filter.appendChild(blur);
+                defs.appendChild(filter);
+            }
+            // Scale the effects based on indeterminacy
+            const displacementScale = indeterminacy * 35;
+            const blurScale = (indeterminacy * 3);
+            filter.querySelector('feDisplacementMap').setAttribute('scale', displacementScale.toFixed(2));
+            filter.querySelector('feGaussianBlur').setAttribute('stdDeviation', blurScale.toFixed(2));
+
+            text.setAttribute('filter', `url(#${filterId})`);
+
+            // Fade the color slightly
+            text.setAttribute('fill', `rgba(51, 51, 51, ${1-indeterminacy*0.5})`);
+        } else {
+            // Clear the filter definition if stable for crisp rendering and performance
+            if (svg.querySelector('defs')) {
+                svg.querySelector('defs').innerHTML = '';
+            }
+            text.setAttribute('fill', '#333');
+        }
+
+        svg.appendChild(text);
         
         // 5. Fixed Point (Anchor)
-        const fixedP = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        const fixedP = document.createElementNS(svgNS, "circle");
         fixedP.setAttribute('cx', fixedPoint.x);
         fixedP.setAttribute('cy', fixedPoint.y);
-        fixedP.setAttribute('r', 6);
-        fixedP.setAttribute('fill', 'blue');
+        fixedP.setAttribute('r', 9);
+        fixedP.setAttribute('fill', '#4a90e2');
         svg.appendChild(fixedP);
 
         // 6. Attachment Point visualization
-        const attachP = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        const attachP = document.createElementNS(svgNS, "circle");
         attachP.setAttribute('cx', P.x);
         attachP.setAttribute('cy', P.y);
-        attachP.setAttribute('r', 5);
-        attachP.setAttribute('fill', '#333');
+        attachP.setAttribute('r', 7);
+        attachP.setAttribute('fill', '#555');
         svg.appendChild(attachP);
 
         // 7. Control Point (User Input)
-        const controlP = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        const controlP = document.createElementNS(svgNS, "circle");
         controlP.setAttribute('cx', controlPoint.x);
         controlP.setAttribute('cy', controlPoint.y);
-        controlP.setAttribute('r', 8);
-        controlP.setAttribute('fill', 'red');
+        controlP.setAttribute('r', 12);
+        controlP.setAttribute('fill', '#d9534f');
+        controlP.setAttribute('stroke', '#333');
+        controlP.setAttribute('stroke-width', '1.5');
         svg.appendChild(controlP);
     }
 
     // === ZCM Interaction Handlers ===
     let isDragging = false;
+    const zcmSvgElement = document.getElementById('zcmSvg');
 
     function handleStart(e) {
         initAudio();
@@ -297,64 +593,77 @@
     }
 
     function handleEnd() {
+        if (!isDragging) return;
         isDragging = false;
         isInteracting = false;
          // Fade out audio when interaction stops
-         if (audioContext) {
-            tensionGain.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.2);
+         if (audioContext && audioContext.state === 'running') {
+             tensionGain.gain.cancelScheduledValues(audioContext.currentTime);
+             // Ensure gain value is valid before ramping down (robustness check)
+             try {
+                const currentGain = tensionGain.gain.value;
+                if (!isNaN(currentGain) && isFinite(currentGain) && currentGain > 0) {
+                    tensionGain.gain.setValueAtTime(currentGain, audioContext.currentTime);
+                }
+             } catch (e) {
+                 // Fallback if accessing/setting value throws an error
+             }
+             tensionGain.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.2);
         }
+        // Redraw one last time to ensure visualizations are stable when interaction stops
+        drawZCM(); 
     }
 
-    // Mouse Events
-    document.getElementById('zcmSvg').addEventListener('mousedown', handleStart);
-    document.getElementById('zcmSvg').addEventListener('mousemove', handleMove);
-    document.getElementById('zcmSvg').addEventListener('mouseup', handleEnd);
+    // Mouse Events (Use window listeners for smoother dragging outside the SVG)
+    zcmSvgElement.addEventListener('mousedown', handleStart);
+    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('mouseup', handleEnd);
 
     // Touch Events
-    document.getElementById('zcmSvg').addEventListener('touchstart', (e) => {
-        e.preventDefault();
+    zcmSvgElement.addEventListener('touchstart', (e) => {
+        if (e.cancelable) e.preventDefault();
         handleStart(e.touches[0]);
     });
 
-    document.getElementById('zcmSvg').addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        handleMove(e.touches[0]);
-    });
+    window.addEventListener('touchmove', (e) => {
+         if (isDragging) {
+             if (e.cancelable) e.preventDefault();
+             handleMove(e.touches[0]);
+         }
+    }, { passive: false });
 
-    document.getElementById('zcmSvg').addEventListener('touchend', handleEnd);
+    window.addEventListener('touchend', handleEnd);
 
 
     function updateControlPoint(e) {
-        const rect = document.getElementById('zcmSvg').getBoundingClientRect();
-        controlPoint.x = e.clientX - rect.left;
-        controlPoint.y = e.clientY - rect.top;
+        const rect = zcmSvgElement.getBoundingClientRect();
+        
+        // Handle mouse or touch input
+        const clientX = e.clientX !== undefined ? e.clientX : (e.touches ? e.touches[0].clientX : 0);
+        const clientY = e.clientY !== undefined ? e.clientY : (e.touches ? e.touches[0].clientY : 0);
+
+        controlPoint.x = clientX - rect.left;
+        controlPoint.y = clientY - rect.top;
         
         // Constrain movement
         controlPoint.x = Math.max(0, Math.min(ZCM_WIDTH, controlPoint.x));
         controlPoint.y = Math.max(0, Math.min(ZCM_HEIGHT, controlPoint.y));
-
-        const snapped = updateDiscState();
-        drawZCM();
-        
-        if (snapped) {
-            // When a catastrophe occurs, trigger the More Machine
-            generateMore();
-        }
     }
 
     // === More Machine Logic and Visualization ===
+    // (No changes needed here, but included for completeness)
     function drawMoreMachine() {
         const svg = document.getElementById('moreMachineSvg');
+        if (!svg) return;
         svg.innerHTML = '';
         const cellSize = MM_SVG_SIZE / MM_MAX_SIZE;
         const svgSize = cellSize * mmSize;
         svg.setAttribute('width', svgSize);
         svg.setAttribute('height', svgSize);
 
-        // Visualization of Exhaustion (Desaturation and loss of contrast)
-        const hue = 20; // Orange hue
+        // Visualization of Exhaustion
+        const hue = 260; // Purple hue
         const saturation = Math.max(0, 100 - mmIteration * 10);
-        // Dark color gets lighter, light color gets darker -> Fading to gray
         const lightness1 = Math.min(95, 40 + mmIteration * 5);
         const lightness0 = Math.max(40, 85 - mmIteration * 5);
 
@@ -368,38 +677,36 @@
                 rect.setAttribute('width', cellSize);
                 rect.setAttribute('height', cellSize);
                 rect.setAttribute('fill', color);
-                rect.setAttribute('stroke', '#aaa');
+                rect.setAttribute('stroke', '#fff');
                 rect.setAttribute('stroke-width', '0.5');
                 svg.appendChild(rect);
             }
         }
     }
 
-    // The Diagonalization Algorithm
+    // The Diagonalization Algorithm (Triggered by Catastrophe)
     function generateMore() {
         if (mmSize >= MM_MAX_SIZE) {
-            return;
+            // Reset upon exhaustion
+            mmSize = 0;
+            mmIteration = 0;
+            mmGridData = [];
         }
         
         mmIteration++;
 
         if (mmSize === 0) {
-            // Initialize if empty
             mmGridData = [[Math.round(Math.random())]];
             mmSize = 1;
         } else {
-            // Diagonalization (The Critique)
             let newPattern = [];
             for (let i = 0; i < mmSize; i++) {
-                // Flip the diagonal
                 newPattern.push(1 - mmGridData[i][i]);
             }
 
-            // Proliferation (The "More")
             mmGridData.push(newPattern);
             mmSize++;
 
-            // Fill out the square randomly to maintain structure for the next iteration
             for (let i = 0; i < mmSize - 1; i++) {
                 mmGridData[i].push(Math.round(Math.random()));
             }
@@ -409,9 +716,214 @@
         drawMoreMachine();
     }
 
-    // === Initialization ===
-    drawZCM();
-    drawMoreMachine(); // Start empty
+    // === Speaker/Acoustic Metaphor Visualization ===
+    // (No changes needed here, but included for completeness)
+    let speakerSvg, pistonRect, airParticles = [];
+    const SPEAKER_SVG_WIDTH = 450;
+    const SPEAKER_SVG_HEIGHT = 350;
+    const numAirParticles = 300;
+    const particleRadius = 2;
+    const speakerWidth = 40;
+    const speakerHeight = 180;
+    const speakerBaseX = 60;
+    const speakerY = (SPEAKER_SVG_HEIGHT - speakerHeight) / 2;
+    const chamberEndX = SPEAKER_SVG_WIDTH - 20;
+    
+    const waveSpeed = 6;
+    const historySeconds = 1.5;
+    const fps = 60;
+    const speakerHistory = new Array(Math.ceil(fps * historySeconds)).fill(0);
+    let historyIndex = 0;
+    const maxSpeakerDisplacement = 40;
+    const sensitivityScale = 15;
+    let smoothedDisplacement = 0;
+    const smoothingFactor = 0.2;
+
+    function initSpeakerSvg() {
+        speakerSvg = document.getElementById('speakerSvg');
+        if (!speakerSvg) return;
+        const svgNS = "http://www.w3.org/2000/svg";
+        speakerSvg.innerHTML = '';
+        airParticles = [];
+
+        // Walls
+        function drawWall(y) {
+            let wall = document.createElementNS(svgNS, 'line');
+            wall.setAttribute('x1', speakerBaseX); wall.setAttribute('y1', y);
+            wall.setAttribute('x2', chamberEndX); wall.setAttribute('y2', y);
+            wall.setAttribute('stroke', '#999'); wall.setAttribute('stroke-width', '2');
+            speakerSvg.appendChild(wall);
+        }
+        drawWall(speakerY);
+        drawWall(speakerY + speakerHeight);
+
+        // Piston
+        pistonRect = document.createElementNS(svgNS, 'rect');
+        pistonRect.setAttribute('x', speakerBaseX - speakerWidth);
+        pistonRect.setAttribute('y', speakerY);
+        pistonRect.setAttribute('width', speakerWidth);
+        pistonRect.setAttribute('height', speakerHeight);
+        pistonRect.setAttribute('fill', '#aaa');
+        pistonRect.setAttribute('stroke', '#666');
+        speakerSvg.appendChild(pistonRect);
+
+        // Particles (Grid distribution with jitter)
+        const particleGroup = document.createElementNS(svgNS, 'g');
+        speakerSvg.appendChild(particleGroup);
+        const startX = speakerBaseX + 5;
+        const endX = chamberEndX - 5;
+        const startY = speakerY + 5;
+        const endY = speakerY + speakerHeight - 5;
+
+        const area = (endX - startX) * (endY - startY);
+        const density = numAirParticles / area;
+        const spacing = Math.sqrt(1/density);
+
+        const numX = Math.floor((endX - startX) / spacing);
+        const numY = Math.floor((endY - startY) / spacing);
+
+        for (let i = 0; i <= numX; i++) {
+            for (let j = 0; j <= numY; j++) {
+                if (airParticles.length >= numAirParticles) break;
+                let baseX = startX + i * spacing + (Math.random() - 0.5) * spacing * 0.4;
+                let baseY = startY + j * spacing + (Math.random() - 0.5) * spacing * 0.4;
+
+                let circle = document.createElementNS(svgNS, 'circle');
+                circle.setAttribute('cx', baseX.toFixed(1));
+                circle.setAttribute('cy', baseY.toFixed(1));
+                circle.setAttribute('r', particleRadius);
+                circle.setAttribute('fill', '#5a8fcd');
+                circle.setAttribute('opacity', '0.7');
+                particleGroup.appendChild(circle);
+                airParticles.push({ element: circle, baseX: baseX, baseY: baseY });
+            }
+        }
+    }
+
+    function animateSpeaker() {
+        if (!speakerSvg || !document.getElementById('toggleAcoustic').checked) return;
+
+        // Calculate change in angle (velocity)
+        let dTheta = discAngle - previousDiscAngle;
+        while (dTheta > Math.PI) dTheta -= 2 * Math.PI;
+        while (dTheta < -Math.PI) dTheta += 2 * Math.PI;
+
+        const targetDisplacement = maxSpeakerDisplacement * Math.tanh(dTheta * sensitivityScale);
+        
+        // Apply smoothing
+        smoothedDisplacement += (targetDisplacement - smoothedDisplacement) * smoothingFactor;
+
+        speakerHistory[historyIndex] = smoothedDisplacement;
+        historyIndex = (historyIndex + 1) % speakerHistory.length;
+
+        pistonRect.setAttribute('x', (speakerBaseX - speakerWidth + smoothedDisplacement).toFixed(2));
+
+        const currentHistoryIndex = historyIndex;
+        const pistonFaceX = speakerBaseX + smoothedDisplacement;
+
+        for (let p of airParticles) {
+            const distance = p.baseX - speakerBaseX;
+            const timeDelay = distance / waveSpeed;
+            let lookBackIndex = Math.round(currentHistoryIndex - 1 - timeDelay);
+            lookBackIndex = (lookBackIndex % speakerHistory.length + speakerHistory.length) % speakerHistory.length;
+            
+            const historicalDisplacement = speakerHistory[lookBackIndex] || 0;
+            const damping = Math.exp(-0.003 * distance);
+            const currentX = p.baseX + historicalDisplacement * damping;
+            
+            const clampedX = Math.max(
+                pistonFaceX + particleRadius,
+                Math.min(chamberEndX - particleRadius, currentX)
+            );
+            p.element.setAttribute('cx', clampedX.toFixed(2));
+        }
+
+        previousDiscAngle = discAngle;
+    }
+
+    // === Main Animation Loop ===
+    // Heuristic estimate of maximum possible stability (used for normalization)
+    // Recalibrated for the new physics model (L0=100).
+    const MAX_STABILITY_VIS = 5000; 
+
+    function mainLoop() {
+        // Update ZCM physics and visualization when interacting
+        if (isInteracting) {
+            const result = updateDiscState();
+
+            // Normalize stability for visualization (0 to 1)
+            // We normalize the raw stability based on MAX_STABILITY_VIS.
+            currentStability = result.stability / MAX_STABILITY_VIS;
+            
+            // Clamp the normalized value for very stable states (for visualization/audio effects)
+            if (currentStability > 1.0) currentStability = 1.0;
+            // Note: currentStability can be negative here if the system is currently unstable (e.g. mid-catastrophe)
+
+            drawZCM();
+            if (result.snapped && document.getElementById('toggleMoreMachine').checked) {
+                generateMore();
+            }
+        }
+        
+        // Always run speaker animation (checks visibility internally)
+        animateSpeaker();
+        
+        requestAnimationFrame(mainLoop);
+    }
+
+    // === Initialization and Layout Management ===
+
+    function setupControls() {
+        const toggleMoreMachine = document.getElementById('toggleMoreMachine');
+        const toggleAcoustic = document.getElementById('toggleAcoustic');
+        const moreMachineContainer = document.getElementById('moreMachineContainer');
+        const acousticContainer = document.getElementById('acousticContainer');
+        const sideContainer = document.getElementById('sideContainer');
+
+        // Function to manage layout changes dynamically ("smooshing")
+        function updateLayout() {
+            const acousticVisible = toggleAcoustic.checked;
+            const moreVisible = toggleMoreMachine.checked;
+
+            // Set visibility of individual components
+            acousticContainer.style.display = acousticVisible ? 'flex' : 'none';
+            moreMachineContainer.style.display = moreVisible ? 'flex' : 'none';
+
+            // Manage the side panel visibility
+            if (acousticVisible || moreVisible) {
+                // Flexbox handles the layout (side-by-side or wrapped)
+                sideContainer.style.display = 'flex';
+            } else {
+                // Hide the side container if empty so ZCM can center properly
+                sideContainer.style.display = 'none';
+            }
+
+            // Initialize the speaker SVG visualization on demand
+            if (acousticVisible && (!speakerSvg || airParticles.length === 0)) {
+                initSpeakerSvg();
+            }
+        }
+
+        toggleMoreMachine.addEventListener('change', updateLayout);
+        toggleAcoustic.addEventListener('change', updateLayout);
+
+        // Initial layout setup
+        updateLayout();
+    }
+
+    // Initialize
+    document.addEventListener("DOMContentLoaded", () => {
+        // Ensure the system starts in a stable state
+        const initialResult = updateDiscState(); 
+        // Initialize the stability visualization value
+        currentStability = initialResult.stability / MAX_STABILITY_VIS;
+        if (currentStability > 1.0) currentStability = 1.0;
+
+        drawZCM();
+        drawMoreMachine();
+        setupControls();
+        mainLoop();
+    });
 
 </script>
 </body>
