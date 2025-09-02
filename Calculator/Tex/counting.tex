@@ -358,7 +358,7 @@ This contrasts with attempts to model unbounded counting using simpler stack rep
 
 \subsubsection*{Python Test Script (0-999)}
 % Make sure the path is correct relative to your .tex file
-\lstinputlisting[language=Python, caption={Python Test Script for 3-Digit PDA (0-999)}]{./python_tests/counting2.py}
+\lstinputlisting[language=Python, caption={Python Test Script for 3-Digit PDA (0-999)}]{../python_tests/counting2.py}
 
 \printbibliography
 
@@ -450,4 +450,10 @@ $q_{\text{underflow}}$ & — & — & — & — \\
       \draw (q_dec_hundreds) edge[bend right] node[right] {$\epsilon,H_0\to U_9T_9H_9$} (q_underflow);
     \end{tikzpicture}
     \caption{Circular Layout of the Extended Up/Down (0–999) DPDA}
-  \end{figure}\end{document}
+  \end{figure}
+  
+  
+  \subsubsection*{Python Test Script Counting On and Back}
+% Make sure the path is correct relative to your .tex file
+\lstinputlisting[language=Python, caption={Python Test Script for Counting on and Back}]{../python_tests/counting_on_back.py}
+  \end{document}
