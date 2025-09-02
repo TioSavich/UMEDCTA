@@ -102,30 +102,38 @@
     \item \textbf{Objective:} Adjust both the minuend (known whole) and subtrahend (known part) by the same amount to make the subtraction easier, keeping the difference the same.
 \end{itemize}
 
-\subsubsection*{Automaton Type}
-\textbf{Finite State Automaton (FSA)}: Adjustments are made consistently and can be tracked without additional memory.
+\subsubsection*{Corrected Automaton (Register Machine Model)}
 
-\subsubsection*{Formal Description of the Automaton}
+We define a Register Machine that models the Sliding strategy, including the iterative subroutine to find the adjustment K.
 
-We define the automaton as the tuple
-\[
-M = (Q,\,\Sigma,\,\delta,\,q_{0/accept},\,F)
-\]
-where:
+**M = (Q, V, \delta, q_0, F)**
+
 \begin{itemize}
-    \item \(Q = \{q_{0/accept},\, q_1,\, q_2,\, q_3\}\) is the set of states.
-    \item \(\Sigma = \{0,1,2,3,4,5,6,7,8,9\}\) is the input alphabet (representing the digits of the minuend \(M\) and subtrahend \(S\)).
-    \item \(q_{0/accept}\) is the start state, which is also the accept state.
-    \item \(F = \{q_{0/accept}\}\) is the set of accepting states.
+    \item \textbf{States (Q):} {$q_{start}, q_{init\_K}, q_{loop\_K}, q_{adjust}, q_{subtract}, q_{accept}$}
+    \item \textbf{Registers (V):} M, S, K (Adjustment), M\_adj, S\_adj, Result.
+    \item \textbf{Internal Registers:} TempCounter, TargetBase.
 \end{itemize}
 
-The transition function \(\delta\) is defined as follows:
-\begin{enumerate}
-    \item \(\delta(q_{0/accept},\, \text{``}M,S\text{''}) = q_1\) \quad (Calculate the adjustment needed to make the subtrahend a base multiple.)
-    \item \(\delta(q_1,\, \varepsilon) = q_2\) \quad (Adjust both the minuend and subtrahend by the same amount.)
-    \item \(\delta(q_2,\, \varepsilon) = q_3\) \quad (Perform the subtraction on the adjusted numbers.)
-    \item \(\delta(q_3,\, \varepsilon) = q_{0/accept}\) \quad (Output the final difference.)
-\end{enumerate}
+**Transition Function (\delta):**
+
+\begin{longtable}{|l|l|l|l|l|}
+\hline
+\textbf{Current State} & \textbf{Condition} & \textbf{Next State} & \textbf{Action} & \textbf{Interpretation} \\
+\hline
+\endhead
+$q_{start}$ & (Input M, S) & $q_{init\_K}$ & - & Start. Target S for adjustment. \\
+\hline
+$q_{init\_K}$ & - & $q_{loop\_K}$ & K=0; Temp=S; TargetBase=NextBase(S) & Initialize "Count Up To Base" on S. \\
+\hline
+$q_{loop\_K}$ & **Temp < TargetBase** & $q_{loop\_K}$ & K+=1; Temp+=1 & Iteratively count up to find K. \\
+\hline
+$q_{loop\_K}$ & **Temp == TargetBase** & $q_{adjust}$ & - & K found. \\
+\hline
+$q_{adjust}$ & - & $q_{subtract}$ & S\_adj = S+K; M\_adj = M+K & Apply the slide K to both M and S. \\
+\hline
+$q_{subtract}$ & - & $q_{accept}$ & Result = M\_adj - S\_adj & Perform the simplified subtraction. \\
+\hline
+\end{longtable}
 
 \subsubsection*{Automaton Diagram for Sliding to Make Bases}
 
@@ -133,24 +141,169 @@ The transition function \(\delta\) is defined as follows:
     shorten >=1pt,
     auto,
     node distance=3cm,
-    every state/.style={minimum size=1cm}
+    every state/.style={minimum size=1cm, align=center}
 ]
-    % Arrange 4 states on a circle.
-    \node[state, initial, accepting] (q0) at (90:3cm) {$q_{0/accept}$};
-    \node[state] (q1) at (0:3cm) {$q_1$};
-    \node[state] (q2) at (270:3cm) {$q_2$};
-    \node[state] (q3) at (180:3cm) {$q_3$};
+    % States
+    \node[state, initial] (start) {$q_{start}$};
+    \node[state, right=of start] (init_k) {$q_{init\_K}$};
+    \node[state, right=of init_k] (loop_k) {$q_{loop\_K}$};
+    \node[state, below=of loop_k] (adjust) {$q_{adjust}$};
+    \node[state, left=of adjust] (subtract) {$q_{subtract}$};
+    \node[state, accepting, left=of subtract] (accept) {$q_{accept}$};
 
+    % Transitions
     \path[->]
-        (q0) edge[bend left=15] node[above right, align=center] {Calculate\\adjustment} (q1)
-        (q1) edge[bend left=15] node[above left, align=center] {Adjust both\\numbers} (q2)
-        (q2) edge[bend left=15] node[below left, align=center] {Perform\\subtraction} (q3)
-        (q3) edge[bend left=15] node[below right, align=center] {Output\\difference} (q0);
+        (start) edge node {Init} (init_k)
+        (init_k) edge node {Start K calc} (loop_k)
+        (loop_k) edge[loop above] node {Temp < Target} (loop_k)
+        (loop_k) edge node {K found} (adjust)
+        (adjust) edge node {Slide} (subtract)
+        (subtract) edge node {Subtract} (accept);
 \end{tikzpicture}
 
-\clearpage
-\subsubsection*{HTML Implementation}
-\lstinputlisting[style=htmlStyle, language=html]{./new_html/SAR_SUB_Sliding.html}
+\subsubsection*{Python Implementation and Test}
+
+\begin{lstlisting}[language=Python]
+import pandas as pd
+import math
+
+class SlidingAutomaton:
+    """
+    A Register Machine model simulating the 'Sliding' (Constant Difference) strategy.
+    Models the cognitive process including the iterative steps to calculate the adjustment K.
+    """
+    strategy_name = "Sliding to Make Bases (Constant Difference)"
+
+    def __init__(self, M, S, Base=10):
+        self.M = M
+        self.S = S
+        self.Base = Base
+        self.history = []
+        self.state = 'q_start'
+        self.Result = 0
+
+        # Main Registers
+        self.K = 0
+        self.M_adj = 0
+        self.S_adj = 0
+
+        # Internal registers for iteration
+        self.TargetBase = 0
+        self.TempCounter = 0
+
+        if S > M:
+            self.state = 'q_error'
+            self._record_history(f"Error: Subtrahend ({S}) > Minuend ({M}).")
+
+    def _record_history(self, interpretation, highlight=False):
+        self.history.append({
+            'State': self.state, 'Interpretation': interpretation,
+            'K': self.K, 'M_adj': self.M_adj, 'S_adj': self.S_adj,
+            'Highlight': highlight
+        })
+
+    def transition(self, next_state):
+        self.state = next_state
+
+    def run(self):
+        while self.state not in ['q_accept', 'q_error']:
+            executor = getattr(self, f"execute_{self.state}", self.execute_error)
+            executor()
+        return self.Result
+
+    def execute_error(self):
+        if self.state != 'q_error':
+            self._record_history(f"Error: Entered unknown state {self.state}")
+            self.transition('q_error')
+
+    # --- State Execution Methods ---
+
+    def execute_q_start(self):
+        self._record_history(f"Inputs: M={self.M}, S={self.S}. Target S for adjustment.", highlight=True)
+        self.transition('q_init_K')
+
+    # Subroutine: Calculate K (Count Up To Base)
+    def execute_q_init_K(self):
+        """Initialize the 'Count Up To Base' subroutine on S."""
+        self.K = 0
+        self.TempCounter = self.S
+
+        # Determine the target base (e.g., 47 -> 50)
+        if self.S > 0 and self.S % self.Base != 0:
+             # Calculate the next highest multiple of the base
+             self.TargetBase = ((self.S // self.Base) + 1) * self.Base
+        else:
+             self.TargetBase = self.S # Already at a base or zero
+
+        self._record_history(f"Initializing K calculation: Counting from {self.S} to {self.TargetBase}.")
+        self.transition('q_loop_K')
+
+    def execute_q_loop_K(self):
+        """Iteratively count up to the base."""
+        if self.TempCounter < self.TargetBase:
+            # Primitive counting operation
+            self.TempCounter += 1
+            self.K += 1
+            self._record_history(f"Counting Up: {self.TempCounter}, K={self.K}")
+        else:
+            self._record_history(f"K needed to reach base is {self.K}.", highlight=True)
+            self.transition('q_adjust')
+
+    def execute_q_adjust(self):
+        """Apply K to both M and S (The Slide)."""
+        self.S_adj = self.S + self.K # Should equal TargetBase
+        self.M_adj = self.M + self.K
+        self._record_history(f"Sliding both by +{self.K}. New problem: {self.M_adj} - {self.S_adj}.", highlight=True)
+        self.transition('q_subtract')
+
+    def execute_q_subtract(self):
+        """Perform the simplified subtraction."""
+        # This step is cognitively simple because S_adj is a base multiple.
+        self.Result = self.M_adj - self.S_adj
+        self._record_history(f"Perform Subtraction: {self.M_adj} - {self.S_adj} = {self.Result}.", highlight=True)
+        self.transition('q_accept')
+
+    def execute_q_accept(self):
+         # Final state logic (if any additional recording is needed)
+         pass
+
+    def display_history(self, summarized=True):
+        print(f"\n--- {self.strategy_name} History ({self.M} - {self.S}) ---")
+        df = pd.DataFrame(self.history)
+        display_cols = ['State', 'Interpretation', 'K', 'M_adj', 'S_adj']
+
+        if summarized:
+             print("Summary Trace:")
+             summary_df = df[df['Highlight'] == True]
+             if not summary_df.empty:
+                print(summary_df[display_cols].to_markdown(index=False))
+        else:
+            print("Full Iterative Trace:")
+            print(df[display_cols].to_markdown(index=False))
+
+# Test Case: Example from PDF (73 - 47)
+M_test = 73
+S_test = 47
+sliding_auto = SlidingAutomaton(M=M_test, S=S_test)
+sliding_auto.run()
+sliding_auto.display_history(summarized=False)
+\end{lstlisting}
+
+\subsubsection*{Execution Trace (73 - 47):}
+\begin{verbatim}
+--- Sliding to Make Bases (Constant Difference) History (73 - 47) ---
+Full Iterative Trace:
+| State      | Interpretation                                                 |   K |   M_adj |   S_adj |
+|:-----------|:---------------------------------------------------------------|----:|--------:|--------:|
+| q_start    | Inputs: M=73, S=47. Target S for adjustment.                   |   0 |       0 |       0 |
+| q_init_K   | Initializing K calculation: Counting from 47 to 50.            |   0 |       0 |       0 |
+| q_loop_K   | Counting Up: 48, K=1                                           |   1 |       0 |       0 |
+| q_loop_K   | Counting Up: 49, K=2                                           |   2 |       0 |       0 |
+| q_loop_K   | Counting Up: 50, K=3                                           |   3 |       0 |       0 |
+| q_loop_K   | K needed to reach base is 3.                                   |   3 |       0 |       0 |
+| q_adjust   | Sliding both by +3. New problem: 76 - 50.                      |   3 |      76 |      50 |
+| q_subtract | Perform Subtraction: 76 - 50 = 26.                             |   3 |      76 |      50 |
+\end{verbatim}
 
 \printbibliography
 \end{document}
