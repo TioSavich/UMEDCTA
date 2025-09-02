@@ -139,63 +139,214 @@ Change either the known part or the known whole to a ``good'' number—usually t
 
 
 
-\subsubsection*{Automaton Type}
-\textbf{Pushdown Automaton (PDA)}: Needed to remember the amount of adjustment required.
+\subsubsection*{Corrected Automaton (Register Machine Model)}
 
-\subsubsection*{Formal Description of the Automaton}
+We define a Register Machine that models Kevin's double-rounding strategy, including the iterative chunking used during the final adjustment.
 
-We define the PDA as the 7-tuple
-\[
-M = (Q,\Sigma,\Gamma,\delta,q_{0/accept},Z_0,F)
-\]
-where:
+**M = (Q, V, \delta, q_0, F)**
+
 \begin{itemize}
-    \item \(Q = \{q_{0/accept},\, q_1,\, q_2,\, q_3,\, q_4\}\) is the set of states.
-    \item \(\Sigma = \{0,1,2,3,4,5,6,7,8,9\}\) is the input alphabet (representing the digits of the minuend \(M\) and subtrahend \(S\)).
-    \item \(\Gamma = \{Z_0\} \cup \{x \mid x \in \mathbb{Z}\}\) is the stack alphabet, where \(Z_0\) is the initial stack symbol and \(x\) represents the adjustment value.
-    \item \(q_{0/accept}\) is the start state, which is also the accept state.
-    \item \(F = \{q_{0/accept}\}\) is the set of accepting states.
+    \item \textbf{States (Q):} {$q_{start}, q_{round\_M}, q_{round\_S}, q_{subtract}, q_{adjust\_M}, q_{init\_adjust\_S}, q_{loop\_adjust\_S}, q_{accept}$}
+    \item \textbf{Registers (V):} M\_rounded, S\_rounded, K\_M (adjustment for M), K\_S (adjustment for S), TempResult, K\_S\_Remaining, Chunk.
 \end{itemize}
 
-The transition function \(\delta\) is defined by:
-\begin{enumerate}
-    \item \(\delta(q_{0/accept},\, \text{``}M,S\text{''},\, Z_0) = \{(q_1,\, Z_0)\}\) \\
-          (Read the minuend \(M\) and subtrahend \(S\).)
-    \item \(\delta(q_1,\, \varepsilon,\, Z_0) = \{(q_2,\, Z_0)\}\) \\
-          (Decide which number to round and determine the rounding strategy.)
-    \item \(\delta(q_2,\, \varepsilon,\, Z_0) = \{(q_3,\, a\,Z_0)\}\) \\
-          (Perform the rounding. Let \(a\) be the adjustment amount where, for example, if rounding the subtrahend, \(a = S' - S\).)
-    \item \(\delta(q_3,\, \varepsilon,\, a) = \{(q_4,\, a)\}\) \\
-          (Compute the preliminary difference using the rounded value; that is, compute \(M - S'\).)
-    \item \(\delta(q_4,\, \varepsilon,\, a) = \{(q_{0/accept},\, Z_0)\}\) \\
-          (Adjust the preliminary difference by incorporating \(a\) (i.e., final difference \(= (M - S') + a\)) and output the result.)
-\end{enumerate}
+**Key Transitions (\delta):**
 
-\subsubsection*{Automaton Diagram for Rounding and Adjusting}
+\begin{longtable}{|l|l|l|l|l|}
+\hline
+\textbf{Current State} & \textbf{Condition} & \textbf{Next State} & \textbf{Action} & \textbf{Interpretation} \\
+\hline
+\endhead
+$q_{round\_M}$ & - & $q_{round\_S}$ & M\_r = RoundDown(M); K\_M = M-M\_r & Round M down. Store K\_M. \\
+\hline
+$q_{round\_S}$ & - & $q_{subtract}$ & S\_r = RoundDown(S); K\_S = S-S\_r & Round S down. Store K\_S. \\
+\hline
+$q_{subtract}$ & - & $q_{adjust\_M}$ & TempResult = M\_r - S\_r & Calculate intermediate result. \\
+\hline
+$q_{adjust\_M}$ & - & $q_{init\_adjust\_S}$ & TempResult += K\_M & Compensate for M (Add back). \\
+\hline
+$q_{init\_adjust\_S}$ & - & $q_{loop\_adjust\_S}$ & K\_S\_Remaining = K\_S & Initialize S adjustment (Subtract). \\
+\hline
+$q_{loop\_adjust\_S}$ & **K\_S\_Rem > 0** & $q_{loop\_adjust\_S}$ & Calculate strategic Chunk (C); TempResult-=C; K\_S\_Rem-=C & Iterative chunking (Inverse RMB). \\
+\hline
+$q_{loop\_adjust\_S}$ & **K\_S\_Rem == 0** & $q_{accept}$ & Result = TempResult & Finished. \\
+\hline
+\end{longtable}
 
-\begin{tikzpicture}[
-    shorten >=1pt,
-    auto,
-    node distance=3cm,
-    every state/.style={minimum size=1cm}
-]
-    % Arrange 5 states on a circle.
-    \node[state, initial, accepting] (q0) at (90:3cm) {$q_{0/accept}$};
-    \node[state] (q1) at (18:3cm) {$q_1$};
-    \node[state] (q2) at (-54:3cm) {$q_2$};
-    \node[state] (q3) at (-126:3cm) {$q_3$};
-    \node[state] (q4) at (-198:3cm) {$q_4$};
+\subsubsection*{Python Implementation and Test}
 
-    \path[->]
-        (q0) edge[bend left=15] node[above right, align=center] {Read \(M,S\)} (q1)
-        (q1) edge[bend left=15] node[right, align=center] {Decide rounding} (q2)
-        (q2) edge[bend left=15] node[below, align=center] {Round number;\\push adjustment \(a\)} (q3)
-        (q3) edge[bend left=15] node[below left, align=center] {Compute preliminary\\difference \(M-S'\)} (q4)
-        (q4) edge[bend left=15] node[left, align=center] {Adjust difference\\(add \(a\))} (q0);
-\end{tikzpicture}
+\begin{lstlisting}[language=Python]
+import pandas as pd
+import math
 
+class SubtractionRoundingKevin:
+    """
+    A Register Machine model simulating Kevin's double-rounding strategy (e.g., 84-29).
+    Rounds both M and S down, calculates intermediate result, and adjusts sequentially,
+    incorporating strategic chunking for the final adjustment.
+    """
+    strategy_name = "Subtraction Rounding (Kevin's Double Round Down)"
 
-\subsubsection*{HTML Implementation}
-\lstinputlisting[style=htmlStyle, language=html]{./new_html/SAR_SUB_Rounding.html}
+    def __init__(self, M, S, Base=10):
+        self.M = M
+        self.S = S
+        self.Base = Base
+        self.history = []
+        self.state = 'q_start'
+        self.Result = 0
+
+        # Registers
+        self.M_rounded = 0; self.K_M = 0 # Adjustment for M (Amount rounded down)
+        self.S_rounded = 0; self.K_S = 0 # Adjustment for S (Amount rounded down)
+        self.TempResult = 0
+
+        # Internal registers for iterative adjustment (Chunking K_S)
+        self.K_S_Remaining = 0
+        self.Chunk = 0
+
+        if S > M:
+            self.state = 'q_error'
+            self._record_history(f"Error: Subtrahend ({S}) > Minuend ({M}).")
+
+    def _record_history(self, interpretation, highlight=False):
+        record = {
+            'State': self.state, 'Interpretation': interpretation,
+            'K_M': self.K_M, 'K_S': self.K_S, 'TempResult': self.TempResult,
+            'Highlight': highlight
+        }
+        # Add K_S_Remaining only if it's relevant (during the adjustment loop)
+        if self.state.startswith('q_loop_adjust_S') or self.state.startswith('q_init_adjust_S'):
+             record['K_S_Rem'] = self.K_S_Remaining
+
+        self.history.append(record)
+
+    def transition(self, next_state):
+        self.state = next_state
+
+    def run(self):
+        while self.state not in ['q_accept', 'q_error']:
+            executor = getattr(self, f"execute_{self.state}", self.execute_error)
+            executor()
+        return self.Result
+
+    def execute_error(self):
+        if self.state != 'q_error':
+            self._record_history(f"Error: Entered unknown state {self.state}")
+            self.transition('q_error')
+
+    # --- State Execution Methods ---
+
+    def execute_q_start(self):
+        self._record_history(f"Inputs: M={self.M}, S={self.S}.", highlight=True)
+        self.transition('q_round_M')
+
+    def execute_q_round_M(self):
+        """Round M down to the nearest base."""
+        # Models the cognitive step of identifying the lower base and the difference.
+        self.K_M = self.M % self.Base
+        self.M_rounded = self.M - self.K_M
+        self._record_history(f"Round M down: {self.M} -> {self.M_rounded}. (K_M = {self.K_M}).")
+        self.transition('q_round_S')
+
+    def execute_q_round_S(self):
+        """Round S down to the nearest base."""
+        self.K_S = self.S % self.Base
+        self.S_rounded = self.S - self.K_S
+        self._record_history(f"Round S down: {self.S} -> {self.S_rounded}. (K_S = {self.K_S}).")
+        self.transition('q_subtract')
+
+    def execute_q_subtract(self):
+        """Calculate the intermediate result."""
+        self.TempResult = self.M_rounded - self.S_rounded
+        self._record_history(f"Intermediate Subtraction: {self.M_rounded} - {self.S_rounded} = {self.TempResult}.", highlight=True)
+        self.transition('q_adjust_M')
+
+    def execute_q_adjust_M(self):
+        """Adjust for M. M was rounded down (result too small). Add K_M back."""
+        prev = self.TempResult
+        self.TempResult += self.K_M
+        self._record_history(f"Adjust for M (Add K_M): {prev} + {self.K_M} = {self.TempResult}.", highlight=True)
+        self.transition('q_init_adjust_S')
+
+    def execute_q_init_adjust_S(self):
+        """Initialize adjustment for S. S was rounded down (result too big). Subtract K_S."""
+        self.K_S_Remaining = self.K_S
+        if self.K_S_Remaining > 0:
+            self._record_history(f"Begin Adjust for S (Subtract K_S): Need to subtract {self.K_S_Remaining}.")
+            self.transition('q_loop_adjust_S')
+        else:
+            # If K_S was 0, proceed to the loop to finalize
+            self.transition('q_loop_adjust_S')
+
+    def execute_q_loop_adjust_S(self):
+        """Iteratively subtract K_S using strategic chunking (as Kevin did)."""
+        if self.K_S_Remaining == 0:
+            self.Result = self.TempResult
+            self._record_history(f"Adjustment for S complete. Final Result = {self.Result}.", highlight=True)
+            self.transition('q_accept')
+            return
+
+        # Determine the strategic chunk (subtract down to the previous base - Inverse RMB)
+        # Models Kevin's move from 64 -> 60 (Chunk=4) before subtracting the rest (5).
+
+        K_to_prev_base = self.TempResult % self.Base
+
+        if K_to_prev_base > 0 and self.K_S_Remaining >= K_to_prev_base:
+             # Sufficient remaining to reach the previous base
+             self.Chunk = K_to_prev_base
+        else:
+             # Either already at a base, or insufficient remaining. Subtract what's left.
+             self.Chunk = self.K_S_Remaining
+
+        # Apply the chunk
+        prev = self.TempResult
+        self.TempResult -= self.Chunk
+        self.K_S_Remaining -= self.Chunk
+
+        interpretation = f"Chunking Adjustment: {prev} - {self.Chunk} = {self.TempResult}."
+        # Add interpretation note if a boundary was reached
+        if self.TempResult % self.Base == 0 and self.Chunk > 0 and prev % self.Base != 0:
+             interpretation += " (Reached base boundary)."
+
+        self._record_history(interpretation)
+        # Loop back to q_loop_adjust_S
+
+    def display_history(self):
+        print(f"\n--- {self.strategy_name} History ({self.M} - {self.S}) ---")
+        df = pd.DataFrame(self.history)
+        # Determine columns to display, handling the optional K_S_Rem
+        display_cols = ['State', 'Interpretation', 'K_M', 'K_S', 'TempResult']
+        if 'K_S_Rem' in df.columns:
+             display_cols.append('K_S_Rem')
+
+        if not df.empty:
+            # Fill NaNs for cleaner display where K_S_Rem is not applicable
+            df = df[display_cols].fillna('')
+
+        print(df.to_markdown(index=False))
+
+# Test Case: Kevin's example (84 - 29)
+M_test = 84
+S_test = 29
+kevin_strategy = SubtractionRoundingKevin(M=M_test, S=S_test)
+result = kevin_strategy.run()
+kevin_strategy.display_history()
+\end{lstlisting}
+
+\subsubsection*{Execution Trace (84 - 29):}
+\begin{verbatim}
+--- Subtraction Rounding (Kevin's Double Round Down) History (84 - 29) ---
+| State           | Interpretation                                                       |   K_M |   K_S |   TempResult | K_S_Rem   |
+|:----------------|:---------------------------------------------------------------------|------:|------:|-------------:|:----------|
+| q_start         | Inputs: M=84, S=29.                                                  |     0 |     0 |            0 |           |
+| q_round_M       | Round M down: 84 -> 80. (K_M = 4).                                   |     4 |     0 |            0 |           |
+| q_round_S       | Round S down: 29 -> 20. (K_S = 9).                                   |     4 |     9 |            0 |           |
+| q_subtract      | Intermediate Subtraction: 80 - 20 = 60.                              |     4 |     9 |           60 |           |
+| q_adjust_M      | Adjust for M (Add K_M): 60 + 4 = 64.                                 |     4 |     9 |           64 |           |
+| q_init_adjust_S | Begin Adjust for S (Subtract K_S): Need to subtract 9.               |     4 |     9 |           64 | 9         |
+| q_loop_adjust_S | Chunking Adjustment: 64 - 4 = 60. (Reached base boundary).           |     4 |     9 |           60 | 5         |
+| q_loop_adjust_S | Chunking Adjustment: 60 - 5 = 55.                                    |     4 |     9 |           55 | 0         |
+| q_loop_adjust_S | Adjustment for S complete. Final Result = 55.                        |     4 |     9 |           55 | 0         |
+\end{verbatim}
 
 \end{document}

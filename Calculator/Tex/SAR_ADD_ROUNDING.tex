@@ -143,95 +143,257 @@ Video from \textcite{Carpenter1999}. Strategy descriptions and examples adapted 
 \subsubsection*{Automaton Type}
 \textbf{Pushdown Automaton (PDA)}: Needed to remember the adjustment amount.
 
-\subsubsection*{Automaton Description}
+\subsubsection*{Corrected Automaton (Register Machine Model)}
+
+We define a Register Machine that models "Rounding and Adjusting" as an elaboration that utilizes previously learned strategies as cognitive subroutines. This model assumes the "Round Up, Adjust Down" variant.
+
+\textbf{M = (Q, V, \delta, q_0, F)}
 
 \begin{itemize}
-    \item \textbf{States:}
-    \begin{enumerate}
-        \item $q_0$: Start state.
-        \item $q_1$: Read inputs and decide which number to round.
-        \item $q_2$: Round the chosen number.
-        \item $q_3$: Compute the adjustment.
-        \item $q_4$: Perform the addition with the rounded number.
-        \item $q_5$: Adjust the sum.
-        \item $q_{accept}$: Accept state; output the final result.
-    \end{enumerate}
-    \item \textbf{Transitions:}
-    \begin{itemize}
-        \item $q_0 \rightarrow q_1$: Read $A$ and $B$; decide to round $A$.
-        \item $q_1 \rightarrow q_2$: Round $A$ to $A'$.
-        \item $q_2 \rightarrow q_3$: Calculate adjustment $D = A' - A$.
-        \item $q_3 \rightarrow q_4$: Add $A'$ and $B$.
-        \item $q_4 \rightarrow q_5$: Adjust the sum by subtracting $D$.
-        \item $q_5 \rightarrow q_{accept}$: Output the adjusted sum.
-    \end{itemize}
+    \item \textbf{States (Q):} {$q_{start}, q_{calc\_K}, q_{add}, q_{adjust}, q_{accept}$}
+    \item \textbf{Registers (V):} {Target (Number to round), Other (Second addend), K (Adjustment), A\_rounded, TempSum, Result}
 \end{itemize}
 
+\textbf{Transition Function (\delta) - Highlighting Elaboration:}
 
-We define the PDA 
-\[
-M = (Q,\Sigma,\Gamma,\delta,q_0,Z_0,F)
-\]
-where:
-\begin{itemize}
-    \item \(Q = \{q_0,\, q_1,\, q_2,\, q_3,\, q_4,\, q_5,\, q_{\text{accept}}\}\) is the set of states.
-    \item \(\Sigma = \{0,1,2,3,4,5,6,7,8,9,+\}\) is the input alphabet (for example, representing inputs like ``46+37'').
-    \item \(\Gamma = \{Z_0\} \cup \{x \mid x \in \mathbb{Z}\}\) is the stack alphabet, where \(Z_0\) is the initial stack symbol and an integer \(x\) represents the adjustment amount.
-    \item \(q_0\) is the start state.
-    \item \(Z_0\) is the initial stack symbol.
-    \item \(F = \{q_{\text{accept}}\}\) is the set of accepting states.
-\end{itemize}
+\begin{longtable}{|l|l|l|l|}
+\hline
+\textbf{Current State} & \textbf{Next State} & \textbf{Subroutine/Action} & \textbf{Interpretation} \\
+\hline
+\endhead
+$q_{start}$ & $q_{calc\_K}$ & Read A, B. (Heuristic: Select Target/Other) & Start. Select number closer to the next base. \\
+\hline
+$q_{calc\_K}$ & $q_{add}$ & \textbf{Count Up To Base(Target)} -> K, A\_rounded & Determine K by counting up from Target to the next base. \\
+\hline
+$q_{add}$ & $q_{adjust}$ & \textbf{COBO(A\_rounded, Other)} -> TempSum & Add Other to the rounded A. (Efficient as A\_rounded is a base). \\
+\hline
+$q_{adjust}$ & $q_{accept}$ & \textbf{Count Back(TempSum, K)} -> Result & Adjust by counting back K from the TempSum. \\
+\hline
+\end{longtable}
 
-The transition function 
-\[
-\delta: Q \times (\Sigma \cup \{\varepsilon\}) \times \Gamma \to \mathcal{P}(Q \times \Gamma^*)
-\]
-is defined by the following transitions:
-\begin{enumerate}
-    \item \(\delta\Bigl(q_0,\, \text{``}A,B\text{''},\, Z_0\Bigr) = \{(q_1,\, Z_0)\}\). 
-    \item \(\delta(q_1,\, \varepsilon,\, Z_0) = \{(q_2,\, Z_0)\}\) \quad (Round \(A\) to \(A'\)).
-    \item \(\delta(q_2,\, \varepsilon,\, Z_0) = \{(q_3,\, D\,Z_0)\}\) \quad (Compute \(D = A' - A\) and push \(D\) onto the stack).
-    \item \(\delta(q_3,\, \varepsilon,\, D) = \{(q_4,\, D)\}\) \quad (Perform the addition \(A' + B\)).
-    \item \(\delta(q_4,\, \varepsilon,\, D) = \{(q_5,\, \varepsilon)\}\) \quad (Adjust the sum by subtracting \(D\); pop \(D\) from the stack).
-    \item \(\delta(q_5,\, \varepsilon,\, Z_0) = \{(q_{\text{accept}},\, Z_0)\}\) \quad (Output the final result).
-\end{enumerate}
-
-\subsection*{Automaton Diagram for Rounding and Adjusting}
+\subsubsection*{Automaton Diagram for Rounding and Adjusting}
 
 \begin{tikzpicture}[
     shorten >=1pt,
-    node distance=2.5cm,
+    node distance=3cm,
     on grid,
     auto,
-    every state/.style={minimum size=1cm}
+    every state/.style={minimum size=1cm, align=center}
 ]
-    % Calculate positions for hexagon vertices
-    \def\radius{3cm}
-    \def\startangle{90}
-    
-    % States positioned in a hexagon
-    \node[state, initial, accepting] (q0) at (\startangle:\radius) {$q_{\text{start/accept}}$};
-    \node[state] (q1) at (\startangle-60:\radius) {$q_1$};
-    \node[state] (q2) at (\startangle-120:\radius) {$q_2$};
-    \node[state] (q3) at (\startangle-180:\radius) {$q_3$};
-    \node[state] (q4) at (\startangle-240:\radius) {$q_4$};
-    \node[state] (q5) at (\startangle-300:\radius) {$q_5$};
+    % States
+    \node[state, initial] (start) {$q_{start}$};
+    \node[state, right=of start] (calc_k) {$q_{calc\_K}$};
+    \node[state, right=of calc_k] (add) {$q_{add}$};
+    \node[state, right=of add] (adjust) {$q_{adjust}$};
+    \node[state, accepting, right=of adjust] (accept) {$q_{accept}$};
     
     % Transitions
-    \begin{scope}[on background layer]
-        \path[->]
-            (q0) edge[bend left=10] node[right] {Read \(A, B\)} (q1)
-            (q1) edge[bend left=10] node[right] {Round \(A\)} (q2)
-            (q2) edge[bend left=10] node[right] {Compute \(D = A' - A\)} (q3)
-            (q3) edge[bend left=10] node[left] {Add \(A' + B\)} (q4)
-            (q4) edge[bend left=10] node[left] {Adjust (subtract \(D\))} (q5)
-            (q5) edge[bend left=10] node[left] {Output result} (q0);
-    \end{scope}
+    \path[->]
+        (start) edge node {Select Target} (calc_k)
+        (calc_k) edge node {Count to Base} (add)
+        (add) edge node {Add Rounded} (adjust)
+        (adjust) edge node {Count Back} (accept);
 \end{tikzpicture}
 
+\subsubsection*{Python Implementation}
 
-\subsubsection*{HTML Implementation}
-\lstinputlisting[style=htmlStyle, language=html]{./new_html/SAR_ADD_Rounding.html}
+\begin{lstlisting}[language=Python]
+import pandas as pd
+
+class RoundingAdjustingAutomaton:
+    """
+    A Register Machine model simulating the 'Rounding and Adjusting' strategy.
+    This model is elaborated by utilizing 'Counting Up To', 'COBO' (for addition
+    with bases), and 'Counting Back' (for adjustment) as internal iterative processes.
+    """
+    def __init__(self, A, B, Base=10):
+        self.A_initial = A
+        self.B_initial = B
+        self.Base = Base
+
+        # Heuristic: Apply the strategy to the number closer to the next base.
+        # We check which number has the largest remainder (if not 0).
+        A_rem = A % Base if A != 0 else 0
+        B_rem = B % Base if B != 0 else 0
+
+        if A_rem >= B_rem:
+            self.Target = A
+            self.Other = B
+        else:
+            self.Target = B
+            self.Other = A
+
+        # Registers
+        self.K = 0
+        self.A_rounded = 0
+        self.TempSum = 0
+        self.Result = 0
+
+        # Internal registers for iterative processes (subroutines)
+        self.internal_counter = 0
+        self.internal_value = 0
+
+        self.state = 'q_start'
+        self.history = []
+
+    def _record_history(self, interpretation, highlight=False):
+        self.history.append({
+            'State': self.state, 'Interpretation': interpretation,
+            'K': self.K, 'A_rounded': self.A_rounded, 'TempSum': self.TempSum, 'Result': self.Result,
+            'Highlight': highlight
+        })
+
+    def transition(self, next_state):
+        self.state = next_state
+        # Reset internal counters when transitioning to a new phase
+        self.internal_counter = 0
+        self.internal_value = 0
+
+    def run(self):
+        while self.state not in ['q_accept', 'q_error']:
+            if self.state == 'q_start':
+                self.execute_start()
+            elif self.state == 'q_calc_K':
+                self.execute_calc_K()
+            elif self.state == 'q_add':
+                self.execute_add()
+            elif self.state == 'q_adjust':
+                self.execute_adjust()
+            else:
+                self.transition('q_error')
+                break
+        return self.Result
+
+    def execute_start(self):
+        """q_start: Read inputs and determine rounding target."""
+        self._record_history(f"Inputs: {self.A_initial}, {self.B_initial}. Target for rounding: {self.Target}", highlight=True)
+        self.transition('q_calc_K')
+
+    def execute_calc_K(self):
+        """q_calc_K: Subroutine: Count Up To Base."""
+
+        # Determine the target base
+        if self.Target == 0:
+             target_base = 0
+        elif self.Target % self.Base == 0:
+             target_base = self.Target
+        else:
+             target_base = ((self.Target // self.Base) + 1) * self.Base
+
+        if self.internal_value == 0:
+            # Initialize
+            self.internal_value = self.Target
+            self.K = 0
+
+        if self.internal_value < target_base:
+            # Iterative counting up
+            self.internal_value += 1
+            self.K += 1
+            self._record_history(f"Counting Up: {self.internal_value}, K={self.K}")
+        else:
+            # Reached the base
+            self.A_rounded = target_base
+            self._record_history(f"K needed is {self.K}. Target rounded to {self.A_rounded}.", highlight=True)
+            self.transition('q_add')
+
+    def execute_add(self):
+        """q_add: Subroutine: COBO(A_rounded, Other)."""
+
+        if self.internal_counter == 0 and self.internal_value == 0:
+            # Initialize COBO process
+            self.TempSum = self.A_rounded
+            # Decompose 'Other'
+            self.internal_value = self.Other // self.Base # BaseCounter
+            self.internal_counter = self.Other % self.Base # OneCounter
+
+        # COBO Phase 1: Add Bases
+        if self.internal_value > 0:
+            self.TempSum += self.Base
+            self.internal_value -= 1
+            self._record_history(f"COBO (Base): {self.TempSum}")
+            return
+
+        # COBO Phase 2: Add Ones
+        if self.internal_counter > 0:
+            self.TempSum += 1
+            self.internal_counter -= 1
+            self._record_history(f"COBO (One): {self.TempSum}")
+            return
+
+        # COBO Complete
+        self._record_history(f"{self.A_rounded} + {self.Other} = {self.TempSum}.", highlight=True)
+        self.transition('q_adjust')
+
+    def execute_adjust(self):
+        """q_adjust: Subroutine: Count Back(TempSum, K)."""
+
+        if self.internal_counter == 0:
+             # Initialize Counting Back
+             self.Result = self.TempSum
+             self.internal_counter = self.K # Count down K times
+
+        if self.internal_counter > 0:
+            # Iterative counting back
+            self.Result -= 1
+            self.internal_counter -= 1
+            self._record_history(f"Counting Back: {self.Result}")
+        else:
+            # Adjustment complete
+            self._record_history(f"Subtracted K ({self.K}). Final Result: {self.Result}.", highlight=True)
+            self.transition('q_accept')
+
+    def display_history(self, summarized=True):
+        print(f"\n--- Rounding and Adjusting Execution History ({self.A_initial} + {self.B_initial}) ---")
+        df = pd.DataFrame(self.history)
+        display_cols = ['State', 'Interpretation', 'K', 'A_rounded', 'TempSum', 'Result']
+
+        if summarized:
+             print("Summary Trace:")
+             summary_df = df[df['Highlight'] == True]
+             print(summary_df[display_cols].to_markdown(index=False))
+        else:
+            print("Full Iterative Trace:")
+            print(df[display_cols].to_markdown(index=False))
+
+
+# Test Case 1: Robert's example (8 + 5). Heuristic chooses 8.
+ra_8_5 = RoundingAdjustingAutomaton(A=8, B=5)
+ra_8_5.run()
+ra_8_5.display_history(summarized=True)
+
+# Test Case 2: 46 + 37. Heuristic chooses 37 (remainder 7 > remainder 6).
+ra_46_37 = RoundingAdjustingAutomaton(A=46, B=37)
+ra_46_37.run()
+ra_46_37.display_history(summarized=False)
+\end{lstlisting}
+
+\subsubsection*{Execution Trace (46 + 37 - Full Iterative Trace):}
+\begin{verbatim}
+--- Rounding and Adjusting Execution History (46 + 37) ---
+Full Iterative Trace:
+| State      | Interpretation                                            |   K |   A_rounded |   TempSum |   Result |
+|:-----------|:----------------------------------------------------------|----:|------------:|----------:|---------:|
+| q_start    | Inputs: 46, 37. Target for rounding: 37                   |   0 |           0 |         0 |        0 |
+| q_calc_K   | Counting Up: 38, K=1                                      |   1 |           0 |         0 |        0 |
+| q_calc_K   | Counting Up: 39, K=2                                      |   2 |           0 |         0 |        0 |
+| q_calc_K   | Counting Up: 40, K=3                                      |   3 |           0 |         0 |        0 |
+| q_calc_K   | K needed is 3. Target rounded to 40.                      |   3 |          40 |         0 |        0 |
+| q_add      | COBO (Base): 50                                           |   3 |          40 |        50 |        0 |
+| q_add      | COBO (Base): 60                                           |   3 |          40 |        60 |        0 |
+| q_add      | COBO (Base): 70                                           |   3 |          40 |        70 |        0 |
+| q_add      | COBO (Base): 80                                           |   3 |          40 |        80 |        0 |
+| q_add      | COBO (One): 81                                            |   3 |          40 |        81 |        0 |
+| q_add      | COBO (One): 82                                            |   3 |          40 |        82 |        0 |
+| q_add      | COBO (One): 83                                            |   3 |          40 |        83 |        0 |
+| q_add      | COBO (One): 84                                            |   3 |          40 |        84 |        0 |
+| q_add      | COBO (One): 85                                            |   3 |          40 |        85 |        0 |
+| q_add      | COBO (One): 86                                            |   3 |          40 |        86 |        0 |
+| q_add      | 40 + 46 = 86.                                             |   3 |          40 |        86 |        0 |
+| q_adjust   | Counting Back: 85                                         |   3 |          40 |        86 |       85 |
+| q_adjust   | Counting Back: 84                                         |   3 |          40 |        86 |       84 |
+| q_adjust   | Counting Back: 83                                         |   3 |          40 |        86 |       83 |
+| q_adjust   | Subtracted K (3). Final Result: 83.                       |   3 |          40 |        86 |       83 |
+\end{verbatim}
 
 \printbibliography
 \end{document}
