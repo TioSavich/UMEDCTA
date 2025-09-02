@@ -142,69 +142,201 @@ Counters are used to manage the repeated addition:
     \item \textbf{Sum:} The running total.
 \end{itemize}
 
-\subsubsection*{Formal Description of the Automaton}
+\subsubsection*{Automaton Definition SAR\_ADD\_COBO (Register Machine Model)}
 
-We define the automaton as the tuple
-\[
-M = (Q,\,\Sigma,\,\delta,\,q_{0/accept},\,F,\,C)
-\]
-where:
+To legitimately and deterministically represent the COBO strategy, we define a Register Machine with clearly defined, mutually exclusive conditions.
+
+\textbf{M = (Q, V, \delta, q_0, F)}
+
 \begin{itemize}
-    \item \(Q = \{q_{0/accept},\, q_1,\, q_2,\, q_3\}\) is the finite set of states. Here, the start state \(q_{0/accept}\) is also the accept state.
-    \item \(\Sigma = \{0,1,2,3,4,5,6,7,8,9,+\}\) is the input alphabet (suitable for representing the addends).
-    \item \(F = \{q_{0/accept}\}\) is the set of accepting states.
-    \item \(C = \{\text{BaseCounter},\; \text{OneCounter},\; \text{Sum}\}\) is the set of counters.
-    \item \(\delta\) is the transition function defined by:
-    \begin{enumerate}
-        \item \(\delta(q_{0/accept},\, \text{``}A,B\text{''}) = (q_1,\; \text{update: } \text{Sum} \gets A,\; \text{BaseCounter} \gets \lfloor B/10 \rfloor,\; \text{OneCounter} \gets B \bmod 10 )\) \\
-              (Read inputs \(A\) and \(B\); initialize the Sum to \(A\) and set the counters based on \(B\).)
-        \item \(\delta(q_1,\, \varepsilon) = (q_2,\; \text{if BaseCounter} > 0)\) \\
-              (If there are base units to add, proceed to add them.)
-        \item \(\delta(q_2,\, \varepsilon) = (q_2,\; \text{update: } \text{Sum} \gets \text{Sum} + \text{baseUnit},\; \text{BaseCounter} \gets \text{BaseCounter} - 1)\) \\
-              (In state \(q_2\), repeatedly add one base unit (e.g., 10) to Sum while decrementing BaseCounter.)
-        \item \(\delta(q_2,\, \varepsilon) = (q_3,\; \text{if BaseCounter} = 0)\) \\
-              (When no more base units remain, switch to adding ones.)
-        \item \(\delta(q_3,\, \varepsilon) = (q_3,\; \text{update: } \text{Sum} \gets \text{Sum} + 1,\; \text{OneCounter} \gets \text{OneCounter} - 1)\) \\
-              (In state \(q_3\), repeatedly add 1 to Sum while decrementing OneCounter.)
-        \item \(\delta(q_3,\, \varepsilon) = (q_{0/accept},\; \text{if OneCounter} = 0)\) \\
-              (When OneCounter reaches 0, output the final Sum and return to the closed start/accept state.)
-    \end{enumerate}
+    \item \textbf{Q (States):} {$q_{start}, q_{initialize}, q_{add\_bases}, q_{add\_ones}, q_{accept}$}
+    \item \textbf{V (Registers):} {A (Input), B (Input), Sum, BaseCounter, OneCounter}
+    \item \textbf{Constants:} BaseUnit (e.g., 10)
 \end{itemize}
 
-\subsubsection*{Automaton Diagram for COBO}
+\textbf{Transition Function (\delta):}
 
-The following diagram arranges the four states on a circle with \(q_{0/accept}\) serving as both the start and accept state.
+\begin{longtable}{|l|l|l|l|l|}
+\hline
+\textbf{Current State} & \textbf{Condition} & \textbf{Next State} & \textbf{Action} & \textbf{Interpretation} \\
+\hline
+\endhead
+$q_{start}$ & (Input) & $q_{initialize}$ & Read A, Read B & Start. \\
+\hline
+$q_{initialize}$ & - & $q_{add\_bases}$ & Sum = A \newline BaseCounter = B // BaseUnit \newline OneCounter = B \% BaseUnit & Initialize Sum. Decompose B into Bases and Ones. \\
+\hline
+$q_{add\_bases}$ & \textbf{BaseCounter > 0} & $q_{add\_bases}$ & Sum = Sum + BaseUnit \newline BaseCounter = BaseCounter - 1 & Add one BaseUnit (Loop). \\
+\hline
+$q_{add\_bases}$ & \textbf{BaseCounter == 0} & $q_{add\_ones}$ & - & All bases added. Transition to adding ones. \\
+\hline
+$q_{add\_ones}$ & \textbf{OneCounter > 0} & $q_{add\_ones}$ & Sum = Sum + 1 \newline OneCounter = OneCounter - 1 & Add 1 (Loop). \\
+\hline
+$q_{add\_ones}$ & \textbf{OneCounter == 0} & $q_{accept}$ & Output Sum & All ones added. Accept. \\
+\hline
+\end{longtable}
+
+\subsubsection*{Automaton Diagram for COBO}
 
 \begin{tikzpicture}[
     shorten >=1pt,
     on grid,
     auto,
-    every state/.style={minimum size=1cm}
+    every state/.style={minimum size=1.2cm}
 ]
-    % Define radius and starting angle
-    \def\radius{3cm}
-    \def\startangle{90}
-    \def\incangle{360/4} % Four states equally spaced
+    % Define nodes
+    \node[state, initial] (start) {$q_{start}$};
+    \node[state, right=of start] (initialize) {$q_{initialize}$};
+    \node[state, right=of initialize] (add_bases) {$q_{add\_bases}$};
+    \node[state, right=of add_bases] (add_ones) {$q_{add\_ones}$};
+    \node[state, accepting, right=of add_ones] (accept) {$q_{accept}$};
 
-    % Nodes arranged on a circle
-    \node[state, initial, accepting] (q0) at (\startangle:\radius) {$q_{0/accept}$};
-    \node[state] (q1) at ({\startangle-\incangle}:\radius) {$q_1$};
-    \node[state] (q2) at ({\startangle-2*\incangle}:\radius) {$q_2$};
-    \node[state] (q3) at ({\startangle-3*\incangle}:\radius) {$q_3$};
-
-    % Transitions between states
+    % Transitions
     \path[->]
-        (q0) edge[bend left=10] node {Initialize counters \\ (read \(A,B\))} (q1)
-        (q1) edge[bend left=10] node[align=left] {If BaseCounter \(>0\)} (q2)
-        (q2) edge[loop right] node[align=left] {Add base unit; \\ decrement BaseCounter} (q2)
-        (q2) edge[bend left=10] node {When BaseCounter = 0} (q3)
-        (q3) edge[loop right] node[right, align=left] {Add 1; \\ decrement OneCounter} (q3)
-        (q3) edge[bend left=10] node {When OneCounter = 0 \\ (Output Sum)} (q0);
+        (start) edge node {Read A,B} (initialize)
+        (initialize) edge node {Decompose B} (add_bases)
+        (add_bases) edge[loop above] node {BaseCounter > 0} (add_bases)
+        (add_bases) edge node {BaseCounter == 0} (add_ones)
+        (add_ones) edge[loop above] node {OneCounter > 0} (add_ones)
+        (add_ones) edge node {OneCounter == 0} (accept);
 \end{tikzpicture}
 
-\clearpage
-\subsubsection*{HTML Implementation}
-\lstinputlisting[style=htmlStyle, language=html]{./new_html/SAR_ADD_COBO.html}
+\subsubsection*{Python Implementation and Test}
+
+The following Python code implements the corrected COBO automaton.
+
+\begin{lstlisting}[language=Python]
+import pandas as pd
+
+class COBOAutomaton:
+    """
+    A Register Machine model simulating the 'Counting On By Bases and then Ones' (COBO) strategy.
+    """
+    def __init__(self, A, B, Base=10):
+        self.A = A
+        self.B = B
+        self.BaseUnit = Base
+
+        # Registers for internal computation
+        self.Sum = 0
+        self.BaseCounter = 0
+        self.OneCounter = 0
+
+        # State
+        self.state = 'q_start'
+        self.history = []
+
+    def _record_history(self, action, interpretation):
+        self.history.append({
+            'State': self.state,
+            'Sum': self.Sum,
+            'BaseCounter': self.BaseCounter,
+            'OneCounter': self.OneCounter,
+            'Action': action,
+            'Interpretation': interpretation,
+        })
+
+    def transition(self, next_state):
+        self.state = next_state
+
+    def run(self):
+        while self.state not in ['q_accept', 'q_error']:
+            if self.state == 'q_start':
+                self.execute_start()
+            elif self.state == 'q_initialize':
+                self.execute_initialize()
+            elif self.state == 'q_add_bases':
+                self.execute_add_bases()
+            elif self.state == 'q_add_ones':
+                self.execute_add_ones()
+            else:
+                self.transition('q_error')
+                break
+        return self.Sum
+
+    def execute_start(self):
+        """q_start: Read inputs."""
+        self._record_history(f"Read A={self.A}, B={self.B}", "Start.")
+        self.transition('q_initialize')
+
+    def execute_initialize(self):
+        """q_initialize: Initialize Sum and decompose B."""
+        self.Sum = self.A
+        # Decomposition (Assuming this skill is prerequisite for COBO)
+        self.BaseCounter = self.B // self.BaseUnit
+        self.OneCounter = self.B % self.BaseUnit
+
+        action = f"Sum=A; Decompose B ({self.B})"
+        interpretation = f"Initialize Sum to {self.A}. {self.BaseCounter} Bases, {self.OneCounter} Ones."
+        self._record_history(action, interpretation)
+        # Proceed to the base addition phase
+        self.transition('q_add_bases')
+
+    def execute_add_bases(self):
+        """q_add_bases: Iteratively add BaseUnits."""
+        # Condition: BaseCounter > 0 (Loop Iteration)
+        if self.BaseCounter > 0:
+            prev_sum = self.Sum
+            self.Sum += self.BaseUnit
+            self.BaseCounter -= 1
+
+            action = f"Sum += {self.BaseUnit}; BaseCounter -= 1"
+            interpretation = f"Count on by base: {prev_sum} -> {self.Sum}."
+            self._record_history(action, interpretation)
+            # Stay in the same state
+        # Condition: BaseCounter == 0 (Loop Exit)
+        else:
+            self._record_history("BaseCounter == 0", "All bases added. Transition to adding ones.")
+            self.transition('q_add_ones')
+
+    def execute_add_ones(self):
+        """q_add_ones: Iteratively add Ones."""
+        # Condition: OneCounter > 0 (Loop Iteration)
+        if self.OneCounter > 0:
+            prev_sum = self.Sum
+            self.Sum += 1
+            self.OneCounter -= 1
+
+            action = "Sum += 1; OneCounter -= 1"
+            interpretation = f"Count on by one: {prev_sum} -> {self.Sum}."
+            self._record_history(action, interpretation)
+            # Stay in the same state
+        # Condition: OneCounter == 0 (Loop Exit)
+        else:
+            self._record_history("OneCounter == 0", "All ones added. Accept.")
+            self.transition('q_accept')
+
+    def display_history(self):
+        print(f"\n--- COBO Execution History ({self.A} + {self.B}) ---")
+        df = pd.DataFrame(self.history)
+        print(df.to_markdown(index=False))
+
+# Test the automaton with Lauren's example: 46 + 37.
+cobo_automaton = COBOAutomaton(A=46, B=37)
+result = cobo_automaton.run()
+cobo_automaton.display_history()
+print(f"\nFinal Result: {result}")
+\end{lstlisting}
+
+\subsubsection*{Execution Trace (46 + 37):}
+\begin{verbatim}
+--- COBO Execution History (46 + 37) ---
+| State          |   Sum |   BaseCounter |   OneCounter | Action                       | Interpretation                                    |
+|:---------------|------:|--------------:|-------------:|:-----------------------------|:--------------------------------------------------|
+| q_start        |     0 |             0 |            0 | Read A=46, B=37              | Start.                                            |
+| q_initialize   |    46 |             3 |            7 | Sum=A; Decompose B (37)      | Initialize Sum to 46. 3 Bases, 7 Ones.            |
+| q_add_bases    |    56 |             2 |            7 | Sum += 10; BaseCounter -= 1  | Count on by base: 46 -> 56.                       |
+| q_add_bases    |    66 |             1 |            7 | Sum += 10; BaseCounter -= 1  | Count on by base: 56 -> 66.                       |
+| q_add_bases    |    76 |             0 |            7 | Sum += 10; BaseCounter -= 1  | Count on by base: 66 -> 76.                       |
+| q_add_bases    |    76 |             0 |            7 | BaseCounter == 0             | All bases added. Transition to adding ones.       |
+| q_add_ones     |    77 |             0 |            6 | Sum += 1; OneCounter -= 1    | Count on by one: 76 -> 77.                        |
+| q_add_ones     |    78 |             0 |            5 | Sum += 1; OneCounter -= 1    | Count on by one: 77 -> 78.                        |
+| q_add_ones     |    79 |             0 |            4 | Sum += 1; OneCounter -= 1    | Count on by one: 78 -> 79.                        |
+| q_add_ones     |    80 |             0 |            3 | Sum += 1; OneCounter -= 1    | Count on by one: 79 -> 80.                        |
+| q_add_ones     |    81 |             0 |            2 | Sum += 1; OneCounter -= 1    | Count on by one: 80 -> 81.                        |
+| q_add_ones     |    82 |             0 |            1 | Sum += 1; OneCounter -= 1    | Count on by one: 81 -> 82.                        |
+| q_add_ones     |    83 |             0 |            0 | Sum += 1; OneCounter -= 1    | Count on by one: 82 -> 83.                        |
+| q_add_ones     |    83 |             0 |            0 | OneCounter == 0              | All ones added. Accept.                           |
+\end{verbatim}
 
 \printbibliography
 \end{document}
