@@ -4,29 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>40Hz Flicker Program</title>
-    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>40Hz Flicker Program</h1>
-        <div class="unsupported-feature">
-            <h2>Feature No Longer Supported</h2>
-            <p>This page was designed to launch a Java Applet, a technology that is no longer supported by modern web browsers for security reasons. The original files are preserved here for historical purposes, but the program cannot be run from this page.</p>
-        </div>
-        <p>The button below is from the original page and will likely not work.</p>
-        <button onclick="launchFlickerProgram()" disabled>Launch Flicker Program</button>
+    <h1>40Hz Flicker Program</h1>
+    <p>Click the button below to launch the 40Hz flicker program. Please make sure you have Java installed on your machine.</p>
+    <button onclick="launchFlickerProgram()">Launch Flicker Program</button>
 
-        <script>
-            function launchFlickerProgram() {
-                alert("This feature is no longer supported in modern browsers.");
-            }
-        </script>
+    <script>
+        function launchFlickerProgram() {
+            const jarUrl = 'FlickerProgramBeta.jar';
+            window.open('java:' + jarUrl);
+        }
+    </script>
 
-        <noscript>
-            JavaScript is required to run this application.
-        </noscript>
+    <noscript>
+        JavaScript is required to run this application.
+    </noscript>
 
-        <a href="../index.html" class="back-link">Go Back to Main Page</a>
-    </div>
+    <p>Note: Your browser needs to support Java Web Start or a similar plugin to launch Java applications from a web page.</p>
 </body>
 </html>
