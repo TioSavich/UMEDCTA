@@ -1,0 +1,5 @@
+[0] Config.pm:328> INFO - This is Biber 2.21
+[0] Config.pm:331> INFO - Logfile is 'Jason.tex.blg'
+[32] biber-darwin:342> INFO - === Thu Sep  4, 2025, 11:07:57
+[109] Utils.pm:479> ERROR - Cannot find 'Jason.tex.bcf'!
+[110] Biber.pm:137> INFO - ERRORS: 1
