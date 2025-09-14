@@ -1,17 +1,21 @@
-from src.synthesis.synthesizer import Synthesizer
-from src.synthesis.visualization import visualize_mud
-from src.synthesis.strategy_parser import parse_strategies
 import os
+import sys
+
+# Add the project root to the Python path
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, project_root)
+
+from eple.core.mua import Synthesizer, visualize_mud
+from eple.domains.arithmetic.parsing import parse_strategies
 
 def main():
-    # Get the absolute path of the directory containing main.py
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-
-    RAW_HTML_DIR = os.path.join(script_dir, "data/raw_html")
-    PROCESSED_DATA_DIR = os.path.join(script_dir, "data/processed")
+    # Define paths relative to the project root
+    ASSETS_DIR = os.path.join(project_root, "eple/assets")
+    RAW_HTML_DIR = os.path.join(ASSETS_DIR, "data/raw_html")
+    PROCESSED_DATA_DIR = os.path.join(ASSETS_DIR, "data/processed")
     CMT_DATA = os.path.join(PROCESSED_DATA_DIR, "cmt_data.json")
     STRATEGIES_CSV = os.path.join(PROCESSED_DATA_DIR, "strategies.csv")
-    OUTPUT_DIR = os.path.join(script_dir, "output/visualizations")
+    OUTPUT_DIR = os.path.join(ASSETS_DIR, "output/visualizations")
 
     # Create directories if they don't exist
     os.makedirs(PROCESSED_DATA_DIR, exist_ok=True)
@@ -27,7 +31,6 @@ def main():
     for index, row in synthesizer.strategies_df.iterrows():
         mud = synthesizer.generate_mud(row)
         if mud:
-            # Ensure a unique output path for each MUD
             output_path = os.path.join(OUTPUT_DIR, f"MUD_{row.get('id', index)}.gv")
             visualize_mud(mud, output_path)
             count += 1
