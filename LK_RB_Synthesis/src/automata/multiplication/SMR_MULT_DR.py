@@ -1,3 +1,8 @@
+import sys
+import os
+
+# Add project root to path to allow importing from src
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../..')))
 
 from src.automata.BaseAutomaton import BaseAutomaton
 from src.analysis.MUA_Metadata import StrategyMetadata
