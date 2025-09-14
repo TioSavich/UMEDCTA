@@ -1,148 +1,136 @@
-# -*- coding: utf-8 -*-
-"""
-This file implements Brandom's Meaning-Use Analysis (MUA) framework.
-It defines the core concepts of Vocabulary, Practice, and the relations
-that connect them (Meaning-Use Relations or MURs).
-"""
+import pandas as pd
+import json
+import networkx as nx
+from graphviz import Digraph
 
-class Vocabulary:
-    """
-    Represents a 'Vocabulary' (V) in the MUA framework. This is the "Saying"
-    aspect, consisting of a set of predicates.
-    """
-    def __init__(self, name, predicates=None):
+class MUAComponent:
+    """Base class for components in a Meaning-Use Diagram."""
+    def __init__(self, name, description=""):
         self.name = name
-        self.predicates = predicates if predicates is not None else set()
+        self.description = description
 
-    def __repr__(self):
-        return f"Vocabulary(name='{self.name}')"
+class Practice(MUAComponent):
+    """Represents a Practice (a 'Doing')."""
+    def __init__(self, name, description=""):
+        super().__init__(name, description)
 
-class Practice:
-    """
-    Represents a 'Practice' (P) in the MUA framework. This is the "Doing"
-    aspect, defined by a set of rules (incompatibilities and inferences).
-    """
-    def __init__(self, name, vocabulary=None, incompatibilities=None, inferences=None):
+class Vocabulary(MUAComponent):
+    """Represents a Vocabulary (a 'Saying')."""
+    def __init__(self, name, description=""):
+        super().__init__(name, description)
+        self.expressions = []
+        self.inferences = []
+
+    def add_expression(self, expression):
+        self.expressions.append(expression)
+
+    def add_inference(self, premise, conclusion, relation_type):
+        self.inferences.append((premise, conclusion, relation_type))
+
+
+class MeaningUseDiagram:
+    """Represents a Meaning-Use Diagram (MUD)."""
+    def __init__(self, name):
         self.name = name
-        self.vocabulary = vocabulary
-        self.incompatibilities = incompatibilities if incompatibilities is not None else set()
-        self.inferences = inferences if inferences is not None else set()
-    
-    def __repr__(self):
-        return f"Practice(name='{self.name}')"
+        self.graph = nx.DiGraph()
+
+    def add_component(self, component):
+        node_type = component.__class__.__name__
+        self.graph.add_node(component.name, type=node_type, description=component.description)
+
+    def add_relation(self, source, target, relation_type):
+        self.graph.add_edge(source, target, type=relation_type)
 
 
-# =================================================================
-# Part 2: Meaning-Use Relations (MURs)
-# =================================================================
+class Synthesizer:
+    def __init__(self, cmt_data_path):
+        with open(cmt_data_path, 'r') as f:
+            self.cmt_data = json.load(f)
+        self._prepare_cmt_maps()
 
-class MeaningUseRelation:
-    """Base class for all Meaning-Use Relations."""
-    def __repr__(self):
-        return f"{self.__class__.__name__}"
+    def _prepare_cmt_maps(self):
+        self.image_schemas = {s['name']: s for s in self.cmt_data.get('image_schemas', [])}
+        self.conceptual_metaphors = {m['name']: m for m in self.cmt_data.get('conceptual_metaphors', [])}
 
-class PP_Sufficiency(MeaningUseRelation):
-    """
-    Represents that one practice (P_elaborated) is sufficient to perform
-    another practice (P_base). This is the core of elaboration.
-    """
-    def __init__(self, P_base, P_elaborated):
-        self.P_base = P_base
-        self.P_elaborated = P_elaborated
+    def load_strategies(self, strategies_path):
+        self.strategies_df = pd.read_csv(strategies_path)
 
-    def __repr__(self):
-        return f"{self.__class__.__name__}(P_base='{self.P_base.name}', P_elaborated='{self.P_elaborated.name}')"
+    def _populate_vocabulary_inferences(self, vocabulary, metaphor_data):
+        """
+        Populates the vocabulary's inferential structure based on the metaphor.
+        This is a simplified placeholder for the inferential analysis.
+        """
+        if metaphor_data['name'] == "Arithmetic is Object Collection":
+            vocabulary.add_expression("Numbers")
+            vocabulary.add_expression("Addition")
+            vocabulary.add_expression("Result")
+            vocabulary.add_inference("Addition", "Result", "yields")
+            vocabulary.add_expression("Greater")
+            vocabulary.add_inference("Result", "Greater", "is")
 
+    def _sanitize_name(self, name):
+        return name.replace(',', '').replace('(', '').replace(')', '').replace(' - ', '_').replace(' ', '_')
 
-# --- Mechanisms for PP-Sufficiency ---
-# These are specific types of PP-Sufficiency
+    def generate_mud(self, strategy_row):
+        strategy_name = self._sanitize_name(strategy_row['name'])
+        annotation = strategy_row['metaphor_annotation']
 
-class AlgorithmicElaboration(PP_Sufficiency):
-    """
-    Represents a deterministic, rule-based transformation between practices.
-    This corresponds to learning a new procedure based on existing ones.
-    It is a form of PP-Sufficiency.
-    """
-    def __init__(self, P_base, P_elaborated):
-        super().__init__(P_base, P_elaborated)
+        if pd.isna(annotation) or annotation not in self.conceptual_metaphors:
+            return None
 
-class PragmaticProjection(PP_Sufficiency):
-    """
-    Represents a non-algorithmic, metaphorical, or abductive leap between
-    practices. This is where new conceptual structures are projected onto new
-    domains. It is a form of PP-Sufficiency.
-    """
-    def __init__(self, P_base, P_elaborated, mappings=None):
-        super().__init__(P_base, P_elaborated)
-        self.mappings = mappings if mappings is not None else {}
+        metaphor_data = self.conceptual_metaphors[annotation]
+        mud = MeaningUseDiagram(f"MUD for {strategy_name}")
 
+        if metaphor_data.get('image_schema') in self.image_schemas:
+            schema_name = metaphor_data['image_schema']
+            basic_practice = Practice(f"P_Embodied_{schema_name}", self.image_schemas[schema_name]['description'])
+            mud.add_component(basic_practice)
+        else:
+            basic_practice = Practice(f"P_{metaphor_data['source_domain']}", f"Practice of {metaphor_data['source_domain']}")
+            mud.add_component(basic_practice)
 
-# =================================================================
-# Part 3: MUA Analysis Functions
-# =================================================================
-
-def find_pragmatic_metavocabulary(v_target, p_context, all_practices, all_murs):
-    """
-    Finds vocabularies that serve as a pragmatic metavocabulary for a target vocabulary.
-    V_meta is a pragmatic metavocabulary for V_target if:
-    1. There exists a practice P_elaborated that elaborates P_context (the practice for V_target).
-       (i.e., there is a PP-Sufficiency from P_context to P_elaborated)
-    2. V_meta is VP-sufficient for P_elaborated. In our model, this means V_meta is
-       the vocabulary associated with P_elaborated.
-    """
-    metavocabularies = set()
-    
-    # Find all practices that elaborate the context practice
-    elaborating_practices = {
-        mur.P_elaborated for mur in all_murs
-        if isinstance(mur, PP_Sufficiency) and mur.P_base == p_context
-    }
-    
-    if not elaborating_practices:
-        return set()
+        complex_practice = Practice(f"P_Strategy_{strategy_name}", strategy_row['description'])
+        mud.add_component(complex_practice)
         
-    # For each elaborating practice, get its associated vocabulary.
-    for p_elab in elaborating_practices:
-        if p_elab.vocabulary:
-             metavocabularies.add(p_elab.vocabulary)
-                
-    return metavocabularies
+        math_vocabulary = Vocabulary(f"V_{metaphor_data['target_domain']}")
+        self._populate_vocabulary_inferences(math_vocabulary, metaphor_data)
+        mud.add_component(math_vocabulary)
 
-def is_LX(p_base, p_elaborated, v_base, v_elaborated, all_practices, all_murs):
-    """
-    Checks if the pair (P2, V2) is an Elaborated-Explicating (LX) pair for (P1, V1).
-    (p_elaborated, v_elaborated) is LX for (p_base, v_base) if:
-    1. p_elaborated is an elaboration of p_base.
-       (There is a PP-Sufficiency from p_base to p_elaborated).
-    2. v_elaborated makes explicit the implicit structure of p_base.
-       (v_elaborated is a pragmatic metavocabulary for v_base in the context of p_base).
-    """
-    # Condition 1: Is p_elaborated an elaboration of p_base?
-    is_elaboration = any(
-        isinstance(mur, PP_Sufficiency) and
-        mur.P_base == p_base and
-        mur.P_elaborated == p_elaborated
-        for mur in all_murs
-    )
+        mud.add_relation(basic_practice.name, complex_practice.name, "PP-Sufficiency (Elaboration)")
+        mud.add_relation(complex_practice.name, math_vocabulary.name, "PV-Sufficiency (Deployment)")
 
-    if not is_elaboration:
-        print("DEBUG: is_LX failed at Condition 1 (is_elaboration)")
-        return False
+        mud.graph.add_node(annotation, type="Metaphor")
+        mud.add_relation(basic_practice.name, annotation, "Mediated by")
+        mud.add_relation(annotation, math_vocabulary.name, "Structures")
 
-    # Condition 2: Is v_elaborated a pragmatic metavocabulary for v_base?
-    pragmatic_metavocabularies = find_pragmatic_metavocabulary(
-        v_target=v_base,
-        p_context=p_base,
-        all_practices=all_practices,
-        all_murs=all_murs
-    )
+        return mud
+
+def visualize_mud(mud, output_path):
+    dot = Digraph(comment=mud.name)
+    dot.attr('node', fontname='Helvetica', fontsize='10')
+    dot.attr('edge', fontname='Helvetica', fontsize='8')
+
+    node_types = nx.get_node_attributes(mud.graph, 'type')
     
-    is_explicative = v_elaborated in pragmatic_metavocabularies
-    
-    if not is_explicative:
-        print("DEBUG: is_LX failed at Condition 2 (is_explicative)")
-        print(f"  - Target pragmatic metavocabularies: {[v.name for v in pragmatic_metavocabularies]}")
-        print(f"  - Tested vocabulary: {v_elaborated.name}")
-        return False
+    for node in mud.graph.nodes():
+        ntype = node_types.get(node, "Unknown")
+        label = node.replace('P_Strategy_', '').replace('P_Embodied_', '').replace('V_', '').replace('_', ' ')
 
-    return True
+        if ntype == "Practice":
+            dot.node(node, label=f"P: {label}", shape='ellipse')
+        elif ntype == "Vocabulary":
+            dot.node(node, label=f"V: {label}", shape='box', style='rounded')
+        elif ntype == "Metaphor":
+            dot.node(node, label=f"M: {label}", shape='box', style='rounded,dashed')
+        else:
+            dot.node(node, label=label)
+
+    edge_labels = nx.get_edge_attributes(mud.graph, 'type')
+    for source, target in mud.graph.edges():
+        label = edge_labels.get((source, target), "")
+        style = 'dashed' if label in ["Mediated by", "Structures"] else 'solid'
+        dot.edge(source, target, label=label, style=style)
+
+    # Save the .gv source file without rendering the PDF
+    with open(output_path, 'w') as f:
+        f.write(dot.source)
