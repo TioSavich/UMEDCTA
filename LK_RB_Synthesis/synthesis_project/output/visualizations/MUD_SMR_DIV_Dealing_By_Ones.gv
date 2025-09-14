@@ -1,0 +1,13 @@
+// MUD for Division_Strategies_Dealing_by_Ones
+digraph {
+	node [fontname=Helvetica fontsize=10]
+	edge [fontname=Helvetica fontsize=8]
+	P_Embodied_Container [label="P: Container" shape=ellipse]
+	P_Strategy_Division_Strategies_Dealing_by_Ones [label="P: Division Strategies Dealing by Ones" shape=ellipse]
+	V_Arithmetic [label="V: Arithmetic" shape=box style=rounded]
+	"Arithmetic is Object Collection" [label="M: Arithmetic is Object Collection" shape=box style="rounded,dashed"]
+	P_Embodied_Container -> P_Strategy_Division_Strategies_Dealing_by_Ones [label="PP-Sufficiency (Elaboration)" style=solid]
+	P_Embodied_Container -> "Arithmetic is Object Collection" [label="Mediated by" style=dashed]
+	P_Strategy_Division_Strategies_Dealing_by_Ones -> V_Arithmetic [label="PV-Sufficiency (Deployment)" style=solid]
+	"Arithmetic is Object Collection" -> V_Arithmetic [label=Structures style=dashed]
+}
