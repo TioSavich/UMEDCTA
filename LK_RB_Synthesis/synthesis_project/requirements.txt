@@ -1,0 +1,7 @@
+networkx
+matplotlib
+beautifulsoup4
+lxml
+pandas
+graphviz
+graphviz

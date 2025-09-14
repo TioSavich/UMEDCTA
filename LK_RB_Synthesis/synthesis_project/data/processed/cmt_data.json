@@ -1,0 +1,63 @@
+{
+  "image_schemas": [
+    {
+      "name": "Container",
+      "description": "In-out orientation, arising from the experience of putting objects in and taking them out."
+    },
+    {
+      "name": "Part-Whole",
+      "description": "Understanding an object as a whole composed of smaller constituent parts."
+    },
+    {
+      "name": "Path",
+      "description": "A schema involving a source, a destination, and a sequence of points in between."
+    }
+  ],
+  "conceptual_metaphors": [
+    {
+      "name": "Arithmetic is Object Collection",
+      "source_domain": "Object Collection",
+      "target_domain": "Arithmetic",
+      "image_schema": "Container",
+      "mappings": {
+        "Collections": "Numbers",
+        "Putting collections together": "Addition",
+        "Taking a smaller collection from a larger one": "Subtraction"
+      }
+    },
+    {
+      "name": "Arithmetic is Object Construction",
+      "source_domain": "Object Construction",
+      "target_domain": "Arithmetic",
+      "image_schema": "Part-Whole",
+      "mappings": {
+        "Objects made of parts": "Numbers",
+        "Putting parts together": "Addition",
+        "Taking a part away from an object": "Subtraction"
+      }
+    },
+    {
+      "name": "Arithmetic is Measuring Stick",
+      "source_domain": "Measuring",
+      "target_domain": "Arithmetic",
+      "image_schema": "Path",
+      "mappings": {
+        "Physical segments": "Numbers",
+        "Placing segments end-to-end": "Addition",
+        "The length of a segment": "The magnitude of a number"
+      }
+    },
+    {
+      "name": "Arithmetic is Motion Along a Path",
+      "source_domain": "Motion Along a Path",
+      "target_domain": "Arithmetic",
+      "image_schema": "Path",
+      "mappings": {
+        "Point-locations on a path": "Numbers",
+        "Moving away from the origin": "Addition",
+        "Moving toward the origin": "Subtraction",
+        "The origin": "Zero"
+      }
+    }
+  ]
+}
