@@ -11,13 +11,17 @@ class MUAComponent:
 
 class Practice(MUAComponent):
     """Represents a Practice (a 'Doing')."""
-    def __init__(self, name, description=""):
+    def __init__(self, name, description="", vocabulary=None, inferences=None, incompatibilities=None):
         super().__init__(name, description)
+        self.vocabulary = vocabulary
+        self.inferences = inferences if inferences is not None else set()
+        self.incompatibilities = incompatibilities if incompatibilities is not None else set()
 
 class Vocabulary(MUAComponent):
     """Represents a Vocabulary (a 'Saying')."""
-    def __init__(self, name, description=""):
+    def __init__(self, name, description="", predicates=None):
         super().__init__(name, description)
+        self.predicates = predicates if predicates is not None else set()
         self.expressions = []
         self.inferences = []
 
@@ -134,3 +138,31 @@ def visualize_mud(mud, output_path):
     # Save the .gv source file without rendering the PDF
     with open(output_path, 'w') as f:
         f.write(dot.source)
+
+class MeaningUseRelation:
+    """Base class for all Meaning-Use Relations (MURs)."""
+    def __init__(self, P_base, P_elaborated):
+        self.P_base = P_base
+        self.P_elaborated = P_elaborated
+
+class PragmaticProjection(MeaningUseRelation):
+    """
+    Represents a metaphorical projection from a source practice to a target practice.
+    This is a specialized form of PP-Sufficiency.
+    """
+    def __init__(self, P_base, P_elaborated, mappings, name=""):
+        super().__init__(P_base, P_elaborated)
+        self.mappings = mappings
+        self.name = name
+
+class PP_Sufficiency(MeaningUseRelation):
+    """A practice-practice sufficiency relation, where one practice elaborates another."""
+    pass
+
+class PV_Sufficiency(MeaningUseRelation):
+    """A practice-vocabulary sufficiency relation, where a practice deploys a vocabulary."""
+    pass
+
+class AlgorithmicElaboration(PP_Sufficiency):
+    """A specific type of PP-Sufficiency that represents an algorithmic elaboration."""
+    pass
