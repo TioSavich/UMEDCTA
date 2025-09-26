@@ -1,0 +1,161 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
+\geometry{margin=1in}
+
+\title{EPLE Algorithmic Elaboration Analysis Report}
+\date{2025-09-19 20:45:03}
+\author{EPLE Automated Analysis System}
+
+\begin{document}
+\maketitle
+
+\section{Overview}
+
+\textbf{Computational Patterns Detected:} 2\\
+\textbf{Algorithmic Elaborations Found:} 16\\
+\textbf{MUD Diagrams Generated:} 2\\
+
+\section{Strategy Analysis: ADD\_COBO}
+
+\subsection{Computational Patterns Used}
+
+\begin{itemize}
+\item \textbf{incremental\_counting} (counting)
+  \textit{Used by 5 other strategies}
+\end{itemize}
+
+\subsection{Algorithmic Elaborations}
+
+\subsubsection{As Base Strategy:}
+
+\begin{itemize}
+\item \textbf{Elaborates} $\rightarrow$ COBO
+  \textit{Shared patterns: incremental\_counting}
+  \textit{Confidence: 1.00}
+
+\item \textbf{Elaborates} $\rightarrow$ SMR\_MULT\_C2C
+  \textit{Shared patterns: incremental\_counting}
+  \textit{Confidence: 1.00}
+
+\end{itemize}
+
+\subsubsection{As Elaborated Strategy:}
+
+\begin{itemize}
+\item \textbf{Elaborated from} $\leftarrow$ ADD\_Chunking
+  \textit{Shared patterns: incremental\_counting}
+  \textit{Confidence: 1.00}
+
+\item \textbf{Elaborated from} $\leftarrow$ ADD\_Counting
+  \textit{Shared patterns: incremental\_counting}
+  \textit{Confidence: 1.00}
+
+\end{itemize}
+
+\section{Meaning-Use Diagrams}
+
+The following diagrams illustrate the algorithmic elaborations detected in the analysis.
+Each diagram shows strategies connected by shared computational patterns.
+
+\subsection{Addition}
+
+\textbf{Operation:} Addition\\
+\textbf{Strategies Analyzed:} 9\\
+\textbf{Elaborations Detected:} 0\\
+
+\begin{center}
+\begin{tikzpicture}[
+  % Node Styles
+  vnode/.style={ellipse, draw, fill=lightgray!50, text=black, minimum height=1.3cm, minimum width=2.8cm, align=center},
+  pnode/.style={rectangle, rounded corners=5pt, draw, fill=gray!70, text=black, minimum height=1.3cm, minimum width=3.5cm, align=center, inner xsep=0.3cm, inner ysep=0.2cm},
+  graybox/.style={rectangle, fill=lightgray!50, inner sep=4pt, minimum height=1.1cm, anchor=center, align=center, text centered},
+  % Arrow Styles
+  solidarrow/.style={-Stealth, thick},
+  dashedarrow/.style={dashed, -Stealth, thick, gray},
+  textarrow/.style={align=center, inner sep=1pt}
+]
+\tikzset{font=\linespread{0.8}\selectfont}
+
+% Diagram for: addition
+
+\node[pnode] (P_0) at (0.00,9.00) {P\textsubscript{SMR_DIV_DealingByOnes}};
+\node[pnode] (P_1) at (5.79,6.89) {P\textsubscript{ADD_COBO}};
+\node[pnode] (P_2) at (8.86,1.56) {P\textsubscript{SMR_DIV_CGOB}};
+\node[pnode] (P_3) at (7.79,-4.50) {P\textsubscript{SUB_Rounding}};
+\node[pnode] (P_4) at (3.08,-8.46) {P\textsubscript{ADD_Chunking}};
+\node[pnode] (P_5) at (-3.08,-8.46) {P\textsubscript{ADD_Counting}};
+\node[pnode] (P_6) at (-7.79,-4.50) {P\textsubscript{SMR_MULT_C2C}};
+\node[pnode] (P_7) at (-8.86,1.56) {P\textsubscript{ADD_Rounding}};
+\node[pnode] (P_8) at (-5.79,6.89) {P\textsubscript{COBO}};
+
+\draw[solidarrow] (P_4) -- node[graybox, midway, sloped] {P\textsubscript{AlgEl} 1: PP-suff \\ (incremental\_counting)} (P_5);
+\draw[solidarrow] (P_4) -- node[graybox, midway, sloped] {P\textsubscript{AlgEl} 2: PP-suff \\ (incremental\_counting)} (P_1);
+\draw[solidarrow] (P_4) -- node[graybox, midway, sloped] {P\textsubscript{AlgEl} 3: PP-suff \\ (incremental\_counting)} (P_8);
+\draw[solidarrow] (P_4) -- node[graybox, midway, sloped] {P\textsubscript{AlgEl} 4: PP-suff \\ (incremental\_counting)} (P_6);
+\draw[solidarrow] (P_7) -- node[graybox, midway, sloped] {P\textsubscript{AlgEl} 5: PP-suff \\ (base\_decomposition)} (P_3);
+\draw[solidarrow] (P_7) -- node[graybox, midway, sloped] {P\textsubscript{AlgEl} 6: PP-suff \\ (base\_decomposition)} (P_0);
+\draw[solidarrow] (P_7) -- node[graybox, midway, sloped] {P\textsubscript{AlgEl} 7: PP-suff \\ (base\_decomposition)} (P_2);
+\draw[solidarrow] (P_5) -- node[graybox, midway, sloped] {P\textsubscript{AlgEl} 8: PP-suff \\ (incremental\_counting)} (P_1);
+\draw[solidarrow] (P_5) -- node[graybox, midway, sloped] {P\textsubscript{AlgEl} 9: PP-suff \\ (incremental\_counting)} (P_8);
+\draw[solidarrow] (P_5) -- node[graybox, midway, sloped] {P\textsubscript{AlgEl} 10: PP-suff \\ (incremental\_counting)} (P_6);
+\draw[solidarrow] (P_1) -- node[graybox, midway, sloped] {P\textsubscript{AlgEl} 11: PP-suff \\ (incremental\_counting)} (P_8);
+\draw[solidarrow] (P_1) -- node[graybox, midway, sloped] {P\textsubscript{AlgEl} 12: PP-suff \\ (incremental\_counting)} (P_6);
+
+\end{tikzpicture}
+\end{center}
+
+\textbf{Summary:}\\
+\begin{verbatim}
+Summary for addition
+\end{verbatim}
+
+\newpage
+\subsection{Miscellaneous}
+
+\textbf{Operation:} Miscellaneous\\
+\textbf{Strategies Analyzed:} 5\\
+\textbf{Elaborations Detected:} 0\\
+
+\begin{center}
+\begin{tikzpicture}[
+  % Node Styles
+  vnode/.style={ellipse, draw, fill=lightgray!50, text=black, minimum height=1.3cm, minimum width=2.8cm, align=center},
+  pnode/.style={rectangle, rounded corners=5pt, draw, fill=gray!70, text=black, minimum height=1.3cm, minimum width=3.5cm, align=center, inner xsep=0.3cm, inner ysep=0.2cm},
+  graybox/.style={rectangle, fill=lightgray!50, inner sep=4pt, minimum height=1.1cm, anchor=center, align=center, text centered},
+  % Arrow Styles
+  solidarrow/.style={-Stealth, thick},
+  dashedarrow/.style={dashed, -Stealth, thick, gray},
+  textarrow/.style={align=center, inner sep=1pt}
+]
+\tikzset{font=\linespread{0.8}\selectfont}
+
+% Diagram for: miscellaneous
+
+\node[pnode] (P_0) at (0.00,5.00) {P\textsubscript{SMR_DIV_DealingByOnes}};
+\node[pnode] (P_1) at (4.76,1.55) {P\textsubscript{SMR_DIV_CGOB}};
+\node[pnode] (P_2) at (2.94,-4.05) {P\textsubscript{SMR_MULT_C2C}};
+\node[pnode] (P_3) at (-2.94,-4.05) {P\textsubscript{SUB_Rounding}};
+\node[pnode] (P_4) at (-4.76,1.55) {P\textsubscript{COBO}};
+
+\draw[solidarrow] (P_3) -- node[graybox, midway, sloped] {P\textsubscript{AlgEl} 1: PP-suff \\ (base\_decomposition)} (P_0);
+\draw[solidarrow] (P_3) -- node[graybox, midway, sloped] {P\textsubscript{AlgEl} 2: PP-suff \\ (base\_decomposition)} (P_1);
+\draw[solidarrow] (P_4) -- node[graybox, midway, sloped] {P\textsubscript{AlgEl} 3: PP-suff \\ (incremental\_counting)} (P_2);
+\draw[solidarrow] (P_0) -- node[graybox, midway, sloped] {P\textsubscript{AlgEl} 4: PP-suff \\ (base\_decomposition)} (P_1);
+
+\end{tikzpicture}
+\end{center}
+
+\textbf{Summary:}\\
+\begin{verbatim}
+Summary for miscellaneous
+\end{verbatim}
+
+\newpage
+
+\end{document}

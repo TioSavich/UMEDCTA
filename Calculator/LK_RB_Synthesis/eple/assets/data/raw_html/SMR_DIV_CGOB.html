@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Division: Conversion to Groups Other than Bases (CGOB)</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    input { margin: 5px; }
+    #divDiagram { border: 1px solid #d3d3d3; width: 100%; min-height: 500px; }
+    #outputContainer { margin-top: 20px; }
+    .diagram-label { font-size: 14px; font-weight: bold; }
+    .notation-line { margin: 0.2em 0; margin-left: 1em; font-family: monospace; }
+    .notation-step { margin-bottom: 0.5em; }
+    .step-controls { margin-top: 10px; }
+    .step-button {
+      padding: 8px 15px;
+      background-color: #4a4a4a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .step-button:disabled {
+      background-color: #999;
+      cursor: not-allowed;
+    }
+  </style>
+  <!-- MathJax support -->
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+</head>
+<body>
+
+<h1>Division: Conversion to Groups Other than Bases (CGOB) - Step Animation</h1>
+
+<div>
+  <label for="divTotal">Total Items (Dividend):</label>
+  <input type="number" id="divTotal" value="63" min="1">
+  <label for="divGroupSize">Items per Group (Divisor):</label>
+  <input type="number" id="divGroupSize" value="9" min="1">
+  <button onclick="runCGOBDivAutomaton()">Calculate and Visualize</button>
+</div>
+
+<div id="outputContainer">
+  <h2>Explanation (Notation):</h2>
+  <div id="divOutput">
+    <!-- MathJax notation will appear here -->
+  </div>
+</div>
+
+<h2>Diagram:</h2>
+<div style="overflow: auto; max-height: 800px;">
+  <svg id="divDiagram" preserveAspectRatio="xMinYMin meet">
+    <defs>
+      <marker id="arrowhead-orange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="orange" />
+      </marker>
+    </defs>
+  </svg>
+</div>
+
+<div class="step-controls">
+  <button id="divPrevStep" class="step-button" onclick="prevDivStep()" disabled>◀ Previous</button>
+  <span id="divStepIndicator">Step 0 / 0</span>
+  <button id="divNextStep" class="step-button" onclick="nextDivStep()">Next ▶</button>
+</div>
+
+<script>
+  // --- Helper SVG Functions ---
+  function drawBlock(svg, x, y, size, fill, className = 'block') {
+    const rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+    rect.setAttribute('x', x);
+    rect.setAttribute('y', y);
+    rect.setAttribute('width', size);
+    rect.setAttribute('height', size);
+    rect.setAttribute('fill', fill);
+    rect.setAttribute('stroke', 'black');
+    rect.setAttribute('class', className);
+    svg.appendChild(rect);
+    return { x: x, y: y, width: size, height: size, cx: x + size/2, cy: y + size/2 };
+  }
+
+  function createText(svg, x, y, textContent, className = 'diagram-label', anchor = 'middle') {
+    const text = document.createElementNS("http://www.w3.org/2000/svg", 'text');
+    text.setAttribute('x', x);
+    text.setAttribute('y', y);
+    text.setAttribute('class', className);
+    text.setAttribute('text-anchor', anchor);
+    text.textContent = textContent;
+    svg.appendChild(text);
+    return text;
+  }
+
+  function createCurvedArrow(svg, x1, y1, x2, y2, cx, cy, arrowClass='regroup-arrow', headId='arrowhead-orange') {
+    const path = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('d', `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`);
+    path.setAttribute('class', arrowClass);
+    path.setAttribute('marker-end', `url(#${headId})`);
+    svg.appendChild(path);
+  }
+
+  // --- Global Variables for Division Animation ---
+  let divTotal, divGroupSize;
+  let divTens, divOnes;       // From base-10 decomposition.
+  let divRemovePerTen;        // Blocks to remove from each ten = 10 - divisor.
+  let divTotalMoves;          // Total removal moves = divTens * divRemovePerTen.
+  let divAnimationSteps = []; // Array of moves: each move: { tenIndex: i }.
+  let divCurrentStep = 0;     // Current step (0 to divMaxStep).
+  let divMaxStep = 0;         // Total steps = divTotalMoves + 1.
+  let divFinalQuotient, divFinalRemainder;
+
+  // --- Notation Generation for Division ---
+  function generateDivNotation(outputElement, totalItems, groupSize) {
+    const tens = Math.floor(totalItems / 10);
+    const ones = totalItems % 10;
+    const extraPerTen = 10 - groupSize;
+    const totalExtra = tens * extraPerTen;
+    const onesFinal = ones + totalExtra;
+    const additionalGroups = Math.floor(onesFinal / groupSize);
+    const quotient = tens + additionalGroups;
+    const remainder = onesFinal % groupSize;
+    let output = `<h2>Conversion to Groups Other than Bases (CGOB) - Notation</h2>`;
+    output += `<div class="notation-step"><p class="notation-line problem">\\( ${totalItems} \\div ${groupSize} = ? \\)</p></div>`;
+    output += `<div class="notation-step"><p class="notation-line">\\( ${totalItems} = ${tens*10} + ${ones} \\)</p></div>`;
+    output += `<div class="notation-step"><p class="notation-line">\\( = ${tens} \\times 10 + ${ones} \\)</p></div>`;
+    output += `<div class="notation-step"><p class="notation-line">\\( = ${tens} \\times ( ${groupSize} + ${extraPerTen} ) + ${ones} \\)</p></div>`;
+    output += `<div class="notation-step"><p class="notation-line">\\( = ${tens} \\times ${groupSize} + ${tens}\\times ${extraPerTen} + ${ones} \\)</p></div>`;
+    output += `<div class="notation-step"><p class="notation-line">\\( = ${tens} \\times ${groupSize} + ${totalExtra + ones} \\)</p></div>`;
+    output += `<div class="notation-step"><p class="notation-line">\\( = ${tens} \\times ${groupSize} + ${additionalGroups} \\times ${groupSize} \\)</p></div>`;
+    output += `<div class="notation-step"><p class="notation-line problem">\\( = (${tens} + ${additionalGroups}) \\times ${groupSize} \\)</p></div>`;
+    output += `<div class="notation-step"><p class="notation-line">\\( = ${quotient} \\times ${groupSize} \\)</p></div>`;
+    output += `<div class="notation-step"><p class="notation-line">Thus, the number of groups is \\( ${quotient} \\) with a remainder of \\( ${remainder} \\).</p></div>`;
+    outputElement.innerHTML = output;
+    if(window.MathJax){
+      MathJax.typesetPromise([outputElement]);
+    }
+    divFinalQuotient = quotient;
+    divFinalRemainder = remainder;
+  }
+
+  // --- Division Animation Setup ---
+  function setupDivAnimation(totalItems, groupSize) {
+    divTens = Math.floor(totalItems / 10);
+    divOnes = totalItems % 10;
+    divRemovePerTen = 10 - groupSize;
+    divTotalMoves = divTens * divRemovePerTen;
+    divAnimationSteps = [];
+    for (let r = 0; r < divRemovePerTen; r++) {
+      for (let i = 0; i < divTens; i++) {
+        divAnimationSteps.push({ tenIndex: i });
+      }
+    }
+    divMaxStep = divTotalMoves + 1; // One extra step for final grouping overlay.
+    divCurrentStep = 0;
+  }
+
+  // --- Division Diagram Drawing ---
+  // Always draw Phase 1 (the tens and ones pile) then, if at final step, overlay dotted outlines.
+  function drawDivDiagram(svgId, totalItems, groupSize, currentStep) {
+    const svg = document.getElementById(svgId);
+    if (!svg) return;
+    svg.innerHTML = '';
+
+    const unitSize = 20;
+    const spacing = 5;
+    const startX = 30;
+    let currentY = 40;
+
+    // PHASE 1: Draw tens and ones.
+    let removedCounts = new Array(divTens).fill(0);
+    let effectiveStep = Math.min(currentStep, divTotalMoves);
+    for (let s = 0; s < effectiveStep; s++) {
+      let move = divAnimationSteps[s];
+      removedCounts[move.tenIndex]++;
+    }
+    // Draw tens columns.
+    for (let i = 0; i < divTens; i++) {
+      let x = startX + i * (unitSize + spacing);
+      let blocksRemaining = 10 - removedCounts[i];
+      for (let j = 0; j < blocksRemaining; j++) {
+        drawBlock(svg, x, currentY + j * (unitSize + spacing), unitSize, 'purple');
+      }
+    }
+    // One label for tens.
+    createText(svg, startX + (divTens * (unitSize + spacing)) / 2, currentY - 10, "Tens or Groups from Tens", "diagram-label");
+
+    // Draw ones pile.
+    let onesPile = divOnes + effectiveStep;
+    let onesX = startX;
+    let onesY = currentY + 10 * (unitSize + spacing) + 40;
+    createText(svg, onesX + 50, onesY - 10, "Ones", "diagram-label");
+    for (let i = 0; i < onesPile; i++) {
+      drawBlock(svg, onesX + i * (unitSize + spacing), onesY, unitSize, 'orange');
+    }
+    // Draw an arrow for the most recent removal.
+    if (currentStep > 0 && currentStep < divTotalMoves) {
+      let lastMove = divAnimationSteps[currentStep - 1];
+      let donorX = startX + lastMove.tenIndex * (unitSize + spacing) + unitSize;
+      let donorY = currentY + (10 - removedCounts[lastMove.tenIndex]) * (unitSize + spacing) - unitSize/2;
+      let targetX = onesX + (onesPile - 1) * (unitSize + spacing) + unitSize/2;
+      let targetY = onesY + unitSize/2;
+      createCurvedArrow(svg, donorX, donorY, targetX, targetY, (donorX+targetX)/2, (donorY+targetY)/2 - 20);
+    }
+
+    // PHASE 2: At final step, overlay dotted outlines.
+    if (currentStep === divMaxStep) {
+      // Overlay dotted outlines around groups in the ones pile.
+      const numComplete = Math.floor(onesPile / divGroupSize);
+      for (let g = 0; g < numComplete; g++) {
+        let groupX = onesX + g * divGroupSize * (unitSize + spacing);
+        const outline = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        outline.setAttribute('x', groupX - 2);
+        outline.setAttribute('y', onesY - 2);
+        outline.setAttribute('width', divGroupSize * (unitSize + spacing) - spacing + 4);
+        outline.setAttribute('height', unitSize + 4);
+        outline.setAttribute('fill', 'none');
+        outline.setAttribute('stroke', 'black');
+        outline.setAttribute('stroke-dasharray', '4 4');
+        svg.appendChild(outline);
+      }
+      let rem = onesPile % divGroupSize;
+      if (rem > 0) {
+        let groupX = onesX + numComplete * divGroupSize * (unitSize + spacing);
+        const outline = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        outline.setAttribute('x', groupX - 2);
+        outline.setAttribute('y', onesY - 2);
+        outline.setAttribute('width', rem * (unitSize + spacing) - spacing + 4);
+        outline.setAttribute('height', unitSize + 4);
+        outline.setAttribute('fill', 'none');
+        outline.setAttribute('stroke', 'black');
+        outline.setAttribute('stroke-dasharray', '4 4');
+        svg.appendChild(outline);
+      }
+    }
+    svg.setAttribute('height', onesY + unitSize + 100);
+  }
+
+  // --- Step Navigation Functions ---
+  function updateDivVisualization() {
+    const indicator = document.getElementById('divStepIndicator');
+    indicator.textContent = `Step ${divCurrentStep} / ${divMaxStep}`;
+    document.getElementById('divPrevStep').disabled = divCurrentStep === 0;
+    document.getElementById('divNextStep').disabled = divCurrentStep === divMaxStep;
+    drawDivDiagram('divDiagram', divTotal, divGroupSize, divCurrentStep);
+  }
+  function prevDivStep() {
+    if (divCurrentStep > 0) {
+      divCurrentStep--;
+      updateDivVisualization();
+    }
+  }
+  function nextDivStep() {
+    if (divCurrentStep < divMaxStep) {
+      divCurrentStep++;
+      updateDivVisualization();
+    }
+  }
+
+  // --- Main Division Automaton ---
+  function runCGOBDivAutomaton() {
+    try {
+      divTotal = parseInt(document.getElementById('divTotal').value);
+      divGroupSize = parseInt(document.getElementById('divGroupSize').value);
+      if (isNaN(divTotal) || isNaN(divGroupSize) || divTotal <= 0 || divGroupSize <= 0) {
+        document.getElementById('divOutput').textContent = "Please enter valid positive numbers.";
+        document.getElementById('divDiagram').innerHTML = '';
+        return;
+      }
+      // Only apply strategy if divisor < 10.
+      if(divGroupSize >= 10) {
+        document.getElementById('divOutput').innerHTML = `Direct division: \\( ${divTotal} \\div ${divGroupSize} \\)`;
+        document.getElementById('divDiagram').innerHTML = '';
+        return;
+      }
+      setupDivAnimation(divTotal, divGroupSize);
+      generateDivNotation(document.getElementById('divOutput'), divTotal, divGroupSize);
+      divCurrentStep = 0;
+      updateDivVisualization();
+    } catch(error) {
+      console.error("Error in runCGOBDivAutomaton:", error);
+      document.getElementById('divOutput').textContent = `Error: ${error.message}`;
+    }
+  }
+
+  // Run automaton on page load.
+  runCGOBDivAutomaton();
+</script>
+
+<!-- New button for viewing PDF documentation -->
+<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+
+<script>
+    function openPdfViewer() {
+        // Opens the PDF documentation for the strategy.
+        window.open('https://tiosavich.github.io/UMEDCTA/Calculator/SMR_DIV_Conversion_to_Groups_Other_than_Bases.pdf', '_blank');
+    }
+</script>
+
+</body>
+</html>
