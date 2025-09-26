@@ -1,0 +1,23 @@
+id,name,description,metaphor_annotation
+counting,Counting in Base 10 with Two Representations,Illustrating sublation: how 10 individual 'ones' become 1 'ten'.,Arithmetic is Object Collection
+SAR_SUB_Sliding,Subtraction Strategies: Sliding to Make Bases,,Arithmetic Is Motion Along a Path
+SAR_SUB_Rounding,Subtraction Strategies: Rounding and Adjusting,,Arithmetic Is Motion Along a Path
+SMR_MULT_Commutative_Reasoning,Commutative Reasoning for Multiplication,,Arithmetic Is Object Collection
+index,The Hermeneutic Calculator,,Arithmetic is Object Collection
+SMR_Multiplication_Coordinating_Two_Counts,Strategic Multiplicative Reasoning - Coordinating Two Counts by Ones (C2C),Total Items Counted:0,Arithmetic Is Object Collection
+SAR_SUB_COBO,Subtraction Strategies: Counting Back By Bases and Then Ones (CBBO),,Arithmetic is Object Collection
+SAR_ADD_RMB,Addition Strategies: Rearranging to Make Bases (RMB),,Arithmetic Is Object Construction
+SAR_SUB_CHUNKING,Subtraction Strategies: Chunking,,Arithmetic Is Object Construction
+SMR_DIV_CGOB,Division: Conversion to Groups Other than Bases (CGOB) - Step Animation,,Arithmetic Is Object Construction
+SAR_SUB_Decomposition,Subtraction Strategies: Decomposition,,Arithmetic Is Object Construction
+SAR_ADD_CHUNKING,Addition Strategies: Chunking by Bases and Then Ones,,Arithmetic Is Object Construction
+SMR_MULTIPLICATION_Strategic_Counting,Multiplication Strategies: Strategic Counting (Repeated Addition),,Arithmetic Is Object Collection
+SMR_DIV_Strategic_Trials,Division Strategies - Strategic Trials,,Arithmetic is Object Collection
+SAR_ADD_Rounding,Addition Strategies: Rounding and Adjusting,,Arithmetic Is Motion Along a Path
+SMR_MULT_DR,Multiplication Strategies: Distributive Reasoning,,Arithmetic Is Object Construction
+SAR_ADD_ABAO,Addition Strategies: Adding Bases and Adding Ones (ABAO),,Arithmetic Is Object Collection
+SMR_DIV_UCR,Division Strategies - Using Commutative Reasoning (Dealing by Rounds),"Reframing Sharing (Total ÷ Groups = ?) as Measurement (How many ""Groups"" fit in Total?). Each round deals 1 item to each group.",Arithmetic Is Object Collection
+SMR_Multiplication_CBO,Strategic Multiplicative Reasoning: Conversion to Bases and Ones (CBO),,Arithmetic is Object Collection
+SMR_DIV_IDP,Strategic Multiplicative Reasoning: Division - Inverse of Distributive Property,,Arithmetic Is Object Construction
+SAR_ADD_COBO,Addition Strategies: Counting On By Bases and Then Ones (COBO),,Arithmetic Is Motion Along a Path
+SMR_DIV_Dealing_By_Ones,Division Strategies - Dealing by Ones,,Arithmetic Is Object Collection

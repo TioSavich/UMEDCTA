@@ -1,0 +1,54 @@
+{
+  "image_schemas": [
+    {
+      "name": "Container",
+      "description": "In-out orientation, arising from the experience of putting objects in and taking them out."
+    },
+    {
+      "name": "Part-Whole",
+      "description": "Understanding an object as a whole composed of smaller constituent parts."
+    },
+    {
+      "name": "Path",
+      "description": "A schema involving a source, a destination, and a sequence of points in between."
+    }
+  ],
+  "conceptual_metaphors": [
+    {
+      "name": "Arithmetic Is Object Collection",
+      "source_domain": "The physical activity of collecting objects. This includes actions like putting objects into collections, taking them out, and forming larger collections from smaller ones.",
+      "target_domain": "The abstract domain of numbers and arithmetic operations.",
+      "image_schema": "Container",
+      "mappings": {
+        "Numbers": "Collections of objects are conceptualized as numbers"
+      }
+    },
+    {
+      "name": "Arithmetic Is Object Construction",
+      "source_domain": "The physical activity of constructing objects by putting parts together.",
+      "target_domain": "The abstract domain of numbers and arithmetic operations.",
+      "image_schema": "Part-Whole",
+      "mappings": {
+        "Numbers": "Objects made of ultimate, indivisible parts are conceptualized as numbers"
+      }
+    },
+    {
+      "name": "Measuring Stick",
+      "source_domain": "The use of physical segments (like a measuring stick, a string, or body parts) to determine length.",
+      "target_domain": "The abstract domain of numbers and arithmetic operations.",
+      "image_schema": "Container",
+      "mappings": {
+        "Numbers": "Physical segments are conceptualized as numbers"
+      }
+    },
+    {
+      "name": "Arithmetic Is Motion Along a Path",
+      "source_domain": "The physical act of moving along a path from a source to a destination.",
+      "target_domain": "The abstract domain of numbers and arithmetic operations.",
+      "image_schema": "Path",
+      "mappings": {
+        "Numbers": "Point-locations on a path are conceptualized as numbers"
+      }
+    }
+  ]
+}

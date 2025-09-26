@@ -1,0 +1,128 @@
+[
+    {
+        "Name": "Counting and Counting On",
+        "Description": "Sequential unit counting within a bounded base-10 place-value structure.",
+        "Cognitive_Steps": ["q_start", "q_idle", "q_inc_tens", "q_inc_hundreds", "q_halt"],
+        "Examples": []
+    },
+    {
+        "Name": "Rearranging to Make Bases (RMB)",
+        "Description": "For A + B, identify gap K from A to next base, decompose B = K + R, form A' = A + K, then compute A' + R.",
+        "Cognitive_Steps": ["q_start", "q_calcK", "q_decompose", "q_recombine"],
+        "Examples": []
+    },
+    {
+        "Name": "COBO (Counting On by Bases then Ones)",
+        "Description": "For A + B, decompose B = b * Base + r; iterate base jumps (+Base) then unit steps (+1).",
+        "Cognitive_Steps": ["q_start", "q_initialize", "q_add_bases", "q_add_ones"],
+        "Examples": []
+    },
+    {
+        "Name": "Rounding and Adjusting (Addition)",
+        "Description": "Select addend closer to next base: round up A -> A' = A + K, compute A' + B, then adjust back: (A' + B) - K.",
+        "Cognitive_Steps": ["q_start", "q_calcK", "q_add", "q_adjust"],
+        "Examples": []
+    },
+    {
+        "Name": "Chunking (Addition)",
+        "Description": "Decompose B into large base chunk + strategic residual chunks to force successive bases.",
+        "Cognitive_Steps": ["q_init", "q_addBase", "q_calcK", "q_applyK", "q_finishR"],
+        "Examples": []
+    },
+    {
+        "Name": "Subtraction Chunking (Backwards by Part)",
+        "Description": "Sequentially subtract decomposed parts of S from M.",
+        "Cognitive_Steps": ["q_init", "q_chunk"],
+        "Examples": []
+    },
+    {
+        "Name": "Subtraction Chunking (Forwards from Part)",
+        "Description": "Treat as S + D = M; Count Up (RMB logic) accumulating D.",
+        "Cognitive_Steps": ["q_init", "q_chunk"],
+        "Examples": []
+    },
+    {
+        "Name": "Subtraction Chunking (Backwards to Part)",
+        "Description": "Count Back from M toward S using strategic base landings; accumulate distance.",
+        "Cognitive_Steps": ["q_init", "q_chunk"],
+        "Examples": []
+    },
+    {
+        "Name": "Subtraction COBO (Missing Addend)",
+        "Description": "Start at S, perform base jumps toward M, then ones; distance accumulated is D.",
+        "Cognitive_Steps": ["q_init", "q_add_bases", "q_add_ones"],
+        "Examples": []
+    },
+    {
+        "Name": "Subtraction CBBO (Counting Back)",
+        "Description": "Start at M, subtract base units from decomposed S, then ones.",
+        "Cognitive_Steps": ["q_init", "q_sub_bases", "q_sub_ones"],
+        "Examples": []
+    },
+    {
+        "Name": "Subtraction Decomposition (Borrowing)",
+        "Description": "Subtract higher place, detect insufficiency, borrow from higher unit, then subtract ones.",
+        "Cognitive_Steps": ["q_init", "q_sub_bases", "q_check_ones", "q_decompose", "q_sub_ones"],
+        "Examples": []
+    },
+    {
+        "Name": "Subtraction Rounding and Adjusting",
+        "Description": "Dual rounding yields simplified M' - S', then contrasting compensations.",
+        "Cognitive_Steps": ["q_start", "q_roundM", "q_roundS", "q_subtract", "q_adjustM", "q_adjustS"],
+        "Examples": []
+    },
+    {
+        "Name": "Subtraction Sliding (Constant Difference)",
+        "Description": "Find K so that S + K is a base number; compute (M + K) - (S + K).",
+        "Cognitive_Steps": ["q_start", "q_calcK", "q_slide", "q_subtract"],
+        "Examples": []
+    },
+    {
+        "Name": "Commutative Reasoning (Multiplication)",
+        "Description": "Select orientation (A x B vs B x A) minimizing cognitive load.",
+        "Cognitive_Steps": ["q_evaluate", "q_repackage", "q_calc"],
+        "Examples": []
+    },
+    {
+        "Name": "Coordinating Two Counts (C2C)",
+        "Description": "Nested counting: items within group, groups within total.",
+        "Cognitive_Steps": ["q_init", "q_checkG", "q_countItems", "q_nextGroup"],
+        "Examples": []
+    },
+    {
+        "Name": "Conversion to Bases and Ones (CBO Multiplication)",
+        "Description": "Redistribute units among groups to manufacture base units.",
+        "Cognitive_Steps": ["q_init", "q_select_source", "q_transfer", "q_finalize"],
+        "Examples": []
+    },
+    {
+        "Name": "Distributive Reasoning (Multiplication)",
+        "Description": "Decompose S = S1 + S2, compute N*S1 and N*S2, then sum.",
+        "Cognitive_Steps": ["q_split", "q_P1", "q_P2", "q_sum"],
+        "Examples": []
+    },
+    {
+        "Name": "Dealing by Ones (Division - Sharing)",
+        "Description": "Distribute single units round-robin into N groups until total T exhausted.",
+        "Cognitive_Steps": ["q_init", "q_deal"],
+        "Examples": []
+    },
+    {
+        "Name": "Inverse Distributive Reasoning (Division)",
+        "Description": "Decompose T into known multiples of S: T = sum(m_i * S); quotient = sum(m_i).",
+        "Cognitive_Steps": ["q_init", "q_search", "q_apply"],
+        "Examples": []
+    },
+    {
+        "Name": "Using Commutative Reasoning (Division)",
+        "Description": "For E / G: iteratively accumulate G until total E reached; iteration count is quotient.",
+        "Cognitive_Steps": ["q_init", "q_iterate", "q_check"],
+        "Examples": []
+    },
+    {
+        "Name": "Conversion to Groups Other than Bases (CGOB Division)",
+        "Description": "Leverage base decomposition of dividend T and analysis of base/divisor relation.",
+        "Cognitive_Steps": ["q_init", "q_analyze", "q_processBases", "q_combineR", "q_processR"],
+        "Examples": []
+    }
+]

@@ -1,0 +1,244 @@
+{
+  "analysis_results": {
+    "patterns": {
+      "base_decomposition": {
+        "type": "decomposition",
+        "strategies_using": [
+          "ADD_Rounding",
+          "SMR_DIV_DealingByOnes",
+          "SMR_DIV_CGOB",
+          "SUB_Rounding"
+        ],
+        "usage_count": 4
+      },
+      "incremental_counting": {
+        "type": "counting",
+        "strategies_using": [
+          "COBO",
+          "SMR_MULT_C2C",
+          "ADD_Chunking",
+          "ADD_Counting",
+          "ADD_COBO"
+        ],
+        "usage_count": 5
+      }
+    },
+    "elaborations": [
+      {
+        "base_strategy": "ADD_Rounding",
+        "elaborated_strategy": "SUB_Rounding",
+        "shared_patterns": [
+          "base_decomposition"
+        ],
+        "type": "inter_categorial",
+        "confidence": 1.0
+      },
+      {
+        "base_strategy": "ADD_Rounding",
+        "elaborated_strategy": "SMR_DIV_CGOB",
+        "shared_patterns": [
+          "base_decomposition"
+        ],
+        "type": "inter_categorial",
+        "confidence": 1.0
+      },
+      {
+        "base_strategy": "ADD_Rounding",
+        "elaborated_strategy": "SMR_DIV_DealingByOnes",
+        "shared_patterns": [
+          "base_decomposition"
+        ],
+        "type": "inter_categorial",
+        "confidence": 1.0
+      },
+      {
+        "base_strategy": "ADD_Counting",
+        "elaborated_strategy": "ADD_Chunking",
+        "shared_patterns": [
+          "incremental_counting"
+        ],
+        "type": "intra_categorial",
+        "confidence": 1.0
+      },
+      {
+        "base_strategy": "ADD_Counting",
+        "elaborated_strategy": "ADD_COBO",
+        "shared_patterns": [
+          "incremental_counting"
+        ],
+        "type": "intra_categorial",
+        "confidence": 1.0
+      },
+      {
+        "base_strategy": "ADD_Counting",
+        "elaborated_strategy": "COBO",
+        "shared_patterns": [
+          "incremental_counting"
+        ],
+        "type": "inter_categorial",
+        "confidence": 1.0
+      },
+      {
+        "base_strategy": "ADD_Counting",
+        "elaborated_strategy": "SMR_MULT_C2C",
+        "shared_patterns": [
+          "incremental_counting"
+        ],
+        "type": "inter_categorial",
+        "confidence": 1.0
+      },
+      {
+        "base_strategy": "ADD_Chunking",
+        "elaborated_strategy": "ADD_COBO",
+        "shared_patterns": [
+          "incremental_counting"
+        ],
+        "type": "intra_categorial",
+        "confidence": 1.0
+      },
+      {
+        "base_strategy": "ADD_Chunking",
+        "elaborated_strategy": "COBO",
+        "shared_patterns": [
+          "incremental_counting"
+        ],
+        "type": "inter_categorial",
+        "confidence": 1.0
+      },
+      {
+        "base_strategy": "ADD_Chunking",
+        "elaborated_strategy": "SMR_MULT_C2C",
+        "shared_patterns": [
+          "incremental_counting"
+        ],
+        "type": "inter_categorial",
+        "confidence": 1.0
+      },
+      {
+        "base_strategy": "ADD_COBO",
+        "elaborated_strategy": "COBO",
+        "shared_patterns": [
+          "incremental_counting"
+        ],
+        "type": "inter_categorial",
+        "confidence": 1.0
+      },
+      {
+        "base_strategy": "ADD_COBO",
+        "elaborated_strategy": "SMR_MULT_C2C",
+        "shared_patterns": [
+          "incremental_counting"
+        ],
+        "type": "inter_categorial",
+        "confidence": 1.0
+      },
+      {
+        "base_strategy": "COBO",
+        "elaborated_strategy": "SMR_MULT_C2C",
+        "shared_patterns": [
+          "incremental_counting"
+        ],
+        "type": "inter_categorial",
+        "confidence": 1.0
+      },
+      {
+        "base_strategy": "SUB_Rounding",
+        "elaborated_strategy": "SMR_DIV_CGOB",
+        "shared_patterns": [
+          "base_decomposition"
+        ],
+        "type": "inter_categorial",
+        "confidence": 1.0
+      },
+      {
+        "base_strategy": "SUB_Rounding",
+        "elaborated_strategy": "SMR_DIV_DealingByOnes",
+        "shared_patterns": [
+          "base_decomposition"
+        ],
+        "type": "inter_categorial",
+        "confidence": 1.0
+      },
+      {
+        "base_strategy": "SMR_DIV_CGOB",
+        "elaborated_strategy": "SMR_DIV_DealingByOnes",
+        "shared_patterns": [
+          "base_decomposition"
+        ],
+        "type": "intra_categorial",
+        "confidence": 1.0
+      }
+    ],
+    "strategy_patterns": {
+      "ADD_Rounding": [
+        "base_decomposition"
+      ],
+      "CBBO": [],
+      "ADD_Counting": [
+        "incremental_counting"
+      ],
+      "ADD_Chunking": [
+        "incremental_counting"
+      ],
+      "ADD_RMB": [],
+      "ADD_COBO": [
+        "incremental_counting"
+      ],
+      "COBO": [
+        "incremental_counting"
+      ],
+      "SUB_Sliding": [],
+      "SUB_Decomposition": [],
+      "ChunkingC": [],
+      "ChunkingB": [],
+      "ChunkingA": [],
+      "SUB_Rounding": [
+        "base_decomposition"
+      ],
+      "SMR_MULT_C2C": [
+        "incremental_counting"
+      ],
+      "SMR_MULT_Commutative_Reasoning": [],
+      "SMR_MULT_DR": [],
+      "SMR_MULT_CBO": [],
+      "SMR_DIV_CGOB": [
+        "base_decomposition"
+      ],
+      "SMR_DIV_IDR": [],
+      "SMR_DIV_DealingByOnes": [
+        "base_decomposition"
+      ],
+      "SMR_DIV_UCR": []
+    }
+  },
+  "mud_diagrams": {
+    "addition": {
+      "operation": "addition",
+      "strategies": [
+        "COBO",
+        "SMR_MULT_C2C",
+        "ADD_Chunking",
+        "SUB_Rounding",
+        "ADD_Counting",
+        "SMR_DIV_DealingByOnes",
+        "ADD_Rounding",
+        "SMR_DIV_CGOB",
+        "ADD_COBO"
+      ],
+      "tikz_diagram": "\\begin{tikzpicture}[\n  % Node Styles\n  vnode/.style={ellipse, draw, fill=lightgray!50, text=black, minimum height=1.3cm, minimum width=2.8cm, align=center},\n  pnode/.style={rectangle, rounded corners=5pt, draw, fill=gray!70, text=black, minimum height=1.3cm, minimum width=3.5cm, align=center, inner xsep=0.3cm, inner ysep=0.2cm},\n  graybox/.style={rectangle, fill=lightgray!50, inner sep=4pt, minimum height=1.1cm, anchor=center, align=center, text centered},\n  % Arrow Styles\n  solidarrow/.style={-Stealth, thick},\n  dashedarrow/.style={dashed, -Stealth, thick, gray},\n  textarrow/.style={align=center, inner sep=1pt}\n]\n\\tikzset{font=\\linespread{0.8}\\selectfont}\n\n% Diagram for: addition\n\n\\node[pnode] (P_0) at (0.00,9.00) {P\\textsubscript{COBO}};\n\\node[pnode] (P_1) at (5.79,6.89) {P\\textsubscript{SMR_MULT_C2C}};\n\\node[pnode] (P_2) at (8.86,1.56) {P\\textsubscript{ADD_Chunking}};\n\\node[pnode] (P_3) at (7.79,-4.50) {P\\textsubscript{SUB_Rounding}};\n\\node[pnode] (P_4) at (3.08,-8.46) {P\\textsubscript{ADD_Counting}};\n\\node[pnode] (P_5) at (-3.08,-8.46) {P\\textsubscript{SMR_DIV_DealingByOnes}};\n\\node[pnode] (P_6) at (-7.79,-4.50) {P\\textsubscript{ADD_Rounding}};\n\\node[pnode] (P_7) at (-8.86,1.56) {P\\textsubscript{SMR_DIV_CGOB}};\n\\node[pnode] (P_8) at (-5.79,6.89) {P\\textsubscript{ADD_COBO}};\n\n\\draw[solidarrow] (P_6) -- node[graybox, midway, sloped] {P\\textsubscript{AlgEl} 1: PP-suff \\\\ (base\\_decomposition)} (P_3);\n\\draw[solidarrow] (P_6) -- node[graybox, midway, sloped] {P\\textsubscript{AlgEl} 2: PP-suff \\\\ (base\\_decomposition)} (P_7);\n\\draw[solidarrow] (P_6) -- node[graybox, midway, sloped] {P\\textsubscript{AlgEl} 3: PP-suff \\\\ (base\\_decomposition)} (P_5);\n\\draw[solidarrow] (P_4) -- node[graybox, midway, sloped] {P\\textsubscript{AlgEl} 4: PP-suff \\\\ (incremental\\_counting)} (P_2);\n\\draw[solidarrow] (P_4) -- node[graybox, midway, sloped] {P\\textsubscript{AlgEl} 5: PP-suff \\\\ (incremental\\_counting)} (P_8);\n\\draw[solidarrow] (P_4) -- node[graybox, midway, sloped] {P\\textsubscript{AlgEl} 6: PP-suff \\\\ (incremental\\_counting)} (P_0);\n\\draw[solidarrow] (P_4) -- node[graybox, midway, sloped] {P\\textsubscript{AlgEl} 7: PP-suff \\\\ (incremental\\_counting)} (P_1);\n\\draw[solidarrow] (P_2) -- node[graybox, midway, sloped] {P\\textsubscript{AlgEl} 8: PP-suff \\\\ (incremental\\_counting)} (P_8);\n\\draw[solidarrow] (P_2) -- node[graybox, midway, sloped] {P\\textsubscript{AlgEl} 9: PP-suff \\\\ (incremental\\_counting)} (P_0);\n\\draw[solidarrow] (P_2) -- node[graybox, midway, sloped] {P\\textsubscript{AlgEl} 10: PP-suff \\\\ (incremental\\_counting)} (P_1);\n\\draw[solidarrow] (P_8) -- node[graybox, midway, sloped] {P\\textsubscript{AlgEl} 11: PP-suff \\\\ (incremental\\_counting)} (P_0);\n\\draw[solidarrow] (P_8) -- node[graybox, midway, sloped] {P\\textsubscript{AlgEl} 12: PP-suff \\\\ (incremental\\_counting)} (P_1);\n\n\\end{tikzpicture}",
+      "summary": "Summary for addition"
+    },
+    "miscellaneous": {
+      "operation": "miscellaneous",
+      "strategies": [
+        "COBO",
+        "SMR_MULT_C2C",
+        "SUB_Rounding",
+        "SMR_DIV_DealingByOnes",
+        "SMR_DIV_CGOB"
+      ],
+      "tikz_diagram": "\\begin{tikzpicture}[\n  % Node Styles\n  vnode/.style={ellipse, draw, fill=lightgray!50, text=black, minimum height=1.3cm, minimum width=2.8cm, align=center},\n  pnode/.style={rectangle, rounded corners=5pt, draw, fill=gray!70, text=black, minimum height=1.3cm, minimum width=3.5cm, align=center, inner xsep=0.3cm, inner ysep=0.2cm},\n  graybox/.style={rectangle, fill=lightgray!50, inner sep=4pt, minimum height=1.1cm, anchor=center, align=center, text centered},\n  % Arrow Styles\n  solidarrow/.style={-Stealth, thick},\n  dashedarrow/.style={dashed, -Stealth, thick, gray},\n  textarrow/.style={align=center, inner sep=1pt}\n]\n\\tikzset{font=\\linespread{0.8}\\selectfont}\n\n% Diagram for: miscellaneous\n\n\\node[pnode] (P_0) at (0.00,5.00) {P\\textsubscript{COBO}};\n\\node[pnode] (P_1) at (4.76,1.55) {P\\textsubscript{SMR_MULT_C2C}};\n\\node[pnode] (P_2) at (2.94,-4.05) {P\\textsubscript{SUB_Rounding}};\n\\node[pnode] (P_3) at (-2.94,-4.05) {P\\textsubscript{SMR_DIV_DealingByOnes}};\n\\node[pnode] (P_4) at (-4.76,1.55) {P\\textsubscript{SMR_DIV_CGOB}};\n\n\\draw[solidarrow] (P_0) -- node[graybox, midway, sloped] {P\\textsubscript{AlgEl} 1: PP-suff \\\\ (incremental\\_counting)} (P_1);\n\\draw[solidarrow] (P_2) -- node[graybox, midway, sloped] {P\\textsubscript{AlgEl} 2: PP-suff \\\\ (base\\_decomposition)} (P_4);\n\\draw[solidarrow] (P_2) -- node[graybox, midway, sloped] {P\\textsubscript{AlgEl} 3: PP-suff \\\\ (base\\_decomposition)} (P_3);\n\\draw[solidarrow] (P_4) -- node[graybox, midway, sloped] {P\\textsubscript{AlgEl} 4: PP-suff \\\\ (base\\_decomposition)} (P_3);\n\n\\end{tikzpicture}",
+      "summary": "Summary for miscellaneous"
+    }
+  }
+}
