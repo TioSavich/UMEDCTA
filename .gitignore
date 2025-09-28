@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.dylib
+venv/
+.venv/
+
+# Archives
+*.zip
+
+# OS-specific
+.DS_Store
