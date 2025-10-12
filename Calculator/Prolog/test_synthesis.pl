@@ -1,18 +1,37 @@
-% Filename: test_synthesis.pl (Updated and Corrected)
+/** <module> Unit Tests for Incompatibility Semantics
+ *
+ * This module contains the unit tests for the `incompatibility_semantics`
+ * module. It uses the `plunit` testing framework to verify the correctness
+ * of the core logic across various domains.
+ *
+ * The tests are organized into sections:
+ * 1.  **Core Logic**: Basic tests for identity, incoherence, and negation.
+ * 2.  **Arithmetic**: Tests for commutativity and domain-specific constraints (e.g., subtraction in natural numbers).
+ * 3.  **Embodied Modal Logic**: Tests for the EML state transition axioms.
+ * 4.  **Quadrilateral Hierarchy**: Tests for geometric entailment and incompatibility.
+ * 5.  **Number Theory**: Tests for Euclid's proof of the infinitude of primes.
+ * 6.  **Fractions**: Tests for arithmetic and object collection over rational numbers.
+ *
+ * To run these tests, execute `run_tests(unified_synthesis).` from the
+ * SWI-Prolog console after loading this file.
+ *
+ * 
+ * 
+ */
 % Load the module under test. Explicitly qualify imports to avoid ambiguity in tests.
 :- use_module(incompatibility_semantics, [
-    proves/1, incoherent/1, set_domain/1, obj_coll/1, normalize/2
+    proves/1, incoherent/1, set_domain/1, is_recollection/2, normalize/2
 ]).
 :- use_module(library(plunit)).
 
-% Ensure operators are visible (FIX: Added all necessary operators)
+% Ensure operators are visible for the test definitions.
 :- op(500, fx, neg).
 :- op(500, fx, comp_nec).
 :- op(500, fx, exp_nec).
 :- op(500, fx, exp_poss).
 :- op(500, fx, comp_poss).
 :- op(1050, xfy, =>).
-:- op(550, xfy, rdiv). % Ensure rdiv is visible for tests
+:- op(550, xfy, rdiv).
 
 :- begin_tests(unified_synthesis).
 
@@ -29,13 +48,16 @@ test(arithmetic_commutativity_normative) :-
     assertion(proves([n(plus(2,3,5))] => [n(plus(3,2,5))])).
 
 test(arithmetic_subtraction_limit_n, [setup(set_domain(n))]) :-
-    assertion(incoherent([n(obj_coll(minus(3,5,_)))])).
+    % This tests that demanding a subtraction resulting in a negative number
+    % is incoherent in the domain of natural numbers.
+    assertion(incoherent([n(minus(3,5,_))])).
 
 test(arithmetic_subtraction_limit_n_persistence, [setup(set_domain(n))]) :-
-    assertion(incoherent([n(obj_coll(minus(3,5,_))), s(p)])).
+    assertion(incoherent([n(minus(3,5,_)), s(p)])).
 
 test(arithmetic_subtraction_limit_z, [setup(set_domain(z))]) :-
-    assertion(\+(incoherent([n(obj_coll(minus(3,5,_)))]))).
+    % The same subtraction is coherent in the domain of integers.
+    \+ assertion(incoherent([n(minus(3,5,_))])).
 
 % --- Tests for Part 3: Embodied Modal Logic (EML) - UPDATED ---
 test(eml_dynamic_u_to_a) :- assertion(proves([s(u)] => [s(a)])).
@@ -138,16 +160,17 @@ test(euclid_theorem_empty_list) :-
     assertion(incoherent([n(is_complete([]))])).
 
 % --- Tests for Fractions (Jason.pl integration) ---
-% FIX: obj_coll/1 and normalize/2 are now imported and visible.
 
-test(fraction_obj_coll_q, [setup(set_domain(q))]) :-
-    assertion(obj_coll(1 rdiv 2)),
-    assertion(obj_coll(5)),
-    assertion(\+ obj_coll(1 rdiv 0)).
+test(fraction_is_recollection, [setup(set_domain(q))]) :-
+    assertion(is_recollection(1 rdiv 2, _)),
+    assertion(is_recollection(5, _)),
+    assertion(\+ is_recollection(1 rdiv 0, _)).
 
-test(fraction_obj_coll_n, [setup(set_domain(n))]) :-
-    assertion(\+ obj_coll(1 rdiv 2)),
-    assertion(obj_coll(5)).
+test(integer_is_recollection, [setup(set_domain(n))]) :-
+    % is_recollection is domain-independent; it checks constructive possibility.
+    % A fraction can be a valid recollection even if its use is restricted by domain norms.
+    assertion(is_recollection(1 rdiv 2, _)),
+    assertion(is_recollection(5, _)).
 
 test(fraction_normalization) :-
     assertion(normalize(4 rdiv 8, 1 rdiv 2)),
@@ -168,7 +191,7 @@ test(fraction_subtraction_grounding, [setup(set_domain(q))]) :-
 % Test subtraction constraints in N with fractions
 test(fraction_subtraction_limit_n, [setup(set_domain(n))]) :-
     % 1/3 - 1/2 = -1/6. Incoherent in N.
-    assertion(incoherent([n(obj_coll(minus(1 rdiv 3, 1 rdiv 2, _)))])).
+    assertion(incoherent([n(minus(1 rdiv 3, 1 rdiv 2, _))])).
 
 test(fraction_iteration_grounding, [setup(set_domain(q))]) :-
     % (1/3) * 4 = 4/3

@@ -3,10 +3,10 @@
     "base_decomposition": {
       "type": "decomposition",
       "strategies_using": [
+        "DIV_DealingByOnes",
+        "SUB_Rounding",
         "ADD_Rounding",
-        "SMR_DIV_DealingByOnes",
-        "SMR_DIV_CGOB",
-        "SUB_Rounding"
+        "DIV_CGOB"
       ],
       "usage_count": 4
     },
@@ -14,10 +14,10 @@
       "type": "counting",
       "strategies_using": [
         "COBO",
-        "SMR_MULT_C2C",
-        "ADD_Chunking",
+        "MULT_C2C",
         "ADD_Counting",
-        "ADD_COBO"
+        "ADD_COBO",
+        "ADD_Chunking"
       ],
       "usage_count": 5
     }
@@ -34,7 +34,7 @@
     },
     {
       "base_strategy": "ADD_Rounding",
-      "elaborated_strategy": "SMR_DIV_CGOB",
+      "elaborated_strategy": "DIV_CGOB",
       "shared_patterns": [
         "base_decomposition"
       ],
@@ -43,7 +43,7 @@
     },
     {
       "base_strategy": "ADD_Rounding",
-      "elaborated_strategy": "SMR_DIV_DealingByOnes",
+      "elaborated_strategy": "DIV_DealingByOnes",
       "shared_patterns": [
         "base_decomposition"
       ],
@@ -79,7 +79,7 @@
     },
     {
       "base_strategy": "ADD_Counting",
-      "elaborated_strategy": "SMR_MULT_C2C",
+      "elaborated_strategy": "MULT_C2C",
       "shared_patterns": [
         "incremental_counting"
       ],
@@ -106,7 +106,7 @@
     },
     {
       "base_strategy": "ADD_Chunking",
-      "elaborated_strategy": "SMR_MULT_C2C",
+      "elaborated_strategy": "MULT_C2C",
       "shared_patterns": [
         "incremental_counting"
       ],
@@ -124,7 +124,7 @@
     },
     {
       "base_strategy": "ADD_COBO",
-      "elaborated_strategy": "SMR_MULT_C2C",
+      "elaborated_strategy": "MULT_C2C",
       "shared_patterns": [
         "incremental_counting"
       ],
@@ -133,7 +133,7 @@
     },
     {
       "base_strategy": "COBO",
-      "elaborated_strategy": "SMR_MULT_C2C",
+      "elaborated_strategy": "MULT_C2C",
       "shared_patterns": [
         "incremental_counting"
       ],
@@ -142,7 +142,7 @@
     },
     {
       "base_strategy": "SUB_Rounding",
-      "elaborated_strategy": "SMR_DIV_CGOB",
+      "elaborated_strategy": "DIV_CGOB",
       "shared_patterns": [
         "base_decomposition"
       ],
@@ -151,7 +151,7 @@
     },
     {
       "base_strategy": "SUB_Rounding",
-      "elaborated_strategy": "SMR_DIV_DealingByOnes",
+      "elaborated_strategy": "DIV_DealingByOnes",
       "shared_patterns": [
         "base_decomposition"
       ],
@@ -159,8 +159,8 @@
       "confidence": 1.0
     },
     {
-      "base_strategy": "SMR_DIV_CGOB",
-      "elaborated_strategy": "SMR_DIV_DealingByOnes",
+      "base_strategy": "DIV_CGOB",
+      "elaborated_strategy": "DIV_DealingByOnes",
       "shared_patterns": [
         "base_decomposition"
       ],
@@ -194,19 +194,398 @@
     "SUB_Rounding": [
       "base_decomposition"
     ],
-    "SMR_MULT_C2C": [
+    "MULT_C2C": [
       "incremental_counting"
     ],
-    "SMR_MULT_Commutative_Reasoning": [],
-    "SMR_MULT_DR": [],
-    "SMR_MULT_CBO": [],
-    "SMR_DIV_CGOB": [
+    "MULT_Commutative_Reasoning": [],
+    "MULT_DR": [],
+    "MULT_CBO": [],
+    "DIV_CGOB": [
       "base_decomposition"
     ],
-    "SMR_DIV_IDR": [],
-    "SMR_DIV_DealingByOnes": [
+    "DIV_IDR": [],
+    "DIV_DealingByOnes": [
       "base_decomposition"
     ],
-    "SMR_DIV_UCR": []
+    "DIV_UCR": []
+  },
+  "strategy_metadata": {
+    "ADD_Rounding": {
+      "strategy_id": "SAR_ADD_Rounding",
+      "strategy_name": "Rounding and Adjusting (Addition)",
+      "description": "Select addend closer to next base: round up A -> A' = A + K, compute A' + B, then adjust back: (A' + B) - K.",
+      "metaphors": [],
+      "inferences": [],
+      "visualization_hints": [],
+      "deployed_vocabulary": ""
+    },
+    "CBBO": {
+      "strategy_id": "CBBO_Subtraction",
+      "strategy_name": "CBBO (Counting Back - Take Away)",
+      "description": "Starts at the minuend (M) and counts back by the amount of the subtrahend (S), first by bases and then by ones. The result is the final value after taking away S.",
+      "metaphors": [
+        {
+          "name": "Arithmetic as Object Manipulation",
+          "source_domain": "Object Manipulation",
+          "target_domain": "Arithmetic",
+          "entailments": "Taking objects away from a collection reduces its size. The final size is the result."
+        }
+      ],
+      "inferences": [
+        {
+          "name": "Place Value Decomposition",
+          "premise": "A number S can be decomposed into its place value parts (e.g., 65 = six 10s and five 1s).",
+          "conclusion": "One can subtract S by sequentially taking away its component parts.",
+          "prerequisites": [
+            "Counting skills",
+            "Understanding of base-10 system"
+          ]
+        }
+      ],
+      "visualization_hints": [
+        "Blocks",
+        "NumberLine"
+      ],
+      "deployed_vocabulary": ""
+    },
+    "ADD_Counting": {
+      "strategy_id": "SAR_ADD_Counting",
+      "strategy_name": "Counting and Counting On",
+      "description": "Sequential unit counting within a bounded base-10 place-value structure.",
+      "metaphors": [],
+      "inferences": [],
+      "visualization_hints": [],
+      "deployed_vocabulary": ""
+    },
+    "ADD_Chunking": {
+      "strategy_id": "SAR_ADD_Chunking",
+      "strategy_name": "Chunking by Bases and Ones",
+      "description": "Simulates an addition strategy where the second number (B) is decomposed into its base-ten and ones components. The base-ten part is added first, followed by a strategic addition of the ones, often involving 'making a ten' (RMB logic).",
+      "metaphors": [
+        {
+          "name": "Arithmetic as Object Manipulation",
+          "source_domain": "Object Manipulation",
+          "target_domain": "Arithmetic",
+          "entailments": "A collection can be augmented by adding other collections to it. It's often easier to add organized groups (like ten-blocks) first, then smaller items."
+        }
+      ],
+      "inferences": [
+        {
+          "name": "Place Value Decomposition",
+          "premise": "A number can be decomposed into its constituent place value parts (e.g., 37 = 30 + 7).",
+          "conclusion": "Adding a number is equivalent to adding its parts sequentially.",
+          "prerequisites": [
+            "Understanding of base-10 system"
+          ]
+        },
+        {
+          "name": "Rounding to Make Bases (RMB)",
+          "premise": "It is easier to add from a number that is a multiple of the base.",
+          "conclusion": "A small quantity (K) can be added to reach a base, simplifying subsequent additions.",
+          "prerequisites": [
+            "Part-whole knowledge"
+          ]
+        }
+      ],
+      "visualization_hints": [
+        "Blocks",
+        "NumberLine"
+      ],
+      "deployed_vocabulary": ""
+    },
+    "ADD_RMB": {
+      "strategy_id": "SAR_ADD_RMB",
+      "strategy_name": "RMB (Rearranging to Make Bases)",
+      "description": "Simulates an addition strategy where one number is adjusted to a multiple of the base by 'borrowing' from the other. For A + B, it calculates K needed to make A a base multiple, then computes (A+K) + (B-K).",
+      "metaphors": [
+        {
+          "name": "Numbers as Physical Objects",
+          "source_domain": "Object Collection",
+          "target_domain": "Arithmetic",
+          "entailments": "A collection can be split and its parts moved without changing the total quantity. Rearranging parts makes counting easier."
+        }
+      ],
+      "inferences": [
+        {
+          "name": "Conservation of Quantity",
+          "premise": "If you move a quantity from one pile to another, the total amount remains the same.",
+          "conclusion": "A + B = (A + K) + (B - K).",
+          "prerequisites": [
+            "Counting skills",
+            "Decomposition/Recomposition"
+          ]
+        },
+        {
+          "name": "Making Tens",
+          "premise": "Adding to a multiple of ten is easier than adding to other numbers.",
+          "conclusion": "Transforming the problem to be A' + B' where A' is a multiple of 10 simplifies the final addition.",
+          "prerequisites": [
+            "Knowledge of base-10 structure"
+          ]
+        }
+      ],
+      "visualization_hints": [
+        "Object Piles",
+        "NumberLine with Jumps"
+      ],
+      "deployed_vocabulary": ""
+    },
+    "ADD_COBO": {
+      "strategy_id": "SAR_ADD_COBO",
+      "strategy_name": "COBO (Counting On by Bases and Ones)",
+      "description": "Simulates an addition strategy where the second number (B) is decomposed into its base-ten and ones components. The strategy involves 'counting on' from the first number (A), first by the number of bases in B, and then by the number of ones.",
+      "metaphors": [
+        {
+          "name": "Arithmetic as Motion Along a Path",
+          "source_domain": "Motion",
+          "target_domain": "Arithmetic",
+          "entailments": "Moving along a path can be done in segments. The final position is the sum of the starting position and the lengths of all segments."
+        }
+      ],
+      "inferences": [
+        {
+          "name": "Iterative Addition",
+          "premise": "A quantity can be added by repeatedly adding a smaller unit.",
+          "conclusion": "Adding a number B is equivalent to adding '1' B times, or adding '10' (B//10) times and then '1' (B%10) times.",
+          "prerequisites": [
+            "Counting skills",
+            "Place value decomposition"
+          ]
+        }
+      ],
+      "visualization_hints": [
+        "NumberLine"
+      ],
+      "deployed_vocabulary": ""
+    },
+    "COBO": {
+      "strategy_id": "COBO_Subtraction",
+      "strategy_name": "COBO (Counting On - Missing Addend)",
+      "description": "Starts at the subtrahend (S) and counts up to the minuend (M), first by bases and then by ones. The result is the total count (distance) added. This is a 'missing addend' approach.",
+      "metaphors": [
+        {
+          "name": "Arithmetic as Motion Along a Path",
+          "source_domain": "Motion",
+          "target_domain": "Arithmetic",
+          "entailments": "The distance between a starting point (S) and an ending point (M) is the length of the path traversed between them."
+        }
+      ],
+      "inferences": [
+        {
+          "name": "Iterative Measurement",
+          "premise": "A distance can be measured by laying a unit of measure end-to-end.",
+          "conclusion": "The difference between two numbers can be found by repeatedly adding a unit (like 1 or 10) and counting the additions.",
+          "prerequisites": [
+            "Counting skills",
+            "Understanding of iteration"
+          ]
+        }
+      ],
+      "visualization_hints": [
+        "NumberLine"
+      ],
+      "deployed_vocabulary": ""
+    },
+    "SUB_Sliding": {
+      "strategy_id": "SAR_SUB_Sliding",
+      "strategy_name": "Sliding to Make Bases (Constant Difference)",
+      "description": "Simulates the 'Sliding' (Constant Difference) strategy for subtraction. The core idea is to add or subtract the same amount (K) to both the minuend and subtrahend to make the subtrahend a multiple of the base, simplifying the subtraction. This relies on the principle that the difference between two numbers remains constant if both are shifted by the same amount.",
+      "metaphors": [
+        {
+          "name": "Arithmetic as Motion Along a Path",
+          "source_domain": "Motion",
+          "target_domain": "Arithmetic",
+          "entailments": "The distance between two points on a path remains the same if both points are shifted by the same amount in the same direction."
+        }
+      ],
+      "inferences": [
+        {
+          "name": "Invariance of Distance under Translation",
+          "premise": "The distance between M and S is D.",
+          "conclusion": "The distance between (M+K) and (S+K) is also D.",
+          "prerequisites": [
+            "Understanding of path measurement",
+            "Experience with rigid motion"
+          ]
+        }
+      ],
+      "visualization_hints": [
+        "NumberLine"
+      ],
+      "deployed_vocabulary": ""
+    },
+    "SUB_Decomposition": {
+      "strategy_id": "SAR_SUB_Decomposition",
+      "strategy_name": "Decomposition (Borrowing)",
+      "description": "Simulates the traditional 'borrowing' or 'decomposition' algorithm for subtraction. It processes numbers from left to right (or largest place value to smallest). If a digit in the minuend is smaller than the corresponding digit in the subtrahend, it 'borrows' from the next higher place value.",
+      "metaphors": [
+        {
+          "name": "Arithmetic as Object Manipulation",
+          "source_domain": "Object Manipulation",
+          "target_domain": "Arithmetic",
+          "entailments": "A larger object (like a ten-block) can be broken down or exchanged for an equivalent set of smaller objects (ten one-blocks)."
+        }
+      ],
+      "inferences": [
+        {
+          "name": "Place Value Equivalence",
+          "premise": "One unit of a higher place value (e.g., 1 Ten) is equivalent to a set number of units of the next lower place value (e.g., 10 Ones).",
+          "conclusion": "A unit from a higher place value can be removed and its equivalent value added to a lower place value without changing the total quantity.",
+          "prerequisites": [
+            "Understanding of base-10 system",
+            "Part-whole knowledge"
+          ]
+        }
+      ],
+      "visualization_hints": [
+        "Blocks"
+      ],
+      "deployed_vocabulary": ""
+    },
+    "SUB_Rounding": {
+      "strategy_id": "SAR_SUB_Rounding",
+      "strategy_name": "Subtraction Rounding and Adjusting",
+      "description": "Dual rounding yields simplified M' - S', then contrasting compensations.",
+      "metaphors": [],
+      "inferences": [],
+      "visualization_hints": [],
+      "deployed_vocabulary": ""
+    },
+    "MULT_C2C": {
+      "strategy_id": "SMR_MULT_C2C",
+      "strategy_name": "Coordinating Two Counts (C2C)",
+      "description": "Nested counting: items within group, groups within total.",
+      "metaphors": [],
+      "inferences": [],
+      "visualization_hints": [],
+      "deployed_vocabulary": ""
+    },
+    "MULT_Commutative_Reasoning": {
+      "strategy_id": "MULT_COMM",
+      "strategy_name": "Commutative Reasoning (Multiplication)",
+      "description": "Selects the easier orientation for multiplication (e.g., 3 x 9 instead of 9 x 3) and then calculates via repeated addition.",
+      "metaphors": [
+        {
+          "name": "Arithmetic as Object Collection",
+          "source_domain": "Object Collection",
+          "target_domain": "Arithmetic",
+          "entailments": "3 groups of 9 is the same total as 9 groups of 3. It's easier to conceptualize and count the former."
+        }
+      ],
+      "inferences": [
+        {
+          "name": "Commutativity of Multiplication",
+          "premise": "The order of factors does not change the product.",
+          "conclusion": "A x B is equivalent to B x A.",
+          "prerequisites": [
+            "Understanding that multiplication can represent groups of items"
+          ]
+        },
+        {
+          "name": "Multiplication as Repeated Addition",
+          "premise": "Multiplying by N is equivalent to adding a number to itself N times.",
+          "conclusion": "The product can be found by iterating additions.",
+          "prerequisites": [
+            "Addition skills"
+          ]
+        }
+      ],
+      "visualization_hints": [
+        "ObjectArrays"
+      ],
+      "deployed_vocabulary": ""
+    },
+    "MULT_DR": {
+      "strategy_id": "SMR_MULT_DR",
+      "strategy_name": "Distributive Reasoning (Multiplication)",
+      "description": "Decompose S = S1 + S2, compute N*S1 and N*S2, then sum.",
+      "metaphors": [],
+      "inferences": [],
+      "visualization_hints": [],
+      "deployed_vocabulary": ""
+    },
+    "MULT_CBO": {
+      "strategy_id": "MULT_CBO",
+      "strategy_name": "Conversion to Bases and Ones (CBO Multiplication)",
+      "description": "Calculates A x B by decomposing B into its base and ones components (B_base + B_ones), calculating the partial products (A * B_base and A * B_ones), and summing them.",
+      "metaphors": [
+        {
+          "name": "Arithmetic as Object Collection",
+          "source_domain": "Object Collection",
+          "target_domain": "Arithmetic",
+          "entailments": "A collection of groups can be counted by first counting the items in the large groups (bases) and then counting the items in the small groups (ones)."
+        }
+      ],
+      "inferences": [
+        {
+          "name": "Distributive Property of Multiplication",
+          "premise": "Multiplication distributes over addition.",
+          "conclusion": "A x (B + C) is equivalent to (A x B) + (A x C).",
+          "prerequisites": [
+            "Understanding of multiplication and addition",
+            "Number decomposition"
+          ]
+        }
+      ],
+      "visualization_hints": [
+        "ObjectArrays"
+      ],
+      "deployed_vocabulary": ""
+    },
+    "DIV_CGOB": {
+      "strategy_id": "SMR_DIV_CGOB",
+      "strategy_name": "Conversion to Groups Other than Bases (CGOB Division)",
+      "description": "Leverage base decomposition of dividend T and analysis of base/divisor relation.",
+      "metaphors": [],
+      "inferences": [],
+      "visualization_hints": [],
+      "deployed_vocabulary": ""
+    },
+    "DIV_IDR": {
+      "strategy_id": "SMR_DIV_IDR",
+      "strategy_name": "Inverse Distributive Reasoning (Division)",
+      "description": "Decompose T into known multiples of S: T = sum(m_i * S); quotient = sum(m_i).",
+      "metaphors": [],
+      "inferences": [],
+      "visualization_hints": [],
+      "deployed_vocabulary": ""
+    },
+    "DIV_DealingByOnes": {
+      "strategy_id": "SMR_DIV_DealingByOnes",
+      "strategy_name": "Dealing by Ones (Division - Sharing)",
+      "description": "Distribute single units round-robin into N groups until total T exhausted.",
+      "metaphors": [],
+      "inferences": [],
+      "visualization_hints": [],
+      "deployed_vocabulary": ""
+    },
+    "DIV_UCR": {
+      "strategy_id": "SMR_DIV_UCR",
+      "strategy_name": "Using Commutative Reasoning (Division)",
+      "description": "For E / G: iteratively accumulate G until total E reached; iteration count is quotient.",
+      "metaphors": [],
+      "inferences": [],
+      "visualization_hints": [],
+      "deployed_vocabulary": ""
+    }
+  },
+  "metaphor_sharing": {
+    "Arithmetic as Object Manipulation": [
+      "CBBO",
+      "ADD_Chunking",
+      "SUB_Decomposition"
+    ],
+    "Numbers as Physical Objects": [
+      "ADD_RMB"
+    ],
+    "Arithmetic as Motion Along a Path": [
+      "ADD_COBO",
+      "COBO",
+      "SUB_Sliding"
+    ],
+    "Arithmetic as Object Collection": [
+      "MULT_Commutative_Reasoning",
+      "MULT_CBO"
+    ]
   }
 }

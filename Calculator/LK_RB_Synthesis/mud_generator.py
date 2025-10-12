@@ -41,6 +41,7 @@ class AutomatonAnalyzer:
         self.patterns: Dict[str, ComputationalPattern] = {}
         self.elaborations: List[AlgorithmicElaboration] = []
         self.strategy_patterns: Dict[str, Set[str]] = defaultdict(set)
+        self.strategy_metadata: Dict[str, Any] = {}  # NEW: Store metadata from automata
 
     def analyze_all_automata(self) -> Dict[str, Any]:
         """Main analysis pipeline."""
@@ -50,10 +51,13 @@ class AutomatonAnalyzer:
         # Step 1: Extract patterns from all automata
         self._extract_patterns_from_automata()
 
-        # Step 2: Detect algorithmic elaborations
+        # Step 2: Extract metadata from automata (NEW)
+        self._extract_metadata_from_automata()
+
+        # Step 3: Detect algorithmic elaborations
         self._detect_elaborations()
 
-        # Step 3: Generate analysis report
+        # Step 4: Generate analysis report
         return self._generate_analysis_report()
 
     def _extract_patterns_from_automata(self):
@@ -65,7 +69,7 @@ class AutomatonAnalyzer:
                 continue
             for filename in os.listdir(op_path):
                 if filename.endswith('.py') and not filename.startswith('__'):
-                    strategy_id = filename.replace('.py', '').replace('SAR_', '')
+                    strategy_id = filename.replace('.py', '').replace('SAR_', '').replace('SMR_', '')
                     filepath = os.path.join(op_path, filename)
                     try:
                         patterns = self._analyze_single_automaton(filepath, strategy_id, operation_dir)
@@ -73,6 +77,85 @@ class AutomatonAnalyzer:
                         print(f"✅ Analyzed {strategy_id}: {len(patterns)} patterns found", file=sys.stderr)
                     except Exception as e:
                         print(f"❌ Error analyzing {strategy_id}: {e}", file=sys.stderr)
+
+    def _extract_metadata_from_automata(self):
+        """Extract rich metadata (metaphors, inferences) from automaton instances."""
+        print("\n📚 Extracting Strategy Metadata (Metaphors, Inferences)...", file=sys.stderr)
+
+        for operation_dir in ['addition', 'subtraction', 'multiplication', 'division']:
+            op_path = os.path.join(self.automata_dir, operation_dir)
+            if not os.path.exists(op_path):
+                continue
+
+            for filename in os.listdir(op_path):
+                if filename.endswith('.py') and not filename.startswith('__'):
+                    strategy_id = filename.replace('.py', '').replace('SAR_', '').replace('SMR_', '')
+                    filepath = os.path.join(op_path, filename)
+
+                    try:
+                        metadata = self._load_metadata_from_file(filepath, operation_dir, filename)
+                        if metadata:
+                            self.strategy_metadata[strategy_id] = metadata
+                            metaphor_count = len(metadata.get('metaphors', []))
+                            inference_count = len(metadata.get('inferences', []))
+                            print(f"✅ Loaded metadata for {strategy_id}: {metaphor_count} metaphors, {inference_count} inferences", file=sys.stderr)
+                    except Exception as e:
+                        print(f"⚠️  Could not load metadata for {strategy_id}: {e}", file=sys.stderr)
+
+    def _load_metadata_from_file(self, filepath: str, operation_dir: str, filename: str) -> Dict[str, Any]:
+        """Load metadata by importing and instantiating the automaton class."""
+        import importlib.util
+
+        # Import the module
+        spec = importlib.util.spec_from_file_location("automaton_module", filepath)
+        if spec and spec.loader:
+            module = importlib.util.module_from_spec(spec)
+            sys.modules["automaton_module"] = module
+            spec.loader.exec_module(module)
+
+            # Find the automaton class (ends with 'Automaton')
+            automaton_class = None
+            for name in dir(module):
+                obj = getattr(module, name)
+                if isinstance(obj, type) and name.endswith('Automaton') and name != 'BaseAutomaton':
+                    automaton_class = obj
+                    break
+
+            if automaton_class:
+                # Create a dummy instance to access metadata
+                try:
+                    instance = automaton_class(inputs={'A': 0, 'B': 0, 'M': 0, 'S': 0, 'D': 0})
+                    metadata_obj = instance.metadata
+
+                    # Convert metadata dataclass to dict
+                    return {
+                        'strategy_id': metadata_obj.strategy_id,
+                        'strategy_name': metadata_obj.strategy_name,
+                        'description': metadata_obj.description,
+                        'metaphors': [
+                            {
+                                'name': m.name,
+                                'source_domain': m.source_domain,
+                                'target_domain': m.target_domain,
+                                'entailments': m.entailments
+                            } for m in metadata_obj.metaphors
+                        ],
+                        'inferences': [
+                            {
+                                'name': i.name,
+                                'premise': i.premise,
+                                'conclusion': i.conclusion,
+                                'prerequisites': i.prerequisites
+                            } for i in metadata_obj.inferences
+                        ],
+                        'visualization_hints': metadata_obj.visualization_hints,
+                        'deployed_vocabulary': metadata_obj.deployed_vocabulary if hasattr(metadata_obj, 'deployed_vocabulary') else ''
+                    }
+                except Exception as e:
+                    # Some automata may not have metadata or may fail to instantiate
+                    return None
+
+        return None
 
     def _analyze_single_automaton(self, filepath: str, strategy_id: str, operation: str) -> Set[str]:
         """Analyze a single automaton file to extract patterns."""
@@ -278,11 +361,28 @@ class AutomatonAnalyzer:
         else:
             return strategy_b, strategy_a
 
+    def _analyze_metaphor_sharing(self) -> Dict[str, List[str]]:
+        """Find strategies sharing conceptual metaphors."""
+        metaphor_to_strategies = defaultdict(list)
+
+        for strategy, metadata in self.strategy_metadata.items():
+            for metaphor in metadata.get('metaphors', []):
+                metaphor_name = metaphor['name']
+                metaphor_to_strategies[metaphor_name].append(strategy)
+
+        return dict(metaphor_to_strategies)
+
     def _generate_analysis_report(self) -> Dict[str, Any]:
         """Generate comprehensive analysis report."""
+        # Analyze metaphor sharing
+        metaphor_sharing = self._analyze_metaphor_sharing()
+
         print(f"\n📊 Analysis Complete:", file=sys.stderr)
         print(f"   • {len(self.patterns)} computational patterns detected", file=sys.stderr)
         print(f"   • {len(self.elaborations)} algorithmic elaborations identified", file=sys.stderr)
+        print(f"   • {len(self.strategy_metadata)} strategies with rich metadata", file=sys.stderr)
+        print(f"   • {len(metaphor_sharing)} unique embodied metaphors found", file=sys.stderr)
+
         return {
             "patterns": {
                 name: {
@@ -305,7 +405,9 @@ class AutomatonAnalyzer:
             "strategy_patterns": {
                 strategy: list(patterns)
                 for strategy, patterns in self.strategy_patterns.items()
-            }
+            },
+            "strategy_metadata": self.strategy_metadata,  # Include rich metadata
+            "metaphor_sharing": metaphor_sharing  # NEW: Include metaphor analysis
         }
 
 

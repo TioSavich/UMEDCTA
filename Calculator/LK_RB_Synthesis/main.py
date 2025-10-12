@@ -20,20 +20,20 @@ import sys
 import json
 import argparse
 from typing import Dict, Any, Optional
-from mud_generator import AutomatonAnalyzer, MUDGenerator, ReportGenerator
+from mud_generator import AutomatonAnalyzer
+from mua_report_generator import MUAReportGenerator
 
 class EPLE:
     """Main EPLE system interface."""
 
     def __init__(self):
         self.analysis_results: Optional[Dict[str, Any]] = None
-        self.mud_diagrams: Optional[Dict[str, Any]] = None
         self.data_dir = "data"
         self.output_dir = "output"
 
     def run_full_analysis(self) -> Dict[str, Any]:
         """Run the complete analysis pipeline."""
-        print("🚀 Starting EPLE Full Analysis Pipeline")
+        print("🚀 Starting Analysis Pipeline")
         print("=" * 60)
 
         # Step 1: Analyze automata
@@ -44,10 +44,15 @@ class EPLE:
         analyzer = AutomatonAnalyzer(automata_path)
         self.analysis_results = analyzer.analyze_all_automata()
 
-        # Step 2: Generate MUD diagrams
-        print("\n🎨 Phase 2: Generating Meaning-Use Diagrams")
-        mud_generator = MUDGenerator(self.analysis_results)
-        self.mud_diagrams = mud_generator.generate_mud_diagrams()
+        # Step 2: Generate MUA reports
+        print("\n📝 Phase 2: Generating Meaning-Use Analysis Reports")
+        mua_generator = MUAReportGenerator(self.analysis_results)
+
+        full_report = mua_generator.generate_full_report()
+        full_report_path = os.path.join(self.output_dir, 'mua_full_report.md')
+        with open(full_report_path, 'w') as f:
+            f.write(full_report)
+        print(f"   ✅ Generated: {full_report_path}")
 
         # Step 3: Save results
         self._save_results()
@@ -55,15 +60,14 @@ class EPLE:
         print("\n✅ Analysis Complete!")
         print(f"   📊 Patterns discovered: {len(self.analysis_results.get('patterns', {}))}")
         print(f"   🔗 Elaborations found: {len(self.analysis_results.get('elaborations', []))}")
-        print(f"   📈 MUD diagrams created: {len(self.mud_diagrams)}")
+        print(f"   📄 MUA report: {full_report_path}")
 
         return {
-            'analysis_results': self.analysis_results,
-            'mud_diagrams': self.mud_diagrams
+            'analysis_results': self.analysis_results
         }
 
     def generate_strategy_report(self, strategy_name: str, format_type: str = 'markdown') -> str:
-        """Generate a detailed report for a specific strategy."""
+        """Generate a detailed MUA report for a specific strategy."""
         if not self.analysis_results:
             self._load_existing_results()
 
@@ -71,20 +75,14 @@ class EPLE:
             print("❌ No analysis results found. Run analysis first.")
             return ""
 
-        report_gen = ReportGenerator(self.analysis_results, self.mud_diagrams)
+        if format_type != 'markdown':
+            print(f"⚠️  Only markdown format supported for MUA reports. Using markdown.")
 
-        if format_type == 'markdown':
-            return report_gen.generate_markdown_report(strategy_name)
-        elif format_type == 'latex':
-            return report_gen.generate_latex_report(strategy_name)
-        elif format_type == 'html':
-            return report_gen.generate_html_report(strategy_name)
-        else:
-            print(f"❌ Unsupported format: {format_type}")
-            return ""
+        mua_gen = MUAReportGenerator(self.analysis_results)
+        return mua_gen.generate_strategy_report(strategy_name)
 
     def generate_overview_report(self, format_type: str = 'markdown') -> str:
-        """Generate an overview report of all findings."""
+        """Generate a full MUA overview report."""
         if not self.analysis_results:
             self._load_existing_results()
 
@@ -92,17 +90,11 @@ class EPLE:
             print("❌ No analysis results found. Run analysis first.")
             return ""
 
-        report_gen = ReportGenerator(self.analysis_results, self.mud_diagrams)
+        if format_type != 'markdown':
+            print(f"⚠️  Only markdown format supported for MUA reports. Using markdown.")
 
-        if format_type == 'markdown':
-            return report_gen.generate_markdown_report()
-        elif format_type == 'latex':
-            return report_gen.generate_latex_report()
-        elif format_type == 'html':
-            return report_gen.generate_html_report()
-        else:
-            print(f"❌ Unsupported format: {format_type}")
-            return ""
+        mua_gen = MUAReportGenerator(self.analysis_results)
+        return mua_gen.generate_full_report()
 
     def list_strategies(self) -> list:
         """List all available strategies."""
@@ -112,10 +104,8 @@ class EPLE:
         if not self.analysis_results:
             return []
 
-        strategies = set()
-        for elab in self.analysis_results.get('elaborations', []):
-            strategies.add(elab['base_strategy'])
-            strategies.add(elab['elaborated_strategy'])
+        # Get all strategies from strategy_patterns (includes all analyzed strategies)
+        strategies = set(self.analysis_results.get('strategy_patterns', {}).keys())
 
         return sorted(list(strategies))
 
@@ -216,39 +206,16 @@ class EPLE:
         with open(analysis_file, 'w') as f:
             json.dump(self.analysis_results, f, indent=2)
 
-        # Save MUD diagrams
-        mud_file = os.path.join(self.output_dir, 'mud_diagrams.json')
-        with open(mud_file, 'w') as f:
-            json.dump(self.mud_diagrams, f, indent=2)
-
-        # Save combined results
-        combined_file = os.path.join(self.output_dir, 'eple_results.json')
-        combined_data = {
-            'analysis_results': self.analysis_results,
-            'mud_diagrams': self.mud_diagrams
-        }
-        with open(combined_file, 'w') as f:
-            json.dump(combined_data, f, indent=2)
-
         print(f"💾 Results saved to {self.output_dir}/")
 
     def _load_existing_results(self):
         """Load existing analysis results if available."""
-        results_file = os.path.join(self.output_dir, 'eple_results.json')
-        mud_file = os.path.join(self.output_dir, 'mud_diagrams.json')
-        
+        results_file = os.path.join(self.output_dir, 'analysis_results.json')
+
         if os.path.exists(results_file):
             with open(results_file, 'r') as f:
-                data = json.load(f)
-            self.analysis_results = data.get('analysis_results')
-            
-            # Load mud_diagrams from the dedicated file if it exists
-            if os.path.exists(mud_file):
-                with open(mud_file, 'r') as f:
-                    self.mud_diagrams = json.load(f)
-            else:
-                self.mud_diagrams = data.get('mud_diagrams', {})
-            
+                self.analysis_results = json.load(f)
+
             import sys
             print(f"📂 Loaded existing results from {results_file}", file=sys.stderr)
         else:

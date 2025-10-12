@@ -1,8 +1,12 @@
-# EPLE (Embodied Pragmatic Logic Engine)
+# Algorithmic Elaboration Discovery System
 
-## Automated Algorithmic Elaboration Discovery System
+## Automated Pattern Analysis for Student Arithmetic Strategies
 
-This project implements a novel system for **automatically discovering algorithmic elaborations** between student arithmetic strategies. Using Robert Brandom's Meaning-Use Analysis (MUA) framework and George Lakoff's conceptual metaphors, EPLE analyzes actual automaton implementations to identify shared computational patterns and generate Meaning-Use Diagrams (MUDs).
+This project implements a system for **automatically discovering algorithmic elaborations** between student arithmetic strategies. The analyzer examines Python automaton implementations to identify shared computational patterns and generate Meaning-Use Diagrams (MUDs).
+
+**What this system does:** Analyzes student-invented arithmetic strategies to discover how they share computational patterns and build upon each other.
+
+**Theoretical foundation:** Inspired by Robert Brandom's Meaning-Use Analysis (MUA) and George Lakoff's embodied mathematics, but implemented as a practical pattern analyzer rather than a full formal framework.
 
 ## 🚀 Quick Start
 
@@ -24,16 +28,17 @@ This project implements a novel system for **automatically discovering algorithm
    python main.py analyze
    ```
 
-That's it! EPLE will automatically:
-- Analyze all automaton implementations
-- Discover computational patterns
-- Identify algorithmic elaborations
-- Generate professional MUD diagrams in TikZ format
+That's it! The analyzer will automatically:
+- Parse all automaton implementations via AST analysis
+- Extract rich metadata (embodied metaphors, material inferences) from automata
+- Discover computational patterns in the code
+- Identify algorithmic elaborations between strategies
+- Generate Meaning-Use Analysis (MUA) reports in Markdown
 
-## 📋 What EPLE Does
+## 📋 What This System Does
 
-### 🔬 Automated Pattern Discovery
-EPLE analyzes Python automaton source code to identify computational patterns:
+### 🔬 Automated Pattern Discovery (AST Analysis)
+The analyzer uses AST (Abstract Syntax Tree) parsing to examine Python automaton source code and identify computational patterns:
 - **`base_decomposition`**: Breaking numbers into base components (// and % operations)
 - **`incremental_counting`**: State-based counting loops
 - **`iterative_arithmetic`**: Repeated addition/subtraction operations
@@ -49,8 +54,21 @@ ADD_Rounding → ADD_RMB → ADD_COBO
     (base decomposition pattern)
 ```
 
-### 📊 Professional Diagram Generation
-Creates publication-ready TikZ diagrams showing elaboration relationships with proper Brandom category theory conventions.
+### 🧠 Rich Metadata Extraction
+Automatically extracts and reports existing documentation from automata:
+- **Embodied Metaphors** (Lakoff & Núñez): Source/target domains and entailments
+- **Material Inferences** (Brandom): Premises, conclusions, and prerequisites
+- **Visualization Hints**: Suggested cognitive representations (NumberLine, Object Piles, etc.)
+- **Deployed Vocabulary**: Key conceptual terms introduced by each strategy
+
+### 📊 Brandomian MUA Reports
+Generates detailed Meaning-Use Analysis reports using Robert Brandom's framework:
+- PV-Sufficiency (Practices sufficient for Vocabulary)
+- PP-Sufficiency (Practices sufficient for Practices)
+- VP-Sufficiency (Vocabulary sufficient for Practices)
+- LX Relations (Elaborated-Explicating relationships)
+- Pragmatic Metavocabulary analysis
+- Pragmatic Expressive Bootstrapping
 
 ## 🛠️ Usage Guide
 
@@ -113,56 +131,78 @@ diagrams = generator.generate_mud_diagrams()
 
 ```
 LK_RB_Synthesis/
-├── main.py                    # Unified entry point
-├── mud_generator.py          # Core analysis and diagram generation
+├── main.py                    # CLI entry point
+├── mud_generator.py          # Core AST analysis and diagram generation
 ├── requirements.txt          # Python dependencies
 ├── README.md                 # This file
-├── src/automata/            # Automaton implementations
-│   ├── addition/            # Addition strategies
-│   ├── subtraction/         # Subtraction strategies
-│   ├── multiplication/      # Multiplication strategies
-│   └── division/            # Division strategies
-├── data/                    # Analysis results and metadata
+├── src/
+│   ├── automata/            # Student strategy automaton implementations
+│   │   ├── addition/        # Addition strategies (Counting, COBO, RMB, etc.)
+│   │   ├── subtraction/     # Subtraction strategies (Sliding, Chunking, etc.)
+│   │   ├── multiplication/  # Multiplication strategies
+│   │   └── division/        # Division strategies
+│   └── analysis/            # Metadata structures
 ├── output/                  # Generated diagrams and reports
 ├── scripts/                 # Utility scripts
-├── testing_system/          # Experimental/test scripts
-└── eple/                    # EPLE framework core
+└── [documentation files]    # Reference materials and analyses
 ```
 
 ## 🔍 Example Output
 
-### Strategy Analysis Report
+### Meaning-Use Analysis Report
 ```markdown
-## Strategy Analysis: ADD_COBO
+# Meaning-Use Analysis: ADD_COBO
 
-### Computational Patterns Used
-- **incremental_counting** (counting)
-  - Used by 5 other strategies
-- **base_decomposition** (decomposition)
-  - Used by 13 other strategies
+## Strategy Metadata (From Automaton Documentation)
 
-### Algorithmic Elaborations
+**Full Name:** COBO (Counting On by Bases and Ones)
+**Description:** Simulates an addition strategy where the second number (B)
+is decomposed into its base-ten and ones components...
 
-#### As Base Strategy:
-- **Elaborates** → ADD_Chunking
-  - Shared patterns: incremental_counting, base_decomposition
-  - Confidence: 0.67
+### Embodied Metaphors (Lakoff & Núñez)
 
-#### As Elaborated Strategy:
-- **Elaborated from** ← ADD_Counting
-  - Shared patterns: incremental_counting
-  - Confidence: 1.00
-```
+**Arithmetic as Motion Along a Path**
+- **Source Domain:** Motion
+- **Target Domain:** Arithmetic
+- **Key Entailments:** Moving along a path can be done in segments.
+  The final position is the sum of the starting position and the
+  lengths of all segments.
 
-### Generated TikZ Diagram
-```latex
-\\begin{tikzpicture}[node distance=2cm and 2cm, auto]
-\\node[draw, fill=blue!10, rounded corners] (title) at (0,0) {\\textbf{Addition MUD}};
-\\node[draw, fill=green!10, rounded corners] (strategy_0) at (0.00,0.00) {Counting};
-\\node[draw, fill=green!10, rounded corners] (strategy_1) at (5.03,3.77) {COBO};
-\\draw[blue, ->, thick] (strategy_0) -- (strategy_1)
-    node[midway, above] {\\scriptsize incremental_counting};
-\\end{tikzpicture}
+### Material Inferences (Brandom)
+
+**Iterative Addition**
+- **Premise:** A quantity can be added by repeatedly adding a smaller unit.
+- **Conclusion:** Adding a number B is equivalent to adding '1' B times,
+  or adding '10' (B//10) times and then '1' (B%10) times.
+- **Prerequisites (PP-Necessities):** Counting skills, Place value decomposition
+
+---
+
+## PV-Sufficiency Analysis
+**Question:** What practices (P) are PV-sufficient to deploy V_ADD_COBO?
+
+The following computational practices are necessary:
+- **P_incremental_counting**: State-based iteration with accumulation
+
+**Interpretation:** To deploy the vocabulary of ADD_COBO,
+a practitioner must master these computational practices.
+
+## PP-Sufficiency Analysis
+**Question:** What practices are PP-sufficient for P_ADD_COBO?
+
+### Prerequisite Strategies (PP-Necessities)
+- **P_ADD_Counting** (via incremental_counting)
+- **P_ADD_Chunking** (via incremental_counting)
+
+**Interpretation:** ADD_COBO is algorithmically elaborated from
+these prerequisite strategies.
+
+## Pragmatic Metavocabulary Analysis
+Following Lakoff & Núñez, embodied practices likely serve as metavocabulary:
+- **V_Embodied** (e.g., 'collect objects', 'move along line')
+
+**Expressive Bootstrapping:** Weaker vocabularies (Python, patterns, embodiment)
+serve as metavocabularies for stronger vocabulary (arithmetic).
 ```
 
 ## 🎯 Key Features
@@ -172,15 +212,39 @@ LK_RB_Synthesis/
 - Discovers patterns from actual computational behavior
 - Scales to any number of strategies
 
-### 🎨 Professional Output
-- Publication-ready TikZ diagrams
-- Multiple report formats (Markdown, LaTeX, HTML)
-- Confidence scores for all relationships
+### 🎨 Theoretically Grounded Reports
+- Brandomian Meaning-Use Analysis framework
+- Lakoff & Núñez embodied metaphors with entailments
+- Material inferences with premises and conclusions
+- PV/VP/PP-sufficiency analyses
+- LX relation identification
+- Pragmatic metavocabulary analysis
+- Confidence scores for elaboration relationships
 
 ### 🔬 Research Driven
-- Implements Brandom's Meaning-Use Analysis
-- Grounded in Lakoff's conceptual metaphors
-- Reveals cognitive structure of mathematical reasoning
+- Inspired by Brandom's Meaning-Use Analysis framework
+- Informed by Lakoff & Núñez's embodied mathematics
+- Reveals computational structure of student arithmetic strategies
+
+## ⚠️ Scope and Limitations
+
+### What This System Does
+- ✅ Discovers computational patterns in automaton source code (AST analysis)
+- ✅ Extracts rich metadata (embodied metaphors, material inferences) from automata
+- ✅ Identifies algorithmic elaborations based on shared patterns
+- ✅ Generates Brandomian MUA reports (PV/VP/PP-sufficiency, LX relations)
+- ✅ Analyzes pragmatic metavocabulary and expressive bootstrapping
+- ✅ Provides confidence-scored elaboration relationships
+
+### What This System Does NOT Do
+- ❌ Does not generate visual MUD diagrams (reports only)
+- ❌ Does not implement full Brandomian deontic scorekeeping
+- ❌ Does not model Lakoff's conceptual metaphor mappings formally
+- ❌ Does not identify practical elaboration through training (only algorithmic)
+- ❌ Does not perform theorem proving or formal verification
+- ❌ Does not include LLM-based pragmatic projection capabilities
+
+This is an **analysis tool** for studying existing strategy implementations. It reveals computational structure that may correspond to Brandomian MUA concepts, but verification of philosophical claims requires human judgment.
 
 ## 🤝 Contributing
 
@@ -194,9 +258,11 @@ Modify `mud_generator.py` to add new computational pattern detectors.
 
 ## 📚 Research Background
 
-This system demonstrates how **conceptual metaphors function as mechanisms of pragmatic elaboration** (Brandom) that allow embodied practices to confer content on abstract mathematical vocabularies.
+This analyzer is a practical tool for studying student-invented arithmetic strategies. It discovers how strategies share computational patterns, revealing structural relationships between different approaches to arithmetic.
 
-**Core Thesis:** Mathematical necessity is the explicit expression of constraints inherent in embodied practices, structured by image schemas and elaborated through conceptual metaphors.
+**Theoretical motivation:** The analysis framework is inspired by Brandom's Meaning-Use Analysis and Lakoff & Núñez's embodied mathematics, applying these ideas to study actual computational implementations of student strategies.
+
+**What it analyzes:** Python automaton implementations of 23+ student strategies from Carpenter & Moser's Cognitively Guided Instruction (CGI) research.
 
 ## 📄 License
 

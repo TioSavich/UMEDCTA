@@ -1,8 +1,27 @@
-% Filename: incompatibility_semantics.pl (Corrected)
+/** <module> Core logic for incompatibility semantics and automated theorem proving.
+ *
+ *  This module implements Robert Brandom's incompatibility semantics, providing a
+ *  sequent calculus-based theorem prover. It integrates multiple knowledge
+ *  domains, including geometry, number theory (Euclid's proof of the
+ *  infinitude of primes), and arithmetic over natural numbers, integers, and
+ *  rational numbers. The prover uses a combination of structural rules,
+ *  material inferences (axioms), and reduction schemata to derive conclusions
+ *  from premises.
+ *
+ *  Key features:
+ *  - A sequent prover `proves/1` that operates on sequents of the form `Premises => Conclusions`.
+ *  - A predicate `incoherent/1` to check if a set of propositions is contradictory.
+ *  - Support for multiple arithmetic domains (n, z, q) via `set_domain/1`.
+ *  - A rich set of logical operators and domain-specific predicates.
+ *
+ * 
+ * 
+ */
 :- module(incompatibility_semantics,
-          [ proves/1, obj_coll/1, incoherent/1, set_domain/1, current_domain/1
+          [ proves/1, is_recollection/2, incoherent/1, set_domain/1, current_domain/1 % obj_coll/1 is deprecated
+          , product_of_list/2 % Exported for the learner module
           % Updated exports
-          , s/1, o/1, n/1, comp_nec/1, exp_nec/1, exp_poss/1, comp_poss/1, neg/1
+          , s/1, o/1, n/1, 'comp_nec'/1, 'exp_nec'/1, 'exp_poss'/1, 'comp_poss'/1, 'neg'/1
           , highlander/2, bounded_region/4, equality_iterator/3
           % Geometry
           , square/1, rectangle/1, rhombus/1, parallelogram/1, trapezoid/1, kite/1, quadrilateral/1
@@ -10,11 +29,17 @@
           % Number Theory (Euclid)
           , prime/1, composite/1, divides/2, is_complete/1
           % Fractions (Jason.pl)
-          , rdiv/2, iterate/3, partition/3, normalize/2 % Export normalize
+          , 'rdiv'/2, iterate/3, partition/3, normalize/2
+          % Normative Crisis Detection
+          , prohibition/2, normative_crisis/2, check_norms/1, current_domain_context/1
           ]).
 % Declare predicates that are defined across different sections.
+:- use_module(hermeneutic_calculator).
+:- use_module(grounded_arithmetic, [incur_cost/1]).
+
 :- discontiguous proves_impl/2.
 :- discontiguous is_incoherent/1. % Non-recursive check
+:- discontiguous check_norms/1.
 
 % =================================================================
 % Part 0: Setup and Configuration
@@ -55,28 +80,202 @@ fraction_predicates([rdiv, iterate, partition]).
 % --- 1.2 Arithmetic (O/N Domains) ---
 
 :- dynamic current_domain/1.
+:- dynamic prohibition/2.
+:- dynamic normative_crisis/2.
+
+%!      current_domain(?Domain:atom) is nondet.
+%
+%       Dynamic fact that holds the current arithmetic domain.
+%       Possible values are `n` (natural numbers), `z` (integers),
+%       or `q` (rational numbers).
+%
+%       @param Domain The current arithmetic domain.
 current_domain(n).
 
+%!      set_domain(+Domain:atom) is det.
+%
+%       Sets the current arithmetic domain.
+%       Retracts the current domain and asserts the new one.
+%       Valid domains are `n`, `z`, and `q`.
+%
+%       @param Domain The new arithmetic domain to set.
 set_domain(D) :-
     % Added 'q' (Rationals) as a valid domain.
     ( member(D, [n, z, q]) -> retractall(current_domain(_)), assertz(current_domain(D)) ; true).
 
-% Domain-dependent Object Collection (Extended for Q) (FIX: Corrected Cut Logic)
-obj_coll(N) :- current_domain(n), !, integer(N), N >= 0.
-obj_coll(N) :- current_domain(z), !, integer(N).
-% Domain Q recognizes integers AND rationals.
-% Use a single clause with disjunction (;) for correctness.
-obj_coll(X) :- current_domain(q), !,
-    ( integer(X)
-    ; (X = N rdiv D, integer(N), integer(D), D > 0)
+% --- Normative Crisis Detection ---
+
+%!      prohibition(+Context:atom, +Goal:term) is semidet.
+%
+%       Defines prohibited operations within specific mathematical contexts.
+%       This implements the UMEDCA thesis that mathematical norms are 
+%       revisable and context-dependent, not universal axioms.
+%
+%       @param Context The mathematical context (natural_numbers, integers, rationals)
+%       @param Goal The goal pattern that is prohibited in this context
+
+% Natural numbers context: Cannot subtract larger from smaller
+prohibition(natural_numbers, subtract(M, S, _)) :-
+    % Use grounded comparison to avoid arithmetic backstop
+    current_domain(n),
+    is_recollection(M, _),
+    is_recollection(S, _),
+    grounded_arithmetic:smaller_than(M, S).
+
+% Natural numbers context: Cannot divide when result would not be natural
+prohibition(natural_numbers, divide(Dividend, Divisor, _)) :-
+    current_domain(n),
+    is_recollection(Dividend, _),
+    is_recollection(Divisor, _),
+    \+ grounded_arithmetic:zero(Divisor),
+    % Division would not yield a natural number (simplified check)
+    grounded_arithmetic:smaller_than(Dividend, Divisor).
+
+%!      check_norms(+Goal:term) is det.
+%
+%       Validates a goal against the current mathematical context norms.
+%       Throws normative_crisis/2 if the goal violates current prohibitions.
+%
+%       @param Goal The goal to validate
+%       @error normative_crisis(Goal, Context) if goal violates norms
+check_norms(Goal) :-
+    % Only check norms for core arithmetic operations
+    ( is_core_operation(Goal) ->
+        current_domain_context(Context),
+        ( prohibition(Context, Goal) ->
+            throw(normative_crisis(Goal, Context))
+        ;
+            incur_cost(norm_check)  % Cost of normative validation
+        )
+    ;
+        true  % Non-arithmetic goals pass through
     ).
+
+%!      is_core_operation(+Goal:term) is semidet.
+%
+%       Identifies core arithmetic operations that require norm checking.
+is_core_operation(add(_, _, _)).
+is_core_operation(subtract(_, _, _)).
+is_core_operation(multiply(_, _, _)).
+is_core_operation(divide(_, _, _)).
+
+%!      current_domain_context(-Context:atom) is det.
+%
+%       Maps the current domain to a context name for prohibition checking.
+current_domain_context(Context) :-
+    current_domain(Domain),
+    domain_to_context(Domain, Context).
+
+domain_to_context(n, natural_numbers).
+domain_to_context(z, integers).
+domain_to_context(q, rationals).
+
+%!      check_norms(+Goal:term) is det.
+%
+%       Validates a goal against current mathematical context norms.
+%       Throws normative_crisis/2 if the goal violates current norms.
+%
+%       @param Goal The goal to validate against current norms
+check_norms(Goal) :-
+    ( is_core_arithmetic_operation(Goal) ->
+        current_domain(Domain),
+        context_name(Domain, Context),
+        ( prohibition(Context, Goal) ->
+            throw(normative_crisis(Goal, Context))
+        ;
+            true
+        )
+    ;
+        true
+    ).
+
+%!      is_core_arithmetic_operation(+Goal:term) is semidet.
+%
+%       Identifies goals that need normative checking.
+is_core_arithmetic_operation(subtract(_, _, _)).
+is_core_arithmetic_operation(divide(_, _, _)).
+is_core_arithmetic_operation(add(_, _, _)).
+is_core_arithmetic_operation(multiply(_, _, _)).
+
+%!      context_name(+Domain:atom, -Context:atom) is det.
+%
+%       Maps domain symbols to context names.
+context_name(n, natural_numbers).
+context_name(z, integers).  
+context_name(q, rationals).
+
+
+% Deprecated: obj_coll/1. Replaced by is_recollection/2.
+% The old obj_coll/1 predicate checked for static, timeless properties.
+% The new ontology requires that a number's validity is proven by
+% demonstrating a constructive history (an anaphoric recollection).
+%
+% obj_coll(N) :- current_domain(n), !, integer(N), N >= 0.
+% obj_coll(N) :- current_domain(z), !, integer(N).
+% obj_coll(X) :- current_domain(q), !,
+%     ( integer(X)
+%     ; (X = N rdiv D, integer(N), integer(D), D > 0)
+%     ).
+
+%!      is_recollection(?Term, ?History) is semidet.
+%
+%       The new core ontological predicate. It succeeds if `Term` is a
+%       validly constructed number, where `History` is the execution
+%       trace of the calculation that constructed it. This replaces the
+%       static `obj_coll/1` check with a dynamic, process-based validation.
+%
+%       @param Term The numerical term to be validated (e.g., 5).
+%       @param History The constructive trace that proves the term's existence.
+
+% Base case: 0 is axiomatically a number.
+is_recollection(0, [axiom(zero)]).
+
+% Support for explicit recollection structures from grounded_arithmetic
+is_recollection(recollection(History), [explicit_recollection(History)]) :-
+    is_list(History),
+    maplist(=(tally), History).
+
+% Recursive case for positive integers: N is a recollection if N-1 is, and we
+% can construct N by adding 1 using the hermeneutic calculator.
+is_recollection(N, History) :-
+    integer(N),
+    N > 0,
+    Prev is N - 1,
+    is_recollection(Prev, _), % Foundational check on the predecessor
+    hermeneutic_calculator:calculate(Prev, +, 1, _Strategy, N, History).
+
+% Case for negative integers: A negative number is constructed by subtracting
+% its absolute value from 0.
+is_recollection(N, History) :-
+    integer(N),
+    N < 0,
+    is_recollection(0, _), % Grounded in the axiom of zero
+    Val is abs(N),
+    hermeneutic_calculator:calculate(0, -, Val, _Strategy, N, History).
+
+% Case for rational numbers: A rational N/D is a recollection if its
+% numerator and denominator are themselves valid recollections.
+% The history records this compositional validation.
+is_recollection(N rdiv D, [history(rational, from(N, D))]) :-
+    % Denominator must be a positive integer. We check its recollection status.
+    is_recollection(D, _),
+    integer(D), D > 0,
+    % Numerator can be any recollected number.
+    is_recollection(N, _).
 
 
 % --- Helpers for Rational Arithmetic ---
 gcd(A, 0, A) :- A \= 0, !.
 gcd(A, B, G) :- B \= 0, R is A mod B, gcd(B, R, G).
 
-% normalize(Input, Normalized)
+%!      normalize(+Input, -Normalized) is det.
+%
+%       Normalizes a number. Integers are unchanged. Rational numbers
+%       (e.g., `6 rdiv 8`) are reduced to their simplest form (e.g., `3 rdiv 4`).
+%       If the denominator is 1, it is converted to an integer.
+%
+%       @param Input The integer or rational number to normalize.
+%       @param Normalized The resulting normalized number.
 normalize(N, N) :- integer(N), !.
 normalize(N rdiv D, R) :-
     (D =:= 1 -> R = N ;
@@ -125,7 +324,7 @@ excluded_predicates(AllPreds) :-
     fraction_predicates(F),
     append(G, NT, Temp),
     append(Temp, F, DomainPreds),
-    append([neg, conj, nec, comp_nec, exp_nec, exp_poss, comp_poss, obj_coll], DomainPreds, AllPreds).
+    append([neg, conj, nec, comp_nec, exp_nec, exp_poss, comp_poss, is_recollection], DomainPreds, AllPreds).
 
 % --- Helpers for Number Theory (Grounded) ---
 
@@ -162,7 +361,15 @@ match_antecedents([A|As], Premises) :-
 
 % --- 2.1 Incoherence Definitions (SAFE AND COMPLETE) ---
 
-% Full definition of Incoherence.
+%!      incoherent(+PropositionSet:list) is semidet.
+%
+%       Checks if a set of propositions is incoherent (contradictory).
+%       A set is incoherent if:
+%       1. It contains a direct contradiction (e.g., `P` and `neg(P)`).
+%       2. It violates a material incompatibility (e.g., `n(square(a))` and `n(r1(a))`).
+%       3. An empty conclusion `[]` can be proven from it, i.e., `proves(PropositionSet => [])`.
+%
+%       @param PropositionSet A list of propositions.
 incoherent(X) :- is_incoherent(X), !.
 incoherent(X) :- proves(X => []).
 
@@ -178,11 +385,11 @@ is_incoherent(X) :-
     incompatible_pair(Shape, Restriction), !.
 
 % Arithmetic Incompatibility (Generalized to handle fractions)
+% This is incoherent if a norm demands an impossible recollection.
 is_incoherent(X) :-
-    member(n(obj_coll(minus(A,B,_))), X),
+    member(n(minus(A,B,_)), X), % Check for the normative proposition
     current_domain(n),
-    % Normalize before comparison to handle integers and fractions correctly.
-    % Use normalize/2 which ensures A and B are valid arithmetic objects before comparison.
+    is_recollection(A, _), is_recollection(B, _), % Operands must be valid numbers
     normalize(A, NA), normalize(B, NB),
     NA < NB, !.
 
@@ -206,6 +413,17 @@ is_incoherent(Y) :- incoherent_base(Y), !.
 % --- 2.2 Sequent Calculus Prover (REORDERED) ---
 % Order: Identity/Explosion -> Axioms -> Structural Rules -> Reduction Schemata.
 
+%!      proves(+Sequent) is semidet.
+%
+%       Attempts to prove a given sequent using the rules of the calculus.
+%       A sequent has the form `Premises => Conclusions`, where `Premises`
+%       and `Conclusions` are lists of propositions. The predicate succeeds
+%       if the conclusions can be derived from the premises.
+%
+%       The prover uses a recursive, history-tracked implementation (`proves_impl/2`)
+%       to apply inference rules and avoid infinite loops.
+%
+%       @param Sequent The sequent to be proven.
 proves(Sequent) :- proves_impl(Sequent, []).
 
 % --- PRIORITY 1: Identity and Explosion ---
@@ -222,22 +440,22 @@ proves_impl((Premises => _), _) :-
 
 % --- Arithmetic Grounding (Extended for Q) ---
 proves_impl(_ => [o(eq(A,B))], _) :-
-    obj_coll(A), obj_coll(B),
+    is_recollection(A, _), is_recollection(B, _),
     normalize(A, NA), normalize(B, NB),
     NA == NB.
 
 proves_impl(_ => [o(plus(A,B,C))], _) :-
-    obj_coll(A), obj_coll(B),
+    is_recollection(A, _), is_recollection(B, _),
     arith_op(A, B, +, C),
-    obj_coll(C).
+    is_recollection(C, _).
 
 proves_impl(_ => [o(minus(A,B,C))], _) :-
-    current_domain(D), obj_coll(A), obj_coll(B),
+    current_domain(D), is_recollection(A, _), is_recollection(B, _),
     arith_op(A, B, -, C),
     % Subtraction constraints only apply to N. We must normalize C before comparison.
     normalize(C, NC),
     ((D=n, NC >= 0) ; member(D, [z, q])),
-    obj_coll(C).
+    is_recollection(C, _).
 
 % --- Arithmetic Material Inferences ---
 proves_impl([n(plus(A,B,C))] => [n(plus(B,A,C))], _).
@@ -265,7 +483,7 @@ proves_impl([s(t_n)] => [s(comp_nec t_b)], _).
 
 % Grounding: Iterating (Multiplication)
 proves_impl(([] => [o(iterate(U, M, R))]), _) :-
-    obj_coll(U), integer(M), M >= 0,
+    is_recollection(U, _), integer(M), M >= 0,
     % R = U * M
     normalize(U, NU),
     (integer(NU) -> N1=NU, D1=1 ; NU = N1 rdiv D1),
@@ -275,7 +493,7 @@ proves_impl(([] => [o(iterate(U, M, R))]), _) :-
 
 % Grounding: Partitioning (Division)
 proves_impl(([] => [o(partition(W, N, U))]), _) :-
-    obj_coll(W), integer(N), N > 0,
+    is_recollection(W, _), integer(N), N > 0,
     % U = W / N
     normalize(W, NW),
     (integer(NW) -> N1=NW, D1=1 ; NW = N1 rdiv D1),
@@ -425,18 +643,123 @@ is_eml_modality(s(comp_poss _)).
 % Part 4: Automata and Placeholders
 % =================================================================
 
+%!      highlander(+List:list, -Result) is semidet.
+%
+%       Succeeds if the `List` contains exactly one element, which is unified with `Result`.
+%       "There can be only one."
+%
+%       @param List The input list.
+%       @param Result The single element of the list.
 highlander([Result], Result) :- !.
 highlander([], _) :- !, fail.
 highlander([_|Rest], Result) :- highlander(Rest, Result).
 
+%!      bounded_region(+I:number, +L:number, +U:number, -R:term) is det.
+%
+%       Checks if a number `I` is within a given lower `L` and upper `U` bound.
+%
+%       @param I The number to check.
+%       @param L The lower bound.
+%       @param U The upper bound.
+%       @param R `in_bounds(I)` if `L =< I =< U`, otherwise `out_of_bounds(I)`.
 bounded_region(I, L, U, R) :- ( number(I), I >= L, I =< U -> R = in_bounds(I) ; R = out_of_bounds(I) ).
 
+%!      equality_iterator(?C:integer, +T:integer, -R:integer) is nondet.
+%
+%       Iterates from a counter `C` up to a target `T`.
+%       Unifies `R` with `T` when `C` reaches `T`.
+%
+%       @param C The current value of the counter.
+%       @param T The target value.
+%       @param R The result, unified with T on success.
 equality_iterator(T, T, T) :- !.
 equality_iterator(C, T, R) :- C < T, C1 is C + 1, equality_iterator(C1, T, R).
 
 % Placeholder definitions for exported functors
-s(_). o(_). n(_). neg(_). comp_nec(_). exp_nec(_). exp_poss(_). comp_poss(_).
-square(_). rectangle(_). rhombus(_). parallelogram(_). trapezoid(_). kite(_). quadrilateral(_).
-r1(_). r2(_). r3(_). r4(_). r5(_). r6(_).
-prime(_). composite(_). divides(_, _). is_complete(_). analyze_euclid_number(_, _).
-rdiv(_, _). iterate(_, _, _). partition(_, _, _).
+%! s(P) is det.
+% Wrapper for subjective propositions.
+s(_).
+%! o(P) is det.
+% Wrapper for objective propositions.
+o(_).
+%! n(P) is det.
+% Wrapper for normative propositions.
+n(_).
+%! neg(P) is det.
+% Wrapper for negation.
+neg(_).
+%! comp_nec(P) is det.
+% Compressive necessity modality.
+comp_nec(_).
+%! exp_nec(P) is det.
+% Expansive necessity modality.
+exp_nec(_).
+%! exp_poss(P) is det.
+% Expansive possibility modality.
+exp_poss(_).
+%! comp_poss(P) is det.
+% Compressive possibility modality.
+comp_poss(_).
+%! square(X) is det.
+% Geometric shape placeholder.
+square(_).
+%! rectangle(X) is det.
+% Geometric shape placeholder.
+rectangle(_).
+%! rhombus(X) is det.
+% Geometric shape placeholder.
+rhombus(_).
+%! parallelogram(X) is det.
+% Geometric shape placeholder.
+parallelogram(_).
+%! trapezoid(X) is det.
+% Geometric shape placeholder.
+trapezoid(_).
+%! kite(X) is det.
+% Geometric shape placeholder.
+kite(_).
+%! quadrilateral(X) is det.
+% Geometric shape placeholder.
+quadrilateral(_).
+%! r1(X) is det.
+% Geometric restriction placeholder.
+r1(_).
+%! r2(X) is det.
+% Geometric restriction placeholder.
+r2(_).
+%! r3(X) is det.
+% Geometric restriction placeholder.
+r3(_).
+%! r4(X) is det.
+% Geometric restriction placeholder.
+r4(_).
+%! r5(X) is det.
+% Geometric restriction placeholder.
+r5(_).
+%! r6(X) is det.
+% Geometric restriction placeholder.
+r6(_).
+%! prime(N) is det.
+% Number theory placeholder for prime numbers.
+prime(_).
+%! composite(N) is det.
+% Number theory placeholder for composite numbers.
+composite(_).
+%! divides(A, B) is det.
+% Number theory placeholder for divisibility.
+divides(_, _).
+%! is_complete(L) is det.
+% Number theory placeholder for a complete list of primes.
+is_complete(_).
+%! analyze_euclid_number(N, L) is det.
+% Placeholder for Euclid's proof step.
+analyze_euclid_number(_, _).
+%! rdiv(N, D) is det.
+% Placeholder for rational number representation (Numerator rdiv Denominator).
+rdiv(_, _).
+%! iterate(U, M, R) is det.
+% Placeholder for iteration/multiplication of fractions.
+iterate(_, _, _).
+%! partition(W, N, U) is det.
+% Placeholder for partitioning/division of fractions.
+partition(_, _, _).

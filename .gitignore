@@ -6,7 +6,7 @@ __pycache__/
 *.dylib
 venv/
 .venv/
-*.pdf
+
 # Archives
 *.zip
 

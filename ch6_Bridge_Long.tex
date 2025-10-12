@@ -1,0 +1,577 @@
+\chapter{Bridge -- A Foundational Star}
+
+\begin{abstract}
+This chapter explores the parallel between Dr.~Seuss's \emph{The
+Sneetches} and Georg Cantor's diagonal proof, using the star as both a
+social marker and a mathematical symbol undergoing transformation. The
+chapter argues that both narratives involve acts of reflection,
+demonstrating how finite systems, through self-reflection, can transcend
+perceived limitations. This concept is illustrated through ``The
+Exercise,'' a guided meditation on proprioceptive expansion and
+contraction, providing an embodied metaphor for mathematical reasoning
+and the concept of determinate negation. The chapter traces the
+historical development of diagonalization from ancient proofs to the
+work of Cantor and Gödel, highlighting the theme of exceeding defined
+totalities. This historical analysis is situated within the
+ontotheological context surrounding the concept of infinity, emphasizing
+the shift from potential to actual infinity. The chapter examines
+Cantor's original proof, its application to real numbers, and Gaifman's
+generalization of diagonalization, connecting it to Gödel's
+incompleteness theorems. Finally, the chapter discusses the role of the
+empty set and zero in mathematical thought, linking them to the concept
+of becoming and the evolution of numerical systems. The reader will gain
+a deeper understanding of diagonalization as a manifestation of
+self-referential processes and their implications for the relationship
+between finite and infinite systems.
+
+\end{abstract}
+
+\begin{verse}
+Roll it away, roll it away,\\
+You're more than just the sum of tunes you play.\\
+The simple truth: there's more to say,\\
+But when it's time, the next line finds a page.\\
+$\vdots$\\
+\textit{Bridge:}
+I need a bridge\\
+A crutch to clutch through the worst of it.\\
+I'm so glad you called, I was really in a fit.\\
+A hit of warm to curb the loneliness.\\
+``Better than I hoped, worse than I wished.'' (\textit{Roll it Away})
+\end{verse}
+
+    \section{Introduction}
+
+Dr. Seuss' [Theodor Geisel] \parencite*{seuss_sneetches_1961} book \textit{The Sneetches} begins with the statement of a problem:
+
+\begin{quote}
+Now, the Star-Belly Sneetches \\
+Had bellies with stars.\\
+The Plain-Belly Sneetches \\
+Had none upon thars.\\[1ex]
+Those stars weren't so big. They were really so small\\
+You might think such a thing wouldn't matter at all.\\
+But, because they had stars, all the Star-Belly Sneetches would brag,\\
+``We're the best kind of Sneetch on the beaches.''\\
+With their snoots in the air, they would sniff and they'd snort \\
+``We'll have nothing to do with the Plain-Belly sort!''\\
+\end{quote}
+As the story unfolds, Sylvester McMonkey McBean arrives with a contraption that can put a star on the Plain-Belly Sneetches for three dollars. This disrupts the class system, and so McBean offers to remove the stars from the Star-Belly Sneetches for just ``ten dollars eaches.'' Chaos ensues as McBean denudes the Sneetches of their dollars and stars or puts them back on.
+\begin{quote}
+They kept paying money. They kept running through\\
+Until neither the Plain nor the Star-Bellies knew\\
+Whether this one was that one...or that one was this one\\
+Or which one was what one...or what one was who.\\
+\end{quote}
+After McBean gets all of their money, he drives off laughing about how ``you can't teach a Sneetch!''
+\begin{quote}
+But McBean was quite wrong. I'm quite happy to say\\
+The Sneetches got really quite smart on that day,\\
+The day they decided that Sneetches are Sneetches\\
+And no kind of Sneetch is the best on the beaches. \\
+That day, all the Sneetches forgot about stars\\
+And whether they had one, or not, upon thars.
+\end{quote}
+\textbf{Figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=\textwidth]{/Users/tio/Documents/GitHub/September_UMEDCA/images/sneechtriptyche.png}
+\caption{\textit{Note. }Stars form a demarcation between the two classes in the Sneetch society. The shyster, McBean, gets their dollars and rides away laughing at their foolishness, assuming they would never change. But he taught a strong enough lesson for Sneetch society to evolve.}
+\label{fig:sneechtriptyche}
+\end{center}
+\end{figure}
+
+This chapter takes Georg Cantor's \parencite*{cantor1891ueber} diagonal proof as the central axis around which this iteration of critical mathematics turns. To understand its significance, I embed the proof within this allegory of the Sneetches -- we should not glean more from Cantor than we reap from the Sneetches. We begin our reconstruction of Georg Cantor's proof by introducing the star ($\star$) as a symbol with two mutually exclusive moments: presence and absence. Through the chaos and confusion that ensues from McBean's machine, the rigid mutual exclusivity of star and no-star is transcended. The final symbol we might use to represent this transcendence is \cancel{$\star$} -- a symbol that can be read as both a star and its removal, containing both moments within itself. The Star is sublated.
+
+This embedding gives existential significance to the proof, inviting an explication of the dialectic movement that is implicit in it. The proof tells a story where language is holistically reflected into itself, encoding what is lost in such reflections, what remains, and what arises new through that reflection. It thereby provides an account of sublation in a syntactic microcosm of my thesis that mathematical thought arises through reflections.
+
+This introduction establishes the chapter's methodology: by embedding Cantor's abstract mathematical proof within Dr. Seuss's story of the Sneetches, I explore how mathematical self-reference is enriched through understanding the patterns of recognition, conflict, and transcendence examined throughout this book. The star serves as both the distinguishing mark that creates artificial hierarchies among the Sneetches and the mathematical symbol that undergoes dialectical transformation in Cantor's proof. Just as McBean's machine forces the Sneetches to confront the arbitrariness of their distinctions, Cantor's diagonalization reveals the limits of any attempt to completely enumerate mathematical infinities. The chapter will show how both stories work within a fundamental structure of reflection: the movement by which any finite system, when it reflects upon itself with sufficient complexity, necessarily transcends its own apparent boundaries.
+
+
+
+The method at the heart of the proof, now called diagonalization, is interesting. At a very abstract level, diagonalization can be understood in terms of the hermeneutic circle, as a process that defines a whole as a named object with various parts. The whole is reified as an object with properties. Those parts exceed the limits of the whole-as-reified. This demonstrates that the original whole is not-a-thing with properties, but more like a self-negating subject. 
+
+Another way to say this is that a totality is recollected (temporally compressed in the first negation), which reifies (turns into an object) the totality. The totality is determinately negated a second time (temporally decompressed) by recollecting the totality along its `diagonal' seam in a way that creates a new part that demonstrably should have been within the reified totality but cannot have been explicit in the reified totality. This demonstrates that the reified totality is incomplete -- the whole exceeds the 'sum' of its parts. The reified totality is sublated -- preserved, negated, and elevated -- into the rich totality that was always already there, but was thinned out by the reification.
+
+This mirrors human identity claims, especially those made from ascriptive categories as if people were finite objects with properties, like a Sneetch with a Star, a \textit{m}an, or a \textit{w}oman. An infinite number of ascriptive categories would never be sufficient to capture the richness of an individual's identity.
+
+
+
+To build this argument, I first trace the historical roots of this pattern from the ancient proofs of Hippasus of Metapontum (circa 500 BCE) and Euclid of Miletus (circa 300 BCE). I then turn to a deeper analysis of Cantor's diagonal proof, which serves as the central example. From there, I will explore the connection Haim Gaifman articulates between Cantor and G\"odel's incompleteness theorems. Throughout, the journey of the Sneetches will serve as a guiding star, there to remind myself not to get overly excited by formal symbolic reasoning and that the true significance of these proofs (for me) is not their technical expression but how they serve the existential need to be recognized as both good (finite, coherent, rational) and \textit{in}finite. Recognized as artistic expressions that point to the event of language. Their theme is freedom.  
+
+This abstract characterization of diagonalization is helpful for teaching existentially significant ideas about subjects who can encounter and transcend their own limitations, but is limited by its status as an abstraction. Like the Sneetches who ultimately transcend their obsession with stars, mathematical systems that achieve sufficient self-reflective complexity necessarily generate elements that cannot be contained within their original boundaries. The reified totality -- whether a finite list of primes, a presumed complete enumeration of real numbers, or rigid social categories based on arbitrary distinguishing marks -- becomes the site of its own dialectical negation. What emerges is not chaos, but a richer, more inclusive understanding that preserves what was valuable in the original system while opening new possibilities for development. 
+
+There is a danger with how I am articulating the role of diagonalization in the history of mathematics. I am not claiming that the entire history can be subsumed under one method, which Wittgenstein would not even call a method \parencite*{wittgenstein1956remarks}. I am themetizing. The Sneetches share a theme with dialectical reasoning, as does Cantor, as does Euclid. \textit{The Monster at the End of This Book} and Oedipus share a theme of self-misrecognition. Each instance of either dialectical or diagonal reasoning, like each painting of the missing referent in the Fabiola project, is quite different. However, there are compelling reasons to consider the big shifts, where mathematics recollects itself, discovers its expressive inadequacy, then admits some qualitatively different form of quantity, as instances of dialectical movement. There is not a form for Hegel's dialectic besides the movement in form. Every dialectical movement is different. Subsuming all those instances to a particular form of diagonalization, which is always syntactically bound, would be a profound misrecognition.
+
+\section{Mathematics in the Historical-Hermeneutic Interest}
+I now reconstruct other proofs from the history of mathematics to draw a thematic unity between sublation and diagonalization. In a stronger sense, diagonalization can be understood as a syntactic species in the genus of sublation, where the genus is the dialectical movement of thought. One expressive goal of this bridge is to nestle the history of mathematics within the sound of time metaphor. 
+
+Modern interpretations of `mathematics' are quite distant from Pythagoras' original sense of the term which was `something learned' -- or, given Pythagoras' institution of the norms of proof `something demonstrated.' As I write, it feels like swimming upstream to discuss the political, theological, and existential problems that form parts of the whole context in which proofs are articulated. Those ideas are in the `standards,' and so they are treated as `fluff.' Knowing Pythagoras only by his contribution of a famous proof makes it feel like an external injection to consider how his Cultish ideology led to a murder (of Hippasus, supposedly) and millenia of out-of-tune musical instruments. According to Aristotle, the Cult of Pythagoras claimed that ``that the whole heaven, as has been said, is (rational) numbers'' \parencite*[17]{Aristotle:2017:Metaphysics}. That meant, among other things, that instruments should be tuned to perfect ratios, but physics does not comply with this directive. So, people played instruments that were never quite in tune. 
+
+The `murder' was of poor Hippasus of Metapontum (circa 500 BCE), who was allegedly drowned by the Cult for revealing the existence of irrational numbers. The form of that argument mirrors diagonalization at a very abstract level: Hippasus began with the unit square and the virtuous formula $a^2+b^2=c^2$: $1^2+1^2 = 1+1=2=c^2\rightarrow c=\sqrt{2}$. By the Cult's own doctrinal formula, $\sqrt{2}$ must exist. By their ideology: If everything (a totality) is a rational number (a reified totality; an object with the property of being rational), then $\sqrt{2}$ is a rational number. That means $\sqrt{2}=\frac{a}{b}$, with $a$ and $b$ written in lowest terms. 
+
+Squaring both sides yields $2=\frac{a^2}{b^2}$, which means $a^2=2b^2$, so $a^2$ is even. If $a^2$ is even, $a$ must have 2 as a factor -- the factor of 2 in $a^2$ has to come from somewhere. Let $a=2k$. Then, $a^2=4k^2 = 2b^2$, which (by dividing by 2) means that $2k^2=b^2$. So, $b$ must also have a factor of 2, since $b^2$ is even. But that means that both $a$ and $b$ are even, which contradicts the idea that $\frac{a}{b}$ was simplified, since they share a common factor of 2. Therefore, $\sqrt{2}$ escapes the reified totality: it is not a rational number, and yet it must exist \textit{by the Pythagoreans' own virtue} that $a^2+b^2=c^2$.
+
+Euclid did not necessarily face an ideological distortion that said there must only be a finite number of primes, but there was a prohibition on articulating infinity as \textit{actual}. How can we, who are bound by birth and death, come to know about the ending of that which is without end? His proof is often reconstructed as if Euclid were comfortable with \textit{actual} infinity, but his text, \textit{The Elements}, does not stray from the doctrine that said only \textit{potential} infinity can be discussed. 
+
+Rather than writing an indeterminate list of primes $p_1, p_2, \ldots, p_k$, where it is the $\ldots$ that give rise to offense, he began with a list of just \textit{three} primes: $p, q, r$. That list is the reified totality of primes. The partial negation is not a logical negation, but a determinate negation. He multiplies the elements of the reified totality together and then adds one: $(p\,q\,r)+1$. We investigate two cases: either the new element is a prime number, in which case the original list of three primes was incomplete, or it must have a factor who was not on the original list. Justifying what Franzen \parencite*{franzen_inexhaustibility_2004} calls a \textit{constuctive dilemma} -- the two-case either/or, where both paths lead to contradiction -- relies on earlier results from \textit{The Elements}, so I leave its full demonstration to the supplementary materials. The point is that the reified totality is incomplete, so there must be more than three primes. The demonstration easily extends to any finite list of primes, but Euclid never claims that there \textit{are} an infinite number of primes. He only claims that any finite list of primes is incomplete. The set of prime numbers (a new reified totality) is not-finite, but not yet infinite. This is how we should understand the idea of a \textit{potential} infinity, which is the only kind of infinity that Euclid was comfortable discussing.
+
+We can also examine its historical consequents like G\"odel's incompleteness theorem, which demonstrated that a mathematical system that is sophisticated enough to consistently add, multiply, and negate is necessarily incomplete. There, a paradox is encoded into an arithmetic statement that cannot be proved but must be true, demonstrating the fundamental limit of demonstration (proof). I will save the details of G\"odel's proof until after the technical details of Cantor's proof have been discussed. 
+
+
+
+
+I will first discuss the ontological and epistemological problems of infinity that Cantor's proof is concerned with. I will then embed Cantor's technical proof within commentary that foregrounds the historical-hermenteutic interest. That will point towards historical (mathematical) consequents at the techical layer, which I will reconstruct through Haim Gaifman's commentary on Cantor and G\"odel's proof. I will then backfill the historical antecedents by reconstructing Euclid's proof. I will then provide general comments on the knowledge-constitutive interests. I will then return to the Sneetches to get at the existential layers implicit in Cantor's proof. This will set us up for the next chapter, where I will define an anaphoric relationship between zero and \textit{in}finity. 
+
+\section{Ontotheology in the Historical-Hermeneutic Layer}
+
+To engage with Cantor's proof authentically, we must consider mathematical history as a relation between ontology and theology, for in his time these domains were intimately connected. The central problem with infinity concerned theological prohibitions: What kinds of infinities could humans legitimately discuss without trespassing on divine prerogatives? Historically, the ominous term \textit{ontotheology} refers to a style of thought (critiqued by Heidegger) where people treated God as the highest being and the foundation of all ontology. In this context, when I claim that mathematical history is a relation between ontology and theology, I'm trying to express that debates about infinity were entangled with religious ideas -- certain kinds of infinity were seen as God's domain. In plainer terms: Ontotheology is asking ``who controls infinity -- humans or God?'' and ``is infinity something real or just in God's mind?'' 
+
+The question ``Who controls infinity?'' carried the weight of potential heresy. Euclid never claimed there were an infinite number of primes, presumably in part because such a claim was verboten at the time. The norms in force were to limit discussions of the infinite solely to the non-finite of \textit{potential infinity}. Like Moses who fled Egypt but could never cross into the promised land, the Greeks and later Scholastics were willing to flee the confines of the finite, but never enter into the realm of \textit{actual} infinity. 
+
+I first learned Cantor's proof when I studied mathematics at Earlham College. I had entertained mathematics as a possible pursuit, after considering it my nemesis for many years, based on my encounter with van Gelder's work. However, what sustained my interest in the subject was the way that calculus allowed me to manipulate and control mathematical infinity. I had been puzzled by Zeno's paradoxes, like Achilles and the Tortoise, where Achilles never catches the Tortoise who has a headstart. Zeno reasoned that Achilles never catches the Tortoise because he must first make up half the distance between them, then half of that half etc.: intuitively, taking an infinite number of steps ($\frac{1}{2}+\frac{1}{4}+\frac{1}{8}\ldots$) ought to take an infinite amount of time and traverse an infinite distance. Hence the paradox. 
+
+What puzzled Zeno, and myself, was transformed from a mystery into something that could be solved with the rules for manipulating infinite series and the epsilon-delta rules for limits. In a way, the utility of calculus began the actualization of the potential infinity that Euclid had only hinted at. We name that series that so puzzled Zeno as a converging geometric series, where the sum of the infinite terms happens to be 1. But doctrine did not have to evolve in response to these inventions. The epsilon-delta definition of limit, which I do not want to discuss in detail, essentially finitizes the infinite. We approach some limit with arbitrarily small but algebraically defined steps, and determine whether the output of the function approaches a corresponding value. Rather than approaching the `bullseye' of the infinite directly, we draw a circle around it and say ``if I can get within this circle, I have reached the limit,'' and then allowing the circle to shrink to an arbitrarily small, but still algebraically defined, size. We approach the infinite, but never reach it. 
+
+From this historical perspective, we also encounter the paired ontological and epistemological problem that drove Cantor's work: What \textit{is} infinity, and how can we finite beings, bound by birth and death, come to know it? Cantor was a platonist, which means he was committed to the existence of mathematical objects. Quantities are measureable properties of objects, and he was particularly concerned with the measurable properties of the object named `infinity.' How might one measure `endlessness?' To answer such a question, we must be dealing with an actual object, not an indeterminate boundlessness. It further required developing a new method for measuring infinite quantities -- what Cantor called their \textit{magnitude} (M\"{a}chtigkeit) -- though `thickness,' `width', or `power' are also suitable translations \parencite{meyer_cantors_nodate}.
+
+This historical context reveals why Cantor's proof was not merely a technical achievement but a conceptual revolution. By developing rigorous methods for comparing infinite sets, Cantor broke through millennia of theological and philosophical prohibitions against discussing actual infinity. Like the Sneetches who learn that their artificial distinctions are ultimately meaningless, the mathematical community had to abandon its rigid separation between the finite realm of human knowledge and the infinite realm reserved for divine understanding. Cantor's diagonalization becomes the McBean machine of mathematics: it forces us through a process of confusion and apparent chaos that ultimately leads to a more sophisticated understanding of mathematical reality. The proof demonstrates that not all infinities are equal, that there are hierarchies of infinite magnitude, and that these hierarchies can be rigorously investigated rather than simply accepted as mysterious divine prerogatives.
+
+Within the proof, Cantor's notion of magnitude transforms into the modern notion of \textit{cardinality}. Two sets have the same cardinality if we can establish a \textit{bijection} between them. A bijections is a one-to-one correspondence where each element in the first set pairs with exactly one element in the second set, and vice versa. His diagonal proof demonstrates that it is impossible to establish such a bijection between the natural numbers $\mathbb{N}$ and something he initially calls a \textit{manifold} ($\mathcal{M}$; not my stepdaughter) but later transforms into the the real numbers between 0 and 1, proving that some infinities are strictly larger than others.
+
+As we analyze the concept of infinity more carefully, we discover overlapping and sometimes conflicting definitions, each relating to specific theological debates that have their own historical development. This history brings us closer to the original meaning of ``ontology.'' Ontology, as the logic of being, was not limited to discussing \cancel{God}'s creation but also included questions about God's existence. \footnote{I am not going to put scare quotes everytime \cancel{God} or `his' gender is mentioned in this text, but I probably should. Pretend it is all scary and so appropriately `scared.'}
+
+The ancient Greeks, like Euclid, were ideologically limited to considering only \textit{potential infinity}. Euclid's proof that there are an ``infinite'' number of primes is usually taught using the anachronism I just troubled. He did \textit{not} prove there is an infinite number of primes. He proved that, given a list of any three primes, there must be a fourth. Any finite list of primes is \textit{incomplete}. Our modern sensibilities which are so used to naming the infinite as a number depend, to a large extent, on Cantor's work. Cantor's proof, on the other hand, transposes Euclid's argument about prime numbers into a proof about the uncountability of the real numbers.
+
+\subsubsection*{Technical preliminaries}
+Rather than stars, Cantor uses two \textit{mutually exclusive} symbols, $m$ and $w$. Like McBean's Machine, these characters `flip' in a partial negation. However, the rotational symmetry of these characters is usually ignored, and the `flip' is treated as an externality. But the symmetry licenses an immanent, embodied, and second-person interpretation of the `flipping' function. In fact, this interpretation contributes to the concept of the evolution of an act, where the actor reflects on the act by taking a second person position on their act, determining if the act affirmed the impetus to act. 
+
+An interesting result of the proof that Cantor discusses is that these infinite sets or \textit{manifolds} -- later named \textit{transfinite numbers} -- are \textit{well-ordered}. Usually, mutual exclusivity and well-orderedness are asserted as axioms, so we shall have to re-interpret those preliminaries as practices-or-abilities for the proof to cohere with our project. I introduce the \textit{highlander} automaton for those purposes in figure (\ref{fig:highlander}). In general, we assume that ideas like ``mutual exclusivity'' are understood as part of the assumption of communicative competency that we can call intersubjectivity. Then, if we find that the assumption does not bear out, we can explain the concept as an action. I use the highlander\footnote{From the movie \textit{Highlander}, where the protagonist learns `there can be only one.'} automaton to represent well-orderedness, where $X$ is a property like $A>B$, $Y$ is a property like $A<B$, and $Z$ is a property like $A=C$. This is the first in what will be a series of gestures to blend Lakoff and N{\'{u}}{\~{n}}ez's \parencite*{Lakoff2000} work on embodied mathematics with Robert Brandom's analytic pragmatism \parencite*{Brandom2008}. A bit of rewiring could transform the highlander automaton into McBean's machine. 
+
+\textbf{Figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=\linewidth]{/Users/tio/Documents/GitHub/September_UMEDCA/images/HighlanderAlgorithm.pdf}
+\caption{\textit{Note. }The highlander automaton is a way to think about mutually exclusive properties, $X, Y$, and $Z$ a \textit{doing} -- a practice-or-ability. I use it to represent well-orderedness, where $X$ is a property like $A>B$, $Y$ is a property like $A<B$, and $Z$ is a property like $A=C$. ``$\neg$'' means material incompatibility, not formal negation, in this case.}
+\label{fig:highlander}
+\end{center}
+\end{figure}
+
+We must also discuss one of the coolest inventions ascribed to Cantor, which is his idea for how to measure unendlessness. I find it so interesting because it is the method by which Cantor actualized infinity. Two sets are said to have the same cardinality if a \textit{bijection} can be articulated that puts the elements from the domain set into one-to-one correspondence with the elements of the range set. Basically, we pair each element in the domain to each element in the range so that everybody has a buddy. For example, the set of natural numbers $\mathbb{N} = \{1, 2, 3, \ldots\}$ has the same cardinality as the set of even natural numbers $\mathbb{E} = \{2, 4, 6, \ldots\}$ because we can construct a bijection $f: \mathbb{N} \to \mathbb{E}$ such that $f(n) = 2n$. By mapping one infinite collection to another, each becomes determinate and so, in some sense, actual. Figure \ref{fig:surjection} illustrates this concept, along with the more general concept of a \textit{surjection}, which is a function that maps every element of the domain to at least one element of the range, but not necessarily one-to-one. With \textit{injections}, the mapping works over each element of the domain to at most one element of the range, but some elements of the range may not be in the `image' of the function. 
+
+\textbf{Figure}
+
+\begin{figure}[h]
+    \includegraphics[width=\linewidth]{/Users/tio/Documents/GitHub/September_UMEDCA/images/surjection.pdf}
+    \caption{\textit{Note. }Note. A bijection is a function that maps every element of one set to exactly one element of another set. Establishing such a bijection demonstrates that two sets have the same cardinality, or measure.}
+    \label{fig:surjection}
+\end{figure}
+
+At the technical level, the second half of Cantor's proof (which I will only summarize) articulates that it is impossible to articulate a bijection between the natural numbers $\mathbb{N}$ and the real numbers between 0 and 1, which we will denote as $\mathbb{R}_{[0,1)}$. This means that the cardinality of $\mathbb{R}_{[0,1)}$ is strictly larger than that of $\mathbb{N}$. Note the modal articulation above. We must prove that all functions from $\mathbb{N}$ to $\mathbb{R}_{[0,1)}$ are not surjective, which means that there is at least one element in $\mathbb{R}_{[0,1)}$ that is not the image of any element in $\mathbb{N}$.
+
+\section{Cantor's Original Formulation}
+Cantor's original proof \parencite{cantor1891ueber} begins with a statement of a prior result that demonstrated that there are infinite sets that do not have the same measure as the set of natural numbers. He then claims that the prior work can be accomplished more easily and with more generality. Picking up from that statement (and relying on translations provided by Meyer \parencite*{meyer_cantors_nodate} among others), we have:
+\begin{quote}
+If $m$ and $w$ are any two mutually exclusive characters, then we consider a collection $\mathcal{M}$ of elements, $E = (x_1, x_2, \ldots, x_\nu, \ldots)$, which depend on an infinite number of coordinates, $x_1, x_2, \ldots, x_\nu, \ldots$, where each of these coordinates is either $m$ or $w$.
+
+$\mathcal{M}$ is the totality of all elements $E$.
+\end{quote}
+
+
+\textit{Note}: This establishes $\mathcal{M}$ as the complete set of all possible infinite sequences built from two characters. This is a totality. In the next turn, Cantor will give some examples of what sorts of things $\mathcal{M}$ collects. This reifies the totality as an object with an infinite number of properties (elements). 
+
+
+\begin{quote}
+The elements of $\mathcal{M}$ include, for example, the following three:
+\begin{eqnarray}
+E^{\text{I}} = (m, m, m, m, \ldots)\\
+E^{\text{II}} = (w, w, w, w, \ldots)\\
+E^{\text{III}} = (m, w, m, w, \ldots)
+\end{eqnarray}
+
+I now claim that such a manifold $\mathcal{M}$ does not have the magnitude of the series $1, 2, 3, \ldots, \nu, \ldots$. 
+\end{quote}
+
+\textit{Note}: By ``magnitude,'' Cantor means cardinality or size. Meyer \parencite*{meyer_cantors_nodate} notes that the term `cardinality' for infinite sets was not in current usage at the time Cantor wrote this paper; he uses the term M\"{a}chtigkeit', which can have corresponding English meanings such as ``thickness,'' ``width,'' ``mightiness,'' ``potency,'' etc. Attention to this detail situates the proof in the context of Cantor's own development. 
+
+
+\begin{quote}
+This follows from the following sentence:
+
+If $E_1, E_2, \ldots, E_\nu, \ldots$ are any simply infinite series of elements of the manifold $\mathcal{M}$, then there is always an element $E_0$ of $\mathcal{M}$ that does not agree with any $E_\nu$.
+\end{quote}
+
+\textit{Note}: This is the heart of Cantor's claim. It is a non-existence claim phrased as a positive construction: no complete list can exist, because for any given list, we can construct an element that is missing from it. Euclid's proof serves as a historical antecedent of this type of claim. 
+
+
+\begin{quote}
+To prove it:
+
+\begin{eqnarray}
+E_1 = (a_{1,1}, a_{1,2}, \ldots, a_{1,\nu}, \ldots)\\
+E_2 = (a_{2,1}, a_{2,2}, \ldots, a_{2,\nu}, \ldots)\\
+\ldots\\
+E_\mu = (a_{\mu,1}, a_{\mu,2}, \ldots, a_{\mu,\nu}, \ldots)\\
+\end{eqnarray}
+\end{quote}
+
+\textit{Note}: Here, Cantor establishes the conditions for what mathematicians call self-reference. On the left, we have an ascending `list' of natural numbers serving as \textit{indexes} or names for the sequences on the right. These names are themselves reifications of the totalities on the right. The domain of natural numbers ($\mu \in \{1, 2, 3, \ldots\}$) is being used to provide names for ``higher type entities'' \parencite[2]{Gaifman2005} -- the infinite sequences $E$. The index $\mu$ becomes the name for the sequence $E_\mu$. Each sequence $E_\mu$ can be seen as a function that maps a position $\nu$ to a character $a_{\mu,\nu}$: those characters are our $m$'s and $w$'s. 
+
+Those sequences never end, and so we end up with a set of identity claims that is infinite in two dimensions (vertical and horizontal). In essence, an infinite horizontal sequence is compressed into a single natural number, which serves as its \textit{name}. But then the names are allowed to serve as the domain of a function that maps them back to either an $m$ or a $w$. 
+
+
+
+
+
+
+
+
+
+
+\begin{quote}
+Here the $a_{\mu,\nu}$ are in a certain way $m$ or $w$. Let us now define a series $b_1, b_2, \ldots, b_\nu, \ldots$ such that $b_\nu$ is also only equal to $m$ or $w$ and different from $a_{\nu,\nu}$.
+
+So if $a_{\nu,\nu} = m$, then $b_\nu = w$, and if $a_{\nu,\nu} = w$, then $b_\nu = m$.
+\end{quote}
+
+\textit{Note}: This is the diagonal construction. The diagonal element $a_{\nu,\nu}$ represents the self-application where we evaluate the function named `$\nu$' at the position `$\nu$'. Cantor then defines the new sequence, which he will call $E_0$ in the next turn, by `flipping' each of these self-referential elements: $b_\nu = \neg a_{\nu,\nu}$ (where $\neg$ represents the operation that changes $m$ to $w$ and vice versa).
+
+I strive to articulate critical mathematics as both `negation complete' and `intersubjectivity-first.' Here, those claims meet each other in syntactic form. Cantor's `flip' ($m\rightarrow w; w \rightarrow m$) threatens to introduce an externality. For this proof to have much significance outside the realm of formal mathematics, the `flipping' operation must be understood as drawing out what was always already \textit{within}. I found it pleasant that Cantor named his missing element $E_0$ for just this reason. The `flipping' function must be taken as immanent within the system, not external.  
+
+Within the allegory of the Sneetches, the `flipping' function is like McBean's star-off and star-on machine. But it can also be understood (as a pictorial representation) as what Mead calls `taking the attitude of the other.' It's really more like taking the other's `perspective' as it is a much `thinner' than Mead's notion of attitude. Still, when I imagine the other as sitting across the table from me as I construct a diagonal sequence, the element I obtain by `flipping,' which threatens to introduce an arbitrary externality to reason, does not need to be `constructed' or imposed on the system as an externality. The new element is simply `there' in the other person's visual field as their South-East to North-West diagonal. Figure \ref{fig:cantor_second_person} illustrates this idea. 
+
+\textbf{Figure}
+
+\begin{figure}[h]
+    \includegraphics[width=\linewidth]{/Users/tio/Documents/GitHub/September_UMEDCA/images/Second_Person_Cantor.pdf}
+    \caption{\textit{Note. }Attempting to take a second-person position on Cantor's matrix produces an inversion. I'm not sure if this `counts' as immanent necessity. Surely not without more development.}
+    \label{fig:cantor_second_person}
+\end{figure}
+
+I have not read any reconstructions of Cantor's proof that foreground the second-person perspective in the way I have described. Usually, the numerals 0 and 1 serve as the mutually exclusive symbols. But one thing that is really nice about this symmetry is that it corresponds to the experience of creativity. When I `create' something -- a new song, a poem, or a simple speech act that was not written on a script (a projective inference) -- I usually find out later that someone else had already written it down, and I usually find their articulation to be better than mine! Self-flaggelation aside, the idea that what is new was always already `there,' written in `the Literature,' God's book of mathematical formula, or copyrighted by another songwriter, resonates strongly with the experience of creativity. The new element is not an externality, but rather a recollection and sublation of what was always already there, waiting to be recollected.
+
+This has further resonances with the experience of action, including thought-acts like judgment. Note that the sequence of $b$'s is constructed by recollecting the (purported) totality of the manifold, $\mathcal{M}$, taking an element from each of the sequences, $E$. The whole structure is recalled, and then the negation is applied to each element in the diagonal. This is analogous to how judgment works for inferentialists. The whole of the judging subject's inferentially stuctured commitments is recollected \textit{every} time we judge. More generally, all actions have a self-monitoring component. We take a second-person position on our actions (and transactions) to determine whether or not the act's end satisfied the impetus. With the creation of the diagonal element, the second-person position on that created element just is that created element, allowing for the actor to recognize that creative act as satisfying the original impetus to act. There is no imposed externality; the list is second-person complete. 
+
+We must be wary about notions like `creativity,' here. For one, the machines we could use to formalize Cantor's argument are entirely deterministic. In no way should we subsume an instance of mechanized mathematics under the (contentless) rubric of the \textit{in}finite. 
+
+So if $a_{\nu,\nu} = m$, then $b_\nu = w$, and if $a_{\nu,\nu} = w$, then $b_\nu = m$
+
+\begin{quote}
+If we then consider the element:
+\[
+E_0 = (b_1, b_2, b_3, \ldots)
+\]
+of $\mathcal{M}$, we can easily see that the equation:
+\[
+E_0 = E_\mu
+\]
+for no positive integer value of $\mu$ can be satisfied, otherwise for the given $\mu$ and for all integer values of $\nu$:
+\[
+b_\nu = a_{\mu,\nu},
+\]
+so also in particular,
+\[
+b_\mu = a_{\mu,\mu},
+\]
+which would be excluded by the definition of $b_\nu$.
+\end{quote}
+
+\textit{Note}: Cantor proves that $E_0$ cannot equal any sequence in our enumeration. If $E_0$ were equal to the $\mu$-th sequence $E_\mu$, then all corresponding elements would match. But this creates a contradiction at position $\mu$, where $b_\mu$ was specifically defined to differ from $a_{\mu,\mu}$. 
+
+\begin{quote}
+From this theorem follows immediately that the totality of all elements of $\mathcal{M}$ cannot be put into the series form:
+\[
+E_1, E_2, \ldots, E_\nu, \ldots,
+\]
+otherwise, we would be faced with the contradiction that a thing $E_0$ is both an element of $\mathcal{M}$ as well as not being an element of $\mathcal{M}$.
+\end{quote}
+
+This completes the first half of Cantor's proof, establishing the fundamental logical structure of diagonalization. The proof reveals how any attempt to create a complete enumeration contains within itself the resources for its own transcendence. The diagonal construction -- the systematic ``flipping'' of self-referential elements -- generates a new entity $E_0$ that must belong to the manifold $\mathcal{M}$ by definition, yet cannot appear on any purportedly complete list of its elements. This is the mathematical expression of the same dialectical process we see in the Sneetches story: the systematic application of McBean's transformative machine eventually produces a situation that transcends the original problem entirely. Just as the Sneetches' encounter with the limits of their star-based distinctions leads them to recognize ``that Sneetches are Sneetches,'' Cantor's systematic exploration of the limits of enumeration leads to the recognition that some infinities necessarily exceed others. The contradiction that drives the proof is not a flaw to be avoided but the engine of mathematical progress.
+
+\section{The Second Feature Cantor's Proof}
+
+I will not return to the original text for the second half of the proof, instead I will summarize it from within the empirical-analytic interest. First, note that the modal structure of Cantor's proof is crucial: he proves that \textit{all} functions from $\mathbb{N}$ to $\mathbb{R}_{[0,1)}$ are not surjective, meaning that there is always at least one element in $\mathbb{R}_{[0,1)}$ that cannot be captured by any enumeration based on the natural numbers. I draw the general structure in figure \ref{fig:cantor_proof_structure}.
+
+\textbf{Figure}
+
+\begin{figure}[h]
+\includegraphics[width=0.8\textwidth]{/Users/tio/Documents/GitHub/September_UMEDCA/images/Ch6_Bridge_cantor_proof_structure.pdf}
+
+\caption{\textit{Note. }The structure of Cantor's diagonalization argument. For any assumed complete enumeration, the diagonal construction produces an element that necessarily escapes that enumeration.}
+\label{fig:cantor_proof_structure}
+\end{figure}
+
+The proof begins by considering a function $f$ that maps natural numbers to real numbers in the interval [0,1). This function is assumed to be a complete enumeration of all such real numbers. The real numbers are represented in their decimal form, emphasizing the digits that are relevant for the diagonal argument.
+
+The diagonal construction then creates a new real number $r^*$ by taking the $n$-th digit $c_n$ to be different from the $n$-th digit of the $n$-th number in the list. This ensures that $r^*$ differs from every number in the list at least in the $n$-th decimal place.
+
+The crux of the proof lies in the contradiction that arises: $r^*$ cannot be equal to any $r_n$ in the assumed complete list, for it was constructed to differ from each $r_n$ in the $n$-th digit. Thus, the initial assumption that $f$ is a complete enumeration of all real numbers in [0,1) must be false.
+
+Cantor goes on in the short paper to offer an argument for why the power set of a set (the set that contains all subsets of a set) is always larger than the set itself. I will use this corollary to describe the \textit{phenomenology of confusion} later, but for now let us leave Cantor's original proof and turn to Haim Gaifman's reconstruction of Cantor's proof, which will lead to G\"odel's theorems. 
+
+\section{Gaifman's Reconstruction: The Pattern of Diagonalization}
+
+Before delving into the technical details of Gaifman's \parencite*{Gaifman2005} reconstruction, let us first draw a connection between the formal pattern of diagonalization and the rhythms of embodied rationality, our groundless philosophical ground. The mathematical procedure of diagonalization is not just a formal manipulation of symbols when it is understood as the same limit of thought I articulated in Axiom 0 for the embodied modal logic. Recall that the axiom introduced the concept that erases its own name:
+
+$\delta(\ulcorner \delta \urcorner) = $\cancel{$\ulcorner \delta \urcorner$}
+
+This axiom describes an ontological limit: any attempt to represent the enabling conditions of a system results in a self-negation. In attempting to capture the ground, the ground withdraws from the representation. 
+
+Gaifman's use of Quine corners ($\ulcorner \urcorner$) -- and my adoption of the same symbols to write Axiom 0 -- provides the formal machinery to denote the \textit{name} of a mathematical expression. The act of naming allows a formal system to talk about its components, expressively actualizing the enabling conditions for self-reference. Diagonalization then forces the paradox of identity into formal explicitness. 
+
+Let me preview those components before diving into the details:
+
+\begin{itemize}
+    \item The act of naming ($\ulcorner \urcorner$): In formal systems that are arithmetic, the natural number $n$ is used the \textit{name} a higher-order entity, like a function, predicate, or property (function, for simplicity). For Cantor's diagonalization, Gaifman will rename the infinite set $E_n$ as $X_n$. This is formally equivalent to placing the concept inside the Quine corners. This reifies one of the system's expressions so that it can be referred to as an object. 
+    \item Self-application (The Fixed Point): Once the function is named, the function can take on its own name as its argument. It is like naming a function, $f$, with the numeral 2, and then evaluating $f(2)$: if $f(2)=2$ then $2$ is a fixed point of $f$. For Cantor, we consider $X_n(n)$. In ``The Exercise'', $\delta(\ulcorner \delta \urcorner)$ is the moment when awareness gives into the temptation to become aware of awareness. Formally, it is when the system turns on itself. 
+    
+    In this book, I try to represent this moment in the current Bridge. Bridges, in my understanding of song-writing, recollect what came before in a new form that sublates the first part of the song. The last sections of the song then have more energy as the themes from the first sections of the song are sublated through the bridge. 
+    \item Negation and erasure ($\neg$): The diagonal construction `creates' a new entity, $X^{\*}$, which is defined by negating the fixed point: $X^{*}(n) \iff \neg X_n(n)$. When the mathematician asks if this new entity $X^{\*}$ has a name, $k$, within the system, they find a contradiction $X_{k}(k)\iff \neg X_{k}(k)$: it does have a name, only if it does not have a name. This is the moment of self-negation, where the system reflects on itself and produces a new element that is not part of the original enumeration. In classical examples of diagonalization, this proves that $X^{*}$ cannot have a name in the system.
+
+    In ``The Exercise,'' this is where the frustration in meditation may arise. While I meditate \textit{for} some grand experience, I find I cannot retain the discipline necessary for the experience to arise. When I do not succumb to the temptation, the experience intensifies. When I reflect on those frustrations through texts, dialog, and practice with others, the moment of frustration blossoms into the concept that erases its own name, \cancel{$\ulcorner \delta \urcorner$}. In the embodied modality, there need be no surprise, aching curiousity, or frustration about why the name of the concept that erases its own name is absent: it has been erased! But that is a bit too simple. For me, recognizing the non-presence of the awareness of awareness -- the groundlessness of ground -- is not akin to the scar of contradiction that arises when attempting to name the unnameable and that leads some to mathematical despair. Instead, it is like recognizing the absolute alterity of the Other -- the Thou who divades the \{I\}. 
+\end{itemize}
+
+The logical contradiction that arises in Cantor and G\"odel's proofs is a projective flattening of the ontological impossibility of a thought fully capturing its ground. Let us now turn to Gaifman's reconstruction to harden this formal shadow of ``The Exercise.'' By making the shadow more determinate, we might find a more intense satisfaction when we let it go. 
+
+
+
+\subsection*{The Naming Framework}
+
+Rather than beginning with Cantor's infinite sequences of characters, Gaifman starts with a sequence of sets of natural numbers: $X_1, X_2, \ldots, X_n, \ldots$. This creates a naming system where each infinite set in the sequence is identified by a natural number. The natural numbers \textit{index} these infinite sets, so we can take an $n$ in $\mathbb{N}$ to represent or name the set $X_n$.
+
+For some sets, the set's name is an element of the set itself. For example, let $X_3= \{1, 3, 5, \ldots\}$: here, $3 \in X_3$. Gaifman introduces functional notation, using $X(y)$ as shorthand for $y\in X$, so we can express $3 \in X_3$ as $X_3(3)$. This notational shift -- treating sets as functions -- may seem disorienting, but it reveals the crucial self-referential structure underlying diagonalization.
+
+\subsection*{The Diagonal Construction}
+
+From this naming framework, Gaifman considers all the $n$'s that happen to be in the sets they name -- all of the $n$'s that are what we might call \textbf{fixed points} of their functions $X_n$. Fixed points are those $x$ such that $f(x)=x$\label{def:fixed_points}. They are sites where mathematical self-reference meets with the larger critical-emancipatory interest in \textit{identity claims}, as the sentence $f(x)=x$ amounts to $x$ saying of itself ``I have property $f$.'' He then defines the complement: $X^{*}$, the set of all $n$'s that are \textit{not} in the sets they name. Formally:
+
+\begin{equation}
+X^{*}(n) \iff \neg X_n(n)
+\end{equation}
+
+This $X^{*}$ captures exactly those natural numbers that, when used as names, fail to name sets that contain them. Since our naming system is supposed to be complete -- covering all possible sets -- the set $X^{*}$ must itself have a name. If our list were truly exhaustive, there should be some $k$ such that $X^{*}=X_k$.
+
+\subsection*{The Contradiction}
+
+But here we encounter the fundamental incompatibility that drives all diagonalization arguments. If $X^{*}=X_k$ for some $k$, then by our definition:
+
+\begin{equation}
+    X_k(n) \iff \neg X_n(n)
+\end{equation}
+
+This should hold for every $n$. But when we substitute $k$ for $n$, we get:
+
+\begin{equation}
+    X_k(k) \iff \neg X_k(k)
+\end{equation}
+
+This is a direct contradiction: $X_k(k)$ is true if and only if it is false. The set $X^{*}$ cannot appear in any complete enumeration, because its existence contradicts the assumption of completeness.
+
+\subsection*{The General Pattern}
+
+Gaifman identifies the conditions under which diagonalization becomes applicable: ``In general, diagonalization can be used whenever there is a given domain of objects and a correlation that correlates with these objects higher type entities that are defined over this same domain. A higher type entity is a predicate (or property), or function'' \parencite*[2]{Gaifman2005}. Gaifman then summarizes the method of diagonalization as a ``sandwich'' of two fixed points with a negation between them:
+\begin{itemize}
+\item We claim a fixed point (e.g., the totality is the reification of the totality; an infinite sequence is its name; ``I am a star-bellied sneetch'').
+\item We `negate' the fixed point (e.g., we flip the characters, put the Sneetches through McBean's machine, or take the second-person perspective on the diagonal).
+\item We establish a new fixed point that reflects this negation (e.g., the original totality with its reified boundaries broken, the new element that escaped the enumeration, the Sneetches who could care less about their stars)
+\end{itemize}
+
+This pattern -- where a domain of ``names'' attempts to enumerate a collection of ``higher type entities'' defined over that same domain -- creates the possibility for self-reference. And where self-reference meets negation, diagonalization generates incompleteness.
+
+
+
+\subsection*{From Cantor to G\"odel}
+
+The power of Gaifman's framework becomes clear when we see how it illuminates the connection between Cantor's proof and G\"odel's incompleteness theorems. While G\"odel himself acknowledges the connection, nothing about G\"odel's proof is easy to understand. While I have tried to read G\"odel's original works a few times, I made very little headway. I rely solely on reconstructions for my interpretations \parencite{franzen2005godel,nagel2012godel}. 
+
+In G\"odel's case, the ``names'' are mathematical encodings of the formal elements of a mathematical system. The system he encoded was Alfred North Whitehead and Bertrand Russell's \textit{Principia Mathematica}, a formal system that attempted to capture all of mathematics in a single logical framework. The ``higher type entities'' are the claims \textit{about} those formal elements. 
+
+The encoding scheme is called \textbf{arithmetization}\label{def:arithmetization}. It assigns a unique prime number to each symbol that is legible by the the automata that can generate formal statements. Using results proved by Euclid (specifically the fundamental theorem of arithmetic), it is possible to encode statements without ambiguity, as each natural number has only one prime factorization. I think a non-example may be more helpful than actually writing G\"odel's scheme. 
+
+I recently went to an Avett Brothers concert, and while waiting for the band to start, I noticed that they used Roman Numerals as part of the light show. Specifically, they used the set XXXIII LXVIII CV, which in base ten would be 33, 68, and 105. These numbers do appear to say much, but they are actually a simple cipher. Let $a=1, b=2, \ldots, z=26$, noting that $T = 20, H=8,$ and $E = 5$. Then we can decode the Roman Numerals as follows: $33=20+8+5=THE$, $68=1+22+5+20+20= AVETT$, and $105=2+18+15+20+8+5+18+19=BROTHERS$. The reason this is a non-example is that there are many different ways to sum digits to 33. Specifically, the letter $K=11$, so $33= KKK$. They obviously didn't intend to microagress the audience: there are a \textit{lot} of ways to partition a number like 33 into a sum of natural numbers between 1 and 26. They could also have spelled $BEDBEDBED$. 
+
+What G\"odel does instead is to assign a unique prime number to each symbol in the formal system. If the Avett Brothers had instead used $a=2, b=3, \ldots e=11,\ldots h=19,\ldots$, and multiplied instead of adding, $THE=71\times 19\times 11 = 14839$. Such a scheme would at least be unambiguous about which characters were intended when decoding the code. G\"odel's scheme does a bit more than this, however. He also encodes the position of each symbol alongside the symbol itself. In our toy example, $THE$ would be $2^{71}\times 3^{19}\times 5^{11}$. This number cannot be rendered in Roman Numerals, which lack a base system. 
+
+As I waited for the band to start, I was captured by their lightshow in part because over the last few months, I have been working on using just such a scheme to encode some of the automatons from the supplementary materials discussed in the Hermeneutic Calculator. Specifically, I had been working on using an additive scheme to encode an automaton's states and transitions. The fact that the Avett Brothers could have been saying ``BEDBEDBED'' or ``THE'' creates a systematic ambiguity, so that sometimes a state in a machine and a transition between states can be confused. From that confusion, I was able to construct a machine that exhibited very basic `emergent' behavior. I don't think my machine should show up in any textbooks for automata theory, as I hardcoded a `reflective' offramp into the `emergent' behavior. Essentially, when the machine entered a state whose name was also the numerical value of the input that allowed the machine to transition to that state, it would take the offramp and fall into an endless loop of repeated addition, as a proto-multiplicative operation. I was imagining how, when teaching a mathematical concept, the specific numbers used in the example impact how students understand the concept. 
+
+Two things interested me while I was working on that idea. First, I just lied: it was not I who coded anything, but a Large Language Model. That machines are now capable of writing code that can be used to construct other machines that, when suitably prompted into a `reflective' state, can bootstrap themselves from one kind of operation to another, is a fascinating development. Second, the idea that some numbers are more `natural' than others for teaching a concept is not new, but I think math educators have not systematically explored the implications of this idea. Consider how many medicines utilize proteins that were discovered by accident. Since the mid-2000s, the problem of protein-folding has been well-studied, but now machines have the capability to assist in this research, systematically exploring the space of possible proteins and their interactions. With AI, it seems possible to systematically explore the space of possible numbers to construct exemplary examples for teaching mathematical concepts as well as to build in `reflective' examples that can be used to bootstrap students' understandings into new operations. The next `phase' of math education research may include some such computationally intensive explorations. While I am happily tilting at such windmills, setting the stage for such explorations in the next part of the book, we must be cautious about the implications of such explorations. Is the project of math education about efficiently bootstrapping new operations from old ones and choosing numbers that make it easy to understand concepts? Or is it about coming to identify with the norms of mathematical practice? Or is it fundamentally about the development of mathematical self-consciousness, where numbers are the friendly others that help us understand ourselves? Or something else entirely? Perhaps it is just a mode of control, where sticking kids in front of a screen and seeing who is willing to comply serves as a test for who is invited to a `good' life and who must be externally controlled (think of the school to prison pipeline)?
+
+In any case, what these astronomically large numbers, called G\"odel numbers, do is allow us to encode the entire formal system as well as statements about the formal system into the arithmetic system. One of G\"odel's theorems proves it is always possible to create a fixed point using this naming scheme. The kinds of identity claims that arise from this encoding are varied. G\"odel encoded a statement that says of itself, ``I am not provable in this system.'' This is a self-referential statement that cannot be proven within the system, as it would lead to a contradiction. But \textit{any} predicate can be encoded in this way, even those that are `outside' the system, so long as the formal system has sufficient expressive power (alphabet, practices-or-abilities, vocabularies). 
+
+This is one reason why I began this book with a discussion of \textit{divaded} concepts, those that are both inside and outside of each other. G\"odel's work shows that the hard boundaries between inside and outside can be broken or blurred, allowing for the emergence of new mathematical identities that are not strictly contained within the original system. 
+
+
+The ambition of the \textit{Principia} was to provide a solid foundation for all of mathematics, similar to current quests in the physical sciences to articulate a `theory of everything.' I share this ambition in building structures with `tall, thin walls' -- though I differentiate my project from Russel and Whiteheads by noting that mine is built to break. I have the privilege of knowing something about G\"odel's work that demonstrates the impossibility of such a foundation. G\"odel's first incompleteness theorem states that any sufficiently complex formal system that can express basic arithmetic is incomplete: there are true statements about the natural numbers that cannot be proven within the system. The second incompleteness theorem goes further, showing that such a system cannot prove its own consistency. Accomplishing these theorems requires a careful construction of self-referential statements, which G\"odel achieved through a sophisticated use of diagonalization. The results are called fixed points, like the green band in figure \ref{fig:mobius} that is mapped onto itself while the other colors are mapped elsewhere. 
+
+These theorems sunk the ambitions of the \textit{Principia} and similar foundational projects. G\"odel's work showed that no matter how sophisticated a formal system is, it will always contain statements that are true but unprovable within that system. This is a profound limitation, revealing that the quest for a complete and consistent foundation for all of mathematics is ultimately futile. The connection between G\"odel's work and Derrida's deconstruction that Priest \parencite*{Priest:2002aa} highlights is striking, as the resources of the \textit{Principia} were used to construct the statements that undermine the foundational ambitions of the project. When we find ourselves saying exactly the opposite of what we intended, we are in the realm of deconstruction. G\"odel's diagonalization is a mathematical expression of this deconstructive logic.
+
+However, the project of mathematics did not end with G\"odel's theorems. It is easy to misread the theorems as suggesting that mathematics' incompleteness is a flaw. But to a math educator, incompleteness is a feature, not a bug. I encounter students in the slipstream between being and nothing, as they become what they already were but lacked the words to say. \textit{Becoming}, in a deeply embodied sense, has no syntactic closure and so it may find some analog in \textit{in}completeness. ``The simple truth; there's more to say.''
+
+\section{The More Machine -- Returning to the Sound of Time}\label{sec:more_machine}
+Mechanizing \textit{becoming} to express a mathematical story of mathematical development requires, first, an acknowledgment of the quixotic nature of such a project. Whereas McBean packs up his machine and leaves at the end of the story, the kind of mathematical machines I have played with cannot break themselves down, nor build themselves up. More sophisticated machines, like Large Language Models, can build the machines I describe and then act as a You towards those machines, forming proto-self-consciousnesses, but as I write, even those sophisticated machines cannot yet sublate themselves. I must limit my ambition to examining the discarded shells to interpolate the pupating life cycle of the machine.
+
+Some are working on G\"odel machines, which are designed to explore the implications of G\"odel's incompleteness theorems through computational means. These machines can generate statements that reflect the self-referential structure of G\"odel's diagonalization, allowing for a deeper understanding of the limitations and possibilities of formal systems. I am going to go a simpler route and focus on a Cantorian machine. 
+
+I call the machine the \textit{More Machine} because it generates more, more, and more. Unplugging from the incessant creation of new thoughts is, from the Exercise in chapter 1, a desirable skill to learn. Meditative consciousness as a detached (non-present) awareness is difficult to learn. It takes a certain kind of discipline, suggested by the title of this book. 
+
+The More Machine accepts inputs of $m$s and $w$s. It outputs a sequence of $m$s and $w$s that is guaranteed to be different from any sequence it has previously output, by `flipping' each element of the diagonal of the matrix that represents the history of its outputs. Originally, I used 0s and 1s and had users input either a 0 or a 1 to lead to the next state. But when I returned to Cantor's original proof, I realized that the $m$s and $w$s would allow me to attach a Zeeman Catastrophe Machine (discussed in section \ref{def:zeeman}) to the More Machine. Zeeman's machine is not totally deterministic. When the rubberbands are pulled straight down, the machine enters into a super-positioned state, where the wheel could rotate left or right. With the right orientation and tension, the machine could output either $m$ or $w$. Figure \ref{fig:superimposed_zeeman_cantor_more} shows how the historical record might evolve as the wheel of the Zeeman machine moves. 
+
+
+\textbf{Figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=\textwidth]{/Users/tio/Documents/GitHub/September_UMEDCA/images/superimposed_zeeman_cantor_more.pdf}
+\caption{\textit{Note. }The More Machine reads states from the orientation of the wheel of a Zeeman Catastrophe Machine.}
+\label{fig:superimposed_zeeman_cantor_more}
+\end{center}
+\end{figure}
+
+When meditating, I try to hold the tension of determinate negation and the determinate negation of determinate negation in one significant symbol: ``\cancel{no}.'' Think of $m$ and $w$ as representing the two poles of a binary opposition, perhaps in assertoric forms like $m$:``Tio is Rudy's son'' and $w$:``Rudy is Tio's dad'' or paradoxical unities like $m$ is the truth value of ``This sentence is false'' and $w$ is the negation of that truth value. The superpositioning of those two states invites no further reflection. Nothing needs to be said in response to such a statement as it holds the essence of \textit{neti-neti}, where the \{I\} is neither this nor that. Whereas Brandom considers instrumental action to be a kind of exit ticket from language, I am trying to get at the idea of \textit{non}-action as an exit ticket from the incessant yammering of the More Machine. 
+
+Potential energy builds in the machine as meditative consciousness moves along the central axis between the wheel and the fixed end of the rubber band. But then the superpositioned state collapses and the machine outputs either $m$ or $w$ which can never hold the entirety of the \{I\}. The machine then recollects its entire history in a specifically diagonal way. Judgments accrue and the machine jolts on in its incessant yammering. 
+
+The More Machine brings non-deterministic elements to the deterministic structure of Cantor's diagonalization. For a long time, I claimed that I was a `creative person.' Burdened by the weight of that claim, I found myself flitting about, trying to find something new (and clever) to say or do. I cannot just unplug from the desire to create, but I can learn to hold the the right sort of tensions to arrest the movement of the machine. 
+
+Part of what allows me to cease my own yammering, at least for a moment, is the realization that I do not need to read or write anything new. Whatever I might write, in that desire for recognition, has, in some sense, always already been written. The Other has my `new' thought in their perceptual field. What I mean to explicate in this metaphor is \textit{I-thou} completeness. In the spirit of Martin Buber, I can say that everything I might write or say is already there, written in some Book of Love or Life that I cannot read myself until I have written it. But I do not need to write it down, as it is already there, waiting to be recollected.
+
+The More Machine thus has two significances. It invites contemplation into the paradox of creativity/invention -- that which is `new' must be recognized, which means it must be built from what came before and so cannot actually be `new.' It also invites contemplation into the discipline of meditation. Like McBean's machine that forces the Sneetches through cycles of distinction and confusion, the More Machine generates endless novelty while simultaneously demonstrating that this novelty was always already implicit in the system's recursive structure. The machine embodies the tension between the compulsive need to create something new and the meditative recognition that everything that may feel necessary to explicate is already explicit for the Other. One way to unhook from the More Machine is through the non-act of \textit{listening}. Listening is a necessary if challenging skill to develop in teachers. I find it so challenging to listen that I felt compelled to demonstrate a syntactic form of I-Thou completeness, hollow though that syntax is compared to the Grand Experience. This connects directly to the embodied rationality explored in Chapter 1: the discipline required to recognize the null representation ($\emptyset$) as the enabling condition of thought. The More Machine's superpositioned state -- where the wheel could rotate either way -- corresponds to the moment in meditation where the subject neither affirms nor denies but paradoxically holds the tension of not giving into the temptation to think while staying in a state of total relaxation. When this tension collapses into a specific output ($m$ or $w$), the machine recollects its entire history diagonally, creating new sequences that transcend any finite enumeration while remaining grounded in the system's logical structure.
+
+\subsection*{Critical-Emancipatory Implications}
+
+Beyond its technical significance, Gaifman's reconstruction reveals something profound about the nature of mathematical and logical systems. The pattern of diagonalization suggests that every attempt at complete systematization contains within itself the seeds of its own transcendence. 
+
+I read this connection to Mead's distinction between the ``me'' and the \{I\}. The ``me'' represents our systematized, nameable aspects -- what can be captured in social roles, descriptions, and formal characterizations. The \{I\}, however, is the spontaneous, creative response that cannot be predicted or completely systematized. Diagonalization, in this reading, is the mathematical expression of the \{I\}'s capacity to transcend any finite systematization of the ``me.'' Again, that does not mean that the systematicity of the synthetic unity of apperception is unimportant. Authenticity, trustworthiness, and truth are not stupid. They just cannot be fully actualized. Held lightly, as `tall thin walls that are built to break,' the limitation of systematicity points to larger truths about the nature of human being. Hegel captures this notion in the movement from \textit{Verstand} (understanding) to \textit{Vernunft} (reason), where the former is a finite, systematic understanding of the world, while the latter is an infinite, self-reflective reason that transcends any finite system. In that movement, themes of confession, forgiveness, and reconciliation emerge into explicitness.  
+
+This is why I understand G\"odel's work as providing a Hegelian response to Cantor's dismissal of Hegel's \textit{in}finite. Through the process of \textit{arithmetization}, G\"odel showed how any ``outside'' critique of a mathematical system can be brought ``inside'' the system as a mathematical statement. All external criticisms can become immanent to the system itself -- but precisely this capacity for self-critique ensures that no system can achieve final closure. 
+
+The diagonal argument thus relates structures of self-consciousness and freedom to mathematical becoming. I hope math educators are tuned into this potential: what is called incompleteness is a mathematical form of mathematical becoming. It shows how any finite system, when it achieves sufficient complexity to refer to itself, can potentially transcend its own boundaries.
+
+\section{Semantic Sense of Zero}
+
+Cantor's ambition was a kind of technical control over some types of infinity. His proof expressively \textit{actualizes} the \textit{potential} infinity in ways that Euclid would have eschewed, while leaving the `Absolute infinity' to \cancel{God}. Cantor was \textit{not} a Hegelian, and so we can contrast his proof with the sense of the \textit{in}finite that I am after in critical mathematics. 
+
+In each of these cases, the old totality was disrupted but not discarded. Once the irrational numbers were admitted, fractions did not suddenly become otiose. Instead, what was taken as a `real' number expanded to include the irrational numbers. That `reality' was then recollected and reified as a new totality, which Cantor's proof neatly distends into what were later called the \textit{transfinite numbers}. That `reality' was then recollected and further formalized until it met with inclusion paradoxes like Russell's Paradox, which had to do with the set of all sets that do not contain themselves. That totality was then recollected and reified as the \textit{axiomatic set theory} of Zermelo-Fraenkel, which is the standard foundation for much of modern mathematics. But even that totality was not complete, as its claim to completeness was undermined by G\``odel's incompleteness theorem. There, a paradox is encoded into an arithmetic statement that cannot be proved but must be true, demonstrating the fundamental limit of demonstration (proof). But G\''odel was limited by the rigor of axiomatic set theory, which abjures contradictions. Later, the \textit{dialethism} of Graham Priest \parencite*{Priest:2014aa} demonstrated that contradictions can be entertained in a controlled manner. Paraconsistent logics also allow for contradictions to be entertained.
+
+
+
+
+
+
+
+\section{Auto-ethnographic Emptiness}
+When I was a sophomore at Earlham College, I still wanted to do a double major in physics and mathematics. I took a seminar class for math majors where von Neumann ordinals were introduced. Ordinals generally denote a position or rank in a sequence, usually recollected with terms like ``first,'' ``second,'' and so on. Crows apparently can use ordinal-like reasoning, and the ability presumably extends to other animals. 
+
+But von Neumann ordinals are a specific type of ordinal number that are defined in set theory. They are constructed such that each ordinal is the set of all smaller ordinals. This construction allows for a rigorous definition of ordinal numbers, which can be used to represent well-ordered sets.
+
+The usual mapping is as followed: 
+\[
+0 := \emptyset,\quad
+1 := \{\emptyset\},\quad
+2 := \{\emptyset, \{\emptyset\}\},\quad
+3 := \{\emptyset, \{\emptyset\}, \{\emptyset, \{\emptyset\}\}\},\;\dots
+\]
+
+In class, I remember being fascinated by the idea of structured nothingness. That the answer to questions that had dogged me long before I started teaching math -- ``what is 2?'' -- could be expressed in terms of the void ($\emptyset$) was exciting. The long-held antipathy towards mathematics as a governing structure meant to crush all incompentents, myself included, had faded as I learned calculus the year before, but it vanished into nothingness when I began to get the sense that the whole project of mathematics could be interpreted through nothingness. 
+
+That evening, I went to a favorite spot on the outskirts of campus. A huge sycamore grew beside a pond, with its branches hung low over the water. I settled into a crook and stared up at the stars. Everywhere I `looked' -- every spatial coordinate that I thought -- I found the empty set. Nothingness was like a conduit for thought -- I could think to anywhere when nothingness was everywhere. 
+
+I mentioned physics because I even thought through the stars, thinking of how every bit of condensed energy of our enmattered universe was porous in the wave-form of that energy. I was so overcome by the vastness of nothingness that I began to form an identity claim with mathematics. Math could offer the spiritual insights I craved in ways that fiddling with the instruments in physics labs could never do. I dropped that major and decided to only puruse mathematics. 
+
+I would reconstruct the experience differently now that I have more Hegelian vocabulary. I would say the negative is both conduit and content of thought. While I melted into the not-a-thingness of the empty set, the sense of the empty set given in the seminar was not yet inclusive to myself as a thinking subject. At the time, I was still bound to the I-it mode of reconstruction. 
+
+This is the last in the sequence of senses I wish to establish for $\emptyset$. Since it has gone through so many transformations, I return to the modality of embodiment to name it the concept that erases its own name. I cannot speak its significance. I cannot represent it. 
+
+This personal encounter with von Neumann ordinals reveals the existential dimension of mathematical emptiness that connects to the larger themes of this book. The experience of lying beneath the sycamore, finding nothingness everywhere as both ``conduit and content of thought,'' demonstrates how mathematical concepts can serve as vehicles for the kind of embodied rationality explored in Chapter 1. The empty set was not merely an abstract logical construction but a portal to direct experience of the groundlessness that enables all representation. This transforms the technical notion of $\emptyset$ into something approaching what I called the null representation -- the concept that erases its own name because it points to the enabling conditions of conceptualization itself. The shift from physics to mathematics that this experience catalyzed was not simply a change of academic majors but a recognition that mathematical thinking offers access to the spiritual insights that emerge when finite systems turn back on themselves with sufficient self-awareness. Like the Sneetches who eventually ``forgot about stars,'' the embrace of mathematical nothingness opens possibilities for transcending the subject-object dualisms that constrain conventional approaches to both mathematics and meditation.
+
+\section{Critical Nullity}
+
+Now, with critical mathematics, I must repeat the semantic and pragmatic histories of nothingness, as well as the auto-ethnographic senses developed so far. The goal is to situate the project of critical mathematics as just another turn of the mathematical wheel, though hopefully one without all the same distortions. I loosen Pythagoras' grip on defining mathematics solely as what can be demonstrated to that which is expressively actualized under the norms of systematicity, which are identical with the three synthetic task responsibilities. Errors, misrecognitions, and contradictions are admitted as the material incompatibilities. I will justify how these are contained within the system of critical mathematics in section \ref{def:admitting_incoherence}.  
+
+Now that the history of mathematics has been reconstructed, we can compress that history into a significant symbol, $\emptyset$, which will then be recollected as 0. In this way, the dialectical development of mathematical infinity will be nothing, and thereby serve as symbol whose significance is the unrepresentable \textit{becoming}. Hegel's \textit{in}finity is neither the potential infinity that bound the Greeks, nor the actual infinity that Cantor's work expresses, nor is it the Absolute infinity that Cantor kept firmly outside the realm of creation. Instead of unending linear progress, Hegel (metaphorically speaking) imagines a circle, whose beginning is its end as both beginnings and endings are suffused through the repetitive process. Rather than attempting to say something new in the domain of mathematics by transcending Cantor's Absolute with some Super-Absolute, and then a Super-Duper-Absolute, we circle back to identify the \textit{in}finite with $\emptyset$. As my step-daughter said while learning to ride her bike in a circle, ``to move in a circle, go diagonally.'' Thus, the axial role that Cantor's proof plays in this iteration of critical mathematics is tantamount to an axiom of becoming. In the last half of the book, which concerns a pragmatist mathematical system built on incompatibility, the history of mathematical becoming is built in as a symbol -- a nothingness; a not-a-thingness -- that is the becoming of the \{I\}.
+
+I represent this process in Figure \ref{fig:history_of_math}. The history of mathematics is represented as a kind of hypersphere, falling through our three formal-pragmatic worlds/knowledge constitutive interests. Each sphere is a limit of knowledge, oftentimes ideologically enforced. The sound of time metaphor is continued, treating diagonalization as a wholistic recollection that results in a transcendence of boundaries on what is possible to express. Hegel's absolute \textit{in}finity suffuses each layer. The ring of arrows pointing in represents the next turn, where these movements are temporally compressed into $\emptyset$, which is then recollected as the numeral 0. The mechanics of that recollection will be established in the next chapter. 
+
+
+\textbf{Figure}
+
+\begin{figure}[h]
+    \includegraphics{/Users/tio/Documents/GitHub/September_UMEDCA/images/history_of_math.pdf}
+    \caption{\textit{Note. }The history of mathematics can be reconstructed as a series of limits of knowledge that are transcended through rational necessity. This picture continues the sound of time metaphor, treating diagonalization as a wholistic recollection that results in a transcendence of boundaries on what is possible to express. Hegel's absolute \textit{in}finity suffuses each layer. The ring of arrows pointing in represents our next move which will temporally compress these movements into $\emptyset$, which is then recollected as 0.}
+    \label{fig:history_of_math}
+\end{figure}
+
+
+One might ask which coordinate system we are using to map the history in figure \ref{fig:history_of_math}. I posit a kind of \textit{vector space of desire/existential need}. Vectors have magnitudes and directions, and so they are an ideal mathematical term to discuss desire (``I want \textit{that} a lot.''). In using early and later Habermas, as if he says the same thing despite an intervening decade to accrue wisdom, is not very good scholarship. By introducing the concept of a vector space, which allows for coordinate transformations, we can imagine a unified `space of reason.'  
+
+In figure \ref{fig:vector_space_of_desire}, I represent this vector space in three dimensions. The vertical dimension is where we might locate subjective validity claims\parencite{Habermas1984,Habermas:1985aa}. The kinds of subjective validity claims that are essential to this work are articulated in the Embodied Modality from section \ref{sec:modal_logic_sound_of_time}. We must trust the authenticity and sincerity of those who make subjective validity claims. They are usually articulated in the first person, and so involve the \{I\}, and the Critical-Emancipatory Knowledge Constitutive Interest \parencite{Habermas:1971aa}.
+
+\textbf{Figure}
+
+\begin{figure}[h]
+    \includegraphics{/Users/tio/Documents/GitHub/September_UMEDCA/images/Vector_Space_of_Desire.pdf}
+    \caption{\textit{Note. }The history of mathematics in figure \ref{fig:history_of_math} draws on a coordinate system that I call the \textit{vector space of desire/existential need}.}
+    \label{fig:vector_space_of_desire}
+\end{figure}
+
+The horizontal dimension is where I locate normative validity claims\parencite{Habermas1984,Habermas:1985aa}, which have to do with rational goodness. These claims are articulated in the deontic-normative modality of commitment and entitlement \parencite{Brandom:2019aa}. They are often expressed in terms of what one ought to do or what is right and just. These claims foreground the existential need to be recognized as a good person.
+
+On the axis pointing toward the viewer, I locate objective validity claims \parencite{Habermas1984,Habermas:1985aa}. These claims utilize the third-person position. They are often expressed in terms of what is true or false, and they foreground the existential need to be recognized as finite, or object-like. When we expunge ourselves of irrational commitments, we become more coherent. As beings-toward-death, in the Heideggerian sense of \textit{dasein}, we find the telos of our existence in the recognition of our finitude.
+
+While I have not done the expressive labor necessary for you to reach the following conclusion for yourself, I hint at it now. When rational goodness, the finitude of experience, and the \textit{in}finite aspects of our becoming are undifferentiated, these three axes are indistinguishable. To borrow a term from Buddhism that Graham Priest \parencite*{Priest:2014aa} uses to great effect, they \textit{interpenetrate}, spreading and passing through each other in fractal-like self-similarity. The bottom portion of figure \ref{fig:vector_space_of_desire} illustrates this interpenetration. 
+
+For a more concrete argument, we could note that the deontic-normative modality is a pragmatic metavocabulary for both the Embodied and Alethic modalities. I cannot \textit{say} anything without being bound by the norms of language. The tensions and frustrations that arise from the limits of language are felt in the body. What is normatively acceptable to say limits what sorts of truth claims I can make, experiments that can be run, and theories of objective reality that can be constructed. 
+
+
+
+
+
+
+\section{The Pragmatic Sense of Zero}
+This manner of compression of history into nullity is only semantic, however, not yet pragmatic. It does not actually communicate the historical development of zero as a mathematical concept, nor does it say much about how zero is used in mathematics. 
+
+For a phylogenetic and pragmatic sense of zero, we must turn to archeological artifacts. This presents a methodological problem (for me), as we cannot ask those who created the objects why they were created. Unlike a rich ethnomathematical account, where the people who are doing mathematics in ways that Western mathematics has not yet subsumed can be asked why they are doing what they are doing, the account I render below is part of the mythos of Western mathematics. In any case, that mythos is essentially that people counted on sticks a long, long time ago. Then they started using numerals, then they developed base systems which necessitated the invention of zero as a place holder. Then, in ancient India (circa 628 CE), the mathematician Brahmagupta developed zero as an independent mathematical object \parencite{ernest_mathematical_2024}. 
+
+To motivate that invention, we must first consider the origins of counting in human history. I argue that tally marks have less expressive power than tally systems, which have less expressive power than base systems. Base systems necessarily include a recursive grouping of quantities, which introduces zero as a necessary character in the alphabet of the system. Once introduced, zero can be used to express the absence of quantity, and then finally as a numerical value in its own right.
+
+There are many places to begin when considering the origin of counting, but I will begin with an ancient tally sticks, some of which date to around 35,000 years ago. Tally systems are the oldest known form of counting, and they were used by various cultures around the world. The Ishango bone, found in the Democratic Republic of Congo, is one of the oldest known tally sticks, dating back to around 20,000 years ago. It has a series of notches carved into it, which are thought to represent a counting system. I am not particularly interested in the details of the Ishango bone, but am interested in what tally systems express, especially as it relates to sublation (and so, to diagonalization). 
+
+Counting is not merely an accumulation of marks -- it is a process that both \textit{preserves} and \textit{transforms} prior determinations. In Hegelian terms, this movement is called \textit{sublation} (Aufhebung), the simultaneous \textit{negation}, \textit{preservation}, and \textit{uplift} of what came before. In mathematical practice, sublation is most clearly seen in the way base systems reorganize quantities into new structural units.
+
+Consider a simple act of tally counting. If one were to count to nine using tally marks, the representation would appear as: 
+\[
+\parallel\parallel\parallel\parallel\parallel\parallel\parallel\parallel\parallel
+\]
+Each tally stands independently as a discrete marker that is the trace of the absent object (or the \{I\} who thinks such objects). They could just go on and on, accumulating indefinitely. This is the ``bad infinity,'' of a monotonous progression  that never turns back on itself to form a self-contained whole. This is the realm of pure \textit{Repulsion}. Each individual tally mark is a ``one.'' It is a unit of account that repels incompatibilities (\textit{this} tally is not \textit{that} tally). It asserts its identity through pure, simple exclusion.  Each tally stands apart from the others, and it is solely through their external relationship that they are determinate. It is a ``multiplicity of ones'' that lacks an internal, unifying principle.
+
+A tally stick with 28 marks could represent days in a lunar cycle. A tally stick with 365 marks could be a way to count days in a year. These sticks can be used repeatedly to count the same things, and so they are not discarded, but they do not track how many times they have been used. They are not \textit{re}used, but simply \textit{used} again. Such sticks represent `the world of ones,' to borrow a phrase from my mentor and colleage, Dr. Amy Hackenberg, whose research on how children learn to count has been foundational for my understanding of counting as a mathematical practice. The whole field of mathematics education, especially the work of the radical constructivists, provides a rich resource for the ontogenetic development of counting. The next part of the book will provide a role for that work in the development of a critical mathematics that is not merely a collection of techniques, but a transformative practice that sublates prior determinations.
+
+At some point in ancient history, people began to group tallies into sets, perhaps to make counting easier or to represent larger quantities. This grouping is a transformation of the original tallies, where the individual marks are no longer isolated but are instead organized into a new structure, a tally system. Many cultures developed their own systems of grouping, but a common method was to group tallies into sets of five or ten. This grouping is a mathematical transformation that preserves the original tallies while also introducing a new structural form. 
+
+When we reach the internal limit of ten tallies, we do not simply add another mark. Instead, we negate the prior determinate negations, grouping the previous nine marks into a new structural unit: 
+
+$\cancel{\parallel\parallel\parallel\parallel\parallel\parallel\parallel\parallel\parallel}$
+
+The previous nine marks are not erased. They are not `gone.' But they are \textit{negated} and \textit{uplifted} into a new structural form. Out of the many ones, whose ``manyness'' is negated, there is now one ten. This is a mathematical instance of sublation as the negation of negation. The prior elements are not discarded. They are reorganized in a higher-level composition. The transition from loose tallies to a single ``ten'' does not merely introduce a new symbol; it alters how the prior marks are understood. They are no longer just traces of the absent object, but are instead absences traced by the canceling mark.  
+
+When we see the group cancel as ``one ten,'' that group becomes the \textit{Also}. It is the medium in which multiple properties now inhere. It is also composed of ten units, also two groups of five, etc. The act of Attraction creates the ``Also'' by providing a unifying subject for these multiple predicates.
+
+This is not yet a full account of the dialectic development of zero, but we have identified its first fixed point: ten tallies are sublated into one ten. We may turn to Hegel's dialectic of the one and the many for insights into the problem \parencite*[132-137]{Hegel:2014aa}. The fundamental problem with tally systems is that they represent number only as what Hegel calls the \textit{Many Ones} in a state of \textit{Repulsion}. Each tally ($\parallel$) \textit{repels} all others in an external relationship as the exclusion of all otherness. This system lacks a concept for the One as a unifying principle, and therefore cannot conceptualize a null element. The absence of a mark is a potential nothing, not the expressively actualized (posited) nothing that Hegel calls the \textit{void} ($\emptyset$). 
+
+
+A base numeral system resolves this by introducing \textit{Attraction} -- the dialectical counter-movement to Repulsion. When a base number of ones is recollected, they are drawn together into a new, single unity. The many become a one. This act of unification, a ``coming-together-with-oneself'' \parencite[139]{Hegel:2014aa}, determines the One and necessitates a symbol for the absence of loose ones. This is the pragmatic role of zero. To think of ``10'' is to think of 1 ten (the result of Attraction) and no loose ones (the posited void). In essence, the base system represents the (Hegelian) infinite turning of the One back into itself, as the One is now a self-determining unity that induces its own otherness through positing the void.  
+
+Does this movement from the many to the one, from loose tallies to a base numeral system, have any connection to Cantorian diagonalization? I think it does, though the connection is loose\footnote{I explored a few ways to articulate a syntactic connection, but found they did not add much.}. The philosophical issue is that the ``world of ones'' without bases has not encountered and sublated the problem of the one and the many. To think of ``10'' is to think of 1 ten and \textit{no} loose ones. 
+
+We imagine the many as a collection of loose ones, each one distinct and separate, supposing that the many is complete. But as soon as the many is reified into such a complete collection, it, too, becomes a one. But it is a one unlike any of the ones from which it was composed. Such a one cannot have been included in the many, as it is a new unity that emerges from the thought of its completeness. It is a unity that is not simply the sum of its parts, but a new entity that transcends the individual ones. This new entity, the number 10, now functions in a dual capacity. It is The One: a unique, determinate concept that repels all others (10 is not 9). Simultaneously, it is The Also: a medium that contains its history and component parts (it is also ten ones, also two fives, or any of the other $2^9$ partitions of ten).
+
+The base-ten system approaches the truly infinite in the Hegelian sense because it contains the principle of its own continuation within itself. It doesn't just add another mark; it has a recursive rule for generating all numbers by turning back on its own structure. This is the movement of Attraction, where the repelled ``ones'' are drawn back into a unifying ``One.'' The true infinity is not a matter of endless addition, which can be represented in tally systems or base systems with equal expressive power, but a self-referential unity that contains its own negation and transcendence.
+
+Out of many, one.\footnote{I write this as a quotation of a national paradox, not a nationalistic sentiment. It is almost impossible to work in academia in the United States as I write without concerning oneself with the political problems of Diversity, Equity, and Inclusion (DEI). Even printing the phrase is probably sufficient for my work to be flagged in some way. I find it remarkable that \textit{E Pluribus Unum}, the promissory seal of the United States printed on our currency which is so fetishized, is so often ignored in the political discourse of the country.} The fact that base systems can express arbitrarily large numbers is unrelated to the true infinity that finds its partial expression as soon as one counts to 10. I say partial because the true infinity is not at all captured in the numberal 10, especially as I have not yet discussed how the \{I\} is involved in the process of counting. With this ending, we are now positioned to begin our account of critical mathematics in earnest. I will next argue argue that numerals are pronouns that recollect the \{I think\} that accompanies all of my representations. That shall get us to a richer sense of zero and other numerals of interest. 
+
+This analysis of counting systems reveals the crucial bridge between the abstract philosophical themes explored in the first half of this book and the concrete mathematical applications to follow. The development from tally marks to base systems embodies the same dialectical structure we have seen throughout: an apparent totality (the ``many ones'' of tally marks) encounters its own limits and generates a new unity (the grouped ``ten'') that both negates and preserves what came before. Zero emerges not as an arbitrary placeholder but as the necessary expression of this dialectical movement -- the ``posited void'' that allows the system to turn back on itself recursively. Just as Cantor's diagonalization reveals how attempted enumerations necessarily generate their own transcendence, the base-ten system demonstrates how mathematical infinity emerges not from endless addition but from the system's capacity for self-referential recursion. The movement from ``many ones'' to ``one ten'' prefigures the more complex self-referential structures that will be explored in Chapter 7, where numerals are reconceptualized as first-person pronouns that recollect the thinking subject who engages with them. The bridge chapter thus completes its transitional function: having traced how mathematical self-reference embodies the same recognition structures examined in Chapters 1-5, we are now prepared to explore how these structures inform the practical development of critical arithmetic in the chapters that follow.
+
+
+\printbibliography[heading=subbibliography]
