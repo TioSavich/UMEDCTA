@@ -2,34 +2,16 @@
 <html>
 <head>
     <title>Multiplication: Strategic Counting</title>
-    <style>
-        body { font-family: sans-serif; line-height: 1.6; }
-        #diagramStratCountSVG { border: 1px solid #d3d3d3; }
-        #outputContainer { margin-top: 10px; max-height: 200px; overflow-y: auto; border: 1px solid #eee; padding: 5px;}
-        fieldset { margin: 15px 0; border: 1px solid #ccc; padding: 10px;}
-        legend { font-weight: bold; }
-        label { margin-right: 5px; }
-        input[type=number] { width: 60px; margin-right: 15px;}
-        button { padding: 5px 10px; font-size: 1em; margin-right: 5px; }
-        /* Number line styles */
-        .number-line-tick { stroke: black; stroke-width: 1; }
-        .number-line-break { stroke: black; stroke-width: 1; } /* Solid for zig-zag */
-        .number-line-label { font-size: 10px; text-anchor: middle; } /* Smaller labels */
-        .jump-arrow { fill: none; stroke-width: 1.5; }
-        .jump-arrow-head { stroke-width: 1.5; }
-        .jump-label { font-size: 10px; text-anchor: middle; } /* Smaller jump labels */
-        .group-landing-point { fill: red; stroke: black; stroke-width: 1; } /* Mark end of each group addition */
-        .number-line-arrow { fill: black; stroke: black;}
-        /* Strategy specific colors for jumps */
-        .strategy-cobo { stroke: blue; fill: none; }
-        .strategy-chunking { stroke: green; fill: none; }
-        .strategy-rmb { stroke: purple; fill: none; }
-        .strategy-rounding { stroke: darkorange; fill: none; }
-         /* ABAO omitted visually for number line simplicity */
-
-    </style>
+    <link rel="stylesheet" href="strategy_styles.css">
+    <!-- MathJax for mathematical notation -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
+
+
+<div class="container">
+    <button class="back-button" onclick="window.location.href='index.html'">← Back to Calculator</button>
 
 <h1>Multiplication Strategies: Strategic Counting (Repeated Addition)</h1>
 
@@ -64,8 +46,7 @@
 <h2>Diagram:</h2>
 <svg id="diagramStratCountSVG" width="900" height="400"></svg> <!-- Wider SVG -->
 
-<!-- New button for viewing PDF documentation -->
-<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+    <button class="pdf-button" class="pdf-button" onclick="openPdfViewer()">📄 Learn More: View Detailed PDF Documentation</button>
 
 <script>
     function openPdfViewer() {
@@ -456,6 +437,8 @@
 
     }); // End of DOMContentLoaded
 </script>
+
+</div>
 
 </body>
 </html>

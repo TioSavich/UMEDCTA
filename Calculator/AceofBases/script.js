@@ -11,6 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const explanationPopup = document.getElementById('explanationPopup');
     const overflowPopup = document.getElementById('overflowPopup');
 
+    // Fix canvas blurriness on high-DPI displays
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+
     let cubes = [];
     let selectedUnits = 0;
     let modulus = 0;
@@ -22,16 +29,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const generateRandomCubes = () => {
         const count = Math.floor(Math.random() * 14) + 2;
+        const displayWidth = rect.width;
+        const displayHeight = rect.height;
         cubes = Array.from({ length: count }, (_, i) => ({
-            x: Math.random() * (canvas.width - 20),
-            y: Math.random() * (canvas.height - 20),
+            x: Math.random() * (displayWidth - 20),
+            y: Math.random() * (displayHeight - 20),
             size: 20,
         }));
         drawCubes();
     };
 
     const drawCubes = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, rect.width, rect.height);
         cubes.forEach(cube => {
             ctx.fillStyle = 'blue';
             ctx.fillRect(cube.x, cube.y, cube.size, cube.size);
@@ -39,9 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const handleMouseDown = (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const startX = e.clientX - rect.left;
-        const startY = e.clientY - rect.top;
+        const canvasRect = canvas.getBoundingClientRect();
+        const startX = e.clientX - canvasRect.left;
+        const startY = e.clientY - canvasRect.top;
 
         draggedCube = cubes.find(cube => (
             startX >= cube.x && startX <= cube.x + cube.size &&
@@ -63,21 +72,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const handleMouseMove = (e) => {
         if (isSelecting) {
-            const rect = canvas.getBoundingClientRect();
-            const currentX = e.clientX - rect.left;
-            const currentY = e.clientY - rect.top;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const canvasRect = canvas.getBoundingClientRect();
+            const currentX = e.clientX - canvasRect.left;
+            const currentY = e.clientY - canvasRect.top;
+            ctx.clearRect(0, 0, rect.width, rect.height);
             drawCubes();
             ctx.strokeStyle = 'red';
+            ctx.lineWidth = 2;
             ctx.strokeRect(selectionStartX, selectionStartY, currentX - selectionStartX, currentY - selectionStartY);
         }
     };
 
     const handleMouseUp = (e) => {
         if (isSelecting) {
-            const rect = canvas.getBoundingClientRect();
-            const endX = e.clientX - rect.left;
-            const endY = e.clientY - rect.top;
+            const canvasRect = canvas.getBoundingClientRect();
+            const endX = e.clientX - canvasRect.left;
+            const endY = e.clientY - canvasRect.top;
             const selected = cubes.filter(cube => (
                 cube.x >= Math.min(selectionStartX, endX) && cube.x <= Math.max(selectionStartX, endX) &&
                 cube.y >= Math.min(selectionStartY, endY) && cube.y <= Math.max(selectionStartY, endY)
@@ -100,9 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const handleTouchStart = (e) => {
         const touch = e.touches[0];
-        const rect = canvas.getBoundingClientRect();
-        const startX = touch.clientX - rect.left;
-        const startY = touch.clientY - rect.top;
+        const canvasRect = canvas.getBoundingClientRect();
+        const startX = touch.clientX - canvasRect.left;
+        const startY = touch.clientY - canvasRect.top;
 
         draggedCube = cubes.find(cube => (
             startX >= cube.x && startX <= cube.x + cube.size &&
@@ -125,28 +135,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const handleTouchMove = (e) => {
         if (isSelecting) {
             const touch = e.touches[0];
-            const rect = canvas.getBoundingClientRect();
-            const currentX = touch.clientX - rect.left;
-            const currentY = touch.clientY - rect.top;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const canvasRect = canvas.getBoundingClientRect();
+            const currentX = touch.clientX - canvasRect.left;
+            const currentY = touch.clientY - canvasRect.top;
+            ctx.clearRect(0, 0, rect.width, rect.height);
             drawCubes();
             ctx.strokeStyle = 'red';
+            ctx.lineWidth = 2;
             ctx.strokeRect(selectionStartX, selectionStartY, currentX - selectionStartX, currentY - selectionStartY);
         } else if (isDragging && draggedCube) {
             const touch = e.touches[0];
-            const rect = canvas.getBoundingClientRect();
-            draggedCube.x = touch.clientX - rect.left - dragOffsetX;
-            draggedCube.y = touch.clientY - rect.top - dragOffsetY;
+            const canvasRect = canvas.getBoundingClientRect();
+            draggedCube.x = touch.clientX - canvasRect.left - dragOffsetX;
+            draggedCube.y = touch.clientY - canvasRect.top - dragOffsetY;
             drawCubes();
         }
     };
 
     const handleTouchEnd = (e) => {
         if (isSelecting) {
-            const rect = canvas.getBoundingClientRect();
+            const canvasRect = canvas.getBoundingClientRect();
             const touch = e.changedTouches[0];
-            const endX = touch.clientX - rect.left;
-            const endY = touch.clientY - rect.top;
+            const endX = touch.clientX - canvasRect.left;
+            const endY = touch.clientY - canvasRect.top;
             const selected = cubes.filter(cube => (
                 cube.x >= Math.min(selectionStartX, endX) && cube.x <= Math.max(selectionStartX, endX) &&
                 cube.y >= Math.min(selectionStartY, endY) && cube.y <= Math.max(selectionStartY, endY)
@@ -169,9 +180,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const handleDrag = (e) => {
         if (isDragging && draggedCube) {
-            const rect = canvas.getBoundingClientRect();
-            draggedCube.x = e.clientX - rect.left - dragOffsetX;
-            draggedCube.y = e.clientY - rect.top - dragOffsetY;
+            const canvasRect = canvas.getBoundingClientRect();
+            draggedCube.x = e.clientX - canvasRect.left - dragOffsetX;
+            draggedCube.y = e.clientY - canvasRect.top - dragOffsetY;
             drawCubes();
         }
     };
@@ -231,7 +242,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const drawBaseComponents = (base, baseComponents) => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const displayWidth = rect.width;
+        const displayHeight = rect.height;
+        ctx.clearRect(0, 0, displayWidth, displayHeight);
         let xOffset = 0;
         let yOffset = 0;
 
@@ -240,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillStyle = 'blue';
             ctx.fillRect(xOffset, yOffset, 20, 20);
             xOffset += 25;
-            if (xOffset > canvas.width - 20) {
+            if (xOffset > displayWidth - 20) {
                 xOffset = 0;
                 yOffset += 25;
             }
@@ -255,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.strokeRect(xOffset + j * 20, yOffset, 20, 20);
             }
             xOffset += 20 * base + 5;
-            if (xOffset > canvas.width - 20 * base) {
+            if (xOffset > displayWidth - 20 * base) {
                 xOffset = 0;
                 yOffset += 25;
             }
@@ -272,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             xOffset += 20 * base + 5;
-            if (xOffset > canvas.width - 20 * base) {
+            if (xOffset > displayWidth - 20 * base) {
                 xOffset = 0;
                 yOffset += 20 * base + 5;
             }
@@ -316,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.stroke();
 
             xOffset += cubeSize + depth + 5;
-            if (xOffset > canvas.width - cubeSize) {
+            if (xOffset > displayWidth - cubeSize) {
                 xOffset = 0;
                 yOffset += cubeSize + depth + 5;
             }
@@ -324,9 +337,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const decomposeCubes = () => {
+        const displayWidth = rect.width;
+        const displayHeight = rect.height;
         cubes.forEach(cube => {
-            cube.x = Math.random() * (canvas.width - 20);
-            cube.y = Math.random() * (canvas.height - 20);
+            cube.x = Math.random() * (displayWidth - 20);
+            cube.y = Math.random() * (displayHeight - 20);
         });
         drawCubes();
         selectedUnits = 0;
@@ -336,9 +351,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const addCube = () => {
+        const displayWidth = rect.width;
+        const displayHeight = rect.height;
         cubes.push({
-            x: Math.random() * (canvas.width - 20),
-            y: Math.random() * (canvas.height - 20),
+            x: Math.random() * (displayWidth - 20),
+            y: Math.random() * (displayHeight - 20),
             size: 20,
         });
         drawCubes();

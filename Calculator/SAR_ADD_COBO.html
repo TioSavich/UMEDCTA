@@ -2,85 +2,29 @@
 <html>
 <head>
     <title>Addition Strategies: Counting On By Bases and Ones (COBO)</title>
-    <style>
-        body {
-            font-family: sans-serif;
-        }
-        #diagramCOBOSVG {
-            border: 1px solid #d3d3d3;
-        }
-        #outputContainer {
-            margin-top: 20px;
-        }
-        .number-line-tick {
-            stroke: black;
-            stroke-width: 1;
-        }
-        .number-line-break {
-            stroke: black;
-            stroke-width: 1;
-            stroke-dasharray: 5 5;
-        }
-        .number-line-label {
-            font-size: 12px;
-            text-anchor: end; /* Change from middle to start for right-alignment */
-        }
-        /* Thinner jump arrows */
-        .jump-arrow {
-            fill: none;
-            stroke: blue;
-            stroke-width: 1; /* thinner stroke */
-        }
-        .jump-arrow-head {
-            fill: blue;
-            stroke: blue;
-        }
-        .jump-label {
-            font-size: 8px; /* Reduced from 12px to 8px */
-            text-anchor: middle;
-            fill: blue;
-        }
-        .tens-jump-label {
-            font-size: 12px;
-            text-anchor: middle;
-            fill: blue;
-        }
-        .stopping-point {
-            fill: red;
-            stroke: black;
-            stroke-width: 1;
-        }
-        /* New extended tick styles */
-        .extended-tick {
-            stroke: black;
-            stroke-width: 1;
-        }
-        .extended-tick-label {
-            font-size: 12px;
-            text-anchor: start;
-            fill: blue;
-        }
-        /* Number line arrowhead */
-        .number-line-arrow {
-            fill: black;
-            stroke: black;
-        }
-    </style>
+    <link rel="stylesheet" href="strategy_styles.css">
+    <!-- MathJax for mathematical notation -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
-<h1>Addition Strategies: Counting On By Bases and Then Ones (COBO)</h1>
+<div class="container">
+    <button class="back-button" onclick="window.location.href='index.html'">← Back to Calculator</button>
 
-<div>
-    <label for="coboAddend1">Addend 1:</label>
-    <input type="number" id="coboAddend1" value="46">
-</div>
-<div>
-    <label for="coboAddend2">Addend 2:</label>
-    <input type="number" id="coboAddend2" value="37">
-</div>
+    <h1>Addition: Counting On By Bases and Ones (COBO)</h1>
 
-<button onclick="runCOBOAutomaton()">Calculate and Visualize</button>
+    <div class="input-section">
+        <div>
+            <label for="coboAddend1">Addend 1:</label>
+            <input type="number" id="coboAddend1" value="46">
+        </div>
+        <div>
+            <label for="coboAddend2">Addend 2:</label>
+            <input type="number" id="coboAddend2" value="37">
+        </div>
+        <button onclick="runCOBOAutomaton()">Calculate and Visualize</button>
+    </div>
 
 <div id="outputContainer">
     <h2>Explanation:</h2>
@@ -353,8 +297,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- New button for viewing PDF documentation -->
-<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+    <button class="pdf-button" onclick="openPdfViewer()">📄 Learn More: View Detailed PDF Documentation</button>
+</div>
 
 <script>
     function openPdfViewer() {

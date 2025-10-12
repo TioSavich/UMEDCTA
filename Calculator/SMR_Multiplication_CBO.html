@@ -2,141 +2,17 @@
 <html>
 <head>
   <title>Multiplication: Conversion to Bases and Ones (CBO - Redistribution)</title>
-  <style>
-    body { 
-      font-family: sans-serif; 
-      margin: 0;
-      padding: 20px;
-    }
-    /* Layout improvements */
-    .page-container {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-    .controls-container {
-      position: sticky;
-      top: 0;
-      background-color: white;
-      padding: 10px 0;
-      border-bottom: 1px solid #ccc;
-      z-index: 100;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      align-items: center;
-    }
-    .input-group {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-    .visualization-container {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    /* Step controls improvements */
-    .step-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-left: auto;
-    }
-    /* Make the diagram more compact */
-    #cboDiagram { 
-      border: 1px solid #d3d3d3; 
-      min-height: 500px; /* Increased from 400px */
-      width: 100%;
-    }
-    /* More spacing between visualization sections */
-    .section-spacer {
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
-    /* Existing styles */
-    .diagram-label { font-size: 14px; display: block; margin-bottom: 10px; font-weight: bold; }
-    .notation-line { margin: 0.2em 0; margin-left: 1em; font-family: monospace; }
-    .notation-line.problem { font-weight: bold; margin-left: 0; }
-    /* Block Styles */
-    .block { stroke: black; stroke-width: 0.5; }
-    .ten-block-bg { stroke: black; stroke-width: 1; }
-    .hundred-block-bg { stroke: black; stroke-width: 1; }
-    .unit-block-inner { stroke: lightgrey; stroke-width: 0.5; }
-    .initial-group-item { fill: teal; } /* Color for items in initial groups */
-    .final-ten { fill: lightgreen; } /* Color for final ten blocks */
-    .final-one { fill: gold; } /* Color for final one blocks */
-    .redistribute-arrow { 
-      fill: none !important;
-      stroke: orange;
-      stroke-width: 1.5;
-    }
-    .redistribute-arrow-head {
-      fill: orange;
-      stroke: orange;
-    }
-    /* Animation controls */
-    .step-button {
-      padding: 8px 15px;
-      background-color: #4a4a4a;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-family: sans-serif;
-    }
-    .step-button:hover {
-      background-color: #666;
-    }
-    .step-button:disabled {
-      background-color: #999;
-      cursor: not-allowed;
-    }
-    .step-indicator {
-      margin: 0 10px;
-      font-family: sans-serif;
-    }
-    .step-explanation {
-      background-color: #f9f9f9;
-      padding: 15px;
-      border-radius: 5px;
-      border: 1px solid #ddd;
-      margin: 10px 0;
-      font-family: sans-serif;
-      text-align: left;
-    }
-    /* Highlighting for current step */
-    .highlight-source {
-      stroke: red;
-      stroke-width: 2px;
-      animation: pulse 1s infinite alternate;
-    }
-    .highlight-target {
-      stroke: blue;
-      stroke-width: 2px;
-      animation: pulse 1s infinite alternate;
-    }
-    @keyframes pulse {
-      from { stroke-opacity: 0.5; }
-      to { stroke-opacity: 1; }
-    }
-    /* For arrows in the current step */
-    .current-step-arrow {
-      stroke: orange;
-      stroke-width: 2.5;
-      fill: none !important;
-    }
-    .current-step-arrow-head {
-      fill: orange;
-      stroke: orange;
-    }
-  </style>
+  <link rel="stylesheet" href="strategy_styles.css">
   <!-- Add MathJax support -->
   <script type="text/javascript" id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
   </script>
 </head>
 <body>
+
+
+<div class="container">
+    <button class="back-button" onclick="window.location.href='index.html'">← Back to Calculator</button>
 
 <div class="page-container">
   <h1>Strategic Multiplicative Reasoning: Conversion to Bases and Ones (CBO)</h1>
@@ -482,8 +358,7 @@
   });
 </script>
 
-<!-- New button for viewing PDF documentation -->
-<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+    <button class="pdf-button" class="pdf-button" onclick="openPdfViewer()">📄 Learn More: View Detailed PDF Documentation</button>
 
 <script>
   function openPdfViewer() {

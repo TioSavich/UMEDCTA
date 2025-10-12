@@ -2,16 +2,15 @@
 <html>
 <head>
     <title>Addition Strategies: Rounding and Adjusting</title>
-    <style>
-        body { font-family: sans-serif; }
-        #diagramRASVG { border: 1px solid #d3d3d3; }
-        #outputContainer { margin-top: 20px; }
-        .diagram-label { font-size: 12px; display: block; margin-bottom: 5px; }
-    </style>
+    <link rel="stylesheet" href="strategy_styles.css">
 </head>
 <body>
 
-    <h1>Addition Strategies: Rounding and Adjusting</h1>
+    
+<div class="container">
+    <button class="back-button" onclick="window.location.href='index.html'">← Back to Calculator</button>
+
+<h1>Addition Strategies: Rounding and Adjusting</h1>
 
     <div>
         <label for="roundAddend1">Addend 1:</label>
@@ -34,8 +33,7 @@
     <h2>Diagram:</h2>
     <svg id="diagramRASVG" width="100%" height="100%" viewBox="0 0 400 700" preserveAspectRatio="xMidYMid meet"></svg>
 
-    <!-- New button for viewing PDF documentation -->
-    <button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+        <button class="pdf-button" class="pdf-button" onclick="openPdfViewer()">📄 Learn More: View Detailed PDF Documentation</button>
 
     <script>
         function openPdfViewer() {
@@ -288,6 +286,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
     </script>
+
+</div>
 
 </body>
 </html>

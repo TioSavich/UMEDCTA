@@ -2,16 +2,18 @@
 <html>
 <head>
     <title>Rearranging to Make Bases (RMB) Addition</title>
-    <style>
-        body { font-family: sans-serif; }
-        #diagramRMBSVG { border: 1px solid #d3d3d3; } /* Style SVG like canvas */
-        #outputContainer { margin-top: 20px; }
-        .diagram-label { font-size: 14px; display: block; margin-bottom: 5px; } /* Improved label styling */
-    </style>
+    <link rel="stylesheet" href="strategy_styles.css">
+    <!-- MathJax for mathematical notation -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
-    <h1>Addition Strategies: Rearranging to Make Bases (RMB)</h1>
+    
+<div class="container">
+    <button class="back-button" onclick="window.location.href='index.html'">← Back to Calculator</button>
+
+<h1>Addition Strategies: Rearranging to Make Bases (RMB)</h1>
 
     <div>
         <label for="addend1">Addend 1:</label>
@@ -413,8 +415,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
     </script>
 
-<!-- New button for viewing PDF documentation -->
-<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+    <button class="pdf-button" class="pdf-button" onclick="openPdfViewer()">📄 Learn More: View Detailed PDF Documentation</button>
 
 <script>
     function openPdfViewer() {
@@ -422,6 +423,8 @@ document.addEventListener('DOMContentLoaded', function() {
         window.open('https://tiosavich.github.io/UMEDCTA/Calculator/SAR_ADD_RMB.pdf', '_blank');
     }
 </script>
+
+</div>
 
 </body>
 </html>

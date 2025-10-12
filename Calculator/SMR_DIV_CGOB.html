@@ -2,35 +2,17 @@
 <html>
 <head>
   <title>Division: Conversion to Groups Other than Bases (CGOB)</title>
-  <style>
-    body { font-family: sans-serif; margin: 20px; }
-    input { margin: 5px; }
-    #divDiagram { border: 1px solid #d3d3d3; width: 100%; min-height: 500px; }
-    #outputContainer { margin-top: 20px; }
-    .diagram-label { font-size: 14px; font-weight: bold; }
-    .notation-line { margin: 0.2em 0; margin-left: 1em; font-family: monospace; }
-    .notation-step { margin-bottom: 0.5em; }
-    .step-controls { margin-top: 10px; }
-    .step-button {
-      padding: 8px 15px;
-      background-color: #4a4a4a;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-    .step-button:disabled {
-      background-color: #999;
-      cursor: not-allowed;
-    }
-  </style>
+  <link rel="stylesheet" href="strategy_styles.css">
   <!-- MathJax support -->
   <script type="text/javascript" id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
   </script>
 </head>
 <body>
+
+
+<div class="container">
+    <button class="back-button" onclick="window.location.href='index.html'">← Back to Calculator</button>
 
 <h1>Division: Conversion to Groups Other than Bases (CGOB) - Step Animation</h1>
 
@@ -288,8 +270,7 @@
   runCGOBDivAutomaton();
 </script>
 
-<!-- New button for viewing PDF documentation -->
-<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+    <button class="pdf-button" class="pdf-button" onclick="openPdfViewer()">📄 Learn More: View Detailed PDF Documentation</button>
 
 <script>
     function openPdfViewer() {

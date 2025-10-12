@@ -2,26 +2,16 @@
 <html>
 <head>
     <title>Division: Inverse of Distributive Property</title>
-    <style>
-        body { font-family: sans-serif; }
-        #invDistDiagram { border: 1px solid #d3d3d3; width: 100%; }
-        #outputContainer { margin-top: 20px; }
-        .diagram-label { font-size: 14px; display: block; margin-bottom: 5px; font-weight: bold;}
-        .notation-line { margin: 0.2em 0; margin-left: 1em; font-family: monospace;}
-        .notation-line.problem { font-weight: bold; margin-left: 0;}
-        .notation-step { margin-bottom: 0.5em; }
-        /* SVG Styles */
-        .total-bar { fill: lightblue; stroke: black; stroke-width: 1; }
-        .multiple-segment { stroke: black; stroke-width: 1; }
-        .segment-label { font-size: 12px; text-anchor: middle; }
-        .factor-label { font-size: 10px; text-anchor: middle; fill: #555; }
-        .remainder-segment { fill: lightcoral; stroke: black; stroke-width: 1; }
-        .quotient-calc { font-size: 14px; font-weight: bold; }
-        .stopping-point { fill: red; }
-        .number-line-label { font-size: 10px; fill: #333; }
-    </style>
+    <link rel="stylesheet" href="strategy_styles.css">
+    <!-- MathJax for mathematical notation -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
+
+
+<div class="container">
+    <button class="back-button" onclick="window.location.href='index.html'">← Back to Calculator</button>
 
 <h1>Strategic Multiplicative Reasoning: Division - Inverse of Distributive Property</h1>
 
@@ -218,8 +208,7 @@
     }); // End DOMContentLoaded
 </script>
 
-<!-- New button for viewing PDF documentation -->
-<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+    <button class="pdf-button" class="pdf-button" onclick="openPdfViewer()">📄 Learn More: View Detailed PDF Documentation</button>
 
 <script>
     function openPdfViewer() {
@@ -227,6 +216,8 @@
         window.open('./SMR_DIV_Inverse_of_Distributive_Reasoning.pdf', '_blank');
     }
 </script>
+
+</div>
 
 </body>
 </html>

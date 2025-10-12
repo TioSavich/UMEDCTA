@@ -2,51 +2,16 @@
 <html>
 <head>
     <title>Division: Strategic Trials</title>
-    <style>
-        body { font-family: sans-serif; }
-        .container { max-width: 800px; margin: 10px auto; padding: 10px;}
-        .control-section, .trials-section, .result-section {
-             margin-bottom: 20px; padding: 10px; border: 1px solid #eee;
-             background-color: #f9f9f9; border-radius: 5px;
-        }
-        label { margin-right: 5px;}
-        input[type=number] { width: 60px; margin-right: 15px;}
-        button { padding: 5px 10px; font-size: 1em; margin-right: 5px; }
-        #statusMessage { color: #e65c00; font-weight: bold; margin-left: 15px;}
-
-        .trial-visualization {
-            margin-top: 15px;
-            padding-top: 10px;
-            border-top: 1px dashed #ccc;
-        }
-         .group-container { /* Container for all groups in a trial */
-             display: flex;
-             flex-wrap: wrap; /* Allow groups to wrap */
-             gap: 10px; /* Space between groups */
-             margin-bottom: 5px;
-         }
-        .group-box {
-             display: inline-block; /* Display groups inline */
-             border: 1px solid #999;
-             padding: 4px;
-             background-color: #e8f4ff;
-             min-width: 40px; /* Minimum width */
-             text-align: center; /* Center items */
-         }
-         .group-box-label { font-size: 0.8em; color: #555; margin-bottom: 3px; display: block;}
-        .item-block {
-            display: inline-block; /* Items side-by-side */
-            width: 8px; height: 8px; margin: 1px; /* Smaller items */
-            background-color: #6495ED; /* Cornflower blue */
-            border: 1px solid #444;
-        }
-        .trial-summary { font-weight: bold; margin-top: 5px; }
-        .trial-correct { color: darkgreen; }
-        .trial-incorrect { color: darkred; }
-        #finalResultValue { font-size: 1.5em; font-weight: bold; color: darkgreen; }
-    </style>
+    <link rel="stylesheet" href="strategy_styles.css">
+    <!-- MathJax for mathematical notation -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
+
+<div class="container">
+    <button class="back-button" onclick="window.location.href='index.html'">← Back to Calculator</button>
+
 <div class="container">
 
     <h1>Division Strategies - Strategic Trials</h1>
@@ -226,8 +191,7 @@
     
 </script>
 
-<!-- New button for viewing PDF documentation -->
-<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+    <button class="pdf-button" class="pdf-button" onclick="openPdfViewer()">📄 Learn More: View Detailed PDF Documentation</button>
 
 <script>
     function openPdfViewer() {
@@ -237,5 +201,7 @@
 </script>
 
 </div> <!-- End Container -->
+</div>
+
 </body>
 </html>

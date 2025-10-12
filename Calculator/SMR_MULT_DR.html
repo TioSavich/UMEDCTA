@@ -2,16 +2,18 @@
 <html>
 <head>
     <title>Distributive Reasoning Multiplication</title>
-    <style>
-        body { font-family: sans-serif; }
-        #diagramDRSVG { border: 1px solid #d3d3d3; } /* Style SVG like canvas */
-        #outputContainer { margin-top: 20px; }
-        /* ... (CSS for cubes from previous example if needed) ... */
-    </style>
+    <link rel="stylesheet" href="strategy_styles.css">
+    <!-- MathJax for mathematical notation -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
-    <h1>Multiplication Strategies: Distributive Reasoning</h1>
+    
+<div class="container">
+    <button class="back-button" onclick="window.location.href='index.html'">← Back to Calculator</button>
+
+<h1>Multiplication Strategies: Distributive Reasoning</h1>
 
     <div>
         <label for="drGroups">Number of Groups:</label>
@@ -288,8 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
     </script>
 
-    <!-- New button for viewing PDF documentation -->
-    <button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+        <button class="pdf-button" class="pdf-button" onclick="openPdfViewer()">📄 Learn More: View Detailed PDF Documentation</button>
 
     <script>
         function openPdfViewer() {
@@ -297,6 +298,8 @@ document.addEventListener('DOMContentLoaded', function() {
             window.open('./SMR_MULT_DR.pdf', '_blank');
         }
     </script>
+
+</div>
 
 </body>
 </html>

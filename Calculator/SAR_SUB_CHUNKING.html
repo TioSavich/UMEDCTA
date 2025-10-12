@@ -2,35 +2,16 @@
 <html>
 <head>
     <title>Subtraction Strategies: Chunking</title>
-    <style>
-        body { font-family: sans-serif; }
-        #diagramSubChunkingSVG { border: 1px solid #d3d3d3; }
-        #outputContainer { margin-top: 20px; }
-        fieldset { margin: 15px 0; border: 1px solid #ccc; padding: 10px;}
-        legend { font-weight: bold; }
-        label { margin-right: 10px; }
-        /* Number line styles */
-        .number-line-tick { stroke: black; stroke-width: 1; }
-        .number-line-break { stroke: black; stroke-width: 1; } /* Solid for zig-zag */
-        .number-line-label { font-size: 12px; text-anchor: middle; }
-        .jump-arrow {
-            fill: none; /* <-- Ensure no fill for the arc */
-            stroke-width: 2;
-         }
-        .jump-arrow-head {
-            stroke-width: 2;
-            fill: none; /* <-- Ensure no fill for the arrow head */
-         }
-        .jump-label { font-size: 12px; text-anchor: middle; }
-        .stopping-point { fill: red; stroke: black; stroke-width: 1; }
-        .number-line-arrow { fill: black; stroke: black;}
-        /* Colors for strategies */
-        .strategy-a { stroke: darkred; } /* Backwards by part */
-        .strategy-b { stroke: darkgreen; } /* Forwards */
-        .strategy-c { stroke: darkblue; } /* Backwards to part */
-    </style>
+    <link rel="stylesheet" href="strategy_styles.css">
+    <!-- MathJax for mathematical notation -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
+
+
+<div class="container">
+    <button class="back-button" onclick="window.location.href='index.html'">← Back to Calculator</button>
 
 <h1>Subtraction Strategies: Chunking</h1>
 
@@ -488,8 +469,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- New button for viewing PDF documentation -->
-<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+    <button class="pdf-button" class="pdf-button" onclick="openPdfViewer()">📄 Learn More: View Detailed PDF Documentation</button>
 
 <script>
     function openPdfViewer() {
@@ -497,6 +477,8 @@ document.addEventListener('DOMContentLoaded', function() {
         window.open('https://tiosavich.github.io/UMEDCTA/Calculator/SAR_SUB_CHUNKING.pdf', '_blank');
     }
 </script>
+
+</div>
 
 </body>
 </html>

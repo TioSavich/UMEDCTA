@@ -2,12 +2,7 @@
 <html>
 <head>
 <title>Subtraction Rounding and Adjusting</title>
-<style>
-  body { font-family: sans-serif; }
-  #diagramSVG { border: 1px solid #d3d3d3; } /* Style SVG like canvas */
-  #outputContainer { margin-top: 20px; }
-  .diagram-label { font-size: 14px; }
-</style>
+<link rel="stylesheet" href="strategy_styles.css">
     <script>
         MathJax = {
           tex: {
@@ -24,7 +19,11 @@
 </head>
 <body>
 
-  <h1>Subtraction Strategies: Rounding and Adjusting</h1>
+  
+<div class="container">
+    <button class="back-button" onclick="window.location.href='index.html'">← Back to Calculator</button>
+
+<h1>Subtraction Strategies: Rounding and Adjusting</h1>
 
   <div>
     <label for="roundSubMinuend">Minuend (Whole):</label>
@@ -254,8 +253,7 @@
 });
   </script>
 
-  <!-- New button for viewing PDF documentation -->
-<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+      <button class="pdf-button" class="pdf-button" onclick="openPdfViewer()">📄 Learn More: View Detailed PDF Documentation</button>
 
 <script>
     function openPdfViewer() {
@@ -263,6 +261,8 @@
         window.open('./SAR_SUB_ROUNDING.pdf', '_blank');
     }
 </script>
+
+</div>
 
 </body>
 </html>

@@ -2,65 +2,16 @@
 <html>
 <head>
     <title>Division: Using Commutative Reasoning (Dealing by Rounds)</title>
-    <style>
-        body { font-family: sans-serif; line-height: 1.6; }
-        .container { max-width: 800px; margin: 10px auto; padding: 10px;}
-        .control-section, .pile-section, .groups-section, .result-section {
-             margin-bottom: 20px; padding: 10px; border: 1px solid #eee;
-             background-color: #f9f9f9; border-radius: 5px;
-        }
-        label { margin-right: 5px;}
-        input[type=number] { width: 60px; margin-right: 15px;}
-        button { padding: 5px 10px; font-size: 1em; margin-right: 5px; }
-        #statusMessage { color: #e65c00; font-weight: bold; margin-left: 15px;}
-        .pile-container, .groups-container {
-             min-height: 40px; padding: 5px; background-color: #fff; border: 1px dashed #ccc;
-             margin-top: 5px;
-             /* Allow wrapping for pile items */
-             display: flex;
-             flex-wrap: wrap;
-             align-items: flex-start;
-         }
-        .groups-container {
-            justify-content: space-around; /* Space out group boxes */
-        }
-        .group-box {
-             display: inline-flex; /* Use flex for internal alignment */
-             flex-direction: column; /* Stack label and items */
-             align-items: center; /* Center items horizontally */
-             vertical-align: top;
-             width: 100px; /* Fixed width for each group box */
-             min-height: 100px; /* Increased height */
-             border: 1px solid #999;
-             padding: 5px;
-             margin: 5px;
-             background-color: #e8f4ff;
-         }
-         .group-box-label {
-            font-size: 0.9em;
-            color: #555;
-            margin-bottom: 5px;
-            display: block;
-            text-align: center;
-            width: 100%;
-         }
-         .group-items-container { /* Container for items inside the box */
-             display: flex;
-             flex-wrap: wrap;
-             justify-content: center; /* Center items */
-             width: 100%;
-         }
-        .item-block { /* Individual item */
-            flex-shrink: 0; /* Prevent shrinking */
-            width: 12px; height: 12px; margin: 1px;
-            background-color: cornflowerblue; border: 1px solid #666;
-        }
-         #resultValue { font-size: 1.5em; font-weight: bold; color: darkgreen; }
-         #remainderValue { font-size: 1.2em; font-weight: bold; color: darkred; margin-left: 10px;}
-
-    </style>
+    <link rel="stylesheet" href="strategy_styles.css">
+    <!-- MathJax for mathematical notation -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
+
+<div class="container">
+    <button class="back-button" onclick="window.location.href='index.html'">← Back to Calculator</button>
+
 <div class="container">
 
     <h1>Division Strategies - Using Commutative Reasoning (Dealing by Rounds)</h1>
@@ -278,8 +229,7 @@
     </script>
 
 </div> <!-- End Container -->
-<!-- New button for viewing PDF documentation -->
-<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+    <button class="pdf-button" class="pdf-button" onclick="openPdfViewer()">📄 Learn More: View Detailed PDF Documentation</button>
 
 <script>
     function openPdfViewer() {
@@ -287,5 +237,7 @@
         window.open('./SMR_DIV_UCR.pdf', '_blank');
     }
 </script>
+</div>
+
 </body>
 </html>

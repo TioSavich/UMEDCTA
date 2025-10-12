@@ -2,29 +2,17 @@
 <html>
 <head>
     <title>Commutative Multiplication</title>
-<style>
-    body { font-family: sans-serif; }
-    .cube-row { display: flex; margin-bottom: 2px; } /* Arrange cubes in a row */
-    .cube {
-        width: 15px;  /* Cube size */
-        height: 15px;
-        border: 1px solid #ccc; /* Cube border */
-        margin-right: 2px; /* Spacing between cubes */
-        display: inline-block; /* Ensure inline display for flexbox */
-    }
-    /* Rainbow colors for cubes - you can customize these */
-    .cube.red { background-color: red; }
-    .cube.orange { background-color: orange; }
-    .cube.yellow { background-color: yellow; }
-    .cube.green { background-color: green; }
-    .cube.blue { background-color: blue; }
-    .cube.indigo { background-color: indigo; }
-    .cube.violet { background-color: violet; }
-
-</style>
+<link rel="stylesheet" href="strategy_styles.css">
+    <!-- MathJax for mathematical notation -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <h1>Commutative Reasoning for Multiplication</h1>
+    
+<div class="container">
+    <button class="back-button" onclick="window.location.href='index.html'">← Back to Calculator</button>
+
+<h1>Commutative Reasoning for Multiplication</h1>
 
     <div>
         <label for="commuteA">Factor 1:</label>
@@ -41,8 +29,7 @@
         <!-- Output will be displayed here -->
     </div>
 
-    <!-- New button for viewing PDF documentation -->
-    <button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+        <button class="pdf-button" class="pdf-button" onclick="openPdfViewer()">📄 Learn More: View Detailed PDF Documentation</button>
 
     <script>
         function openPdfViewer() {
@@ -129,5 +116,7 @@
             };
         });
     </script>
+</div>
+
 </body>
 </html>

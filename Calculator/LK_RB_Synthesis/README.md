@@ -74,18 +74,84 @@ Generates detailed Meaning-Use Analysis reports using Robert Brandom's framework
 
 ### Command Line Interface
 
+#### Run Complete Analysis
 ```bash
-# Run complete analysis pipeline
-python main.py analyze
+$ python3 main.py analyze
+```
+**Output:**
+```
+🚀 Starting Analysis Pipeline
+============================================================
 
-# Generate report for specific strategy
-python main.py report --strategy ADD_COBO
+🔬 Phase 1: Analyzing Automata for Computational Patterns
 
-# List all available strategies
-python main.py list
+📋 Extracting Computational Patterns...
+✅ Analyzed ADD_COBO: 1 patterns found
+✅ Analyzed ADD_Chunking: 1 patterns found
+[... 19 more strategies ...]
 
-# Interactive exploration mode
-python main.py explore
+📚 Extracting Strategy Metadata (Metaphors, Inferences)...
+✅ Loaded metadata for ADD_COBO: 1 metaphors, 1 inferences
+✅ Loaded metadata for ADD_Chunking: 1 metaphors, 2 inferences
+[... 16 more strategies ...]
+
+🔗 Detecting Algorithmic Elaborations...
+
+📊 Analysis Complete:
+   • 2 computational patterns detected
+   • 16 algorithmic elaborations identified
+   • 18 strategies with rich metadata
+   • 4 unique embodied metaphors found
+
+📝 Phase 2: Generating Meaning-Use Analysis Reports
+   ✅ Generated: output/mua_full_report.md
+💾 Results saved to output/
+
+✅ Analysis Complete!
+   📊 Patterns discovered: 2
+   🔗 Elaborations found: 16
+   📄 MUA report: output/mua_full_report.md
+```
+
+#### List All Strategies
+```bash
+$ python3 main.py list
+```
+**Output:**
+```
+📋 Available Strategies (21):
+  • ADD_COBO
+  • ADD_Chunking
+  • ADD_Counting
+  • ADD_RMB
+  • ADD_Rounding
+  • CBBO
+  • COBO
+  • ChunkingA
+  • ChunkingB
+  • ChunkingC
+  • DIV_CGOB
+  • DIV_DealingByOnes
+  • DIV_IDR
+  • DIV_UCR
+  • MULT_C2C
+  • MULT_CBO
+  • MULT_Commutative_Reasoning
+  • MULT_DR
+  • SUB_Decomposition
+  • SUB_Rounding
+  • SUB_Sliding
+```
+
+#### Generate Report for Specific Strategy
+```bash
+$ python3 main.py report --strategy ADD_COBO
+```
+Generates detailed Meaning-Use Analysis report for ADD_COBO (see Example Output below)
+
+#### Interactive Exploration Mode
+```bash
+$ python3 main.py explore
 ```
 
 ### Interactive Mode
@@ -131,20 +197,29 @@ diagrams = generator.generate_mud_diagrams()
 
 ```
 LK_RB_Synthesis/
-├── main.py                    # CLI entry point
-├── mud_generator.py          # Core AST analysis and diagram generation
-├── requirements.txt          # Python dependencies
-├── README.md                 # This file
+├── main.py                      # CLI entry point
+├── mud_generator.py             # Pattern analyzer & metadata extractor
+├── mua_report_generator.py      # Brandomian report generator
+├── requirements.txt             # Python dependencies
+├── README.md                    # This file
+├── CHANGELOG.md                 # Version history and enhancements
+├── ENHANCEMENT_PROPOSALS.md     # Future improvement ideas
 ├── src/
-│   ├── automata/            # Student strategy automaton implementations
-│   │   ├── addition/        # Addition strategies (Counting, COBO, RMB, etc.)
-│   │   ├── subtraction/     # Subtraction strategies (Sliding, Chunking, etc.)
-│   │   ├── multiplication/  # Multiplication strategies
-│   │   └── division/        # Division strategies
-│   └── analysis/            # Metadata structures
-├── output/                  # Generated diagrams and reports
-├── scripts/                 # Utility scripts
-└── [documentation files]    # Reference materials and analyses
+│   ├── automata/                # Student strategy implementations
+│   │   ├── addition/            # Addition strategies (23 files)
+│   │   ├── subtraction/         # Subtraction strategies
+│   │   ├── multiplication/      # Multiplication strategies
+│   │   └── division/            # Division strategies
+│   └── analysis/                # Analysis utilities
+│       ├── MUA_Metadata.py      # Metadata dataclass definitions
+│       └── ast_analyzer.py      # AST pattern detection
+├── output/                      # Generated MUA reports
+│   ├── mua_full_report.md       # Complete analysis report
+│   ├── mua_strategy_*.md        # Individual strategy reports
+│   └── analysis_results.json    # Raw analysis data
+├── Python_Tests/                # Test files and drafts
+├── scripts/                     # Utility scripts
+└── data/                        # Data files
 ```
 
 ## 🔍 Example Output

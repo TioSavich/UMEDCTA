@@ -2,145 +2,16 @@
 <html>
 <head>
     <title>Subtraction Strategies: Sliding to Make Bases</title>
-    <style>
-        /* Global styles */
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-        }
-        
-        h1, h2 {
-            color: #2c3e50;
-            margin-top: 20px;
-        }
-        
-        input, button {
-            padding: 8px 12px;
-            margin: 5px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        button:hover {
-            background-color: #45a049;
-        }
-        
-        /* SVG container styles */
-        #diagramSlidingSVG { 
-            border: 1px solid #d3d3d3; 
-            background-color: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            border-radius: 5px;
-            margin: 15px 0;
-        }
-        
-        #outputContainer { 
-            margin-top: 20px; 
-            padding: 15px;
-            background-color: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        /* Number line styles */
-        .number-line-tick { 
-            stroke: #555; 
-            stroke-width: 1; 
-        }
-        
-        .number-line-break { 
-            stroke: #555; 
-            stroke-width: 1; 
-        }
-        
-        .number-line-label { 
-            font-size: 12px; 
-            text-anchor: middle;
-            fill: #444;
-        }
-        
-        .original-marker { 
-            fill: #3498db; /* Blue */
-            font-weight: bold;
-        }
-        
-        .adjusted-marker { 
-            fill: #2ecc71; /* Green */
-            font-weight: bold;
-        }
-        
-        .slide-arrow { 
-            fill: none; 
-            stroke: #e67e22; /* Orange */
-            stroke-width: 2;
-            filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.2));
-        }
-        
-        .slide-arrow-head { 
-            fill: #e67e22;
-            stroke: #e67e22;
-        }
-        
-        .slide-label { 
-            font-size: 11px; 
-            fill: #e67e22;
-            text-anchor: middle;
-            font-weight: bold;
-        }
-        
-        .label-box {
-            fill: rgba(255, 255, 255, 0.8);
-            stroke: #ddd;
-            stroke-width: 1;
-            rx: 3;
-            ry: 3;
-        }
-        
-        .difference-bracket { 
-            stroke: #e74c3c; /* Red */
-            stroke-width: 2; 
-            fill: none;
-        }
-        
-        .difference-label { 
-            font-size: 13px; 
-            fill: #e74c3c;
-            text-anchor: middle;
-            font-weight: bold;
-        }
-        
-        .number-line-arrow { 
-            fill: #555; 
-            stroke: #555;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
-            h1 {
-                font-size: 1.5em;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="strategy_styles.css">
+    <!-- MathJax for mathematical notation -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
+
+
+<div class="container">
+    <button class="back-button" onclick="window.location.href='index.html'">← Back to Calculator</button>
 
 <h1>Subtraction Strategies: Sliding to Make Bases</h1>
 
@@ -165,8 +36,7 @@
 <h2>Diagram:</h2>
 <svg id="diagramSlidingSVG" width="700" height="300"></svg>
 
-<!-- New button for viewing PDF documentation -->
-<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+    <button class="pdf-button" class="pdf-button" onclick="openPdfViewer()">📄 Learn More: View Detailed PDF Documentation</button>
 
 <script>
     function openPdfViewer() {
@@ -489,6 +359,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+
+</div>
 
 </body>
 </html>

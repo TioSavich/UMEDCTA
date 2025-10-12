@@ -2,22 +2,16 @@
 <html>
 <head>
     <title>Addition Strategies: Chunking by Bases and Ones</title>
-    <style>
-        body { font-family: sans-serif; }
-        #diagramChunkingSVG { border: 1px solid #d3d3d3; }
-        #outputContainer { margin-top: 20px; }
-        .number-line-tick { stroke: black; stroke-width: 1; }
-        .number-line-break { stroke: black; stroke-width: 1; stroke-dasharray: 5 5;} /* For scale break */
-        .number-line-label { font-size: 12px; text-anchor: middle; } /* Centered labels */
-        .jump-arrow { fill: none; stroke: green; stroke-width: 2; } /* Changed color */
-        .jump-arrow-head { fill: green; stroke: green; } /* Changed color */
-        .jump-label { font-size: 12px; text-anchor: middle; fill: green; } /* Changed color */
-        .stopping-point { fill: red; stroke: black; stroke-width: 1; }
-         /* Number line arrowhead */
-         .number-line-arrow { fill: black; stroke: black;}
-    </style>
+    <link rel="stylesheet" href="strategy_styles.css">
+    <!-- MathJax for mathematical notation -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
+
+
+<div class="container">
+    <button class="back-button" onclick="window.location.href='index.html'">← Back to Calculator</button>
 
 <h1>Addition Strategies: Chunking by Bases and Then Ones</h1>
 
@@ -402,9 +396,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+</div>
+
 </body>
-<!-- New button for viewing PDF documentation -->
-<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+    <button class="pdf-button" class="pdf-button" onclick="openPdfViewer()">📄 Learn More: View Detailed PDF Documentation</button>
 
 <script>
     function openPdfViewer() {

@@ -2,40 +2,16 @@
 <html>
 <head>
     <title>Subtraction Strategies: Decomposition</title>
-    <style>
-        body { font-family: sans-serif; }
-        #diagramDecompositionSVG { border: 1px solid #d3d3d3; min-height: 750px; /* Ensure ample space */ }
-        #outputContainer { margin-top: 20px; }
-        /* Notation Styles */
-        .notation-line { padding-left: 1em; margin: 0.1em 0; font-family: monospace; /* Monospace for alignment */ }
-        .notation-line.problem { font-weight: bold; padding-left: 0; margin-bottom: 0.5em;}
-        .notation-line.indent-1 { padding-left: 1em; }
-        .notation-line.indent-2 { padding-left: 2em; }
-        .notation-line.indent-3 { padding-left: 3em; }
-        .notation-line.decompose-arrow { padding-left: 3em; font-size: 1.2em; margin: 0.2em 0; }
-        .notation-line.final-step { margin-top: 0.5em; }
-        .cancel-group { text-decoration: line-through; color: #888; }
-
-        /* Diagram Styles */
-        .diagram-label { font-size: 14px; display: block; margin-bottom: 10px; font-weight: bold;}
-        .calc-label { font-size: 12px; text-anchor: middle; }
-        .block { stroke: black; stroke-width: 0.5; }
-        .ten-block-bg { stroke: black; stroke-width: 1; }
-        .hundred-block-bg { stroke: black; stroke-width: 1; }
-        .unit-block-inner { stroke: lightgrey; stroke-width: 0.5; }
-        .decomposed-block-visual { /* Style for the visually decomposed TEN block */
-             fill: none; /* Make transparent */
-             stroke: black;
-             stroke-width: 1.5;
-             stroke-dasharray: 4 4; /* Dashed line */
-         }
-         /* Removed decomposed-block-overlay */
-        .cross-out { stroke: red; stroke-width: 2.5; stroke-opacity: 0.8; }
-        .number-line-arrow { fill: black; stroke: black;} /* Reuse for general arrows if needed */
-
-    </style>
+    <link rel="stylesheet" href="strategy_styles.css">
+    <!-- MathJax for mathematical notation -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
+
+
+<div class="container">
+    <button class="back-button" onclick="window.location.href='index.html'">← Back to Calculator</button>
 
 <h1>Subtraction Strategies: Decomposition</h1>
 
@@ -60,8 +36,7 @@
 <h2>Diagram:</h2>
 <svg id="diagramDecompositionSVG" width="700" height="800"></svg> <!-- Adjusted height -->
 
-<!-- New button for viewing PDF documentation -->
-<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+    <button class="pdf-button" class="pdf-button" onclick="openPdfViewer()">📄 Learn More: View Detailed PDF Documentation</button>
 
 <script>
     function openPdfViewer() {
@@ -401,6 +376,8 @@
 
     }); // End of DOMContentLoaded
 </script>
+
+</div>
 
 </body>
 </html>

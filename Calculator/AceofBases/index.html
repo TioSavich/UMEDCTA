@@ -4,40 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ace of Base Arithmetic</title>
+    <link rel="stylesheet" href="../strategy_styles.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f9f9f9;
-        }
-
-        .container {
-            text-align: center;
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: white;
+            min-height: 100vh;
         }
 
         canvas {
-            border: 1px solid #000;
+            border: 2px solid #d3d3d3;
+            border-radius: 10px;
+            background: white;
+            margin: 20px 0;
         }
 
         .controls {
             margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        button {
-            margin: 5px;
+        .controls button {
+            margin: 0;
         }
 
         .results {
             margin-top: 20px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .results p {
+            margin: 8px 0;
+            font-weight: 500;
         }
 
         .popup {
@@ -46,31 +50,56 @@
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
-            padding: 20px;
+            padding: 30px;
             background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
             z-index: 1000;
+            max-width: 500px;
+        }
+
+        .popup ul {
+            text-align: left;
+            line-height: 1.8;
         }
 
         .popup .close {
             cursor: pointer;
-            background-color: red;
+            background-color: #ff6b6b;
             color: white;
             border: none;
-            border-radius: 5px;
-            padding: 5px 10px;
-            margin-top: 10px;
+            border-radius: 8px;
+            padding: 10px 20px;
+            margin-top: 15px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 500;
+        }
+
+        .popup .close:hover {
+            background-color: #ff5252;
+        }
+
+        .instructions p {
+            margin: 10px 0;
+            color: #555;
+        }
+
+        #selectedUnits {
+            font-size: 1.1em;
+            color: #667eea;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <button class="back-button" onclick="window.location.href='../index.html'">← Back to Calculator</button>
+
         <h1>Ace of Base Arithmetic</h1>
         <p>Circle the number of squares you want to be your grouping unit:</p>
         <div class="instructions">
             <p>Drag to select between 2 and 15 cubes:</p>
-            <canvas id="cubeCanvas" width="600" height="400"></canvas>
+            <canvas id="cubeCanvas" width="600" height="400" style="width: 600px; height: 400px;"></canvas>
         </div>
         <div class="controls">
             <p id="selectedUnits">Selected Units: 0</p>

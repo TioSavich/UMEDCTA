@@ -2,41 +2,18 @@
 <html>
 <head>
     <title>Multiplication: Coordinating Two Counts by Ones (C2C)</title>
-    <style>
-        body { font-family: sans-serif; line-height: 1.6; }
-        .representation-section { margin-bottom: 20px; padding: 10px; border: 1px solid #eee; min-height: 50px;}
-        .control-section { margin-bottom: 20px; }
-        label { margin-right: 5px;}
-        input[type=number] { width: 60px; margin-right: 15px;}
-        .box { /* Style for individual item box */
-            display: inline-block;
-            width: 15px; height: 15px; margin: 1px;
-            background-color: lightblue; border: 1px solid #666;
-            vertical-align: middle;
-        }
-        .tally-mark { /* Style for group tally */
-            font-family: monospace;
-            font-size: 24px;
-            margin-right: 4px; /* Spacing between tallies */
-            display: inline-block;
-            vertical-align: middle;
-            color: darkgreen;
-        }
-         .group-spacer { /* Visual space between groups of boxes */
-             display: inline-block;
-             width: 10px;
-             height: 15px;
-             vertical-align: middle;
-         }
-        button { padding: 5px 10px; font-size: 1em; margin-right: 5px; }
-        #numericValue { font-size: 1.5em; font-weight: bold; color: darkblue; }
-        #statusMessage { color: red; font-weight: bold; }
-
-    </style>
+    <link rel="stylesheet" href="strategy_styles.css">
+    <!-- MathJax for mathematical notation -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
-    <h1>Strategic Multiplicative Reasoning - Coordinating Two Counts by Ones (C2C)</h1>
+    
+<div class="container">
+    <button class="back-button" onclick="window.location.href='index.html'">← Back to Calculator</button>
+
+<h1>Strategic Multiplicative Reasoning - Coordinating Two Counts by Ones (C2C)</h1>
 
     <div class="control-section">
         <label for="groupSizeInput">Group Size (S):</label>
@@ -167,8 +144,7 @@
 
     </script>
 
-    <!-- New button for viewing PDF documentation -->
-    <button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+        <button class="pdf-button" class="pdf-button" onclick="openPdfViewer()">📄 Learn More: View Detailed PDF Documentation</button>
 
     <script>
         function openPdfViewer() {
@@ -176,6 +152,8 @@
             window.open('./SMR_MULT_C2C.pdf', '_blank');
         }
     </script>
+
+</div>
 
 </body>
 </html>

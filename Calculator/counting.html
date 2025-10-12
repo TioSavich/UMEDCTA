@@ -3,46 +3,18 @@
 <head>
     <meta charset="utf-8" />
     <title>Counting with Two Representations</title>
-    <style>
-        body { font-family: sans-serif; line-height: 1.6; }
-        .representation-section { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
-        .box { /* Style for individual box */
-            display: inline-block;
-            width: 18px; height: 18px; margin: 1px;
-            background-color: lightblue; border: 1px solid #666;
-            vertical-align: middle;
-        }
-        .rectangle-10 { /* Style for composed ten rectangle */
-            display: inline-block;
-            width: 198px; height: 18px; margin: 1px;
-            background-color: lightgreen; border: 1px solid #333;
-            vertical-align: middle;
-            text-align: center; line-height: 18px;
-            font-size: 12px; font-weight: bold;
-        }
-        .clickable { cursor: pointer; } /* Indicate clickable */
-        .clickable:hover { border-color: red; outline: 1px solid red; /* Add outline on hover */ }
-
-        .tally-svg-group { /* Style for the SVG container */
-            display: inline-block; /* Allow spacing */
-            vertical-align: middle;
-            margin-right: 5px; /* Space between tally groups */
-            height: 30px; /* Set height for alignment */
-        }
-        .tally-svg-group line { /* Style for lines within SVG */
-            stroke: black;
-            stroke-width: 2;
-        }
-
-        .button-row { margin: 10px 0; }
-        button { padding: 5px 10px; font-size: 1em; margin-right: 5px; }
-        #numericValue { font-size: 1.5em; font-weight: bold; color: darkblue; }
-
-    </style>
+    <link rel="stylesheet" href="strategy_styles.css">
+    <!-- MathJax for mathematical notation -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
-    <h1>Counting in Base 10 with Two Representations</h1>
+    
+<div class="container">
+    <button class="back-button" onclick="window.location.href='index.html'">← Back to Calculator</button>
+
+<h1>Counting in Base 10 with Two Representations</h1>
     <p>Illustrating sublation: how 10 individual 'ones' become 1 'ten'.</p>
 
     <div class="button-row">
@@ -220,8 +192,7 @@
 
     </script>
 
-<!-- New button for viewing PDF documentation -->
-<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+    <button class="pdf-button" class="pdf-button" onclick="openPdfViewer()">📄 Learn More: View Detailed PDF Documentation</button>
 
 <script>
     function openPdfViewer() {
@@ -229,5 +200,7 @@
         window.open('./counting.pdf', '_blank');
     }
 </script>
+</div>
+
 </body>
 </html>

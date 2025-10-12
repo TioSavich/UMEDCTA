@@ -12,19 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Helper function for SVG (assuming it's used elsewhere too, place outside initializers) ---
     function getShapeSvg(shapeName) {
        let svg = `<svg viewBox="0 0 100 100" width="70" height="70" class="shape-viz">`;
-       svg += `<title>${shapeName}</title>`; // Tooltip for SVG
+       svg += `<title>${shapeName}</title>`; // Tooltip for SVG (shows on hover)
        switch (shapeName) {
-            case "Square": svg += `<rect x="10" y="10" width="80" height="80" fill="#cfe2ff" stroke="#0d6efd"/>`; break;
-            case "Rectangle": svg += `<rect x="10" y="20" width="80" height="60" fill="#d1e7dd" stroke="#198754"/>`; break;
-            case "Rhombus": svg += `<polygon points="50,5 95,50 50,95 5,50" fill="#f8d7da" stroke="#dc3545"/>`; break;
-            case "Parallelogram": svg += `<polygon points="25,5 95,5 75,95 5,95" fill="#fff3cd" stroke="#ffc107"/>`; break;
-            case "Kite": svg += `<polygon points="50,10 85,50 50,90 15,50" fill="#f3d7f8" stroke="#a30cff"/>`; break; // Adjusted Kite points slightly
-            case "Trapezoid": svg += `<polygon points="30,10 70,10 100,90 0,90" fill="#e2e3e5" stroke="#6c757d"/>`; break;
-            case "Quadrilateral": default: svg += `<polygon points="10,10 90,20 80,80 20,90" fill="#f8f9fa" stroke="#adb5bd"/>`; break;
+            case "Square": svg += `<rect x="10" y="10" width="80" height="80" fill="#cfe2ff" stroke="#0d6efd" stroke-width="2"/>`; break;
+            case "Rectangle": svg += `<rect x="10" y="20" width="80" height="60" fill="#d1e7dd" stroke="#198754" stroke-width="2"/>`; break;
+            case "Rhombus": svg += `<polygon points="50,5 95,50 50,95 5,50" fill="#f8d7da" stroke="#dc3545" stroke-width="2"/>`; break;
+            case "Parallelogram": svg += `<polygon points="25,5 95,5 75,95 5,95" fill="#fff3cd" stroke="#ffc107" stroke-width="2"/>`; break;
+            case "Kite": svg += `<polygon points="50,10 85,50 50,90 15,50" fill="#f3d7f8" stroke="#a30cff" stroke-width="2"/>`; break;
+            case "Trapezoid": svg += `<polygon points="30,10 70,10 100,90 0,90" fill="#e2e3e5" stroke="#6c757d" stroke-width="2"/>`; break;
+            case "Quadrilateral": default: svg += `<polygon points="10,10 90,20 80,80 20,90" fill="#f8f9fa" stroke="#adb5bd" stroke-width="2"/>`; break;
        }
-       // Adjust text position if needed
-       svg += `<text x="50" y="115" text-anchor="middle" font-size="10px" style="font-family: sans-serif;">${shapeName}</text></svg>`;
-       return svg.replace('<svg ', '<svg height="85" '); // Ensure text is visible
+       svg += `</svg>`;
+       return svg;
     }
 
     function showModule(index) {
@@ -201,15 +200,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
                     filteredShapes.forEach(shape => {
                         const div = document.createElement('div');
-                        div.className = 'shape-item'; // Use a class if you want specific styling
-                        div.style.textAlign = 'center'; // Center text below SVG
-                        div.style.margin = '5px';
-                        // Use the global SVG function and add strength display
-                        div.innerHTML = getShapeSvg(shape.name).replace(/<\/svg>/, `
-                            <text x="50" y="125" text-anchor="middle" font-size="10px" fill="#333" style="font-family: sans-serif;">
-                                Strength: ${shape.strength}
-                            </text>
-                            </svg>`);
+                        div.className = 'shape-item';
+                        div.style.textAlign = 'center';
+                        div.style.margin = '10px';
+                        // Add SVG and strength label below it
+                        div.innerHTML = getShapeSvg(shape.name) +
+                            `<div style="margin-top: 8px; font-size: 0.9em; font-weight: 600; color: #667eea;">Strength: ${shape.strength}</div>`;
                         shapesContainer.appendChild(div);
                     });
                 }

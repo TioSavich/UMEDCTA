@@ -2,22 +2,18 @@
 <html>
 <head>
     <title>Addition Strategies: Adding Bases and Adding Ones (ABAO)</title>
-    <style>
-        body { font-family: sans-serif; }
-        #abaoDiagram { border: 1px solid #d3d3d3; }
-        #outputContainer { margin-top: 20px; }
-        .diagram-label { font-size: 14px; display: block; margin-bottom: 5px; }
-        .calc-label { font-size: 12px; text-anchor: middle; }
-        .group-rect { fill: none; stroke: black; stroke-dasharray: 5 5; stroke-width: 1; }
-        .arrow { fill: none; stroke: black; stroke-width: 2; }
-        .arrow-head { fill: black; stroke: black; }
-        .stopping-point { fill: red; }
-        .number-line-label { font-size: 12px; }
-    </style>
+    <link rel="stylesheet" href="strategy_styles.css">
+    <!-- MathJax for mathematical notation -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
-    <h1>Addition Strategies: Adding Bases and Adding Ones (ABAO)</h1>
+    
+<div class="container">
+    <button class="back-button" onclick="window.location.href='index.html'">← Back to Calculator</button>
+
+<h1>Addition Strategies: Adding Bases and Adding Ones (ABAO)</h1>
 
     <div>
         <label for="abaoAddend1">Addend 1:</label>
@@ -452,8 +448,7 @@
 
 </script>
 
-<!-- New button for viewing PDF documentation -->
-<button onclick="openPdfViewer()">Want to learn more about this strategy? Click here.</button>
+    <button class="pdf-button" class="pdf-button" onclick="openPdfViewer()">📄 Learn More: View Detailed PDF Documentation</button>
 
 <script>
     function openPdfViewer() {
@@ -461,6 +456,8 @@
         window.open('./SAR_ADD_ABAO.pdf', '_blank');
     }
 </script>
+
+</div>
 
 </body>
 </html>
