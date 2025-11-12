@@ -1,0 +1,239 @@
+PML Core Framework Loaded (with Lakoff & Brandom content).
+=== LAKOFF & BRANDOM INTEGRATION TEST SUITE ===
+
+--- GROUNDING METAPHORS (4Gs) ---
+
+[TEST] Object Collection -> Number
+  PASS
+
+[TEST] Motion Along Path -> Addition
+  PASS
+
+[TEST] Physical Segment -> Number
+  PASS
+
+--- BASIC METAPHOR OF INFINITY (BMI) ---
+
+[TEST] BMI: Indefinite Process -> Actual Infinity
+  PASS
+
+[TEST] BMI: Natural Numbers as Infinite Set
+  PASS
+
+[TEST] BMI: Sequence Approaching Limit
+  PASS
+
+--- BMI PATHOLOGIES (Bad Infinites) ---
+
+[TEST] Pathology: Being <-> Nothing Cycle
+  Detected oscillation: empty_set -> Being -> Nothing
+  PASS
+
+[TEST] Pathology: Zeno's Paradox (Incoherence)
+  FAIL
+
+[TEST] Pathology: Russell's Paradox Detection
+  PATHOLOGY: Russell's Paradox - set of all sets is incoherent
+  PASS
+
+--- ARITHMETIC STRATEGIES ---
+
+[TEST] Sliding: Difference Invariance
+  FAIL
+
+[TEST] Counting On: Addition as Sequence
+  PASS
+
+[TEST] Rearranging to Make Bases: Strategic Decomposition
+  PASS
+
+[TEST] RMB: Creates Simplified Problem
+  PASS
+
+--- PP-NECESSITIES AND PATHOLOGIES ---
+
+[TEST] Prerequisite Violation: Sliding without Number Line
+  PATHOLOGY: Cannot deploy Sliding without Number Line Intuition
+  PASS
+
+[TEST] Sufficiency Condition: Can Deploy Counting On
+  PASS
+
+[TEST] Strategy Declaration: Sliding is a Strategy
+  PASS
+
+[TEST] PP-Necessity Query: Sliding requires Number Line
+  PASS
+
+--- LX-RELATIONS (Elaboration Hierarchies) ---
+
+[TEST] LX Declaration: RMB elaborates Counting On
+  PASS
+
+[TEST] LX Inference: Elaboration is Compressive
+  PASS
+
+[TEST] LX Consequence: Provides Metavocabulary
+  PASS
+
+--- INTEGRATION WITH PML DYNAMICS ---
+
+[TEST] Strategy is Compressive
+  PASS
+
+[TEST] Compression Leads to Expansion
+  PASS
+
+[TEST] Failure Creates Tension
+  PASS
+
+[TEST] Tension Enables Reflection
+  PASS
+
+--- ORR CYCLE WITH STRATEGY FAILURE ---
+
+[TEST] Observe: Strategy Deployed
+  PASS
+
+[TEST] Reflect: Failure Creates Perturbation
+  PASS
+
+[TEST] Reorganize: Accommodation Signal
+Unknown trigger type: perturbation(strategy_failure,missing_prerequisite(number_line_intuition)). Cannot accommodate.
+  PASS
+
+--- CONCEPTUAL BLENDS ---
+
+[TEST] Euler's Blend: e^(iπ) + 1 = 0
+  PASS
+
+[TEST] Functions Are Numbers Metaphor
+  PASS
+
+
+=== TEST SUMMARY ===
+Passed: 27
+Failed: 2
+
+Failed tests:
+  - Pathology: Zeno's Paradox (Incoherence)
+  - Sliding: Difference Invariance
+=== LAKOFF & BRANDOM INTEGRATION TEST SUITE ===
+
+--- GROUNDING METAPHORS (4Gs) ---
+
+[TEST] Object Collection -> Number
+  PASS
+
+[TEST] Motion Along Path -> Addition
+  PASS
+
+[TEST] Physical Segment -> Number
+  PASS
+
+--- BASIC METAPHOR OF INFINITY (BMI) ---
+
+[TEST] BMI: Indefinite Process -> Actual Infinity
+  PASS
+
+[TEST] BMI: Natural Numbers as Infinite Set
+  PASS
+
+[TEST] BMI: Sequence Approaching Limit
+  PASS
+
+--- BMI PATHOLOGIES (Bad Infinites) ---
+
+[TEST] Pathology: Being <-> Nothing Cycle
+  Detected oscillation: empty_set -> Being -> Nothing
+  PASS
+
+[TEST] Pathology: Zeno's Paradox (Incoherence)
+  FAIL
+
+[TEST] Pathology: Russell's Paradox Detection
+  PATHOLOGY: Russell's Paradox - set of all sets is incoherent
+  PASS
+
+--- ARITHMETIC STRATEGIES ---
+
+[TEST] Sliding: Difference Invariance
+  FAIL
+
+[TEST] Counting On: Addition as Sequence
+  PASS
+
+[TEST] Rearranging to Make Bases: Strategic Decomposition
+  PASS
+
+[TEST] RMB: Creates Simplified Problem
+  PASS
+
+--- PP-NECESSITIES AND PATHOLOGIES ---
+
+[TEST] Prerequisite Violation: Sliding without Number Line
+  PATHOLOGY: Cannot deploy Sliding without Number Line Intuition
+  PASS
+
+[TEST] Sufficiency Condition: Can Deploy Counting On
+  PASS
+
+[TEST] Strategy Declaration: Sliding is a Strategy
+  PASS
+
+[TEST] PP-Necessity Query: Sliding requires Number Line
+  PASS
+
+--- LX-RELATIONS (Elaboration Hierarchies) ---
+
+[TEST] LX Declaration: RMB elaborates Counting On
+  PASS
+
+[TEST] LX Inference: Elaboration is Compressive
+  PASS
+
+[TEST] LX Consequence: Provides Metavocabulary
+  PASS
+
+--- INTEGRATION WITH PML DYNAMICS ---
+
+[TEST] Strategy is Compressive
+  PASS
+
+[TEST] Compression Leads to Expansion
+  PASS
+
+[TEST] Failure Creates Tension
+  PASS
+
+[TEST] Tension Enables Reflection
+  PASS
+
+--- ORR CYCLE WITH STRATEGY FAILURE ---
+
+[TEST] Observe: Strategy Deployed
+  PASS
+
+[TEST] Reflect: Failure Creates Perturbation
+  PASS
+
+[TEST] Reorganize: Accommodation Signal
+Unknown trigger type: perturbation(strategy_failure,missing_prerequisite(number_line_intuition)). Cannot accommodate.
+  PASS
+
+--- CONCEPTUAL BLENDS ---
+
+[TEST] Euler's Blend: e^(iπ) + 1 = 0
+  PASS
+
+[TEST] Functions Are Numbers Metaphor
+  PASS
+
+
+=== TEST SUMMARY ===
+Passed: 27
+Failed: 2
+
+Failed tests:
+  - Pathology: Zeno's Paradox (Incoherence)
+  - Sliding: Difference Invariance
