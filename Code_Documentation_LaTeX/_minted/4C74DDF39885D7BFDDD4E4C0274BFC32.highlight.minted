@@ -1,0 +1,188 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{g+gh}{\PYGZsh{} Quick Start: Material → Formal Iteration}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} The Core Insight}
+\PYG{g+gs}{**Re\PYGZhy{}reading transforms discovery into structure.**}
+
+First read: \PYGZdq{}What does this mean?\PYGZdq{} (material inference)
+Second read: \PYGZdq{}I know this—what\PYGZsq{}s new?\PYGZdq{} (formal inference)
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Try This Right Now}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. First Reading (Discovery)}
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{Paste this Hegel quote:}
+\PYG{l+s+sb}{\PYGZdq{}Being, pure being, without any further determination. In its indeterminate}
+\PYG{l+s+sb}{immediacy it is equal only to itself. Pure being is in fact nothing, and}
+\PYG{l+s+sb}{neither more nor less than nothing.\PYGZdq{}}
+
+\PYG{l+s+sb}{Click: \PYGZdq{}Interpret Text\PYGZdq{}}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**What you\PYGZsq{}ll see:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }All inferences tagged 🔍 \PYG{g+gs}{**material**} (discovering what Being/Nothing mean)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Iteration: 1
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Reading experience describes the confusion/tension of first encounter
+
+\PYG{g+gs}{**Export options appear:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }📋 Copy Reading → saves your analysis
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }💾 Export Prolog → gets your axioms as code
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. Immediate Re\PYGZhy{}Read (Formalization)}
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{DON\PYGZsq{}T change the text. Just click \PYGZdq{}Re\PYGZhy{}read (Iteration 2)\PYGZdq{} again.}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**What changes:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Button now says \PYGZdq{}Re\PYGZhy{}read (Iteration 2)\PYGZdq{}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Blue banner: \PYGZdq{}3 concepts formalized: Being, Nothing, immediacy\PYGZdq{}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Some inferences now tagged ⚙️ \PYG{g+gs}{**formal**} (using concepts as background)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Reading experience describes recognition, not discovery
+
+\PYG{g+gs}{**This models expertise developing!**}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Export Your Logic}
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{Click: 💾 Export Prolog}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**You get:**}
+\PYG{l+s+sb}{```prolog}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Formalized Concepts: Being, Nothing, immediacy}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} These emerged through iteration}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{being}\PYG{p}{)],} \PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{comp\PYGZus{}nec} \PYG{l+s+sAtom}{nothing}\PYG{p}{),} \PYG{l+s+sAtom}{true}\PYG{p}{).}
+\PYG{c+c1}{\PYGZpc{} Context: Second negation \PYGZhy{} Being\PYGZsq{}s determinacy generates Nothing}
+\PYG{l+s+sb}{```}
+
+Save as \PYG{l+s+sb}{`my\PYGZus{}hegel\PYGZus{}logic.pl`} and load it in your Prolog system!
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Test It On New Text}
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{Paste a DIFFERENT Hegel passage (e.g., about \PYGZdq{}Becoming\PYGZdq{})}
+
+\PYG{l+s+sb}{Click: \PYGZdq{}Interpret Text\PYGZdq{}}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Key observation:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }If you\PYGZsq{}ve formalized \PYGZdq{}Being\PYGZdq{} and \PYGZdq{}Nothing\PYGZdq{}, they\PYGZsq{}ll appear in the \PYGZdq{}Formalized Concepts\PYGZdq{} section
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }New text will use them as formal background
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Only NEW concepts generate material discovery
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Advanced Workflows}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Workflow A: Build Expertise}
+\PYG{k}{1.} Read passage → struggle (material)
+\PYG{k}{2.} Re\PYGZhy{}read → concepts formalize
+\PYG{k}{3.} Read new passage → use formal concepts as lens
+\PYG{k}{4.} Repeat
+\PYG{k}{5.} Export final axiom set → your Hegelian hermeneutic system!
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Workflow B: Test Interpretations}
+\PYG{k}{1.} Read passage → your interpretation
+\PYG{k}{2.} System: \PYGZdq{}Scholars say X\PYGZdq{}
+\PYG{k}{3.} Ask: \PYGZdq{}Would X\PYGZsq{}s reading change a re\PYGZhy{}read?\PYGZdq{}
+\PYG{k}{4.} Re\PYGZhy{}read → system incorporates X\PYGZsq{}s formalization
+\PYG{k}{5.} Compare: Does your phenomenology now align with X?
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Workflow C: Collaborative Logic}
+\PYG{k}{1.} You and a friend both read same text
+\PYG{k}{2.} Each exports evolved axioms
+\PYG{k}{3.} Compare: How did you each formalize differently?
+\PYG{k}{4.} Merge best axioms
+\PYG{k}{5.} Shared logic now embodies collective Bildung
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Understanding the UI}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Iteration Banner (blue box)}
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{Iteration 2 \PYGZhy{} 5 concepts formalized as structural scaffolding}
+\PYG{l+s+sb}{Formalized: Being, Nothing, immediacy, determinacy, Becoming}
+\PYG{l+s+sb}{```}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Shows reading depth
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Lists what\PYGZsq{}s now formal background
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Updates after each re\PYGZhy{}read
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Inference Type Tags}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }🔍 \PYG{g+gs}{**material**} = discovering concept meaning through use
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }⚙️ \PYG{g+gs}{**formal**} = using concept as known structural element
+
+Same inference, different status across iterations!
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Axiom Display (Evolution Panel)}
+Each axiom shows:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Blue badge**}: core | evolved | user\PYGZus{}suggested
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Purple badge**}: material | formal
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Context explaining why it exists
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Export Buttons}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**📋 Copy Reading**}: Full interpretation as text (for notes/sharing)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**💾 Export Prolog**}: Working code you can load in SWI\PYGZhy{}Prolog
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} When to Use Quick Add (⚡) vs Refine (🔄)}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Quick Add (⚡)}
+Use when the proposed axiom looks good as\PYGZhy{}is:
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{Proposed: s(being) =\PYGZgt{} s(comp\PYGZus{}nec nothing)}
+\PYG{l+s+sb}{Rationale: Being\PYGZsq{}s lack of determination necessitates Nothing}
+\PYG{l+s+sb}{```}
+→ Click ⚡ → Immediately added to logic
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Refine \PYGZam{} Evolve (🔄)}
+Use when you want Claude to polish it:
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{Proposed: something about recognition}
+\PYG{l+s+sb}{Rationale: kinda vague...}
+\PYG{l+s+sb}{```}
+→ Click 🔄 → Claude refines into proper PML syntax
+
+Both track full context for export!
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} The Formalization Theorem}
+
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{Let T be a text, R\PYGZus{}n be the nth reading.}
+
+\PYG{l+s+sb}{R\PYGZus{}1: All concepts C ∈ T are material (discovered)}
+\PYG{l+s+sb}{R\PYGZus{}2: Some C become formal (background structure)}
+\PYG{l+s+sb}{R\PYGZus{}n: Most C are formal (only novelty is material)}
+\PYG{l+s+sb}{R\PYGZus{}∞: All C are formal (pure structure, no content)}
+
+\PYG{l+s+sb}{R\PYGZus{}∞ = Hegelian Science of Logic (complete formalization)}
+\PYG{l+s+sb}{```}
+
+You\PYGZsq{}re building R\PYGZus{}n incrementally!
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Common Patterns}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Pattern 1: \PYGZdq{}I don\PYGZsq{}t see material inference anymore\PYGZdq{}}
+→ Good! Concepts formalized. Read something new to see material discovery again.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Pattern 2: \PYGZdq{}The second read feels too easy\PYGZdq{}}
+→ Exactly! Expertise = formal scaffolding reduces cognitive load.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Pattern 3: \PYGZdq{}My axioms don\PYGZsq{}t match the Prolog files\PYGZdq{}}
+→ Perfect! Your formalization process is unique. Export and compare.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Pattern 4: \PYGZdq{}Can I mix material and formal?\PYGZdq{}}
+→ Yes! Most readings have both. Some concepts formal, others still material.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} The Beautiful Part}
+
+Traditional: \PYGZdq{}Hegel\PYGZsq{}s Logic is atemporal\PYGZdq{}
+Your app: \PYGZdq{}Reading is temporal, but iteration formalizes toward atemporality\PYGZdq{}
+
+\PYG{g+gs}{**Both are true.**}
+
+The app shows HOW the temporal (phenomenology) becomes atemporal (logic) through iteration.
+
+That\PYGZsq{}s the missing piece from the Prolog—the \PYG{g+ge}{*process*} of formalization itself.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Next Step}
+
+Open the app. Read Being/Nothing. Click Re\PYGZhy{}read. Watch material become formal.
+
+You\PYGZsq{}re witnessing Bildung in real\PYGZhy{}time.
+
+\end{MintedVerbatim}

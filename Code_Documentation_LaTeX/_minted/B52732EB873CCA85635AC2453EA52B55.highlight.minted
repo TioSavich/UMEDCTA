@@ -1,0 +1,118 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{parse\PYGZus{}metaphor\PYGZus{}kb.py: Parses Metaphor\PYGZus{}Knowledge\PYGZus{}Base.md to generate cmt\PYGZus{}data.json programmatically.}
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{json}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{re}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{os}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{parse\PYGZus{}metaphor\PYGZus{}kb}\PYG{p}{(}\PYG{n}{file\PYGZus{}path}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Parses the Metaphor\PYGZus{}Knowledge\PYGZus{}Base.md file and extracts conceptual metaphors.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{file\PYGZus{}path}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}r\PYGZsq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+        \PYG{n}{content} \PYG{o}{=} \PYG{n}{f}\PYG{o}{.}\PYG{n}{read}\PYG{p}{()}
+
+    \PYG{c+c1}{\PYGZsh{} Initialize data structure}
+    \PYG{n}{data} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+        \PYG{l+s+s2}{\PYGZdq{}image\PYGZus{}schemas\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}
+            \PYG{p}{\PYGZob{}}
+                \PYG{l+s+s2}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Container\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}In\PYGZhy{}out orientation, arising from the experience of putting objects in and taking them out.\PYGZdq{}}
+            \PYG{p}{\PYGZcb{},}
+            \PYG{p}{\PYGZob{}}
+                \PYG{l+s+s2}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Part\PYGZhy{}Whole\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Understanding an object as a whole composed of smaller constituent parts.\PYGZdq{}}
+            \PYG{p}{\PYGZcb{},}
+            \PYG{p}{\PYGZob{}}
+                \PYG{l+s+s2}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Path\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}A schema involving a source, a destination, and a sequence of points in between.\PYGZdq{}}
+            \PYG{p}{\PYGZcb{}}
+        \PYG{p}{],}
+        \PYG{l+s+s2}{\PYGZdq{}conceptual\PYGZus{}metaphors\PYGZdq{}}\PYG{p}{:} \PYG{p}{[]}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{c+c1}{\PYGZsh{} Split content into sections for each metaphor}
+    \PYG{n}{sections} \PYG{o}{=} \PYG{n}{re}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}\PYGZsh{} \PYGZbs{}d+\PYGZbs{}. The (.+?) Metaphor\PYGZsq{}}\PYG{p}{,} \PYG{n}{content}\PYG{p}{)[}\PYG{l+m+mi}{1}\PYG{p}{:]}  \PYG{c+c1}{\PYGZsh{} Skip the first empty element}
+
+    \PYG{c+c1}{\PYGZsh{} Process each metaphor section (name, content) pairs}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{sections}\PYG{p}{),} \PYG{l+m+mi}{2}\PYG{p}{):}
+        \PYG{n}{metaphor\PYGZus{}name} \PYG{o}{=} \PYG{n}{sections}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}
+        \PYG{n}{section\PYGZus{}content} \PYG{o}{=} \PYG{n}{sections}\PYG{p}{[}\PYG{n}{i} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{]}
+
+        \PYG{c+c1}{\PYGZsh{} Extract source and target domains}
+        \PYG{n}{source\PYGZus{}match} \PYG{o}{=} \PYG{n}{re}\PYG{o}{.}\PYG{n}{search}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}*\PYGZbs{}s+\PYGZbs{}*\PYGZbs{}*Source Domain:\PYGZbs{}*\PYGZbs{}*\PYGZbs{}s*(.*?)\PYGZbs{}*\PYGZbs{}s+\PYGZsq{}}\PYG{p}{,} \PYG{n}{section\PYGZus{}content}\PYG{p}{,} \PYG{n}{re}\PYG{o}{.}\PYG{n}{DOTALL}\PYG{p}{)}
+        \PYG{n}{target\PYGZus{}match} \PYG{o}{=} \PYG{n}{re}\PYG{o}{.}\PYG{n}{search}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}*\PYGZbs{}s+\PYGZbs{}*\PYGZbs{}*Target Domain:\PYGZbs{}*\PYGZbs{}*\PYGZbs{}s*(.*?)\PYGZbs{}*\PYGZbs{}s+\PYGZsq{}}\PYG{p}{,} \PYG{n}{section\PYGZus{}content}\PYG{p}{,} \PYG{n}{re}\PYG{o}{.}\PYG{n}{DOTALL}\PYG{p}{)}
+
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{source\PYGZus{}match} \PYG{o+ow}{or} \PYG{o+ow}{not} \PYG{n}{target\PYGZus{}match}\PYG{p}{:}
+            \PYG{k}{continue}
+
+        \PYG{n}{source\PYGZus{}domain} \PYG{o}{=} \PYG{n}{source\PYGZus{}match}\PYG{o}{.}\PYG{n}{group}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}
+        \PYG{n}{target\PYGZus{}domain} \PYG{o}{=} \PYG{n}{target\PYGZus{}match}\PYG{o}{.}\PYG{n}{group}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}
+
+        \PYG{c+c1}{\PYGZsh{} Extract key mappings}
+        \PYG{n}{mappings\PYGZus{}match} \PYG{o}{=} \PYG{n}{re}\PYG{o}{.}\PYG{n}{search}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}*\PYGZbs{}s+\PYGZbs{}*\PYGZbs{}*Key Mappings \PYGZam{} Entailments:\PYGZbs{}*\PYGZbs{}*(.*?)\PYGZbs{}*\PYGZbs{}s+\PYGZbs{}*\PYGZbs{}*Mapped Strategies:\PYGZbs{}*\PYGZbs{}*\PYGZsq{}}\PYG{p}{,} \PYG{n}{section\PYGZus{}content}\PYG{p}{,} \PYG{n}{re}\PYG{o}{.}\PYG{n}{DOTALL}\PYG{p}{)}
+        \PYG{n}{mappings\PYGZus{}text} \PYG{o}{=} \PYG{n}{mappings\PYGZus{}match}\PYG{o}{.}\PYG{n}{group}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{k}{if} \PYG{n}{mappings\PYGZus{}match} \PYG{k}{else} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+
+        \PYG{c+c1}{\PYGZsh{} Simple mapping extraction \PYGZhy{} this could be improved}
+        \PYG{n}{mappings} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}
+        \PYG{n}{mapping\PYGZus{}lines} \PYG{o}{=} \PYG{n}{re}\PYG{o}{.}\PYG{n}{findall}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}*\PYGZbs{}s+\PYGZbs{}*\PYGZbs{}*(.*?):\PYGZbs{}*\PYGZbs{}*\PYGZbs{}s*(.*?)(?=\PYGZbs{}n\PYGZbs{}*\PYGZbs{}s+\PYGZbs{}*\PYGZbs{}*|\PYGZbs{}n\PYGZbs{}*\PYGZbs{}s+\PYGZbs{}*\PYGZbs{}*|\PYGZdl{})\PYGZsq{}}\PYG{p}{,} \PYG{n}{mappings\PYGZus{}text}\PYG{p}{,} \PYG{n}{re}\PYG{o}{.}\PYG{n}{DOTALL}\PYG{p}{)}
+        \PYG{k}{for} \PYG{n}{key}\PYG{p}{,} \PYG{n}{value} \PYG{o+ow}{in} \PYG{n}{mapping\PYGZus{}lines}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{} Extract the first sentence as a simple mapping}
+            \PYG{n}{first\PYGZus{}sentence} \PYG{o}{=} \PYG{n}{value}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.\PYGZsq{}}\PYG{p}{)[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}
+            \PYG{k}{if} \PYG{l+s+s1}{\PYGZsq{}:\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{first\PYGZus{}sentence}\PYG{p}{:}
+                \PYG{n}{source}\PYG{p}{,} \PYG{n}{target} \PYG{o}{=} \PYG{n}{first\PYGZus{}sentence}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}:\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}
+                \PYG{n}{mappings}\PYG{p}{[}\PYG{n}{source}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()]} \PYG{o}{=} \PYG{n}{target}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n}{mappings}\PYG{p}{[}\PYG{n}{key}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()]} \PYG{o}{=} \PYG{n}{first\PYGZus{}sentence}
+
+        \PYG{c+c1}{\PYGZsh{} Determine image schema based on metaphor name}
+        \PYG{k}{if} \PYG{l+s+s2}{\PYGZdq{}Object Collection\PYGZdq{}} \PYG{o+ow}{in} \PYG{n}{metaphor\PYGZus{}name}\PYG{p}{:}
+            \PYG{n}{image\PYGZus{}schema} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Container\PYGZdq{}}
+        \PYG{k}{elif} \PYG{l+s+s2}{\PYGZdq{}Object Construction\PYGZdq{}} \PYG{o+ow}{in} \PYG{n}{metaphor\PYGZus{}name}\PYG{p}{:}
+            \PYG{n}{image\PYGZus{}schema} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Part\PYGZhy{}Whole\PYGZdq{}}
+        \PYG{k}{elif} \PYG{l+s+s2}{\PYGZdq{}Motion Along a Path\PYGZdq{}} \PYG{o+ow}{in} \PYG{n}{metaphor\PYGZus{}name}\PYG{p}{:}
+            \PYG{n}{image\PYGZus{}schema} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Path\PYGZdq{}}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{image\PYGZus{}schema} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Container\PYGZdq{}}  \PYG{c+c1}{\PYGZsh{} Default}
+
+        \PYG{n}{metaphor\PYGZus{}data} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+            \PYG{l+s+s2}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:} \PYG{n}{metaphor\PYGZus{}name}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}source\PYGZus{}domain\PYGZdq{}}\PYG{p}{:} \PYG{n}{source\PYGZus{}domain}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}target\PYGZus{}domain\PYGZdq{}}\PYG{p}{:} \PYG{n}{target\PYGZus{}domain}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}image\PYGZus{}schema\PYGZdq{}}\PYG{p}{:} \PYG{n}{image\PYGZus{}schema}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}mappings\PYGZdq{}}\PYG{p}{:} \PYG{n}{mappings}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{n}{data}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}conceptual\PYGZus{}metaphors\PYGZdq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{metaphor\PYGZus{}data}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{n}{data}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{():}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Main function to parse the metaphor knowledge base and save to JSON.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{script\PYGZus{}dir} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{dirname}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{abspath}\PYG{p}{(}\PYG{n+nv+vm}{\PYGZus{}\PYGZus{}file\PYGZus{}\PYGZus{}}\PYG{p}{))}
+    \PYG{n}{project\PYGZus{}root} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{dirname}\PYG{p}{(}\PYG{n}{script\PYGZus{}dir}\PYG{p}{)}
+
+    \PYG{n}{kb\PYGZus{}file} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{project\PYGZus{}root}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Metaphor\PYGZus{}Knowledge\PYGZus{}Base.md\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{output\PYGZus{}file} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{project\PYGZus{}root}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}eple/assets/data/processed/cmt\PYGZus{}data.json\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{exists}\PYG{p}{(}\PYG{n}{kb\PYGZus{}file}\PYG{p}{):}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Error: Metaphor knowledge base file not found at \PYGZsq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{kb\PYGZus{}file}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZsq{}.\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{return}
+
+    \PYG{c+c1}{\PYGZsh{} Parse the knowledge base}
+    \PYG{n}{data} \PYG{o}{=} \PYG{n}{parse\PYGZus{}metaphor\PYGZus{}kb}\PYG{p}{(}\PYG{n}{kb\PYGZus{}file}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Save to JSON}
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{output\PYGZus{}file}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}w\PYGZsq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+        \PYG{n}{json}\PYG{o}{.}\PYG{n}{dump}\PYG{p}{(}\PYG{n}{data}\PYG{p}{,} \PYG{n}{f}\PYG{p}{,} \PYG{n}{indent}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{)}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Successfully generated conceptual metaphor data at: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{output\PYGZus{}file}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Parsed }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{data}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}conceptual\PYGZus{}metaphors\PYGZsq{}}\PYG{p}{])}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ conceptual metaphors.\PYGZdq{}}\PYG{p}{)}
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZsq{}}\PYG{p}{:}
+    \PYG{n}{main}\PYG{p}{()}
+\end{MintedVerbatim}

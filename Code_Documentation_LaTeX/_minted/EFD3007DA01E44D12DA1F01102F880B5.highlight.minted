@@ -1,0 +1,181 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/** \PYGZlt{}module\PYGZgt{} Simple PML Core Tests}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  Basic functionality tests for the PML Core Framework.}
+\PYG{c+cm}{ */}
+
+\PYG{c+c1}{\PYGZpc{} Load the framework}
+\PYG{p}{:\PYGZhy{}} \PYG{p}{[}\PYG{l+s+sAtom}{\PYGZsq{}../load.pl\PYGZsq{}}\PYG{p}{].}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Helper Predicates}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{n+nf}{test}\PYG{p}{(}\PYG{n+nv}{Name}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZti{}n[TEST] \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Name}\PYG{p}{]).}
+
+\PYG{n+nf}{pass}\PYG{p}{(}\PYG{n+nv}{Result}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Result}\PYG{p}{]),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  PASS\PYGZsq{}}\PYG{p}{).}
+
+\PYG{n+nf}{fail\PYGZus{}test}\PYG{p}{(}\PYG{n+nv}{Error}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  ERROR: \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Error}\PYG{p}{]),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  FAIL\PYGZsq{}}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Test 1: Basic Module Loading}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{n+nf}{test\PYGZus{}modules} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Module Loading\PYGZsq{}}\PYG{p}{),}
+    \PYG{p}{(} \PYG{n+nf}{current\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{pml\PYGZus{}operators}\PYG{p}{),}
+      \PYG{n+nf}{current\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics}\PYG{p}{),}
+      \PYG{n+nf}{current\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{automata}\PYG{p}{),}
+      \PYG{n+nf}{current\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{utils}\PYG{p}{)}
+    \PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}} \PYG{n+nf}{pass}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}All core modules loaded\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{;} \PYG{n+nf}{fail\PYGZus{}test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Module loading failed\PYGZsq{}}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Test 2: Automata}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{n+nf}{test\PYGZus{}highlander} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Highlander Automaton\PYGZsq{}}\PYG{p}{),}
+    \PYG{p}{(} \PYG{n+nn}{automata}\PYG{p}{:}\PYG{n+nf}{highlander}\PYG{p}{([}\PYG{l+s+sAtom}{single}\PYG{p}{],} \PYG{l+s+sAtom}{single}\PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nf}{pass}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Accepts single element\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{;} \PYG{n+nf}{fail\PYGZus{}test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Should accept single element\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{),}
+    \PYG{p}{(} \PYG{l+s+sAtom}{\PYGZbs{}+} \PYG{n+nn}{automata}\PYG{p}{:}\PYG{n+nf}{highlander}\PYG{p}{([}\PYG{l+s+sAtom}{a}\PYG{p}{,} \PYG{l+s+sAtom}{b}\PYG{p}{],} \PYG{k}{\PYGZus{}}\PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nf}{pass}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Rejects multiple elements\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{;} \PYG{n+nf}{fail\PYGZus{}test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Should reject multiple elements\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{n+nf}{test\PYGZus{}primes} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Prime Utilities\PYGZsq{}}\PYG{p}{),}
+    \PYG{p}{(} \PYG{n+nn}{automata}\PYG{p}{:}\PYG{n+nf}{is\PYGZus{}prime}\PYG{p}{(}\PYG{l+m+mi}{7}\PYG{p}{),}
+      \PYG{l+s+sAtom}{\PYGZbs{}+} \PYG{n+nn}{automata}\PYG{p}{:}\PYG{n+nf}{is\PYGZus{}prime}\PYG{p}{(}\PYG{l+m+mi}{9}\PYG{p}{),}
+      \PYG{n+nn}{automata}\PYG{p}{:}\PYG{n+nf}{nth\PYGZus{}prime}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{),}
+      \PYG{n+nn}{automata}\PYG{p}{:}\PYG{n+nf}{nth\PYGZus{}prime}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{)}
+    \PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}} \PYG{n+nf}{pass}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Prime utilities working\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{;} \PYG{n+nf}{fail\PYGZus{}test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Prime utilities failed\PYGZsq{}}\PYG{p}{).}
+
+\PYG{n+nf}{test\PYGZus{}trace} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Arche\PYGZhy{}Trace\PYGZsq{}}\PYG{p}{),}
+    \PYG{p}{(} \PYG{n+nn}{automata}\PYG{p}{:}\PYG{n+nf}{generate\PYGZus{}trace}\PYG{p}{(}\PYG{n+nv}{T}\PYG{p}{),}
+      \PYG{n+nn}{automata}\PYG{p}{:}\PYG{n+nf}{contains\PYGZus{}trace}\PYG{p}{(}\PYG{n+nv}{T}\PYG{p}{),}
+      \PYG{l+s+sAtom}{\PYGZbs{}+} \PYG{p}{(}\PYG{n+nv}{T} \PYG{o}{=} \PYG{l+s+sAtom}{concrete\PYGZus{}term}\PYG{p}{)}
+    \PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}} \PYG{n+nf}{pass}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Trace generation and resistance working\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{;} \PYG{n+nf}{fail\PYGZus{}test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Trace mechanism failed\PYGZsq{}}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Test 3: Prover Basics}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{n+nf}{test\PYGZus{}identity} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Identity Rule\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{catch}\PYG{p}{(}
+        \PYG{p}{(} \PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{proves}\PYG{p}{([}\PYG{l+s+sAtom}{a}\PYG{p}{]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{p}{[}\PYG{l+s+sAtom}{a}\PYG{p}{],} \PYG{l+m+mi}{10}\PYG{p}{,} \PYG{n+nv}{R}\PYG{p}{,} \PYG{k}{\PYGZus{}}\PYG{n+nv}{Proof}\PYG{p}{),}
+          \PYG{n+nv}{R} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{10}\PYG{p}{,}  \PYG{c+c1}{\PYGZpc{} Should consume some resources}
+          \PYG{n+nf}{pass}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Identity rule works with resource tracking\PYGZsq{}}\PYG{p}{)}
+        \PYG{p}{),}
+        \PYG{n+nv}{Error}\PYG{p}{,}
+        \PYG{n+nf}{fail\PYGZus{}test}\PYG{p}{(}\PYG{n+nv}{Error}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{n+nf}{test\PYGZus{}explosion} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Explosion Rule\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{catch}\PYG{p}{(}
+        \PYG{p}{(} \PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{proves}\PYG{p}{([}\PYG{l+s+sAtom}{p}\PYG{p}{,} \PYG{n+nf}{neg}\PYG{p}{(}\PYG{l+s+sAtom}{p}\PYG{p}{)]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{p}{[}\PYG{l+s+sAtom}{anything}\PYG{p}{],} \PYG{l+m+mi}{10}\PYG{p}{,} \PYG{k}{\PYGZus{}}\PYG{p}{,} \PYG{k}{\PYGZus{}}\PYG{p}{),}
+          \PYG{n+nf}{pass}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Explosion from contradiction works\PYGZsq{}}\PYG{p}{)}
+        \PYG{p}{),}
+        \PYG{n+nv}{Error}\PYG{p}{,}
+        \PYG{n+nf}{fail\PYGZus{}test}\PYG{p}{(}\PYG{n+nv}{Error}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Test 4: PML Dynamics}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{n+nf}{test\PYGZus{}dialectical\PYGZus{}rhythm} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Dialectical Rhythm: U \PYGZhy{}\PYGZgt{} A\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{catch}\PYG{p}{(}
+        \PYG{p}{(} \PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{proves}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{u}\PYG{p}{)]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{a}\PYG{p}{))],} \PYG{l+m+mi}{50}\PYG{p}{,} \PYG{k}{\PYGZus{}}\PYG{p}{,} \PYG{k}{\PYGZus{}}\PYG{p}{),}
+          \PYG{n+nf}{pass}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}First negation (U \PYGZhy{}\PYGZgt{} Box\PYGZus{}down(A)) works\PYGZsq{}}\PYG{p}{)}
+        \PYG{p}{),}
+        \PYG{n+nv}{Error}\PYG{p}{,}
+        \PYG{n+nf}{fail\PYGZus{}test}\PYG{p}{(}\PYG{n+nv}{Error}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{n+nf}{test\PYGZus{}oobleck} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Oobleck Dynamic: S \PYGZhy{}\PYGZgt{} O\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{catch}\PYG{p}{(}
+        \PYG{p}{(} \PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{proves}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{p}\PYG{p}{))]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{p}{[}\PYG{n+nf}{o}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{p}\PYG{p}{))],} \PYG{l+m+mi}{50}\PYG{p}{,} \PYG{k}{\PYGZus{}}\PYG{p}{,} \PYG{k}{\PYGZus{}}\PYG{p}{),}
+          \PYG{n+nf}{pass}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}S\PYGZhy{}O transfer works\PYGZsq{}}\PYG{p}{)}
+        \PYG{p}{),}
+        \PYG{n+nv}{Error}\PYG{p}{,}
+        \PYG{n+nf}{fail\PYGZus{}test}\PYG{p}{(}\PYG{n+nv}{Error}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Test 5: Pragmatic Axioms}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{n+nf}{test\PYGZus{}i\PYGZus{}feeling} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}I\PYGZhy{}Feeling (Elusive Subject)\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{catch}\PYG{p}{(}
+        \PYG{p}{(} \PYG{l+s+sAtom}{pragmatic\PYGZus{}axioms:}\PYG{n+nf}{i\PYGZus{}feeling}\PYG{p}{(}\PYG{n+nv}{I\PYGZus{}f}\PYG{p}{),}
+          \PYG{n+nn}{automata}\PYG{p}{:}\PYG{n+nf}{contains\PYGZus{}trace}\PYG{p}{(}\PYG{n+nv}{I\PYGZus{}f}\PYG{p}{),}
+          \PYG{n+nf}{pass}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}I\PYGZhy{}Feeling contains trace\PYGZsq{}}\PYG{p}{)}
+        \PYG{p}{),}
+        \PYG{n+nv}{Error}\PYG{p}{,}
+        \PYG{n+nf}{fail\PYGZus{}test}\PYG{p}{(}\PYG{n+nv}{Error}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{n+nf}{test\PYGZus{}unsatisfiable\PYGZus{}desire} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Unsatisfiable Desire\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{catch}\PYG{p}{(}
+        \PYG{p}{(} \PYG{l+s+sAtom}{pragmatic\PYGZus{}axioms:}\PYG{n+nf}{i\PYGZus{}feeling}\PYG{p}{(}\PYG{n+nv}{I\PYGZus{}f}\PYG{p}{),}
+          \PYG{l+s+sAtom}{pragmatic\PYGZus{}axioms:}\PYG{n+nf}{identity\PYGZus{}claim}\PYG{p}{(}\PYG{l+s+sAtom}{me}\PYG{p}{),}
+          \PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{incoherent}\PYG{p}{([}\PYG{n+nf}{n}\PYG{p}{(}\PYG{n+nf}{represents}\PYG{p}{(}\PYG{l+s+sAtom}{me}\PYG{p}{,} \PYG{n+nv}{I\PYGZus{}f}\PYG{p}{))]),}
+          \PYG{n+nf}{pass}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Cannot represent I\PYGZus{}f with finite claim\PYGZsq{}}\PYG{p}{)}
+        \PYG{p}{),}
+        \PYG{n+nv}{Error}\PYG{p}{,}
+        \PYG{n+nf}{fail\PYGZus{}test}\PYG{p}{(}\PYG{n+nv}{Error}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Run All Tests}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{n+nf}{run\PYGZus{}tests} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}=== PML CORE FRAMEWORK: SIMPLE TESTS ===\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),}
+
+    \PYG{c+c1}{\PYGZpc{} Basic Infrastructure}
+    \PYG{l+s+sAtom}{test\PYGZus{}modules}\PYG{p}{,}
+
+    \PYG{c+c1}{\PYGZpc{} Automata}
+    \PYG{l+s+sAtom}{test\PYGZus{}highlander}\PYG{p}{,}
+    \PYG{l+s+sAtom}{test\PYGZus{}primes}\PYG{p}{,}
+    \PYG{l+s+sAtom}{test\PYGZus{}trace}\PYG{p}{,}
+
+    \PYG{c+c1}{\PYGZpc{} Prover}
+    \PYG{l+s+sAtom}{test\PYGZus{}identity}\PYG{p}{,}
+    \PYG{l+s+sAtom}{test\PYGZus{}explosion}\PYG{p}{,}
+
+    \PYG{c+c1}{\PYGZpc{} PML Dynamics}
+    \PYG{l+s+sAtom}{test\PYGZus{}dialectical\PYGZus{}rhythm}\PYG{p}{,}
+    \PYG{l+s+sAtom}{test\PYGZus{}oobleck}\PYG{p}{,}
+
+    \PYG{c+c1}{\PYGZpc{} Pragmatic Axioms}
+    \PYG{l+s+sAtom}{test\PYGZus{}i\PYGZus{}feeling}\PYG{p}{,}
+    \PYG{l+s+sAtom}{test\PYGZus{}unsatisfiable\PYGZus{}desire}\PYG{p}{,}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}=== ALL TESTS COMPLETE ===\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZsq{}}\PYG{p}{).}
+
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{initialization}\PYG{p}{(}\PYG{l+s+sAtom}{run\PYGZus{}tests}\PYG{p}{,} \PYG{l+s+sAtom}{main}\PYG{p}{).}
+
+\end{MintedVerbatim}

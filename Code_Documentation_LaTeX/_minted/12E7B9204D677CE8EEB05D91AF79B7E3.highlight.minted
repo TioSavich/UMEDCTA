@@ -1,0 +1,349 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{g+gh}{\PYGZsh{} Math Automata Integration \PYGZhy{} Status \PYGZam{} Action Plan}
+
+\PYG{g+gs}{**Date**}: November 3, 2025
+\PYG{g+gs}{**Status**}: ⚠️ Ready for Integration Decision
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Executive Summary}
+
+I\PYGZsq{}ve reviewed all the counting, SAR, SMR, and fraction files in the math/ directory. Here\PYGZsq{}s what I found:
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} ✅ Good News}
+
+\PYG{k}{1.} \PYG{g+gs}{**Code Quality**}: Files are well\PYGZhy{}structured with clear FSM patterns
+\PYG{k}{2.} \PYG{g+gs}{**Partial Integration**}: SAR files already use \PYG{l+s+sb}{`incompatibility\PYGZus{}semantics`} and modal operators
+\PYG{k}{3.} \PYG{g+gs}{**Duplicates Removed**}: Cleaned up jason files (removed duplicate, renamed for clarity)
+\PYG{k}{4.} \PYG{g+gs}{**Documentation Organized**}: All .md files moved to documentation/ folder
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} ⚠️ Challenge}
+
+\PYG{g+gs}{**The files depend on a complete \PYGZdq{}grounded arithmetic\PYGZdq{} system that doesn\PYGZsq{}t exist in the current codebase.**}
+
+Missing modules:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`grounded\PYGZus{}arithmetic.pl`} (\PYGZti{}500 lines needed)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`grounded\PYGZus{}ens\PYGZus{}operations.pl`} (\PYGZti{}200 lines)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`fsm\PYGZus{}engine.pl`} (\PYGZti{}300 lines)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`composition\PYGZus{}engine.pl`} (\PYGZti{}200 lines)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`normalization.pl`} (\PYGZti{}100 lines)
+
+\PYG{g+gs}{**Total missing code**}: \PYGZti{}1300 lines
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Files Cleaned Up}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Before}
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{math/}
+\PYG{l+s+sb}{├── jason.pl (1.3K, incomplete)}
+\PYG{l+s+sb}{├── jason\PYGZus{}backup.pl (11K, complete)}
+\PYG{l+s+sb}{├── jason\PYGZus{}temp.pl (11K, DUPLICATE ❌)}
+\PYG{l+s+sb}{└── fraction\PYGZus{}semantics.pl (2.6K)}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} After}
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{math/}
+\PYG{l+s+sb}{├── jason\PYGZus{}deprecated.pl (1.3K, marked as deprecated)}
+\PYG{l+s+sb}{├── fractions\PYGZus{}fsm.pl (11K, ✅ renamed from jason\PYGZus{}backup.pl)}
+\PYG{l+s+sb}{└── fraction\PYGZus{}semantics.pl (2.6K, ✅ kept)}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Actions taken**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ Deleted \PYG{l+s+sb}{`jason\PYGZus{}temp.pl`} (identical duplicate)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ Renamed \PYG{l+s+sb}{`jason\PYGZus{}backup.pl`} → \PYG{l+s+sb}{`fractions\PYGZus{}fsm.pl`}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ Renamed \PYG{l+s+sb}{`jason.pl`} → \PYG{l+s+sb}{`jason\PYGZus{}deprecated.pl`}
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Integration Options}
+
+I\PYGZsq{}ve identified \PYG{g+gs}{**three approaches**}, ranked by effort:
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Option 1: Complete Grounded System (High Effort \PYGZhy{} 2\PYGZhy{}3 days)}
+
+\PYG{g+gs}{**Build the entire missing infrastructure**}
+
+Implement:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Full recollection\PYGZhy{}based arithmetic (no built\PYGZhy{}in \PYG{l+s+sb}{`is/2`})
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }ENS (Explicitly Nested Number Sequence) operations
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Custom FSM engine with base\PYGZhy{}10 tracking
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Composition and normalization engines
+
+\PYG{g+gs}{**Pros**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Preserves all existing SAR/SMR code
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Complete cognitive fidelity
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYGZdq{}Pure\PYGZdq{} grounded arithmetic system
+
+\PYG{g+gs}{**Cons**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Large time investment**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Duplicates Prolog\PYGZsq{}s built\PYGZhy{}in arithmetic
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }May be overkill for book purposes
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Option 2: Adapter Layer (Medium Effort \PYGZhy{} 4\PYGZhy{}6 hours) ⭐ RECOMMENDED}
+
+\PYG{g+gs}{**Create thin adapters that map missing predicates to PML or standard Prolog**}
+
+Example:
+\PYG{l+s+sb}{```prolog}
+\PYG{c+c1}{\PYGZpc{} math/adapters/grounded\PYGZus{}arithmetic.pl}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{module}\PYG{p}{(}\PYG{l+s+sAtom}{grounded\PYGZus{}arithmetic}\PYG{p}{,} \PYG{p}{[}
+    \PYG{l+s+sAtom}{incur\PYGZus{}cost}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{l+s+sAtom}{add\PYGZus{}grounded}\PYG{o}{/}\PYG{l+m+mi}{3}\PYG{p}{,}
+    \PYG{l+s+sAtom}{integer\PYGZus{}to\PYGZus{}recollection}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{,}
+    \PYG{l+s+sAtom}{recollection\PYGZus{}to\PYGZus{}integer}\PYG{o}{/}\PYG{l+m+mi}{2}
+\PYG{p}{]).}
+
+\PYG{c+c1}{\PYGZpc{} Map cost tracking to PML resource system}
+\PYG{n+nf}{incur\PYGZus{}cost}\PYG{p}{(}\PYG{n+nv}{Stage}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nv}{Cost} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  [Incurred cost: \PYGZti{}w for stage: \PYGZti{}w]\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Cost}\PYG{p}{,} \PYG{n+nv}{Stage}\PYG{p}{]).}
+
+\PYG{c+c1}{\PYGZpc{} Wrap standard arithmetic in recollection representation}
+\PYG{n+nf}{add\PYGZus{}grounded}\PYG{p}{(}\PYG{n+nf}{recollection}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{),} \PYG{n+nf}{recollection}\PYG{p}{(}\PYG{n+nv}{B}\PYG{p}{),} \PYG{n+nf}{recollection}\PYG{p}{(}\PYG{n+nv}{C}\PYG{p}{))} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{length}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{,} \PYG{n+nv}{AInt}\PYG{p}{),}
+    \PYG{n+nf}{length}\PYG{p}{(}\PYG{n+nv}{B}\PYG{p}{,} \PYG{n+nv}{BInt}\PYG{p}{),}
+    \PYG{n+nv}{CInt} \PYG{o}{is} \PYG{n+nv}{AInt} \PYG{o}{+} \PYG{n+nv}{BInt}\PYG{p}{,}
+    \PYG{n+nf}{length}\PYG{p}{(}\PYG{n+nv}{C}\PYG{p}{,} \PYG{n+nv}{CInt}\PYG{p}{),}
+    \PYG{n+nf}{maplist}\PYG{p}{(}\PYG{l+s+sAtom}{=}\PYG{p}{(}\PYG{l+s+sAtom}{t}\PYG{p}{),} \PYG{n+nv}{C}\PYG{p}{).}
+
+\PYG{n+nf}{integer\PYGZus{}to\PYGZus{}recollection}\PYG{p}{(}\PYG{n+nv}{N}\PYG{p}{,} \PYG{n+nf}{recollection}\PYG{p}{(}\PYG{n+nv}{List}\PYG{p}{))} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{length}\PYG{p}{(}\PYG{n+nv}{List}\PYG{p}{,} \PYG{n+nv}{N}\PYG{p}{),}
+    \PYG{n+nf}{maplist}\PYG{p}{(}\PYG{l+s+sAtom}{=}\PYG{p}{(}\PYG{l+s+sAtom}{t}\PYG{p}{),} \PYG{n+nv}{List}\PYG{p}{).}
+
+\PYG{n+nf}{recollection\PYGZus{}to\PYGZus{}integer}\PYG{p}{(}\PYG{n+nf}{recollection}\PYG{p}{(}\PYG{n+nv}{List}\PYG{p}{),} \PYG{n+nv}{N}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{length}\PYG{p}{(}\PYG{n+nv}{List}\PYG{p}{,} \PYG{n+nv}{N}\PYG{p}{).}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Pros**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Fast to implement**} (few hours)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Preserves SAR/SMR structure
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Gets strategies working quickly
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Can refine later if needed
+
+\PYG{g+gs}{**Cons**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Not \PYGZdq{}pure\PYGZdq{} grounded arithmetic
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Uses Prolog\PYGZsq{}s built\PYGZhy{}in \PYG{l+s+sb}{`is/2`} under the hood
+
+\PYG{g+gs}{**Recommended modules to create**}:
+\PYG{k}{1.} \PYG{l+s+sb}{`adapters/grounded\PYGZus{}arithmetic.pl`} (\PYGZti{}200 lines)
+\PYG{k}{2.} \PYG{l+s+sb}{`adapters/grounded\PYGZus{}utils.pl`} (\PYGZti{}100 lines)
+\PYG{k}{3.} \PYG{l+s+sb}{`adapters/fsm\PYGZus{}engine.pl`} (\PYGZti{}150 lines)
+\PYG{k}{4.} \PYG{l+s+sb}{`adapters/composition\PYGZus{}engine.pl`} (\PYGZti{}100 lines)
+\PYG{k}{5.} \PYG{l+s+sb}{`adapters/normalization.pl`} (\PYGZti{}50 lines)
+
+\PYG{g+gs}{**Total**}: \PYGZti{}600 lines (manageable)
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Option 3: Extract to Material Inferences (Low Effort \PYGZhy{} 1\PYGZhy{}2 hours per strategy)}
+
+\PYG{g+gs}{**Don\PYGZsq{}t run the strategies—just represent their patterns**}
+
+Example:
+\PYG{l+s+sb}{```prolog}
+\PYG{c+c1}{\PYGZpc{} Extend arithmetic\PYGZus{}strategies.pl}
+
+\PYG{c+c1}{\PYGZpc{} Chunking Strategy}
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{problem}\PYG{p}{(}\PYG{n+nf}{addition}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{,} \PYG{n+nv}{B}\PYG{p}{))),}
+     \PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{base\PYGZus{}10\PYGZus{}structure}\PYG{p}{),}
+     \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{decompose}\PYG{p}{(}\PYG{n+nv}{B}\PYG{p}{,} \PYG{n+nv}{Tens}\PYG{p}{,} \PYG{n+nv}{Ones}\PYG{p}{))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{n+nf}{apply\PYGZus{}chunking}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{,} \PYG{n+nv}{Tens}\PYG{p}{,} \PYG{n+nv}{Ones}\PYG{p}{))),}
+    \PYG{l+s+sAtom}{true}
+\PYG{p}{).}
+
+\PYG{n+nf}{pp\PYGZus{}necessity}\PYG{p}{(}\PYG{l+s+sAtom}{chunking}\PYG{p}{,} \PYG{l+s+sAtom}{base\PYGZus{}10\PYGZus{}understanding}\PYG{p}{).}
+\PYG{n+nf}{pp\PYGZus{}necessity}\PYG{p}{(}\PYG{l+s+sAtom}{chunking}\PYG{p}{,} \PYG{l+s+sAtom}{sequential\PYGZus{}addition}\PYG{p}{).}
+\PYG{n+nf}{pp\PYGZus{}necessity}\PYG{p}{(}\PYG{l+s+sAtom}{chunking}\PYG{p}{,} \PYG{l+s+sAtom}{decomposition\PYGZus{}ability}\PYG{p}{).}
+
+\PYG{n+nf}{pp\PYGZus{}sufficiency}\PYG{p}{(}\PYG{l+s+sAtom}{chunking}\PYG{p}{,} \PYG{l+s+sAtom}{base\PYGZus{}recognition}\PYG{p}{).}
+\PYG{n+nf}{pp\PYGZus{}sufficiency}\PYG{p}{(}\PYG{l+s+sAtom}{chunking}\PYG{p}{,} \PYG{l+s+sAtom}{mental\PYGZus{}addition}\PYG{p}{).}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Pros**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Fastest**} approach
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Clean integration with existing \PYG{l+s+sb}{`arithmetic\PYGZus{}strategies.pl`}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Focuses on \PYG{g+gs}{**meaning\PYGZhy{}use**} (what strategies DO)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Perfect for book/theory purposes
+
+\PYG{g+gs}{**Cons**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Doesn\PYGZsq{}t execute strategies**} (no actual algorithm runs)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Loses executable/demo capability
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} My Recommendation}
+
+\PYG{g+gs}{**Option 2: Adapter Layer**} ⭐
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Why?}
+
+\PYG{k}{1.} \PYG{g+gs}{**Balance**}: Not too much work, not too little functionality
+\PYG{k}{2.} \PYG{g+gs}{**Executable**}: Strategies actually run and can be demonstrated
+\PYG{k}{3.} \PYG{g+gs}{**Extensible**}: Can refine adapters or swap for full grounded system later
+\PYG{k}{4.} \PYG{g+gs}{**Integration**}: Works with existing PML critique mechanisms
+\PYG{k}{5.} \PYG{g+gs}{**Time**}: 4\PYGZhy{}6 hours is reasonable investment
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Implementation Plan}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Phase 1: Core Adapters (2 hours)}
+Create \PYG{l+s+sb}{`math/adapters/grounded\PYGZus{}arithmetic.pl`}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`incur\PYGZus{}cost/1`} → log to console or track in PML resources
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`integer\PYGZus{}to\PYGZus{}recollection/2`} → convert int ↔ list representation
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`add\PYGZus{}grounded/3`}, \PYG{l+s+sb}{`subtract\PYGZus{}grounded/3`}, \PYG{l+s+sb}{`multiply\PYGZus{}grounded/3`} → wrap standard arithmetic
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Phase 2: Utility Adapters (1 hour)}
+Create \PYG{l+s+sb}{`math/adapters/grounded\PYGZus{}utils.pl`}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`base\PYGZus{}decompose\PYGZus{}grounded/4`} → split into tens/ones
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`base\PYGZus{}recompose\PYGZus{}grounded/4`} → recombine
+
+Create \PYG{l+s+sb}{`math/adapters/fsm\PYGZus{}engine.pl`}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`run\PYGZus{}fsm\PYGZus{}with\PYGZus{}base/5`} → wrapper around \PYG{l+s+sb}{`dialectical\PYGZus{}engine:run\PYGZus{}fsm/4`}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Phase 3: Fraction Adapters (1 hour)}
+Create \PYG{l+s+sb}{`math/adapters/composition\PYGZus{}engine.pl`}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`find\PYGZus{}and\PYGZus{}extract\PYGZus{}copies/4`} → list manipulation
+
+Create \PYG{l+s+sb}{`math/adapters/normalization.pl`}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`normalize/2`} → simplify representations
+
+Create \PYG{l+s+sb}{`math/adapters/grounded\PYGZus{}ens\PYGZus{}operations.pl`}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`ens\PYGZus{}partition/3`} → partition units
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Phase 4: Integration Testing (1\PYGZhy{}2 hours)}
+Test one complete strategy:
+\PYG{k}{1.} Load adapters
+\PYG{k}{2.} Load \PYG{l+s+sb}{`counting2.pl`} (simplest)
+\PYG{k}{3.} Run \PYG{l+s+sb}{`run\PYGZus{}counter(25, Result)`}
+\PYG{k}{4.} Verify output
+\PYG{k}{5.} Repeat with \PYG{l+s+sb}{`fractions\PYGZus{}fsm.pl`}
+\PYG{k}{6.} Repeat with \PYG{l+s+sb}{`sar\PYGZus{}add\PYGZus{}chunking.pl`}
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Alternative: Hybrid Approach}
+
+\PYG{g+gs}{**Combine Options 2 and 3**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Create \PYG{g+gs}{**adapters**} for counting and fractions (they\PYGZsq{}re simpler)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Extract patterns**} from SAR/SMR to material inferences (there are many)
+
+This gives you:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Executable demos**} (counting, fractions)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Theoretical analysis**} (SAR/SMR patterns)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Balanced effort**} (6\PYGZhy{}8 hours total)
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Current Status}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} ✅ Completed}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Documentation folder created
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }All .md files moved to documentation/
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Duplicate jason files removed
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Files renamed for clarity
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Comprehensive review document created
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} ⏳ Pending Decision}
+\PYG{g+gs}{**Which integration approach do you want?**}
+\PYG{k}{1.} Full grounded system (2\PYGZhy{}3 days)
+\PYG{k}{2.} Adapter layer (4\PYGZhy{}6 hours) ⭐
+\PYG{k}{3.} Material inference extraction (1\PYGZhy{}2 hours per strategy)
+\PYG{k}{4.} Hybrid (adapters + extraction, 6\PYGZhy{}8 hours)
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Files Currently in Math/}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Working (Already Integrated)}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`lakoff\PYGZus{}metaphors.pl`} ✅
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`arithmetic\PYGZus{}strategies.pl`} ✅
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`load\PYGZus{}math.pl`} ✅
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`lakoff\PYGZus{}brandom\PYGZus{}test.pl`} ✅
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Needs Integration}
+\PYG{g+gs}{**Counting**} (2 files):
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`counting2.pl`} \PYGZhy{} DPDA for counting 0→N
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`counting\PYGZus{}on\PYGZus{}back.pl`} \PYGZhy{} Counting backwards
+
+\PYG{g+gs}{**Fractions**} (2 files):
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`fractions\PYGZus{}fsm.pl`} \PYGZhy{} Partitive/Composition schemes
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`fraction\PYGZus{}semantics.pl`} \PYGZhy{} Equivalence rules
+
+\PYG{g+gs}{**SAR**} (10+ files):
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`sar\PYGZus{}add\PYGZus{}chunking.pl`}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`sar\PYGZus{}add\PYGZus{}cobo.pl`}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`sar\PYGZus{}add\PYGZus{}rmb.pl`}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`sar\PYGZus{}add\PYGZus{}rounding.pl`}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`sar\PYGZus{}sub\PYGZus{}*.pl`} (multiple)
+
+\PYG{g+gs}{**SMR**} (unknown count):
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`smr\PYGZus{}*.pl`} (not yet reviewed)
+
+\PYG{g+gs}{**Deprecated**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`jason\PYGZus{}deprecated.pl`} (can delete)
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Recommendation Summary}
+
+\PYG{g+gs}{**For book purposes with working demos**}: Option 2 (Adapter Layer)
+
+\PYG{g+gs}{**Implementation priority**}:
+\PYG{k}{1.} Counting (simplest, self\PYGZhy{}contained)
+\PYG{k}{2.} Fractions (moderate, clear cognitive model)
+\PYG{k}{3.} SAR strategies (complex, many files)
+
+\PYG{g+gs}{**Time estimate**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Adapters: 4\PYGZhy{}6 hours
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Testing: 1\PYGZhy{}2 hours
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Total: 5\PYGZhy{}8 hours for complete integration
+
+\PYG{g+gs}{**Deliverable**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Working counting automaton
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Working fraction reasoning
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }At least 2\PYGZhy{}3 SAR strategies executable
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }All hooked into PML critique mechanisms
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Next Steps (Awaiting Your Decision)}
+
+\PYG{g+gs}{**If Option 2 (Adapter Layer)**}:
+\PYG{k}{1.} Create \PYG{l+s+sb}{`math/adapters/`} directory
+\PYG{k}{2.} Implement grounded\PYGZus{}arithmetic.pl
+\PYG{k}{3.} Implement grounded\PYGZus{}utils.pl
+\PYG{k}{4.} Test with counting2.pl
+\PYG{k}{5.} Extend to fractions
+\PYG{k}{6.} Add SAR strategies incrementally
+
+\PYG{g+gs}{**If Option 3 (Material Inferences)**}:
+\PYG{k}{1.} Review each strategy for core pattern
+\PYG{k}{2.} Extract PP\PYGZhy{}necessities/sufficiencies
+\PYG{k}{3.} Add to arithmetic\PYGZus{}strategies.pl
+\PYG{k}{4.} Write tests for pattern recognition
+\PYG{k}{5.} Document meaning\PYGZhy{}use analysis
+
+\PYG{g+gs}{**If Hybrid**}:
+\PYG{k}{1.} Adapters for counting + fractions
+\PYG{k}{2.} Extract patterns for SAR/SMR
+\PYG{k}{3.} Best of both worlds
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Questions for You}
+
+\PYG{k}{1.} \PYG{g+gs}{**Do you want executable strategies**} (Option 2), or \PYG{g+gs}{**theoretical analysis only**} (Option 3)?
+\PYG{k}{2.} \PYG{g+gs}{**How much time can you allocate**} to this integration?
+\PYG{k}{3.} \PYG{g+gs}{**Which is more important for the book**}: Working demos or comprehensive coverage?
+\PYG{k}{4.} \PYG{g+gs}{**Should I prioritize**} getting 2\PYGZhy{}3 strategies working perfectly, or documenting all strategies at a high level?
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gs}{**Ready to proceed once you provide direction.**}
+
+\end{MintedVerbatim}

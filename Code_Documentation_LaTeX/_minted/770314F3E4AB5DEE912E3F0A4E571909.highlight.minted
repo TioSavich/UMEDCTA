@@ -1,0 +1,517 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+\PYG{g+gu}{title: Hermeneutic Calculator}
+\PYG{g+gu}{\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+I am building a unified, testable theory of how students \PYG{g+ge}{*develop*} arithmetic understanding—not just a catalog of strategy names, but a developmental map of how those strategies \PYG{g+ge}{*emerge, elaborate, invert, and nest*}. My target is to formalize roughly 25 student\PYGZhy{}invented strategies across addition, subtraction, multiplication, and division, showing how each one is algorithmically constructed from prior embodied practices.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Choreography as Computation}
+I treat each strategy as \PYG{g+gs}{**written choreography for embodied cognition**}. A formal automaton (register machine, bounded DPDA, or related model) becomes a script for the temporal unfolding of thought: initialize, transform, check, recurse, terminate. The power of this framing is that it preserves \PYG{g+ge}{*how*} a student actually moves through a calculation—counting up, pausing at a boundary, decomposing a number—rather than replacing those moves with opaque symbolic shortcuts.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Two Fundamental Movements}
+I analyze student action through a dialectic of temporal structure:
+\PYG{k}{1.} \PYG{g+gs}{**Temporal Compression (Sublation / Recollection):**} Unitizing many micro\PYGZhy{}acts into a larger cognitive unit (ten ones \PYGZdl{}\PYGZbs{}to\PYGZdl{} one ten; 3 base jumps \PYGZdl{}\PYGZbs{}to\PYGZdl{} a single composite stride). Compression accelerates flow.
+\PYG{k}{2.} \PYG{g+gs}{**Temporal Decompression (Determinate Negation):**} Strategically undoing or expanding a composite to restore fine control (borrowing a ten; splitting \PYGZdl{}5\PYGZdl{} into \PYGZdl{}2+3\PYGZdl{} in RMB; decomposing a factor for distributive reasoning).
+Fluency grows as students coordinate these movements, learning \PYG{g+ge}{*when*} to expand and \PYG{g+ge}{*when*} to re\PYGZhy{}compress.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Fractal Architecture: Iterative Core + Strategic Shell}
+Across strategies I repeatedly recover the same \PYG{g+gs}{**fractal pattern**}:
+\PYG{k}{*}\PYG{+w}{ }\PYG{g+gs}{**Iterative Core:**} A minimal loop (initialize \PYGZdl{}\PYGZbs{}to\PYGZdl{} step (\PYGZdl{}+1\PYGZdl{}, \PYGZdl{}\PYGZhy{}1\PYGZdl{}, \PYGZdl{}+Base\PYGZdl{}, \PYGZdl{}+Chunk\PYGZdl{}) \PYGZdl{}\PYGZbs{}to\PYGZdl{} condition check). Counting by ones, skip counting, and accumulation loops in division all instantiate this engine.
+\PYG{k}{*}\PYG{+w}{ }\PYG{g+gs}{**Strategic Shell:**} A supervisory layer that \PYG{g+ge}{*prepares*}, \PYG{g+ge}{*optimizes*}, or \PYG{g+ge}{*transforms*} the problem so that the core runs fewer or cognitively lighter iterations. RMB, Rounding \PYGZam{} Adjusting, Chunking, Sliding, Distributive and Inverse Distributive Reasoning all wrap the core with analysis (e.g., “find gap \PYGZdl{}K\PYGZdl{}”, “split factor”, “slide both numbers”).
+Because the shell often \PYG{g+ge}{*invokes*} the core as a subroutine (e.g., CountUpToBase, CountBackK), the global structure becomes self\PYGZhy{}similar: strategies \PYG{g+ge}{*contain*} (and sometimes nest) earlier strategies. This produces a genuine computational fractal—not metaphorical flourish, but recurrence of the same control schema at different conceptual scales.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Mechanisms of Elaboration}
+I observe three progressive forms of algorithmic elaboration:
+\PYG{k}{1.} \PYG{g+gs}{**Compression of Action:**} Replacing many \PYGZdl{}+1\PYGZdl{} steps with \PYGZdl{}+Base\PYGZdl{} or \PYGZdl{}+StructuredChunk\PYGZdl{} (COBO, Chunking).
+\PYG{k}{2.} \PYG{g+gs}{**Optimization of Iteration:**} Dynamically computing the \PYG{g+ge}{*size*} of a future stride (RMB gap \PYGZdl{}K\PYGZdl{}; Chunking’s bridging chunk; Sliding’s constant difference) before acting—analyze then accelerate.
+\PYG{k}{3.} \PYG{g+gs}{**Structural Transformation:**} Rewriting the problem space (Rounding detour + compensation; Distributive split; Sliding invariance; Inverse Distributive decomposition of dividend).
+Advanced strategies chain these moves (e.g., Rounding = transformation \PYGZdl{}\PYGZbs{}to\PYGZdl{} compressed addition \PYGZdl{}\PYGZbs{}to\PYGZdl{} compensatory inverse steps).
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Inversion of Practice}
+Subtraction fluency emerges not by inventing alien procedures but by \PYG{g+gs}{**inverting or repurposing**} addition shells: Missing Addend reframes subtraction as forward accumulation; Counting Back mirrors Counting On; Sliding preserves difference across a translation; Borrowing reverses carry (decompression of a prior sublation). Division analogues (Dealing by Ones vs. Coordinating Two Counts; Inverse Distributive Reasoning) continue the same inversion logic.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Collaboration and Iterative Refinement}
+This project is explicitly \PYG{g+ge}{*collaborative*} with an AI assistant. I bring student transcripts, pedagogical insight, and theoretical intent; the assistant supplies relentless formal scrutiny—flagging mis\PYGZhy{}specified state sets, hidden non\PYGZhy{}determinism, premature algebraic assumptions, or missing termination guarantees. A typical refinement cycle:
+\PYG{k}{1.} Draft informal description from transcript.
+\PYG{k}{2.} Specify automaton (states, registers, transitions) in a first\PYGZhy{}pass formalism.
+\PYG{k}{3.} Implement executable prototype (Python) to test determinism, termination, and behavioral alignment with the transcript (sequence reconstruction like “\PYGZdl{}46, 56, 66, \PYGZbs{}dots\PYGZdl{}”).
+\PYG{k}{4.} Trace failures (e.g., an early Rounding model produced an infinite loop after overshoot; an initial Chunking diagram hid the cognitive search for \PYGZdl{}K\PYGZdl{}) and revise.
+\PYG{k}{5.} Re\PYGZhy{}abstract the corrected machine into concise LaTeX\PYGZhy{}friendly specification.
+This loop ensures every claimed cognitive choreography \PYG{g+ge}{*runs*}—a falsifiability and reproducibility standard often missing in purely diagrammatic accounts.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Why Executable Formal Models Matter}
+An executable automaton does four things for me:
+\PYG{k}{*}\PYG{+w}{ }\PYG{g+gs}{**Validity Check:**} Catches hidden cycles or unreachable states.
+\PYG{k}{*}\PYG{+w}{ }\PYG{g+gs}{**Phenomenological Fidelity:**} Lets me align generated action traces with verbatim student utterances.
+\PYG{k}{*}\PYG{+w}{ }\PYG{g+gs}{**Comparative Anatomy:**} Normalizes different strategies into a shared tuple structure so I can map elaboration edges precisely.
+\PYG{k}{*}\PYG{+w}{ }\PYG{g+gs}{**Pedagogical Insight:**} Identifies which internal subroutines (e.g., “CountBackK”) must be instructionally stabilized before a composite strategy will consolidate.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Algorithmic Elaboration (Brandom Frame)}
+Following Robert Brandom, I treat these developments as \PYG{g+gs}{**algorithmic elaborations**}: later practices are \PYG{g+ge}{*PP\PYGZhy{}sufficient*} expansions of earlier ones—achieved by reorganizing, nesting, or inverting existing abilities rather than importing foreign primitives. Some strategies become \PYG{g+gs}{**LX**} relative to prior practice: they both derive from and make explicit what was implicit (RMB makes base boundaries explicit; Borrowing renders the reversibility of carry explicit; Distributive Reasoning makes latent additivity across factors explicit).
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Scope of This Document}
+Below I give each strategy a uniform template: description, formal specification, choreography (compression/decompression dynamics), and genealogical lineage. I remove historical critique and raw code to foreground the structural logic while preserving testability through the already verified prototypes. The introduction you are reading consolidates the nuance of origin (embodiment), evolution (fractal elaboration), collaboration (human + AI), and rigor (execution + revision) from the longer source manuscript without duplicating passages.
+
+***
+\PYG{g+gh}{\PYGZsh{} Hermeneutic Calculator: Strategy Formalizations}
+
+This draft reorganizes the strategies as primary sections. Each section supplies:
+
+\PYG{k}{1.} Phenomenological description (student\PYGZhy{}facing practice).
+\PYG{k}{2.} Formal automaton / register\PYGZhy{}machine specification in LaTeX\PYGZhy{}friendly notation.
+\PYG{k}{3.} Core choreography (temporal compression/decompression dynamics).
+\PYG{k}{4.} Algorithmic elaboration lineage (what primitives it builds upon).
+
+All implementation details (Python prototypes) and historical critiques have been removed. Mathematical symbols are formatted for Pandoc \PYGZdl{}\PYGZbs{}to\PYGZdl{} LaTeX conversion.
+
+Notation (uniform across strategies):
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYGZdl{}M = (Q, V, \PYGZbs{}delta, q\PYG{g+ge}{\PYGZus{}0, F)\PYGZdl{}: machine with states \PYGZdl{}Q\PYGZdl{}, registers (or variables) \PYGZdl{}V\PYGZdl{}, transition function \PYGZdl{}\PYGZbs{}delta\PYGZdl{}, start state \PYGZdl{}q\PYGZus{}}0\PYGZdl{}, accepting states \PYGZdl{}F\PYGZdl{}.
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }When convenient, we use auxiliary internal variables; these are included in \PYGZdl{}V\PYGZdl{} implicitly.
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Counting primitives: Count Up (\PYGZdl{}+1\PYGZdl{}), Count Back (\PYGZdl{}\PYGZhy{}1\PYGZdl{}) regarded as atomic embodied actions.
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Temporal Compression: synthesizing many unit actions into a higher\PYGZhy{}order unit (e.g., a “ten”).
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Temporal Decompression: strategic expansion of a unit into constituent parts.
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Counting and Counting On}
+
+\PYG{g+gs}{**Description.**} Sequential unit counting within a bounded base\PYGZhy{}10 place\PYGZhy{}value structure (\PYGZdl{}0\PYGZhy{}999\PYGZdl{}). Embodied iterations (“ticks”) increment units, propagate carries (sublation) into tens and hundreds.
+
+\PYG{g+gs}{**Formal Model (Sketch).**} Deterministic PDA (bounded) or 3\PYGZhy{}register counter. For LaTeX exposition we specify a DPDA tuple:
+
+\PYGZdl{}\PYGZdl{}M\PYGZus{}\PYGZob{}count\PYGZcb{} = (Q, \PYGZbs{}Sigma, \PYGZbs{}Gamma, \PYGZbs{}delta, q\PYG{g+ge}{\PYGZus{}\PYGZob{}start\PYGZcb{}, Z\PYGZus{}}0, F)\PYGZdl{}\PYGZdl{}
+
+with place\PYGZhy{}value stack symbols \PYGZdl{}U\PYGZus{}i, T\PYG{g+ge}{\PYGZus{}j, H\PYGZus{}}k\PYGZdl{}. The transition function \PYGZdl{}\PYGZbs{}delta\PYGZdl{} is defined as follows:
+
+| Current State | Input | Top of Stack | Next State | Action (Stack) | Interpretation |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}start\PYGZcb{}\PYGZdl{} | \PYGZdl{}\PYGZbs{}varepsilon\PYGZdl{} | \PYGZdl{}Z\PYGZus{}0\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}idle\PYGZcb{}\PYGZdl{} | Push(\PYGZdl{}U\PYGZus{}0, T\PYG{g+ge}{\PYGZus{}0, H\PYGZus{}}0\PYGZdl{}) | Initialize count to 0. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}idle\PYGZcb{}\PYGZdl{} | \PYG{l+s+sb}{`tick`} | \PYGZdl{}U\PYGZus{}n\PYGZdl{} (\PYGZdl{}n\PYGZlt{}9\PYGZdl{}) | \PYGZdl{}q\PYGZus{}\PYGZob{}idle\PYGZcb{}\PYGZdl{} | Pop; Push(\PYGZdl{}U\PYGZus{}\PYGZob{}n+1\PYGZcb{}\PYGZdl{}) | Increment units. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}idle\PYGZcb{}\PYGZdl{} | \PYG{l+s+sb}{`tick`} | \PYGZdl{}U\PYGZus{}9\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}inc\PYGZbs{}\PYGZus{}tens\PYGZcb{}\PYGZdl{} | Pop | Unit overflow, carry to tens. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}inc\PYGZbs{}\PYGZus{}tens\PYGZcb{}\PYGZdl{} | \PYGZdl{}\PYGZbs{}varepsilon\PYGZdl{} | \PYGZdl{}T\PYGZus{}m\PYGZdl{} (\PYGZdl{}m\PYGZlt{}9\PYGZdl{}) | \PYGZdl{}q\PYGZus{}\PYGZob{}idle\PYGZcb{}\PYGZdl{} | Pop; Push(\PYGZdl{}T\PYGZus{}\PYGZob{}m+1\PYGZcb{}, U\PYGZus{}0\PYGZdl{}) | Increment tens, reset units. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}inc\PYGZbs{}\PYGZus{}tens\PYGZcb{}\PYGZdl{} | \PYGZdl{}\PYGZbs{}varepsilon\PYGZdl{} | \PYGZdl{}T\PYGZus{}9\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}inc\PYGZbs{}\PYGZus{}hundreds\PYGZcb{}\PYGZdl{} | Pop | Ten overflow, carry to hundreds. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}inc\PYGZbs{}\PYGZus{}hundreds\PYGZcb{}\PYGZdl{} | \PYGZdl{}\PYGZbs{}varepsilon\PYGZdl{} | \PYGZdl{}H\PYGZus{}k\PYGZdl{} (\PYGZdl{}k\PYGZlt{}9\PYGZdl{}) | \PYGZdl{}q\PYGZus{}\PYGZob{}idle\PYGZcb{}\PYGZdl{} | Pop; Push(\PYGZdl{}H\PYGZus{}\PYGZob{}k+1\PYGZcb{}, T\PYG{g+ge}{\PYGZus{}0, U\PYGZus{}}0\PYGZdl{}) | Increment hundreds, reset lower places. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}inc\PYGZbs{}\PYGZus{}hundreds\PYGZcb{}\PYGZdl{} | \PYGZdl{}\PYGZbs{}varepsilon\PYGZdl{} | \PYGZdl{}H\PYGZus{}9\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}halt\PYGZcb{}\PYGZdl{} | Pop; Push(\PYGZdl{}H\PYGZus{}0, T\PYG{g+ge}{\PYGZus{}0, U\PYGZus{}}0\PYGZdl{}) | Counter overflow. |
+
+\PYG{g+gs}{**Choreography.**} Carry = temporal compression: ten unit steps recollected as one higher unit. Borrow (in inverse counting) is temporal decompression.
+
+\PYG{g+gs}{**Elaboration Lineage.**} Primitive for all subsequent additive, subtractive, multiplicative, and divisional strategies.
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Rearranging to Make Bases (RMB)}
+
+\PYG{g+gs}{**Description.**} For \PYGZdl{}A + B\PYGZdl{}, identify gap \PYGZdl{}K\PYGZdl{} from \PYGZdl{}A\PYGZdl{} to next base (e.g., 10, 100), decompose \PYGZdl{}B = K + R\PYGZdl{}, form \PYGZdl{}A\PYGZsq{} = A + K\PYGZdl{} (a base), then compute \PYGZdl{}A\PYGZsq{} + R\PYGZdl{}.
+
+\PYG{g+gs}{**Machine.**}
+
+\PYGZdl{}\PYGZdl{}M\PYGZus{}\PYGZob{}RMB\PYGZcb{} = (Q, V, \PYGZbs{}delta, q\PYGZus{}0, F)\PYGZdl{}\PYGZdl{}
+
+with
+\PYGZdl{}\PYGZdl{}Q = \PYGZbs{}\PYGZob{}q\PYG{g+ge}{\PYGZus{}\PYGZob{}start\PYGZcb{}, q\PYGZus{}}\PYGZob{}calcK\PYGZcb{}, q\PYG{g+ge}{\PYGZus{}\PYGZob{}decompose\PYGZcb{}, q\PYGZus{}}\PYGZob{}recombine\PYGZcb{}, q\PYGZus{}\PYGZob{}accept\PYGZcb{}\PYGZbs{}\PYGZcb{}\PYGZdl{}\PYGZdl{}
+\PYGZdl{}\PYGZdl{}V = \PYGZbs{}\PYGZob{}A, B, K, A\PYGZsq{}, R\PYGZbs{}\PYGZcb{}\PYGZdl{}\PYGZdl{}
+
+\PYG{g+gs}{**Transition Function (\PYGZdl{}\PYGZbs{}delta\PYGZdl{}):**}
+
+| Current State | Condition | Next State | Action | Interpretation |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}start\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}calcK\PYGZcb{}\PYGZdl{} | \PYGZdl{}K \PYGZbs{}leftarrow 0\PYGZdl{}; \PYGZdl{}A\PYGZus{}\PYGZob{}temp\PYGZcb{} \PYGZbs{}leftarrow A\PYGZdl{} | Initialize. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}calcK\PYGZcb{}\PYGZdl{} | \PYGZdl{}A\PYGZus{}\PYGZob{}temp\PYGZcb{}\PYGZdl{} \PYGZlt{} NextBase(\PYGZdl{}A\PYGZdl{}) | \PYGZdl{}q\PYGZus{}\PYGZob{}calcK\PYGZcb{}\PYGZdl{} | \PYGZdl{}A\PYGZus{}\PYGZob{}temp\PYGZcb{} \PYGZbs{}leftarrow A\PYGZus{}\PYGZob{}temp\PYGZcb{} + 1\PYGZdl{}; \PYGZdl{}K \PYGZbs{}leftarrow K + 1\PYGZdl{} | Count up to find gap \PYGZdl{}K\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}calcK\PYGZcb{}\PYGZdl{} | \PYGZdl{}A\PYGZus{}\PYGZob{}temp\PYGZcb{}\PYGZdl{} == NextBase(\PYGZdl{}A\PYGZdl{}) | \PYGZdl{}q\PYGZus{}\PYGZob{}decompose\PYGZcb{}\PYGZdl{} | \PYGZdl{}A\PYGZsq{} \PYGZbs{}leftarrow A\PYGZus{}\PYGZob{}temp\PYGZcb{}\PYGZdl{} | Gap found. Store new base \PYGZdl{}A\PYGZsq{}\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}decompose\PYGZcb{}\PYGZdl{} | \PYGZdl{}K \PYGZgt{} 0\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}decompose\PYGZcb{}\PYGZdl{} | \PYGZdl{}B \PYGZbs{}leftarrow B \PYGZhy{} 1\PYGZdl{}; \PYGZdl{}K \PYGZbs{}leftarrow K \PYGZhy{} 1\PYGZdl{} | Decompose \PYGZdl{}B\PYGZdl{} by transferring \PYGZdl{}K\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}decompose\PYGZcb{}\PYGZdl{} | \PYGZdl{}K == 0\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}recombine\PYGZcb{}\PYGZdl{} | \PYGZdl{}R \PYGZbs{}leftarrow B\PYGZdl{} | Remainder \PYGZdl{}R\PYGZdl{} is what\PYGZsq{}s left of \PYGZdl{}B\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}recombine\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}accept\PYGZcb{}\PYGZdl{} | Output \PYGZdl{}A\PYGZsq{} + R\PYGZdl{} | Combine new base and remainder. |
+
+\PYG{g+gs}{**Choreography.**} Decompression (splitting \PYGZdl{}B\PYGZdl{}) enables immediate compression (forming base \PYGZdl{}A\PYGZsq{}\PYGZdl{}).
+
+\PYG{g+gs}{**Lineage.**} Elaborates Counting Up + Counting Down primitives; anticipates strategic boundary manipulation used later in Rounding, Chunking, Sliding.
+
+***
+
+\PYG{g+gh}{\PYGZsh{} COBO (Counting On by Bases then Ones)}
+
+\PYG{g+gs}{**Description.**} For \PYGZdl{}A + B\PYGZdl{}, decompose \PYGZdl{}B = b \PYGZbs{}cdot Base + r\PYGZdl{}; iterate base jumps (\PYGZdl{}+Base\PYGZdl{}) then unit steps (\PYGZdl{}+1\PYGZdl{}).
+
+\PYG{g+gs}{**Machine.**} \PYGZdl{}M\PYGZus{}\PYGZob{}COBO\PYGZcb{}\PYGZdl{} with states \PYGZdl{}\PYGZbs{}\PYGZob{}q\PYG{g+ge}{\PYGZus{}\PYGZob{}start\PYGZcb{}, q\PYGZus{}}\PYGZob{}bases\PYGZcb{}, q\PYG{g+ge}{\PYGZus{}\PYGZob{}ones\PYGZcb{}, q\PYGZus{}}\PYGZob{}accept\PYGZcb{}\PYGZbs{}\PYGZcb{}\PYGZdl{} and registers \PYGZdl{}\PYGZbs{}\PYGZob{}Sum, BaseCounter, OneCounter\PYGZbs{}\PYGZcb{}\PYGZdl{}.
+
+\PYG{g+gs}{**Transition Function (\PYGZdl{}\PYGZbs{}delta\PYGZdl{}):**}
+
+| Current State | Condition | Next State | Action | Interpretation |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}start\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}initialize\PYGZcb{}\PYGZdl{} | Read \PYGZdl{}A, B\PYGZdl{} | Start. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}initialize\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}add\PYGZbs{}\PYGZus{}bases\PYGZcb{}\PYGZdl{} | \PYGZdl{}Sum \PYGZbs{}leftarrow A\PYGZdl{}; \PYGZdl{}BaseCounter \PYGZbs{}leftarrow B // Base\PYGZdl{}; \PYGZdl{}OneCounter \PYGZbs{}leftarrow B \PYGZbs{}pmod\PYGZob{}Base\PYGZcb{}\PYGZdl{} | Initialize Sum. Decompose \PYGZdl{}B\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}add\PYGZbs{}\PYGZus{}bases\PYGZcb{}\PYGZdl{} | \PYGZdl{}BaseCounter \PYGZgt{} 0\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}add\PYGZbs{}\PYGZus{}bases\PYGZcb{}\PYGZdl{} | \PYGZdl{}Sum \PYGZbs{}leftarrow Sum + Base\PYGZdl{}; \PYGZdl{}BaseCounter \PYGZbs{}leftarrow BaseCounter \PYGZhy{} 1\PYGZdl{} | Add one Base unit (Loop). |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}add\PYGZbs{}\PYGZus{}bases\PYGZcb{}\PYGZdl{} | \PYGZdl{}BaseCounter == 0\PYGZdl{}| \PYGZdl{}q\PYGZus{}\PYGZob{}add\PYGZbs{}\PYGZus{}ones\PYGZcb{}\PYGZdl{} | \PYGZhy{} | All bases added. Transition. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}add\PYGZbs{}\PYGZus{}ones\PYGZcb{}\PYGZdl{} | \PYGZdl{}OneCounter \PYGZgt{} 0\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}add\PYGZbs{}\PYGZus{}ones\PYGZcb{}\PYGZdl{} | \PYGZdl{}Sum \PYGZbs{}leftarrow Sum + 1\PYGZdl{}; \PYGZdl{}OneCounter \PYGZbs{}leftarrow OneCounter \PYGZhy{} 1\PYGZdl{} | Add one unit (Loop). |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}add\PYGZbs{}\PYGZus{}ones\PYGZcb{}\PYGZdl{} | \PYGZdl{}OneCounter == 0\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}accept\PYGZcb{}\PYGZdl{} | Output \PYGZdl{}Sum\PYGZdl{} | All ones added. Accept. |
+
+\PYG{g+gs}{**Choreography.**} Two\PYGZhy{}phase rhythm: compressed temporal blocks (bases) followed by decompressed fine resolution (ones).
+
+\PYG{g+gs}{**Lineage.**} Builds on counting; prepares for Chunking and Rounding by habitualizing base jumps.
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Rounding and Adjusting (Addition)}
+
+\PYG{g+gs}{**Description.**} Select addend closer to next base: round up \PYGZdl{}A \PYGZbs{}to A\PYGZsq{} = A + K\PYGZdl{}, compute \PYGZdl{}A\PYGZsq{} + B\PYGZdl{}, then adjust back: \PYGZdl{}(A\PYGZsq{} + B) \PYGZhy{} K\PYGZdl{}.
+
+\PYG{g+gs}{**Machine.**} States \PYGZdl{}\PYGZbs{}\PYGZob{}q\PYG{g+ge}{\PYGZus{}\PYGZob{}start\PYGZcb{}, q\PYGZus{}}\PYGZob{}calcK\PYGZcb{}, q\PYG{g+ge}{\PYGZus{}\PYGZob{}add\PYGZcb{}, q\PYGZus{}}\PYGZob{}adjust\PYGZcb{}, q\PYGZus{}\PYGZob{}accept\PYGZcb{}\PYGZbs{}\PYGZcb{}\PYGZdl{}; registers \PYGZdl{}\PYGZbs{}\PYGZob{}A,B,K,A\PYGZsq{},Temp,Result\PYGZbs{}\PYGZcb{}\PYGZdl{}.
+
+\PYG{g+gs}{**Transition Function (\PYGZdl{}\PYGZbs{}delta\PYGZdl{}):**}
+
+| Current State | Subroutine / Action | Next State | Interpretation |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}start\PYGZcb{}\PYGZdl{} | Read \PYGZdl{}A, B\PYGZdl{}; Heuristic select \PYGZdl{}Target\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}calcK\PYGZcb{}\PYGZdl{} | Start. Select number closer to the next base. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}calcK\PYGZcb{}\PYGZdl{} | \PYG{g+gs}{**Count Up To Base(\PYGZdl{}Target\PYGZdl{})**} \PYGZdl{}\PYGZbs{}to K, A\PYG{g+ge}{\PYGZus{}\PYGZob{}rounded\PYGZcb{}\PYGZdl{} | \PYGZdl{}q\PYGZus{}}\PYGZob{}add\PYGZcb{}\PYGZdl{} | Determine \PYGZdl{}K\PYGZdl{} by counting up from \PYGZdl{}Target\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}add\PYGZcb{}\PYGZdl{} | \PYG{g+gs}{**COBO(\PYGZdl{}A\PYGZus{}\PYGZob{}rounded\PYGZcb{}\PYGZdl{}, Other)**} \PYGZdl{}\PYGZbs{}to TempSum\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}adjust\PYGZcb{}\PYGZdl{} | Add Other to the rounded \PYGZdl{}A\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}adjust\PYGZcb{}\PYGZdl{} | \PYG{g+gs}{**Count Back(\PYGZdl{}TempSum, K\PYGZdl{})**} \PYGZdl{}\PYGZbs{}to Result\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}accept\PYGZcb{}\PYGZdl{} | Adjust by counting back \PYGZdl{}K\PYGZdl{}. |
+
+\PYG{g+gs}{**Choreography.**} Strategic temporal detour: initial decompression (deriving \PYGZdl{}K\PYGZdl{}) enables major compression (base addition), followed by inverse correction.
+
+\PYG{g+gs}{**Lineage.**} Elaborates RMB (boundary anticipation) and COBO (base efficiency); introduces explicit compensation schema.
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Chunking (Addition)}
+
+\PYG{g+gs}{**Description.**} Decompose \PYGZdl{}B\PYGZdl{} into large base chunk + strategic residual chunks to force successive bases: \PYGZdl{}B = B\PYGZus{}\PYGZob{}base\PYGZcb{} + K + R\PYGZdl{} where \PYGZdl{}K\PYGZdl{} bridges current sum to next base.
+
+\PYG{g+gs}{**Transition Function (\PYGZdl{}\PYGZbs{}delta\PYGZdl{}):**}
+
+| Current State | Condition | Next State | Action | Interpretation |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}init\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}addBase\PYGZcb{}\PYGZdl{} | \PYGZdl{}Sum \PYGZbs{}leftarrow A\PYGZdl{}; Decompose \PYGZdl{}B\PYGZdl{} into \PYGZdl{}B\PYGZus{}\PYGZob{}base\PYGZcb{}, B\PYGZus{}\PYGZob{}ones\PYGZcb{}\PYGZdl{} | Initialize Sum. Decompose \PYGZdl{}B\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}addBase\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}calcK\PYGZcb{}\PYGZdl{} | \PYGZdl{}Sum \PYGZbs{}leftarrow Sum + B\PYGZus{}\PYGZob{}base\PYGZcb{}\PYGZdl{} | Add the entire base chunk at once. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}calcK\PYGZcb{}\PYGZdl{} | \PYGZdl{}Sum \PYGZlt{}\PYGZdl{} NextBase(\PYGZdl{}Sum\PYGZdl{}) | \PYGZdl{}q\PYGZus{}\PYGZob{}calcK\PYGZcb{}\PYGZdl{} | \PYGZdl{}Sum \PYGZbs{}leftarrow Sum + 1\PYGZdl{}; \PYGZdl{}K \PYGZbs{}leftarrow K + 1\PYGZdl{} | Iteratively find gap \PYGZdl{}K\PYGZdl{} to next base. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}calcK\PYGZcb{}\PYGZdl{} | \PYGZdl{}Sum ==\PYGZdl{} NextBase(\PYGZdl{}Sum\PYGZdl{}) | \PYGZdl{}q\PYGZus{}\PYGZob{}applyK\PYGZcb{}\PYGZdl{} | \PYGZhy{} | Gap found. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}applyK\PYGZcb{}\PYGZdl{} | \PYGZdl{}B\PYGZus{}\PYGZob{}ones\PYGZcb{} \PYGZbs{}ge K\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}calcK\PYGZcb{}\PYGZdl{} | \PYGZdl{}Sum \PYGZbs{}leftarrow Sum + K\PYGZdl{}; \PYGZdl{}B\PYGZus{}\PYGZob{}ones\PYGZcb{} \PYGZbs{}leftarrow B\PYGZus{}\PYGZob{}ones\PYGZcb{} \PYGZhy{} K\PYGZdl{} | Add strategic chunk \PYGZdl{}K\PYGZdl{}. Loop back. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}applyK\PYGZcb{}\PYGZdl{} | \PYGZdl{}B\PYGZus{}\PYGZob{}ones\PYGZcb{} \PYGZlt{} K\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}finishR\PYGZcb{}\PYGZdl{} | \PYGZhy{} | Not enough ones for full chunk. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}finishR\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}accept\PYGZcb{}\PYGZdl{} | \PYGZdl{}Sum \PYGZbs{}leftarrow Sum + B\PYGZus{}\PYGZob{}ones\PYGZcb{}\PYGZdl{} | Add remaining residue. |
+
+\PYG{g+gs}{**Choreography.**} Iterative cycle: (1) large compression via aggregated base, (2) micro decompression to find \PYGZdl{}K\PYGZdl{}, (3) re\PYGZhy{}compression to new base, (4) terminal residue.
+
+\PYG{g+gs}{**Lineage.**} Synthesizes COBO (bulk bases) + RMB (strategic gap finding).
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Subtraction Chunking (Three Orientations)}
+
+Given \PYGZdl{}M \PYGZhy{} S = D\PYGZdl{}.
+
+\PYG{g+gs}{**A. Backwards by Part (Take\PYGZhy{}Away).**} Sequentially subtract decomposed parts of \PYGZdl{}S\PYGZdl{} (place value or strategic chunks) from \PYGZdl{}M\PYGZdl{}.
+
+\PYG{g+gs}{**B. Forwards from Part (Missing Addend).**} Treat as \PYGZdl{}S + D = M\PYGZdl{}; Count Up (RMB logic) accumulating \PYGZdl{}D\PYGZdl{}.
+
+\PYG{g+gs}{**C. Backwards to Part (Distance Down To).**} Count Back from \PYGZdl{}M\PYGZdl{} toward \PYGZdl{}S\PYGZdl{} using strategic base landings; accumulate distance.
+
+Each orientation is a register machine. Below are the key transition schemas.
+
+\PYG{g+gs}{**A. Backwards by Part (Take\PYGZhy{}Away):**} \PYGZdl{}V = \PYGZbs{}\PYGZob{}CurrentValue, S\PYGZus{}\PYGZob{}rem\PYGZcb{}\PYGZbs{}\PYGZcb{}\PYGZdl{}
+
+| State | Condition | Action |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}init\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}CurrentValue \PYGZbs{}leftarrow M\PYGZdl{}; \PYGZdl{}S\PYGZus{}\PYGZob{}rem\PYGZcb{} \PYGZbs{}leftarrow S\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}chunk\PYGZcb{}\PYGZdl{} | \PYGZdl{}S\PYGZus{}\PYGZob{}rem\PYGZcb{} \PYGZgt{} 0\PYGZdl{} | \PYGZdl{}Chunk \PYGZbs{}leftarrow\PYGZdl{} Decompose(\PYGZdl{}S\PYGZus{}\PYGZob{}rem\PYGZcb{}\PYGZdl{}); \PYGZdl{}CurrentValue \PYGZbs{}leftarrow CurrentValue \PYGZhy{} Chunk\PYGZdl{}; \PYGZdl{}S\PYGZus{}\PYGZob{}rem\PYGZcb{} \PYGZbs{}leftarrow S\PYGZus{}\PYGZob{}rem\PYGZcb{} \PYGZhy{} Chunk\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}chunk\PYGZcb{}\PYGZdl{} | \PYGZdl{}S\PYGZus{}\PYGZob{}rem\PYGZcb{} == 0\PYGZdl{} | Accept \PYGZdl{}CurrentValue\PYGZdl{} |
+
+\PYG{g+gs}{**B. Forwards from Part (Missing Addend):**} \PYGZdl{}V = \PYGZbs{}\PYGZob{}CurrentValue, Distance\PYGZbs{}\PYGZcb{}\PYGZdl{}
+
+| State | Condition | Action |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}init\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}CurrentValue \PYGZbs{}leftarrow S\PYGZdl{}; \PYGZdl{}Distance \PYGZbs{}leftarrow 0\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}chunk\PYGZcb{}\PYGZdl{} | \PYGZdl{}CurrentValue \PYGZlt{} M\PYGZdl{} | \PYGZdl{}Chunk \PYGZbs{}leftarrow\PYGZdl{} CalcStrategicChunk(\PYGZdl{}CurrentValue, M\PYGZdl{}); \PYGZdl{}CurrentValue \PYGZbs{}leftarrow CurrentValue + Chunk\PYGZdl{}; \PYGZdl{}Distance \PYGZbs{}leftarrow Distance + Chunk\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}chunk\PYGZcb{}\PYGZdl{} | \PYGZdl{}CurrentValue == M\PYGZdl{} | Accept \PYGZdl{}Distance\PYGZdl{} |
+
+\PYG{g+gs}{**C. Backwards to Part (Distance Down To):**} \PYGZdl{}V = \PYGZbs{}\PYGZob{}CurrentValue, Distance\PYGZbs{}\PYGZcb{}\PYGZdl{}
+
+| State | Condition | Action |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}init\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}CurrentValue \PYGZbs{}leftarrow M\PYGZdl{}; \PYGZdl{}Distance \PYGZbs{}leftarrow 0\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}chunk\PYGZcb{}\PYGZdl{} | \PYGZdl{}CurrentValue \PYGZgt{} S\PYGZdl{} | \PYGZdl{}Chunk \PYGZbs{}leftarrow\PYGZdl{} CalcStrategicChunk(\PYGZdl{}CurrentValue, S\PYGZdl{}); \PYGZdl{}CurrentValue \PYGZbs{}leftarrow CurrentValue \PYGZhy{} Chunk\PYGZdl{}; \PYGZdl{}Distance \PYGZbs{}leftarrow Distance + Chunk\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}chunk\PYGZcb{}\PYGZdl{} | \PYGZdl{}CurrentValue == S\PYGZdl{} | Accept \PYGZdl{}Distance\PYGZdl{} |
+
+\PYG{g+gs}{**Choreography.**} Orientation selects temporal direction; strategies B and C exploit boundary compression via RMB subroutines.
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Subtraction COBO / CBBO}
+
+\PYG{g+gs}{**COBO (Missing Addend).**} Start at \PYGZdl{}S\PYGZdl{}, perform base jumps toward \PYGZdl{}M\PYGZdl{} (without overshoot), then ones; distance accumulated is \PYGZdl{}D\PYGZdl{}.
+
+\PYG{g+gs}{**CBBO (Counting Back).**} Start at \PYGZdl{}M\PYGZdl{}, subtract base units (from decomposed \PYGZdl{}S\PYGZdl{}) then ones; final position is \PYGZdl{}D\PYGZdl{}.
+
+\PYG{g+gs}{**Machines.**} Two dual register machines are defined.
+
+\PYG{g+gs}{**COBO (Missing Addend):**} \PYGZdl{}V = \PYGZbs{}\PYGZob{}CurrentValue, Distance, Target\PYGZbs{}\PYGZcb{}\PYGZdl{}
+
+| State | Condition | Action |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}init\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}CurrentValue \PYGZbs{}leftarrow S\PYGZdl{}; \PYGZdl{}Distance \PYGZbs{}leftarrow 0\PYGZdl{}; \PYGZdl{}Target \PYGZbs{}leftarrow M\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}add\PYGZbs{}\PYGZus{}bases\PYGZcb{}\PYGZdl{} | \PYGZdl{}CurrentValue + Base \PYGZbs{}le Target\PYGZdl{} | \PYGZdl{}CurrentValue \PYGZbs{}leftarrow CurrentValue + Base\PYGZdl{}; \PYGZdl{}Distance \PYGZbs{}leftarrow Distance + Base\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}add\PYGZbs{}\PYGZus{}bases\PYGZcb{}\PYGZdl{} | \PYGZdl{}CurrentValue + Base \PYGZgt{} Target\PYGZdl{} | transition to \PYGZdl{}q\PYGZus{}\PYGZob{}add\PYGZbs{}\PYGZus{}ones\PYGZcb{}\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}add\PYGZbs{}\PYGZus{}ones\PYGZcb{}\PYGZdl{} | \PYGZdl{}CurrentValue \PYGZlt{} Target\PYGZdl{} | \PYGZdl{}CurrentValue \PYGZbs{}leftarrow CurrentValue + 1\PYGZdl{}; \PYGZdl{}Distance \PYGZbs{}leftarrow Distance + 1\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}add\PYGZbs{}\PYGZus{}ones\PYGZcb{}\PYGZdl{} | \PYGZdl{}CurrentValue == Target\PYGZdl{} | Accept \PYGZdl{}Distance\PYGZdl{} |
+
+\PYG{g+gs}{**CBBO (Counting Back):**} \PYGZdl{}V = \PYGZbs{}\PYGZob{}CurrentValue, BaseCounter, OneCounter\PYGZbs{}\PYGZcb{}\PYGZdl{}
+
+| State | Condition | Action |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}init\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}CurrentValue \PYGZbs{}leftarrow M\PYGZdl{}; Decompose \PYGZdl{}S\PYGZdl{} into \PYGZdl{}BaseCounter, OneCounter\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}sub\PYGZbs{}\PYGZus{}bases\PYGZcb{}\PYGZdl{} | \PYGZdl{}BaseCounter \PYGZgt{} 0\PYGZdl{} | \PYGZdl{}CurrentValue \PYGZbs{}leftarrow CurrentValue \PYGZhy{} Base\PYGZdl{}; \PYGZdl{}BaseCounter \PYGZbs{}leftarrow BaseCounter \PYGZhy{} 1\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}sub\PYGZbs{}\PYGZus{}bases\PYGZcb{}\PYGZdl{} | \PYGZdl{}BaseCounter == 0\PYGZdl{} | transition to \PYGZdl{}q\PYGZus{}\PYGZob{}sub\PYGZbs{}\PYGZus{}ones\PYGZcb{}\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}sub\PYGZbs{}\PYGZus{}ones\PYGZcb{}\PYGZdl{} | \PYGZdl{}OneCounter \PYGZgt{} 0\PYGZdl{} | \PYGZdl{}CurrentValue \PYGZbs{}leftarrow CurrentValue \PYGZhy{} 1\PYGZdl{}; \PYGZdl{}OneCounter \PYGZbs{}leftarrow OneCounter \PYGZhy{} 1\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}sub\PYGZbs{}\PYGZus{}ones\PYGZcb{}\PYGZdl{} | \PYGZdl{}OneCounter == 0\PYGZdl{} | Accept \PYGZdl{}CurrentValue\PYGZdl{} |
+
+\PYG{g+gs}{**Choreography.**} Directional inversion of the same two\PYGZhy{}phase rhythm (bases \PYGZdl{}\PYGZbs{}to\PYGZdl{} ones). Overshoot detection acts as control boundary in COBO.
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Subtraction Decomposition (Borrowing)}
+
+\PYG{g+gs}{**Description.**} Left\PYGZhy{}to\PYGZhy{}right: subtract higher place (tens), detect insufficiency in lower place, decompose (borrow) one higher unit into base smaller units, then subtract ones.
+
+\PYG{g+gs}{**Transition Function (\PYGZdl{}\PYGZbs{}delta\PYGZdl{}):**}
+
+| Current State | Condition | Next State | Action | Interpretation |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}init\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}sub\PYGZbs{}\PYGZus{}bases\PYGZcb{}\PYGZdl{} | Decompose \PYGZdl{}M, S\PYGZdl{} into place values \PYGZdl{}R\PYGZus{}T, R\PYG{g+ge}{\PYGZus{}O, S\PYGZus{}}T, S\PYGZus{}O\PYGZdl{}. | Initialize registers. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}sub\PYGZbs{}\PYGZus{}bases\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}check\PYGZbs{}\PYGZus{}ones\PYGZcb{}\PYGZdl{} | \PYGZdl{}R\PYGZus{}T \PYGZbs{}leftarrow R\PYG{g+ge}{\PYGZus{}T \PYGZhy{} S\PYGZus{}}T\PYGZdl{} | Subtract the bases (Tens). |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}check\PYGZbs{}\PYGZus{}ones\PYGZcb{}\PYGZdl{} | \PYGZdl{}R\PYGZus{}O \PYGZbs{}ge S\PYG{g+ge}{\PYGZus{}O\PYGZdl{} | \PYGZdl{}q\PYGZus{}}\PYGZob{}sub\PYGZbs{}\PYGZus{}ones\PYGZcb{}\PYGZdl{} | \PYGZhy{} | Sufficient ones. No borrow needed. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}check\PYGZbs{}\PYGZus{}ones\PYGZcb{}\PYGZdl{} | \PYGZdl{}R\PYGZus{}O \PYGZlt{} S\PYG{g+ge}{\PYGZus{}O\PYGZdl{} | \PYGZdl{}q\PYGZus{}}\PYGZob{}decompose\PYGZcb{}\PYGZdl{} | \PYGZhy{} | Insufficient ones. Borrow. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}decompose\PYGZcb{}\PYGZdl{} | \PYGZdl{}R\PYGZus{}T \PYGZgt{} 0\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}sub\PYGZbs{}\PYGZus{}ones\PYGZcb{}\PYGZdl{} | \PYGZdl{}R\PYGZus{}T \PYGZbs{}leftarrow R\PYG{g+ge}{\PYGZus{}T \PYGZhy{} 1\PYGZdl{}; \PYGZdl{}R\PYGZus{}}O \PYGZbs{}leftarrow R\PYGZus{}O + Base\PYGZdl{} | Decompose (borrow) one ten. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}sub\PYGZbs{}\PYGZus{}ones\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}accept\PYGZcb{}\PYGZdl{} | \PYGZdl{}R\PYGZus{}O \PYGZbs{}leftarrow R\PYG{g+ge}{\PYGZus{}O \PYGZhy{} S\PYGZus{}}O\PYGZdl{}; Result \PYGZdl{}\PYGZbs{}leftarrow R\PYG{g+ge}{\PYGZus{}T \PYGZbs{}cdot Base + R\PYGZus{}}O\PYGZdl{} | Subtract ones and combine result. |
+
+\PYG{g+gs}{**Choreography.**} Inversion of sublation: temporal decompression of a ten into ten ones to restore operability.
+
+\PYG{g+gs}{**Lineage.**} Builds on internalized carry (from counting) now executed in reverse.
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Subtraction Rounding and Adjusting}
+
+\PYG{g+gs}{**Description.**} Dual rounding (e.g., \PYGZdl{}M \PYGZbs{}to M\PYGZsq{}\PYGZdl{} down, \PYGZdl{}S \PYGZbs{}to S\PYGZsq{}\PYGZdl{} down) yields simplified \PYGZdl{}M\PYGZsq{} \PYGZhy{} S\PYGZsq{}\PYGZdl{}, then contrasting compensations: add \PYGZdl{}K\PYGZus{}M\PYGZdl{}, subtract \PYGZdl{}K\PYGZus{}S\PYGZdl{}.
+
+\PYG{g+gs}{**Transition Function (\PYGZdl{}\PYGZbs{}delta\PYGZdl{}):**}
+
+| Current State | Action | Next State | Interpretation |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}start\PYGZcb{}\PYGZdl{} | Read \PYGZdl{}M, S\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}roundM\PYGZcb{}\PYGZdl{} | Start. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}roundM\PYGZcb{}\PYGZdl{} | \PYGZdl{}M\PYGZsq{} \PYGZbs{}leftarrow\PYGZdl{} RoundDown(\PYGZdl{}M\PYGZdl{}); \PYGZdl{}K\PYGZus{}M \PYGZbs{}leftarrow M \PYGZhy{} M\PYGZsq{}\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}roundS\PYGZcb{}\PYGZdl{} | Round \PYGZdl{}M\PYGZdl{} down. Store adjustment \PYGZdl{}K\PYGZus{}M\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}roundS\PYGZcb{}\PYGZdl{} | \PYGZdl{}S\PYGZsq{} \PYGZbs{}leftarrow\PYGZdl{} RoundDown(\PYGZdl{}S\PYGZdl{}); \PYGZdl{}K\PYGZus{}S \PYGZbs{}leftarrow S \PYGZhy{} S\PYGZsq{}\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}subtract\PYGZcb{}\PYGZdl{} | Round \PYGZdl{}S\PYGZdl{} down. Store adjustment \PYGZdl{}K\PYGZus{}S\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}subtract\PYGZcb{}\PYGZdl{} | \PYGZdl{}Temp \PYGZbs{}leftarrow M\PYGZsq{} \PYGZhy{} S\PYGZsq{}\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}adjustM\PYGZcb{}\PYGZdl{} | Calculate intermediate result. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}adjustM\PYGZcb{}\PYGZdl{} | \PYGZdl{}Temp \PYGZbs{}leftarrow Temp + K\PYG{g+ge}{\PYGZus{}M\PYGZdl{} | \PYGZdl{}q\PYGZus{}}\PYGZob{}adjustS\PYGZcb{}\PYGZdl{} | Compensate for \PYGZdl{}M\PYGZdl{} (Add back). |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}adjustS\PYGZcb{}\PYGZdl{} | \PYGZdl{}Result \PYGZbs{}leftarrow Temp \PYGZhy{} K\PYG{g+ge}{\PYGZus{}S\PYGZdl{} (via chunking) | \PYGZdl{}q\PYGZus{}}\PYGZob{}accept\PYGZcb{}\PYGZdl{} | Compensate for \PYGZdl{}S\PYGZdl{} (Subtract). |
+
+\PYG{g+gs}{**Choreography.**} Opposed adjustments highlight subtraction asymmetry: modification of minuend vs. subtrahend impacts result in inverse directions.
+
+\PYG{g+gs}{**Lineage.**} Integrates rounding (addition strategy) and inverse compensation sequencing.
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Subtraction Sliding (Constant Difference)}
+
+\PYG{g+gs}{**Description.**} Find \PYGZdl{}K\PYGZdl{} so that \PYGZdl{}S + K\PYGZdl{} is a base (or friendly) number; compute \PYGZdl{}(M + K) \PYGZhy{} (S + K)\PYGZdl{} exploiting invariance: \PYGZdl{}M \PYGZhy{} S = (M+K) \PYGZhy{} (S+K)\PYGZdl{}.
+
+\PYG{g+gs}{**Transition Function (\PYGZdl{}\PYGZbs{}delta\PYGZdl{}):**}
+
+| Current State | Action | Next State | Interpretation |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}start\PYGZcb{}\PYGZdl{} | Read \PYGZdl{}M, S\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}calcK\PYGZcb{}\PYGZdl{} | Start. Target \PYGZdl{}S\PYGZdl{} for adjustment. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}calcK\PYGZcb{}\PYGZdl{} | \PYGZdl{}K \PYGZbs{}leftarrow\PYGZdl{} CountUpToBase(\PYGZdl{}S\PYGZdl{}) | \PYGZdl{}q\PYGZus{}\PYGZob{}slide\PYGZcb{}\PYGZdl{} | Iteratively find the gap \PYGZdl{}K\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}slide\PYGZcb{}\PYGZdl{} | \PYGZdl{}M\PYGZsq{} \PYGZbs{}leftarrow M+K\PYGZdl{}; \PYGZdl{}S\PYGZsq{} \PYGZbs{}leftarrow S+K\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}subtract\PYGZcb{}\PYGZdl{} | Apply the slide \PYGZdl{}K\PYGZdl{} to both \PYGZdl{}M\PYGZdl{} and \PYGZdl{}S\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}subtract\PYGZcb{}\PYGZdl{} | \PYGZdl{}Result \PYGZbs{}leftarrow M\PYGZsq{} \PYGZhy{} S\PYGZsq{}\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}accept\PYGZcb{}\PYGZdl{} | Perform the simplified subtraction. |
+
+\PYG{g+gs}{**Choreography.**} Up\PYGZhy{}front decompression (deriving \PYGZdl{}K\PYGZdl{}) enables single compressed subtraction against a base\PYGZhy{}aligned subtrahend.
+
+\PYG{g+gs}{**Lineage.**} Extends RMB gap\PYGZhy{}finding; anticipates relational “distance” framing central to subtraction fluency.
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Commutative Reasoning (Multiplication Optimization)}
+
+\PYG{g+gs}{**Description.**} For \PYGZdl{}A \PYGZbs{}times B\PYGZdl{}, evaluate heuristic difficulty of \PYGZdl{}(A,B)\PYGZdl{} vs \PYGZdl{}(B,A)\PYGZdl{}; select orientation minimizing cognitive load (iteration count \PYGZam{} skip difficulty), then perform iterative addition (skip counting).
+
+\PYG{g+gs}{**Transition Function (\PYGZdl{}\PYGZbs{}delta\PYGZdl{}):**}
+
+| Current State | Condition / Heuristic | Next State | Action |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}evaluate\PYGZcb{}\PYGZdl{} | \PYGZdl{}H(B, A) \PYGZlt{} H(A, B)\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}repackage\PYGZcb{}\PYGZdl{} | \PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}evaluate\PYGZcb{}\PYGZdl{} | (Otherwise) | \PYGZdl{}q\PYGZus{}\PYGZob{}calc\PYGZcb{}\PYGZdl{} | \PYGZdl{}Groups \PYGZbs{}leftarrow A\PYGZdl{}; \PYGZdl{}Items \PYGZbs{}leftarrow B\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}repackage\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}calc\PYGZcb{}\PYGZdl{} | \PYGZdl{}Groups \PYGZbs{}leftarrow B\PYGZdl{}; \PYGZdl{}Items \PYGZbs{}leftarrow A\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}calc\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}accept\PYGZcb{}\PYGZdl{} | \PYGZdl{}Total \PYGZbs{}leftarrow\PYGZdl{} IterativeAdd(\PYGZdl{}Groups, Items\PYGZdl{}) |
+
+\PYG{g+gs}{**Choreography.**} Meta\PYGZhy{}level selection precedes execution; commutative symmetry exploited for temporal compression.
+
+\PYG{g+gs}{**Lineage.**} Builds on C2C / Skip Counting; introduces optimization layer.
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Coordinating Two Counts (C2C)}
+
+\PYG{g+gs}{**Description.**} Foundational multiplication: nested counting—items within group, groups within total; total \PYGZdl{}T = N \PYGZbs{}cdot S\PYGZdl{} emerges from exhaustive unit enumeration.
+
+\PYG{g+gs}{**Transition Function (\PYGZdl{}\PYGZbs{}delta\PYGZdl{}):**}
+
+| Current State | Condition | Next State | Action |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}init\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}checkG\PYGZcb{}\PYGZdl{} | \PYGZdl{}G \PYGZbs{}leftarrow 0, I \PYGZbs{}leftarrow 0, T \PYGZbs{}leftarrow 0\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}checkG\PYGZcb{}\PYGZdl{} | \PYGZdl{}G \PYGZlt{} N\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}countItems\PYGZcb{}\PYGZdl{} | \PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}checkG\PYGZcb{}\PYGZdl{} | \PYGZdl{}G == N\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}accept\PYGZcb{}\PYGZdl{} | Output \PYGZdl{}T\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}countItems\PYGZcb{}\PYGZdl{} | \PYGZdl{}I \PYGZlt{} S\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}countItems\PYGZcb{}\PYGZdl{} | \PYGZdl{}I \PYGZbs{}leftarrow I+1, T \PYGZbs{}leftarrow T+1\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}countItems\PYGZcb{}\PYGZdl{} | \PYGZdl{}I == S\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}nextGroup\PYGZcb{}\PYGZdl{} | \PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}nextGroup\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}checkG\PYGZcb{}\PYGZdl{} | \PYGZdl{}G \PYGZbs{}leftarrow G+1, I \PYGZbs{}leftarrow 0\PYGZdl{} |
+
+\PYG{g+gs}{**Choreography.**} Maximal temporal decompression (no compression yet); establishes structural scaffold for later compression (skip counting, distributive reasoning).
+
+\PYG{g+gs}{**Lineage.**} Direct elaboration of counting primitives into nested loops.
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Conversion to Bases and Ones (CBO Multiplication)}
+
+\PYG{g+gs}{**Description.**} Redistribute units among groups so that many groups become exact base multiples, leaving a compact residual: \PYGZdl{}(k \PYGZbs{}cdot Base) + r\PYGZdl{}.
+
+\PYG{g+gs}{**Transition Function (\PYGZdl{}\PYGZbs{}delta\PYGZdl{}):**}
+
+| Current State | Condition | Next State | Action |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}init\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}select\PYGZbs{}\PYGZus{}source\PYGZcb{}\PYGZdl{} | Initialize \PYGZdl{}Groups\PYGZdl{} array with value \PYGZdl{}S\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}select\PYGZbs{}\PYGZus{}source\PYGZcb{}\PYGZdl{} | \PYGZdl{}N\PYGZgt{}0\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}transfer\PYGZcb{}\PYGZdl{} | Select a \PYGZdl{}SourceIdx\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}transfer\PYGZcb{}\PYGZdl{} | \PYGZdl{}Groups[Source] \PYGZgt{} 0\PYGZdl{} AND not all targets full | \PYGZdl{}q\PYGZus{}\PYGZob{}transfer\PYGZcb{}\PYGZdl{} | Transfer 1 unit from \PYGZdl{}Source\PYGZdl{} to next available \PYGZdl{}Target\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}transfer\PYGZcb{}\PYGZdl{} | (Source empty OR all targets full) | \PYGZdl{}q\PYGZus{}\PYGZob{}finalize\PYGZcb{}\PYGZdl{} | \PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}finalize\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}accept\PYGZcb{}\PYGZdl{} | Total \PYGZdl{}\PYGZbs{}leftarrow \PYGZbs{}sum Groups\PYGZdl{}. |
+
+\PYG{g+gs}{**Choreography.**} Proactive sublation: simultaneous decompression (source group) and compression (targets) to manufacture base units early.
+
+\PYG{g+gs}{**Lineage.**} Multiplicative analogue of RMB and addition Chunking with explicit inter\PYGZhy{}group transfers.
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Distributive Reasoning (Multiplication)}
+
+\PYG{g+gs}{**Description.**} Decompose \PYGZdl{}S = S\PYG{g+ge}{\PYGZus{}1 + S\PYGZus{}}2\PYGZdl{} (heuristically “easy” numbers), compute \PYGZdl{}N S\PYG{g+ge}{\PYGZus{}1\PYGZdl{} and \PYGZdl{}N S\PYGZus{}}2\PYGZdl{} (skip counting or compressed methods), then sum.
+
+\PYG{g+gs}{**Transition Function (\PYGZdl{}\PYGZbs{}delta\PYGZdl{}):**}
+
+| Current State | Action | Next State |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}split\PYGZcb{}\PYGZdl{} | \PYGZdl{}S\PYGZus{}1, S\PYG{g+ge}{\PYGZus{}2 \PYGZbs{}leftarrow\PYGZdl{} HeuristicSplit(\PYGZdl{}S\PYGZdl{}) | \PYGZdl{}q\PYGZus{}}\PYGZob{}P1\PYGZcb{}\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}P1\PYGZcb{}\PYGZdl{} | \PYGZdl{}P\PYGZus{}1 \PYGZbs{}leftarrow\PYGZdl{} IterativeAdd(\PYGZdl{}N, S\PYG{g+ge}{\PYGZus{}1\PYGZdl{}) | \PYGZdl{}q\PYGZus{}}\PYGZob{}P2\PYGZcb{}\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}P2\PYGZcb{}\PYGZdl{} | \PYGZdl{}P\PYGZus{}2 \PYGZbs{}leftarrow\PYGZdl{} IterativeAdd(\PYGZdl{}N, S\PYG{g+ge}{\PYGZus{}2\PYGZdl{}) | \PYGZdl{}q\PYGZus{}}\PYGZob{}sum\PYGZcb{}\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}sum\PYGZcb{}\PYGZdl{} | \PYGZdl{}Total \PYGZbs{}leftarrow P\PYG{g+ge}{\PYGZus{}1 + P\PYGZus{}}2\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}accept\PYGZcb{}\PYGZdl{} |
+
+\PYG{g+gs}{**Choreography.**} Temporal decompression (factor split) followed by parallelizable compressed sub\PYGZhy{}calculations and final recombination.
+
+\PYG{g+gs}{**Lineage.**} Extends skip counting with heuristic structural decomposition; precursor to algebraic distributivity recognition.
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Dealing by Ones (Division – Sharing)}
+
+\PYG{g+gs}{**Description.**} Partitive division: distribute single units round\PYGZhy{}robin into \PYGZdl{}N\PYGZdl{} groups until total \PYGZdl{}T\PYGZdl{} exhausted; per\PYGZhy{}group size \PYGZdl{}S\PYGZdl{} emerges.
+
+\PYG{g+gs}{**Transition Function (\PYGZdl{}\PYGZbs{}delta\PYGZdl{}):**}
+
+| Current State | Condition | Next State | Action |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}init\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}deal\PYGZcb{}\PYGZdl{} | \PYGZdl{}Remaining \PYGZbs{}leftarrow T\PYGZdl{}; Initialize \PYGZdl{}Groups\PYGZdl{} array to 0s. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}deal\PYGZcb{}\PYGZdl{} | \PYGZdl{}Remaining \PYGZgt{} 0\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}deal\PYGZcb{}\PYGZdl{} | \PYGZdl{}Groups[idx] \PYGZbs{}leftarrow Groups[idx]+1\PYGZdl{}; \PYGZdl{}Remaining \PYGZbs{}leftarrow Remaining\PYGZhy{}1\PYGZdl{}; \PYGZdl{}idx \PYGZbs{}leftarrow (idx+1) \PYGZbs{}pmod N\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}deal\PYGZcb{}\PYGZdl{} | \PYGZdl{}Remaining == 0\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}accept\PYGZcb{}\PYGZdl{} | Output \PYGZdl{}Groups[0]\PYGZdl{} |
+
+\PYG{g+gs}{**Choreography.**} Maximal temporal decompression; rhythmic rounds establish invariant increase pattern (foundation for later compression insights).
+
+\PYG{g+gs}{**Lineage.**} Inversion of C2C perspective (constructing equal groups from total rather than composing total from groups).
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Inverse Distributive Reasoning (Division)}
+
+\PYG{g+gs}{**Description.**} Measurement division \PYGZdl{}T / S\PYGZdl{}: decompose \PYGZdl{}T\PYGZdl{} into known multiples of \PYGZdl{}S\PYGZdl{}: \PYGZdl{}T = \PYGZbs{}sum\PYGZus{}i (m\PYGZus{}i S)\PYGZdl{}; quotient \PYGZdl{}= \PYGZbs{}sum\PYGZus{}i m\PYGZus{}i\PYGZdl{}.
+
+\PYG{g+gs}{**Transition Function (\PYGZdl{}\PYGZbs{}delta\PYGZdl{}):**}
+
+| Current State | Condition | Next State | Action |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}init\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}search\PYGZcb{}\PYGZdl{} | \PYGZdl{}Remaining \PYGZbs{}leftarrow T\PYGZdl{}; \PYGZdl{}TotalQ \PYGZbs{}leftarrow 0\PYGZdl{}; Load KB for \PYGZdl{}S\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}search\PYGZcb{}\PYGZdl{} | Found \PYGZdl{}(P\PYGZus{}T, P\PYG{g+ge}{\PYGZus{}Q)\PYGZdl{} in KB where \PYGZdl{}P\PYGZus{}}T \PYGZbs{}le Remaining\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}apply\PYGZcb{}\PYGZdl{} | Select largest such \PYGZdl{}(P\PYGZus{}T, P\PYGZus{}Q)\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}search\PYGZcb{}\PYGZdl{} | No suitable fact found | \PYGZdl{}q\PYGZus{}\PYGZob{}accept\PYGZcb{}\PYGZdl{} | Output \PYGZdl{}TotalQ\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}apply\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}search\PYGZcb{}\PYGZdl{} | \PYGZdl{}Remaining \PYGZbs{}leftarrow Remaining \PYGZhy{} P\PYG{g+ge}{\PYGZus{}T\PYGZdl{}; \PYGZdl{}TotalQ \PYGZbs{}leftarrow TotalQ + P\PYGZus{}}Q\PYGZdl{}. |
+
+\PYG{g+gs}{**Choreography.**} Temporal compression via retrieval of pre\PYGZhy{}compressed multiplication facts; loop greedily subtracts largest available chunk.
+
+\PYG{g+gs}{**Lineage.**} Inversion of Distributive Reasoning in multiplication (switch from constructing product to decomposing dividend).
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Using Commutative Reasoning (Division via Iterated Accumulation)}
+
+\PYG{g+gs}{**Description.**} For \PYGZdl{}E / G\PYGZdl{} (sharing reframed as measurement): iteratively accumulate \PYGZdl{}G\PYGZdl{} until total \PYGZdl{}E\PYGZdl{} reached; iteration count is quotient.
+
+\PYG{g+gs}{**Transition Function (\PYGZdl{}\PYGZbs{}delta\PYGZdl{}):**}
+
+| Current State | Condition | Next State | Action |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}init\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}iterate\PYGZcb{}\PYGZdl{} | \PYGZdl{}Acc \PYGZbs{}leftarrow 0\PYGZdl{}; \PYGZdl{}Q \PYGZbs{}leftarrow 0\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}iterate\PYGZcb{}\PYGZdl{} | \PYGZhy{} | \PYGZdl{}q\PYGZus{}\PYGZob{}check\PYGZcb{}\PYGZdl{} | \PYGZdl{}Acc \PYGZbs{}leftarrow Acc + G\PYGZdl{}; \PYGZdl{}Q \PYGZbs{}leftarrow Q + 1\PYGZdl{}. |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}check\PYGZcb{}\PYGZdl{} | \PYGZdl{}Acc \PYGZlt{} E\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}iterate\PYGZcb{}\PYGZdl{} | \PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}check\PYGZcb{}\PYGZdl{} | \PYGZdl{}Acc == E\PYGZdl{} | \PYGZdl{}q\PYGZus{}\PYGZob{}accept\PYGZcb{}\PYGZdl{} | Output \PYGZdl{}Q\PYGZdl{}. |
+
+\PYG{g+gs}{**Choreography.**} Symmetric inversion of repeated addition (multiplication) focusing on completion criterion instead of fixed loop count.
+
+\PYG{g+gs}{**Lineage.**} Bridges between Dealing by Ones and chunk\PYGZhy{}based division (fact retrieval).
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Conversion to Groups Other than Bases (CGOB Division)}
+
+\PYG{g+gs}{**Description.**} Leverage base decomposition of dividend \PYGZdl{}T\PYGZdl{} (e.g., tens \PYGZam{} ones) plus analysis of base/divisor relation: \PYGZdl{}Base = q\PYG{g+ge}{\PYGZus{}1 S + r\PYGZus{}}1\PYGZdl{}; process all base units in bulk, aggregate remainders, finalize.
+
+\PYG{g+gs}{**Transition Function (\PYGZdl{}\PYGZbs{}delta\PYGZdl{}):**}
+
+| Current State | Action | Next State |
+| :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} | :\PYGZhy{}\PYGZhy{}\PYGZhy{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}init\PYGZcb{}\PYGZdl{} | Decompose \PYGZdl{}T\PYGZdl{} into \PYGZdl{}T\PYGZus{}B, T\PYG{g+ge}{\PYGZus{}O\PYGZdl{}; \PYGZdl{}Q \PYGZbs{}leftarrow 0, R \PYGZbs{}leftarrow 0\PYGZdl{}. | \PYGZdl{}q\PYGZus{}}\PYGZob{}analyze\PYGZcb{}\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}analyze\PYGZcb{}\PYGZdl{} | \PYGZdl{}S\PYGZus{}\PYGZob{}inB\PYGZcb{} \PYGZbs{}leftarrow B // S\PYGZdl{}; \PYGZdl{}R\PYGZus{}\PYGZob{}inB\PYGZcb{} \PYGZbs{}leftarrow B \PYGZbs{}pmod S\PYGZdl{}. | \PYGZdl{}q\PYGZus{}\PYGZob{}processBases\PYGZcb{}\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}processBases\PYGZcb{}\PYGZdl{} | \PYGZdl{}Q \PYGZbs{}leftarrow Q + T\PYG{g+ge}{\PYGZus{}B \PYGZbs{}cdot S\PYGZus{}}\PYGZob{}inB\PYGZcb{}\PYGZdl{}; \PYGZdl{}R \PYGZbs{}leftarrow R + T\PYG{g+ge}{\PYGZus{}B \PYGZbs{}cdot R\PYGZus{}}\PYGZob{}inB\PYGZcb{}\PYGZdl{}. | \PYGZdl{}q\PYGZus{}\PYGZob{}combineR\PYGZcb{}\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}combineR\PYGZcb{}\PYGZdl{} | \PYGZdl{}R \PYGZbs{}leftarrow R + T\PYG{g+ge}{\PYGZus{}O\PYGZdl{}. | \PYGZdl{}q\PYGZus{}}\PYGZob{}processR\PYGZcb{}\PYGZdl{} |
+| \PYGZdl{}q\PYGZus{}\PYGZob{}processR\PYGZcb{}\PYGZdl{} | \PYGZdl{}Q \PYGZbs{}leftarrow Q + R // S\PYGZdl{}; \PYGZdl{}R \PYGZbs{}leftarrow R \PYGZbs{}pmod S\PYGZdl{}. | \PYGZdl{}q\PYGZus{}\PYGZob{}accept\PYGZcb{}\PYGZdl{} |
+
+\PYG{g+gs}{**Choreography.**} Dual decompression (dividend by base, base by divisor) \PYGZdl{}\PYGZbs{}to\PYGZdl{} large compression (bulk quotient) \PYGZdl{}\PYGZbs{}to\PYGZdl{} residual resolution.
+
+\PYG{g+gs}{**Lineage.**} Division analogue of CBO (multiplication) and Distributive Reasoning; integrates multi\PYGZhy{}level structural analysis.
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Conceptual Dependency Graph (Narrative)}
+
+Counting \PYGZdl{}\PYGZbs{}to\PYGZdl{} (RMB, COBO) \PYGZdl{}\PYGZbs{}to\PYGZdl{} (Chunking, Rounding \PYGZam{} Adjusting, Sliding) \PYGZdl{}\PYGZbs{}to\PYGZdl{} (Subtraction Inversions: COBO/CBBO, Chunking orientations, Decomposition, Rounding, Sliding) \PYGZdl{}\PYGZbs{}to\PYGZdl{} (C2C) \PYGZdl{}\PYGZbs{}to\PYGZdl{} (Skip Counting / implicit in COBO Multiplication) \PYGZdl{}\PYGZbs{}to\PYGZdl{} (Commutative \PYGZam{} Distributive Reasoning, CBO Multiplication) \PYGZdl{}\PYGZbs{}to\PYGZdl{} (Division primitives: Dealing by Ones, Iterated Accumulation) \PYGZdl{}\PYGZbs{}to\PYGZdl{} (Inverse Distributive Reasoning, Fact\PYGZhy{}Based Decomposition) \PYGZdl{}\PYGZbs{}to\PYGZdl{} (CGOB Division).
+
+Each arrow denotes an algorithmic elaboration where prior compressed units or reversible decompositions become callable subroutines.
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Temporal Dynamics Summary}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Primitive Decompression:**} Counting by ones; Dealing by Ones; C2C (inner loop).
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**First Compression Layer:**} COBO (bases as units); subtraction COBO/CBBO; iterative accumulation for division.
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Strategic Boundary Forcing:**} RMB, Chunking, Sliding, Rounding (anticipatory manipulation of base thresholds).
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Structural Decomposition / Synthesis:**} Distributive Reasoning, Inverse Distributive Reasoning, CBO (Multiplication \PYGZam{} Division), CGOB.
+
+***
+
+\PYG{g+gh}{\PYGZsh{} Glossary of Symbols}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYGZdl{}Base\PYGZdl{}: Typically 10 (extendable to other positional bases).
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYGZdl{}K\PYGZdl{}: Gap to next base (RMB, Rounding, Chunking, Sliding).
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYGZdl{}R\PYGZdl{}: Remainder after decomposition or partial processing.
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYGZdl{}S\PYGZus{}1, S\PYGZus{}2\PYGZdl{}: Split components of a factor (Distributive Reasoning).
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYGZdl{}Groups, Items\PYGZdl{}: Multiplicative roles after commutative optimization.
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYGZdl{}Remaining\PYGZdl{}: Unprocessed portion of a dividend in division strategies.
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYGZdl{}Q\PYGZdl{}: Quotient / accumulated result in division; also generic state set symbol context\PYGZhy{}dependent.
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYGZdl{}Acc\PYGZdl{}: Accumulated total during iterative division.
+
+***
+
+End of Clean Draft.
+
+\end{MintedVerbatim}

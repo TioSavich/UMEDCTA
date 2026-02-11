@@ -1,0 +1,137 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{sys}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{os}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{json}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{pandas}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{pd}
+
+\PYG{c+c1}{\PYGZsh{} Add project root to path to allow importing from src}
+\PYG{n}{sys}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{abspath}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{dirname}\PYG{p}{(}\PYG{n+nv+vm}{\PYGZus{}\PYGZus{}file\PYGZus{}\PYGZus{}}\PYG{p}{),} \PYG{l+s+s1}{\PYGZsq{}../../..\PYGZsq{}}\PYG{p}{)))}
+
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{src.automata.BaseAutomaton}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{BaseAutomaton}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{src.analysis.MUA\PYGZus{}Metadata}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{StrategyMetadata}\PYG{p}{,} \PYG{n}{EmbodiedMetaphor}\PYG{p}{,} \PYG{n}{MaterialInference}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{typing}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Dict}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{SlidingAutomaton}\PYG{p}{(}\PYG{n}{BaseAutomaton}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    A Register Machine model simulating the \PYGZsq{}Sliding\PYGZsq{} (Constant Difference) strategy.}
+\PYG{l+s+sd}{    Models the cognitive process including the iterative steps to calculate the adjustment K.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+    \PYG{n+nd}{@property}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{metadata}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{StrategyMetadata}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Provides MUA metadata for the Sliding strategy.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{return} \PYG{n}{StrategyMetadata}\PYG{p}{(}
+            \PYG{n}{strategy\PYGZus{}id}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}SAR\PYGZus{}SUB\PYGZus{}Sliding\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{strategy\PYGZus{}name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Sliding to Make Bases (Constant Difference)\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{description}\PYG{o}{=}\PYG{p}{(}
+                \PYG{l+s+s2}{\PYGZdq{}Simulates the \PYGZsq{}Sliding\PYGZsq{} (Constant Difference) strategy for subtraction. \PYGZdq{}}
+                \PYG{l+s+s2}{\PYGZdq{}The core idea is to add or subtract the same amount (K) to both the minuend and subtrahend \PYGZdq{}}
+                \PYG{l+s+s2}{\PYGZdq{}to make the subtrahend a multiple of the base, simplifying the subtraction. \PYGZdq{}}
+                \PYG{l+s+s2}{\PYGZdq{}This relies on the principle that the difference between two numbers remains constant \PYGZdq{}}
+                \PYG{l+s+s2}{\PYGZdq{}if both are shifted by the same amount.\PYGZdq{}}
+            \PYG{p}{),}
+            \PYG{n}{metaphors}\PYG{o}{=}\PYG{p}{[}
+                \PYG{n}{EmbodiedMetaphor}\PYG{p}{(}
+                    \PYG{n}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Arithmetic as Motion Along a Path\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{source\PYGZus{}domain}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Motion\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{target\PYGZus{}domain}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Arithmetic\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{entailments}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}The distance between two points on a path remains the same if both points are shifted by the same amount in the same direction.\PYGZdq{}}
+                \PYG{p}{)}
+            \PYG{p}{],}
+            \PYG{n}{inferences}\PYG{o}{=}\PYG{p}{[}
+                \PYG{n}{MaterialInference}\PYG{p}{(}
+                    \PYG{n}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Invariance of Distance under Translation\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{premise}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}The distance between M and S is D.\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{conclusion}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}The distance between (M+K) and (S+K) is also D.\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{prerequisites}\PYG{o}{=}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Understanding of path measurement\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Experience with rigid motion\PYGZdq{}}\PYG{p}{]}
+                \PYG{p}{)}
+            \PYG{p}{],}
+            \PYG{n}{visualization\PYGZus{}hints}\PYG{o}{=}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}NumberLine\PYGZdq{}}\PYG{p}{]}
+        \PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{inputs}\PYG{p}{:} \PYG{n}{Dict}\PYG{p}{,} \PYG{n}{Base}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{):}
+        \PYG{n+nb}{super}\PYG{p}{()}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n}{inputs}\PYG{p}{,} \PYG{n}{Base}\PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} Initialize registers}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+            \PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{inputs}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{),}
+            \PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{inputs}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{),}
+            \PYG{l+s+s1}{\PYGZsq{}K\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}M\PYGZus{}adj\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}adj\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}TargetBase\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}TempCounter\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{]} \PYG{o}{\PYGZgt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{]:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Error: Subtrahend (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{) \PYGZgt{} Minuend (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{).\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} State Execution Methods \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}start}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Inputs: M=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, S=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{. Target S for adjustment.\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}init\PYGZus{}K\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Subroutine: Calculate K (Count Up To Base)}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}init\PYGZus{}K}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Initialize the \PYGZsq{}Count Up To Base\PYGZsq{} subroutine on S.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}K\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}TempCounter\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{]}
+
+        \PYG{c+c1}{\PYGZsh{} Determine the target base (e.g., 47 \PYGZhy{}\PYGZgt{} 50)}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{]} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0} \PYG{o+ow}{and} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{]} \PYG{o}{\PYGZpc{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Base} \PYG{o}{!=} \PYG{l+m+mi}{0}\PYG{p}{:}
+             \PYG{c+c1}{\PYGZsh{} Calculate the next highest multiple of the base}
+             \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}TargetBase\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{p}{((}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{]} \PYG{o}{//} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Base}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Base}
+        \PYG{k}{else}\PYG{p}{:}
+             \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}TargetBase\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} Already at a base or zero}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Initializing K calculation: Counting from }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ to }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}TargetBase\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}loop\PYGZus{}K\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}loop\PYGZus{}K}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Iteratively count up to the base.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}TempCounter\PYGZsq{}}\PYG{p}{]} \PYG{o}{\PYGZlt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}TargetBase\PYGZsq{}}\PYG{p}{]:}
+            \PYG{c+c1}{\PYGZsh{} Primitive counting operation}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}TempCounter\PYGZsq{}}\PYG{p}{]} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}K\PYGZsq{}}\PYG{p}{]} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Counting Up: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}TempCounter\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, K=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}K\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}K needed to reach base is }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}K\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}adjust\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}adjust}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Apply K to both M and S (The Slide).\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}adj\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{]} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}K\PYGZsq{}}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} Should equal TargetBase}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}M\PYGZus{}adj\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{]} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}K\PYGZsq{}}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Sliding both by +}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}K\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{. New problem: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}M\PYGZus{}adj\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}adj\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}subtract\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}subtract}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Perform the simplified subtraction.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{c+c1}{\PYGZsh{} This step is cognitively simple because S\PYGZus{}adj is a base multiple.}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}M\PYGZus{}adj\PYGZsq{}}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}adj\PYGZsq{}}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Perform Subtraction: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}M\PYGZus{}adj\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}adj\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ = }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Test Case: Example from PDF (73 \PYGZhy{} 47)}
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZsq{}}\PYG{p}{:}
+    \PYG{n}{M\PYGZus{}test} \PYG{o}{=} \PYG{l+m+mi}{73}
+    \PYG{n}{S\PYGZus{}test} \PYG{o}{=} \PYG{l+m+mi}{47}
+    \PYG{n}{sliding\PYGZus{}auto} \PYG{o}{=} \PYG{n}{SlidingAutomaton}\PYG{p}{(}\PYG{n}{inputs}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{:} \PYG{n}{M\PYGZus{}test}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{:} \PYG{n}{S\PYGZus{}test}\PYG{p}{\PYGZcb{})}
+    \PYG{n}{result} \PYG{o}{=} \PYG{n}{sliding\PYGZus{}auto}\PYG{o}{.}\PYG{n}{run}\PYG{p}{()}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZhy{}\PYGZhy{}\PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{sliding\PYGZus{}auto}\PYG{o}{.}\PYG{n}{metadata}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ History (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{M\PYGZus{}test}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{S\PYGZus{}test}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{) \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Final Result: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{result}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Display summarized history}
+    \PYG{n}{df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n}{sliding\PYGZus{}auto}\PYG{o}{.}\PYG{n}{history}\PYG{p}{)}
+    \PYG{n}{summary\PYGZus{}df} \PYG{o}{=} \PYG{n}{df}\PYG{p}{[}\PYG{n}{df}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Highlight\PYGZsq{}}\PYG{p}{]} \PYG{o}{==} \PYG{k+kc}{True}\PYG{p}{]}
+    \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{summary\PYGZus{}df}\PYG{o}{.}\PYG{n}{empty}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Summary Trace:\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{summary\PYGZus{}df}\PYG{p}{[[}\PYG{l+s+s1}{\PYGZsq{}State\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Interpretation\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Registers\PYGZsq{}}\PYG{p}{]]}\PYG{o}{.}\PYG{n}{to\PYGZus{}markdown}\PYG{p}{(}\PYG{n}{index}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{))}
+
+    \PYG{c+c1}{\PYGZsh{} Export and print the full trace as JSON}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZhy{}\PYGZhy{}\PYGZhy{} Full Trace JSON Export \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{sliding\PYGZus{}auto}\PYG{o}{.}\PYG{n}{export\PYGZus{}trace\PYGZus{}json}\PYG{p}{())}
+
+\end{MintedVerbatim}

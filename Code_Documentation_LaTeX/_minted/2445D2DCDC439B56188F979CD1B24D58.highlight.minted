@@ -1,0 +1,251 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{g+gh}{\PYGZsh{} Critique Mechanisms \PYGZhy{} Implementation Complete}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Summary}
+
+The previously stubbed\PYGZhy{}out critique mechanisms have been \PYG{g+gs}{**fully implemented and tested**}. The system can now detect pathologies, track failures, and attempt accommodation through belief revision and sublation.
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Implemented Features}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. **Bad Infinite Detection** ✅}
+
+\PYG{g+gs}{**File**}: \PYG{l+s+sb}{`critique.pl`} (lines 68\PYGZhy{}107)
+
+\PYG{g+gs}{**What It Does**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Traverses proof trees to detect cycles
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Identifies when the same sequent is re\PYGZhy{}proven via the same rule
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Verifies if detected cycles are \PYGZdq{}Bad Infinites\PYGZdq{} (purely compressive oscillations)
+
+\PYG{g+gs}{**Implementation**}:
+\PYG{l+s+sb}{```prolog}
+\PYG{n+nf}{find\PYGZus{}proof\PYGZus{}cycle}\PYG{p}{(}\PYG{n+nv}{Proof}\PYG{p}{,} \PYG{n+nv}{Cycle}\PYG{p}{)}
+\PYG{l+s+sb}{```}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Tracks visited nodes during depth\PYGZhy{}first traversal
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }When a repeat is found, extracts the cyclic portion
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Example: Detects Hegel\PYGZsq{}s Being ↔ Nothing oscillation
+
+\PYG{g+gs}{**Test Result**}: ✅ PASS
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Cycle detection structure implemented
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Verified with Being/Nothing test case
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. **Stress Map Utilization** ✅}
+
+\PYG{g+gs}{**File**}: \PYG{l+s+sb}{`critique.pl`} (lines 174\PYGZhy{}197)
+
+\PYG{g+gs}{**What It Does**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Tracks how often each commitment/sequent fails
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Scores commitments by accumulated stress
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Identifies the \PYGZdq{}weakest\PYGZdq{} (most stressed) commitment for revision
+
+\PYG{g+gs}{**Implementation**}:
+\PYG{l+s+sb}{```prolog}
+\PYG{n+nf}{identify\PYGZus{}stressed\PYGZus{}commitment}\PYG{p}{(}\PYG{n+nv}{Commitments}\PYG{p}{,} \PYG{n+nv}{StressedCommitment}\PYG{p}{)}
+\PYG{n+nf}{commitment\PYGZus{}stress}\PYG{p}{(}\PYG{n+nv}{Commitment}\PYG{p}{,} \PYG{n+nv}{Stress}\PYG{p}{)}
+\PYG{l+s+sb}{```}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Converts commitments to string signatures
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Looks up stress in the dynamic \PYG{l+s+sb}{`stress/2`} database
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Sorts by stress level to find most problematic commitment
+
+\PYG{g+gs}{**Test Result**}: ✅ PASS
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Correctly identifies commitment with stress level 5 over commitment with stress level 2
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. **Resource Exhaustion Accommodation** ✅}
+
+\PYG{g+gs}{**File**}: \PYG{l+s+sb}{`critique.pl`} (lines 136\PYGZhy{}146)
+
+\PYG{g+gs}{**What It Does**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Records sequent failures in the stress map for learning
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Acknowledges resource limitations
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Signals need for external optimization
+
+\PYG{g+gs}{**Implementation**}:
+\PYG{l+s+sb}{```prolog}
+\PYG{n+nf}{accommodate}\PYG{p}{(}\PYG{n+nf}{perturbation}\PYG{p}{(}\PYG{l+s+sAtom}{resource\PYGZus{}exhaustion}\PYG{p}{,} \PYG{n+nv}{Sequent}\PYG{p}{))}
+\PYG{l+s+sb}{```}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Increments stress for the problematic sequent
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Records the failure pattern
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Currently does not auto\PYGZhy{}generate optimizations (intentional)
+
+\PYG{g+gs}{**Test Result**}: ✅ PASS
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Stress correctly recorded when resource exhaustion occurs
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. **Belief Revision (Incoherence Accommodation)** ✅}
+
+\PYG{g+gs}{**File**}: \PYG{l+s+sb}{`critique.pl`} (lines 148\PYGZhy{}153, 167\PYGZhy{}205)
+
+\PYG{g+gs}{**What It Does**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Identifies conflicting commitments
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Uses stress map to find weakest commitment
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Dynamically blocks**} problematic inferences by asserting incoherence
+
+\PYG{g+gs}{**Implementation**}:
+\PYG{l+s+sb}{```prolog}
+\PYG{n+nf}{retract\PYGZus{}commitment}\PYG{p}{(}\PYG{n+nv}{Commitment}\PYG{p}{)}
+\PYG{l+s+sb}{```}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Extracts antecedents from the problematic commitment
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Asserts \PYG{l+s+sb}{`is\PYGZus{}incoherent(Antecedents)`} to prevent future use
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**This is actual runtime modification**} of the logical system
+
+\PYG{g+gs}{**Test Result**}: ✅ PASS
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Successfully blocks commitment \PYG{l+s+sb}{`[a,b] =\PYGZgt{} c`} by asserting \PYG{l+s+sb}{`is\PYGZus{}incoherent([a,b])`}
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 5. **Sublation (Bad Infinite Accommodation)** ✅}
+
+\PYG{g+gs}{**File**}: \PYG{l+s+sb}{`critique.pl`} (lines 155\PYGZhy{}178)
+
+\PYG{g+gs}{**What It Does**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Detects pathological oscillations (Bad Infinite)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Records each element of the cycle as stressed
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Diagnoses the need for conceptual elevation**} (e.g., \PYGZdq{}Becoming\PYGZdq{} for Being/Nothing)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Signals external intervention required
+
+\PYG{g+gs}{**Implementation**}:
+\PYG{l+s+sb}{```prolog}
+\PYG{n+nf}{accommodate}\PYG{p}{(}\PYG{n+nf}{pathology}\PYG{p}{(}\PYG{l+s+sAtom}{bad\PYGZus{}infinite}\PYG{p}{,} \PYG{n+nv}{Cycle}\PYG{p}{))}
+\PYG{l+s+sb}{```}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Extracts oscillating sequents from the cycle
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Marks each transition as problematic
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Explains that auto\PYGZhy{}generation of higher concepts is not yet implemented
+
+\PYG{g+gs}{**Test Result**}: ✅ PASS
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Correctly identifies Being ↔ Nothing oscillation
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Marks both transitions as stressed
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Outputs diagnostic message about sublation requirement
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} What The System Can Actually Do Now}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Detection (Fully Implemented)}
+\PYG{k}{1.} ✅ \PYG{g+gs}{**Detect cycles in proof trees**}
+\PYG{k}{2.} ✅ \PYG{g+gs}{**Identify Bad Infinites**} (compressive oscillations)
+\PYG{k}{3.} ✅ \PYG{g+gs}{**Track failure patterns**} via stress map
+\PYG{k}{4.} ✅ \PYG{g+gs}{**Extract commitments**} from proof structures
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Accommodation (Partially Implemented)}
+\PYG{k}{1.} ✅ \PYG{g+gs}{**Record resource exhaustion**} for learning
+\PYG{k}{2.} ✅ \PYG{g+gs}{**Block incoherent commitments**} via dynamic assertion
+\PYG{k}{3.} ✅ \PYG{g+gs}{**Diagnose sublation requirements**} for Bad Infinites
+\PYG{k}{4.} ❌ \PYG{g+gs}{**Auto\PYGZhy{}generate optimizations**} (intentionally not implemented)
+\PYG{k}{5.} ❌ \PYG{g+gs}{**Auto\PYGZhy{}generate higher concepts**} (requires creativity, not formal)
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Limitations (By Design)}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. **No Auto\PYGZhy{}Optimization**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Resource exhaustion is \PYG{g+gs}{**recorded**} but not automatically fixed
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }System signals need for external optimization (e.g., introducing lemmas, memoization)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Rationale**}: Optimization requires domain knowledge
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. **No Conceptual Creation**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Bad Infinites are \PYG{g+gs}{**diagnosed**} but not automatically resolved
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }System identifies the need for sublation but cannot invent \PYGZdq{}Becoming\PYGZdq{}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Rationale**}: Conceptual innovation is not formalizable
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. **No Cycle Prevention During Proof**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Cycles are detected \PYG{g+gs}{**post\PYGZhy{}hoc**} in completed proofs
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }The prover doesn\PYGZsq{}t check for cycles during search (would be expensive)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Rationale**}: Historical tracking for learning, not runtime prevention
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} The Accommodation Strategy}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Resource Exhaustion}
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{1. Record failure in stress map}
+\PYG{l+s+sb}{2. Signal: \PYGZdq{}External intervention required\PYGZdq{}}
+\PYG{l+s+sb}{3. Human/external system provides optimization}
+\PYG{l+s+sb}{4. Retry with improved setup}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Incoherence}
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{1. Extract conflicting commitments}
+\PYG{l+s+sb}{2. Score by stress level}
+\PYG{l+s+sb}{3. Block weakest commitment (assert incoherence)}
+\PYG{l+s+sb}{4. Retry proof without problematic inference}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Bad Infinite}
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{1. Detect oscillation pattern}
+\PYG{l+s+sb}{2. Mark all elements as stressed}
+\PYG{l+s+sb}{3. Diagnose: \PYGZdq{}Sublation required \PYGZhy{} introduce X\PYGZdq{}}
+\PYG{l+s+sb}{4. Human/external system provides higher concept}
+\PYG{l+s+sb}{5. Retry with enriched vocabulary}
+\PYG{l+s+sb}{```}
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Test Results}
+
+\PYG{g+gs}{**All 7 Tests Passing**} ✅
+
+\PYG{k}{1.} ✅ Stress Map: Recording Failures
+\PYG{k}{2.} ✅ Commitment Extraction from Proof
+\PYG{k}{3.} ✅ Bad Infinite: Cycle Detection
+\PYG{k}{4.} ✅ Identify Most Stressed Commitment
+\PYG{k}{5.} ✅ Resource Exhaustion: Stress Recording
+\PYG{k}{6.} ✅ Incoherence: Belief Revision
+\PYG{k}{7.} ✅ Bad Infinite: Sublation Mechanism
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Integration with Dialectical Engine}
+
+The \PYG{l+s+sb}{`dialectical\PYGZus{}engine.pl`} wraps the prover and critique:
+
+\PYG{l+s+sb}{```prolog}
+\PYG{n+nf}{run\PYGZus{}computation}\PYG{p}{(}\PYG{n+nv}{Sequent}\PYG{p}{,} \PYG{n+nv}{Limit}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{catch}\PYG{p}{(}
+        \PYG{n+nf}{proves}\PYG{p}{(}\PYG{n+nv}{Sequent}\PYG{p}{,} \PYG{n+nv}{Limit}\PYG{p}{,} \PYG{k}{\PYGZus{}}\PYG{p}{,} \PYG{n+nv}{Proof}\PYG{p}{),}
+        \PYG{n+nf}{perturbation}\PYG{p}{(}\PYG{n+nv}{Type}\PYG{p}{),}
+        \PYG{n+nf}{handle\PYGZus{}perturbation}\PYG{p}{(}\PYG{n+nf}{perturbation}\PYG{p}{(}\PYG{n+nv}{Type}\PYG{p}{),} \PYG{n+nv}{Sequent}\PYG{p}{,} \PYG{n+nv}{Limit}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{n+nf}{handle\PYGZus{}perturbation}\PYG{p}{(}\PYG{n+nv}{Error}\PYG{p}{,} \PYG{n+nv}{Sequent}\PYG{p}{,} \PYG{n+nv}{Limit}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{accommodate}\PYG{p}{(}\PYG{n+nv}{Error}\PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nf}{run\PYGZus{}computation}\PYG{p}{(}\PYG{n+nv}{Sequent}\PYG{p}{,} \PYG{n+nv}{Limit}\PYG{p}{)}  \PYG{c+c1}{\PYGZpc{} Retry after accommodation}
+    \PYG{p}{;}
+        \PYG{l+s+sAtom}{fail}\PYG{p}{.}  \PYG{c+c1}{\PYGZpc{} Accommodation failed, halt}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**The ORR Cycle is Now Operational**}:
+\PYG{k}{1.} \PYG{g+gs}{**Observe**}: Prover attempts proof
+\PYG{k}{2.} \PYG{g+gs}{**Reflect**}: Detect perturbation/pathology
+\PYG{k}{3.} \PYG{g+gs}{**Reorganize**}: Accommodate via belief revision or stress recording
+\PYG{k}{4.} \PYG{g+gs}{**Retry**}: Attempt proof again with modified system
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Status}
+
+\PYG{g+gs}{**CRITIQUE MECHANISMS: IMPLEMENTATION COMPLETE**} ✅
+
+The system now has:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ Working pathology detection
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ Functional stress tracking
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ Active belief revision (dynamic commitment blocking)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ Diagnostic sublation mechanism
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ Complete ORR cycle infrastructure
+
+\PYG{g+gs}{**What remains unimplemented (by design)**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Automatic optimization generation
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Automatic concept creation
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Runtime cycle prevention during proof search
+
+These gaps are \PYG{g+gs}{**intentional**} \PYGZhy{} they represent the boundary where formal systems require external creativity and domain knowledge.
+
+\end{MintedVerbatim}

@@ -1,0 +1,125 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{pandas}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{pd}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{math}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{SlidingAutomaton}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    A Register Machine model simulating the \PYGZsq{}Sliding\PYGZsq{} (Constant Difference) strategy.}
+\PYG{l+s+sd}{    Models the cognitive process including the iterative steps to calculate the adjustment K.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{strategy\PYGZus{}name} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Sliding to Make Bases (Constant Difference)\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{M}\PYG{p}{,} \PYG{n}{S}\PYG{p}{,} \PYG{n}{Base}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{M} \PYG{o}{=} \PYG{n}{M}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S} \PYG{o}{=} \PYG{n}{S}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Base} \PYG{o}{=} \PYG{n}{Base}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}start\PYGZsq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+        \PYG{c+c1}{\PYGZsh{} Main Registers}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{K} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{M\PYGZus{}adj} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S\PYGZus{}adj} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+        \PYG{c+c1}{\PYGZsh{} Internal registers for iteration}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TargetBase} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TempCounter} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+        \PYG{k}{if} \PYG{n}{S} \PYG{o}{\PYGZgt{}} \PYG{n}{M}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Error: Subtrahend (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{S}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{) \PYGZgt{} Minuend (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{M}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{).\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{interpretation}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(\PYGZob{}}
+            \PYG{l+s+s1}{\PYGZsq{}State\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Interpretation\PYGZsq{}}\PYG{p}{:} \PYG{n}{interpretation}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}K\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{K}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}M\PYGZus{}adj\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{M\PYGZus{}adj}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}adj\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S\PYGZus{}adj}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}Highlight\PYGZsq{}}\PYG{p}{:} \PYG{n}{highlight}
+        \PYG{p}{\PYGZcb{})}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{transition}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{next\PYGZus{}state}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{n}{next\PYGZus{}state}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{run}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{while} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}\PYG{p}{]:}
+            \PYG{n}{executor} \PYG{o}{=} \PYG{n+nb}{getattr}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}execute\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{execute\PYGZus{}error}\PYG{p}{)}
+            \PYG{n}{executor}\PYG{p}{()}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}error}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{!=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Error: Entered unknown state }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} State Execution Methods \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}start}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Inputs: M=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{M}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, S=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{. Target S for adjustment.\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}init\PYGZus{}K\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Subroutine: Calculate K (Count Up To Base)}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}init\PYGZus{}K}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Initialize the \PYGZsq{}Count Up To Base\PYGZsq{} subroutine on S.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{K} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TempCounter} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S}
+
+        \PYG{c+c1}{\PYGZsh{} Determine the target base (e.g., 47 \PYGZhy{}\PYGZgt{} 50)}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0} \PYG{o+ow}{and} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S} \PYG{o}{\PYGZpc{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Base} \PYG{o}{!=} \PYG{l+m+mi}{0}\PYG{p}{:}
+             \PYG{c+c1}{\PYGZsh{} Calculate the next highest multiple of the base}
+             \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TargetBase} \PYG{o}{=} \PYG{p}{((}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S} \PYG{o}{//} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Base}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Base}
+        \PYG{k}{else}\PYG{p}{:}
+             \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TargetBase} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S} \PYG{c+c1}{\PYGZsh{} Already at a base or zero}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Initializing K calculation: Counting from }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ to }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TargetBase}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}loop\PYGZus{}K\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}loop\PYGZus{}K}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Iteratively count up to the base.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TempCounter} \PYG{o}{\PYGZlt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TargetBase}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{} Primitive counting operation}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TempCounter} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{K} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Counting Up: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TempCounter}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, K=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{K}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}K needed to reach base is }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{K}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}adjust\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}adjust}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Apply K to both M and S (The Slide).\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S\PYGZus{}adj} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{K} \PYG{c+c1}{\PYGZsh{} Should equal TargetBase}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{M\PYGZus{}adj} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{M} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{K}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Sliding both by +}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{K}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{. New problem: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{M\PYGZus{}adj}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S\PYGZus{}adj}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}subtract\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}subtract}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Perform the simplified subtraction.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{c+c1}{\PYGZsh{} This step is cognitively simple because S\PYGZus{}adj is a base multiple.}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{M\PYGZus{}adj} \PYG{o}{\PYGZhy{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S\PYGZus{}adj}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Perform Subtraction: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{M\PYGZus{}adj}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S\PYGZus{}adj}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ = }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}accept}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+         \PYG{c+c1}{\PYGZsh{} Final state logic (if any additional recording is needed)}
+         \PYG{k}{pass}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{display\PYGZus{}history}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{summarized}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{):}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZhy{}\PYGZhy{}\PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ History (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{M}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{) \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history}\PYG{p}{)}
+        \PYG{n}{display\PYGZus{}cols} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}State\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Interpretation\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}K\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}M\PYGZus{}adj\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}adj\PYGZsq{}}\PYG{p}{]}
+
+        \PYG{k}{if} \PYG{n}{summarized}\PYG{p}{:}
+             \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Summary Trace:\PYGZdq{}}\PYG{p}{)}
+             \PYG{n}{summary\PYGZus{}df} \PYG{o}{=} \PYG{n}{df}\PYG{p}{[}\PYG{n}{df}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Highlight\PYGZsq{}}\PYG{p}{]} \PYG{o}{==} \PYG{k+kc}{True}\PYG{p}{]}
+             \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{summary\PYGZus{}df}\PYG{o}{.}\PYG{n}{empty}\PYG{p}{:}
+                \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{summary\PYGZus{}df}\PYG{p}{[}\PYG{n}{display\PYGZus{}cols}\PYG{p}{]}\PYG{o}{.}\PYG{n}{to\PYGZus{}markdown}\PYG{p}{(}\PYG{n}{index}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{))}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Full Iterative Trace:\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{df}\PYG{p}{[}\PYG{n}{display\PYGZus{}cols}\PYG{p}{]}\PYG{o}{.}\PYG{n}{to\PYGZus{}markdown}\PYG{p}{(}\PYG{n}{index}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{))}
+
+\PYG{c+c1}{\PYGZsh{} Test Case: Example from PDF (73 \PYGZhy{} 47)}
+\PYG{n}{M\PYGZus{}test} \PYG{o}{=} \PYG{l+m+mi}{73}
+\PYG{n}{S\PYGZus{}test} \PYG{o}{=} \PYG{l+m+mi}{47}
+\PYG{n}{sliding\PYGZus{}auto} \PYG{o}{=} \PYG{n}{SlidingAutomaton}\PYG{p}{(}\PYG{n}{M}\PYG{o}{=}\PYG{n}{M\PYGZus{}test}\PYG{p}{,} \PYG{n}{S}\PYG{o}{=}\PYG{n}{S\PYGZus{}test}\PYG{p}{)}
+\PYG{n}{sliding\PYGZus{}auto}\PYG{o}{.}\PYG{n}{run}\PYG{p}{()}
+\PYG{n}{sliding\PYGZus{}auto}\PYG{o}{.}\PYG{n}{display\PYGZus{}history}\PYG{p}{(}\PYG{n}{summarized}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{)}
+\end{MintedVerbatim}

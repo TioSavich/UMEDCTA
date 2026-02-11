@@ -1,0 +1,21 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/** \PYGZlt{}module\PYGZgt{} Math Domain Content Loader}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  Loads mathematical content modules (Lakoff metaphors, arithmetic strategies)}
+\PYG{c+cm}{ *  on top of the PML Core Framework.}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  Usage:}
+\PYG{c+cm}{ *    swipl math/load\PYGZus{}math.pl}
+\PYG{c+cm}{ *    ?\PYGZhy{} proves([s(collection([a,b,c])), s(size([a,b,c], 3))] =\PYGZgt{} [s(number(3))], 50, \PYGZus{}, Proof).}
+\PYG{c+cm}{ */}
+
+\PYG{c+c1}{\PYGZpc{} Load the core framework first}
+\PYG{p}{:\PYGZhy{}} \PYG{p}{[}\PYG{l+s+sAtom}{\PYGZsq{}../load.pl\PYGZsq{}}\PYG{p}{].}
+
+\PYG{c+c1}{\PYGZpc{} Load math\PYGZhy{}specific content modules}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{lakoff\PYGZus{}metaphors}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{arithmetic\PYGZus{}strategies}\PYG{p}{).}
+
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{initialization}\PYG{p}{(}\PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Math domain content loaded (Lakoff \PYGZam{} Brandom).\PYGZsq{}}\PYG{p}{)).}
+
+\end{MintedVerbatim}

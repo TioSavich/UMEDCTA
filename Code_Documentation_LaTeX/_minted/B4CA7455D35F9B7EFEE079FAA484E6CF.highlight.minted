@@ -1,0 +1,242 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+PML Core Framework Loaded (with Lakoff \PYGZam{} Brandom content).
+=== LAKOFF \PYGZam{} BRANDOM INTEGRATION TEST SUITE ===
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{} GROUNDING METAPHORS (4Gs) \PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+[TEST] Object Collection \PYGZhy{}\PYGZgt{} Number
+  PASS
+
+[TEST] Motion Along Path \PYGZhy{}\PYGZgt{} Addition
+  PASS
+
+[TEST] Physical Segment \PYGZhy{}\PYGZgt{} Number
+  PASS
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{} BASIC METAPHOR OF INFINITY (BMI) \PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+[TEST] BMI: Indefinite Process \PYGZhy{}\PYGZgt{} Actual Infinity
+  PASS
+
+[TEST] BMI: Natural Numbers as Infinite Set
+  PASS
+
+[TEST] BMI: Sequence Approaching Limit
+  PASS
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{} BMI PATHOLOGIES (Bad Infinites) \PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+[TEST] Pathology: Being \PYGZlt{}\PYGZhy{}\PYGZgt{} Nothing Cycle
+  Detected oscillation: empty\PYGZus{}set \PYGZhy{}\PYGZgt{} Being \PYGZhy{}\PYGZgt{} Nothing
+  PASS
+
+[TEST] Pathology: Zeno\PYGZsq{}s Paradox (Incoherence)
+  FAIL
+
+[TEST] Pathology: Russell\PYGZsq{}s Paradox Detection
+  PATHOLOGY: Russell\PYGZsq{}s Paradox \PYGZhy{} set of all sets is incoherent
+  PASS
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{} ARITHMETIC STRATEGIES \PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+[TEST] Sliding: Difference Invariance
+  FAIL
+
+[TEST] Counting On: Addition as Sequence
+  PASS
+
+[TEST] Rearranging to Make Bases: Strategic Decomposition
+  PASS
+
+[TEST] RMB: Creates Simplified Problem
+  PASS
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{} PP\PYGZhy{}NECESSITIES AND PATHOLOGIES \PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+[TEST] Prerequisite Violation: Sliding without Number Line
+  PATHOLOGY: Cannot deploy Sliding without Number Line Intuition
+  PASS
+
+[TEST] Sufficiency Condition: Can Deploy Counting On
+  PASS
+
+[TEST] Strategy Declaration: Sliding is a Strategy
+  PASS
+
+[TEST] PP\PYGZhy{}Necessity Query: Sliding requires Number Line
+  PASS
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{} LX\PYGZhy{}RELATIONS (Elaboration Hierarchies) \PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+[TEST] LX Declaration: RMB elaborates Counting On
+  PASS
+
+[TEST] LX Inference: Elaboration is Compressive
+  PASS
+
+[TEST] LX Consequence: Provides Metavocabulary
+  PASS
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{} INTEGRATION WITH PML DYNAMICS \PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+[TEST] Strategy is Compressive
+  PASS
+
+[TEST] Compression Leads to Expansion
+  PASS
+
+[TEST] Failure Creates Tension
+  PASS
+
+[TEST] Tension Enables Reflection
+  PASS
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{} ORR CYCLE WITH STRATEGY FAILURE \PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+[TEST] Observe: Strategy Deployed
+  PASS
+
+[TEST] Reflect: Failure Creates Perturbation
+  PASS
+
+[TEST] Reorganize: Accommodation Signal
+Unknown trigger type: perturbation(strategy\PYGZus{}failure,missing\PYGZus{}prerequisite(number\PYGZus{}line\PYGZus{}intuition)). Cannot accommodate.
+  PASS
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{} CONCEPTUAL BLENDS \PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+[TEST] Euler\PYGZsq{}s Blend: e\PYGZca{}(iπ) + 1 = 0
+  PASS
+
+[TEST] Functions Are Numbers Metaphor
+  PASS
+
+
+=== TEST SUMMARY ===
+Passed: 27
+Failed: 2
+
+Failed tests:
+  \PYGZhy{} Pathology: Zeno\PYGZsq{}s Paradox (Incoherence)
+  \PYGZhy{} Sliding: Difference Invariance
+=== LAKOFF \PYGZam{} BRANDOM INTEGRATION TEST SUITE ===
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{} GROUNDING METAPHORS (4Gs) \PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+[TEST] Object Collection \PYGZhy{}\PYGZgt{} Number
+  PASS
+
+[TEST] Motion Along Path \PYGZhy{}\PYGZgt{} Addition
+  PASS
+
+[TEST] Physical Segment \PYGZhy{}\PYGZgt{} Number
+  PASS
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{} BASIC METAPHOR OF INFINITY (BMI) \PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+[TEST] BMI: Indefinite Process \PYGZhy{}\PYGZgt{} Actual Infinity
+  PASS
+
+[TEST] BMI: Natural Numbers as Infinite Set
+  PASS
+
+[TEST] BMI: Sequence Approaching Limit
+  PASS
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{} BMI PATHOLOGIES (Bad Infinites) \PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+[TEST] Pathology: Being \PYGZlt{}\PYGZhy{}\PYGZgt{} Nothing Cycle
+  Detected oscillation: empty\PYGZus{}set \PYGZhy{}\PYGZgt{} Being \PYGZhy{}\PYGZgt{} Nothing
+  PASS
+
+[TEST] Pathology: Zeno\PYGZsq{}s Paradox (Incoherence)
+  FAIL
+
+[TEST] Pathology: Russell\PYGZsq{}s Paradox Detection
+  PATHOLOGY: Russell\PYGZsq{}s Paradox \PYGZhy{} set of all sets is incoherent
+  PASS
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{} ARITHMETIC STRATEGIES \PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+[TEST] Sliding: Difference Invariance
+  FAIL
+
+[TEST] Counting On: Addition as Sequence
+  PASS
+
+[TEST] Rearranging to Make Bases: Strategic Decomposition
+  PASS
+
+[TEST] RMB: Creates Simplified Problem
+  PASS
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{} PP\PYGZhy{}NECESSITIES AND PATHOLOGIES \PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+[TEST] Prerequisite Violation: Sliding without Number Line
+  PATHOLOGY: Cannot deploy Sliding without Number Line Intuition
+  PASS
+
+[TEST] Sufficiency Condition: Can Deploy Counting On
+  PASS
+
+[TEST] Strategy Declaration: Sliding is a Strategy
+  PASS
+
+[TEST] PP\PYGZhy{}Necessity Query: Sliding requires Number Line
+  PASS
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{} LX\PYGZhy{}RELATIONS (Elaboration Hierarchies) \PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+[TEST] LX Declaration: RMB elaborates Counting On
+  PASS
+
+[TEST] LX Inference: Elaboration is Compressive
+  PASS
+
+[TEST] LX Consequence: Provides Metavocabulary
+  PASS
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{} INTEGRATION WITH PML DYNAMICS \PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+[TEST] Strategy is Compressive
+  PASS
+
+[TEST] Compression Leads to Expansion
+  PASS
+
+[TEST] Failure Creates Tension
+  PASS
+
+[TEST] Tension Enables Reflection
+  PASS
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{} ORR CYCLE WITH STRATEGY FAILURE \PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+[TEST] Observe: Strategy Deployed
+  PASS
+
+[TEST] Reflect: Failure Creates Perturbation
+  PASS
+
+[TEST] Reorganize: Accommodation Signal
+Unknown trigger type: perturbation(strategy\PYGZus{}failure,missing\PYGZus{}prerequisite(number\PYGZus{}line\PYGZus{}intuition)). Cannot accommodate.
+  PASS
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{} CONCEPTUAL BLENDS \PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+[TEST] Euler\PYGZsq{}s Blend: e\PYGZca{}(iπ) + 1 = 0
+  PASS
+
+[TEST] Functions Are Numbers Metaphor
+  PASS
+
+
+=== TEST SUMMARY ===
+Passed: 27
+Failed: 2
+
+Failed tests:
+  \PYGZhy{} Pathology: Zeno\PYGZsq{}s Paradox (Incoherence)
+  \PYGZhy{} Sliding: Difference Invariance
+
+\end{MintedVerbatim}

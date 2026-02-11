@@ -1,0 +1,32 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{g+gh}{\PYGZsh{} The Hermeneutic Hero: Legends of Logic}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Overview}
+This is a retro\PYGZhy{}style RPG adventure game designed to teach mathematical strategies through gameplay. You play as a Teacher/Hero who must defeat \PYGZdq{}Number Monsters\PYGZdq{} using cognitive strategies like \PYGZdq{}Rearranging to Make Bases\PYGZdq{} (RMB) and \PYGZdq{}Sliding\PYGZdq{}.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Requirements}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Python 3.x
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Pygame (\PYG{l+s+sb}{`pip install pygame`})
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Pandas (\PYG{l+s+sb}{`pip install pandas`})
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} How to Play}
+\PYG{k}{1.}  Navigate to the \PYG{l+s+sb}{`MathAdventure`} directory.
+\PYG{k}{2.}  Run the game:
+\PYG{l+s+sb}{    ```bash}
+\PYG{+w}{    }python3\PYG{+w}{ }math\PYGZus{}adventure.py
+\PYG{l+s+sb}{    ```}
+\PYG{k}{3.}  \PYG{g+gs}{**Controls:**}
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**Arrow Keys:**} Move around the world.
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**Enter:**} Start Game / Confirm.
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**1, 2, 3:**} Select Spells in Battle.
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**Keyboard:**} Type answers to math problems.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} The Spells (Strategies)}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**Count:**} Basic counting. Good for small numbers.
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**RMB (Rearranging to Make Bases):**} Use this when adding numbers. You must find the \PYGZdq{}Gap\PYGZdq{} to the next base (e.g., 10, 20, 30).
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**Sliding:**} Use this for subtraction. Adjust both numbers to make the subtrahend a friendly base number.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Credits}
+Based on the UMEDCTA project.
+
+\end{MintedVerbatim}

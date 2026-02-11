@@ -1,0 +1,1278 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+ch}{\PYGZsh{}!/usr/bin/env python3}
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{mud\PYGZus{}generator.py: Consolidated Meaning\PYGZhy{}Use Diagram (MUD) Generator}
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{os}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{sys}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{json}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{ast}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{inspect}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{typing}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Dict}\PYG{p}{,} \PYG{n}{List}\PYG{p}{,} \PYG{n}{Set}\PYG{p}{,} \PYG{n}{Tuple}\PYG{p}{,} \PYG{n}{Any}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{dataclasses}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{dataclass}\PYG{p}{,} \PYG{n}{field}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{collections}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{defaultdict}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{argparse}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{math} \PYG{c+c1}{\PYGZsh{} Import math for layout calculations}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{datetime}
+
+\PYG{c+c1}{\PYGZsh{} Data Classes (Stubs included for structure)}
+\PYG{n+nd}{@dataclass}
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{ComputationalPattern}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Represents a detected computational pattern/subroutine.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{name}\PYG{p}{:} \PYG{n+nb}{str}
+    \PYG{n}{operation\PYGZus{}type}\PYG{p}{:} \PYG{n+nb}{str}  \PYG{c+c1}{\PYGZsh{} \PYGZsq{}counting\PYGZsq{}, \PYGZsq{}decomposition\PYGZsq{}, \PYGZsq{}adjustment\PYGZsq{}, etc.}
+    \PYG{n}{register\PYGZus{}operations}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]}
+    \PYG{n}{state\PYGZus{}transitions}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]}
+    \PYG{n}{strategies\PYGZus{}using}\PYG{p}{:} \PYG{n}{Set}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]} \PYG{o}{=} \PYG{n}{field}\PYG{p}{(}\PYG{n}{default\PYGZus{}factory}\PYG{o}{=}\PYG{n+nb}{set}\PYG{p}{)}
+
+\PYG{n+nd}{@dataclass}
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{AlgorithmicElaboration}\PYG{p}{:}
+    \PYG{n}{base\PYGZus{}strategy}\PYG{p}{:} \PYG{n+nb}{str}
+    \PYG{n}{elaborated\PYGZus{}strategy}\PYG{p}{:} \PYG{n+nb}{str}
+    \PYG{n}{shared\PYGZus{}patterns}\PYG{p}{:} \PYG{n}{Set}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]}
+    \PYG{n}{elaboration\PYGZus{}type}\PYG{p}{:} \PYG{n+nb}{str}
+    \PYG{n}{confidence}\PYG{p}{:} \PYG{n+nb}{float}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{AutomatonAnalyzer}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Analyzes automaton implementations to detect patterns and relationships.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{automata\PYGZus{}dir}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{automata\PYGZus{}dir} \PYG{o}{=} \PYG{n}{automata\PYGZus{}dir}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{patterns}\PYG{p}{:} \PYG{n}{Dict}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{ComputationalPattern}\PYG{p}{]} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elaborations}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n}{AlgorithmicElaboration}\PYG{p}{]} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}patterns}\PYG{p}{:} \PYG{n}{Dict}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{Set}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]]} \PYG{o}{=} \PYG{n}{defaultdict}\PYG{p}{(}\PYG{n+nb}{set}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}metadata}\PYG{p}{:} \PYG{n}{Dict}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{Any}\PYG{p}{]} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}  \PYG{c+c1}{\PYGZsh{} NEW: Store metadata from automata}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{analyze\PYGZus{}all\PYGZus{}automata}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{Dict}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{Any}\PYG{p}{]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Main analysis pipeline.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}🔬 Starting Automated Automaton Analysis\PYGZdq{}}\PYG{p}{,} \PYG{n}{file}\PYG{o}{=}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{stderr}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}=\PYGZdq{}} \PYG{o}{*} \PYG{l+m+mi}{50}\PYG{p}{,} \PYG{n}{file}\PYG{o}{=}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{stderr}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Step 1: Extract patterns from all automata}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}extract\PYGZus{}patterns\PYGZus{}from\PYGZus{}automata}\PYG{p}{()}
+
+        \PYG{c+c1}{\PYGZsh{} Step 2: Extract metadata from automata (NEW)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}extract\PYGZus{}metadata\PYGZus{}from\PYGZus{}automata}\PYG{p}{()}
+
+        \PYG{c+c1}{\PYGZsh{} Step 3: Detect algorithmic elaborations}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}detect\PYGZus{}elaborations}\PYG{p}{()}
+
+        \PYG{c+c1}{\PYGZsh{} Step 4: Generate analysis report}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}analysis\PYGZus{}report}\PYG{p}{()}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}extract\PYGZus{}patterns\PYGZus{}from\PYGZus{}automata}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Extract computational patterns from automaton source code.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{📋 Extracting Computational Patterns...\PYGZdq{}}\PYG{p}{,} \PYG{n}{file}\PYG{o}{=}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{stderr}\PYG{p}{)}
+        \PYG{k}{for} \PYG{n}{operation\PYGZus{}dir} \PYG{o+ow}{in} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}addition\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}subtraction\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}multiplication\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}division\PYGZsq{}}\PYG{p}{]:}
+            \PYG{n}{op\PYGZus{}path} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{automata\PYGZus{}dir}\PYG{p}{,} \PYG{n}{operation\PYGZus{}dir}\PYG{p}{)}
+            \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{exists}\PYG{p}{(}\PYG{n}{op\PYGZus{}path}\PYG{p}{):}
+                \PYG{k}{continue}
+            \PYG{k}{for} \PYG{n}{filename} \PYG{o+ow}{in} \PYG{n}{os}\PYG{o}{.}\PYG{n}{listdir}\PYG{p}{(}\PYG{n}{op\PYGZus{}path}\PYG{p}{):}
+                \PYG{k}{if} \PYG{n}{filename}\PYG{o}{.}\PYG{n}{endswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.py\PYGZsq{}}\PYG{p}{)} \PYG{o+ow}{and} \PYG{o+ow}{not} \PYG{n}{filename}\PYG{o}{.}\PYG{n}{startswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZus{}\PYGZsq{}}\PYG{p}{):}
+                    \PYG{n}{strategy\PYGZus{}id} \PYG{o}{=} \PYG{n}{filename}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.py\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}SAR\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}SMR\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{)}
+                    \PYG{n}{filepath} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{op\PYGZus{}path}\PYG{p}{,} \PYG{n}{filename}\PYG{p}{)}
+                    \PYG{k}{try}\PYG{p}{:}
+                        \PYG{n}{patterns} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}analyze\PYGZus{}single\PYGZus{}automaton}\PYG{p}{(}\PYG{n}{filepath}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}id}\PYG{p}{,} \PYG{n}{operation\PYGZus{}dir}\PYG{p}{)}
+                        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}patterns}\PYG{p}{[}\PYG{n}{strategy\PYGZus{}id}\PYG{p}{]} \PYG{o}{=} \PYG{n}{patterns}
+                        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}✅ Analyzed }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}id}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{patterns}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ patterns found\PYGZdq{}}\PYG{p}{,} \PYG{n}{file}\PYG{o}{=}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{stderr}\PYG{p}{)}
+                    \PYG{k}{except} \PYG{n+ne}{Exception} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}
+                        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}❌ Error analyzing }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}id}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{file}\PYG{o}{=}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{stderr}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}extract\PYGZus{}metadata\PYGZus{}from\PYGZus{}automata}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Extract rich metadata (metaphors, inferences) from automaton instances.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{📚 Extracting Strategy Metadata (Metaphors, Inferences)...\PYGZdq{}}\PYG{p}{,} \PYG{n}{file}\PYG{o}{=}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{stderr}\PYG{p}{)}
+
+        \PYG{k}{for} \PYG{n}{operation\PYGZus{}dir} \PYG{o+ow}{in} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}addition\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}subtraction\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}multiplication\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}division\PYGZsq{}}\PYG{p}{]:}
+            \PYG{n}{op\PYGZus{}path} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{automata\PYGZus{}dir}\PYG{p}{,} \PYG{n}{operation\PYGZus{}dir}\PYG{p}{)}
+            \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{exists}\PYG{p}{(}\PYG{n}{op\PYGZus{}path}\PYG{p}{):}
+                \PYG{k}{continue}
+
+            \PYG{k}{for} \PYG{n}{filename} \PYG{o+ow}{in} \PYG{n}{os}\PYG{o}{.}\PYG{n}{listdir}\PYG{p}{(}\PYG{n}{op\PYGZus{}path}\PYG{p}{):}
+                \PYG{k}{if} \PYG{n}{filename}\PYG{o}{.}\PYG{n}{endswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.py\PYGZsq{}}\PYG{p}{)} \PYG{o+ow}{and} \PYG{o+ow}{not} \PYG{n}{filename}\PYG{o}{.}\PYG{n}{startswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZus{}\PYGZsq{}}\PYG{p}{):}
+                    \PYG{n}{strategy\PYGZus{}id} \PYG{o}{=} \PYG{n}{filename}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.py\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}SAR\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}SMR\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{)}
+                    \PYG{n}{filepath} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{op\PYGZus{}path}\PYG{p}{,} \PYG{n}{filename}\PYG{p}{)}
+
+                    \PYG{k}{try}\PYG{p}{:}
+                        \PYG{n}{metadata} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}load\PYGZus{}metadata\PYGZus{}from\PYGZus{}file}\PYG{p}{(}\PYG{n}{filepath}\PYG{p}{,} \PYG{n}{operation\PYGZus{}dir}\PYG{p}{,} \PYG{n}{filename}\PYG{p}{)}
+                        \PYG{k}{if} \PYG{n}{metadata}\PYG{p}{:}
+                            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}metadata}\PYG{p}{[}\PYG{n}{strategy\PYGZus{}id}\PYG{p}{]} \PYG{o}{=} \PYG{n}{metadata}
+                            \PYG{n}{metaphor\PYGZus{}count} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{metadata}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}metaphors\PYGZsq{}}\PYG{p}{,} \PYG{p}{[]))}
+                            \PYG{n}{inference\PYGZus{}count} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{metadata}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}inferences\PYGZsq{}}\PYG{p}{,} \PYG{p}{[]))}
+                            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}✅ Loaded metadata for }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}id}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{metaphor\PYGZus{}count}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ metaphors, }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{inference\PYGZus{}count}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ inferences\PYGZdq{}}\PYG{p}{,} \PYG{n}{file}\PYG{o}{=}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{stderr}\PYG{p}{)}
+                    \PYG{k}{except} \PYG{n+ne}{Exception} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}
+                        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}⚠️  Could not load metadata for }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}id}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{file}\PYG{o}{=}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{stderr}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}load\PYGZus{}metadata\PYGZus{}from\PYGZus{}file}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{filepath}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{operation\PYGZus{}dir}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{filename}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{Dict}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{Any}\PYG{p}{]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Load metadata by importing and instantiating the automaton class.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{importlib.util}
+
+        \PYG{c+c1}{\PYGZsh{} Import the module}
+        \PYG{n}{spec} \PYG{o}{=} \PYG{n}{importlib}\PYG{o}{.}\PYG{n}{util}\PYG{o}{.}\PYG{n}{spec\PYGZus{}from\PYGZus{}file\PYGZus{}location}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}automaton\PYGZus{}module\PYGZdq{}}\PYG{p}{,} \PYG{n}{filepath}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{spec} \PYG{o+ow}{and} \PYG{n}{spec}\PYG{o}{.}\PYG{n}{loader}\PYG{p}{:}
+            \PYG{n}{module} \PYG{o}{=} \PYG{n}{importlib}\PYG{o}{.}\PYG{n}{util}\PYG{o}{.}\PYG{n}{module\PYGZus{}from\PYGZus{}spec}\PYG{p}{(}\PYG{n}{spec}\PYG{p}{)}
+            \PYG{n}{sys}\PYG{o}{.}\PYG{n}{modules}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}automaton\PYGZus{}module\PYGZdq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{module}
+            \PYG{n}{spec}\PYG{o}{.}\PYG{n}{loader}\PYG{o}{.}\PYG{n}{exec\PYGZus{}module}\PYG{p}{(}\PYG{n}{module}\PYG{p}{)}
+
+            \PYG{c+c1}{\PYGZsh{} Find the automaton class (ends with \PYGZsq{}Automaton\PYGZsq{})}
+            \PYG{n}{automaton\PYGZus{}class} \PYG{o}{=} \PYG{k+kc}{None}
+            \PYG{k}{for} \PYG{n}{name} \PYG{o+ow}{in} \PYG{n+nb}{dir}\PYG{p}{(}\PYG{n}{module}\PYG{p}{):}
+                \PYG{n}{obj} \PYG{o}{=} \PYG{n+nb}{getattr}\PYG{p}{(}\PYG{n}{module}\PYG{p}{,} \PYG{n}{name}\PYG{p}{)}
+                \PYG{k}{if} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{obj}\PYG{p}{,} \PYG{n+nb}{type}\PYG{p}{)} \PYG{o+ow}{and} \PYG{n}{name}\PYG{o}{.}\PYG{n}{endswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Automaton\PYGZsq{}}\PYG{p}{)} \PYG{o+ow}{and} \PYG{n}{name} \PYG{o}{!=} \PYG{l+s+s1}{\PYGZsq{}BaseAutomaton\PYGZsq{}}\PYG{p}{:}
+                    \PYG{n}{automaton\PYGZus{}class} \PYG{o}{=} \PYG{n}{obj}
+                    \PYG{k}{break}
+
+            \PYG{k}{if} \PYG{n}{automaton\PYGZus{}class}\PYG{p}{:}
+                \PYG{c+c1}{\PYGZsh{} Create a dummy instance to access metadata}
+                \PYG{k}{try}\PYG{p}{:}
+                    \PYG{n}{instance} \PYG{o}{=} \PYG{n}{automaton\PYGZus{}class}\PYG{p}{(}\PYG{n}{inputs}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}A\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}B\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}D\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{})}
+                    \PYG{n}{metadata\PYGZus{}obj} \PYG{o}{=} \PYG{n}{instance}\PYG{o}{.}\PYG{n}{metadata}
+
+                    \PYG{c+c1}{\PYGZsh{} Convert metadata dataclass to dict}
+                    \PYG{k}{return} \PYG{p}{\PYGZob{}}
+                        \PYG{l+s+s1}{\PYGZsq{}strategy\PYGZus{}id\PYGZsq{}}\PYG{p}{:} \PYG{n}{metadata\PYGZus{}obj}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}id}\PYG{p}{,}
+                        \PYG{l+s+s1}{\PYGZsq{}strategy\PYGZus{}name\PYGZsq{}}\PYG{p}{:} \PYG{n}{metadata\PYGZus{}obj}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}name}\PYG{p}{,}
+                        \PYG{l+s+s1}{\PYGZsq{}description\PYGZsq{}}\PYG{p}{:} \PYG{n}{metadata\PYGZus{}obj}\PYG{o}{.}\PYG{n}{description}\PYG{p}{,}
+                        \PYG{l+s+s1}{\PYGZsq{}metaphors\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}
+                            \PYG{p}{\PYGZob{}}
+                                \PYG{l+s+s1}{\PYGZsq{}name\PYGZsq{}}\PYG{p}{:} \PYG{n}{m}\PYG{o}{.}\PYG{n}{name}\PYG{p}{,}
+                                \PYG{l+s+s1}{\PYGZsq{}source\PYGZus{}domain\PYGZsq{}}\PYG{p}{:} \PYG{n}{m}\PYG{o}{.}\PYG{n}{source\PYGZus{}domain}\PYG{p}{,}
+                                \PYG{l+s+s1}{\PYGZsq{}target\PYGZus{}domain\PYGZsq{}}\PYG{p}{:} \PYG{n}{m}\PYG{o}{.}\PYG{n}{target\PYGZus{}domain}\PYG{p}{,}
+                                \PYG{l+s+s1}{\PYGZsq{}entailments\PYGZsq{}}\PYG{p}{:} \PYG{n}{m}\PYG{o}{.}\PYG{n}{entailments}
+                            \PYG{p}{\PYGZcb{}} \PYG{k}{for} \PYG{n}{m} \PYG{o+ow}{in} \PYG{n}{metadata\PYGZus{}obj}\PYG{o}{.}\PYG{n}{metaphors}
+                        \PYG{p}{],}
+                        \PYG{l+s+s1}{\PYGZsq{}inferences\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}
+                            \PYG{p}{\PYGZob{}}
+                                \PYG{l+s+s1}{\PYGZsq{}name\PYGZsq{}}\PYG{p}{:} \PYG{n}{i}\PYG{o}{.}\PYG{n}{name}\PYG{p}{,}
+                                \PYG{l+s+s1}{\PYGZsq{}premise\PYGZsq{}}\PYG{p}{:} \PYG{n}{i}\PYG{o}{.}\PYG{n}{premise}\PYG{p}{,}
+                                \PYG{l+s+s1}{\PYGZsq{}conclusion\PYGZsq{}}\PYG{p}{:} \PYG{n}{i}\PYG{o}{.}\PYG{n}{conclusion}\PYG{p}{,}
+                                \PYG{l+s+s1}{\PYGZsq{}prerequisites\PYGZsq{}}\PYG{p}{:} \PYG{n}{i}\PYG{o}{.}\PYG{n}{prerequisites}
+                            \PYG{p}{\PYGZcb{}} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n}{metadata\PYGZus{}obj}\PYG{o}{.}\PYG{n}{inferences}
+                        \PYG{p}{],}
+                        \PYG{l+s+s1}{\PYGZsq{}visualization\PYGZus{}hints\PYGZsq{}}\PYG{p}{:} \PYG{n}{metadata\PYGZus{}obj}\PYG{o}{.}\PYG{n}{visualization\PYGZus{}hints}\PYG{p}{,}
+                        \PYG{l+s+s1}{\PYGZsq{}deployed\PYGZus{}vocabulary\PYGZsq{}}\PYG{p}{:} \PYG{n}{metadata\PYGZus{}obj}\PYG{o}{.}\PYG{n}{deployed\PYGZus{}vocabulary} \PYG{k}{if} \PYG{n+nb}{hasattr}\PYG{p}{(}\PYG{n}{metadata\PYGZus{}obj}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}deployed\PYGZus{}vocabulary\PYGZsq{}}\PYG{p}{)} \PYG{k}{else} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}
+                    \PYG{p}{\PYGZcb{}}
+                \PYG{k}{except} \PYG{n+ne}{Exception} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}
+                    \PYG{c+c1}{\PYGZsh{} Some automata may not have metadata or may fail to instantiate}
+                    \PYG{k}{return} \PYG{k+kc}{None}
+
+        \PYG{k}{return} \PYG{k+kc}{None}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}analyze\PYGZus{}single\PYGZus{}automaton}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{filepath}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}id}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{operation}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{Set}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Analyze a single automaton file to extract patterns.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{filepath}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}r\PYGZsq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+            \PYG{n}{source\PYGZus{}code} \PYG{o}{=} \PYG{n}{f}\PYG{o}{.}\PYG{n}{read}\PYG{p}{()}
+        \PYG{n}{tree} \PYG{o}{=} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{parse}\PYG{p}{(}\PYG{n}{source\PYGZus{}code}\PYG{p}{)}
+
+        \PYG{n}{patterns\PYGZus{}found} \PYG{o}{=} \PYG{n+nb}{set}\PYG{p}{()}
+        \PYG{n}{register\PYGZus{}ops} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n}{state\PYGZus{}methods} \PYG{o}{=} \PYG{p}{[]}
+
+        \PYG{k}{for} \PYG{n}{node} \PYG{o+ow}{in} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{walk}\PYG{p}{(}\PYG{n}{tree}\PYG{p}{):}
+            \PYG{k}{if} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{node}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{ClassDef}\PYG{p}{):}
+                \PYG{k}{for} \PYG{n}{item} \PYG{o+ow}{in} \PYG{n}{node}\PYG{o}{.}\PYG{n}{body}\PYG{p}{:}
+                    \PYG{k}{if} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{item}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{FunctionDef}\PYG{p}{)} \PYG{o+ow}{and} \PYG{n}{item}\PYG{o}{.}\PYG{n}{name}\PYG{o}{.}\PYG{n}{startswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}execute\PYGZus{}\PYGZsq{}}\PYG{p}{):}
+                        \PYG{n}{state\PYGZus{}name} \PYG{o}{=} \PYG{n}{item}\PYG{o}{.}\PYG{n}{name}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}execute\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{)}
+                        \PYG{n}{operations} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}extract\PYGZus{}operations\PYGZus{}from\PYGZus{}method}\PYG{p}{(}\PYG{n}{item}\PYG{p}{)}
+                        \PYG{n}{register\PYGZus{}ops}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{(}\PYG{n}{operations}\PYG{p}{)}
+                        \PYG{n}{patterns} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}detect\PYGZus{}patterns\PYGZus{}in\PYGZus{}method}\PYG{p}{(}\PYG{n}{item}\PYG{p}{,} \PYG{n}{state\PYGZus{}name}\PYG{p}{,} \PYG{n}{operations}\PYG{p}{)}
+                        \PYG{n}{patterns\PYGZus{}found}\PYG{o}{.}\PYG{n}{update}\PYG{p}{(}\PYG{n}{patterns}\PYG{p}{)}
+                        \PYG{k}{for} \PYG{n}{pattern\PYGZus{}name} \PYG{o+ow}{in} \PYG{n}{patterns}\PYG{p}{:}
+                            \PYG{k}{if} \PYG{n}{pattern\PYGZus{}name} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{patterns}\PYG{p}{:}
+                                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{patterns}\PYG{p}{[}\PYG{n}{pattern\PYGZus{}name}\PYG{p}{]} \PYG{o}{=} \PYG{n}{ComputationalPattern}\PYG{p}{(}
+                                    \PYG{n}{name}\PYG{o}{=}\PYG{n}{pattern\PYGZus{}name}\PYG{p}{,}
+                                    \PYG{n}{operation\PYGZus{}type}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}classify\PYGZus{}pattern}\PYG{p}{(}\PYG{n}{pattern\PYGZus{}name}\PYG{p}{),}
+                                    \PYG{n}{register\PYGZus{}operations}\PYG{o}{=}\PYG{p}{[],}
+                                    \PYG{n}{state\PYGZus{}transitions}\PYG{o}{=}\PYG{p}{[]}
+                                \PYG{p}{)}
+                            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{patterns}\PYG{p}{[}\PYG{n}{pattern\PYGZus{}name}\PYG{p}{]}\PYG{o}{.}\PYG{n}{strategies\PYGZus{}using}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}id}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{patterns\PYGZus{}found}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}extract\PYGZus{}operations\PYGZus{}from\PYGZus{}method}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{method\PYGZus{}node}\PYG{p}{:} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{FunctionDef}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Extract register operations from a method, including conditionals.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{operations} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{k}{for} \PYG{n}{node} \PYG{o+ow}{in} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{walk}\PYG{p}{(}\PYG{n}{method\PYGZus{}node}\PYG{p}{):}
+            \PYG{k}{if} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{node}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Assign}\PYG{p}{):}
+                \PYG{k}{for} \PYG{n}{target} \PYG{o+ow}{in} \PYG{n}{node}\PYG{o}{.}\PYG{n}{targets}\PYG{p}{:}
+                    \PYG{k}{if} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{target}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Name}\PYG{p}{):}
+                        \PYG{n}{operations}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{target}\PYG{o}{.}\PYG{n}{id}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ = }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}extract\PYGZus{}value}\PYG{p}{(}\PYG{n}{node}\PYG{o}{.}\PYG{n}{value}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{elif} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{node}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{AugAssign}\PYG{p}{):}
+                \PYG{k}{if} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{node}\PYG{o}{.}\PYG{n}{target}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Name}\PYG{p}{):}
+                    \PYG{n}{target} \PYG{o}{=} \PYG{n}{node}\PYG{o}{.}\PYG{n}{target}\PYG{o}{.}\PYG{n}{id}
+                    \PYG{k}{if} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{node}\PYG{o}{.}\PYG{n}{op}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Add}\PYG{p}{):}
+                        \PYG{n}{operations}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{target}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ += }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}extract\PYGZus{}value}\PYG{p}{(}\PYG{n}{node}\PYG{o}{.}\PYG{n}{value}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                    \PYG{k}{elif} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{node}\PYG{o}{.}\PYG{n}{op}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Sub}\PYG{p}{):}
+                        \PYG{n}{operations}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{target}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{}= }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}extract\PYGZus{}value}\PYG{p}{(}\PYG{n}{node}\PYG{o}{.}\PYG{n}{value}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{elif} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{node}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Call}\PYG{p}{):}
+                \PYG{k}{if} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{node}\PYG{o}{.}\PYG{n}{func}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Attribute}\PYG{p}{):}
+                    \PYG{k}{if} \PYG{n}{node}\PYG{o}{.}\PYG{n}{func}\PYG{o}{.}\PYG{n}{attr} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}transition\PYGZsq{}}\PYG{p}{:}
+                        \PYG{n}{operations}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}transition: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}extract\PYGZus{}call\PYGZus{}args}\PYG{p}{(}\PYG{n}{node}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                    \PYG{k}{elif} \PYG{n}{node}\PYG{o}{.}\PYG{n}{func}\PYG{o}{.}\PYG{n}{attr} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}record\PYGZus{}history\PYGZsq{}}\PYG{p}{:}
+                        \PYG{n}{operations}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}record\PYGZus{}history: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}extract\PYGZus{}call\PYGZus{}args}\PYG{p}{(}\PYG{n}{node}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{operations}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}extract\PYGZus{}value}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{node}\PYG{p}{:} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{AST}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Extract value from AST node.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{node}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Constant}\PYG{p}{):}
+            \PYG{k}{return} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{node}\PYG{o}{.}\PYG{n}{value}\PYG{p}{)}
+        \PYG{k}{elif} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{node}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Num}\PYG{p}{):}
+            \PYG{k}{return} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{node}\PYG{o}{.}\PYG{n}{n}\PYG{p}{)}
+        \PYG{k}{elif} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{node}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Name}\PYG{p}{):}
+            \PYG{k}{return} \PYG{n}{node}\PYG{o}{.}\PYG{n}{id}
+        \PYG{k}{elif} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{node}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Attribute}\PYG{p}{):}
+            \PYG{k}{return} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{node}\PYG{o}{.}\PYG{n}{attr}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+        \PYG{k}{elif} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{node}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{BinOp}\PYG{p}{):}
+            \PYG{n}{left} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}extract\PYGZus{}value}\PYG{p}{(}\PYG{n}{node}\PYG{o}{.}\PYG{n}{left}\PYG{p}{)}
+            \PYG{n}{right} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}extract\PYGZus{}value}\PYG{p}{(}\PYG{n}{node}\PYG{o}{.}\PYG{n}{right}\PYG{p}{)}
+            \PYG{k}{if} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{node}\PYG{o}{.}\PYG{n}{op}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Add}\PYG{p}{):}
+                \PYG{k}{return} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{left}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ + }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{right}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+            \PYG{k}{elif} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{node}\PYG{o}{.}\PYG{n}{op}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Sub}\PYG{p}{):}
+                \PYG{k}{return} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{left}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{right}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+            \PYG{k}{elif} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{node}\PYG{o}{.}\PYG{n}{op}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Mult}\PYG{p}{):}
+                \PYG{k}{return} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{left}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ * }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{right}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+            \PYG{k}{elif} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{node}\PYG{o}{.}\PYG{n}{op}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Div}\PYG{p}{):}
+                \PYG{k}{return} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{left}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ // }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{right}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+            \PYG{k}{elif} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{node}\PYG{o}{.}\PYG{n}{op}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Mod}\PYG{p}{):}
+                \PYG{k}{return} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{left}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZpc{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{right}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}complex\PYGZus{}expr\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}extract\PYGZus{}call\PYGZus{}args}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{call\PYGZus{}node}\PYG{p}{:} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Call}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Extract arguments from a function call.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{args} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{k}{for} \PYG{n}{arg} \PYG{o+ow}{in} \PYG{n}{call\PYGZus{}node}\PYG{o}{.}\PYG{n}{args}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{arg}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Constant}\PYG{p}{):}
+                \PYG{n}{args}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{arg}\PYG{o}{.}\PYG{n}{value}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZsq{}\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{elif} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{arg}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Str}\PYG{p}{):}
+                \PYG{n}{args}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{arg}\PYG{o}{.}\PYG{n}{s}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZsq{}\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{elif} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{arg}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Name}\PYG{p}{):}
+                \PYG{n}{args}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{arg}\PYG{o}{.}\PYG{n}{id}\PYG{p}{)}
+            \PYG{k}{elif} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{arg}\PYG{p}{,} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{Num}\PYG{p}{):}
+                \PYG{n}{args}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{arg}\PYG{o}{.}\PYG{n}{n}\PYG{p}{))}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n}{args}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}expr\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}, \PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{args}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}detect\PYGZus{}patterns\PYGZus{}in\PYGZus{}method}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{method\PYGZus{}node}\PYG{p}{:} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{FunctionDef}\PYG{p}{,} \PYG{n}{state\PYGZus{}name}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{operations}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{])} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{Set}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Detect computational patterns in a method.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{patterns} \PYG{o}{=} \PYG{n+nb}{set}\PYG{p}{()}
+        \PYG{n}{method\PYGZus{}source} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}get\PYGZus{}method\PYGZus{}source}\PYG{p}{(}\PYG{n}{method\PYGZus{}node}\PYG{p}{)}
+
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}is\PYGZus{}counting\PYGZus{}loop\PYGZus{}pattern}\PYG{p}{(}\PYG{n}{method\PYGZus{}source}\PYG{p}{,} \PYG{n}{operations}\PYG{p}{):}
+            \PYG{n}{patterns}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}counting\PYGZus{}loop\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}is\PYGZus{}decomposition\PYGZus{}pattern}\PYG{p}{(}\PYG{n}{operations}\PYG{p}{)} \PYG{o+ow}{or} \PYG{l+s+s1}{\PYGZsq{}//\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{method\PYGZus{}source} \PYG{o+ow}{or} \PYG{l+s+s1}{\PYGZsq{}\PYGZpc{}\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{method\PYGZus{}source}\PYG{p}{:}
+            \PYG{n}{patterns}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}base\PYGZus{}decomposition\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}is\PYGZus{}adjustment\PYGZus{}pattern}\PYG{p}{(}\PYG{n}{operations}\PYG{p}{)} \PYG{o+ow}{or} \PYG{l+s+s1}{\PYGZsq{}TargetBase\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{method\PYGZus{}source} \PYG{o+ow}{or} \PYG{l+s+s1}{\PYGZsq{}K =\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{method\PYGZus{}source}\PYG{p}{:}
+            \PYG{n}{patterns}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}value\PYGZus{}adjustment\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}is\PYGZus{}iterative\PYGZus{}arithmetic}\PYG{p}{(}\PYG{n}{operations}\PYG{p}{)} \PYG{o+ow}{or} \PYG{l+s+s1}{\PYGZsq{}Sum += \PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{method\PYGZus{}source} \PYG{o+ow}{or} \PYG{l+s+s1}{\PYGZsq{}Current += \PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{method\PYGZus{}source}\PYG{p}{:}
+            \PYG{n}{patterns}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}iterative\PYGZus{}arithmetic\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}is\PYGZus{}state\PYGZus{}based\PYGZus{}counting}\PYG{p}{(}\PYG{n}{state\PYGZus{}name}\PYG{p}{,} \PYG{n}{method\PYGZus{}source}\PYG{p}{):}
+            \PYG{n}{patterns}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}incremental\PYGZus{}counting\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}is\PYGZus{}decomposition\PYGZus{}reconstruction\PYGZus{}pattern}\PYG{p}{(}\PYG{n}{method\PYGZus{}source}\PYG{p}{):}
+            \PYG{n}{patterns}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}decomposition\PYGZus{}reconstruction\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{patterns}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}get\PYGZus{}method\PYGZus{}source}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{method\PYGZus{}node}\PYG{p}{:} \PYG{n}{ast}\PYG{o}{.}\PYG{n}{FunctionDef}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Extract source code from method node.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{} \PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{([}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{op}\PYG{p}{)} \PYG{k}{for} \PYG{n}{op} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}extract\PYGZus{}operations\PYGZus{}from\PYGZus{}method}\PYG{p}{(}\PYG{n}{method\PYGZus{}node}\PYG{p}{)])}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}is\PYGZus{}counting\PYGZus{}loop\PYGZus{}pattern}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{method\PYGZus{}source}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{operations}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{])} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{bool}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Detect state\PYGZhy{}based counting loops.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{has\PYGZus{}counter} \PYG{o}{=} \PYG{n+nb}{any}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Count\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{op} \PYG{k}{for} \PYG{n}{op} \PYG{o+ow}{in} \PYG{n}{operations}\PYG{p}{)}
+        \PYG{n}{has\PYGZus{}increment} \PYG{o}{=} \PYG{n+nb}{any}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}+=\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{op} \PYG{k}{for} \PYG{n}{op} \PYG{o+ow}{in} \PYG{n}{operations}\PYG{p}{)}
+        \PYG{n}{has\PYGZus{}comparison} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}\PYGZlt{}\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{method\PYGZus{}source} \PYG{o+ow}{or} \PYG{l+s+s1}{\PYGZsq{}\PYGZgt{}\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{method\PYGZus{}source}
+        \PYG{n}{has\PYGZus{}conditional} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}if\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{method\PYGZus{}source} \PYG{o+ow}{or} \PYG{l+s+s1}{\PYGZsq{}while\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{method\PYGZus{}source}
+        \PYG{k}{return} \PYG{n}{has\PYGZus{}counter} \PYG{o+ow}{and} \PYG{n}{has\PYGZus{}increment} \PYG{o+ow}{and} \PYG{p}{(}\PYG{n}{has\PYGZus{}comparison} \PYG{o+ow}{or} \PYG{n}{has\PYGZus{}conditional}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}is\PYGZus{}decomposition\PYGZus{}pattern}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{operations}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{])} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{bool}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Detect base decomposition patterns.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{return} \PYG{n+nb}{any}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}//\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{op} \PYG{o+ow}{or} \PYG{l+s+s1}{\PYGZsq{}\PYGZpc{}\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{op} \PYG{k}{for} \PYG{n}{op} \PYG{o+ow}{in} \PYG{n}{operations}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}is\PYGZus{}adjustment\PYGZus{}pattern}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{operations}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{])} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{bool}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Detect value adjustment patterns.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{return} \PYG{n+nb}{any}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}TargetBase\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{op} \PYG{o+ow}{or} \PYG{l+s+s1}{\PYGZsq{}K =\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{op} \PYG{k}{for} \PYG{n}{op} \PYG{o+ow}{in} \PYG{n}{operations}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}is\PYGZus{}iterative\PYGZus{}arithmetic}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{operations}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{])} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{bool}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Detect iterative arithmetic patterns.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{return} \PYG{n+nb}{any}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Sum += \PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{op} \PYG{o+ow}{or} \PYG{l+s+s1}{\PYGZsq{}Current += \PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{op} \PYG{k}{for} \PYG{n}{op} \PYG{o+ow}{in} \PYG{n}{operations}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}is\PYGZus{}state\PYGZus{}based\PYGZus{}counting}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{state\PYGZus{}name}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{method\PYGZus{}source}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{bool}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Detect state\PYGZhy{}based counting patterns.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{counting\PYGZus{}states} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}inc\PYGZus{}tens\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}inc\PYGZus{}hundreds\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}add\PYGZus{}bases\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}add\PYGZus{}ones\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}loop\PYGZus{}K\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}count\PYGZsq{}}\PYG{p}{]}
+        \PYG{k}{return} \PYG{n+nb}{any}\PYG{p}{(}\PYG{n}{state} \PYG{o+ow}{in} \PYG{n}{state\PYGZus{}name}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()} \PYG{k}{for} \PYG{n}{state} \PYG{o+ow}{in} \PYG{n}{counting\PYGZus{}states}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}is\PYGZus{}decomposition\PYGZus{}reconstruction\PYGZus{}pattern}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{method\PYGZus{}source}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{bool}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Detect patterns that decompose and reconstruct values.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{return} \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}//\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{method\PYGZus{}source} \PYG{o+ow}{and} \PYG{l+s+s1}{\PYGZsq{}\PYGZpc{}\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{method\PYGZus{}source}\PYG{p}{)} \PYG{o+ow}{or} \PYGZbs{}
+               \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}BaseCounter\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{method\PYGZus{}source} \PYG{o+ow}{and} \PYG{l+s+s1}{\PYGZsq{}OneCounter\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{method\PYGZus{}source}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}classify\PYGZus{}pattern}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{pattern\PYGZus{}name}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Classify a pattern by its computational type.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{classifications} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+            \PYG{l+s+s2}{\PYGZdq{}counting\PYGZus{}loop\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}counting\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}base\PYGZus{}decomposition\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}decomposition\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}value\PYGZus{}adjustment\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}adjustment\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}iterative\PYGZus{}arithmetic\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}arithmetic\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}incremental\PYGZus{}counting\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}counting\PYGZdq{}}
+        \PYG{p}{\PYGZcb{}}
+        \PYG{k}{return} \PYG{n}{classifications}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{pattern\PYGZus{}name}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}general\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}detect\PYGZus{}elaborations}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Detect algorithmic elaborations based on shared patterns.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{🔗 Detecting Algorithmic Elaborations...\PYGZdq{}}\PYG{p}{,} \PYG{n}{file}\PYG{o}{=}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{stderr}\PYG{p}{)}
+        \PYG{n}{strategy\PYGZus{}list} \PYG{o}{=} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}patterns}\PYG{o}{.}\PYG{n}{keys}\PYG{p}{())}
+        \PYG{k}{for} \PYG{n}{i}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}a} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}list}\PYG{p}{):}
+            \PYG{k}{for} \PYG{n}{strategy\PYGZus{}b} \PYG{o+ow}{in} \PYG{n}{strategy\PYGZus{}list}\PYG{p}{[}\PYG{n}{i}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{:]:}
+                \PYG{n}{shared\PYGZus{}patterns} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}patterns}\PYG{p}{[}\PYG{n}{strategy\PYGZus{}a}\PYG{p}{]} \PYG{o}{\PYGZam{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}patterns}\PYG{p}{[}\PYG{n}{strategy\PYGZus{}b}\PYG{p}{]}
+                \PYG{k}{if} \PYG{n}{shared\PYGZus{}patterns}\PYG{p}{:}
+                    \PYG{n}{op\PYGZus{}a} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}get\PYGZus{}operation\PYGZus{}type}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}a}\PYG{p}{)}
+                    \PYG{n}{op\PYGZus{}b} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}get\PYGZus{}operation\PYGZus{}type}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}b}\PYG{p}{)}
+                    \PYG{n}{elaboration\PYGZus{}type} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}intra\PYGZus{}categorial\PYGZdq{}} \PYG{k}{if} \PYG{n}{op\PYGZus{}a} \PYG{o}{==} \PYG{n}{op\PYGZus{}b} \PYG{k}{else} \PYG{l+s+s2}{\PYGZdq{}inter\PYGZus{}categorial\PYGZdq{}}
+                    \PYG{n}{confidence} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{shared\PYGZus{}patterns}\PYG{p}{)} \PYG{o}{/} \PYG{n+nb}{max}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}patterns}\PYG{p}{[}\PYG{n}{strategy\PYGZus{}a}\PYG{p}{]),}
+                                                          \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}patterns}\PYG{p}{[}\PYG{n}{strategy\PYGZus{}b}\PYG{p}{]))}
+                    \PYG{n}{base\PYGZus{}strategy}\PYG{p}{,} \PYG{n}{elab\PYGZus{}strategy} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}determine\PYGZus{}elaboration\PYGZus{}direction}\PYG{p}{(}
+                        \PYG{n}{strategy\PYGZus{}a}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}b}\PYG{p}{,} \PYG{n}{shared\PYGZus{}patterns}
+                    \PYG{p}{)}
+                    \PYG{n}{elaboration} \PYG{o}{=} \PYG{n}{AlgorithmicElaboration}\PYG{p}{(}
+                        \PYG{n}{base\PYGZus{}strategy}\PYG{o}{=}\PYG{n}{base\PYGZus{}strategy}\PYG{p}{,}
+                        \PYG{n}{elaborated\PYGZus{}strategy}\PYG{o}{=}\PYG{n}{elab\PYGZus{}strategy}\PYG{p}{,}
+                        \PYG{n}{shared\PYGZus{}patterns}\PYG{o}{=}\PYG{n}{shared\PYGZus{}patterns}\PYG{p}{,}
+                        \PYG{n}{elaboration\PYGZus{}type}\PYG{o}{=}\PYG{n}{elaboration\PYGZus{}type}\PYG{p}{,}
+                        \PYG{n}{confidence}\PYG{o}{=}\PYG{n}{confidence}
+                    \PYG{p}{)}
+                    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elaborations}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{elaboration}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}get\PYGZus{}operation\PYGZus{}type}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}id}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Determine operation type from strategy ID.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{n+nb}{any}\PYG{p}{(}\PYG{n}{keyword} \PYG{o+ow}{in} \PYG{n}{strategy\PYGZus{}id}\PYG{o}{.}\PYG{n}{upper}\PYG{p}{()} \PYG{k}{for} \PYG{n}{keyword} \PYG{o+ow}{in} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}ADD\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}COUNTING\PYGZsq{}}\PYG{p}{]):}
+            \PYG{k}{return} \PYG{l+s+s1}{\PYGZsq{}addition\PYGZsq{}}
+        \PYG{k}{elif} \PYG{n+nb}{any}\PYG{p}{(}\PYG{n}{keyword} \PYG{o+ow}{in} \PYG{n}{strategy\PYGZus{}id}\PYG{o}{.}\PYG{n}{upper}\PYG{p}{()} \PYG{k}{for} \PYG{n}{keyword} \PYG{o+ow}{in} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}SUB\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}SLIDING\PYGZsq{}}\PYG{p}{]):}
+            \PYG{k}{return} \PYG{l+s+s1}{\PYGZsq{}subtraction\PYGZsq{}}
+        \PYG{k}{elif} \PYG{n+nb}{any}\PYG{p}{(}\PYG{n}{keyword} \PYG{o+ow}{in} \PYG{n}{strategy\PYGZus{}id}\PYG{o}{.}\PYG{n}{upper}\PYG{p}{()} \PYG{k}{for} \PYG{n}{keyword} \PYG{o+ow}{in} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}MULT\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}CBO\PYGZsq{}}\PYG{p}{]):}
+            \PYG{k}{return} \PYG{l+s+s1}{\PYGZsq{}multiplication\PYGZsq{}}
+        \PYG{k}{elif} \PYG{n+nb}{any}\PYG{p}{(}\PYG{n}{keyword} \PYG{o+ow}{in} \PYG{n}{strategy\PYGZus{}id}\PYG{o}{.}\PYG{n}{upper}\PYG{p}{()} \PYG{k}{for} \PYG{n}{keyword} \PYG{o+ow}{in} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}DIV\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}DEALING\PYGZsq{}}\PYG{p}{]):}
+            \PYG{k}{return} \PYG{l+s+s1}{\PYGZsq{}division\PYGZsq{}}
+        \PYG{k}{return} \PYG{l+s+s1}{\PYGZsq{}unknown\PYGZsq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}determine\PYGZus{}elaboration\PYGZus{}direction}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}a}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}b}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{shared\PYGZus{}patterns}\PYG{p}{:} \PYG{n}{Set}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{])} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{Tuple}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n+nb}{str}\PYG{p}{]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Determine which strategy elaborates which based on pattern analysis.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{unique\PYGZus{}a} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}patterns}\PYG{p}{[}\PYG{n}{strategy\PYGZus{}a}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{shared\PYGZus{}patterns}\PYG{p}{)}
+        \PYG{n}{unique\PYGZus{}b} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}patterns}\PYG{p}{[}\PYG{n}{strategy\PYGZus{}b}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{shared\PYGZus{}patterns}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{unique\PYGZus{}a} \PYG{o}{\PYGZlt{}=} \PYG{n}{unique\PYGZus{}b}\PYG{p}{:}
+            \PYG{k}{return} \PYG{n}{strategy\PYGZus{}a}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}b}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{k}{return} \PYG{n}{strategy\PYGZus{}b}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}a}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}analyze\PYGZus{}metaphor\PYGZus{}sharing}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{Dict}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Find strategies sharing conceptual metaphors.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{metaphor\PYGZus{}to\PYGZus{}strategies} \PYG{o}{=} \PYG{n}{defaultdict}\PYG{p}{(}\PYG{n+nb}{list}\PYG{p}{)}
+
+        \PYG{k}{for} \PYG{n}{strategy}\PYG{p}{,} \PYG{n}{metadata} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}metadata}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+            \PYG{k}{for} \PYG{n}{metaphor} \PYG{o+ow}{in} \PYG{n}{metadata}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}metaphors\PYGZsq{}}\PYG{p}{,} \PYG{p}{[]):}
+                \PYG{n}{metaphor\PYGZus{}name} \PYG{o}{=} \PYG{n}{metaphor}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}name\PYGZsq{}}\PYG{p}{]}
+                \PYG{n}{metaphor\PYGZus{}to\PYGZus{}strategies}\PYG{p}{[}\PYG{n}{metaphor\PYGZus{}name}\PYG{p}{]}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{strategy}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{n+nb}{dict}\PYG{p}{(}\PYG{n}{metaphor\PYGZus{}to\PYGZus{}strategies}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}analysis\PYGZus{}report}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{Dict}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{Any}\PYG{p}{]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate comprehensive analysis report.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{c+c1}{\PYGZsh{} Analyze metaphor sharing}
+        \PYG{n}{metaphor\PYGZus{}sharing} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}analyze\PYGZus{}metaphor\PYGZus{}sharing}\PYG{p}{()}
+
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{📊 Analysis Complete:\PYGZdq{}}\PYG{p}{,} \PYG{n}{file}\PYG{o}{=}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{stderr}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}   • }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{patterns}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ computational patterns detected\PYGZdq{}}\PYG{p}{,} \PYG{n}{file}\PYG{o}{=}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{stderr}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}   • }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elaborations}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ algorithmic elaborations identified\PYGZdq{}}\PYG{p}{,} \PYG{n}{file}\PYG{o}{=}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{stderr}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}   • }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}metadata}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ strategies with rich metadata\PYGZdq{}}\PYG{p}{,} \PYG{n}{file}\PYG{o}{=}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{stderr}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}   • }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{metaphor\PYGZus{}sharing}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ unique embodied metaphors found\PYGZdq{}}\PYG{p}{,} \PYG{n}{file}\PYG{o}{=}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{stderr}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{p}{\PYGZob{}}
+            \PYG{l+s+s2}{\PYGZdq{}patterns\PYGZdq{}}\PYG{p}{:} \PYG{p}{\PYGZob{}}
+                \PYG{n}{name}\PYG{p}{:} \PYG{p}{\PYGZob{}}
+                    \PYG{l+s+s2}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:} \PYG{n}{pattern}\PYG{o}{.}\PYG{n}{operation\PYGZus{}type}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}strategies\PYGZus{}using\PYGZdq{}}\PYG{p}{:} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{pattern}\PYG{o}{.}\PYG{n}{strategies\PYGZus{}using}\PYG{p}{),}
+                    \PYG{l+s+s2}{\PYGZdq{}usage\PYGZus{}count\PYGZdq{}}\PYG{p}{:} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{pattern}\PYG{o}{.}\PYG{n}{strategies\PYGZus{}using}\PYG{p}{)}
+                \PYG{p}{\PYGZcb{}}
+                \PYG{k}{for} \PYG{n}{name}\PYG{p}{,} \PYG{n}{pattern} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{patterns}\PYG{o}{.}\PYG{n}{items}\PYG{p}{()}
+            \PYG{p}{\PYGZcb{},}
+            \PYG{l+s+s2}{\PYGZdq{}elaborations\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}
+                \PYG{p}{\PYGZob{}}
+                    \PYG{l+s+s2}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:} \PYG{n}{elab}\PYG{o}{.}\PYG{n}{base\PYGZus{}strategy}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:} \PYG{n}{elab}\PYG{o}{.}\PYG{n}{elaborated\PYGZus{}strategy}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{elab}\PYG{o}{.}\PYG{n}{shared\PYGZus{}patterns}\PYG{p}{),}
+                    \PYG{l+s+s2}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:} \PYG{n}{elab}\PYG{o}{.}\PYG{n}{elaboration\PYGZus{}type}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:} \PYG{n}{elab}\PYG{o}{.}\PYG{n}{confidence}
+                \PYG{p}{\PYGZcb{}}
+                \PYG{k}{for} \PYG{n}{elab} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elaborations}
+            \PYG{p}{],}
+            \PYG{l+s+s2}{\PYGZdq{}strategy\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:} \PYG{p}{\PYGZob{}}
+                \PYG{n}{strategy}\PYG{p}{:} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{patterns}\PYG{p}{)}
+                \PYG{k}{for} \PYG{n}{strategy}\PYG{p}{,} \PYG{n}{patterns} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}patterns}\PYG{o}{.}\PYG{n}{items}\PYG{p}{()}
+            \PYG{p}{\PYGZcb{},}
+            \PYG{l+s+s2}{\PYGZdq{}strategy\PYGZus{}metadata\PYGZdq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}metadata}\PYG{p}{,}  \PYG{c+c1}{\PYGZsh{} Include rich metadata}
+            \PYG{l+s+s2}{\PYGZdq{}metaphor\PYGZus{}sharing\PYGZdq{}}\PYG{p}{:} \PYG{n}{metaphor\PYGZus{}sharing}  \PYG{c+c1}{\PYGZsh{} NEW: Include metaphor analysis}
+        \PYG{p}{\PYGZcb{}}
+
+
+\PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} MUDGenerator Class (Updated for MUD conventions) \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{MUDGenerator}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generates MUD diagrams from algorithmic elaboration analysis.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{analysis\PYGZus{}results}\PYG{p}{:} \PYG{n}{Dict}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{Any}\PYG{p}{]):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results} \PYG{o}{=} \PYG{n}{analysis\PYGZus{}results}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{mud\PYGZus{}diagrams} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{generate\PYGZus{}mud\PYGZus{}diagrams}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{Dict}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{Any}\PYG{p}{]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate MUD diagrams for all discovered elaborations.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{operation\PYGZus{}groups} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}group\PYGZus{}elaborations\PYGZus{}by\PYGZus{}operation}\PYG{p}{()}
+
+        \PYG{k}{for} \PYG{n}{operation}\PYG{p}{,} \PYG{n}{elaborations} \PYG{o+ow}{in} \PYG{n}{operation\PYGZus{}groups}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+            \PYG{n}{mud\PYGZus{}diagram} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}operation\PYGZus{}mud}\PYG{p}{(}\PYG{n}{operation}\PYG{p}{,} \PYG{n}{elaborations}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{mud\PYGZus{}diagrams}\PYG{p}{[}\PYG{n}{operation}\PYG{p}{]} \PYG{o}{=} \PYG{n}{mud\PYGZus{}diagram}
+
+        \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{mud\PYGZus{}diagrams}
+
+    \PYG{c+c1}{\PYGZsh{} (Helper methods \PYGZus{}group\PYGZus{}elaborations\PYGZus{}by\PYGZus{}operation and \PYGZus{}extract\PYGZus{}operation\PYGZus{}type remain logically the same)}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}group\PYGZus{}elaborations\PYGZus{}by\PYGZus{}operation}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{Dict}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{List}\PYG{p}{[}\PYG{n}{Dict}\PYG{p}{]]:}
+        \PYG{n}{operation\PYGZus{}groups} \PYG{o}{=} \PYG{n}{defaultdict}\PYG{p}{(}\PYG{n+nb}{list}\PYG{p}{)}
+        \PYG{k}{for} \PYG{n}{elab} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}elaborations\PYGZsq{}}\PYG{p}{,} \PYG{p}{[]):}
+            \PYG{c+c1}{\PYGZsh{} Simplified grouping logic}
+            \PYG{n}{base\PYGZus{}op} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}extract\PYGZus{}operation\PYGZus{}type}\PYG{p}{(}\PYG{n}{elab}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{))}
+            \PYG{k}{if} \PYG{n}{base\PYGZus{}op} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}general\PYGZsq{}}\PYG{p}{:}
+                \PYG{n}{base\PYGZus{}op} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}miscellaneous\PYGZsq{}}
+            \PYG{n}{operation\PYGZus{}groups}\PYG{p}{[}\PYG{n}{base\PYGZus{}op}\PYG{p}{]}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{elab}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{operation\PYGZus{}groups}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}extract\PYGZus{}operation\PYGZus{}type}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}id}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+        \PYG{n}{strategy\PYGZus{}upper} \PYG{o}{=} \PYG{n}{strategy\PYGZus{}id}\PYG{o}{.}\PYG{n}{upper}\PYG{p}{()}
+        \PYG{k}{if} \PYG{l+s+s1}{\PYGZsq{}ADD\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{strategy\PYGZus{}upper} \PYG{o+ow}{or} \PYG{l+s+s1}{\PYGZsq{}COUNTING\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{strategy\PYGZus{}upper}\PYG{p}{:}
+            \PYG{k}{return} \PYG{l+s+s1}{\PYGZsq{}addition\PYGZsq{}}
+        \PYG{c+c1}{\PYGZsh{} ... other operations ...}
+        \PYG{k}{return} \PYG{l+s+s1}{\PYGZsq{}general\PYGZsq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}operation\PYGZus{}mud}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{operation}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{elaborations}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n}{Dict}\PYG{p}{])} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{Dict}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{Any}\PYG{p}{]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate a MUD diagram for a specific operation.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{strategies} \PYG{o}{=} \PYG{n+nb}{set}\PYG{p}{()}
+        \PYG{n}{elaboration\PYGZus{}relationships} \PYG{o}{=} \PYG{n}{defaultdict}\PYG{p}{(}\PYG{n+nb}{list}\PYG{p}{)}
+
+        \PYG{k}{for} \PYG{n}{elab} \PYG{o+ow}{in} \PYG{n}{elaborations}\PYG{p}{:}
+            \PYG{n}{base} \PYG{o}{=} \PYG{n}{elab}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{)}
+            \PYG{n}{elaborated} \PYG{o}{=} \PYG{n}{elab}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}elaborated\PYGZus{}strategy\PYGZsq{}}\PYG{p}{)}
+            \PYG{n}{patterns} \PYG{o}{=} \PYG{n}{elab}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}shared\PYGZus{}patterns\PYGZsq{}}\PYG{p}{,} \PYG{p}{[])}
+
+            \PYG{k}{if} \PYG{n}{base} \PYG{o+ow}{and} \PYG{n}{elaborated}\PYG{p}{:}
+                \PYG{n}{strategies}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{n}{base}\PYG{p}{)}
+                \PYG{n}{strategies}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{n}{elaborated}\PYG{p}{)}
+                \PYG{n}{directional\PYGZus{}key} \PYG{o}{=} \PYG{p}{(}\PYG{n}{base}\PYG{p}{,} \PYG{n}{elaborated}\PYG{p}{)}
+                \PYG{c+c1}{\PYGZsh{} Collect unique patterns for this specific link}
+                \PYG{k}{for} \PYG{n}{pattern} \PYG{o+ow}{in} \PYG{n}{patterns}\PYG{p}{:}
+                    \PYG{k}{if} \PYG{n}{pattern} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{elaboration\PYGZus{}relationships}\PYG{p}{[}\PYG{n}{directional\PYGZus{}key}\PYG{p}{]:}
+                        \PYG{n}{elaboration\PYGZus{}relationships}\PYG{p}{[}\PYG{n}{directional\PYGZus{}key}\PYG{p}{]}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{pattern}\PYG{p}{)}
+
+        \PYG{n}{tikz\PYGZus{}code} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}tikz\PYGZus{}diagram}\PYG{p}{(}\PYG{n}{operation}\PYG{p}{,} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{strategies}\PYG{p}{),} \PYG{n}{elaboration\PYGZus{}relationships}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{p}{\PYGZob{}}
+            \PYG{l+s+s1}{\PYGZsq{}operation\PYGZsq{}}\PYG{p}{:} \PYG{n}{operation}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}strategies\PYGZsq{}}\PYG{p}{:} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{strategies}\PYG{p}{),}
+            \PYG{l+s+s1}{\PYGZsq{}tikz\PYGZus{}diagram\PYGZsq{}}\PYG{p}{:} \PYG{n}{tikz\PYGZus{}code}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}summary\PYGZsq{}}\PYG{p}{:} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Summary for }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{operation}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}} \PYG{c+c1}{\PYGZsh{} Placeholder summary}
+        \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}format\PYGZus{}strategy\PYGZus{}label}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Formats the strategy name according to MUD typesetting rules: P\PYGZbs{}textsubscript\PYGZob{}Name\PYGZcb{}.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{display\PYGZus{}name} \PYG{o}{=} \PYG{n}{strategy\PYGZus{}name}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}SAR\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Handle potential line breaks for very long names by splitting near the middle underscore}
+        \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{display\PYGZus{}name}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{25}\PYG{p}{:}
+            \PYG{n}{best\PYGZus{}split\PYGZus{}point} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}
+            \PYG{n}{middle} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{display\PYGZus{}name}\PYG{p}{)} \PYG{o}{/} \PYG{l+m+mi}{2}
+            \PYG{k}{for} \PYG{n}{i}\PYG{p}{,} \PYG{n}{char} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{display\PYGZus{}name}\PYG{p}{):}
+                \PYG{k}{if} \PYG{n}{char} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}}\PYG{p}{:}
+                    \PYG{k}{if} \PYG{n}{best\PYGZus{}split\PYGZus{}point} \PYG{o}{==} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1} \PYG{o+ow}{or} \PYG{n+nb}{abs}\PYG{p}{(}\PYG{n}{i} \PYG{o}{\PYGZhy{}} \PYG{n}{middle}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{n+nb}{abs}\PYG{p}{(}\PYG{n}{best\PYGZus{}split\PYGZus{}point} \PYG{o}{\PYGZhy{}} \PYG{n}{middle}\PYG{p}{):}
+                        \PYG{n}{best\PYGZus{}split\PYGZus{}point} \PYG{o}{=} \PYG{n}{i}
+
+            \PYG{k}{if} \PYG{n}{best\PYGZus{}split\PYGZus{}point} \PYG{o}{!=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1} \PYG{o+ow}{and} \PYG{n}{best\PYGZus{}split\PYGZus{}point} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+                \PYG{n}{part1} \PYG{o}{=} \PYG{n}{display\PYGZus{}name}\PYG{p}{[:}\PYG{n}{best\PYGZus{}split\PYGZus{}point}\PYG{p}{]}
+                \PYG{n}{part2} \PYG{o}{=} \PYG{n}{display\PYGZus{}name}\PYG{p}{[}\PYG{n}{best\PYGZus{}split\PYGZus{}point}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{:]}
+                \PYG{c+c1}{\PYGZsh{} Format: P\PYGZbs{}textsubscript\PYGZob{}Part1\PYGZcb{} \PYGZbs{}\PYGZbs{} \PYGZbs{}textsubscript\PYGZob{}Part2\PYGZcb{}}
+                \PYG{c+c1}{\PYGZsh{} Use raw f\PYGZhy{}string (rf\PYGZdq{}\PYGZdq{}) to handle backslashes easily.}
+                \PYG{k}{return} \PYG{l+s+sa}{rf}\PYG{l+s+s2}{\PYGZdq{}P\PYGZbs{}textsubscript}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{part1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{ }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{ \PYGZbs{}textsubscript}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{part2}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+
+        \PYG{c+c1}{\PYGZsh{} Default format: P\PYGZbs{}textsubscript\PYGZob{}Name\PYGZcb{}. Underscores don\PYGZsq{}t need escaping in \PYGZbs{}textsubscript.}
+        \PYG{k}{return} \PYG{l+s+sa}{rf}\PYG{l+s+s2}{\PYGZdq{}P\PYGZbs{}textsubscript}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{display\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}tikz\PYGZus{}diagram}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{operation}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{strategies}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{],} \PYG{n}{elaboration\PYGZus{}relationships}\PYG{p}{:} \PYG{n}{Dict}\PYG{p}{[}\PYG{n}{Tuple}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n+nb}{str}\PYG{p}{],} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]])} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate TikZ code for the MUD diagram following Brandom\PYGZsq{}s conventions.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+        \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} Header and Style Definitions \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+        \PYG{c+c1}{\PYGZsh{} We generate only the tikzpicture environment. The preamble (libraries) must be handled by the consuming document (e.g., ReportGenerator).}
+        \PYG{c+c1}{\PYGZsh{} Use raw strings (r\PYGZdq{}\PYGZdq{}) for LaTeX definitions for clarity.}
+        \PYG{n}{tikz\PYGZus{}lines} \PYG{o}{=} \PYG{p}{[}
+            \PYG{l+s+sa}{r}\PYG{l+s+s2}{\PYGZdq{}\PYGZbs{}begin}\PYG{l+s+si}{\PYGZob{}tikzpicture\PYGZcb{}}\PYG{l+s+s2}{[\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}  \PYGZpc{} Node Styles\PYGZdq{}}\PYG{p}{,}
+            \PYG{c+c1}{\PYGZsh{} Rule 1: Vocabularies (V): light gray, filled ellipses, solid black border.}
+            \PYG{l+s+sa}{r}\PYG{l+s+s2}{\PYGZdq{}  vnode/.style=\PYGZob{}ellipse, draw, fill=lightgray!50, text=black, minimum height=1.3cm, minimum width=2.8cm, align=center\PYGZcb{},\PYGZdq{}}\PYG{p}{,}
+            \PYG{c+c1}{\PYGZsh{} Rule 2: Practices (P): darker gray, filled rounded rectangles, solid black border.}
+            \PYG{l+s+sa}{r}\PYG{l+s+s2}{\PYGZdq{}  pnode/.style=\PYGZob{}rectangle, rounded corners=5pt, draw, fill=gray!70, text=black, minimum height=1.3cm, minimum width=3.5cm, align=center, inner xsep=0.3cm, inner ysep=0.2cm\PYGZcb{},\PYGZdq{}}\PYG{p}{,}
+            \PYG{c+c1}{\PYGZsh{} Rule 5: Algorithmic Elaboration (PAlgEl): light gray rectangle, sharp corners.}
+            \PYG{l+s+sa}{r}\PYG{l+s+s2}{\PYGZdq{}  graybox/.style=\PYGZob{}rectangle, fill=lightgray!50, inner sep=4pt, minimum height=1.1cm, anchor=center, align=center, text centered\PYGZcb{},\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}  \PYGZpc{} Arrow Styles\PYGZdq{}}\PYG{p}{,}
+            \PYG{c+c1}{\PYGZsh{} Rule 3: Basic MURs: solid, thick, black arrows, Stealth head.}
+            \PYG{l+s+sa}{r}\PYG{l+s+s2}{\PYGZdq{}  solidarrow/.style=\PYGZob{}\PYGZhy{}Stealth, thick\PYGZcb{},\PYGZdq{}}\PYG{p}{,}
+            \PYG{c+c1}{\PYGZsh{} Rule 4: Resultant MURs: dashed, thick, gray arrows, Stealth head.}
+            \PYG{l+s+sa}{r}\PYG{l+s+s2}{\PYGZdq{}  dashedarrow/.style=\PYGZob{}dashed, \PYGZhy{}Stealth, thick, gray\PYGZcb{},\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+sa}{r}\PYG{l+s+s2}{\PYGZdq{}  textarrow/.style=\PYGZob{}align=center, inner sep=1pt\PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+sa}{r}\PYG{l+s+s2}{\PYGZdq{}]\PYGZdq{}}\PYG{p}{,}
+            \PYG{c+c1}{\PYGZsh{} Set font style and line spacing}
+            \PYG{l+s+sa}{r}\PYG{l+s+s2}{\PYGZdq{}\PYGZbs{}tikzset\PYGZob{}font=\PYGZbs{}linespread}\PYG{l+s+si}{\PYGZob{}0.8\PYGZcb{}}\PYG{l+s+s2}{\PYGZbs{}selectfont\PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZpc{} Diagram for: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{operation}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{} \PYGZsq{}}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+        \PYG{p}{]}
+
+        \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} Node Placement (Circular Layout) \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+        \PYG{n}{strategy\PYGZus{}positions} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}
+        \PYG{n}{num\PYGZus{}strategies} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{strategies}\PYG{p}{)}
+
+        \PYG{k}{if} \PYG{n}{num\PYGZus{}strategies} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n}{radius} \PYG{o}{=} \PYG{n+nb}{max}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{n}{num\PYGZus{}strategies} \PYG{o}{*} \PYG{l+m+mf}{1.0}\PYG{p}{)}
+            \PYG{n}{angle\PYGZus{}step} \PYG{o}{=} \PYG{l+m+mi}{360} \PYG{o}{/} \PYG{n}{num\PYGZus{}strategies}
+
+            \PYG{k}{for} \PYG{n}{i}\PYG{p}{,} \PYG{n}{strategy} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{strategies}\PYG{p}{):}
+                \PYG{n}{node\PYGZus{}id} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}P\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{i}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+                \PYG{n}{strategy\PYGZus{}positions}\PYG{p}{[}\PYG{n}{strategy}\PYG{p}{]} \PYG{o}{=} \PYG{n}{node\PYGZus{}id}
+
+                \PYG{n}{angle} \PYG{o}{=} \PYG{l+m+mi}{90} \PYG{o}{\PYGZhy{}} \PYG{p}{(}\PYG{n}{i} \PYG{o}{*} \PYG{n}{angle\PYGZus{}step}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Start from top (90 degrees)}
+                \PYG{n}{x} \PYG{o}{=} \PYG{n}{radius} \PYG{o}{*} \PYG{n}{math}\PYG{o}{.}\PYG{n}{cos}\PYG{p}{(}\PYG{n}{math}\PYG{o}{.}\PYG{n}{radians}\PYG{p}{(}\PYG{n}{angle}\PYG{p}{))}
+                \PYG{n}{y} \PYG{o}{=} \PYG{n}{radius} \PYG{o}{*} \PYG{n}{math}\PYG{o}{.}\PYG{n}{sin}\PYG{p}{(}\PYG{n}{math}\PYG{o}{.}\PYG{n}{radians}\PYG{p}{(}\PYG{n}{angle}\PYG{p}{))}
+
+                \PYG{n}{display\PYGZus{}label} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}format\PYGZus{}strategy\PYGZus{}label}\PYG{p}{(}\PYG{n}{strategy}\PYG{p}{)}
+                \PYG{c+c1}{\PYGZsh{} Use raw f\PYGZhy{}string (rf\PYGZdq{}\PYGZdq{}) for the node definition}
+                \PYG{n}{tikz\PYGZus{}lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{rf}\PYG{l+s+s2}{\PYGZdq{}\PYGZbs{}node[pnode] (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{node\PYGZus{}id}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{) at (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{x}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{,}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{y}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{) }\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{display\PYGZus{}label}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{;\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{tikz\PYGZus{}lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} Arrow Generation (Algorithmic Elaborations) \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+        \PYG{n}{arrow\PYGZus{}count} \PYG{o}{=} \PYG{l+m+mi}{1}
+        \PYG{k}{for} \PYG{p}{(}\PYG{n}{base\PYGZus{}strategy}\PYG{p}{,} \PYG{n}{elaborated\PYGZus{}strategy}\PYG{p}{),} \PYG{n}{patterns} \PYG{o+ow}{in} \PYG{n}{elaboration\PYGZus{}relationships}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+            \PYG{k}{if} \PYG{n}{base\PYGZus{}strategy} \PYG{o+ow}{in} \PYG{n}{strategy\PYGZus{}positions} \PYG{o+ow}{and} \PYG{n}{elaborated\PYGZus{}strategy} \PYG{o+ow}{in} \PYG{n}{strategy\PYGZus{}positions}\PYG{p}{:}
+                \PYG{n}{base\PYGZus{}pos} \PYG{o}{=} \PYG{n}{strategy\PYGZus{}positions}\PYG{p}{[}\PYG{n}{base\PYGZus{}strategy}\PYG{p}{]}
+                \PYG{n}{elab\PYGZus{}pos} \PYG{o}{=} \PYG{n}{strategy\PYGZus{}positions}\PYG{p}{[}\PYG{n}{elaborated\PYGZus{}strategy}\PYG{p}{]}
+
+                \PYG{c+c1}{\PYGZsh{} Rule 7: Typesetting. Escape underscores (\PYGZbs{}\PYGZus{}) for literal printing.}
+                \PYG{n}{escaped\PYGZus{}patterns} \PYG{o}{=} \PYG{p}{[}\PYG{n}{p}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}\PYGZus{}\PYGZsq{}}\PYG{p}{)} \PYG{k}{for} \PYG{n}{p} \PYG{o+ow}{in} \PYG{n+nb}{sorted}\PYG{p}{(}\PYG{n}{patterns}\PYG{p}{)]}
+                \PYG{n}{pattern\PYGZus{}label} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}, \PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{escaped\PYGZus{}patterns}\PYG{p}{)}
+
+                \PYG{c+c1}{\PYGZsh{} Rule 5: Labels. P\PYGZbs{}textsubscript\PYGZob{}AlgEl\PYGZcb{} Number: PP\PYGZhy{}suff \PYGZbs{}\PYGZbs{} (Patterns)}
+                \PYG{c+c1}{\PYGZsh{} Use raw f\PYGZhy{}string for the box content definition.}
+                \PYG{n}{box\PYGZus{}content} \PYG{o}{=} \PYG{l+s+sa}{rf}\PYG{l+s+s2}{\PYGZdq{}P\PYGZbs{}textsubscript}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{AlgEl}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{ }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{arrow\PYGZus{}count}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{: PP\PYGZhy{}suff }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{ (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}label}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{)\PYGZdq{}}
+
+                \PYG{c+c1}{\PYGZsh{} Draw the arrow (Basic MUR) with the PAlgEl overlay. Use \PYGZsq{}sloped\PYGZsq{} for better alignment.}
+                \PYG{n}{tikz\PYGZus{}lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{rf}\PYG{l+s+s2}{\PYGZdq{}\PYGZbs{}draw[solidarrow] (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base\PYGZus{}pos}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{) \PYGZhy{}\PYGZhy{} node[graybox, midway, sloped] }\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{box\PYGZus{}content}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{ (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab\PYGZus{}pos}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{);\PYGZdq{}}\PYG{p}{)}
+
+                \PYG{n}{arrow\PYGZus{}count} \PYG{o}{+=} \PYG{l+m+mi}{1}
+
+        \PYG{n}{tikz\PYGZus{}lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+sa}{r}\PYG{l+s+s2}{\PYGZdq{}\PYGZbs{}end}\PYG{l+s+si}{\PYGZob{}tikzpicture\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+        \PYG{p}{])}
+
+        \PYG{c+c1}{\PYGZsh{} Join with standard newline characters}
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{tikz\PYGZus{}lines}\PYG{p}{)}
+
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{ReportGenerator}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generates reports in multiple formats from analysis results.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{analysis\PYGZus{}results}\PYG{p}{:} \PYG{n}{Dict}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{Any}\PYG{p}{],} \PYG{n}{mud\PYGZus{}diagrams}\PYG{p}{:} \PYG{n}{Dict}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{Any}\PYG{p}{]} \PYG{o}{=} \PYG{k+kc}{None}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results} \PYG{o}{=} \PYG{n}{analysis\PYGZus{}results}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{mud\PYGZus{}diagrams} \PYG{o}{=} \PYG{n}{mud\PYGZus{}diagrams} \PYG{o+ow}{or} \PYG{p}{\PYGZob{}\PYGZcb{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{generate\PYGZus{}markdown\PYGZus{}report}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{:} \PYG{n+nb}{str} \PYG{o}{=} \PYG{k+kc}{None}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate a Markdown report for a specific strategy or general overview.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZsh{} Algorithmic Elaboration Analysis Report\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Generated on: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}get\PYGZus{}timestamp}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{} Overview\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **Computational Patterns Detected**: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}patterns\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{}))}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **Algorithmic Elaborations Found**: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}elaborations\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{[]))}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **MUD Diagrams Generated**: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{mud\PYGZus{}diagrams}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+        \PYG{p}{]}
+
+        \PYG{k}{if} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}strategy\PYGZus{}report}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}name}\PYG{p}{))}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}overview\PYGZus{}report}\PYG{p}{())}
+
+        \PYG{c+c1}{\PYGZsh{} Add MUD diagrams section if diagrams are available}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{mud\PYGZus{}diagrams}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}mud\PYGZus{}diagrams\PYGZus{}markdown\PYGZus{}section}\PYG{p}{())}
+
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}strategy\PYGZus{}report}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate a detailed report for a specific strategy.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{} Strategy Analysis: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Computational Patterns Used\PYGZdq{}}\PYG{p}{,}
+        \PYG{p}{]}
+
+        \PYG{n}{patterns} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}strategy\PYGZus{}patterns\PYGZsq{}}\PYG{p}{,} \PYG{p}{\PYGZob{}\PYGZcb{})}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}name}\PYG{p}{,} \PYG{p}{[])}
+        \PYG{k}{if} \PYG{n}{patterns}\PYG{p}{:}
+            \PYG{k}{for} \PYG{n}{pattern} \PYG{o+ow}{in} \PYG{n}{patterns}\PYG{p}{:}
+                \PYG{n}{pattern\PYGZus{}info} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}patterns\PYGZsq{}}\PYG{p}{,} \PYG{p}{\PYGZob{}\PYGZcb{})}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{pattern}\PYG{p}{,} \PYG{p}{\PYGZob{}\PYGZcb{})}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{** (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}info}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}unknown\PYGZsq{}}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{)\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}  \PYGZhy{} Used by }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}info}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}usage\PYGZus{}count\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ other strategies\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} No patterns detected\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Algorithmic Elaborations\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} As Base Strategy:\PYGZdq{}}
+        \PYG{p}{])}
+
+        \PYG{n}{base\PYGZus{}elabs} \PYG{o}{=} \PYG{p}{[}\PYG{n}{e} \PYG{k}{for} \PYG{n}{e} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}elaborations\PYGZsq{}}\PYG{p}{,} \PYG{p}{[])}
+                     \PYG{k}{if} \PYG{n}{e}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]} \PYG{o}{==} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{]}
+        \PYG{k}{if} \PYG{n}{base\PYGZus{}elabs}\PYG{p}{:}
+            \PYG{k}{for} \PYG{n}{elab} \PYG{o+ow}{in} \PYG{n}{base\PYGZus{}elabs}\PYG{p}{:}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **Elaborates** → }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}elaborated\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}  \PYGZhy{} Shared patterns: }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}shared\PYGZus{}patterns\PYGZsq{}}\PYG{p}{])}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}  \PYGZhy{} Confidence: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}confidence\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+                \PYG{p}{])}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} None found\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} As Elaborated Strategy:\PYGZdq{}}
+        \PYG{p}{])}
+
+        \PYG{n}{elab\PYGZus{}elabs} \PYG{o}{=} \PYG{p}{[}\PYG{n}{e} \PYG{k}{for} \PYG{n}{e} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}elaborations\PYGZsq{}}\PYG{p}{,} \PYG{p}{[])}
+                     \PYG{k}{if} \PYG{n}{e}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}elaborated\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]} \PYG{o}{==} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{]}
+        \PYG{k}{if} \PYG{n}{elab\PYGZus{}elabs}\PYG{p}{:}
+            \PYG{k}{for} \PYG{n}{elab} \PYG{o+ow}{in} \PYG{n}{elab\PYGZus{}elabs}\PYG{p}{:}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **Elaborated from** ← }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}  \PYGZhy{} Shared patterns: }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}shared\PYGZus{}patterns\PYGZsq{}}\PYG{p}{])}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}  \PYGZhy{} Confidence: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}confidence\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+                \PYG{p}{])}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} None found\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{n}{lines}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}overview\PYGZus{}report}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate a general overview report.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{} Computational Patterns\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}| Pattern | Type | Usage Count | Strategies |\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}|\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}|\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}|\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}|\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}|\PYGZdq{}}
+        \PYG{p}{]}
+
+        \PYG{k}{for} \PYG{n}{pattern\PYGZus{}name}\PYG{p}{,} \PYG{n}{pattern\PYGZus{}data} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}patterns\PYGZsq{}}\PYG{p}{,} \PYG{p}{\PYGZob{}\PYGZcb{})}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+            \PYG{n}{strategies} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}, \PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{pattern\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}strategies\PYGZus{}using\PYGZsq{}}\PYG{p}{,} \PYG{p}{[])[:}\PYG{l+m+mi}{3}\PYG{p}{])}  \PYG{c+c1}{\PYGZsh{} Show first 3}
+            \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{pattern\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}strategies\PYGZus{}using\PYGZsq{}}\PYG{p}{,} \PYG{p}{[]))} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{3}\PYG{p}{:}
+                \PYG{n}{strategies} \PYG{o}{+=} \PYG{l+s+s2}{\PYGZdq{}...\PYGZdq{}}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}| }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ | }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}unknown\PYGZsq{}}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ | }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}usage\PYGZus{}count\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ | }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategies}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ |\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{} Key Algorithmic Elaborations\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}| Base Strategy | Elaborated Strategy | Shared Patterns | Confidence |\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}|\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}|\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}|\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}|\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}|\PYGZdq{}}
+        \PYG{p}{])}
+
+        \PYG{c+c1}{\PYGZsh{} Show top 10 by confidence}
+        \PYG{n}{elaborations} \PYG{o}{=} \PYG{n+nb}{sorted}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}elaborations\PYGZsq{}}\PYG{p}{,} \PYG{p}{[]),}
+                            \PYG{n}{key}\PYG{o}{=}\PYG{k}{lambda} \PYG{n}{x}\PYG{p}{:} \PYG{n}{x}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}confidence\PYGZsq{}}\PYG{p}{],} \PYG{n}{reverse}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)[:}\PYG{l+m+mi}{10}\PYG{p}{]}
+
+        \PYG{k}{for} \PYG{n}{elab} \PYG{o+ow}{in} \PYG{n}{elaborations}\PYG{p}{:}
+            \PYG{n}{patterns} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}, \PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}shared\PYGZus{}patterns\PYGZsq{}}\PYG{p}{])}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}| }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ | }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}elaborated\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ | }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{patterns}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ | }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}confidence\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ |\PYGZdq{}}
+            \PYG{p}{])}
+
+        \PYG{k}{return} \PYG{n}{lines}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{generate\PYGZus{}latex\PYGZus{}report}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{:} \PYG{n+nb}{str} \PYG{o}{=} \PYG{k+kc}{None}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate a LaTeX report for a specific strategy or general overview.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{documentclass}\PYG{l+s+si}{\PYGZob{}article\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{usepackage[utf8]}\PYG{l+s+si}{\PYGZob{}inputenc\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{usepackage}\PYG{l+s+si}{\PYGZob{}geometry\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{usepackage}\PYG{l+s+si}{\PYGZob{}hyperref\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{usepackage}\PYG{l+s+si}{\PYGZob{}booktabs\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{usepackage}\PYG{l+s+si}{\PYGZob{}xcolor\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{usepackage}\PYG{l+s+si}{\PYGZob{}tikz\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{usetikzlibrary\PYGZob{}positioning,arrows.meta\PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{geometry\PYGZob{}margin=1in\PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{title\PYGZob{}EPLE Algorithmic Elaboration Analysis Report\PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{date}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}get\PYGZus{}timestamp}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{author\PYGZob{}EPLE Automated Analysis System\PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{begin}\PYG{l+s+si}{\PYGZob{}document\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{maketitle\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{section}\PYG{l+s+si}{\PYGZob{}Overview\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textbf}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{Computational Patterns Detected:}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{ }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}patterns\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{}))}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textbf}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{Algorithmic Elaborations Found:}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{ }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}elaborations\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{[]))}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textbf}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{MUD Diagrams Generated:}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{ }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{mud\PYGZus{}diagrams}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+        \PYG{p}{]}
+
+        \PYG{k}{if} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}strategy\PYGZus{}latex\PYGZus{}report}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}name}\PYG{p}{))}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}overview\PYGZus{}latex\PYGZus{}report}\PYG{p}{())}
+
+        \PYG{c+c1}{\PYGZsh{} Add MUD diagrams section if diagrams are available}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{mud\PYGZus{}diagrams}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}mud\PYGZus{}diagrams\PYGZus{}latex\PYGZus{}section}\PYG{p}{())}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{end}\PYG{l+s+si}{\PYGZob{}document\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+        \PYG{p}{])}
+
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}strategy\PYGZus{}latex\PYGZus{}report}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate a detailed LaTeX report for a specific strategy.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{c+c1}{\PYGZsh{} Escape underscores in strategy name for LaTeX}
+        \PYG{n}{escaped\PYGZus{}strategy} \PYG{o}{=} \PYG{n}{strategy\PYGZus{}name}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s1}{\PYGZus{}\PYGZsq{}}\PYG{p}{)}
+
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{section}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{Strategy Analysis: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{escaped\PYGZus{}strategy}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{subsection\PYGZob{}Computational Patterns Used\PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+        \PYG{p}{]}
+
+        \PYG{n}{patterns} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}strategy\PYGZus{}patterns\PYGZsq{}}\PYG{p}{,} \PYG{p}{\PYGZob{}\PYGZcb{})}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}name}\PYG{p}{,} \PYG{p}{[])}
+        \PYG{k}{if} \PYG{n}{patterns}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{begin}\PYG{l+s+si}{\PYGZob{}itemize\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{for} \PYG{n}{pattern} \PYG{o+ow}{in} \PYG{n}{patterns}\PYG{p}{:}
+                \PYG{c+c1}{\PYGZsh{} Escape underscores in pattern names for LaTeX}
+                \PYG{n}{escaped\PYGZus{}pattern} \PYG{o}{=} \PYG{n}{pattern}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s1}{\PYGZus{}\PYGZsq{}}\PYG{p}{)}
+                \PYG{n}{pattern\PYGZus{}info} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}patterns\PYGZsq{}}\PYG{p}{,} \PYG{p}{\PYGZob{}\PYGZcb{})}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{pattern}\PYG{p}{,} \PYG{p}{\PYGZob{}\PYGZcb{})}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{item }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textbf}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{escaped\PYGZus{}pattern}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{ (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}info}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}unknown\PYGZsq{}}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{)\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}  }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textit}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{Used by }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}info}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}usage\PYGZus{}count\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ other strategies}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{end}\PYG{l+s+si}{\PYGZob{}itemize\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}No patterns detected.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{subsection\PYGZob{}Algorithmic Elaborations\PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{subsubsection\PYGZob{}As Base Strategy:\PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+        \PYG{p}{])}
+
+        \PYG{n}{base\PYGZus{}elabs} \PYG{o}{=} \PYG{p}{[}\PYG{n}{e} \PYG{k}{for} \PYG{n}{e} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}elaborations\PYGZsq{}}\PYG{p}{,} \PYG{p}{[])}
+                     \PYG{k}{if} \PYG{n}{e}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]} \PYG{o}{==} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{]}
+        \PYG{k}{if} \PYG{n}{base\PYGZus{}elabs}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{begin}\PYG{l+s+si}{\PYGZob{}itemize\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{for} \PYG{n}{elab} \PYG{o+ow}{in} \PYG{n}{base\PYGZus{}elabs}\PYG{p}{:}
+                \PYG{c+c1}{\PYGZsh{} Escape underscores in strategy names and patterns for LaTeX}
+                \PYG{n}{elab\PYGZus{}strategy} \PYG{o}{=} \PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}elaborated\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s1}{\PYGZus{}\PYGZsq{}}\PYG{p}{)}
+                \PYG{n}{patterns} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}, \PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}shared\PYGZus{}patterns\PYGZsq{}}\PYG{p}{])}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s1}{\PYGZus{}\PYGZsq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{item }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textbf}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{Elaborates}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{ \PYGZdl{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{rightarrow\PYGZdl{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab\PYGZus{}strategy}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}  }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textit}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{Shared patterns: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{patterns}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}  }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textit}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{Confidence: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}confidence\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+                \PYG{p}{])}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{end}\PYG{l+s+si}{\PYGZob{}itemize\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}None found.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{subsubsection\PYGZob{}As Elaborated Strategy:\PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+        \PYG{p}{])}
+
+        \PYG{n}{elab\PYGZus{}elabs} \PYG{o}{=} \PYG{p}{[}\PYG{n}{e} \PYG{k}{for} \PYG{n}{e} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}elaborations\PYGZsq{}}\PYG{p}{,} \PYG{p}{[])}
+                     \PYG{k}{if} \PYG{n}{e}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}elaborated\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]} \PYG{o}{==} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{]}
+        \PYG{k}{if} \PYG{n}{elab\PYGZus{}elabs}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{begin}\PYG{l+s+si}{\PYGZob{}itemize\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{for} \PYG{n}{elab} \PYG{o+ow}{in} \PYG{n}{elab\PYGZus{}elabs}\PYG{p}{:}
+                \PYG{c+c1}{\PYGZsh{} Escape underscores in strategy names and patterns for LaTeX}
+                \PYG{n}{base\PYGZus{}strategy} \PYG{o}{=} \PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s1}{\PYGZus{}\PYGZsq{}}\PYG{p}{)}
+                \PYG{n}{patterns} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}, \PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}shared\PYGZus{}patterns\PYGZsq{}}\PYG{p}{])}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s1}{\PYGZus{}\PYGZsq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{item }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textbf}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{Elaborated from}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{ \PYGZdl{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{leftarrow\PYGZdl{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base\PYGZus{}strategy}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}  }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textit}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{Shared patterns: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{patterns}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}  }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textit}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{Confidence: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}confidence\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+                \PYG{p}{])}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{end}\PYG{l+s+si}{\PYGZob{}itemize\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}None found.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{n}{lines}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}overview\PYGZus{}latex\PYGZus{}report}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate a general overview LaTeX report.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{section\PYGZob{}Computational Patterns\PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{begin}\PYG{l+s+si}{\PYGZob{}tabular\PYGZcb{}}\PYG{l+s+s2}{\PYGZob{}@}\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{lll@}\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{toprule\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textbf}\PYG{l+s+si}{\PYGZob{}Pattern\PYGZcb{}}\PYG{l+s+s2}{ \PYGZam{} }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textbf}\PYG{l+s+si}{\PYGZob{}Type\PYGZcb{}}\PYG{l+s+s2}{ \PYGZam{} }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textbf\PYGZob{}Usage Count\PYGZcb{} }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{midrule\PYGZdq{}}
+        \PYG{p}{]}
+
+        \PYG{k}{for} \PYG{n}{pattern\PYGZus{}name}\PYG{p}{,} \PYG{n}{pattern\PYGZus{}data} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}patterns\PYGZsq{}}\PYG{p}{,} \PYG{p}{\PYGZob{}\PYGZcb{})}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+            \PYG{c+c1}{\PYGZsh{} Escape underscores in pattern names for LaTeX}
+            \PYG{n}{escaped\PYGZus{}pattern} \PYG{o}{=} \PYG{n}{pattern\PYGZus{}name}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s1}{\PYGZus{}\PYGZsq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{escaped\PYGZus{}pattern}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZam{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}unknown\PYGZsq{}}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZam{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}usage\PYGZus{}count\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{bottomrule\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{end}\PYG{l+s+si}{\PYGZob{}tabular\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{section\PYGZob{}Key Algorithmic Elaborations\PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{begin}\PYG{l+s+si}{\PYGZob{}tabular\PYGZcb{}}\PYG{l+s+s2}{\PYGZob{}@}\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{llll@}\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{toprule\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textbf\PYGZob{}Base Strategy\PYGZcb{} \PYGZam{} }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textbf\PYGZob{}Elaborated Strategy\PYGZcb{} \PYGZam{} }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textbf\PYGZob{}Shared Patterns\PYGZcb{} \PYGZam{} }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textbf}\PYG{l+s+si}{\PYGZob{}Confidence\PYGZcb{}}\PYG{l+s+s2}{ }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{midrule\PYGZdq{}}
+        \PYG{p}{])}
+
+        \PYG{c+c1}{\PYGZsh{} Show top 10 by confidence}
+        \PYG{n}{elaborations} \PYG{o}{=} \PYG{n+nb}{sorted}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}elaborations\PYGZsq{}}\PYG{p}{,} \PYG{p}{[]),}
+                            \PYG{n}{key}\PYG{o}{=}\PYG{k}{lambda} \PYG{n}{x}\PYG{p}{:} \PYG{n}{x}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}confidence\PYGZsq{}}\PYG{p}{],} \PYG{n}{reverse}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)[:}\PYG{l+m+mi}{10}\PYG{p}{]}
+
+        \PYG{k}{for} \PYG{n}{elab} \PYG{o+ow}{in} \PYG{n}{elaborations}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{} Escape underscores in strategy names and patterns for LaTeX}
+            \PYG{n}{base\PYGZus{}strategy} \PYG{o}{=} \PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s1}{\PYGZus{}\PYGZsq{}}\PYG{p}{)}
+            \PYG{n}{elab\PYGZus{}strategy} \PYG{o}{=} \PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}elaborated\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s1}{\PYGZus{}\PYGZsq{}}\PYG{p}{)}
+            \PYG{n}{patterns} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}, \PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}shared\PYGZus{}patterns\PYGZsq{}}\PYG{p}{])}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s1}{\PYGZus{}\PYGZsq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base\PYGZus{}strategy}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZam{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab\PYGZus{}strategy}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZam{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{patterns}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZam{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}confidence\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{bottomrule\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{end}\PYG{l+s+si}{\PYGZob{}tabular\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+        \PYG{p}{])}
+
+        \PYG{k}{return} \PYG{n}{lines}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}mud\PYGZus{}diagrams\PYGZus{}latex\PYGZus{}section}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate a LaTeX section containing all MUD diagrams.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{section\PYGZob{}Meaning\PYGZhy{}Use Diagrams\PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}The following diagrams illustrate the algorithmic elaborations detected in the analysis.\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}Each diagram shows strategies connected by shared computational patterns.\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+        \PYG{p}{]}
+
+        \PYG{k}{for} \PYG{n}{operation}\PYG{p}{,} \PYG{n}{diagram\PYGZus{}data} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{mud\PYGZus{}diagrams}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+            \PYG{c+c1}{\PYGZsh{} Create a subsection for each operation}
+            \PYG{n}{operation\PYGZus{}title} \PYG{o}{=} \PYG{n}{operation}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{} \PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{title}\PYG{p}{()}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{subsection}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{operation\PYGZus{}title}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textbf}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{Operation:}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{ }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{operation\PYGZus{}title}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textbf}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{Strategies Analyzed:}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{ }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{diagram\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}strategies\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{[]))}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textbf}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{Elaborations Detected:}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{ }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{diagram\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}elaborations\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{[]))}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{begin}\PYG{l+s+si}{\PYGZob{}center\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                \PYG{n}{diagram\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}tikz\PYGZus{}diagram\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),}
+                \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{end}\PYG{l+s+si}{\PYGZob{}center\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{textbf}\PYG{l+s+si}{\PYGZob{}Summary:\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{begin}\PYG{l+s+si}{\PYGZob{}verbatim\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                \PYG{n}{diagram\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}summary\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),}
+                \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{end}\PYG{l+s+si}{\PYGZob{}verbatim\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{newpage\PYGZdq{}}
+            \PYG{p}{])}
+
+        \PYG{k}{return} \PYG{n}{lines}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}mud\PYGZus{}diagrams\PYGZus{}markdown\PYGZus{}section}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate a Markdown section containing MUD diagram information.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{} Meaning\PYGZhy{}Use Diagrams\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}The following diagrams illustrate the algorithmic elaborations detected in the analysis. Each diagram shows strategies connected by shared computational patterns.\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+        \PYG{p}{]}
+
+        \PYG{k}{for} \PYG{n}{operation}\PYG{p}{,} \PYG{n}{diagram\PYGZus{}data} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{mud\PYGZus{}diagrams}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+            \PYG{c+c1}{\PYGZsh{} Create a section for each operation}
+            \PYG{n}{operation\PYGZus{}title} \PYG{o}{=} \PYG{n}{operation}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{} \PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{title}\PYG{p}{()}
+            \PYG{n}{strategies} \PYG{o}{=} \PYG{n}{diagram\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}strategies\PYGZsq{}}\PYG{p}{,} \PYG{p}{[])}
+            \PYG{n}{elaborations} \PYG{o}{=} \PYG{n}{diagram\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}elaborations\PYGZsq{}}\PYG{p}{,} \PYG{p}{[])}
+
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{operation\PYGZus{}title}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Operation:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{operation\PYGZus{}title}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Strategies Analyzed:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{strategies}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Elaborations Detected:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{elaborations}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Strategies:\PYGZdq{}}\PYG{p}{,}
+            \PYG{p}{])}
+
+            \PYG{c+c1}{\PYGZsh{} List strategies}
+            \PYG{k}{for} \PYG{n}{strategy} \PYG{o+ow}{in} \PYG{n}{strategies}\PYG{p}{:}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+                \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Key Elaborations:\PYGZdq{}}
+            \PYG{p}{])}
+
+            \PYG{c+c1}{\PYGZsh{} List elaborations}
+            \PYG{k}{for} \PYG{n}{elab} \PYG{o+ow}{in} \PYG{n}{elaborations}\PYG{p}{[:}\PYG{l+m+mi}{5}\PYG{p}{]:}  \PYG{c+c1}{\PYGZsh{} Show top 5}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{** → **}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}elaborated\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{**\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}  \PYGZhy{} Shared patterns: }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}shared\PYGZus{}patterns\PYGZsq{}}\PYG{p}{])}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}  \PYGZhy{} Confidence: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}confidence\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+                \PYG{p}{])}
+
+            \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{elaborations}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{5}\PYG{p}{:}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} ... and }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{elaborations}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ more elaborations\PYGZdq{}}\PYG{p}{)}
+
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+                \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} TikZ Diagram Code:\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}```latex\PYGZdq{}}\PYG{p}{,}
+                \PYG{n}{diagram\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}tikz\PYGZus{}diagram\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),}
+                \PYG{l+s+s2}{\PYGZdq{}```\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZdq{}}
+            \PYG{p}{])}
+
+        \PYG{k}{return} \PYG{n}{lines}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{generate\PYGZus{}html\PYGZus{}report}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{:} \PYG{n+nb}{str} \PYG{o}{=} \PYG{k+kc}{None}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate an HTML report for a specific strategy or general overview.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZlt{}!DOCTYPE html\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZlt{}html lang=\PYGZsq{}en\PYGZsq{}\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZlt{}head\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}meta charset=\PYGZsq{}UTF\PYGZhy{}8\PYGZsq{}\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}meta name=\PYGZsq{}viewport\PYGZsq{} content=\PYGZsq{}width=device\PYGZhy{}width, initial\PYGZhy{}scale=1.0\PYGZsq{}\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}title\PYGZgt{}EPLE Algorithmic Elaboration Analysis Report\PYGZlt{}/title\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}style\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}        body \PYGZob{} font\PYGZhy{}family: Arial, sans\PYGZhy{}serif; margin: 40px; \PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}        h1, h2, h3 \PYGZob{} color: \PYGZsh{}2c3e50; \PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}        table \PYGZob{} border\PYGZhy{}collapse: collapse; width: 100\PYGZpc{}; margin: 20px 0; \PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}        th, td \PYGZob{} border: 1px solid \PYGZsh{}ddd; padding: 8px; text\PYGZhy{}align: left; \PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}        th \PYGZob{} background\PYGZhy{}color: \PYGZsh{}f2f2f2; \PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}        .pattern \PYGZob{} background\PYGZhy{}color: \PYGZsh{}e8f4f8; \PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}        .elaboration \PYGZob{} background\PYGZhy{}color: \PYGZsh{}f8e8e8; \PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}        .confidence\PYGZhy{}high \PYGZob{} color: \PYGZsh{}27ae60; font\PYGZhy{}weight: bold; \PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}        .confidence\PYGZhy{}medium \PYGZob{} color: \PYGZsh{}f39c12; \PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}        .confidence\PYGZhy{}low \PYGZob{} color: \PYGZsh{}e74c3c; \PYGZcb{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}/style\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZlt{}/head\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZlt{}body\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}h1\PYGZgt{}EPLE Algorithmic Elaboration Analysis Report\PYGZlt{}/h1\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}p\PYGZgt{}\PYGZlt{}strong\PYGZgt{}Generated on:\PYGZlt{}/strong\PYGZgt{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}get\PYGZus{}timestamp}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/p\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}h2\PYGZgt{}Overview\PYGZlt{}/h2\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}ul\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}li\PYGZgt{}\PYGZlt{}strong\PYGZgt{}Computational Patterns Detected:\PYGZlt{}/strong\PYGZgt{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}patterns\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{}))}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/li\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}li\PYGZgt{}\PYGZlt{}strong\PYGZgt{}Algorithmic Elaborations Found:\PYGZlt{}/strong\PYGZgt{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}elaborations\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{[]))}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/li\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}li\PYGZgt{}\PYGZlt{}strong\PYGZgt{}MUD Diagrams Generated:\PYGZlt{}/strong\PYGZgt{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{mud\PYGZus{}diagrams}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/li\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}/ul\PYGZgt{}\PYGZdq{}}
+        \PYG{p}{]}
+
+        \PYG{k}{if} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}strategy\PYGZus{}html\PYGZus{}report}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}name}\PYG{p}{))}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}overview\PYGZus{}html\PYGZus{}report}\PYG{p}{())}
+
+        \PYG{c+c1}{\PYGZsh{} Add MUD diagrams section if diagrams are available}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{mud\PYGZus{}diagrams}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}mud\PYGZus{}diagrams\PYGZus{}html\PYGZus{}section}\PYG{p}{())}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZlt{}/body\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZlt{}/html\PYGZgt{}\PYGZdq{}}
+        \PYG{p}{])}
+
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}strategy\PYGZus{}html\PYGZus{}report}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate a detailed HTML report for a specific strategy.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}h2\PYGZgt{}Strategy Analysis: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/h2\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}h3\PYGZgt{}Computational Patterns Used\PYGZlt{}/h3\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}ul\PYGZgt{}\PYGZdq{}}
+        \PYG{p}{]}
+
+        \PYG{n}{patterns} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}strategy\PYGZus{}patterns\PYGZsq{}}\PYG{p}{,} \PYG{p}{\PYGZob{}\PYGZcb{})}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}name}\PYG{p}{,} \PYG{p}{[])}
+        \PYG{k}{if} \PYG{n}{patterns}\PYG{p}{:}
+            \PYG{k}{for} \PYG{n}{pattern} \PYG{o+ow}{in} \PYG{n}{patterns}\PYG{p}{:}
+                \PYG{n}{pattern\PYGZus{}info} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}patterns\PYGZsq{}}\PYG{p}{,} \PYG{p}{\PYGZob{}\PYGZcb{})}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{pattern}\PYG{p}{,} \PYG{p}{\PYGZob{}\PYGZcb{})}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}li class=\PYGZsq{}pattern\PYGZsq{}\PYGZgt{}\PYGZlt{}strong\PYGZgt{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/strong\PYGZgt{} (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}info}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}unknown\PYGZsq{}}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{)\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}br\PYGZgt{}\PYGZlt{}em\PYGZgt{}Used by }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}info}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}usage\PYGZus{}count\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ other strategies\PYGZlt{}/em\PYGZgt{}\PYGZlt{}/li\PYGZgt{}\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}li\PYGZgt{}No patterns detected.\PYGZlt{}/li\PYGZgt{}\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}/ul\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}h3\PYGZgt{}Algorithmic Elaborations\PYGZlt{}/h3\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}h4\PYGZgt{}As Base Strategy:\PYGZlt{}/h4\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}ul\PYGZgt{}\PYGZdq{}}
+        \PYG{p}{])}
+
+        \PYG{n}{base\PYGZus{}elabs} \PYG{o}{=} \PYG{p}{[}\PYG{n}{e} \PYG{k}{for} \PYG{n}{e} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}elaborations\PYGZsq{}}\PYG{p}{,} \PYG{p}{[])}
+                     \PYG{k}{if} \PYG{n}{e}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]} \PYG{o}{==} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{]}
+        \PYG{k}{if} \PYG{n}{base\PYGZus{}elabs}\PYG{p}{:}
+            \PYG{k}{for} \PYG{n}{elab} \PYG{o+ow}{in} \PYG{n}{base\PYGZus{}elabs}\PYG{p}{:}
+                \PYG{n}{confidence\PYGZus{}class} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}get\PYGZus{}confidence\PYGZus{}class}\PYG{p}{(}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}confidence\PYGZsq{}}\PYG{p}{])}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}li class=\PYGZsq{}elaboration\PYGZsq{}\PYGZgt{}\PYGZlt{}strong\PYGZgt{}Elaborates\PYGZlt{}/strong\PYGZgt{} → }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}elaborated\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}br\PYGZgt{}\PYGZlt{}em\PYGZgt{}Shared patterns: }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}shared\PYGZus{}patterns\PYGZsq{}}\PYG{p}{])}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/em\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}br\PYGZgt{}\PYGZlt{}span class=\PYGZsq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{confidence\PYGZus{}class}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZsq{}\PYGZgt{}Confidence: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}confidence\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/span\PYGZgt{}\PYGZlt{}/li\PYGZgt{}\PYGZdq{}}
+                \PYG{p}{])}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}li\PYGZgt{}None found.\PYGZlt{}/li\PYGZgt{}\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}/ul\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}h4\PYGZgt{}As Elaborated Strategy:\PYGZlt{}/h4\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}ul\PYGZgt{}\PYGZdq{}}
+        \PYG{p}{])}
+
+        \PYG{n}{elab\PYGZus{}elabs} \PYG{o}{=} \PYG{p}{[}\PYG{n}{e} \PYG{k}{for} \PYG{n}{e} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}elaborations\PYGZsq{}}\PYG{p}{,} \PYG{p}{[])}
+                     \PYG{k}{if} \PYG{n}{e}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}elaborated\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]} \PYG{o}{==} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{]}
+        \PYG{k}{if} \PYG{n}{elab\PYGZus{}elabs}\PYG{p}{:}
+            \PYG{k}{for} \PYG{n}{elab} \PYG{o+ow}{in} \PYG{n}{elab\PYGZus{}elabs}\PYG{p}{:}
+                \PYG{n}{confidence\PYGZus{}class} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}get\PYGZus{}confidence\PYGZus{}class}\PYG{p}{(}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}confidence\PYGZsq{}}\PYG{p}{])}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}li class=\PYGZsq{}elaboration\PYGZsq{}\PYGZgt{}\PYGZlt{}strong\PYGZgt{}Elaborated from\PYGZlt{}/strong\PYGZgt{} ← }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}br\PYGZgt{}\PYGZlt{}em\PYGZgt{}Shared patterns: }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}shared\PYGZus{}patterns\PYGZsq{}}\PYG{p}{])}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/em\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}br\PYGZgt{}\PYGZlt{}span class=\PYGZsq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{confidence\PYGZus{}class}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZsq{}\PYGZgt{}Confidence: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}confidence\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/span\PYGZgt{}\PYGZlt{}/li\PYGZgt{}\PYGZdq{}}
+                \PYG{p}{])}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}li\PYGZgt{}None found.\PYGZlt{}/li\PYGZgt{}\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}/ul\PYGZgt{}\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{lines}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}overview\PYGZus{}html\PYGZus{}report}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate a general overview HTML report.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}h2\PYGZgt{}Computational Patterns\PYGZlt{}/h2\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}table\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}tr\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}th\PYGZgt{}Pattern\PYGZlt{}/th\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}th\PYGZgt{}Type\PYGZlt{}/th\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}th\PYGZgt{}Usage Count\PYGZlt{}/th\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}th\PYGZgt{}Strategies\PYGZlt{}/th\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}/tr\PYGZgt{}\PYGZdq{}}
+        \PYG{p}{]}
+
+        \PYG{k}{for} \PYG{n}{pattern\PYGZus{}name}\PYG{p}{,} \PYG{n}{pattern\PYGZus{}data} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}patterns\PYGZsq{}}\PYG{p}{,} \PYG{p}{\PYGZob{}\PYGZcb{})}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+            \PYG{n}{strategies} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}, \PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{pattern\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}strategies\PYGZus{}using\PYGZsq{}}\PYG{p}{,} \PYG{p}{[])[:}\PYG{l+m+mi}{3}\PYG{p}{])}
+            \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{pattern\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}strategies\PYGZus{}using\PYGZsq{}}\PYG{p}{,} \PYG{p}{[]))} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{3}\PYG{p}{:}
+                \PYG{n}{strategies} \PYG{o}{+=} \PYG{l+s+s2}{\PYGZdq{}...\PYGZdq{}}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+                \PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}tr\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}td\PYGZgt{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/td\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}td\PYGZgt{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}unknown\PYGZsq{}}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/td\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}td\PYGZgt{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}usage\PYGZus{}count\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/td\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}td\PYGZgt{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategies}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/td\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}/tr\PYGZgt{}\PYGZdq{}}
+            \PYG{p}{])}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}/table\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}h2\PYGZgt{}Key Algorithmic Elaborations\PYGZlt{}/h2\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}table\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}tr\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}th\PYGZgt{}Base Strategy\PYGZlt{}/th\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}th\PYGZgt{}Elaborated Strategy\PYGZlt{}/th\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}th\PYGZgt{}Shared Patterns\PYGZlt{}/th\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}th\PYGZgt{}Confidence\PYGZlt{}/th\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}/tr\PYGZgt{}\PYGZdq{}}
+        \PYG{p}{])}
+
+        \PYG{c+c1}{\PYGZsh{} Show top 10 by confidence}
+        \PYG{n}{elaborations} \PYG{o}{=} \PYG{n+nb}{sorted}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}elaborations\PYGZsq{}}\PYG{p}{,} \PYG{p}{[]),}
+                            \PYG{n}{key}\PYG{o}{=}\PYG{k}{lambda} \PYG{n}{x}\PYG{p}{:} \PYG{n}{x}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}confidence\PYGZsq{}}\PYG{p}{],} \PYG{n}{reverse}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)[:}\PYG{l+m+mi}{10}\PYG{p}{]}
+
+        \PYG{k}{for} \PYG{n}{elab} \PYG{o+ow}{in} \PYG{n}{elaborations}\PYG{p}{:}
+            \PYG{n}{patterns} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}, \PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}shared\PYGZus{}patterns\PYGZsq{}}\PYG{p}{])}
+            \PYG{n}{confidence\PYGZus{}class} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}get\PYGZus{}confidence\PYGZus{}class}\PYG{p}{(}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}confidence\PYGZsq{}}\PYG{p}{])}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+                \PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}tr\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}td\PYGZgt{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/td\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}td\PYGZgt{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}elaborated\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/td\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}td\PYGZgt{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{patterns}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/td\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}td\PYGZgt{}\PYGZlt{}span class=\PYGZsq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{confidence\PYGZus{}class}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZsq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}confidence\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/span\PYGZgt{}\PYGZlt{}/td\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}/tr\PYGZgt{}\PYGZdq{}}
+            \PYG{p}{])}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}/table\PYGZgt{}\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{lines}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}mud\PYGZus{}diagrams\PYGZus{}html\PYGZus{}section}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate an HTML section containing MUD diagram information.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}h2\PYGZgt{}Meaning\PYGZhy{}Use Diagrams\PYGZlt{}/h2\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}p\PYGZgt{}The following diagrams illustrate the algorithmic elaborations detected in the analysis. Each diagram shows strategies connected by shared computational patterns.\PYGZlt{}/p\PYGZgt{}\PYGZdq{}}
+        \PYG{p}{]}
+
+        \PYG{k}{for} \PYG{n}{operation}\PYG{p}{,} \PYG{n}{diagram\PYGZus{}data} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{mud\PYGZus{}diagrams}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+            \PYG{c+c1}{\PYGZsh{} Create a section for each operation}
+            \PYG{n}{operation\PYGZus{}title} \PYG{o}{=} \PYG{n}{operation}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{} \PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{title}\PYG{p}{()}
+            \PYG{n}{strategies} \PYG{o}{=} \PYG{n}{diagram\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}strategies\PYGZsq{}}\PYG{p}{,} \PYG{p}{[])}
+            \PYG{n}{elaborations} \PYG{o}{=} \PYG{n}{diagram\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}elaborations\PYGZsq{}}\PYG{p}{,} \PYG{p}{[])}
+
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}h3\PYGZgt{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{operation\PYGZus{}title}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/h3\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}div style=\PYGZsq{}background\PYGZhy{}color: \PYGZsh{}f8f9fa; padding: 15px; margin: 10px 0; border\PYGZhy{}radius: 5px;\PYGZsq{}\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}p\PYGZgt{}\PYGZlt{}strong\PYGZgt{}Operation:\PYGZlt{}/strong\PYGZgt{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{operation\PYGZus{}title}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/p\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}p\PYGZgt{}\PYGZlt{}strong\PYGZgt{}Strategies Analyzed:\PYGZlt{}/strong\PYGZgt{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{strategies}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/p\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}p\PYGZgt{}\PYGZlt{}strong\PYGZgt{}Elaborations Detected:\PYGZlt{}/strong\PYGZgt{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{elaborations}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/p\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}h4\PYGZgt{}Strategies:\PYGZlt{}/h4\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}ul\PYGZgt{}\PYGZdq{}}
+            \PYG{p}{])}
+
+            \PYG{c+c1}{\PYGZsh{} List strategies}
+            \PYG{k}{for} \PYG{n}{strategy} \PYG{o+ow}{in} \PYG{n}{strategies}\PYG{p}{:}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}li\PYGZgt{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/li\PYGZgt{}\PYGZdq{}}\PYG{p}{)}
+
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+                \PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}/ul\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}h4\PYGZgt{}Key Elaborations:\PYGZlt{}/h4\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}ul\PYGZgt{}\PYGZdq{}}
+            \PYG{p}{])}
+
+            \PYG{c+c1}{\PYGZsh{} List elaborations}
+            \PYG{k}{for} \PYG{n}{elab} \PYG{o+ow}{in} \PYG{n}{elaborations}\PYG{p}{[:}\PYG{l+m+mi}{5}\PYG{p}{]:}  \PYG{c+c1}{\PYGZsh{} Show top 5}
+                \PYG{n}{confidence\PYGZus{}class} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}get\PYGZus{}confidence\PYGZus{}class}\PYG{p}{(}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}confidence\PYGZsq{}}\PYG{p}{])}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}li\PYGZgt{}\PYGZlt{}strong\PYGZgt{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/strong\PYGZgt{} → \PYGZlt{}strong\PYGZgt{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}elaborated\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/strong\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}                \PYGZlt{}br\PYGZgt{}\PYGZlt{}em\PYGZgt{}Shared patterns: }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}shared\PYGZus{}patterns\PYGZsq{}}\PYG{p}{])}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/em\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}                \PYGZlt{}br\PYGZgt{}\PYGZlt{}span class=\PYGZsq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{confidence\PYGZus{}class}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZsq{}\PYGZgt{}Confidence: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}confidence\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZlt{}/span\PYGZgt{}\PYGZlt{}/li\PYGZgt{}\PYGZdq{}}
+                \PYG{p}{])}
+
+            \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{elaborations}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{5}\PYG{p}{:}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}li\PYGZgt{}\PYGZlt{}em\PYGZgt{}... and }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{elaborations}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ more elaborations\PYGZlt{}/em\PYGZgt{}\PYGZlt{}/li\PYGZgt{}\PYGZdq{}}\PYG{p}{)}
+
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{([}
+                \PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}/ul\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}h4\PYGZgt{}Diagram Code (TikZ):\PYGZlt{}/h4\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}details\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}summary\PYGZgt{}Click to view TikZ code\PYGZlt{}/summary\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}pre style=\PYGZsq{}background\PYGZhy{}color: \PYGZsh{}f4f4f4; padding: 10px; border\PYGZhy{}radius: 3px; font\PYGZhy{}family: monospace; white\PYGZhy{}space: pre\PYGZhy{}wrap;\PYGZsq{}\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{n}{diagram\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}tikz\PYGZus{}diagram\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),}
+                \PYG{l+s+s2}{\PYGZdq{}            \PYGZlt{}/pre\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}        \PYGZlt{}/details\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}    \PYGZlt{}/div\PYGZgt{}\PYGZdq{}}
+            \PYG{p}{])}
+
+        \PYG{k}{return} \PYG{n}{lines}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}get\PYGZus{}confidence\PYGZus{}class}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{confidence}\PYG{p}{:} \PYG{n+nb}{float}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Get CSS class for confidence level.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{n}{confidence} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mf}{0.8}\PYG{p}{:}
+            \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}confidence\PYGZhy{}high\PYGZdq{}}
+        \PYG{k}{elif} \PYG{n}{confidence} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mf}{0.5}\PYG{p}{:}
+            \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}confidence\PYGZhy{}medium\PYGZdq{}}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}confidence\PYGZhy{}low\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}get\PYGZus{}timestamp}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Get current timestamp for reports.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{datetime}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{datetime}
+        \PYG{k}{return} \PYG{n}{datetime}\PYG{o}{.}\PYG{n}{now}\PYG{p}{()}\PYG{o}{.}\PYG{n}{strftime}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZpc{}Y\PYGZhy{}\PYGZpc{}m\PYGZhy{}}\PYG{l+s+si}{\PYGZpc{}d}\PYG{l+s+s2}{ \PYGZpc{}H:\PYGZpc{}M:\PYGZpc{}S\PYGZdq{}}\PYG{p}{)}
+
+
+\PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} Main execution block \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{():}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Main entry point for MUD generation.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{c+c1}{\PYGZsh{} (Argument parsing logic remains the same as the original script)}
+    \PYG{n}{parser} \PYG{o}{=} \PYG{n}{argparse}\PYG{o}{.}\PYG{n}{ArgumentParser}\PYG{p}{(}\PYG{n}{description}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Consolidated MUD Generator\PYGZdq{}}\PYG{p}{)}
+    \PYG{c+c1}{\PYGZsh{} ... (setup subparsers: analyze, generate, report) ...}
+
+    \PYG{c+c1}{\PYGZsh{} Since the CLI logic wasn\PYGZsq{}t the focus of the fix, we can use the \PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{} block}
+    \PYG{c+c1}{\PYGZsh{} to demonstrate the functionality if the script is run directly without arguments.}
+    \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{argv}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{1}\PYG{p}{:}
+        \PYG{c+c1}{\PYGZsh{} Handle CLI arguments (implementation omitted for brevity)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}CLI argument handling not fully shown in this corrected snippet.\PYGZdq{}}\PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} args = parser.parse\PYGZus{}args()}
+        \PYG{c+c1}{\PYGZsh{} ... handle commands ...}
+        \PYG{k}{pass}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZhy{} Running MUD Generation Demonstration \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZdq{}}\PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} Demonstrate with dummy data}
+        \PYG{n}{dummy\PYGZus{}results} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+            \PYG{l+s+s2}{\PYGZdq{}elaborations\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}
+                \PYG{p}{\PYGZob{}}
+                    \PYG{l+s+s2}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Counting\PYGZus{}All\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Counting\PYGZus{}On\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}incremental\PYGZus{}counting\PYGZdq{}}\PYG{p}{],}
+                    \PYG{l+s+s2}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}intra\PYGZus{}categorial\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:} \PYG{l+m+mf}{0.8}
+                \PYG{p}{\PYGZcb{},}
+                 \PYG{p}{\PYGZob{}}
+                    \PYG{l+s+s2}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Counting\PYGZus{}On\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Addition\PYGZus{}by\PYGZus{}Decomposition\PYGZus{}Long\PYGZus{}Name\PYGZus{}Example\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}base\PYGZus{}decomposition\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}counting\PYGZus{}loop\PYGZdq{}}\PYG{p}{],}
+                    \PYG{l+s+s2}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}intra\PYGZus{}categorial\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:} \PYG{l+m+mf}{0.6}
+                \PYG{p}{\PYGZcb{},}
+                \PYG{p}{\PYGZob{}}
+                    \PYG{l+s+s2}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Counting\PYGZus{}All\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Skip\PYGZus{}Counting\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}iterative\PYGZus{}arithmetic\PYGZdq{}}\PYG{p}{],}
+                    \PYG{l+s+s2}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}intra\PYGZus{}categorial\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:} \PYG{l+m+mf}{0.7}
+                \PYG{p}{\PYGZcb{}}
+            \PYG{p}{]}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{n}{mud\PYGZus{}gen} \PYG{o}{=} \PYG{n}{MUDGenerator}\PYG{p}{(}\PYG{n}{dummy\PYGZus{}results}\PYG{p}{)}
+        \PYG{n}{diagrams} \PYG{o}{=} \PYG{n}{mud\PYGZus{}gen}\PYG{o}{.}\PYG{n}{generate\PYGZus{}mud\PYGZus{}diagrams}\PYG{p}{()}
+
+        \PYG{c+c1}{\PYGZsh{} Display the generated TikZ code}
+        \PYG{k}{if} \PYG{n}{diagrams}\PYG{p}{:}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Generated TikZ (adhering to MUD rules):\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZdq{}} \PYG{o}{*} \PYG{l+m+mi}{30}\PYG{p}{)}
+            \PYG{k}{for} \PYG{n}{key} \PYG{o+ow}{in} \PYG{n}{diagrams}\PYG{p}{:}
+                \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZhy{} Diagram for }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{key}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZdq{}}\PYG{p}{)}
+                \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{diagrams}\PYG{p}{[}\PYG{n}{key}\PYG{p}{][}\PYG{l+s+s1}{\PYGZsq{}tikz\PYGZus{}diagram\PYGZsq{}}\PYG{p}{])}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZdq{}} \PYG{o}{*} \PYG{l+m+mi}{30}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Display the generated LaTeX Report}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Generated LaTeX Report (excerpt):\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{report\PYGZus{}gen} \PYG{o}{=} \PYG{n}{ReportGenerator}\PYG{p}{(}\PYG{n}{dummy\PYGZus{}results}\PYG{p}{,} \PYG{n}{diagrams}\PYG{p}{)}
+        \PYG{n}{latex\PYGZus{}report} \PYG{o}{=} \PYG{n}{report\PYGZus{}gen}\PYG{o}{.}\PYG{n}{generate\PYGZus{}latex\PYGZus{}report}\PYG{p}{()}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZdq{}} \PYG{o}{*} \PYG{l+m+mi}{30}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{latex\PYGZus{}report}\PYG{p}{[:}\PYG{l+m+mi}{2000}\PYG{p}{])} \PYG{c+c1}{\PYGZsh{} Print excerpt}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}...\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{latex\PYGZus{}report}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1000}\PYG{p}{:])}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZdq{}} \PYG{o}{*} \PYG{l+m+mi}{30}\PYG{p}{)}
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    \PYG{n}{main}\PYG{p}{()}
+
+\end{MintedVerbatim}

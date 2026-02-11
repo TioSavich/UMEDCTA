@@ -1,0 +1,1012 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k}{import}\PYG{+w}{ }\PYG{n+nx}{React}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{useState}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k+kr}{from}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}react\PYGZsq{}}\PYG{p}{;}
+\PYG{k}{import}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{AlertCircle}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{Sparkles}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{GitBranch}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{CheckCircle}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{XCircle}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{Loader2}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{Copy}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k+kr}{from}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}lucide\PYGZhy{}react\PYGZsq{}}\PYG{p}{;}
+
+\PYG{c+c1}{// Helper function to call our backend API}
+\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{callAnthropic}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{async}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{messages}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{maxTokens}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{2000}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{response}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{await}\PYG{+w}{ }\PYG{n+nx}{fetch}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}http://localhost:3001/api/anthropic\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n+nx}{method}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}POST\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n+nx}{headers}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Content\PYGZhy{}Type\PYGZsq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}application/json\PYGZsq{}}\PYG{+w}{ }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{n+nx}{body}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nb}{JSON}\PYG{p}{.}\PYG{n+nx}{stringify}\PYG{p}{(\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{model}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}claude\PYGZhy{}sonnet\PYGZhy{}4\PYGZhy{}20250514\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{max\PYGZus{}tokens}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{maxTokens}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{messages}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{})}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{});}
+
+\PYG{+w}{  }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{response}\PYG{p}{.}\PYG{n+nx}{ok}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{error}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{await}\PYG{+w}{ }\PYG{n+nx}{response}\PYG{p}{.}\PYG{n+nx}{json}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k}{throw}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+ne}{Error}\PYG{p}{(}\PYG{n+nx}{error}\PYG{p}{.}\PYG{n+nx}{error}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}API request failed\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{response}\PYG{p}{.}\PYG{n+nx}{json}\PYG{p}{();}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{DialecticalInterpreter}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{p}{[}\PYG{n+nx}{inputText}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{setInputText}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{useState}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{p}{[}\PYG{n+nx}{interpretation}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{setInterpretation}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{useState}\PYG{p}{(}\PYG{k+kc}{null}\PYG{p}{);}
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{p}{[}\PYG{n+nx}{isProcessing}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{setIsProcessing}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{useState}\PYG{p}{(}\PYG{k+kc}{false}\PYG{p}{);}
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{p}{[}\PYG{n+nx}{evolutionHistory}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{setEvolutionHistory}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{useState}\PYG{p}{([]);}
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{p}{[}\PYG{n+nx}{showEvolutionPanel}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{setShowEvolutionPanel}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{useState}\PYG{p}{(}\PYG{k+kc}{false}\PYG{p}{);}
+
+\PYG{+w}{  }\PYG{c+c1}{// Conversation state for follow\PYGZhy{}ups}
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{p}{[}\PYG{n+nx}{conversationHistory}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{setConversationHistory}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{useState}\PYG{p}{([]);}
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{p}{[}\PYG{n+nx}{followUpQuestion}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{setFollowUpQuestion}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{useState}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{p}{[}\PYG{n+nx}{showFollowUp}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{setShowFollowUp}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{useState}\PYG{p}{(}\PYG{k+kc}{false}\PYG{p}{);}
+
+\PYG{+w}{  }\PYG{c+c1}{// Current axiom set (starts with base PML axioms)}
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{p}{[}\PYG{n+nx}{axiomSet}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{setAxiomSet}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{useState}\PYG{p}{([}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{id}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}rhythm\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{content}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}s(u) =\PYGZgt{} s(comp\PYGZus{}nec a)\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{source}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}core\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{type}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}material\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{context}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Fundamental dialectical rhythm: unity necessarily generates tension\PYGZsq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{id}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}sublation\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{content}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}s(lg) =\PYGZgt{} s(exp\PYGZus{}nec u\PYGZus{}prime)\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{source}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}core\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{type}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}material\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{context}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Letting go necessarily produces new unity\PYGZsq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{id}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}oobleck\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{content}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}s(comp\PYGZus{}nec P) =\PYGZgt{} o(comp\PYGZus{}nec P)\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{source}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}core\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{type}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}material\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{context}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Subjective compression crystallizes objective content\PYGZsq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{p}{]);}
+
+\PYG{+w}{  }\PYG{c+c1}{// Iteration tracking: how many times has this text been read?}
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{p}{[}\PYG{n+nx}{iterationDepth}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{setIterationDepth}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{useState}\PYG{p}{(}\PYG{l+m+mf}{0}\PYG{p}{);}
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{p}{[}\PYG{n+nx}{formalizedConcepts}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{setFormalizedConcepts}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{useState}\PYG{p}{([]);}
+
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{processText}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{async}\PYG{+w}{ }\PYG{p}{()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n+nx}{setIsProcessing}\PYG{p}{(}\PYG{k+kc}{true}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{setInterpretation}\PYG{p}{(}\PYG{k+kc}{null}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Check if this is a re\PYGZhy{}read of the same text}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{previousRead}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{conversationHistory}\PYG{p}{.}\PYG{n+nx}{find}\PYG{p}{(}
+\PYG{+w}{      }\PYG{n+nx}{item}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{type}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}interpretation\PYGZsq{}}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{content}\PYG{p}{.}\PYG{n+nx}{original}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{n+nx}{inputText}
+\PYG{+w}{    }\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{isRereading}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o}{!!}\PYG{n+nx}{previousRead}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{currentIteration}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{isRereading}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{iterationDepth}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{c+c1}{// Phase 1: Parse text into PML}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{iterationContext}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{isRereading}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+sb}{`}
+\PYG{l+s+sb}{ITERATION DEPTH: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{currentIteration}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ (This is a RE\PYGZhy{}READING)}
+
+\PYG{l+s+sb}{CRITICAL: On second+ readings, established interpretations become PART OF the phenomenology.}
+\PYG{l+s+sb}{\PYGZhy{} First reading: All material inferences (discovering what concepts mean)}
+\PYG{l+s+sb}{\PYGZhy{} Second+ reading: Some concepts are now FORMALIZED (structural scaffolding, not discovery)}
+\PYG{l+s+sb}{\PYGZhy{} The reader brings prior understanding as background assumptions}
+
+\PYG{l+s+sb}{Previous interpretation of this text:}
+\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nb}{JSON}\PYG{p}{.}\PYG{n+nx}{stringify}\PYG{p}{(}\PYG{n+nx}{previousRead}\PYG{o}{?}\PYG{p}{.}\PYG{n+nx}{content}\PYG{p}{.}\PYG{n+nx}{logic}\PYG{p}{.}\PYG{n+nx}{interpretation}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}
+
+\PYG{l+s+sb}{Key concepts from previous read:}
+\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nb}{JSON}\PYG{p}{.}\PYG{n+nx}{stringify}\PYG{p}{(}\PYG{n+nx}{previousRead}\PYG{o}{?}\PYG{p}{.}\PYG{n+nx}{content}\PYG{p}{.}\PYG{n+nx}{pml}\PYG{p}{.}\PYG{n+nx}{key\PYGZus{}concepts}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}
+
+\PYG{l+s+sb}{These concepts now operate as FORMAL structure rather than material discovery.`}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+sb}{`}
+\PYG{l+s+sb}{ITERATION DEPTH: 1 (FIRST READING)}
+
+\PYG{l+s+sb}{This is a first encounter with the text. The reader:}
+\PYG{l+s+sb}{\PYGZhy{} Discovers concepts through material inference (content\PYGZhy{}based reasoning)}
+\PYG{l+s+sb}{\PYGZhy{} Experiences genuine novelty and surprise}
+\PYG{l+s+sb}{\PYGZhy{} Builds understanding from scratch without prior scaffolding`}\PYG{p}{;}
+
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{parsePrompt}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`You are a philosophical interpreter using Polarized Modal Logic (PML).}
+
+\PYG{l+s+sb}{CRITICAL FRAMING: PML tracks the PHENOMENOLOGY OF READING \PYGZhy{} the temporal, embodied experience of working through philosophical text. It models:}
+\PYG{l+s+sb}{\PYGZhy{} How tension builds as you encounter concepts (compression ↓)}
+\PYG{l+s+sb}{\PYGZhy{} How understanding releases when connections form (expansion ↑)}
+\PYG{l+s+sb}{\PYGZhy{} The cognitive resources consumed in the reading process}
+\PYG{l+s+sb}{\PYGZhy{} The subjective experience of the dialectical rhythm}
+
+\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{iterationContext}\PYG{l+s+si}{\PYGZcb{}}
+
+\PYG{l+s+sb}{PML Vocabulary:}
+\PYG{l+s+sb}{\PYGZhy{} Three modes: s(P) = subjective experience, o(P) = objective claim, n(P) = normative commitment}
+\PYG{l+s+sb}{\PYGZhy{} Four modalities: comp\PYGZus{}nec(P) = necessary compression (↓), exp\PYGZus{}nec(P) = necessary expansion (↑),}
+\PYG{l+s+sb}{  comp\PYGZus{}poss(P) = possible compression, exp\PYGZus{}poss(P) = possible expansion}
+\PYG{l+s+sb}{\PYGZhy{} Dialectical rhythm: u → comp\PYGZus{}nec(a) → exp\PYGZus{}poss(lg) → exp\PYGZus{}nec(u\PYGZus{}prime)}
+\PYG{l+s+sb}{  (unity → tension → possibility of release → new understanding)}
+
+\PYG{l+s+sb}{Current Axiom Set (including evolved axioms):}
+\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{axiomSet}\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{(}\PYG{n+nx}{a}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZhy{} [}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{a}\PYG{p}{.}\PYG{n+nx}{type}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{] }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{a}\PYG{p}{.}\PYG{n+nx}{content}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ // }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{a}\PYG{p}{.}\PYG{n+nx}{context}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{).}\PYG{n+nx}{join}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}n\PYGZsq{}}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}
+
+\PYG{l+s+sb}{Formalized Concepts (operate as structural scaffolding on re\PYGZhy{}reads):}
+\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{formalizedConcepts}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{formalizedConcepts}\PYG{p}{.}\PYG{n+nx}{join}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}None yet\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}
+
+\PYG{l+s+sb}{Text to interpret AS A TEMPORAL UNFOLDING:}
+\PYG{l+s+sb}{\PYGZdq{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{inputText}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdq{}}
+
+\PYG{l+s+sb}{Task: Formalize how a reader EXPERIENCES this text moving through it sequentially. Track:}
+\PYG{l+s+sb}{1. Initial subjective state (what\PYGZsq{}s your starting point?)}
+\PYG{l+s+sb}{2. Compressive moments (where does tension/confusion arise?)}
+\PYG{l+s+sb}{3. Expansive moments (where does understanding open up?)}
+\PYG{l+s+sb}{4. The temporal sequence of dialectical transitions}
+\PYG{l+s+sb}{5. Resource costs (where is the text cognitively demanding?)}
+\PYG{l+s+sb}{6. }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{isRereading}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}FORMALIZATION: What concepts from prior reads now operate as formal structure?\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}DISCOVERY: What concepts are being discovered for the first time?\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}
+
+\PYG{l+s+sb}{Respond ONLY with valid JSON (no markdown):}
+\PYG{l+s+sb}{\PYGZob{}}
+\PYG{l+s+sb}{  \PYGZdq{}formalizations\PYGZdq{}: [}
+\PYG{l+s+sb}{    \PYGZob{}\PYGZdq{}step\PYGZdq{}: \PYGZdq{}initial\PYGZus{}state\PYGZdq{}, \PYGZdq{}pml\PYGZdq{}: \PYGZdq{}...\PYGZdq{}, \PYGZdq{}explanation\PYGZdq{}: \PYGZdq{}reader\PYGZsq{}s starting point\PYGZdq{}, \PYGZdq{}temporal\PYGZus{}moment\PYGZdq{}: \PYGZdq{}beginning\PYGZdq{}, \PYGZdq{}inference\PYGZus{}type\PYGZdq{}: \PYGZdq{}material|formal\PYGZdq{}\PYGZcb{},}
+\PYG{l+s+sb}{    \PYGZob{}\PYGZdq{}step\PYGZdq{}: \PYGZdq{}compression\PYGZdq{}, \PYGZdq{}pml\PYGZdq{}: \PYGZdq{}...\PYGZdq{}, \PYGZdq{}explanation\PYGZdq{}: \PYGZdq{}where tension builds\PYGZdq{}, \PYGZdq{}temporal\PYGZus{}moment\PYGZdq{}: \PYGZdq{}middle\PYGZdq{}, \PYGZdq{}inference\PYGZus{}type\PYGZdq{}: \PYGZdq{}material|formal\PYGZdq{}\PYGZcb{},}
+\PYG{l+s+sb}{    \PYGZob{}\PYGZdq{}step\PYGZdq{}: \PYGZdq{}expansion\PYGZdq{}, \PYGZdq{}pml\PYGZdq{}: \PYGZdq{}...\PYGZdq{}, \PYGZdq{}explanation\PYGZdq{}: \PYGZdq{}where understanding releases\PYGZdq{}, \PYGZdq{}temporal\PYGZus{}moment\PYGZdq{}: \PYGZdq{}late\PYGZdq{}, \PYGZdq{}inference\PYGZus{}type\PYGZdq{}: \PYGZdq{}material|formal\PYGZdq{}\PYGZcb{}}
+\PYG{l+s+sb}{  ],}
+\PYG{l+s+sb}{  \PYGZdq{}reading\PYGZus{}experience\PYGZdq{}: \PYGZdq{}Overall phenomenological description of working through this text\PYGZdq{},}
+\PYG{l+s+sb}{  \PYGZdq{}key\PYGZus{}concepts\PYGZdq{}: [\PYGZdq{}concept1\PYGZdq{}, \PYGZdq{}concept2\PYGZdq{}],}
+\PYG{l+s+sb}{  \PYGZdq{}formalized\PYGZus{}this\PYGZus{}iteration\PYGZdq{}: [\PYGZdq{}concepts that should become formal scaffolding on next read\PYGZdq{}],}
+\PYG{l+s+sb}{  \PYGZdq{}iteration\PYGZus{}depth\PYGZdq{}: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{currentIteration}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{l+s+sb}{\PYGZcb{}`}\PYG{p}{;}
+
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{parseData}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{await}\PYG{+w}{ }\PYG{n+nx}{callAnthropic}\PYG{p}{([}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{role}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}user\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{content}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{parsePrompt}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}\PYG{+w}{ }\PYG{l+m+mf}{2000}\PYG{p}{);}
+\PYG{+w}{      }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{parseText}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{parseData}\PYG{p}{.}\PYG{n+nx}{content}\PYG{p}{[}\PYG{l+m+mf}{0}\PYG{p}{].}\PYG{n+nx}{text}\PYG{p}{.}\PYG{n+nx}{trim}\PYG{p}{();}
+\PYG{+w}{      }\PYG{n+nx}{parseText}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{parseText}\PYG{p}{.}\PYG{n+nx}{replace}\PYG{p}{(}\PYG{l+s+sr}{/```json\PYGZbs{}n?/g}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{).}\PYG{n+nx}{replace}\PYG{p}{(}\PYG{l+s+sr}{/```\PYGZbs{}n?/g}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{).}\PYG{n+nx}{trim}\PYG{p}{();}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{parsedPML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{JSON}\PYG{p}{.}\PYG{n+nx}{parse}\PYG{p}{(}\PYG{n+nx}{parseText}\PYG{p}{);}
+
+\PYG{+w}{      }\PYG{c+c1}{// Phase 2: Run logic and generate interpretation}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{interpretPrompt}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Using the PML formalizations, generate an interpretation by tracing through the logic.}
+
+\PYG{l+s+sb}{Formalizations:}
+\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nb}{JSON}\PYG{p}{.}\PYG{n+nx}{stringify}\PYG{p}{(}\PYG{n+nx}{parsedPML}\PYG{p}{.}\PYG{n+nx}{formalizations}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}
+
+\PYG{l+s+sb}{Available Axioms:}
+\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{axiomSet}\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{(}\PYG{n+nx}{a}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZhy{} }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{a}\PYG{p}{.}\PYG{n+nx}{content}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{).}\PYG{n+nx}{join}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}n\PYGZsq{}}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}
+
+\PYG{l+s+sb}{Apply the axioms to derive conclusions. Show each inference step.}
+
+\PYG{l+s+sb}{Then, provide your philosophical interpretation of the text based on this logical structure.}
+
+\PYG{l+s+sb}{Respond ONLY with valid JSON:}
+\PYG{l+s+sb}{\PYGZob{}}
+\PYG{l+s+sb}{  \PYGZdq{}proof\PYGZus{}steps\PYGZdq{}: [}
+\PYG{l+s+sb}{    \PYGZob{}\PYGZdq{}premises\PYGZdq{}: [\PYGZdq{}...\PYGZdq{}], \PYGZdq{}axiom\PYGZus{}used\PYGZdq{}: \PYGZdq{}...\PYGZdq{}, \PYGZdq{}conclusion\PYGZdq{}: \PYGZdq{}...\PYGZdq{}, \PYGZdq{}explanation\PYGZdq{}: \PYGZdq{}...\PYGZdq{}\PYGZcb{}}
+\PYG{l+s+sb}{  ],}
+\PYG{l+s+sb}{  \PYGZdq{}interpretation\PYGZdq{}: \PYGZdq{}Your philosophical reading of the text...\PYGZdq{},}
+\PYG{l+s+sb}{  \PYGZdq{}key\PYGZus{}insights\PYGZdq{}: [\PYGZdq{}insight1\PYGZdq{}, \PYGZdq{}insight2\PYGZdq{}]}
+\PYG{l+s+sb}{\PYGZcb{}`}\PYG{p}{;}
+
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{interpretData}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{await}\PYG{+w}{ }\PYG{n+nx}{callAnthropic}\PYG{p}{([}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{role}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}user\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{content}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{interpretPrompt}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}\PYG{+w}{ }\PYG{l+m+mf}{3000}\PYG{p}{);}
+\PYG{+w}{      }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{interpretText}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{interpretData}\PYG{p}{.}\PYG{n+nx}{content}\PYG{p}{[}\PYG{l+m+mf}{0}\PYG{p}{].}\PYG{n+nx}{text}\PYG{p}{.}\PYG{n+nx}{trim}\PYG{p}{();}
+\PYG{+w}{      }\PYG{n+nx}{interpretText}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{interpretText}\PYG{p}{.}\PYG{n+nx}{replace}\PYG{p}{(}\PYG{l+s+sr}{/```json\PYGZbs{}n?/g}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{).}\PYG{n+nx}{replace}\PYG{p}{(}\PYG{l+s+sr}{/```\PYGZbs{}n?/g}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{).}\PYG{n+nx}{trim}\PYG{p}{();}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{logicResult}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{JSON}\PYG{p}{.}\PYG{n+nx}{parse}\PYG{p}{(}\PYG{n+nx}{interpretText}\PYG{p}{);}
+
+\PYG{+w}{      }\PYG{c+c1}{// Phase 3: Critique \PYGZhy{} Compare against established readings}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{critiquePrompt}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`You are a meta\PYGZhy{}critic analyzing different LEVELS OF ANALYSIS.}
+
+\PYG{l+s+sb}{Original Text: \PYGZdq{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{inputText}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdq{}}
+
+\PYG{l+s+sb}{Our PML Interpretation (PHENOMENOLOGICAL LEVEL \PYGZhy{} tracking the embodied reading experience):}
+\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{logicResult}\PYG{p}{.}\PYG{n+nx}{interpretation}\PYG{l+s+si}{\PYGZcb{}}
+
+\PYG{l+s+sb}{CRITICAL CONTEXT: PML tracks the TEMPORAL PHENOMENOLOGY of reading, not atemporal propositional content.}
+\PYG{l+s+sb}{A \PYGZdq{}contradiction\PYGZdq{} with traditional interpretations often reveals that we\PYGZsq{}re analyzing different levels:}
+\PYG{l+s+sb}{\PYGZhy{} Traditional: \PYGZdq{}What does the text SAY?\PYGZdq{} (propositional, atemporal)}
+\PYG{l+s+sb}{\PYGZhy{} PML: \PYGZdq{}How does it FEEL to work through this text?\PYGZdq{} (phenomenological, temporal, embodied)}
+
+\PYG{l+s+sb}{Task:}
+\PYG{l+s+sb}{1. What are the major scholarly interpretations of this passage? (Focus on PROPOSITIONAL content)}
+\PYG{l+s+sb}{2. How does our PHENOMENOLOGICAL reading compare?}
+\PYG{l+s+sb}{3. Are apparent contradictions actually tracking different levels?}
+\PYG{l+s+sb}{4. What might deepen our phenomenological analysis?}
+
+\PYG{l+s+sb}{DO NOT OUTPUT ANYTHING OTHER THAN VALID JSON:}
+\PYG{l+s+sb}{\PYGZob{}}
+\PYG{l+s+sb}{  \PYGZdq{}established\PYGZus{}readings\PYGZdq{}: [}
+\PYG{l+s+sb}{    \PYGZob{}\PYGZdq{}scholar\PYGZdq{}: \PYGZdq{}...\PYGZdq{}, \PYGZdq{}interpretation\PYGZdq{}: \PYGZdq{}...\PYGZdq{}, \PYGZdq{}level\PYGZdq{}: \PYGZdq{}propositional|phenomenological\PYGZdq{}\PYGZcb{}}
+\PYG{l+s+sb}{  ],}
+\PYG{l+s+sb}{  \PYGZdq{}alignment\PYGZdq{}: \PYGZob{}}
+\PYG{l+s+sb}{    \PYGZdq{}level\PYGZus{}distinctions\PYGZdq{}: [}
+\PYG{l+s+sb}{      \PYGZob{}\PYGZdq{}apparent\PYGZus{}contradiction\PYGZdq{}: \PYGZdq{}...\PYGZdq{}, \PYGZdq{}actually\PYGZdq{}: \PYGZdq{}different levels \PYGZhy{} both valid\PYGZdq{}, \PYGZdq{}explanation\PYGZdq{}: \PYGZdq{}...\PYGZdq{}\PYGZcb{}}
+\PYG{l+s+sb}{    ],}
+\PYG{l+s+sb}{    \PYGZdq{}genuine\PYGZus{}contradictions\PYGZdq{}: [}
+\PYG{l+s+sb}{      \PYGZob{}\PYGZdq{}issue\PYGZdq{}: \PYGZdq{}...\PYGZdq{}, \PYGZdq{}our\PYGZus{}claim\PYGZdq{}: \PYGZdq{}...\PYGZdq{}, \PYGZdq{}standard\PYGZus{}claim\PYGZdq{}: \PYGZdq{}...\PYGZdq{}, \PYGZdq{}severity\PYGZdq{}: \PYGZdq{}high|medium|low\PYGZdq{}\PYGZcb{}}
+\PYG{l+s+sb}{    ]}
+\PYG{l+s+sb}{  \PYGZcb{},}
+\PYG{l+s+sb}{  \PYGZdq{}diagnostic\PYGZdq{}: \PYGZob{}}
+\PYG{l+s+sb}{    \PYGZdq{}missing\PYGZus{}phenomenological\PYGZus{}moves\PYGZdq{}: [\PYGZdq{}what reading experiences are we not tracking?\PYGZdq{}],}
+\PYG{l+s+sb}{    \PYGZdq{}needed\PYGZus{}axioms\PYGZdq{}: [}
+\PYG{l+s+sb}{      \PYGZob{}\PYGZdq{}proposed\PYGZdq{}: \PYGZdq{}...\PYGZdq{}, \PYGZdq{}rationale\PYGZdq{}: \PYGZdq{}...\PYGZdq{}, \PYGZdq{}addresses\PYGZdq{}: \PYGZdq{}...\PYGZdq{}\PYGZcb{}}
+\PYG{l+s+sb}{    ],}
+\PYG{l+s+sb}{    \PYGZdq{}pathology\PYGZus{}detected\PYGZdq{}: \PYGZdq{}fixation|bad\PYGZus{}infinite|none\PYGZdq{},}
+\PYG{l+s+sb}{    \PYGZdq{}meta\PYGZus{}insight\PYGZdq{}: \PYGZdq{}What does this text teach us about the phenomenology of reading Hegel?\PYGZdq{}}
+\PYG{l+s+sb}{  \PYGZcb{}}
+\PYG{l+s+sb}{\PYGZcb{}`}\PYG{p}{;}
+
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{critiqueData}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{await}\PYG{+w}{ }\PYG{n+nx}{callAnthropic}\PYG{p}{([}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{role}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}user\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{content}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{critiquePrompt}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}\PYG{+w}{ }\PYG{l+m+mf}{3000}\PYG{p}{);}
+\PYG{+w}{      }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{critiqueText}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{critiqueData}\PYG{p}{.}\PYG{n+nx}{content}\PYG{p}{[}\PYG{l+m+mf}{0}\PYG{p}{].}\PYG{n+nx}{text}\PYG{p}{.}\PYG{n+nx}{trim}\PYG{p}{();}
+\PYG{+w}{      }\PYG{n+nx}{critiqueText}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{critiqueText}\PYG{p}{.}\PYG{n+nx}{replace}\PYG{p}{(}\PYG{l+s+sr}{/```json\PYGZbs{}n?/g}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{).}\PYG{n+nx}{replace}\PYG{p}{(}\PYG{l+s+sr}{/```\PYGZbs{}n?/g}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{).}\PYG{n+nx}{trim}\PYG{p}{();}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{critique}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{JSON}\PYG{p}{.}\PYG{n+nx}{parse}\PYG{p}{(}\PYG{n+nx}{critiqueText}\PYG{p}{);}
+
+\PYG{+w}{      }\PYG{c+c1}{// Combine results}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{newInterpretation}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nx}{original}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{inputText}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nx}{pml}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{parsedPML}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nx}{logic}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{logicResult}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nx}{critique}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{critique}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nx}{timestamp}\PYG{o}{:}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nb}{Date}\PYG{p}{().}\PYG{n+nx}{toISOString}\PYG{p}{(),}
+\PYG{+w}{        }\PYG{n+nx}{iterationDepth}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{currentIteration}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{      }\PYG{n+nx}{setInterpretation}\PYG{p}{(}\PYG{n+nx}{newInterpretation}\PYG{p}{);}
+
+\PYG{+w}{      }\PYG{c+c1}{// Update iteration tracking}
+\PYG{+w}{      }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{isRereading}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nx}{setIterationDepth}\PYG{p}{(}\PYG{n+nx}{currentIteration}\PYG{p}{);}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nx}{setIterationDepth}\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{p}{);}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{      }\PYG{c+c1}{// Update formalized concepts if this is a second+ reading}
+\PYG{+w}{      }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{parsedPML}\PYG{p}{.}\PYG{n+nx}{formalized\PYGZus{}this\PYGZus{}iteration}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{parsedPML}\PYG{p}{.}\PYG{n+nx}{formalized\PYGZus{}this\PYGZus{}iteration}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nx}{setFormalizedConcepts}\PYG{p}{([}
+\PYG{+w}{          }\PYG{p}{...}\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nb}{Set}\PYG{p}{([...}\PYG{n+nx}{formalizedConcepts}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{...}\PYG{n+nx}{parsedPML}\PYG{p}{.}\PYG{n+nx}{formalized\PYGZus{}this\PYGZus{}iteration}\PYG{p}{])}
+\PYG{+w}{        }\PYG{p}{]);}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{      }\PYG{c+c1}{// Add to conversation history}
+\PYG{+w}{      }\PYG{n+nx}{setConversationHistory}\PYG{p}{([}
+\PYG{+w}{        }\PYG{p}{...}\PYG{n+nx}{conversationHistory}\PYG{p}{,}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nx}{type}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}interpretation\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nx}{content}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{newInterpretation}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{]);}
+
+\PYG{+w}{      }\PYG{n+nx}{setShowFollowUp}\PYG{p}{(}\PYG{k+kc}{true}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{catch}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{error}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{error}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Error processing text:\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{error}\PYG{p}{);}
+\PYG{+w}{      }\PYG{n+nx}{setInterpretation}\PYG{p}{(\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nx}{error}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nx}{message}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{error}\PYG{p}{.}\PYG{n+nx}{message}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nx}{setIsProcessing}\PYG{p}{(}\PYG{k+kc}{false}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{handleFollowUp}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{async}\PYG{+w}{ }\PYG{p}{()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{followUpQuestion}\PYG{p}{.}\PYG{n+nx}{trim}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{o}{!}\PYG{n+nx}{interpretation}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n+nx}{setIsProcessing}\PYG{p}{(}\PYG{k+kc}{true}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{c+c1}{// Build conversation context}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{contextMessages}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{conversationHistory}\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{(}\PYG{n+nx}{item}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{type}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}interpretation\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n+nx}{role}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}assistant\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{            }\PYG{n+nx}{content}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+sb}{`I analyzed the text phenomenologically using PML and found: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{content}\PYG{p}{.}\PYG{n+nx}{logic}\PYG{p}{.}\PYG{n+nx}{interpretation}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}
+\PYG{+w}{          }\PYG{p}{\PYGZcb{};}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{type}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}followup\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{            }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{role}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}user\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{content}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{question}\PYG{+w}{ }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{            }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{role}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}assistant\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{content}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{response}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{          }\PYG{p}{];}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}).}\PYG{n+nx}{flat}\PYG{p}{();}
+
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{followUpPrompt}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`CONTEXT: You previously analyzed this text using PML (Polarized Modal Logic), which tracks the PHENOMENOLOGY OF READING \PYGZhy{} the temporal, embodied experience of working through text.}
+
+\PYG{l+s+sb}{Original text: \PYGZdq{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{original}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdq{}}
+
+\PYG{l+s+sb}{Your PML analysis: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{logic}\PYG{p}{.}\PYG{n+nx}{interpretation}\PYG{l+s+si}{\PYGZcb{}}
+
+\PYG{l+s+sb}{Critique insights: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nb}{JSON}\PYG{p}{.}\PYG{n+nx}{stringify}\PYG{p}{(}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{critique}\PYG{p}{.}\PYG{n+nx}{diagnostic}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}
+
+\PYG{l+s+sb}{User\PYGZsq{}s follow\PYGZhy{}up question/clarification:}
+\PYG{l+s+sb}{\PYGZdq{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{followUpQuestion}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdq{}}
+
+\PYG{l+s+sb}{Respond to their question while:}
+\PYG{l+s+sb}{1. Maintaining focus on the PHENOMENOLOGICAL level (how the text feels to read)}
+\PYG{l+s+sb}{2. Distinguishing between propositional content vs. reading experience when relevant}
+\PYG{l+s+sb}{3. Suggesting refinements to the PML formalization if needed}
+\PYG{l+s+sb}{4. Acknowledging where the logic might need evolution}
+
+\PYG{l+s+sb}{Be conversational and dialectical. Help refine the interpretation through dialogue.`}\PYG{p}{;}
+
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{followUpData}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{await}\PYG{+w}{ }\PYG{n+nx}{callAnthropic}\PYG{p}{([}
+\PYG{+w}{        }\PYG{p}{...}\PYG{n+nx}{contextMessages}\PYG{p}{,}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{role}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}user\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{content}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{followUpPrompt}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}\PYG{+w}{ }\PYG{l+m+mf}{2000}\PYG{p}{);}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{response}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{followUpData}\PYG{p}{.}\PYG{n+nx}{content}\PYG{p}{[}\PYG{l+m+mf}{0}\PYG{p}{].}\PYG{n+nx}{text}\PYG{p}{;}
+
+\PYG{+w}{      }\PYG{c+c1}{// Add to conversation history}
+\PYG{+w}{      }\PYG{n+nx}{setConversationHistory}\PYG{p}{([}
+\PYG{+w}{        }\PYG{p}{...}\PYG{n+nx}{conversationHistory}\PYG{p}{,}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nx}{type}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}followup\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nx}{question}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{followUpQuestion}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nx}{response}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{response}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nx}{timestamp}\PYG{o}{:}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nb}{Date}\PYG{p}{().}\PYG{n+nx}{toISOString}\PYG{p}{()}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{]);}
+
+\PYG{+w}{      }\PYG{c+c1}{// Update interpretation with follow\PYGZhy{}up}
+\PYG{+w}{      }\PYG{n+nx}{setInterpretation}\PYG{p}{(\PYGZob{}}
+\PYG{+w}{        }\PYG{p}{...}\PYG{n+nx}{interpretation}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nx}{followUps}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[...(}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{followUps}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{p}{[]),}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nx}{question}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{followUpQuestion}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nx}{response}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{response}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}]}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{});}
+
+\PYG{+w}{      }\PYG{n+nx}{setFollowUpQuestion}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{catch}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{error}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{error}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Error in follow\PYGZhy{}up:\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{error}\PYG{p}{);}
+\PYG{+w}{      }\PYG{n+nx}{alert}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Error processing follow\PYGZhy{}up: \PYGZsq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{error}\PYG{p}{.}\PYG{n+nx}{message}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nx}{setIsProcessing}\PYG{p}{(}\PYG{k+kc}{false}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{accommodateContradiction}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{async}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{contradiction}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{proposedAxiom}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n+nx}{setIsProcessing}\PYG{p}{(}\PYG{k+kc}{true}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{c+c1}{// Sublation: Synthesize new axiom}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{sublationPrompt}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`You detected a contradiction in our PML interpretation.}
+
+\PYG{l+s+sb}{Contradiction: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{contradiction}\PYG{p}{.}\PYG{n+nx}{issue}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{l+s+sb}{Our claim: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{contradiction}\PYG{p}{.}\PYG{n+nx}{our\PYGZus{}claim}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{l+s+sb}{Standard claim: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{contradiction}\PYG{p}{.}\PYG{n+nx}{standard\PYGZus{}claim}\PYG{l+s+si}{\PYGZcb{}}
+
+\PYG{l+s+sb}{Proposed axiom: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{proposedAxiom}\PYG{p}{.}\PYG{n+nx}{proposed}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{l+s+sb}{Rationale: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{proposedAxiom}\PYG{p}{.}\PYG{n+nx}{rationale}\PYG{l+s+si}{\PYGZcb{}}
+
+\PYG{l+s+sb}{Refine this axiom into proper PML syntax. Ensure it:}
+\PYG{l+s+sb}{1. Resolves the contradiction}
+\PYG{l+s+sb}{2. Preserves existing valid inferences}
+\PYG{l+s+sb}{3. Opens new interpretive possibilities}
+
+\PYG{l+s+sb}{Respond ONLY with valid JSON:}
+\PYG{l+s+sb}{\PYGZob{}}
+\PYG{l+s+sb}{  \PYGZdq{}refined\PYGZus{}axiom\PYGZdq{}: \PYGZdq{}PML syntax here\PYGZdq{},}
+\PYG{l+s+sb}{  \PYGZdq{}integration\PYGZus{}strategy\PYGZdq{}: \PYGZdq{}How this fits with existing axioms\PYGZdq{},}
+\PYG{l+s+sb}{  \PYGZdq{}test\PYGZus{}implications\PYGZdq{}: [\PYGZdq{}What this now lets us infer...\PYGZdq{}],}
+\PYG{l+s+sb}{  \PYGZdq{}context\PYGZdq{}: \PYGZdq{}One\PYGZhy{}sentence summary of why this axiom was needed\PYGZdq{}}
+\PYG{l+s+sb}{\PYGZcb{}`}\PYG{p}{;}
+
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{sublationData}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{await}\PYG{+w}{ }\PYG{n+nx}{callAnthropic}\PYG{p}{([}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{role}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}user\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{content}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{sublationPrompt}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}\PYG{+w}{ }\PYG{l+m+mf}{2000}\PYG{p}{);}
+\PYG{+w}{      }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{sublationText}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{sublationData}\PYG{p}{.}\PYG{n+nx}{content}\PYG{p}{[}\PYG{l+m+mf}{0}\PYG{p}{].}\PYG{n+nx}{text}\PYG{p}{.}\PYG{n+nx}{trim}\PYG{p}{();}
+\PYG{+w}{      }\PYG{n+nx}{sublationText}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{sublationText}\PYG{p}{.}\PYG{n+nx}{replace}\PYG{p}{(}\PYG{l+s+sr}{/```json\PYGZbs{}n?/g}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{).}\PYG{n+nx}{replace}\PYG{p}{(}\PYG{l+s+sr}{/```\PYGZbs{}n?/g}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{).}\PYG{n+nx}{trim}\PYG{p}{();}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{refinedAxiom}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{JSON}\PYG{p}{.}\PYG{n+nx}{parse}\PYG{p}{(}\PYG{n+nx}{sublationText}\PYG{p}{);}
+
+\PYG{+w}{      }\PYG{c+c1}{// Add to axiom set}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{newAxiom}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nx}{id}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+sb}{`evolved\PYGZus{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nb}{Date}\PYG{p}{.}\PYG{n+nx}{now}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nx}{content}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{refinedAxiom}\PYG{p}{.}\PYG{n+nx}{refined\PYGZus{}axiom}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nx}{source}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}evolved\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nx}{type}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}material\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{c+c1}{// New axioms start as material, may become formal through iteration}
+\PYG{+w}{        }\PYG{n+nx}{rationale}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{proposedAxiom}\PYG{p}{.}\PYG{n+nx}{rationale}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nx}{addresses}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{contradiction}\PYG{p}{.}\PYG{n+nx}{issue}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nx}{context}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{refinedAxiom}\PYG{p}{.}\PYG{n+nx}{context}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nx}{timestamp}\PYG{o}{:}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nb}{Date}\PYG{p}{().}\PYG{n+nx}{toISOString}\PYG{p}{()}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{      }\PYG{n+nx}{setAxiomSet}\PYG{p}{([...}\PYG{n+nx}{axiomSet}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{newAxiom}\PYG{p}{]);}
+
+\PYG{+w}{      }\PYG{c+c1}{// Record evolution}
+\PYG{+w}{      }\PYG{n+nx}{setEvolutionHistory}\PYG{p}{([}
+\PYG{+w}{        }\PYG{p}{...}\PYG{n+nx}{evolutionHistory}\PYG{p}{,}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nx}{timestamp}\PYG{o}{:}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nb}{Date}\PYG{p}{().}\PYG{n+nx}{toISOString}\PYG{p}{(),}
+\PYG{+w}{          }\PYG{n+nx}{trigger}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{contradiction}\PYG{p}{.}\PYG{n+nx}{issue}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nx}{oldState}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{axiomSet}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{} axioms\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nx}{newAxiom}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{refinedAxiom}\PYG{p}{.}\PYG{n+nx}{refined\PYGZus{}axiom}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nx}{synthesis}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{refinedAxiom}\PYG{p}{.}\PYG{n+nx}{integration\PYGZus{}strategy}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nx}{context}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{refinedAxiom}\PYG{p}{.}\PYG{n+nx}{context}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{]);}
+
+\PYG{+w}{      }\PYG{n+nx}{alert}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Axiom integrated! Try reprocessing the text to see how the interpretation changes.\PYGZsq{}}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{catch}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{error}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{error}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Error in accommodation:\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{error}\PYG{p}{);}
+\PYG{+w}{      }\PYG{n+nx}{alert}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Error during sublation: \PYGZsq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{error}\PYG{p}{.}\PYG{n+nx}{message}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nx}{setIsProcessing}\PYG{p}{(}\PYG{k+kc}{false}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{  }\PYG{c+c1}{// Export functions}
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{copyInterpretation}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{interpretation}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{exportText}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`}
+\PYG{l+s+sb}{=== PML PHENOMENOLOGICAL READING ===}
+\PYG{l+s+sb}{Text: \PYGZdq{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{original}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdq{}}
+\PYG{l+s+sb}{Iteration: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{iterationDepth}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{l+s+sb}{Timestamp: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nb}{Date}\PYG{p}{(}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{timestamp}\PYG{p}{).}\PYG{n+nx}{toLocaleString}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}
+
+\PYG{l+s+sb}{READING EXPERIENCE:}
+\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{pml}\PYG{p}{.}\PYG{n+nx}{reading\PYGZus{}experience}\PYG{l+s+si}{\PYGZcb{}}
+
+\PYG{l+s+sb}{PML FORMALIZATIONS:}
+\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{pml}\PYG{p}{.}\PYG{n+nx}{formalizations}\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{(}\PYG{n+nx}{f}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{l+s+sb}{`}
+\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{f}\PYG{p}{.}\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{toUpperCase}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ [}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{f}\PYG{p}{.}\PYG{n+nx}{temporal\PYGZus{}moment}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{] [}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{f}\PYG{p}{.}\PYG{n+nx}{inference\PYGZus{}type}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}material\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{]}
+\PYG{l+s+sb}{  PML: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{f}\PYG{p}{.}\PYG{n+nx}{pml}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{l+s+sb}{  }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{f}\PYG{p}{.}\PYG{n+nx}{explanation}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{l+s+sb}{`}\PYG{p}{).}\PYG{n+nx}{join}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}n\PYGZsq{}}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}
+
+\PYG{l+s+sb}{INTERPRETATION:}
+\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{logic}\PYG{p}{.}\PYG{n+nx}{interpretation}\PYG{l+s+si}{\PYGZcb{}}
+
+\PYG{l+s+sb}{KEY INSIGHTS:}
+\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{logic}\PYG{p}{.}\PYG{n+nx}{key\PYGZus{}insights}\PYG{o}{?}\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{(}\PYG{n+nx}{i}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZhy{} }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{i}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{).}\PYG{n+nx}{join}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}n\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}None\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}
+
+\PYG{l+s+sb}{META\PYGZhy{}CRITIQUE:}
+\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{critique}\PYG{p}{.}\PYG{n+nx}{diagnostic}\PYG{p}{.}\PYG{n+nx}{meta\PYGZus{}insight}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}None\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{l+s+sb}{`}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n+nx}{navigator}\PYG{p}{.}\PYG{n+nx}{clipboard}\PYG{p}{.}\PYG{n+nx}{writeText}\PYG{p}{(}\PYG{n+nx}{exportText}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{alert}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Interpretation copied to clipboard!\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{exportAxiomsAsProlog}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{prologCode}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`}
+\PYG{l+s+sb}{\PYGZpc{}\PYGZpc{} ============================================================}
+\PYG{l+s+sb}{\PYGZpc{}\PYGZpc{} PML Axioms \PYGZhy{} Exported from Dialectical Interpreter}
+\PYG{l+s+sb}{\PYGZpc{}\PYGZpc{} Generated: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nb}{Date}\PYG{p}{().}\PYG{n+nx}{toLocaleString}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{l+s+sb}{\PYGZpc{}\PYGZpc{} Total Axioms: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{axiomSet}\PYG{p}{.}\PYG{n+nx}{length}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{l+s+sb}{\PYGZpc{}\PYGZpc{} Formalized Concepts: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{formalizedConcepts}\PYG{p}{.}\PYG{n+nx}{join}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}None\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{l+s+sb}{\PYGZpc{}\PYGZpc{} ============================================================}
+
+\PYG{l+s+sb}{:\PYGZhy{} module(evolved\PYGZus{}axioms, []).}
+\PYG{l+s+sb}{:\PYGZhy{} use\PYGZus{}module(pml\PYGZus{}operators).}
+\PYG{l+s+sb}{:\PYGZhy{} multifile incompatibility\PYGZus{}semantics:material\PYGZus{}inference/3.}
+
+\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{axiomSet}\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{(}\PYG{n+nx}{axiom}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{l+s+sb}{`}
+\PYG{l+s+sb}{\PYGZpc{}\PYGZpc{} }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{context}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{l+s+sb}{\PYGZpc{}\PYGZpc{} Source: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{source}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{, Type: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{type}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{source}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}evolved\PYGZsq{}}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZpc{}\PYGZpc{} Added: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nb}{Date}\PYG{p}{(}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{timestamp}\PYG{p}{).}\PYG{n+nx}{toLocaleString}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{rationale}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZpc{}\PYGZpc{} Rationale: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{rationale}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{addresses}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZpc{}\PYGZpc{} Addresses: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{addresses}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{convertToPrologAxiom}\PYG{p}{(}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{content}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{).}\PYG{n+nx}{join}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}n\PYGZbs{}n\PYGZsq{}}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}
+\PYG{l+s+sb}{`}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n+nx}{navigator}\PYG{p}{.}\PYG{n+nx}{clipboard}\PYG{p}{.}\PYG{n+nx}{writeText}\PYG{p}{(}\PYG{n+nx}{prologCode}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{alert}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Prolog axioms copied to clipboard! Save as evolved\PYGZus{}axioms.pl and load after semantic\PYGZus{}axioms.\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{convertToPrologAxiom}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{axiomContent}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// Parse simple axiom syntax and convert to Prolog material\PYGZus{}inference/3}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{match}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{axiomContent}\PYG{p}{.}\PYG{n+nx}{match}\PYG{p}{(}\PYG{l+s+sr}{/\PYGZca{}(.*?)\PYGZbs{}s*=\PYGZgt{}\PYGZbs{}s*(.*)\PYGZdl{}/}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{match}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZpc{}\PYGZpc{} Could not parse: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{axiomContent}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{antecedent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{match}\PYG{p}{[}\PYG{l+m+mf}{1}\PYG{p}{].}\PYG{n+nx}{trim}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{consequent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{match}\PYG{p}{[}\PYG{l+m+mf}{2}\PYG{p}{].}\PYG{n+nx}{trim}\PYG{p}{();}
+
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{l+s+sb}{`incompatibility\PYGZus{}semantics:material\PYGZus{}inference([}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{antecedent}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{], }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{consequent}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{, true).`}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{autoAddAxiom}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{async}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{proposedAxiom}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// Automatically add an axiom without going through accommodation flow}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{newAxiom}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{id}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+sb}{`auto\PYGZus{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nb}{Date}\PYG{p}{.}\PYG{n+nx}{now}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{content}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{proposedAxiom}\PYG{p}{.}\PYG{n+nx}{proposed}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{source}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}user\PYGZus{}suggested\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{type}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}material\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{rationale}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{proposedAxiom}\PYG{p}{.}\PYG{n+nx}{rationale}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{context}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{proposedAxiom}\PYG{p}{.}\PYG{n+nx}{rationale}\PYG{p}{.}\PYG{n+nx}{substring}\PYG{p}{(}\PYG{l+m+mf}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{100}\PYG{p}{),}\PYG{+w}{ }\PYG{c+c1}{// First 100 chars}
+\PYG{+w}{      }\PYG{n+nx}{timestamp}\PYG{o}{:}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nb}{Date}\PYG{p}{().}\PYG{n+nx}{toISOString}\PYG{p}{()}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{    }\PYG{n+nx}{setAxiomSet}\PYG{p}{([...}\PYG{n+nx}{axiomSet}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{newAxiom}\PYG{p}{]);}
+
+\PYG{+w}{    }\PYG{n+nx}{setEvolutionHistory}\PYG{p}{([}
+\PYG{+w}{      }\PYG{p}{...}\PYG{n+nx}{evolutionHistory}\PYG{p}{,}
+\PYG{+w}{      }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nx}{timestamp}\PYG{o}{:}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nb}{Date}\PYG{p}{().}\PYG{n+nx}{toISOString}\PYG{p}{(),}
+\PYG{+w}{        }\PYG{n+nx}{trigger}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}User suggestion\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nx}{oldState}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{axiomSet}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{} axioms\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nx}{newAxiom}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{proposedAxiom}\PYG{p}{.}\PYG{n+nx}{proposed}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nx}{synthesis}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Direct user addition\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nx}{context}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{proposedAxiom}\PYG{p}{.}\PYG{n+nx}{rationale}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{]);}
+
+\PYG{+w}{    }\PYG{n+nx}{alert}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Axiom added! Try reprocessing text to see the effect.\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{exampleTexts}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{name}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Hegel \PYGZhy{} Being/Nothing\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{text}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Being, pure being, without any further determination. In its indeterminate immediacy it is equal only to itself. It is also not unequal relatively to an other; it has no diversity within itself nor any with a reference outwards. Pure being is in fact nothing, and neither more nor less than nothing.\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{name}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Hegel \PYGZhy{} Self\PYGZhy{}Consciousness\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{text}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Self\PYGZhy{}consciousness exists in and for itself when, and by the fact that, it so exists for another; that is, it exists only in being acknowledged.\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{name}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Hegel \PYGZhy{} Master/Slave\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{text}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}The master relates himself to the bondsman mediately through independent being, for that is precisely what keeps the bondsman in thrall; it is his chain, from which he could not in the struggle get away, and for that reason he proved himself to be dependent, to have his independence in the shape of thinghood.\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{p}{];}
+
+\PYG{+w}{  }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}min\PYGZhy{}h\PYGZhy{}screen bg\PYGZhy{}gradient\PYGZhy{}to\PYGZhy{}br from\PYGZhy{}slate\PYGZhy{}900 via\PYGZhy{}purple\PYGZhy{}900 to\PYGZhy{}slate\PYGZhy{}900 text\PYGZhy{}white p\PYGZhy{}6\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{      }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}max\PYGZhy{}w\PYGZhy{}6xl mx\PYGZhy{}auto\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}\PYG{c+cm}{/* Header */}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}mb\PYGZhy{}8\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{          }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{h1}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}4xl font\PYGZhy{}bold mb\PYGZhy{}2 bg\PYGZhy{}gradient\PYGZhy{}to\PYGZhy{}r from\PYGZhy{}purple\PYGZhy{}400 to\PYGZhy{}pink\PYGZhy{}400 bg\PYGZhy{}clip\PYGZhy{}text text\PYGZhy{}transparent\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{            }\PYG{n+nx}{Dialectical}\PYG{+w}{ }\PYG{n+nx}{Interpreter}
+\PYG{+w}{          }\PYG{o}{\PYGZlt{}}\PYG{err}{/h1\PYGZgt{}}
+\PYG{+w}{          }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}purple\PYGZhy{}300\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{            }\PYG{n+nx}{A}\PYG{+w}{ }\PYG{n+nx}{self}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{evolving}\PYG{+w}{ }\PYG{n+nx}{PML}\PYG{+w}{ }\PYG{n+nx}{system}\PYG{+w}{ }\PYG{k}{for}\PYG{+w}{ }\PYG{n+nx}{philosophical}\PYG{+w}{ }\PYG{n+nx}{text}\PYG{+w}{ }\PYG{n+nx}{analysis}
+\PYG{+w}{          }\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{        }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}\PYG{c+cm}{/* Main Input Section */}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}white/10 backdrop\PYGZhy{}blur\PYGZhy{}lg rounded\PYGZhy{}lg p\PYGZhy{}6 mb\PYGZhy{}6\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{          }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}mb\PYGZhy{}4\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{label}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}block text\PYGZhy{}sm font\PYGZhy{}medium mb\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Philosophical}\PYG{+w}{ }\PYG{n+nx}{Text}\PYG{o}{\PYGZlt{}}\PYG{err}{/label\PYGZgt{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{textarea}
+\PYG{+w}{              }\PYG{n+nx}{value}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{inputText}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{              }\PYG{n+nx}{onChange}\PYG{o}{=}\PYG{p}{\PYGZob{}(}\PYG{n+nx}{e}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{setInputText}\PYG{p}{(}\PYG{n+nx}{e}\PYG{p}{.}\PYG{n+nx}{target}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{              }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}w\PYGZhy{}full h\PYGZhy{}40 bg\PYGZhy{}black/30 border border\PYGZhy{}purple\PYGZhy{}500/30 rounded\PYGZhy{}lg p\PYGZhy{}4 text\PYGZhy{}white placeholder\PYGZhy{}purple\PYGZhy{}300/50 focus:outline\PYGZhy{}none focus:border\PYGZhy{}purple\PYGZhy{}400 focus:ring\PYGZhy{}2 focus:ring\PYGZhy{}purple\PYGZhy{}400/20\PYGZdq{}}
+\PYG{+w}{              }\PYG{n+nx}{placeholder}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Paste a philosophical passage here (e.g., from Hegel\PYGZsq{}s Phenomenology)...\PYGZdq{}}
+\PYG{+w}{            }\PYG{o}{/\PYGZgt{}}
+\PYG{+w}{          }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+
+\PYG{+w}{          }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}flex flex\PYGZhy{}wrap gap\PYGZhy{}2 mb\PYGZhy{}4\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm text\PYGZhy{}purple\PYGZhy{}300\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Examples}\PYG{o}{:\PYGZlt{}}\PYG{err}{/span\PYGZgt{}}
+\PYG{+w}{            }\PYG{p}{\PYGZob{}}\PYG{n+nx}{exampleTexts}\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{((}\PYG{n+nx}{ex}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{button}
+\PYG{+w}{                }\PYG{n+nx}{key}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{i}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                }\PYG{n+nx}{onClick}\PYG{o}{=}\PYG{p}{\PYGZob{}()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{setInputText}\PYG{p}{(}\PYG{n+nx}{ex}\PYG{p}{.}\PYG{n+nx}{text}\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{                }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}xs bg\PYGZhy{}purple\PYGZhy{}500/20 hover:bg\PYGZhy{}purple\PYGZhy{}500/30 px\PYGZhy{}3 py\PYGZhy{}1 rounded\PYGZhy{}full transition\PYGZhy{}colors\PYGZdq{}}
+\PYG{+w}{              }\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                }\PYG{p}{\PYGZob{}}\PYG{n+nx}{ex}\PYG{p}{.}\PYG{n+nx}{name}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{err}{/button\PYGZgt{}}
+\PYG{+w}{            }\PYG{p}{))\PYGZcb{}}
+\PYG{+w}{          }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+
+\PYG{+w}{          }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}flex gap\PYGZhy{}3\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{button}
+\PYG{+w}{              }\PYG{n+nx}{onClick}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{processText}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{              }\PYG{n+nx}{disabled}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{o}{!}\PYG{n+nx}{inputText}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nx}{isProcessing}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{              }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}flex\PYGZhy{}1 bg\PYGZhy{}gradient\PYGZhy{}to\PYGZhy{}r from\PYGZhy{}purple\PYGZhy{}500 to\PYGZhy{}pink\PYGZhy{}500 hover:from\PYGZhy{}purple\PYGZhy{}600 hover:to\PYGZhy{}pink\PYGZhy{}600 disabled:from\PYGZhy{}gray\PYGZhy{}500 disabled:to\PYGZhy{}gray\PYGZhy{}600 px\PYGZhy{}6 py\PYGZhy{}3 rounded\PYGZhy{}lg font\PYGZhy{}medium transition\PYGZhy{}all flex items\PYGZhy{}center justify\PYGZhy{}center gap\PYGZhy{}2\PYGZdq{}}
+\PYG{+w}{            }\PYG{o}{\PYGZgt{}}
+\PYG{+w}{              }\PYG{p}{\PYGZob{}}\PYG{n+nx}{isProcessing}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{Loader2}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}w\PYGZhy{}5 h\PYGZhy{}5 animate\PYGZhy{}spin\PYGZdq{}}\PYG{+w}{ }\PYG{o}{/\PYGZgt{}}
+\PYG{+w}{                  }\PYG{n+nx}{Processing}\PYG{p}{...}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{err}{/\PYGZgt{}}
+\PYG{+w}{              }\PYG{p}{)}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{Sparkles}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}w\PYGZhy{}5 h\PYGZhy{}5\PYGZdq{}}\PYG{+w}{ }\PYG{o}{/\PYGZgt{}}
+\PYG{+w}{                  }\PYG{p}{\PYGZob{}}\PYG{n+nx}{iterationDepth}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{inputText}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{n+nx}{interpretation}\PYG{o}{?}\PYG{p}{.}\PYG{n+nx}{original}
+\PYG{+w}{                    }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+sb}{`Re\PYGZhy{}read (Iteration }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{iterationDepth}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{)`}
+\PYG{+w}{                    }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Interpret Text\PYGZsq{}}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{err}{/\PYGZgt{}}
+\PYG{+w}{              }\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{err}{/button\PYGZgt{}}
+
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{button}
+\PYG{+w}{              }\PYG{n+nx}{onClick}\PYG{o}{=}\PYG{p}{\PYGZob{}()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{setShowEvolutionPanel}\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{showEvolutionPanel}\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{              }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}purple\PYGZhy{}500/20 hover:bg\PYGZhy{}purple\PYGZhy{}500/30 px\PYGZhy{}6 py\PYGZhy{}3 rounded\PYGZhy{}lg font\PYGZhy{}medium transition\PYGZhy{}colors flex items\PYGZhy{}center gap\PYGZhy{}2\PYGZdq{}}
+\PYG{+w}{            }\PYG{o}{\PYGZgt{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{GitBranch}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}w\PYGZhy{}5 h\PYGZhy{}5\PYGZdq{}}\PYG{+w}{ }\PYG{o}{/\PYGZgt{}}
+\PYG{+w}{              }\PYG{n+nx}{Logic}\PYG{+w}{ }\PYG{p}{(\PYGZob{}}\PYG{n+nx}{axiomSet}\PYG{p}{.}\PYG{n+nx}{length}\PYG{p}{\PYGZcb{})}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{err}{/button\PYGZgt{}}
+\PYG{+w}{          }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+
+\PYG{+w}{          }\PYG{p}{\PYGZob{}}\PYG{c+cm}{/* Iteration depth indicator */}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{          }\PYG{p}{\PYGZob{}}\PYG{n+nx}{iterationDepth}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}mt\PYGZhy{}3 bg\PYGZhy{}blue\PYGZhy{}500/20 border border\PYGZhy{}blue\PYGZhy{}400/30 rounded\PYGZhy{}lg p\PYGZhy{}3\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm text\PYGZhy{}blue\PYGZhy{}200\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{strong}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Iteration}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+nx}{iterationDepth}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/strong\PYGZgt{} \PYGZhy{}}
+\PYG{+w}{                }\PYG{p}{\PYGZob{}}\PYG{n+nx}{formalizedConcepts}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}
+\PYG{+w}{                  }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+sb}{` }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{formalizedConcepts}\PYG{p}{.}\PYG{n+nx}{length}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ concepts formalized as structural scaffolding`}
+\PYG{+w}{                  }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{} First reading \PYGZhy{} all material inference\PYGZsq{}}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{              }\PYG{p}{\PYGZob{}}\PYG{n+nx}{formalizedConcepts}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}xs text\PYGZhy{}blue\PYGZhy{}300 mt\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                  }\PYG{n+nx}{Formalized}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+nx}{formalizedConcepts}\PYG{p}{.}\PYG{n+nx}{join}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{              }\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{          }\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{        }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}\PYG{c+cm}{/* Evolution Panel */}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}\PYG{n+nx}{showEvolutionPanel}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{          }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}white/10 backdrop\PYGZhy{}blur\PYGZhy{}lg rounded\PYGZhy{}lg p\PYGZhy{}6 mb\PYGZhy{}6\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}flex items\PYGZhy{}center justify\PYGZhy{}between mb\PYGZhy{}4\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{h2}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}xl font\PYGZhy{}bold flex items\PYGZhy{}center gap\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{GitBranch}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}w\PYGZhy{}5 h\PYGZhy{}5\PYGZdq{}}\PYG{+w}{ }\PYG{o}{/\PYGZgt{}}
+\PYG{+w}{                }\PYG{n+nx}{Axiom}\PYG{+w}{ }\PYG{n+nx}{Evolution}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{err}{/h2\PYGZgt{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{button}
+\PYG{+w}{                }\PYG{n+nx}{onClick}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{exportAxiomsAsProlog}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}blue\PYGZhy{}500/30 hover:bg\PYGZhy{}blue\PYGZhy{}500/40 px\PYGZhy{}4 py\PYGZhy{}2 rounded text\PYGZhy{}sm transition\PYGZhy{}colors\PYGZdq{}}
+\PYG{+w}{              }\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                }\PYG{err}{💾}\PYG{+w}{ }\PYG{n+nx}{Export}\PYG{+w}{ }\PYG{k+kr}{as}\PYG{+w}{ }\PYG{n+nx}{Prolog}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{err}{/button\PYGZgt{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}space\PYGZhy{}y\PYGZhy{}3 mb\PYGZhy{}6\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{              }\PYG{p}{\PYGZob{}}\PYG{n+nx}{axiomSet}\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{((}\PYG{n+nx}{axiom}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}
+\PYG{+w}{                  }\PYG{n+nx}{key}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{id}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                  }\PYG{n+nx}{className}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+s+sb}{`p\PYGZhy{}4 rounded\PYGZhy{}lg }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}
+\PYG{+w}{                    }\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{source}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}core\PYGZsq{}}
+\PYG{+w}{                      }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}bg\PYGZhy{}blue\PYGZhy{}500/20 border border\PYGZhy{}blue\PYGZhy{}500/30\PYGZsq{}}
+\PYG{+w}{                      }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}bg\PYGZhy{}green\PYGZhy{}500/20 border border\PYGZhy{}green\PYGZhy{}500/30\PYGZsq{}}
+\PYG{+w}{                  }\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                }\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}flex items\PYGZhy{}start justify\PYGZhy{}between\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}flex\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}flex items\PYGZhy{}center gap\PYGZhy{}2 mb\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{code}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm font\PYGZhy{}mono text\PYGZhy{}purple\PYGZhy{}200\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{content}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/code\PYGZgt{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}xs text\PYGZhy{}purple\PYGZhy{}300 mb\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{context}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                      }\PYG{p}{\PYGZob{}}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{rationale}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}xs text\PYGZhy{}purple\PYGZhy{}300 mb\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Rationale}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{rationale}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                      }\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{                      }\PYG{p}{\PYGZob{}}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{addresses}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}xs text\PYGZhy{}green\PYGZhy{}300 mt\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Addresses}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{addresses}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                      }\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{                    }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}flex flex\PYGZhy{}col gap\PYGZhy{}1 ml\PYGZhy{}3\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+s+sb}{`text\PYGZhy{}xs px\PYGZhy{}2 py\PYGZhy{}1 rounded }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}
+\PYG{+w}{                        }\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{source}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}core\PYGZsq{}}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}bg\PYGZhy{}blue\PYGZhy{}500/30\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}bg\PYGZhy{}green\PYGZhy{}500/30\PYGZsq{}}
+\PYG{+w}{                      }\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                        }\PYG{p}{\PYGZob{}}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{source}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{err}{/span\PYGZgt{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+s+sb}{`text\PYGZhy{}xs px\PYGZhy{}2 py\PYGZhy{}1 rounded }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}
+\PYG{+w}{                        }\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{type}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}formal\PYGZsq{}}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}bg\PYGZhy{}yellow\PYGZhy{}500/30\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}bg\PYGZhy{}purple\PYGZhy{}500/30\PYGZsq{}}
+\PYG{+w}{                      }\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                        }\PYG{p}{\PYGZob{}}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{type}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{err}{/span\PYGZgt{}}
+\PYG{+w}{                    }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{              }\PYG{p}{))\PYGZcb{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+
+\PYG{+w}{            }\PYG{p}{\PYGZob{}}\PYG{n+nx}{evolutionHistory}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{h3}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}lg font\PYGZhy{}bold mb\PYGZhy{}3\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Evolution}\PYG{+w}{ }\PYG{n+nx}{History}\PYG{o}{\PYGZlt{}}\PYG{err}{/h3\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}space\PYGZhy{}y\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                  }\PYG{p}{\PYGZob{}}\PYG{n+nx}{evolutionHistory}\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{((}\PYG{n+nx}{event}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{key}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{i}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}black/30 p\PYGZhy{}3 rounded\PYGZhy{}lg text\PYGZhy{}sm\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}flex items\PYGZhy{}center gap\PYGZhy{}2 mb\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{CheckCircle}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}w\PYGZhy{}4 h\PYGZhy{}4 text\PYGZhy{}green\PYGZhy{}400\PYGZdq{}}\PYG{+w}{ }\PYG{o}{/\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}purple\PYGZhy{}300\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nb}{Date}\PYG{p}{(}\PYG{n+nx}{event}\PYG{p}{.}\PYG{n+nx}{timestamp}\PYG{p}{).}\PYG{n+nx}{toLocaleTimeString}\PYG{p}{()\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/span\PYGZgt{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}yellow\PYGZhy{}300 mb\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Trigger}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+nx}{event}\PYG{p}{.}\PYG{n+nx}{trigger}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}green\PYGZhy{}300\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{New}\PYG{+w}{ }\PYG{n+nx}{Axiom}\PYG{o}{:}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{code}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{event}\PYG{p}{.}\PYG{n+nx}{newAxiom}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/code\PYGZgt{}\PYGZlt{}/p\PYGZgt{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}purple\PYGZhy{}200 text\PYGZhy{}xs mt\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{event}\PYG{p}{.}\PYG{n+nx}{synthesis}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                    }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                  }\PYG{p}{))\PYGZcb{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{err}{/\PYGZgt{}}
+\PYG{+w}{            }\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{          }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{        }\PYG{p}{)\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}\PYG{c+cm}{/* Results Section */}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{o}{!}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{error}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{          }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}space\PYGZhy{}y\PYGZhy{}6\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{            }\PYG{p}{\PYGZob{}}\PYG{c+cm}{/* Export Controls */}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}gradient\PYGZhy{}to\PYGZhy{}r from\PYGZhy{}green\PYGZhy{}500/20 to\PYGZhy{}blue\PYGZhy{}500/20 backdrop\PYGZhy{}blur\PYGZhy{}lg rounded\PYGZhy{}lg p\PYGZhy{}4 border border\PYGZhy{}green\PYGZhy{}400/30\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}flex items\PYGZhy{}center justify\PYGZhy{}between\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{h3}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}font\PYGZhy{}semibold text\PYGZhy{}green\PYGZhy{}300 mb\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Export}\PYG{+w}{ }\PYG{n+nx}{Analysis}\PYG{o}{\PYGZlt{}}\PYG{err}{/h3\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}xs text\PYGZhy{}green\PYGZhy{}200\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                    }\PYG{n+nx}{Copy}\PYG{+w}{ }\PYG{n+nx}{interpretation}\PYG{+w}{ }\PYG{n+nx}{or}\PYG{+w}{ }\PYG{k}{export}\PYG{+w}{ }\PYG{n+nx}{evolved}\PYG{+w}{ }\PYG{n+nx}{axioms}\PYG{+w}{ }\PYG{k+kr}{as}\PYG{+w}{ }\PYG{n+nx}{Prolog}\PYG{+w}{ }\PYG{n+nx}{code}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}flex gap\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{button}
+\PYG{+w}{                    }\PYG{n+nx}{onClick}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{copyInterpretation}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                    }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}green\PYGZhy{}500/30 hover:bg\PYGZhy{}green\PYGZhy{}500/40 px\PYGZhy{}4 py\PYGZhy{}2 rounded transition\PYGZhy{}colors text\PYGZhy{}sm\PYGZdq{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                    }\PYG{err}{📋}\PYG{+w}{ }\PYG{n+nx}{Copy}\PYG{+w}{ }\PYG{n+nx}{Reading}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{err}{/button\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{button}
+\PYG{+w}{                    }\PYG{n+nx}{onClick}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{exportAxiomsAsProlog}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                    }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}blue\PYGZhy{}500/30 hover:bg\PYGZhy{}blue\PYGZhy{}500/40 px\PYGZhy{}4 py\PYGZhy{}2 rounded transition\PYGZhy{}colors text\PYGZhy{}sm\PYGZdq{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                    }\PYG{err}{💾}\PYG{+w}{ }\PYG{n+nx}{Export}\PYG{+w}{ }\PYG{n+nx}{Prolog}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{err}{/button\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{            }\PYG{p}{\PYGZob{}}\PYG{c+cm}{/* PML Formalization */}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}white/10 backdrop\PYGZhy{}blur\PYGZhy{}lg rounded\PYGZhy{}lg p\PYGZhy{}6\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}mb\PYGZhy{}4\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{h2}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}xl font\PYGZhy{}bold mb\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Phenomenological}\PYG{+w}{ }\PYG{n+nx}{Reading}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{PML}\PYG{p}{)}\PYG{o}{\PYGZlt{}}\PYG{err}{/h2\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}purple\PYGZhy{}300 text\PYGZhy{}sm italic\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                  }\PYG{n+nx}{Tracking}\PYG{+w}{ }\PYG{n+nx}{the}\PYG{+w}{ }\PYG{n+nx}{temporal}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{embodied}\PYG{+w}{ }\PYG{n+nx}{experience}\PYG{+w}{ }\PYG{k}{of}\PYG{+w}{ }\PYG{n+nx}{working}\PYG{+w}{ }\PYG{n+nx}{through}\PYG{+w}{ }\PYG{k}{this}\PYG{+w}{ }\PYG{n+nx}{text}\PYG{+w}{ }\PYG{err}{↓↑}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                }\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{pml}\PYG{p}{.}\PYG{n+nx}{reading\PYGZus{}experience}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}mt\PYGZhy{}3 bg\PYGZhy{}purple\PYGZhy{}500/20 p\PYGZhy{}3 rounded\PYGZhy{}lg\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm text\PYGZhy{}purple\PYGZhy{}100\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{pml}\PYG{p}{.}\PYG{n+nx}{reading\PYGZus{}experience}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                }\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}space\PYGZhy{}y\PYGZhy{}3\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                }\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{pml}\PYG{p}{.}\PYG{n+nx}{formalizations}\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{((}\PYG{n+nx}{form}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{key}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{i}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}black/30 p\PYGZhy{}4 rounded\PYGZhy{}lg\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}flex items\PYGZhy{}center gap\PYGZhy{}2 mb\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}purple\PYGZhy{}500/30 px\PYGZhy{}2 py\PYGZhy{}1 rounded text\PYGZhy{}xs font\PYGZhy{}medium\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                        }\PYG{p}{\PYGZob{}}\PYG{n+nx}{form}\PYG{p}{.}\PYG{n+nx}{step}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{err}{/span\PYGZgt{}}
+\PYG{+w}{                      }\PYG{p}{\PYGZob{}}\PYG{n+nx}{form}\PYG{p}{.}\PYG{n+nx}{temporal\PYGZus{}moment}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}blue\PYGZhy{}500/30 px\PYGZhy{}2 py\PYGZhy{}1 rounded text\PYGZhy{}xs\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                          }\PYG{err}{⏱}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+nx}{form}\PYG{p}{.}\PYG{n+nx}{temporal\PYGZus{}moment}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{err}{/span\PYGZgt{}}
+\PYG{+w}{                      }\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{                      }\PYG{p}{\PYGZob{}}\PYG{n+nx}{form}\PYG{p}{.}\PYG{n+nx}{inference\PYGZus{}type}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+s+sb}{`px\PYGZhy{}2 py\PYGZhy{}1 rounded text\PYGZhy{}xs }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}
+\PYG{+w}{                          }\PYG{n+nx}{form}\PYG{p}{.}\PYG{n+nx}{inference\PYGZus{}type}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}formal\PYGZsq{}}
+\PYG{+w}{                            }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}bg\PYGZhy{}yellow\PYGZhy{}500/30 border border\PYGZhy{}yellow\PYGZhy{}400/30\PYGZsq{}}
+\PYG{+w}{                            }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}bg\PYGZhy{}green\PYGZhy{}500/30\PYGZsq{}}
+\PYG{+w}{                        }\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                          }\PYG{p}{\PYGZob{}}\PYG{n+nx}{form}\PYG{p}{.}\PYG{n+nx}{inference\PYGZus{}type}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}formal\PYGZsq{}}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}⚙️ formal\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}🔍 material\PYGZsq{}}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{err}{/span\PYGZgt{}}
+\PYG{+w}{                      }\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{                    }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{code}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}purple\PYGZhy{}300 block mb\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{form}\PYG{p}{.}\PYG{n+nx}{pml}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/code\PYGZgt{}}
+\PYG{+w}{                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm text\PYGZhy{}purple\PYGZhy{}200\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{form}\PYG{p}{.}\PYG{n+nx}{explanation}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                }\PYG{p}{))\PYGZcb{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+
+\PYG{+w}{            }\PYG{p}{\PYGZob{}}\PYG{c+cm}{/* Logical Proof */}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}white/10 backdrop\PYGZhy{}blur\PYGZhy{}lg rounded\PYGZhy{}lg p\PYGZhy{}6\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{h2}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}xl font\PYGZhy{}bold mb\PYGZhy{}4\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Proof}\PYG{+w}{ }\PYG{n+nx}{Steps}\PYG{o}{\PYGZlt{}}\PYG{err}{/h2\PYGZgt{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}space\PYGZhy{}y\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                }\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{logic}\PYG{p}{.}\PYG{n+nx}{proof\PYGZus{}steps}\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{((}\PYG{n+nx}{step}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{key}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{i}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}black/30 p\PYGZhy{}3 rounded\PYGZhy{}lg\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}flex items\PYGZhy{}start gap\PYGZhy{}3\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}blue\PYGZhy{}500/30 px\PYGZhy{}2 py\PYGZhy{}1 rounded text\PYGZhy{}xs font\PYGZhy{}mono shrink\PYGZhy{}0\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                        }\PYG{p}{\PYGZob{}}\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{err}{/span\PYGZgt{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}flex\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm text\PYGZhy{}blue\PYGZhy{}300 mb\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                          }\PYG{n+nx}{Premises}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{premises}\PYG{p}{.}\PYG{n+nx}{join}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm text\PYGZhy{}purple\PYGZhy{}300 mb\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                          }\PYG{n+nx}{Axiom}\PYG{o}{:}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{code}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{axiom\PYGZus{}used}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/code\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm text\PYGZhy{}green\PYGZhy{}300 mb\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                          }\PYG{err}{→}\PYG{+w}{ }\PYG{n+nx}{Conclusion}\PYG{o}{:}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{code}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{conclusion}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/code\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}xs text\PYGZhy{}purple\PYGZhy{}200\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{explanation}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                    }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                }\PYG{p}{))\PYGZcb{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+
+\PYG{+w}{            }\PYG{p}{\PYGZob{}}\PYG{c+cm}{/* Interpretation */}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}white/10 backdrop\PYGZhy{}blur\PYGZhy{}lg rounded\PYGZhy{}lg p\PYGZhy{}6\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{h2}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}xl font\PYGZhy{}bold mb\PYGZhy{}4\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Interpretation}\PYG{o}{\PYGZlt{}}\PYG{err}{/h2\PYGZgt{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}purple\PYGZhy{}100 mb\PYGZhy{}4 leading\PYGZhy{}relaxed\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{logic}\PYG{p}{.}\PYG{n+nx}{interpretation}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+
+\PYG{+w}{              }\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{logic}\PYG{p}{.}\PYG{n+nx}{key\PYGZus{}insights}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{logic}\PYG{p}{.}\PYG{n+nx}{key\PYGZus{}insights}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}mt\PYGZhy{}4\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{h3}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}font\PYGZhy{}semibold mb\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Key}\PYG{+w}{ }\PYG{n+nx}{Insights}\PYG{o}{:\PYGZlt{}}\PYG{err}{/h3\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{ul}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}space\PYGZhy{}y\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                    }\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{logic}\PYG{p}{.}\PYG{n+nx}{key\PYGZus{}insights}\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{((}\PYG{n+nx}{insight}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{li}\PYG{+w}{ }\PYG{n+nx}{key}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{i}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm text\PYGZhy{}purple\PYGZhy{}200 flex items\PYGZhy{}start gap\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{CheckCircle}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}w\PYGZhy{}4 h\PYGZhy{}4 text\PYGZhy{}green\PYGZhy{}400 mt\PYGZhy{}0.5 shrink\PYGZhy{}0\PYGZdq{}}\PYG{+w}{ }\PYG{o}{/\PYGZgt{}}
+\PYG{+w}{                        }\PYG{p}{\PYGZob{}}\PYG{n+nx}{insight}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{err}{/li\PYGZgt{}}
+\PYG{+w}{                    }\PYG{p}{))\PYGZcb{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{err}{/ul\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{              }\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+
+\PYG{+w}{            }\PYG{p}{\PYGZob{}}\PYG{c+cm}{/* Critique \PYGZam{} Evolution */}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}white/10 backdrop\PYGZhy{}blur\PYGZhy{}lg rounded\PYGZhy{}lg p\PYGZhy{}6\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{h2}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}xl font\PYGZhy{}bold mb\PYGZhy{}4 flex items\PYGZhy{}center gap\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{AlertCircle}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}w\PYGZhy{}5 h\PYGZhy{}5\PYGZdq{}}\PYG{+w}{ }\PYG{o}{/\PYGZgt{}}
+\PYG{+w}{                }\PYG{n+nx}{Meta}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{Critique}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{Levels}\PYG{+w}{ }\PYG{k}{of}\PYG{+w}{ }\PYG{n+nx}{Analysis}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{err}{/h2\PYGZgt{}}
+
+\PYG{+w}{              }\PYG{p}{\PYGZob{}}\PYG{c+cm}{/* Meta\PYGZhy{}Insight */}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{              }\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{critique}\PYG{p}{.}\PYG{n+nx}{diagnostic}\PYG{p}{.}\PYG{n+nx}{meta\PYGZus{}insight}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}mb\PYGZhy{}6 bg\PYGZhy{}gradient\PYGZhy{}to\PYGZhy{}r from\PYGZhy{}purple\PYGZhy{}500/20 to\PYGZhy{}pink\PYGZhy{}500/20 p\PYGZhy{}4 rounded\PYGZhy{}lg border border\PYGZhy{}purple\PYGZhy{}400/30\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{h3}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}font\PYGZhy{}semibold mb\PYGZhy{}2 text\PYGZhy{}purple\PYGZhy{}300\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{err}{💡}\PYG{+w}{ }\PYG{n+nx}{Meta}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{Insight}\PYG{o}{:\PYGZlt{}}\PYG{err}{/h3\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm text\PYGZhy{}purple\PYGZhy{}100\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{critique}\PYG{p}{.}\PYG{n+nx}{diagnostic}\PYG{p}{.}\PYG{n+nx}{meta\PYGZus{}insight}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{              }\PYG{p}{)\PYGZcb{}}
+
+\PYG{+w}{              }\PYG{p}{\PYGZob{}}\PYG{c+cm}{/* Established Readings */}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}mb\PYGZhy{}6\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{h3}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}font\PYGZhy{}semibold mb\PYGZhy{}3\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Established}\PYG{+w}{ }\PYG{n+nx}{Scholarly}\PYG{+w}{ }\PYG{n+nx}{Readings}\PYG{o}{:\PYGZlt{}}\PYG{err}{/h3\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}space\PYGZhy{}y\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                  }\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{critique}\PYG{p}{.}\PYG{n+nx}{established\PYGZus{}readings}\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{((}\PYG{n+nx}{reading}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{key}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{i}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}blue\PYGZhy{}500/20 p\PYGZhy{}3 rounded\PYGZhy{}lg\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}flex items\PYGZhy{}center gap\PYGZhy{}2 mb\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm font\PYGZhy{}medium text\PYGZhy{}blue\PYGZhy{}300\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{reading}\PYG{p}{.}\PYG{n+nx}{scholar}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                        }\PYG{p}{\PYGZob{}}\PYG{n+nx}{reading}\PYG{p}{.}\PYG{n+nx}{level}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                          }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}xs bg\PYGZhy{}blue\PYGZhy{}500/30 px\PYGZhy{}2 py\PYGZhy{}0.5 rounded\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                            }\PYG{p}{\PYGZob{}}\PYG{n+nx}{reading}\PYG{p}{.}\PYG{n+nx}{level}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                          }\PYG{o}{\PYGZlt{}}\PYG{err}{/span\PYGZgt{}}
+\PYG{+w}{                        }\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm text\PYGZhy{}blue\PYGZhy{}200\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{reading}\PYG{p}{.}\PYG{n+nx}{interpretation}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                    }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                  }\PYG{p}{))\PYGZcb{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+
+\PYG{+w}{              }\PYG{p}{\PYGZob{}}\PYG{c+cm}{/* Level Distinctions */}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{              }\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{critique}\PYG{p}{.}\PYG{n+nx}{alignment}\PYG{p}{.}\PYG{n+nx}{level\PYGZus{}distinctions}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}
+\PYG{+w}{               }\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{critique}\PYG{p}{.}\PYG{n+nx}{alignment}\PYG{p}{.}\PYG{n+nx}{level\PYGZus{}distinctions}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}mb\PYGZhy{}6\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{h3}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}font\PYGZhy{}semibold mb\PYGZhy{}3 text\PYGZhy{}green\PYGZhy{}400\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                    }\PYG{err}{✓}\PYG{+w}{ }\PYG{n+nx}{Level}\PYG{+w}{ }\PYG{n+nx}{Distinctions}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{Not}\PYG{+w}{ }\PYG{n+nx}{Contradictions}\PYG{p}{)}\PYG{o}{:}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{err}{/h3\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}space\PYGZhy{}y\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                    }\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{critique}\PYG{p}{.}\PYG{n+nx}{alignment}\PYG{p}{.}\PYG{n+nx}{level\PYGZus{}distinctions}\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{((}\PYG{n+nx}{dist}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{key}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{i}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}green\PYGZhy{}500/20 p\PYGZhy{}3 rounded\PYGZhy{}lg border border\PYGZhy{}green\PYGZhy{}500/30\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm text\PYGZhy{}yellow\PYGZhy{}300 mb\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                          }\PYG{n+nx}{Apparent}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+nx}{dist}\PYG{p}{.}\PYG{n+nx}{apparent\PYGZus{}contradiction}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm text\PYGZhy{}green\PYGZhy{}300 mb\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                          }\PYG{n+nx}{Actually}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+nx}{dist}\PYG{p}{.}\PYG{n+nx}{actually}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}xs text\PYGZhy{}green\PYGZhy{}200\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{dist}\PYG{p}{.}\PYG{n+nx}{explanation}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                    }\PYG{p}{))\PYGZcb{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{              }\PYG{p}{)\PYGZcb{}}
+
+\PYG{+w}{              }\PYG{p}{\PYGZob{}}\PYG{c+cm}{/* Genuine Contradictions */}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{              }\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{critique}\PYG{p}{.}\PYG{n+nx}{alignment}\PYG{p}{.}\PYG{n+nx}{genuine\PYGZus{}contradictions}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}
+\PYG{+w}{               }\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{critique}\PYG{p}{.}\PYG{n+nx}{alignment}\PYG{p}{.}\PYG{n+nx}{genuine\PYGZus{}contradictions}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}mb\PYGZhy{}6\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm text\PYGZhy{}red\PYGZhy{}400 mb\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{err}{⚠}\PYG{+w}{ }\PYG{n+nx}{Genuine}\PYG{+w}{ }\PYG{n+nx}{Contradictions}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{Same}\PYG{+w}{ }\PYG{n+nx}{Level}\PYG{p}{)}\PYG{o}{:\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}space\PYGZhy{}y\PYGZhy{}3\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                    }\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{critique}\PYG{p}{.}\PYG{n+nx}{alignment}\PYG{p}{.}\PYG{n+nx}{genuine\PYGZus{}contradictions}\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{((}\PYG{n+nx}{contra}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}
+\PYG{+w}{                        }\PYG{n+nx}{key}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{i}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                        }\PYG{n+nx}{className}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+s+sb}{`p\PYGZhy{}4 rounded\PYGZhy{}lg }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}
+\PYG{+w}{                          }\PYG{n+nx}{contra}\PYG{p}{.}\PYG{n+nx}{severity}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}high\PYGZsq{}}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}bg\PYGZhy{}red\PYGZhy{}500/20 border border\PYGZhy{}red\PYGZhy{}500/30\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}
+\PYG{+w}{                          }\PYG{n+nx}{contra}\PYG{p}{.}\PYG{n+nx}{severity}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}medium\PYGZsq{}}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}bg\PYGZhy{}yellow\PYGZhy{}500/20 border border\PYGZhy{}yellow\PYGZhy{}500/30\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}
+\PYG{+w}{                          }\PYG{l+s+s1}{\PYGZsq{}bg\PYGZhy{}orange\PYGZhy{}500/20 border border\PYGZhy{}orange\PYGZhy{}500/30\PYGZsq{}}
+\PYG{+w}{                        }\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}font\PYGZhy{}medium mb\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{contra}\PYG{p}{.}\PYG{n+nx}{issue}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm text\PYGZhy{}red\PYGZhy{}200 mb\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Our}\PYG{+w}{ }\PYG{n+nx}{claim}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+nx}{contra}\PYG{p}{.}\PYG{n+nx}{our\PYGZus{}claim}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm text\PYGZhy{}yellow\PYGZhy{}200 mb\PYGZhy{}3\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Standard}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+nx}{contra}\PYG{p}{.}\PYG{n+nx}{standard\PYGZus{}claim}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+
+\PYG{+w}{                        }\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{critique}\PYG{p}{.}\PYG{n+nx}{diagnostic}\PYG{p}{.}\PYG{n+nx}{needed\PYGZus{}axioms}
+\PYG{+w}{                          }\PYG{p}{.}\PYG{n+nx}{filter}\PYG{p}{(}\PYG{n+nx}{ax}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{ax}\PYG{p}{.}\PYG{n+nx}{addresses}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{n+nx}{contra}\PYG{p}{.}\PYG{n+nx}{issue}\PYG{p}{)}
+\PYG{+w}{                          }\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{((}\PYG{n+nx}{axiom}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{j}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{key}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{j}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}mt\PYGZhy{}3 bg\PYGZhy{}black/30 p\PYGZhy{}3 rounded\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm text\PYGZhy{}purple\PYGZhy{}300 mb\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Proposed}\PYG{+w}{ }\PYG{n+nx}{Resolution}\PYG{o}{:\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{code}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}xs text\PYGZhy{}green\PYGZhy{}300 block mb\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{proposed}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/code\PYGZgt{}}
+\PYG{+w}{                              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}xs text\PYGZhy{}purple\PYGZhy{}200 mb\PYGZhy{}3\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{axiom}\PYG{p}{.}\PYG{n+nx}{rationale}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}flex gap\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{button}
+\PYG{+w}{                                  }\PYG{n+nx}{onClick}\PYG{o}{=}\PYG{p}{\PYGZob{}()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{accommodateContradiction}\PYG{p}{(}\PYG{n+nx}{contra}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{axiom}\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{                                  }\PYG{n+nx}{disabled}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{isProcessing}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                                  }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}green\PYGZhy{}500/30 hover:bg\PYGZhy{}green\PYGZhy{}500/40 px\PYGZhy{}4 py\PYGZhy{}2 rounded text\PYGZhy{}sm transition\PYGZhy{}colors disabled:opacity\PYGZhy{}50\PYGZdq{}}
+\PYG{+w}{                                }\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                  }\PYG{err}{🔄}\PYG{+w}{ }\PYG{n+nx}{Refine}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{Evolve}
+\PYG{+w}{                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/button\PYGZgt{}}
+\PYG{+w}{                                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{button}
+\PYG{+w}{                                  }\PYG{n+nx}{onClick}\PYG{o}{=}\PYG{p}{\PYGZob{}()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{autoAddAxiom}\PYG{p}{(}\PYG{n+nx}{axiom}\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{                                  }\PYG{n+nx}{disabled}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{isProcessing}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                                  }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}blue\PYGZhy{}500/30 hover:bg\PYGZhy{}blue\PYGZhy{}500/40 px\PYGZhy{}4 py\PYGZhy{}2 rounded text\PYGZhy{}sm transition\PYGZhy{}colors disabled:opacity\PYGZhy{}50\PYGZdq{}}
+\PYG{+w}{                                }\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                                  }\PYG{err}{⚡}\PYG{+w}{ }\PYG{n+nx}{Quick}\PYG{+w}{ }\PYG{n+nx}{Add}
+\PYG{+w}{                                }\PYG{o}{\PYGZlt{}}\PYG{err}{/button\PYGZgt{}}
+\PYG{+w}{                              }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                            }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                          }\PYG{p}{))\PYGZcb{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                    }\PYG{p}{))\PYGZcb{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{              }\PYG{p}{)\PYGZcb{}}
+
+\PYG{+w}{              }\PYG{p}{\PYGZob{}}\PYG{c+cm}{/* Pathology Detection */}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{              }\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{critique}\PYG{p}{.}\PYG{n+nx}{diagnostic}\PYG{p}{.}\PYG{n+nx}{pathology\PYGZus{}detected}\PYG{+w}{ }\PYG{o}{!==}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}none\PYGZsq{}}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}red\PYGZhy{}500/20 border border\PYGZhy{}red\PYGZhy{}500/30 p\PYGZhy{}4 rounded\PYGZhy{}lg\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{h3}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}font\PYGZhy{}semibold mb\PYGZhy{}2 flex items\PYGZhy{}center gap\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                    }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{XCircle}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}w\PYGZhy{}5 h\PYGZhy{}5\PYGZdq{}}\PYG{+w}{ }\PYG{o}{/\PYGZgt{}}
+\PYG{+w}{                    }\PYG{n+nx}{Pathology}\PYG{+w}{ }\PYG{n+nx}{Detected}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{critique}\PYG{p}{.}\PYG{n+nx}{diagnostic}\PYG{p}{.}\PYG{n+nx}{pathology\PYGZus{}detected}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{err}{/h3\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm text\PYGZhy{}red\PYGZhy{}200\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                    }\PYG{n+nx}{The}\PYG{+w}{ }\PYG{n+nx}{current}\PYG{+w}{ }\PYG{n+nx}{axiom}\PYG{+w}{ }\PYG{n+nx}{set}\PYG{+w}{ }\PYG{n+nx}{may}\PYG{+w}{ }\PYG{n+nx}{be}\PYG{+w}{ }\PYG{n+nx}{generating}\PYG{+w}{ }\PYG{n+nx}{a}\PYG{+w}{ }\PYG{n+nx}{pathological}\PYG{+w}{ }\PYG{n+nx}{pattern}\PYG{p}{.}
+\PYG{+w}{                    }\PYG{n+nx}{Consider}\PYG{+w}{ }\PYG{n+nx}{accepting}\PYG{+w}{ }\PYG{n+nx}{the}\PYG{+w}{ }\PYG{n+nx}{proposed}\PYG{+w}{ }\PYG{n+nx}{axioms}\PYG{+w}{ }\PYG{n+nx}{to}\PYG{+w}{ }\PYG{n+nx}{achieve}\PYG{+w}{ }\PYG{n+nx}{sublation}\PYG{p}{.}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{              }\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+
+\PYG{+w}{            }\PYG{p}{\PYGZob{}}\PYG{c+cm}{/* Follow\PYGZhy{}up Conversation */}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{p}{\PYGZob{}}\PYG{n+nx}{showFollowUp}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}white/10 backdrop\PYGZhy{}blur\PYGZhy{}lg rounded\PYGZhy{}lg p\PYGZhy{}6\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{h2}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}xl font\PYGZhy{}bold mb\PYGZhy{}4\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Dialectical}\PYG{+w}{ }\PYG{n+nx}{Refinement}\PYG{o}{\PYGZlt{}}\PYG{err}{/h2\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}purple\PYGZhy{}300 text\PYGZhy{}sm mb\PYGZhy{}4\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                  }\PYG{n+nx}{Clarify}\PYG{+w}{ }\PYG{n+nx}{the}\PYG{+w}{ }\PYG{n+nx}{interpretation}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{ask}\PYG{+w}{ }\PYG{n+nx}{about}\PYG{+w}{ }\PYG{n+nx}{specific}\PYG{+w}{ }\PYG{n+nx}{moves}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{or}\PYG{+w}{ }\PYG{n+nx}{challenge}\PYG{+w}{ }\PYG{n+nx}{the}\PYG{+w}{ }\PYG{n+nx}{framing}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+
+\PYG{+w}{                }\PYG{p}{\PYGZob{}}\PYG{c+cm}{/* Previous follow\PYGZhy{}ups */}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                }\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{followUps}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{followUps}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}mb\PYGZhy{}4 space\PYGZhy{}y\PYGZhy{}3\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                    }\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{followUps}\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{((}\PYG{n+nx}{fu}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{key}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{i}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}space\PYGZhy{}y\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}blue\PYGZhy{}500/20 p\PYGZhy{}3 rounded\PYGZhy{}lg\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                          }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm font\PYGZhy{}medium text\PYGZhy{}blue\PYGZhy{}300 mb\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{You}\PYG{+w}{ }\PYG{n+nx}{asked}\PYG{o}{:\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                          }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm text\PYGZhy{}blue\PYGZhy{}100\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{fu}\PYG{p}{.}\PYG{n+nx}{question}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}purple\PYGZhy{}500/20 p\PYGZhy{}3 rounded\PYGZhy{}lg\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                          }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm font\PYGZhy{}medium text\PYGZhy{}purple\PYGZhy{}300 mb\PYGZhy{}1\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{n+nx}{Response}\PYG{o}{:\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                          }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}sm text\PYGZhy{}purple\PYGZhy{}100 whitespace\PYGZhy{}pre\PYGZhy{}wrap\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{fu}\PYG{p}{.}\PYG{n+nx}{response}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{                        }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                      }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                    }\PYG{p}{))\PYGZcb{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{                }\PYG{p}{)\PYGZcb{}}
+
+\PYG{+w}{                }\PYG{p}{\PYGZob{}}\PYG{c+cm}{/* New follow\PYGZhy{}up input */}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}flex gap\PYGZhy{}3\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{textarea}
+\PYG{+w}{                    }\PYG{n+nx}{value}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{followUpQuestion}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                    }\PYG{n+nx}{onChange}\PYG{o}{=}\PYG{p}{\PYGZob{}(}\PYG{n+nx}{e}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{setFollowUpQuestion}\PYG{p}{(}\PYG{n+nx}{e}\PYG{p}{.}\PYG{n+nx}{target}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{                    }\PYG{n+nx}{placeholder}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}e.g., \PYGZsq{}But isn\PYGZsq{}t the temporal reading inconsistent with Hegel\PYGZsq{}s claim that logic is atemporal?\PYGZsq{} or \PYGZsq{}What about the role of negation here?\PYGZsq{}\PYGZdq{}}
+\PYG{+w}{                    }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}flex\PYGZhy{}1 bg\PYGZhy{}black/30 border border\PYGZhy{}purple\PYGZhy{}500/30 rounded\PYGZhy{}lg p\PYGZhy{}3 text\PYGZhy{}white placeholder\PYGZhy{}purple\PYGZhy{}300/50 focus:outline\PYGZhy{}none focus:border\PYGZhy{}purple\PYGZhy{}400 focus:ring\PYGZhy{}2 focus:ring\PYGZhy{}purple\PYGZhy{}400/20 min\PYGZhy{}h\PYGZhy{}[80px]\PYGZdq{}}
+\PYG{+w}{                    }\PYG{n+nx}{disabled}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{isProcessing}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                  }\PYG{o}{/\PYGZgt{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{button}
+\PYG{+w}{                    }\PYG{n+nx}{onClick}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{n+nx}{handleFollowUp}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                    }\PYG{n+nx}{disabled}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{o}{!}\PYG{n+nx}{followUpQuestion}\PYG{p}{.}\PYG{n+nx}{trim}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nx}{isProcessing}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                    }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}gradient\PYGZhy{}to\PYGZhy{}r from\PYGZhy{}purple\PYGZhy{}500 to\PYGZhy{}pink\PYGZhy{}500 hover:from\PYGZhy{}purple\PYGZhy{}600 hover:to\PYGZhy{}pink\PYGZhy{}600 disabled:from\PYGZhy{}gray\PYGZhy{}500 disabled:to\PYGZhy{}gray\PYGZhy{}600 px\PYGZhy{}6 rounded\PYGZhy{}lg font\PYGZhy{}medium transition\PYGZhy{}all self\PYGZhy{}end\PYGZdq{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZgt{}}
+\PYG{+w}{                    }\PYG{p}{\PYGZob{}}\PYG{n+nx}{isProcessing}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{Loader2}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}w\PYGZhy{}5 h\PYGZhy{}5 animate\PYGZhy{}spin\PYGZdq{}}\PYG{+w}{ }\PYG{o}{/\PYGZgt{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Ask\PYGZsq{}}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                  }\PYG{o}{\PYGZlt{}}\PYG{err}{/button\PYGZgt{}}
+\PYG{+w}{                }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{            }\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{          }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{        }\PYG{p}{)\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{error}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{          }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{div}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bg\PYGZhy{}red\PYGZhy{}500/20 border border\PYGZhy{}red\PYGZhy{}500/30 rounded\PYGZhy{}lg p\PYGZhy{}6\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{h2}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}xl font\PYGZhy{}bold mb\PYGZhy{}2 flex items\PYGZhy{}center gap\PYGZhy{}2\PYGZdq{}}\PYG{o}{\PYGZgt{}}
+\PYG{+w}{              }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{XCircle}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}w\PYGZhy{}5 h\PYGZhy{}5\PYGZdq{}}\PYG{+w}{ }\PYG{o}{/\PYGZgt{}}
+\PYG{+w}{              }\PYG{n+ne}{Error}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{err}{/h2\PYGZgt{}}
+\PYG{+w}{            }\PYG{o}{\PYGZlt{}}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}text\PYGZhy{}red\PYGZhy{}200\PYGZdq{}}\PYG{o}{\PYGZgt{}}\PYG{p}{\PYGZob{}}\PYG{n+nx}{interpretation}\PYG{p}{.}\PYG{n+nx}{message}\PYG{p}{\PYGZcb{}}\PYG{o}{\PYGZlt{}}\PYG{err}{/p\PYGZgt{}}
+\PYG{+w}{          }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{        }\PYG{p}{)\PYGZcb{}}
+\PYG{+w}{      }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{    }\PYG{o}{\PYGZlt{}}\PYG{err}{/div\PYGZgt{}}
+\PYG{+w}{  }\PYG{p}{);}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{k}{export}\PYG{+w}{ }\PYG{k}{default}\PYG{+w}{ }\PYG{n+nx}{DialecticalInterpreter}\PYG{p}{;}
+
+\end{MintedVerbatim}

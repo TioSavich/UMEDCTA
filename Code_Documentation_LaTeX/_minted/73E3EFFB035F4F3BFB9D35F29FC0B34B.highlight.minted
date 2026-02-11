@@ -1,0 +1,286 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}!DOCTYPE html\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{html}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{head}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{title}\PYG{p}{\PYGZgt{}}Division: Conversion to Groups Other than Bases (CGOB)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{title}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{link} \PYG{n+na}{rel}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}stylesheet\PYGZdq{}} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}strategy\PYGZus{}styles.css\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+  \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} MathJax support \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{script} \PYG{n+na}{type}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text/javascript\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}MathJax\PYGZhy{}script\PYGZdq{}} \PYG{n+na}{async}
+    \PYG{n+na}{src}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex\PYGZhy{}mml\PYGZhy{}chtml.js\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+\PYG{+w}{  }\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{head}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{body}\PYG{p}{\PYGZgt{}}
+
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}container\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}back\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}index.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}← Back to Calculator\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}Division: Conversion to Groups Other than Bases (CGOB) \PYGZhy{} Step Animation\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{label} \PYG{n+na}{for}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}divTotal\PYGZdq{}}\PYG{p}{\PYGZgt{}}Total Items (Dividend):\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{label}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{input} \PYG{n+na}{type}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}number\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}divTotal\PYGZdq{}} \PYG{n+na}{value}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}63\PYGZdq{}} \PYG{n+na}{min}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}1\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{label} \PYG{n+na}{for}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}divGroupSize\PYGZdq{}}\PYG{p}{\PYGZgt{}}Items per Group (Divisor):\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{label}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{input} \PYG{n+na}{type}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}number\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}divGroupSize\PYGZdq{}} \PYG{n+na}{value}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}9\PYGZdq{}} \PYG{n+na}{min}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}1\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}runCGOBDivAutomaton()\PYGZdq{}}\PYG{p}{\PYGZgt{}}Calculate and Visualize\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}outputContainer\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}Explanation (Notation):\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}divOutput\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+    \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} MathJax notation will appear here \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}Diagram:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}overflow: auto; max\PYGZhy{}height: 800px;\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{svg} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}divDiagram\PYGZdq{}} \PYG{n+na}{preserveAspectRatio}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}xMinYMin meet\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{defs}\PYG{p}{\PYGZgt{}}
+      \PYG{p}{\PYGZlt{}}\PYG{n+nt}{marker} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}arrowhead\PYGZhy{}orange\PYGZdq{}} \PYG{n+na}{markerWidth}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}10\PYGZdq{}} \PYG{n+na}{markerHeight}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}7\PYGZdq{}} \PYG{n+na}{refX}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}9\PYGZdq{}} \PYG{n+na}{refY}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}3.5\PYGZdq{}} \PYG{n+na}{orient}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}auto\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{polygon} \PYG{n+na}{points}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}0 0, 10 3.5, 0 7\PYGZdq{}} \PYG{n+na}{fill}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}orange\PYGZdq{}} \PYG{p}{/\PYGZgt{}}
+      \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{marker}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{defs}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{svg}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}step\PYGZhy{}controls\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}divPrevStep\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}step\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}prevDivStep()\PYGZdq{}} \PYG{n+na}{disabled}\PYG{p}{\PYGZgt{}}◀ Previous\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}divStepIndicator\PYGZdq{}}\PYG{p}{\PYGZgt{}}Step 0 / 0\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}divNextStep\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}step\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}nextDivStep()\PYGZdq{}}\PYG{p}{\PYGZgt{}}Next ▶\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\PYG{+w}{  }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Helper SVG Functions \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{  }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{drawBlock}\PYG{p}{(}\PYG{n+nx}{svg}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{size}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{fill}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}block\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{rect}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElementNS}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}http://www.w3.org/2000/svg\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}rect\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{rect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}x\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{rect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}y\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{rect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}width\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{size}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{rect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}height\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{size}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{rect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}fill\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{fill}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{rect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}stroke\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}black\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{rect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}class\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{svg}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{rect}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{width}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{size}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{height}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{size}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{cx}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{size}\PYG{o}{/}\PYG{l+m+mf}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{cy}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{size}\PYG{o}{/}\PYG{l+m+mf}{2}\PYG{+w}{ }\PYG{p}{\PYGZcb{};}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{createText}\PYG{p}{(}\PYG{n+nx}{svg}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{textContent}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}diagram\PYGZhy{}label\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{anchor}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}middle\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{text}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElementNS}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}http://www.w3.org/2000/svg\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}text\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{text}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}x\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{text}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}y\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{text}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}class\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{className}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{text}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}text\PYGZhy{}anchor\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{anchor}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{text}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{textContent}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{svg}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{text}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{text}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{createCurvedArrow}\PYG{p}{(}\PYG{n+nx}{svg}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{x1}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{y1}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{x2}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{y2}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{cx}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{cy}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{arrowClass}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}regroup\PYGZhy{}arrow\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{headId}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}arrowhead\PYGZhy{}orange\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{path}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElementNS}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}http://www.w3.org/2000/svg\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}path\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{path}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}fill\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}none\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{path}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}d\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+sb}{`M }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{x1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{y1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ Q }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{cx}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{cy}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{x2}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{y2}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{path}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}class\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{arrowClass}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{path}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}marker\PYGZhy{}end\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+sb}{`url(\PYGZsh{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{headId}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{)`}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{svg}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{path}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Global Variables for Division Animation \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{  }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{divTotal}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{divGroupSize}\PYG{p}{;}
+\PYG{+w}{  }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{divTens}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{divOnes}\PYG{p}{;}\PYG{+w}{       }\PYG{c+c1}{// From base\PYGZhy{}10 decomposition.}
+\PYG{+w}{  }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{divRemovePerTen}\PYG{p}{;}\PYG{+w}{        }\PYG{c+c1}{// Blocks to remove from each ten = 10 \PYGZhy{} divisor.}
+\PYG{+w}{  }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{divTotalMoves}\PYG{p}{;}\PYG{+w}{          }\PYG{c+c1}{// Total removal moves = divTens * divRemovePerTen.}
+\PYG{+w}{  }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{divAnimationSteps}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[];}\PYG{+w}{ }\PYG{c+c1}{// Array of moves: each move: \PYGZob{} tenIndex: i \PYGZcb{}.}
+\PYG{+w}{  }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{divCurrentStep}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{     }\PYG{c+c1}{// Current step (0 to divMaxStep).}
+\PYG{+w}{  }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{divMaxStep}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{         }\PYG{c+c1}{// Total steps = divTotalMoves + 1.}
+\PYG{+w}{  }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{divFinalQuotient}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{divFinalRemainder}\PYG{p}{;}
+
+\PYG{+w}{  }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Notation Generation for Division \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{  }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{generateDivNotation}\PYG{p}{(}\PYG{n+nx}{outputElement}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{totalItems}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{groupSize}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{tens}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{floor}\PYG{p}{(}\PYG{n+nx}{totalItems}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{ones}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{totalItems}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{extraPerTen}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{groupSize}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{totalExtra}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{tens}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{extraPerTen}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{onesFinal}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{ones}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{totalExtra}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{additionalGroups}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{floor}\PYG{p}{(}\PYG{n+nx}{onesFinal}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n+nx}{groupSize}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{quotient}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{tens}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{additionalGroups}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{remainder}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{onesFinal}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n+nx}{groupSize}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{output}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}h2\PYGZgt{}Conversion to Groups Other than Bases (CGOB) \PYGZhy{} Notation\PYGZlt{}/h2\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{output}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}div class=\PYGZdq{}notation\PYGZhy{}step\PYGZdq{}\PYGZgt{}\PYGZlt{}p class=\PYGZdq{}notation\PYGZhy{}line problem\PYGZdq{}\PYGZgt{}\PYGZbs{}\PYGZbs{}( }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{totalItems}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}div }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{groupSize}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ = ? \PYGZbs{}\PYGZbs{})\PYGZlt{}/p\PYGZgt{}\PYGZlt{}/div\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{output}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}div class=\PYGZdq{}notation\PYGZhy{}step\PYGZdq{}\PYGZgt{}\PYGZlt{}p class=\PYGZdq{}notation\PYGZhy{}line\PYGZdq{}\PYGZgt{}\PYGZbs{}\PYGZbs{}( }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{totalItems}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ = }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{tens}\PYG{o}{*}\PYG{l+m+mf}{10}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ + }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{ones}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{})\PYGZlt{}/p\PYGZgt{}\PYGZlt{}/div\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{output}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}div class=\PYGZdq{}notation\PYGZhy{}step\PYGZdq{}\PYGZgt{}\PYGZlt{}p class=\PYGZdq{}notation\PYGZhy{}line\PYGZdq{}\PYGZgt{}\PYGZbs{}\PYGZbs{}( = }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{tens}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}times 10 + }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{ones}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{})\PYGZlt{}/p\PYGZgt{}\PYGZlt{}/div\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{output}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}div class=\PYGZdq{}notation\PYGZhy{}step\PYGZdq{}\PYGZgt{}\PYGZlt{}p class=\PYGZdq{}notation\PYGZhy{}line\PYGZdq{}\PYGZgt{}\PYGZbs{}\PYGZbs{}( = }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{tens}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}times ( }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{groupSize}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ + }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{extraPerTen}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ ) + }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{ones}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{})\PYGZlt{}/p\PYGZgt{}\PYGZlt{}/div\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{output}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}div class=\PYGZdq{}notation\PYGZhy{}step\PYGZdq{}\PYGZgt{}\PYGZlt{}p class=\PYGZdq{}notation\PYGZhy{}line\PYGZdq{}\PYGZgt{}\PYGZbs{}\PYGZbs{}( = }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{tens}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}times }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{groupSize}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ + }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{tens}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZbs{}\PYGZbs{}times }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{extraPerTen}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ + }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{ones}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{})\PYGZlt{}/p\PYGZgt{}\PYGZlt{}/div\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{output}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}div class=\PYGZdq{}notation\PYGZhy{}step\PYGZdq{}\PYGZgt{}\PYGZlt{}p class=\PYGZdq{}notation\PYGZhy{}line\PYGZdq{}\PYGZgt{}\PYGZbs{}\PYGZbs{}( = }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{tens}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}times }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{groupSize}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ + }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{totalExtra}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{ones}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{})\PYGZlt{}/p\PYGZgt{}\PYGZlt{}/div\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{output}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}div class=\PYGZdq{}notation\PYGZhy{}step\PYGZdq{}\PYGZgt{}\PYGZlt{}p class=\PYGZdq{}notation\PYGZhy{}line\PYGZdq{}\PYGZgt{}\PYGZbs{}\PYGZbs{}( = }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{tens}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}times }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{groupSize}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ + }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{additionalGroups}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}times }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{groupSize}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{})\PYGZlt{}/p\PYGZgt{}\PYGZlt{}/div\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{output}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}div class=\PYGZdq{}notation\PYGZhy{}step\PYGZdq{}\PYGZgt{}\PYGZlt{}p class=\PYGZdq{}notation\PYGZhy{}line problem\PYGZdq{}\PYGZgt{}\PYGZbs{}\PYGZbs{}( = (}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{tens}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ + }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{additionalGroups}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{) \PYGZbs{}\PYGZbs{}times }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{groupSize}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{})\PYGZlt{}/p\PYGZgt{}\PYGZlt{}/div\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{output}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}div class=\PYGZdq{}notation\PYGZhy{}step\PYGZdq{}\PYGZgt{}\PYGZlt{}p class=\PYGZdq{}notation\PYGZhy{}line\PYGZdq{}\PYGZgt{}\PYGZbs{}\PYGZbs{}( = }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{quotient}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}times }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{groupSize}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{})\PYGZlt{}/p\PYGZgt{}\PYGZlt{}/div\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{output}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}div class=\PYGZdq{}notation\PYGZhy{}step\PYGZdq{}\PYGZgt{}\PYGZlt{}p class=\PYGZdq{}notation\PYGZhy{}line\PYGZdq{}\PYGZgt{}Thus, the number of groups is \PYGZbs{}\PYGZbs{}( }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{quotient}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}) with a remainder of \PYGZbs{}\PYGZbs{}( }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{remainder}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}).\PYGZlt{}/p\PYGZgt{}\PYGZlt{}/div\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{outputElement}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{output}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{if}\PYG{p}{(}\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{MathJax}\PYG{p}{)\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{MathJax}\PYG{p}{.}\PYG{n+nx}{typesetPromise}\PYG{p}{([}\PYG{n+nx}{outputElement}\PYG{p}{]);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nx}{divFinalQuotient}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{quotient}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{divFinalRemainder}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{remainder}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Division Animation Setup \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{  }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{setupDivAnimation}\PYG{p}{(}\PYG{n+nx}{totalItems}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{groupSize}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n+nx}{divTens}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{floor}\PYG{p}{(}\PYG{n+nx}{totalItems}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{divOnes}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{totalItems}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{divRemovePerTen}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{groupSize}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{divTotalMoves}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{divTens}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{divRemovePerTen}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{divAnimationSteps}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[];}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{r}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{r}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{divRemovePerTen}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{r}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{divTens}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nx}{divAnimationSteps}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{(\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{tenIndex}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nx}{divMaxStep}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{divTotalMoves}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// One extra step for final grouping overlay.}
+\PYG{+w}{    }\PYG{n+nx}{divCurrentStep}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Division Diagram Drawing \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{  }\PYG{c+c1}{// Always draw Phase 1 (the tens and ones pile) then, if at final step, overlay dotted outlines.}
+\PYG{+w}{  }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{drawDivDiagram}\PYG{p}{(}\PYG{n+nx}{svgId}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{totalItems}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{groupSize}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{currentStep}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{svg}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{n+nx}{svgId}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{svg}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{svg}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{unitSize}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{20}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{5}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{startX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{30}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{currentY}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{40}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{c+c1}{// PHASE 1: Draw tens and ones.}
+\PYG{+w}{    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{removedCounts}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nb}{Array}\PYG{p}{(}\PYG{n+nx}{divTens}\PYG{p}{).}\PYG{n+nx}{fill}\PYG{p}{(}\PYG{l+m+mf}{0}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{effectiveStep}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{min}\PYG{p}{(}\PYG{n+nx}{currentStep}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{divTotalMoves}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{s}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{s}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{effectiveStep}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{s}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{move}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{divAnimationSteps}\PYG{p}{[}\PYG{n+nx}{s}\PYG{p}{];}
+\PYG{+w}{      }\PYG{n+nx}{removedCounts}\PYG{p}{[}\PYG{n+nx}{move}\PYG{p}{.}\PYG{n+nx}{tenIndex}\PYG{p}{]}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{c+c1}{// Draw tens columns.}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{divTens}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{startX}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{unitSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{p}{);}
+\PYG{+w}{      }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{blocksRemaining}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{removedCounts}\PYG{p}{[}\PYG{n+nx}{i}\PYG{p}{];}
+\PYG{+w}{      }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{j}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{j}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{blocksRemaining}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{j}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nx}{drawBlock}\PYG{p}{(}\PYG{n+nx}{svg}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{currentY}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{j}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{unitSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{p}{),}\PYG{+w}{ }\PYG{n+nx}{unitSize}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}purple\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{c+c1}{// One label for tens.}
+\PYG{+w}{    }\PYG{n+nx}{createText}\PYG{p}{(}\PYG{n+nx}{svg}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{startX}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{divTens}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{unitSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{p}{))}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{currentY}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Tens or Groups from Tens\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}diagram\PYGZhy{}label\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Draw ones pile.}
+\PYG{+w}{    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{onesPile}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{divOnes}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{effectiveStep}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{onesX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{startX}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{onesY}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{currentY}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{unitSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{40}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{createText}\PYG{p}{(}\PYG{n+nx}{svg}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{onesX}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{50}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{onesY}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Ones\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}diagram\PYGZhy{}label\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{onesPile}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{drawBlock}\PYG{p}{(}\PYG{n+nx}{svg}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{onesX}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{unitSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{p}{),}\PYG{+w}{ }\PYG{n+nx}{onesY}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{unitSize}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}orange\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{c+c1}{// Draw an arrow for the most recent removal.}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{currentStep}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{currentStep}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{divTotalMoves}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{lastMove}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{divAnimationSteps}\PYG{p}{[}\PYG{n+nx}{currentStep}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{];}
+\PYG{+w}{      }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{donorX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{startX}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{lastMove}\PYG{p}{.}\PYG{n+nx}{tenIndex}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{unitSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{unitSize}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{donorY}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{currentY}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{10}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{removedCounts}\PYG{p}{[}\PYG{n+nx}{lastMove}\PYG{p}{.}\PYG{n+nx}{tenIndex}\PYG{p}{])}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{unitSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{unitSize}\PYG{o}{/}\PYG{l+m+mf}{2}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{targetX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{onesX}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{onesPile}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{unitSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{unitSize}\PYG{o}{/}\PYG{l+m+mf}{2}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{targetY}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{onesY}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{unitSize}\PYG{o}{/}\PYG{l+m+mf}{2}\PYG{p}{;}
+\PYG{+w}{      }\PYG{n+nx}{createCurvedArrow}\PYG{p}{(}\PYG{n+nx}{svg}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{donorX}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{donorY}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{targetX}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{targetY}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{donorX}\PYG{o}{+}\PYG{n+nx}{targetX}\PYG{p}{)}\PYG{o}{/}\PYG{l+m+mf}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{donorY}\PYG{o}{+}\PYG{n+nx}{targetY}\PYG{p}{)}\PYG{o}{/}\PYG{l+m+mf}{2}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{20}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// PHASE 2: At final step, overlay dotted outlines.}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{currentStep}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{n+nx}{divMaxStep}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{c+c1}{// Overlay dotted outlines around groups in the ones pile.}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{numComplete}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{floor}\PYG{p}{(}\PYG{n+nx}{onesPile}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n+nx}{divGroupSize}\PYG{p}{);}
+\PYG{+w}{      }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{g}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{g}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{numComplete}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{g}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{groupX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{onesX}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{g}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{divGroupSize}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{unitSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{outline}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElementNS}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}http://www.w3.org/2000/svg\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}rect\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{outline}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}x\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{groupX}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{outline}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}y\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{onesY}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{outline}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}width\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{divGroupSize}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{unitSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{4}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{outline}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}height\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{unitSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{4}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{outline}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}fill\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}none\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{outline}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}stroke\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}black\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{outline}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}stroke\PYGZhy{}dasharray\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}4 4\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{svg}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{outline}\PYG{p}{);}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{rem}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{onesPile}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n+nx}{divGroupSize}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{rem}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{groupX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{onesX}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{numComplete}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{divGroupSize}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{unitSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{outline}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElementNS}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}http://www.w3.org/2000/svg\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}rect\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{outline}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}x\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{groupX}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{outline}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}y\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{onesY}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{outline}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}width\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{rem}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{unitSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{4}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{outline}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}height\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{unitSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{4}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{outline}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}fill\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}none\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{outline}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}stroke\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}black\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{outline}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}stroke\PYGZhy{}dasharray\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}4 4\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{svg}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{outline}\PYG{p}{);}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nx}{svg}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}height\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{onesY}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{unitSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{100}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Step Navigation Functions \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{  }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{updateDivVisualization}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{indicator}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}divStepIndicator\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{indicator}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Step }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{divCurrentStep}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ / }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{divMaxStep}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}divPrevStep\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{disabled}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{divCurrentStep}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}divNextStep\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{disabled}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{divCurrentStep}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{n+nx}{divMaxStep}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{drawDivDiagram}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}divDiagram\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{divTotal}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{divGroupSize}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{divCurrentStep}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{prevDivStep}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{divCurrentStep}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{divCurrentStep}\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{p}{;}
+\PYG{+w}{      }\PYG{n+nx}{updateDivVisualization}\PYG{p}{();}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{nextDivStep}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{divCurrentStep}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{divMaxStep}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{divCurrentStep}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{      }\PYG{n+nx}{updateDivVisualization}\PYG{p}{();}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Main Division Automaton \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{  }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{runCGOBDivAutomaton}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{divTotal}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{parseInt}\PYG{p}{(}\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}divTotal\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{value}\PYG{p}{);}
+\PYG{+w}{      }\PYG{n+nx}{divGroupSize}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{parseInt}\PYG{p}{(}\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}divGroupSize\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{value}\PYG{p}{);}
+\PYG{+w}{      }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{isNaN}\PYG{p}{(}\PYG{n+nx}{divTotal}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{isNaN}\PYG{p}{(}\PYG{n+nx}{divGroupSize}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nx}{divTotal}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nx}{divGroupSize}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}divOutput\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Please enter valid positive numbers.\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}divDiagram\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{c+c1}{// Only apply strategy if divisor \PYGZlt{} 10.}
+\PYG{+w}{      }\PYG{k}{if}\PYG{p}{(}\PYG{n+nx}{divGroupSize}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}divOutput\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Direct division: \PYGZbs{}\PYGZbs{}( }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{divTotal}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}div }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{divGroupSize}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{})`}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}divDiagram\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{n+nx}{setupDivAnimation}\PYG{p}{(}\PYG{n+nx}{divTotal}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{divGroupSize}\PYG{p}{);}
+\PYG{+w}{      }\PYG{n+nx}{generateDivNotation}\PYG{p}{(}\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}divOutput\PYGZsq{}}\PYG{p}{),}\PYG{+w}{ }\PYG{n+nx}{divTotal}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{divGroupSize}\PYG{p}{);}
+\PYG{+w}{      }\PYG{n+nx}{divCurrentStep}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{      }\PYG{n+nx}{updateDivVisualization}\PYG{p}{();}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{catch}\PYG{p}{(}\PYG{n+nx}{error}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{error}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Error in runCGOBDivAutomaton:\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{error}\PYG{p}{);}
+\PYG{+w}{      }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}divOutput\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Error: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{error}\PYG{p}{.}\PYG{n+nx}{message}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{c+c1}{// Run automaton on page load.}
+\PYG{+w}{  }\PYG{n+nx}{runCGOBDivAutomaton}\PYG{p}{();}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}pdf\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}pdf\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}openPdfViewer()\PYGZdq{}}\PYG{p}{\PYGZgt{}}📄 Learn More: View Detailed PDF Documentation\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\PYG{+w}{    }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{openPdfViewer}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// Opens the PDF documentation for the strategy.}
+\PYG{+w}{        }\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{open}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}https://tiosavich.github.io/UMEDCTA/Calculator/SMR\PYGZus{}DIV\PYGZus{}Conversion\PYGZus{}to\PYGZus{}Groups\PYGZus{}Other\PYGZus{}than\PYGZus{}Bases.pdf\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}blank\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{body}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{html}\PYG{p}{\PYGZgt{}}
+
+\end{MintedVerbatim}

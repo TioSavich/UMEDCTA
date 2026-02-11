@@ -1,0 +1,85 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{sys}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{os}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{typing}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Dict}
+
+\PYG{c+c1}{\PYGZsh{} Add project root to path to allow importing from src}
+\PYG{n}{sys}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{abspath}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{dirname}\PYG{p}{(}\PYG{n+nv+vm}{\PYGZus{}\PYGZus{}file\PYGZus{}\PYGZus{}}\PYG{p}{),} \PYG{l+s+s1}{\PYGZsq{}../../../..\PYGZsq{}}\PYG{p}{)))}
+
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{src.automata.BaseAutomaton}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{BaseAutomaton}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{src.analysis.MUA\PYGZus{}Metadata}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{StrategyMetadata}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{DistributiveReasoningMultiplicationAutomaton}\PYG{p}{(}\PYG{n}{BaseAutomaton}\PYG{p}{):}
+    \PYG{n+nd}{@property}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{metadata}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{StrategyMetadata}\PYG{p}{:}
+        \PYG{k}{return} \PYG{n}{StrategyMetadata}\PYG{p}{(}
+            \PYG{n}{strategy\PYGZus{}id}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}SMR\PYGZus{}MULT\PYGZus{}DR\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{strategy\PYGZus{}name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Distributive Reasoning (Multiplication)\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{description}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Decompose S = S1 + S2, compute N*S1 and N*S2, then sum.\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{metaphors}\PYG{o}{=}\PYG{p}{[],}
+            \PYG{n}{inferences}\PYG{o}{=}\PYG{p}{[],}
+            \PYG{n}{visualization\PYGZus{}hints}\PYG{o}{=}\PYG{p}{[]}
+        \PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{inputs}\PYG{p}{:} \PYG{n}{Dict}\PYG{p}{,} \PYG{n}{Base}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{):}
+        \PYG{n+nb}{super}\PYG{p}{()}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n}{inputs}\PYG{p}{,} \PYG{n}{Base}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{o}{.}\PYG{n}{update}\PYG{p}{(\PYGZob{}}
+            \PYG{l+s+s1}{\PYGZsq{}N\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{inputs}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}N\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{),}   \PYG{c+c1}{\PYGZsh{} Multiplicand}
+            \PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{inputs}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{),}   \PYG{c+c1}{\PYGZsh{} Multiplier}
+            \PYG{l+s+s1}{\PYGZsq{}S1\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}S2\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}P1\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}P2\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}Total\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}
+        \PYG{p}{\PYGZcb{})}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}start}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Starting distributive reasoning: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}N\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ × }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}split\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}split}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Split S into S1 + S2.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{s} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{]}
+        \PYG{c+c1}{\PYGZsh{} Simple split: S1 = S//2, S2 = S \PYGZhy{} S1}
+        \PYG{n}{s1} \PYG{o}{=} \PYG{n}{s} \PYG{o}{//} \PYG{l+m+mi}{2}
+        \PYG{n}{s2} \PYG{o}{=} \PYG{n}{s} \PYG{o}{\PYGZhy{}} \PYG{n}{s1}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S1\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{s1}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S2\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{s2}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Split }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{s}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ into }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{s1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ + }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{s2}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}P1\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}P1}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Compute N × S1.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{n} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}N\PYGZsq{}}\PYG{p}{]}
+        \PYG{n}{s1} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S1\PYGZsq{}}\PYG{p}{]}
+        \PYG{n}{p1} \PYG{o}{=} \PYG{n}{n} \PYG{o}{*} \PYG{n}{s1}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}P1\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{p1}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Computed }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{n}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ × }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{s1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ = }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{p1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}P2\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}P2}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Compute N × S2.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{n} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}N\PYGZsq{}}\PYG{p}{]}
+        \PYG{n}{s2} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S2\PYGZsq{}}\PYG{p}{]}
+        \PYG{n}{p2} \PYG{o}{=} \PYG{n}{n} \PYG{o}{*} \PYG{n}{s2}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}P2\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{p2}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Computed }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{n}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ × }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{s2}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ = }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{p2}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}sum\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}sum}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Sum the partial products.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{p1} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}P1\PYGZsq{}}\PYG{p}{]}
+        \PYG{n}{p2} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}P2\PYGZsq{}}\PYG{p}{]}
+        \PYG{n}{total} \PYG{o}{=} \PYG{n}{p1} \PYG{o}{+} \PYG{n}{p2}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Total\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{total}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result} \PYG{o}{=} \PYG{n}{total}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Sum: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{p1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ + }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{p2}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ = }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{total}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{)}
+
+\end{MintedVerbatim}

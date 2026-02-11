@@ -1,0 +1,593 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{n+nt}{\PYGZdq{}patterns\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}base\PYGZus{}decomposition\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}decomposition\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategies\PYGZus{}using\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}DIV\PYGZus{}DealingByOnes\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}SUB\PYGZus{}Rounding\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}Rounding\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}DIV\PYGZus{}CGOB\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}usage\PYGZus{}count\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{4}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}incremental\PYGZus{}counting\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}counting\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategies\PYGZus{}using\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}COBO\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}MULT\PYGZus{}C2C\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}Counting\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}COBO\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}Chunking\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}usage\PYGZus{}count\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{5}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{  }\PYG{n+nt}{\PYGZdq{}elaborations\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}Rounding\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}SUB\PYGZus{}Rounding\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}base\PYGZus{}decomposition\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}inter\PYGZus{}categorial\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.0}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}Rounding\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}DIV\PYGZus{}CGOB\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}base\PYGZus{}decomposition\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}inter\PYGZus{}categorial\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.0}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}Rounding\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}DIV\PYGZus{}DealingByOnes\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}base\PYGZus{}decomposition\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}inter\PYGZus{}categorial\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.0}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}Counting\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}Chunking\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}incremental\PYGZus{}counting\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}intra\PYGZus{}categorial\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.0}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}Counting\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}COBO\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}incremental\PYGZus{}counting\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}intra\PYGZus{}categorial\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.0}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}Counting\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}COBO\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}incremental\PYGZus{}counting\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}inter\PYGZus{}categorial\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.0}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}Counting\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}MULT\PYGZus{}C2C\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}incremental\PYGZus{}counting\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}inter\PYGZus{}categorial\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.0}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}Chunking\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}COBO\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}incremental\PYGZus{}counting\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}intra\PYGZus{}categorial\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.0}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}Chunking\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}COBO\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}incremental\PYGZus{}counting\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}inter\PYGZus{}categorial\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.0}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}Chunking\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}MULT\PYGZus{}C2C\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}incremental\PYGZus{}counting\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}inter\PYGZus{}categorial\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.0}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}COBO\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}COBO\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}incremental\PYGZus{}counting\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}inter\PYGZus{}categorial\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.0}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}COBO\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}MULT\PYGZus{}C2C\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}incremental\PYGZus{}counting\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}inter\PYGZus{}categorial\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.0}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}COBO\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}MULT\PYGZus{}C2C\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}incremental\PYGZus{}counting\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}inter\PYGZus{}categorial\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.0}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}SUB\PYGZus{}Rounding\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}DIV\PYGZus{}CGOB\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}base\PYGZus{}decomposition\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}inter\PYGZus{}categorial\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.0}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}SUB\PYGZus{}Rounding\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}DIV\PYGZus{}DealingByOnes\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}base\PYGZus{}decomposition\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}inter\PYGZus{}categorial\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.0}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}base\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}DIV\PYGZus{}CGOB\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}elaborated\PYGZus{}strategy\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}DIV\PYGZus{}DealingByOnes\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}shared\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}base\PYGZus{}decomposition\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}intra\PYGZus{}categorial\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}confidence\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.0}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{p}{],}
+\PYG{+w}{  }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}patterns\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}ADD\PYGZus{}Rounding\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{      }\PYG{l+s+s2}{\PYGZdq{}base\PYGZus{}decomposition\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}CBBO\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}ADD\PYGZus{}Counting\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{      }\PYG{l+s+s2}{\PYGZdq{}incremental\PYGZus{}counting\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}ADD\PYGZus{}Chunking\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{      }\PYG{l+s+s2}{\PYGZdq{}incremental\PYGZus{}counting\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}ADD\PYGZus{}RMB\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}ADD\PYGZus{}COBO\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{      }\PYG{l+s+s2}{\PYGZdq{}incremental\PYGZus{}counting\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}COBO\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{      }\PYG{l+s+s2}{\PYGZdq{}incremental\PYGZus{}counting\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}SUB\PYGZus{}Sliding\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}SUB\PYGZus{}Decomposition\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}ChunkingC\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}ChunkingB\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}ChunkingA\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}SUB\PYGZus{}Rounding\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{      }\PYG{l+s+s2}{\PYGZdq{}base\PYGZus{}decomposition\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}MULT\PYGZus{}C2C\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{      }\PYG{l+s+s2}{\PYGZdq{}incremental\PYGZus{}counting\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}MULT\PYGZus{}Commutative\PYGZus{}Reasoning\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}MULT\PYGZus{}DR\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}MULT\PYGZus{}CBO\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}DIV\PYGZus{}CGOB\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{      }\PYG{l+s+s2}{\PYGZdq{}base\PYGZus{}decomposition\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}DIV\PYGZus{}IDR\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}DIV\PYGZus{}DealingByOnes\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{      }\PYG{l+s+s2}{\PYGZdq{}base\PYGZus{}decomposition\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}DIV\PYGZus{}UCR\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[]}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{  }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}metadata\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}ADD\PYGZus{}Rounding\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}SAR\PYGZus{}ADD\PYGZus{}Rounding\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Rounding and Adjusting (Addition)\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Select addend closer to next base: round up A \PYGZhy{}\PYGZgt{} A\PYGZsq{} = A + K, compute A\PYGZsq{} + B, then adjust back: (A\PYGZsq{} + B) \PYGZhy{} K.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}metaphors\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}inferences\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}visualization\PYGZus{}hints\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}deployed\PYGZus{}vocabulary\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}CBBO\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}CBBO\PYGZus{}Subtraction\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}CBBO (Counting Back \PYGZhy{} Take Away)\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Starts at the minuend (M) and counts back by the amount of the subtrahend (S), first by bases and then by ones. The result is the final value after taking away S.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}metaphors\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Arithmetic as Object Manipulation\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}source\PYGZus{}domain\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Object Manipulation\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}target\PYGZus{}domain\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Arithmetic\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}entailments\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Taking objects away from a collection reduces its size. The final size is the result.\PYGZdq{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}inferences\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Place Value Decomposition\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}premise\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}A number S can be decomposed into its place value parts (e.g., 65 = six 10s and five 1s).\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}conclusion\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}One can subtract S by sequentially taking away its component parts.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}prerequisites\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}Counting skills\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}Understanding of base\PYGZhy{}10 system\PYGZdq{}}
+\PYG{+w}{          }\PYG{p}{]}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}visualization\PYGZus{}hints\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}Blocks\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}NumberLine\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}deployed\PYGZus{}vocabulary\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}ADD\PYGZus{}Counting\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}SAR\PYGZus{}ADD\PYGZus{}Counting\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Counting and Counting On\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Sequential unit counting within a bounded base\PYGZhy{}10 place\PYGZhy{}value structure.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}metaphors\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}inferences\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}visualization\PYGZus{}hints\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}deployed\PYGZus{}vocabulary\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}ADD\PYGZus{}Chunking\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}SAR\PYGZus{}ADD\PYGZus{}Chunking\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Chunking by Bases and Ones\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Simulates an addition strategy where the second number (B) is decomposed into its base\PYGZhy{}ten and ones components. The base\PYGZhy{}ten part is added first, followed by a strategic addition of the ones, often involving \PYGZsq{}making a ten\PYGZsq{} (RMB logic).\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}metaphors\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Arithmetic as Object Manipulation\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}source\PYGZus{}domain\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Object Manipulation\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}target\PYGZus{}domain\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Arithmetic\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}entailments\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}A collection can be augmented by adding other collections to it. It\PYGZsq{}s often easier to add organized groups (like ten\PYGZhy{}blocks) first, then smaller items.\PYGZdq{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}inferences\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Place Value Decomposition\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}premise\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}A number can be decomposed into its constituent place value parts (e.g., 37 = 30 + 7).\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}conclusion\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Adding a number is equivalent to adding its parts sequentially.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}prerequisites\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}Understanding of base\PYGZhy{}10 system\PYGZdq{}}
+\PYG{+w}{          }\PYG{p}{]}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Rounding to Make Bases (RMB)\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}premise\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}It is easier to add from a number that is a multiple of the base.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}conclusion\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}A small quantity (K) can be added to reach a base, simplifying subsequent additions.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}prerequisites\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}Part\PYGZhy{}whole knowledge\PYGZdq{}}
+\PYG{+w}{          }\PYG{p}{]}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}visualization\PYGZus{}hints\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}Blocks\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}NumberLine\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}deployed\PYGZus{}vocabulary\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}ADD\PYGZus{}RMB\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}SAR\PYGZus{}ADD\PYGZus{}RMB\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}RMB (Rearranging to Make Bases)\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Simulates an addition strategy where one number is adjusted to a multiple of the base by \PYGZsq{}borrowing\PYGZsq{} from the other. For A + B, it calculates K needed to make A a base multiple, then computes (A+K) + (B\PYGZhy{}K).\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}metaphors\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Numbers as Physical Objects\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}source\PYGZus{}domain\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Object Collection\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}target\PYGZus{}domain\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Arithmetic\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}entailments\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}A collection can be split and its parts moved without changing the total quantity. Rearranging parts makes counting easier.\PYGZdq{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}inferences\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Conservation of Quantity\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}premise\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}If you move a quantity from one pile to another, the total amount remains the same.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}conclusion\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}A + B = (A + K) + (B \PYGZhy{} K).\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}prerequisites\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}Counting skills\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}Decomposition/Recomposition\PYGZdq{}}
+\PYG{+w}{          }\PYG{p}{]}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Making Tens\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}premise\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Adding to a multiple of ten is easier than adding to other numbers.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}conclusion\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Transforming the problem to be A\PYGZsq{} + B\PYGZsq{} where A\PYGZsq{} is a multiple of 10 simplifies the final addition.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}prerequisites\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}Knowledge of base\PYGZhy{}10 structure\PYGZdq{}}
+\PYG{+w}{          }\PYG{p}{]}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}visualization\PYGZus{}hints\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}Object Piles\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}NumberLine with Jumps\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}deployed\PYGZus{}vocabulary\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}ADD\PYGZus{}COBO\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}SAR\PYGZus{}ADD\PYGZus{}COBO\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}COBO (Counting On by Bases and Ones)\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Simulates an addition strategy where the second number (B) is decomposed into its base\PYGZhy{}ten and ones components. The strategy involves \PYGZsq{}counting on\PYGZsq{} from the first number (A), first by the number of bases in B, and then by the number of ones.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}metaphors\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Arithmetic as Motion Along a Path\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}source\PYGZus{}domain\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Motion\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}target\PYGZus{}domain\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Arithmetic\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}entailments\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Moving along a path can be done in segments. The final position is the sum of the starting position and the lengths of all segments.\PYGZdq{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}inferences\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Iterative Addition\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}premise\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}A quantity can be added by repeatedly adding a smaller unit.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}conclusion\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Adding a number B is equivalent to adding \PYGZsq{}1\PYGZsq{} B times, or adding \PYGZsq{}10\PYGZsq{} (B//10) times and then \PYGZsq{}1\PYGZsq{} (B\PYGZpc{}10) times.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}prerequisites\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}Counting skills\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}Place value decomposition\PYGZdq{}}
+\PYG{+w}{          }\PYG{p}{]}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}visualization\PYGZus{}hints\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}NumberLine\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}deployed\PYGZus{}vocabulary\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}COBO\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}COBO\PYGZus{}Subtraction\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}COBO (Counting On \PYGZhy{} Missing Addend)\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Starts at the subtrahend (S) and counts up to the minuend (M), first by bases and then by ones. The result is the total count (distance) added. This is a \PYGZsq{}missing addend\PYGZsq{} approach.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}metaphors\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Arithmetic as Motion Along a Path\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}source\PYGZus{}domain\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Motion\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}target\PYGZus{}domain\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Arithmetic\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}entailments\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}The distance between a starting point (S) and an ending point (M) is the length of the path traversed between them.\PYGZdq{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}inferences\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Iterative Measurement\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}premise\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}A distance can be measured by laying a unit of measure end\PYGZhy{}to\PYGZhy{}end.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}conclusion\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}The difference between two numbers can be found by repeatedly adding a unit (like 1 or 10) and counting the additions.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}prerequisites\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}Counting skills\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}Understanding of iteration\PYGZdq{}}
+\PYG{+w}{          }\PYG{p}{]}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}visualization\PYGZus{}hints\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}NumberLine\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}deployed\PYGZus{}vocabulary\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}SUB\PYGZus{}Sliding\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}SAR\PYGZus{}SUB\PYGZus{}Sliding\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Sliding to Make Bases (Constant Difference)\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Simulates the \PYGZsq{}Sliding\PYGZsq{} (Constant Difference) strategy for subtraction. The core idea is to add or subtract the same amount (K) to both the minuend and subtrahend to make the subtrahend a multiple of the base, simplifying the subtraction. This relies on the principle that the difference between two numbers remains constant if both are shifted by the same amount.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}metaphors\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Arithmetic as Motion Along a Path\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}source\PYGZus{}domain\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Motion\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}target\PYGZus{}domain\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Arithmetic\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}entailments\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}The distance between two points on a path remains the same if both points are shifted by the same amount in the same direction.\PYGZdq{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}inferences\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Invariance of Distance under Translation\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}premise\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}The distance between M and S is D.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}conclusion\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}The distance between (M+K) and (S+K) is also D.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}prerequisites\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}Understanding of path measurement\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}Experience with rigid motion\PYGZdq{}}
+\PYG{+w}{          }\PYG{p}{]}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}visualization\PYGZus{}hints\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}NumberLine\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}deployed\PYGZus{}vocabulary\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}SUB\PYGZus{}Decomposition\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}SAR\PYGZus{}SUB\PYGZus{}Decomposition\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Decomposition (Borrowing)\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Simulates the traditional \PYGZsq{}borrowing\PYGZsq{} or \PYGZsq{}decomposition\PYGZsq{} algorithm for subtraction. It processes numbers from left to right (or largest place value to smallest). If a digit in the minuend is smaller than the corresponding digit in the subtrahend, it \PYGZsq{}borrows\PYGZsq{} from the next higher place value.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}metaphors\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Arithmetic as Object Manipulation\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}source\PYGZus{}domain\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Object Manipulation\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}target\PYGZus{}domain\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Arithmetic\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}entailments\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}A larger object (like a ten\PYGZhy{}block) can be broken down or exchanged for an equivalent set of smaller objects (ten one\PYGZhy{}blocks).\PYGZdq{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}inferences\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Place Value Equivalence\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}premise\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}One unit of a higher place value (e.g., 1 Ten) is equivalent to a set number of units of the next lower place value (e.g., 10 Ones).\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}conclusion\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}A unit from a higher place value can be removed and its equivalent value added to a lower place value without changing the total quantity.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}prerequisites\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}Understanding of base\PYGZhy{}10 system\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}Part\PYGZhy{}whole knowledge\PYGZdq{}}
+\PYG{+w}{          }\PYG{p}{]}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}visualization\PYGZus{}hints\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}Blocks\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}deployed\PYGZus{}vocabulary\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}SUB\PYGZus{}Rounding\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}SAR\PYGZus{}SUB\PYGZus{}Rounding\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Subtraction Rounding and Adjusting\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Dual rounding yields simplified M\PYGZsq{} \PYGZhy{} S\PYGZsq{}, then contrasting compensations.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}metaphors\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}inferences\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}visualization\PYGZus{}hints\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}deployed\PYGZus{}vocabulary\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}MULT\PYGZus{}C2C\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}SMR\PYGZus{}MULT\PYGZus{}C2C\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Coordinating Two Counts (C2C)\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Nested counting: items within group, groups within total.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}metaphors\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}inferences\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}visualization\PYGZus{}hints\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}deployed\PYGZus{}vocabulary\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}MULT\PYGZus{}Commutative\PYGZus{}Reasoning\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}MULT\PYGZus{}COMM\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Commutative Reasoning (Multiplication)\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Selects the easier orientation for multiplication (e.g., 3 x 9 instead of 9 x 3) and then calculates via repeated addition.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}metaphors\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Arithmetic as Object Collection\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}source\PYGZus{}domain\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Object Collection\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}target\PYGZus{}domain\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Arithmetic\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}entailments\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}3 groups of 9 is the same total as 9 groups of 3. It\PYGZsq{}s easier to conceptualize and count the former.\PYGZdq{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}inferences\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Commutativity of Multiplication\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}premise\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}The order of factors does not change the product.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}conclusion\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}A x B is equivalent to B x A.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}prerequisites\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}Understanding that multiplication can represent groups of items\PYGZdq{}}
+\PYG{+w}{          }\PYG{p}{]}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Multiplication as Repeated Addition\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}premise\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Multiplying by N is equivalent to adding a number to itself N times.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}conclusion\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}The product can be found by iterating additions.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}prerequisites\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}Addition skills\PYGZdq{}}
+\PYG{+w}{          }\PYG{p}{]}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}visualization\PYGZus{}hints\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}ObjectArrays\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}deployed\PYGZus{}vocabulary\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}MULT\PYGZus{}DR\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}SMR\PYGZus{}MULT\PYGZus{}DR\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Distributive Reasoning (Multiplication)\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Decompose S = S1 + S2, compute N*S1 and N*S2, then sum.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}metaphors\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}inferences\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}visualization\PYGZus{}hints\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}deployed\PYGZus{}vocabulary\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}MULT\PYGZus{}CBO\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}MULT\PYGZus{}CBO\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Conversion to Bases and Ones (CBO Multiplication)\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Calculates A x B by decomposing B into its base and ones components (B\PYGZus{}base + B\PYGZus{}ones), calculating the partial products (A * B\PYGZus{}base and A * B\PYGZus{}ones), and summing them.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}metaphors\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Arithmetic as Object Collection\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}source\PYGZus{}domain\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Object Collection\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}target\PYGZus{}domain\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Arithmetic\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}entailments\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}A collection of groups can be counted by first counting the items in the large groups (bases) and then counting the items in the small groups (ones).\PYGZdq{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}inferences\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Distributive Property of Multiplication\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}premise\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Multiplication distributes over addition.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}conclusion\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}A x (B + C) is equivalent to (A x B) + (A x C).\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{n+nt}{\PYGZdq{}prerequisites\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}Understanding of multiplication and addition\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}Number decomposition\PYGZdq{}}
+\PYG{+w}{          }\PYG{p}{]}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}visualization\PYGZus{}hints\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}ObjectArrays\PYGZdq{}}
+\PYG{+w}{      }\PYG{p}{],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}deployed\PYGZus{}vocabulary\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}DIV\PYGZus{}CGOB\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}SMR\PYGZus{}DIV\PYGZus{}CGOB\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Conversion to Groups Other than Bases (CGOB Division)\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Leverage base decomposition of dividend T and analysis of base/divisor relation.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}metaphors\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}inferences\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}visualization\PYGZus{}hints\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}deployed\PYGZus{}vocabulary\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}DIV\PYGZus{}IDR\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}SMR\PYGZus{}DIV\PYGZus{}IDR\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Inverse Distributive Reasoning (Division)\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Decompose T into known multiples of S: T = sum(m\PYGZus{}i * S); quotient = sum(m\PYGZus{}i).\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}metaphors\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}inferences\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}visualization\PYGZus{}hints\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}deployed\PYGZus{}vocabulary\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}DIV\PYGZus{}DealingByOnes\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}SMR\PYGZus{}DIV\PYGZus{}DealingByOnes\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Dealing by Ones (Division \PYGZhy{} Sharing)\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Distribute single units round\PYGZhy{}robin into N groups until total T exhausted.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}metaphors\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}inferences\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}visualization\PYGZus{}hints\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}deployed\PYGZus{}vocabulary\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}DIV\PYGZus{}UCR\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}SMR\PYGZus{}DIV\PYGZus{}UCR\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}strategy\PYGZus{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Using Commutative Reasoning (Division)\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}For E / G: iteratively accumulate G until total E reached; iteration count is quotient.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}metaphors\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}inferences\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}visualization\PYGZus{}hints\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[],}
+\PYG{+w}{      }\PYG{n+nt}{\PYGZdq{}deployed\PYGZus{}vocabulary\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{  }\PYG{n+nt}{\PYGZdq{}metaphor\PYGZus{}sharing\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}Arithmetic as Object Manipulation\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{      }\PYG{l+s+s2}{\PYGZdq{}CBBO\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}Chunking\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{l+s+s2}{\PYGZdq{}SUB\PYGZus{}Decomposition\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}Numbers as Physical Objects\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{      }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}RMB\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}Arithmetic as Motion Along a Path\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{      }\PYG{l+s+s2}{\PYGZdq{}ADD\PYGZus{}COBO\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{l+s+s2}{\PYGZdq{}COBO\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{l+s+s2}{\PYGZdq{}SUB\PYGZus{}Sliding\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}Arithmetic as Object Collection\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{      }\PYG{l+s+s2}{\PYGZdq{}MULT\PYGZus{}Commutative\PYGZus{}Reasoning\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{l+s+s2}{\PYGZdq{}MULT\PYGZus{}CBO\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{]}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

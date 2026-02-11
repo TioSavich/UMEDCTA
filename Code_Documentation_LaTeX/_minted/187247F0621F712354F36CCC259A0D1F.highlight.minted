@@ -1,0 +1,592 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{g+gh}{\PYGZsh{} UMEDCA Computational Model: Architectural Refactoring Plan}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Introduction: Aligning Architecture with Philosophy}
+
+This report outlines a strategic refactoring of the UMEDCA computational
+model. The current codebase exhibits an \PYGZbs{}\PYGZdq{}architectural drift,\PYGZbs{}\PYGZdq{}
+functioning as both a pre\PYGZhy{}programmed library of student strategies and a
+nascent bootstrapping machine.\PYGZca{}1\PYGZca{} This duality obscures the core
+philosophical argument of the manuscript: that mathematical knowledge is
+not a static formalism to be applied but an emergent structure built
+through embodied practice, crisis, and recognition.\PYGZca{}1\PYGZca{} The following
+plan will resolve this drift by architecturally separating these two
+functions. This process will forge a \PYGZbs{}\PYGZdq{}primordial machine\PYGZbs{}\PYGZdq{} that begins
+with only the most basic capabilities and is forced to learn, and it
+will repurpose the existing strategy library as a \PYGZbs{}\PYGZdq{}normative
+oracle\PYGZbs{}\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZhy{}an external source of truth that the primordial machine can
+observe but not directly access. This restructuring will transform the
+codebase into a true computational autoethnography, where the system\PYGZbs{}\PYGZsq{}s
+learning history mirrors the developmental journey from embodied action
+to abstract reason that the manuscript so powerfully articulates.\PYGZca{}1\PYGZca{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Part I: TODOs for the VS Code Agent \PYGZhy{}\PYGZhy{}\PYGZhy{} Forging the Primordial Machine}
+
+This section details the construction of the \PYGZbs{}\PYGZdq{}primordial machine.\PYGZbs{}\PYGZdq{} Its
+initial state must be radically minimal, possessing only the capacity
+for embodied counting and a mechanism to learn from failure. This aligns
+with the mandate that \PYGZbs{}\PYGZdq{}EVERYTHING to be as emergent as possible\PYGZbs{}\PYGZdq{} and
+the critique of hard\PYGZhy{}coded, static formalisms.\PYGZca{}1\PYGZca{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Isolate the Primordial Machine: Defining the Bootstrap Kernel}
+
+The first step is to architecturally define the machine\PYGZbs{}\PYGZsq{}s starting
+point. This kernel represents the absolute minimum set of cognitive
+tools necessary for bootstrapping, reflecting the manuscript\PYGZbs{}\PYGZsq{}s focus on
+grounding mathematics in the most basic embodied actions.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**TODO: Create a new main execution file, primordial\PYGZus{}start.pl.**}
+    This file will act as the entry point for the learning system and
+    will be responsible for loading only the essential kernel modules.
+    This enforces a strict separation from the full library of
+    strategies.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**TODO: In primordial\PYGZus{}start.pl, load only the following modules:**}
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  config.pl: For system\PYGZhy{}wide settings like inference limits.
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  grounded\PYGZus{}arithmetic.pl: The core of embodiment. Its
+        recollection(\PYGZbs{}[tally\PYGZbs{}|\PYGZbs{}...\PYGZbs{}]) structure and successor/2
+        predicate are the foundational axioms of the system.\PYGZca{}1\PYGZca{}
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  object\PYGZus{}level.pl: The machine\PYGZbs{}\PYGZsq{}s dynamic knowledge base.
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  The Observe\PYGZhy{}Reflect\PYGZhy{}Reorganize (ORR) cycle components:
+        meta\PYGZus{}interpreter.pl, reflective\PYGZus{}monitor.pl,
+        reorganization\PYGZus{}engine.pl, and execution\PYGZus{}handler.pl.\PYGZca{}1\PYGZca{}
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  The learning engine: more\PYGZus{}machine\PYGZus{}learner.pl.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **TODO: Drastically simplify object\PYGZus{}level.pl for the initial
+    state.**
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  Ensure the only arithmetic rule defined is the inefficient add/3
+        predicate that relies on enumerate/1.\PYGZca{}1\PYGZca{} This predicate
+        computationally models the \PYGZbs{}\PYGZdq{}Counting All\PYGZbs{}\PYGZdq{} strategy\PYGZhy{}\PYGZhy{}\PYGZhy{}the most
+        primitive form of addition, directly reflecting an embodied,
+        one\PYGZhy{}by\PYGZhy{}one process.
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **Crucially, remove or comment out all other rules (subtract/3,
+        multiply/3, etc.).** The machine must not possess these
+        capabilities at genesis. They must be learned. This directly
+        implements the principle of avoiding pre\PYGZhy{}loaded knowledge like
+        Peano arithmetic.\PYGZca{}1\PYGZca{}
+
+The proposed kernel, with its reliance on the successor function from
+grounded\PYGZus{}arithmetic.pl and the inefficient enumerate\PYGZhy{}based add/3
+predicate, is not just a minimal starting point; it is a computational
+analogue to the concept of \PYGZbs{}\PYGZdq{}Sense\PYGZhy{}Certainty\PYGZbs{}\PYGZdq{} from Hegel\PYGZbs{}\PYGZsq{}s
+\PYG{g+ge}{*Phenomenology of Spirit*}, as discussed in the manuscript.\PYGZca{}1\PYGZca{} Hegel\PYGZbs{}\PYGZsq{}s
+\PYGZbs{}\PYGZdq{}Sense\PYGZhy{}Certainty\PYGZbs{}\PYGZdq{} represents the most immediate and seemingly simple
+form of knowledge (\PYGZbs{}\PYGZdq{}this, here, now\PYGZbs{}\PYGZdq{}), which believes it grasps pure
+particularity but quickly falls into contradiction because the language
+it uses is inherently universal.
+
+The kernel\PYGZbs{}\PYGZsq{}s \PYGZbs{}\PYGZdq{}Counting All\PYGZbs{}\PYGZdq{} strategy is the computational equivalent
+of this philosophical stage. It is the most direct, concrete, and
+un\PYGZhy{}abstracted way to perform addition\PYGZhy{}\PYGZhy{}\PYGZhy{}a one\PYGZhy{}to\PYGZhy{}one correspondence with
+the physical act of counting objects. It treats every number not as an
+abstract concept but as a particular collection of \PYGZbs{}\PYGZdq{}tally\PYGZbs{}\PYGZdq{} tokens
+stored in a recollection structure.\PYGZca{}1\PYGZca{} Just as Sense\PYGZhy{}Certainty breaks
+down when it attempts to express its limited understanding, the
+\PYGZbs{}\PYGZdq{}Counting All\PYGZbs{}\PYGZdq{} strategy will break down when faced with a problem that
+requires too many steps (e.g., adding 8+5), exceeding its defined
+inference limit. This failure is the engine of its dialectical
+progression. By structuring the kernel this way, the system instantiates
+the first moment of the dialectical journey of knowledge described in
+UMEDCA. The machine\PYGZbs{}\PYGZsq{}s first crisis will be the computational refutation
+of its own primitive immediacy.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. Refine the Learning\PYGZhy{}through\PYGZhy{}Crisis Cycle}
+
+The machine must learn only when it is forced to do so. Learning must be
+a necessary response to a \PYGZbs{}\PYGZdq{}productive disruption,\PYGZbs{}\PYGZdq{} aligning with the
+\PYGZbs{}\PYGZdq{}Built to Break\PYGZbs{}\PYGZdq{} philosophy and the role of error and crisis as
+drivers of development.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**TODO: In config.pl, set the global inference limit.**}
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  Define max\PYGZus{}inferences(10). This value is critical, as it defines
+        the machine\PYGZbs{}\PYGZsq{}s \PYGZbs{}\PYGZdq{}inferential capacity.\PYGZbs{}\PYGZdq{} It is small enough to
+        make the primordial \PYGZbs{}\PYGZdq{}Counting All\PYGZbs{}\PYGZdq{} strategy fail on trivial
+        problems (like 8+5, which requires 5 steps), thus guaranteeing
+        the first crisis occurs early and productively.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **TODO: Modify execution\PYGZus{}handler.pl and reorganization\PYGZus{}engine.pl to
+    make crisis the \PYG{g+ge}{*exclusive*} trigger for learning.**
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  The run\PYGZus{}computation/2 predicate in execution\PYGZus{}handler.pl uses a
+        catch/3 to trap perturbations from the meta\PYGZus{}interpreter.pl.\PYGZca{}1\PYGZca{}
+        Ensure that the\PYGZbs{}
+        \PYG{g+ge}{*only*} perturbation that can trigger a call to
+        reorganization\PYGZus{}engine.pl is perturbation(resource\PYGZus{}exhaustion).
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  This ensures that learning is not an optional or proactive
+        process but a reactive, necessary accommodation to cognitive
+        failure. The system only changes when its current way of being
+        in the world is proven inadequate.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **TODO: Redesign the curriculum files to create a developmental
+    trajectory.**
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  The system should only ever be run using
+        crisis\PYGZus{}curriculum.txt.\PYGZca{}1\PYGZca{}
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  Structure this file as a series of tasks that intentionally
+        induce crises. For example:
+
+\PYG{+w}{        }\PYG{k}{1.}  add(2,3): Solvable within 10 steps. The machine succeeds
+            with its primitive \PYGZbs{}\PYGZdq{}Counting All\PYGZbs{}\PYGZdq{} method.
+
+\PYG{+w}{        }\PYG{k}{2.}  add(8,5): Unsolvable. Requires 5 steps, but the overhead of
+            enumerate will push it over the 10\PYGZhy{}step limit. This triggers
+            the first resource\PYGZus{}exhaustion crisis.
+
+\PYG{+w}{        }\PYG{k}{3.}  add(3,8): After learning a more efficient strategy for 8+5,
+            this task will test if the machine can generalize or if it
+            needs to learn commutativity.
+
+\PYG{+w}{        }\PYG{k}{4.}  multiply(3,4): The machine has no multiply/3 predicate. This
+            will cause a failure, but not resource\PYGZus{}exhaustion. This is a
+            new \PYG{g+ge}{*kind*} of crisis\PYGZhy{}\PYGZhy{}\PYGZhy{}a failure of expressive power\PYGZhy{}\PYGZhy{}\PYGZhy{}that
+            will require a different learning response.
+
+This curriculum structure is not merely a set of test cases; it is a
+pedagogical implementation of the dialectic between the \PYGZbs{}\PYGZdq{}finite\PYGZbs{}\PYGZdq{} and
+the \PYGZbs{}\PYGZdq{}infinite\PYGZbs{}\PYGZdq{} discussed in the manuscript.\PYGZca{}1\PYGZca{} The machine\PYGZbs{}\PYGZsq{}s current
+knowledge represents its \PYGZbs{}\PYGZdq{}finite\PYGZbs{}\PYGZdq{} self\PYGZhy{}\PYGZhy{}\PYGZhy{}a bounded, determinate set of
+capabilities, with the
+
+max\PYGZus{}inferences(10) limit serving as the explicit formalization of this
+finitude. The curriculum presents tasks that gesture towards an
+\PYGZbs{}\PYGZdq{}infinite\PYGZbs{}\PYGZdq{} demand\PYGZhy{}\PYGZhy{}\PYGZhy{}the endless set of possible arithmetic problems. A
+\PYGZbs{}\PYGZdq{}crisis\PYGZbs{}\PYGZdq{} occurs when a task from this infinite demand, such as
+add(8,5), cannot be contained within the machine\PYGZbs{}\PYGZsq{}s finite capacity.
+\PYGZbs{}\PYGZdq{}Bootstrapping\PYGZbs{}\PYGZdq{} becomes the dialectical resolution: the machine must
+transcend its current finite self to accommodate the new demand, thereby
+expanding its finitude to a new, more capable state. The entire learning
+process becomes a computational model of Hegelian \PYG{g+ge}{*sublation*}
+(Aufhebung). The old, inadequate strategy is not simply discarded; it is
+preserved as part of the developmental history, negated by its failure,
+and uplifted into a new, more powerful form. This directly connects the
+code\PYGZbs{}\PYGZsq{}s behavior to the core philosophical engine of UMEDCA.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Implement a Developmental Knowledge System (Avoiding retract)}
+
+The concern about the retract function is philosophically crucial. A
+system that simply erases its past cannot have a developmental history.
+The implementation of a knowledge system that preserves this history is
+necessary, treating learning as an accumulation of increasingly
+sophisticated perspectives, much like the autoethnographic method of the
+manuscript.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**TODO: Modify more\PYGZus{}machine\PYGZus{}learner.pl to manage assertions.**}
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  When the learner synthesizes a new strategy, it should continue
+        to use assertz/1 to add the new run\PYGZus{}learned\PYGZus{}strategy/5 clause to
+        the dynamic database (or learned\PYGZus{}knowledge.pl for
+        persistence).\PYGZca{}1\PYGZca{}\PYGZbs{}
+        **Crucially, it must never call retract/1 on a previously
+        learned strategy.**
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **TODO: Re\PYGZhy{}architect the strategy invocation logic in
+    execution\PYGZus{}handler.pl.**
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  When run\PYGZus{}computation/2 is called with a goal like add(A,B), it
+        must not immediately default to the primitive
+        object\PYGZus{}level:add/3.
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  Instead, it must first attempt to solve the goal by querying the
+        learned strategies. It should query them in *reverse order of
+        assertion* (last\PYGZhy{}in, first\PYGZhy{}out). Prolog\PYGZbs{}\PYGZsq{}s clause/2 can be used
+        to find all matching run\PYGZus{}learned\PYGZus{}strategy clauses and try them
+        sequentially.
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**The fallback hierarchy should be:**}
+
+\PYG{+w}{        }\PYG{k}{1.}  Try the most recently learned strategy.
+
+\PYG{+w}{        }\PYG{k}{2.}  If that fails, try the second most recent.
+
+\PYG{+w}{        }\PYG{k}{3.}  \PYGZbs{}...and so on, through all learned strategies.
+
+\PYG{+w}{        }\PYG{k}{4.}  Only if \PYG{g+ge}{*all*} learned strategies fail does it fall back to
+            the primordial, inefficient object\PYGZus{}level:add/3.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**TODO: Log the strategy selection.**} When a strategy is
+    successfully chosen, its name (e.g., rmb(10)) should be logged as
+    part of the execution trace. This makes the system\PYGZbs{}\PYGZsq{}s developmental
+    stage explicit in its output.
+
+This hierarchical, non\PYGZhy{}destructive approach to knowledge management
+creates a \PYGZbs{}\PYGZdq{}geological record\PYGZbs{}\PYGZdq{} of the machine\PYGZbs{}\PYGZsq{}s cognitive development.
+Each learned strategy is a layer of sediment deposited on top of the
+previous ones. The primordial \PYGZbs{}\PYGZdq{}Counting All\PYGZbs{}\PYGZdq{} is the bedrock. The first
+learned strategy, perhaps \PYGZbs{}\PYGZdq{}Counting On,\PYGZbs{}\PYGZdq{} is the first sedimentary
+layer. A later, more sophisticated strategy like \PYGZbs{}\PYGZdq{}Rearranging to Make
+Bases\PYGZbs{}\PYGZdq{} is a newer layer deposited on top. When solving a problem, the
+system starts at the surface (the newest layer) and drills down only as
+needed. This process of searching through the layers is itself a form of
+recollection. This architecture transforms the learned\PYGZus{}knowledge.pl file
+from a simple database into a computational autoethnography. It
+preserves the full history of the machine\PYGZbs{}\PYGZsq{}s \PYGZbs{}\PYGZdq{}becoming,\PYGZbs{}\PYGZdq{} allowing an
+observer to trace the evolution of its mathematical understanding from
+its most primitive, embodied state to its most abstract, directly
+implementing the methodological framework of UMEDCA.\PYGZca{}1\PYGZca{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Part II: TODOs for the VS Code Agent \PYGZhy{}\PYGZhy{}\PYGZhy{} The Library as Normative Oracle}
+
+This is the most significant architectural refactoring. The direct link
+between the learner and the pre\PYGZhy{}defined strategies will be severed,
+transforming the sar\PYGZbs{}\PYGZus{} and smr\PYGZbs{}\PYGZus{} modules into a \PYGZbs{}\PYGZdq{}black box\PYGZbs{}\PYGZdq{} oracle.
+This forces the learner into a position of \PYGZbs{}\PYGZdq{}recognition\PYGZbs{}\PYGZdq{} rather than
+\PYGZbs{}\PYGZdq{}introspection,\PYGZbs{}\PYGZdq{} aligning with the goal of modeling how one might
+understand a strategy from its external results without access to its
+internal mechanism.\PYGZca{}1\PYGZca{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Build the Oracle Interface}
+
+The pre\PYGZhy{}defined strategies must be isolated in a separate process,
+accessible only through a limited, formal interface.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**TODO: Create a new top\PYGZhy{}level file, oracle\PYGZus{}server.pl.**}
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  This server will load the hermeneutic\PYGZus{}calculator.pl dispatcher
+        and, by extension, all sar\PYGZbs{}\PYGZus{}\PYGZbs{}*.pl and smr\PYGZbs{}\PYGZus{}\PYGZbs{}*.pl modules.\PYGZca{}1\PYGZca{}
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  It will expose a single predicate, query\PYGZus{}oracle(+Operation,
+        +StrategyName, \PYGZhy{}Result, \PYGZhy{}Interpretation). For example,
+        query\PYGZus{}oracle(add(8,5), rmb, Result, Interp).
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**TODO: Implement the query\PYGZus{}oracle/4 predicate.**}
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  This predicate will use hermeneutic\PYGZus{}calculator:calculate/6 to
+        execute the requested strategy.\PYGZca{}1\PYGZca{}
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  It will capture the final numerical result and the final textual
+        interpretation string from the execution history.
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**Crucially, it must discard the rest of the execution trace.**}
+        The primordial machine must be denied access to the step\PYGZhy{}by\PYGZhy{}step
+        internal states and transitions of the expert strategies. This
+        enforces the black box constraint.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 5. Re\PYGZhy{}architect the Learner for Recognition\PYGZhy{}Based Synthesis}
+
+This change transforms the learner from a pattern\PYGZhy{}matcher into a true
+synthesizer, fulfilling the manuscript\PYGZbs{}\PYGZsq{}s vision of Pragmatic Expressive
+Bootstrapping.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **TODO: Excise all pattern\PYGZhy{}detection heuristics from
+    more\PYGZus{}machine\PYGZus{}learner.pl.**
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **Delete detect\PYGZus{}cob\PYGZus{}pattern/2, detect\PYGZus{}rmb\PYGZus{}pattern/2,
+        construct\PYGZus{}and\PYGZus{}validate\PYGZus{}cob/2, construct\PYGZus{}and\PYGZus{}validate\PYGZus{}rmb/3,
+        etc.**.\PYGZca{}1\PYGZca{} The learner is no longer allowed to have this
+        \PYGZbs{}\PYGZdq{}innate\PYGZbs{}\PYGZdq{} knowledge of specific strategy patterns. Its learning
+        must be more fundamental.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **TODO: Modify reorganization\PYGZus{}engine.pl to consult the Oracle upon
+    crisis.**
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  When a resource\PYGZus{}exhaustion crisis occurs for a goal like
+        add(8,5), the engine\PYGZbs{}\PYGZsq{}s new response is:
+
+\PYG{+w}{        }\PYG{k}{1.}  Query the oracle: query\PYGZus{}oracle(add(8,5), Strategy, Result,
+            Interp). For now, it can ask for \PYG{g+ge}{*any*} valid strategy. The
+            oracle might return Result = 13 and Interp = \PYGZbs{}\PYGZsq{}Count on from
+            bigger.\PYGZbs{}\PYGZsq{} for the cobo strategy.
+
+\PYG{+w}{        }\PYG{k}{2.}  Invoke the learner with a new, more complex task:
+            synthesize\PYGZus{}strategy(Goal, FailedTrace, TargetResult,
+            TargetInterpretation).
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **TODO: Re\PYGZhy{}implement the core of more\PYGZus{}machine\PYGZus{}learner.pl as a
+    synthesis engine.**
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  The synthesize\PYGZus{}strategy/4 predicate is the new heart of the
+        learner. Its job is to generate a new set of transition/4 rules
+        for a new FSM that solves the Goal.
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  This is a search problem. The learner must search the space of
+        possible FSMs, using its primitive operations (successor,
+        predecessor, decompose\PYGZus{}base10 from grounded\PYGZus{}utils.pl) as
+        building blocks for the transition logic.
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  The search is guided by two constraints:
+
+\PYG{+w}{        }\PYG{k}{1.}  The synthesized FSM must produce the TargetResult (e.g.,
+            13).
+
+\PYG{+w}{        }\PYG{k}{2.}  The FSM\PYGZbs{}\PYGZsq{}s execution, when run through the meta\PYGZus{}interpreter,
+            must not exceed the max\PYGZus{}inferences limit.
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  The TargetInterpretation string can be used as a heuristic hint
+        to guide the search, but this is a complex extension.
+
+This new architecture places the learner in the exact phenomenological
+position described in the manuscript: it hears the \PYGZbs{}\PYGZdq{}answer\PYGZbs{}\PYGZdq{} from a
+friend (the oracle) and must now figure out \PYG{g+ge}{*how they did it*} using only
+its own limited cognitive resources. The manuscript poses the question:
+if you heard a friend say \PYGZbs{}\PYGZdq{}I added 5+7 by moving 3 ones from the 5 to
+make the 7 a ten\PYGZbs{}...\PYGZbs{}\PYGZdq{}, how could you figure out the states and
+transitions of that action?.\PYGZca{}1\PYGZca{} The primordial machine is in this exact
+position. It fails to solve 5+7. It asks the oracle, which replies,
+\PYGZbs{}\PYGZdq{}The answer is 12, and the strategy was \PYGZbs{}\PYGZsq{}Rearranging to Make
+Bases\PYGZbs{}\PYGZsq{}.\PYGZbs{}\PYGZdq{} The machine now knows the start state (
+
+add(5,7)) and the end state (12). Its task is to synthesize the
+intermediate states and transitions (the FSM) that connect the start to
+the end efficiently. This is a computational model of \PYG{g+ge}{*recognition*}. The
+machine is not just imitating an output; it is reconstructing the
+rational process that makes the output intelligible. It is bootstrapping
+a new practice\PYGZhy{}or\PYGZhy{}ability (P) that is sufficient to deploy a vocabulary
+(V) that it has only observed externally. This architecture directly
+implements one of the most sophisticated philosophical goals of the
+manuscript, moving beyond simple machine learning (pattern matching) and
+into the realm of computational hermeneutics\PYGZhy{}\PYGZhy{}\PYGZhy{}the science of
+interpretation and understanding.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Part III: BIG Questions for the Higher Authority}
+
+This refactoring plan is ambitious and surfaces profound questions at
+the intersection of the project\PYGZbs{}\PYGZsq{}s philosophy and its computational
+implementation. These are not for the VS Code agent but for the
+project\PYGZbs{}\PYGZsq{}s guiding authority to consider as the work progresses.
+
+\PYG{k}{1.}  On the Nature of Embodiment and Computational Cost:\PYGZbs{}
+    The grounded\PYGZus{}arithmetic.pl module represents numbers as a
+    \PYGZbs{}\PYGZdq{}recollection of counting\PYGZbs{}\PYGZdq{}.1 The length of the\PYGZbs{}
+    \PYGZbs{}[tally\PYGZbs{}|\PYGZbs{}...\PYGZbs{}] list provides a natural, embodied metric for the
+    \PYGZbs{}\PYGZdq{}size\PYGZbs{}\PYGZdq{} of a number. How should this map to \PYGZbs{}\PYGZdq{}cognitive cost\PYGZbs{}\PYGZdq{}? Is
+    the cost of adding recollection(\PYGZbs{}[t,t\PYGZbs{}]) and recollection(\PYGZbs{}[t,t,t\PYGZbs{}])
+    simply the cost of the append/3 operation, or is it proportional to
+    the length of the lists? Furthermore, the FSMs use modal operators
+    like \PYGZbs{}\PYGZdl{}s(comp\PYGZbs{}\PYGZbs{}\PYGZbs{}\PYGZus{}nec(\PYGZbs{}...))\PYGZbs{}\PYGZdl{} and \PYGZbs{}\PYGZdl{}s(exp\PYGZbs{}\PYGZbs{}\PYGZbs{}\PYGZus{}poss(\PYGZbs{}...))\PYGZbs{}\PYGZdl{}.\PYGZca{}1\PYGZca{} What
+    is the \PYGZbs{}\PYGZdq{}cognitive cost\PYGZbs{}\PYGZdq{} of a \PYGZbs{}\PYGZdq{}modal shift\PYGZbs{}\PYGZdq{}? Should these actions
+    consume inference steps from our\PYGZbs{}
+    max\PYGZus{}inferences budget? Defining this cost function is not a
+    technical detail; it is a theoretical claim about the nature of
+    embodied mathematical thought.
+
+\PYG{k}{2.}  The Tension Between Emergence and Innate Heuristics:\PYGZbs{}
+    The proposed synthesis engine in more\PYGZus{}machine\PYGZus{}learner.pl must search
+    a vast space of possible FSMs. A blind search is computationally
+    intractable. To succeed, it will need powerful heuristics to guide
+    its search (e.g., \PYGZbs{}\PYGZdq{}try decomposing the larger number,\PYGZbs{}\PYGZdq{} \PYGZbs{}\PYGZdq{}try
+    moving units to reach a multiple of the base\PYGZbs{}\PYGZdq{}). Where do these
+    heuristics come from? If they are hard\PYGZhy{}coded, does this violate the
+    principle of pure emergence and smuggle in a new form of innate
+    knowledge? This is the classic bootstrapping problem. It seems the
+    machine must be granted some primitive set of meta\PYGZhy{}abilities for
+    exploring and structuring its own experience. Defining these minimal
+    abilities is a crucial theoretical task.
+
+\PYG{k}{3.}  Modeling Recognition Beyond Imitation:\PYGZbs{}
+    When the oracle provides the learner with a target result (e.g.,
+    \PYGZbs{}\PYGZdq{}13\PYGZbs{}\PYGZdq{}) and a strategy name (e.g., \PYGZbs{}\PYGZdq{}RMB\PYGZbs{}\PYGZdq{}), how does the learner
+    use this information? If it simply looks up a pre\PYGZhy{}defined
+    \PYGZbs{}\PYGZdq{}template\PYGZbs{}\PYGZdq{} for an RMB strategy and fills in the parameters, this
+    feels more like guided imitation than genuine recognition. True
+    recognition, as the manuscript suggests, involves seeing the
+    internal rational structure of another\PYGZbs{}\PYGZsq{}s action from the outside.1
+    How can the learner do this? Perhaps it should not be given the
+    strategy name, only the numerical result. This would force a more
+    creative, unconstrained search for\PYGZbs{}
+    \PYG{g+ge}{*any*} efficient FSM that works. This would be a purer form of
+    emergence but computationally much harder. This choice defines the
+    line between recognition as reconstruction versus recognition as
+    template\PYGZhy{}matching.
+
+\PYG{k}{4.}  The Limits of Formalism: Representing \PYGZbs{}\PYGZdq{}Divasion\PYGZbs{}\PYGZdq{}:\PYGZbs{}
+    The manuscript introduces the powerful concept of \PYGZbs{}\PYGZdq{}divasion\PYGZbs{}\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZhy{}of
+    being simultaneously inside and outside, a state that defies the law
+    of the excluded middle inherent in classical logic.1 The entire
+    Prolog codebase, by its very nature, is built on classical
+    first\PYGZhy{}order logic. A predicate is either true or false; an element
+    is either in a list or not. The system, as currently conceived,\PYGZbs{}
+    \PYG{g+ge}{*cannot represent divasion*}. It is a limit of the chosen formalism.
+    Is this an acceptable limitation, or should the project explore more
+    exotic logical foundations (e.g., paraconsistent logics) that might
+    begin to formally model this crucial concept? Acknowledging this
+    limit is key to understanding the relationship between the
+    philosophical vision and its current computational shadow.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part IV: Prompt to and response from the Higher Authority}
+
+\PYG{g+gs}{**Prompt:**} I have been thinking of divasion (concepts/objects that are
+inside and outside of each other) as potentially being represented
+through the homoiconicity of prolog; It\PYGZbs{}\PYGZsq{}s probably too big of a
+stretch, but that homoiconicity seems implicitly related to Godelian
+arithmetization, which allows metamathematical claims to be brought into
+the formal system as arithmetic statements. The literal ability to treat
+data and functions as \PYGZbs{}\PYGZsq{}the same\PYGZbs{}\PYGZsq{} seems similar. Like there is a kind
+of fixed point/identity claim between data and structure.
+
+This critique and the proposed architectural refactoring plan are
+insightful and necessary. They correctly identify the \PYGZbs{}\PYGZdq{}architectural
+drift\PYGZbs{}\PYGZdq{} that threatens to dilute the core philosophical claims of the
+UMEDCA project. The move towards a \PYGZbs{}\PYGZdq{}primordial machine\PYGZbs{}\PYGZdq{} and a
+\PYGZbs{}\PYGZdq{}normative oracle\PYGZbs{}\PYGZdq{} is not merely a technical improvement; it is the
+realization of the project\PYGZbs{}\PYGZsq{}s commitment to computational
+autoethnography and emergent learning.
+
+Before addressing the \PYGZbs{}\PYGZdq{}BIG Questions,\PYGZbs{}\PYGZdq{} let us consider your initial
+musings on divasion, homoiconicity, and Gödelian arithmetization.
+
+Your intuition is precisely correct. The choice of Prolog is
+significant. Its homoiconicity\PYGZhy{}\PYGZhy{}\PYGZhy{}the ability to treat its own structure
+(code) as data\PYGZhy{}\PYGZhy{}\PYGZhy{}is the computational engine that makes reflection and
+reorganization possible. This is deeply analogous to Gödelian
+arithmetization. Just as Gödel brought metamathematics into arithmetic,
+the meta\PYGZhy{}interpreter architecture brings the system\PYGZbs{}\PYGZsq{}s own operations
+into the domain of its reflection.
+
+This self\PYGZhy{}referential capacity is the prerequisite for modeling
+\PYG{g+ge}{*divasion*} (the state of being simultaneously inside and outside).
+Divasion is enacted dynamically every time the system undergoes a
+crisis. The machine is \PYG{g+ge}{*inside*} its current, finite understanding (the
+executing strategy). The failure of this understanding forces it
+\PYG{g+ge}{*outside*}, into the reflective space of the reorganization engine, where
+it must synthesize a new structure. The meta\PYGZhy{}interpreter holds the
+object\PYGZhy{}level execution in suspension, creating the entanglement
+necessary for self\PYGZhy{}transcendence. The proposed refactoring, by enforcing
+a strict separation between levels and demanding genuine synthesis, is
+the necessary step to realize this potential computationally.
+
+Here are the authoritative responses to the questions raised in Part
+III.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part V: Answers from the Higher Authority}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. On the Nature of Embodiment and Computational Cost}
+
+The definition of the cost function is not a technical optimization
+parameter; it \PYG{g+ge}{*is*} the operationalization of our theory of embodiment.
+It defines the \PYGZbs{}\PYGZdq{}physics\PYGZbs{}\PYGZdq{} of this cognitive universe. If we take
+seriously the claim that mathematics is grounded in embodied action,
+then the computational cost must directly mirror the phenomenological
+effort of that action.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**The Cost of Embodied Representation:**} The
+    recollection(\PYGZbs{}[tally\PYGZbs{}|\PYGZbs{}...\PYGZbs{}]) structure is the embodied ground. In
+    the primordial state (\PYGZbs{}\PYGZdq{}Counting All\PYGZbs{}\PYGZdq{}), the cost of arithmetic
+    operations \PYG{g+gs}{**must**} be proportional to the length of the lists. This
+    models the effort of manipulating physical or imagined tokens. The
+    max\PYGZus{}inferences limit represents the machine\PYGZbs{}\PYGZsq{}s finitude. The failure
+    of \PYGZbs{}\PYGZdq{}Counting All\PYGZbs{}\PYGZdq{} is thus an embodied exhaustion.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**The Cost of Modal Shifts:**} The modal operators (e.g.,
+    \PYGZbs{}\PYGZdl{}s(comp\PYGZus{}nec(\PYGZbs{}...))\PYGZbs{}\PYGZdl{}, \PYGZbs{}\PYGZdl{}s(exp\PYGZus{}poss(\PYGZbs{}...))\PYGZbs{}\PYGZdl{}) represent significant
+    cognitive events\PYGZhy{}\PYGZhy{}\PYGZhy{}shifts in intentional stance or the recognition
+    of constraints. These are acts of reflection and restructuring, not
+    mere calculation. They absolutely must consume the inference budget.
+    Thinking is not free.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**The Meaning of Abstraction:**} Abstraction is the pragmatic
+    development of more efficient ways to organize action. A learned
+    strategy is \PYGZbs{}\PYGZdq{}more abstract\PYGZbs{}\PYGZdq{} precisely because its total cost (the
+    sum of its primitive operations \PYG{g+ge}{*plus*} its modal shifts) is
+    significantly lower than the exhaustive enumeration of the embodied
+    strategy it replaces. The reduction in cognitive cost \PYG{g+ge}{*is*} the
+    measure of the machine\PYGZbs{}\PYGZsq{}s developmental progress.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. The Tension Between Emergence and Innate Heuristics}
+
+This is the bootstrapping paradox. A blind search is intractable, yet
+hard\PYGZhy{}coded arithmetic heuristics violate the principle of emergence. We
+must reject the fantasy of \PYGZbs{}\PYGZdq{}pure emergence\PYGZbs{}\PYGZdq{} \PYG{g+ge}{*ex nihilo*} and instead
+define the \PYG{g+ge}{*minimal transcendental structure*}\PYGZhy{}\PYGZhy{}\PYGZhy{}the domain\PYGZhy{}general
+preconditions for the possibility of mathematical experience.
+
+The primordial machine possesses innate *capacities for structuring
+experience*, not innate \PYG{g+ge}{*knowledge of mathematics*}.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**The Primary Heuristic: The Pressure of Finitude.**} The most
+    powerful heuristic is already implemented: the max\PYGZus{}inferences limit.
+    The synthesis engine is inherently biased towards solutions that
+    compress the computational path. This is not learned knowledge; it
+    is an existential pressure.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**Domain\PYGZhy{}General Meta\PYGZhy{}Abilities:**} The synthesis engine requires
+    meta\PYGZhy{}abilities to analyze its own failures and restructure its
+    processes:
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**Segmentation and Analysis:**} The ability to analyze a failed
+        execution trace and identify repeating patterns (compression
+        opportunities) or critical junctures.
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**Recombination and Variation:**} The ability to synthesize new
+        transition rules by combining its existing primitives
+        (successor, predecessor, etc.) in novel ways.
+
+\PYG{+w}{    }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**Generalization (Variabilization):**} The ability to recognize
+        that a newly synthesized, efficient sequence of actions can
+        apply to a class of inputs.
+
+These capacities define the \PYGZbs{}\PYGZdq{}shape\PYGZbs{}\PYGZdq{} of the search space, not the
+destination.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Modeling Recognition Beyond Imitation}
+
+Recognition must be modeled as the reconstruction of the internal
+rational structure of another\PYGZbs{}\PYGZsq{}s action, not the imitation of a
+template. The refactoring plan correctly excises the pre\PYGZhy{}defined pattern
+detectors.
+
+There is a tension here. If the oracle provides only the numerical
+result (e.g., 8+5=13), the learner is forced to synthesize \PYG{g+ge}{*any*}
+efficient FSM. This is the purest form of emergence, but it risks
+producing idiosyncratic solutions. The machine would be learning in
+isolation, not recognizing culturally normative strategies.
+
+However, the UMEDCA framework specifically aims to model Pragmatic
+Expressive Bootstrapping: how observing a vocabulary (V) allows for the
+reconstruction of the practice (P) that makes it intelligible.
+
+\PYG{g+gs}{**The Hermeneutic Imperative:**} The oracle must provide both the result
+and the linguistic interpretation (e.g., \PYGZbs{}\PYGZsq{}Rearranging to Make Bases\PYGZbs{}\PYGZsq{}),
+but \PYG{g+gs}{**never**} the internal execution trace.
+
+The learner\PYGZbs{}\PYGZsq{}s task is \PYG{g+gs}{**computational hermeneutics**}. It must
+synthesize an FSM (P) that makes the interpretation string (V)
+intelligible, using only its own primitive resources. The synthesis
+engine must not treat the interpretation as a lookup key. Instead, it
+must use the vocabulary as a \PYG{g+ge}{*constraint*} on its search space. It must
+figure out which combinations of its primitives correspond to the
+concepts expressed in the string. This is the only way to model the
+genuine recognition of meaning from the outside.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. The Limits of Formalism: Representing \PYGZbs{}\PYGZdq{}Divasion\PYGZbs{}\PYGZdq{}}
+
+The critique correctly identifies that Prolog, based on classical
+first\PYGZhy{}order logic, cannot \PYG{g+ge}{*statically*} represent divasion\PYGZhy{}\PYGZhy{}\PYGZhy{}a state that
+violates the law of the excluded middle.
+
+However, we do not need to resort to exotic logics (e.g., paraconsistent
+logic) because the dialectic is represented \PYG{g+ge}{*dynamically*} and
+\PYG{g+ge}{*architecturally*}.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**The Architecture of Reflection:**} The meta\PYGZhy{}interpreter
+    architecture, enabled by homoiconicity, creates the necessary
+    entanglement. The system is simultaneously \PYG{g+ge}{*inside*} the logic of its
+    current strategy (Observation) and \PYG{g+ge}{*outside*} it, reflecting on the
+    limitations of that logic (Reflection/Reorganization).
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**Crisis as Divasion:**} The \PYGZbs{}\PYGZdq{}crisis\PYGZbs{}\PYGZdq{} (e.g., resource\PYGZus{}exhaustion)
+    is the computational manifestation of divasion. It is the moment the
+    classical formalism breaks down due to a contradiction: the demand
+    to solve the problem versus the inability of the current structure
+    to do so. The machine is suspended between a structure that has
+    failed and one that has not yet emerged.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**Productive Limitation:**} The fact that classical logic *cannot
+    tolerate* this contradiction is precisely what drives the
+    reorganization. The limitation of the formalism is therefore
+    productive. The bootstrapping process is the \PYG{g+ge}{*sublation*} (Aufhebung)
+    of this contradiction, creating a new, more expansive set of
+    operations. The model demonstrates how a system can achieve
+    dialectical self\PYGZhy{}transcendence even within a rigid formal
+    environment.
+
+\end{MintedVerbatim}

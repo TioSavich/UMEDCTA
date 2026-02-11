@@ -1,0 +1,139 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{pandas}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{pd}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{CommutativeReasoningAutomaton}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    An automaton simulating the \PYGZsq{}Using Commutative Reasoning\PYGZsq{} division strategy.}
+\PYG{l+s+sd}{    This models the cognitive process of transforming sharing division into}
+\PYG{l+s+sd}{    measurement division through iterative accumulation.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{E}\PYG{p}{,} \PYG{n}{G}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Initializes the automaton with inputs and memory registers.}
+\PYG{l+s+sd}{        E: Total number of items (Dividend).}
+\PYG{l+s+sd}{        G: Number of groups (Divisor).}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{E} \PYG{o}{=} \PYG{n}{E}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{G} \PYG{o}{=} \PYG{n}{G}
+        \PYG{c+c1}{\PYGZsh{} Memory Registers}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{T} \PYG{o}{=} \PYG{l+m+mi}{0}  \PYG{c+c1}{\PYGZsh{} Accumulated total items distributed}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Q} \PYG{o}{=} \PYG{l+m+mi}{0}  \PYG{c+c1}{\PYGZsh{} Items per group (Quotient/Counter)}
+        \PYG{c+c1}{\PYGZsh{} State}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}start\PYGZsq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Initialization\PYGZdq{}}\PYG{p}{,} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Inputs received: E=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{E}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, G=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{G}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{action}\PYG{p}{,} \PYG{n}{interpretation}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Records the current state and registers for tracing execution.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(\PYGZob{}}
+            \PYG{l+s+s1}{\PYGZsq{}State\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}T (Accumulated)\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}Q (Per Group)\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Q}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}Action\PYGZsq{}}\PYG{p}{:} \PYG{n}{action}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}Interpretation\PYGZsq{}}\PYG{p}{:} \PYG{n}{interpretation}
+        \PYG{p}{\PYGZcb{})}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{transition}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{next\PYGZus{}state}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Transitions the automaton to the next state.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{n}{next\PYGZus{}state}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{run}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Executes the automaton until an accept or error state is reached.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZhy{} Starting Automaton Simulation (E=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{E}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, G=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{G}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{) \PYGZhy{}\PYGZhy{}\PYGZhy{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{while} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}\PYG{p}{]:}
+            \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}start\PYGZsq{}}\PYG{p}{:}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{execute\PYGZus{}start}\PYG{p}{()}
+            \PYG{k}{elif} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}initialize\PYGZsq{}}\PYG{p}{:}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{execute\PYGZus{}initialize}\PYG{p}{()}
+            \PYG{k}{elif} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}iterate\PYGZsq{}}\PYG{p}{:}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{execute\PYGZus{}iterate}\PYG{p}{()}
+            \PYG{k}{elif} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}check\PYGZsq{}}\PYG{p}{:}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{execute\PYGZus{}check}\PYG{p}{()}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Error: Unknown state }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{k}{break}
+
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZhy{}\PYGZhy{}\PYGZhy{} Simulation Finished in state: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{:}
+            \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Q}
+        \PYG{k}{return} \PYG{k+kc}{None}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}start}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}q\PYGZus{}start: Read inputs and move to initialize.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{action} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Read E, Read G\PYGZdq{}}
+        \PYG{n}{interpretation} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Identify total items and number of groups.\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{n}{action}\PYG{p}{,} \PYG{n}{interpretation}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}initialize\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}initialize}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}q\PYGZus{}initialize: Initialize registers T and Q.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{c+c1}{\PYGZsh{} T and Q are already 0, record the action.}
+        \PYG{n}{action} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}T = 0, Q = 0\PYGZdq{}}
+        \PYG{n}{interpretation} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Initialize distribution total and count per group.\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{n}{action}\PYG{p}{,} \PYG{n}{interpretation}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}iterate\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}iterate}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}q\PYGZus{}iterate: Distribute one round (one item to each of the G groups).\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{T} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{G}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Q} \PYG{o}{+=} \PYG{l+m+mi}{1}
+        \PYG{n}{action} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}T = T + G (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{G}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{), Q = Q + 1\PYGZdq{}}
+        \PYG{n}{interpretation} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Distribute round }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Q}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{. Total distributed: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{T}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{n}{action}\PYG{p}{,} \PYG{n}{interpretation}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}check\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}check}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}q\PYGZus{}check: Check if the total E has been reached.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{T} \PYG{o}{\PYGZlt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{E}\PYG{p}{:}
+            \PYG{n}{action} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Check: T (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{T}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{) \PYGZlt{} E (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{E}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{)\PYGZdq{}}
+            \PYG{n}{interpretation} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Total not yet reached; continue distributing.\PYGZdq{}}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{n}{action}\PYG{p}{,} \PYG{n}{interpretation}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}iterate\PYGZsq{}}\PYG{p}{)}
+        \PYG{k}{elif} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{T} \PYG{o}{==} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{E}\PYG{p}{:}
+            \PYG{n}{action} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Check: T (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{T}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{) == E (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{E}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{)\PYGZdq{}}
+            \PYG{n}{interpretation} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Total reached. Problem solved. Output Q=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Q}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{n}{action}\PYG{p}{,} \PYG{n}{interpretation}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{} This handles cases where E is not perfectly divisible by G}
+            \PYG{n}{action} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Check: T (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{T}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{) \PYGZgt{} E (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{E}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{)\PYGZdq{}}
+            \PYG{n}{interpretation} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Error: Accumulated total exceeded E. Not divisible.\PYGZdq{}}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{n}{action}\PYG{p}{,} \PYG{n}{interpretation}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{display\PYGZus{}history}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Displays the execution history using pandas for clear formatting.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZhy{}\PYGZhy{}\PYGZhy{} Execution History \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history}\PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} Display relevant columns, omitting the initial setup steps for brevity if desired}
+        \PYG{c+c1}{\PYGZsh{} To see the full trace, simply print the df.}
+        \PYG{c+c1}{\PYGZsh{} We will filter to show the iterative process clearly.}
+
+        \PYG{c+c1}{\PYGZsh{} Display the summary table similar to Page 2 of the document}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Iterative Distribution Summary:\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{iteration\PYGZus{}history} \PYG{o}{=} \PYG{n}{df}\PYG{p}{[}\PYG{n}{df}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}State\PYGZsq{}}\PYG{p}{]} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}iterate\PYGZsq{}}\PYG{p}{]}
+        \PYG{n}{summary\PYGZus{}table} \PYG{o}{=} \PYG{n}{iteration\PYGZus{}history}\PYG{p}{[[}\PYG{l+s+s1}{\PYGZsq{}Q (Per Group)\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}T (Accumulated)\PYGZsq{}}\PYG{p}{]]}
+        \PYG{n}{summary\PYGZus{}table} \PYG{o}{=} \PYG{n}{summary\PYGZus{}table}\PYG{o}{.}\PYG{n}{rename}\PYG{p}{(}\PYG{n}{columns}\PYG{o}{=}\PYG{p}{\PYGZob{}}
+            \PYG{l+s+s1}{\PYGZsq{}Q (Per Group)\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}Number of cupcakes in each box\PYGZsq{}}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}T (Accumulated)\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}Number of cupcakes given out\PYGZsq{}}
+        \PYG{p}{\PYGZcb{})}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{summary\PYGZus{}table}\PYG{o}{.}\PYG{n}{to\PYGZus{}markdown}\PYG{p}{(}\PYG{n}{index}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{))}
+
+        \PYG{c+c1}{\PYGZsh{} Display the full state transitions}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Full State Transition Trace:\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{df}\PYG{o}{.}\PYG{n}{to\PYGZus{}markdown}\PYG{p}{(}\PYG{n}{index}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{))}
+
+
+\PYG{c+c1}{\PYGZsh{} Test the automaton with the example from the document: 56 cupcakes and 8 boxes.}
+\PYG{n}{E\PYGZus{}input} \PYG{o}{=} \PYG{l+m+mi}{56}
+\PYG{n}{G\PYGZus{}input} \PYG{o}{=} \PYG{l+m+mi}{8}
+
+\PYG{n}{automaton} \PYG{o}{=} \PYG{n}{CommutativeReasoningAutomaton}\PYG{p}{(}\PYG{n}{E}\PYG{o}{=}\PYG{n}{E\PYGZus{}input}\PYG{p}{,} \PYG{n}{G}\PYG{o}{=}\PYG{n}{G\PYGZus{}input}\PYG{p}{)}
+\PYG{n}{result} \PYG{o}{=} \PYG{n}{automaton}\PYG{o}{.}\PYG{n}{run}\PYG{p}{()}
+
+\PYG{k}{if} \PYG{n}{result} \PYG{o+ow}{is} \PYG{o+ow}{not} \PYG{k+kc}{None}\PYG{p}{:}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Final Result: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{E\PYGZus{}input}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ items divided into }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{G\PYGZus{}input}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ groups results in }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{result}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ items per group.\PYGZdq{}}\PYG{p}{)}
+
+\PYG{n}{automaton}\PYG{o}{.}\PYG{n}{display\PYGZus{}history}\PYG{p}{()}
+\end{MintedVerbatim}

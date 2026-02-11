@@ -1,0 +1,782 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}!DOCTYPE html\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{html} \PYG{n+na}{lang}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}en\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{head}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{meta} \PYG{n+na}{charset}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}UTF\PYGZhy{}8\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{meta} \PYG{n+na}{name}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}viewport\PYGZdq{}} \PYG{n+na}{content}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}width=device\PYGZhy{}width, initial\PYGZhy{}scale=1.0\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{title}\PYG{p}{\PYGZgt{}}Presentation: The Hermeneutic Calculator\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{title}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{style}\PYG{p}{\PYGZgt{}}
+\PYG{+w}{        }\PYG{n+nt}{body}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}family}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Segoe UI\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Tahoma}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Geneva}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Verdana}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{sans\PYGZhy{}serif}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{line\PYGZhy{}height}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.6}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}f8f8f8}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}333}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{n+nt}{header}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}4a4a6a}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* A calm, deep blue/purple */}
+\PYG{+w}{            }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}fff}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{text\PYGZhy{}align}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{center}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}d8b86f}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Gold accent */}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{n+nt}{header}\PYG{+w}{ }\PYG{n+nt}{h1}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{2.5}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}weight}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{300}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{n+nt}{header}\PYG{+w}{ }\PYG{n+nt}{p}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.5}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.1}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}style}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{italic}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{n+nt}{nav}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}f0f0f0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.5}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{text\PYGZhy{}align}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{center}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}ddd}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{position}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{sticky}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{top}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{z\PYGZhy{}index}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{100}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{n+nt}{nav}\PYG{+w}{ }\PYG{n+nt}{a}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{l+m+mi}{15}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{text\PYGZhy{}decoration}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{none}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}4a4a6a}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}weight}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{bold}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{transition}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{color}\PYG{+w}{ }\PYG{l+m+mf}{0.3}\PYG{k+kt}{s}\PYG{+w}{ }\PYG{k+kc}{ease}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{n+nt}{nav}\PYG{+w}{ }\PYG{n+nt}{a}\PYG{p}{:}\PYG{n+nd}{hover}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}d8b86f}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{n+nt}{main}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{max\PYGZhy{}width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{900}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{k+kc}{auto}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{l+m+mi}{20}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{n+nt}{section}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}fff}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{margin\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{2.5}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}radius}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{8}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{box\PYGZhy{}shadow}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{n+nb}{rgba}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mf}{0.1}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}left}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}4a4a6a}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{n+nt}{h2}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}4a4a6a}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}d8b86f}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{padding\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.3}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{margin\PYGZhy{}top}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.8}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}weight}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{400}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{n+nt}{h3}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}5a5a8a}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Slightly lighter purple */}
+\PYG{+w}{            }\PYG{k}{margin\PYGZhy{}top}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.5}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.4}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}weight}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{400}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{highlight}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}d8b86f}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Gold */}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}weight}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{bold}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{concept}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}style}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{italic}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}666}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{quote}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}style}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{italic}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}left}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}ccc}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{padding\PYGZhy{}left}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}555}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{resource\PYGZhy{}link}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{display}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{inline\PYGZhy{}block}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.5}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mf}{0.5}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.8}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mf}{1.2}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}4a4a6a}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}fff}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{text\PYGZhy{}decoration}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{none}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}radius}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{transition}\PYG{p}{:}\PYG{+w}{ }\PYG{k}{background\PYGZhy{}color}\PYG{+w}{ }\PYG{l+m+mf}{0.3}\PYG{k+kt}{s}\PYG{+w}{ }\PYG{k+kc}{ease}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{resource\PYGZhy{}link}\PYG{p}{:}\PYG{n+nd}{hover}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}5a5a8a}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{n+nt}{img}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{max\PYGZhy{}width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{100}\PYG{k+kt}{\PYGZpc{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{height}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{auto}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{display}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{block}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{k+kc}{auto}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}radius}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{4}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{box\PYGZhy{}shadow}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{n+nb}{rgba}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mf}{0.1}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c}{/* Single column layout by default */}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{content\PYGZhy{}block}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{margin\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c}{/* Optional two columns for specific content */}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{two\PYGZhy{}columns}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{display}\PYG{p}{:}\PYG{+w}{ }\PYG{k}{grid}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{grid\PYGZhy{}template\PYGZhy{}columns}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{n}{fr}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{n}{fr}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{gap}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c}{/* Citation styling */}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{citation}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.85}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}666}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{margin\PYGZhy{}top}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.5}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}style}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{italic}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c}{/* Important concept styling */}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{key\PYGZhy{}concept}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}f0f0f5}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}left}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}4a4a6a}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.8}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}radius}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{l+m+mi}{4}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{4}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c}{/* Table styling for automata state tables */}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{state\PYGZhy{}table}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}collapse}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{collapse}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{100}\PYG{k+kt}{\PYGZpc{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{state\PYGZhy{}table}\PYG{+w}{ }\PYG{n+nt}{th}\PYG{o}{,}\PYG{+w}{ }\PYG{p}{.}\PYG{n+nc}{state\PYGZhy{}table}\PYG{+w}{ }\PYG{n+nt}{td}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{border}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}ddd}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{8}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{text\PYGZhy{}align}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{center}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{state\PYGZhy{}table}\PYG{+w}{ }\PYG{n+nt}{th}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}4a4a6a}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{white}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{state\PYGZhy{}table}\PYG{+w}{ }\PYG{n+nt}{tr}\PYG{p}{:}\PYG{n+nd}{nth\PYGZhy{}child}\PYG{o}{(}\PYG{n+nt}{even}\PYG{o}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}f2f2f2}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c}{/* Adjust for smaller screens */}
+\PYG{+w}{        }\PYG{p}{@}\PYG{k}{media}\PYG{+w}{ }\PYG{o}{(}\PYG{n+nt}{max\PYGZhy{}width}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nt}{700px}\PYG{o}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{p}{.}\PYG{n+nc}{two\PYGZhy{}columns}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{grid\PYGZhy{}template\PYGZhy{}columns}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{n}{fr}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Stack columns */}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{n+nt}{header}\PYG{+w}{ }\PYG{n+nt}{h1}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{em}\PYG{p}{;}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{n+nt}{h2}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.5}\PYG{k+kt}{em}\PYG{p}{;}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{n+nt}{h3}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.2}\PYG{k+kt}{em}\PYG{p}{;}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{n+nt}{nav}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{k}{position}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{static}\PYG{p}{;}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{c}{/* Stop nav sticking on small screens */}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{n+nt}{footer}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{text\PYGZhy{}align}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{center}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{margin\PYGZhy{}top}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}777}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.9}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c}{/* Diagonal strikethrough styling */}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{cancel}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{k}{position}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{relative}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Establishes a positioning context for the pseudo\PYGZhy{}element */}
+\PYG{+w}{          }\PYG{k}{display}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{inline\PYGZhy{}block}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Ensures the span behaves like a block for positioning, but flows inline */}
+\PYG{+w}{          }\PYG{c}{/* Optional: Add padding if the line feels too close */}
+\PYG{+w}{          }\PYG{c}{/* padding: 0 0.1em; */}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{cancel}\PYG{p}{::}\PYG{n+nd}{after}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{k}{content}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Necessary for the pseudo\PYGZhy{}element to be generated */}
+\PYG{+w}{          }\PYG{k}{position}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{absolute}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Position relative to the parent .cancel span */}
+\PYG{+w}{          }\PYG{k}{top}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{          }\PYG{k}{bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{          }\PYG{k}{left}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{          }\PYG{k}{right}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+
+\PYG{+w}{          }\PYG{c}{/* Create the diagonal line using a sharp gradient */}
+\PYG{+w}{          }\PYG{c}{/* Goes from bottom\PYGZhy{}left to top\PYGZhy{}right (like \PYGZsq{}/\PYGZsq{}) */}
+\PYG{+w}{          }\PYG{k}{background}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nb}{linear\PYGZhy{}gradient}\PYG{p}{(}
+\PYG{+w}{            }\PYG{k+kc}{to}\PYG{+w}{ }\PYG{k+kc}{top}\PYG{+w}{ }\PYG{k+kc}{right}\PYG{p}{,}
+\PYG{+w}{            }\PYG{k+kc}{transparent}\PYG{+w}{ }\PYG{n+nb}{calc}\PYG{p}{(}\PYG{l+m+mi}{50}\PYG{k+kt}{\PYGZpc{}}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{p}{),}\PYG{+w}{ }\PYG{c}{/* Transparent up to the line */}
+\PYG{+w}{            }\PYG{k+kc}{currentColor}\PYG{+w}{ }\PYG{n+nb}{calc}\PYG{p}{(}\PYG{l+m+mi}{50}\PYG{k+kt}{\PYGZpc{}}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{p}{),}\PYG{+w}{ }\PYG{c}{/* Start color (uses text color) */}
+\PYG{+w}{            }\PYG{k+kc}{currentColor}\PYG{+w}{ }\PYG{n+nb}{calc}\PYG{p}{(}\PYG{l+m+mi}{50}\PYG{k+kt}{\PYGZpc{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{p}{),}\PYG{+w}{ }\PYG{c}{/* End color (uses text color) */}
+\PYG{+w}{            }\PYG{k+kc}{transparent}\PYG{+w}{ }\PYG{n+nb}{calc}\PYG{p}{(}\PYG{l+m+mi}{50}\PYG{k+kt}{\PYGZpc{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{p}{)}\PYG{+w}{  }\PYG{c}{/* Transparent after the line */}
+\PYG{+w}{          }\PYG{p}{);}
+
+\PYG{+w}{          }\PYG{c}{/* Make sure the line doesn\PYGZsq{}t interfere with text selection */}
+\PYG{+w}{          }\PYG{k}{pointer\PYGZhy{}events}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{none}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{cantor\PYGZhy{}visualization}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{30}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{auto}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{20}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}f9f9f9}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}radius}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{8}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}ddd}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{cantor\PYGZhy{}row}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{display}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{flex}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{margin\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{align\PYGZhy{}items}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{center}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{cantor\PYGZhy{}element}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{30}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{height}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{30}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{display}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{flex}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{justify\PYGZhy{}content}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{center}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{align\PYGZhy{}items}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{center}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{cantor\PYGZhy{}row\PYGZhy{}label}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{80}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}weight}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{bold}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{text\PYGZhy{}align}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{right}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{margin\PYGZhy{}right}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{15}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{cantor\PYGZhy{}square}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{30}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{height}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{30}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}FF9248}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}333}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{cantor\PYGZhy{}triangle}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{height}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}left}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{15}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{k+kc}{transparent}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}right}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{15}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{k+kc}{transparent}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{26}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}5AB95E}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{highlight\PYGZhy{}cell}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{position}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{relative}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{highlight\PYGZhy{}cell}\PYG{p}{::}\PYG{n+nd}{after}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{content}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{position}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{absolute}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{top}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}3}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{left}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}3}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{right}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}3}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}3}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{k+kc}{red}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}radius}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{pointer\PYGZhy{}events}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{none}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{cantor\PYGZhy{}diagonal}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{position}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{absolute}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{height}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{red}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{transform}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nb}{rotate}\PYG{p}{(}\PYG{l+m+mi}{45}\PYG{k+kt}{deg}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{transform\PYGZhy{}origin}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{left}\PYG{+w}{ }\PYG{k+kc}{top}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{z\PYGZhy{}index}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{opacity}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.7}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{operation\PYGZhy{}arrow}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{24}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}4a4a6a}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{style}\PYG{p}{\PYGZgt{}}
+
+    \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Add MathJax support \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{script} \PYG{n+na}{type}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text/javascript\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}MathJax\PYGZhy{}script\PYGZdq{}} \PYG{n+na}{async}
+        \PYG{n+na}{src}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex\PYGZhy{}mml\PYGZhy{}chtml.js\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+\PYG{+w}{    }\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\PYG{+w}{        }\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{MathJax}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n+nx}{tex}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{inlineMath}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[[}\PYG{l+s+s1}{\PYGZsq{}\PYGZdl{}\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZdl{}\PYGZsq{}}\PYG{p}{],}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}\PYGZbs{}(\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}\PYGZbs{})\PYGZsq{}}\PYG{p}{]],}
+\PYG{+w}{                }\PYG{n+nx}{displayMath}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[[}\PYG{l+s+s1}{\PYGZsq{}\PYGZdl{}\PYGZdl{}\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZdl{}\PYGZdl{}\PYGZsq{}}\PYG{p}{],}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}\PYGZbs{}[\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}\PYGZbs{}]\PYGZsq{}}\PYG{p}{]],}
+\PYG{+w}{                }\PYG{n+nx}{processEscapes}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{            }\PYG{n+nx}{options}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{skipHtmlTags}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}script\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}noscript\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}style\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}textarea\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}pre\PYGZsq{}}\PYG{p}{]}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{};}
+\PYG{+w}{    }\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{head}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{body}\PYG{p}{\PYGZgt{}}
+
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{header}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}The Hermeneutic Calculator\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Bridging Formal Mathematics, Student Thinking, and Human Freedom\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Theodore M. Savich\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{header}\PYG{p}{\PYGZgt{}}
+
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{nav}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZsh{}intro\PYGZdq{}}\PYG{p}{\PYGZgt{}}Introduction\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZsh{}student\PYGZhy{}thinking\PYGZdq{}}\PYG{p}{\PYGZgt{}}Student Thinking\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZsh{}pattern\PYGZdq{}}\PYG{p}{\PYGZgt{}}The Core Pattern\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZsh{}calculator\PYGZdq{}}\PYG{p}{\PYGZgt{}}The Calculator\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZsh{}implications\PYGZdq{}}\PYG{p}{\PYGZgt{}}Implications\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZsh{}resources\PYGZdq{}}\PYG{p}{\PYGZgt{}}Resources\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{nav}\PYG{p}{\PYGZgt{}}
+
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{main}\PYG{p}{\PYGZgt{}}
+
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{details} \PYG{n+na}{open}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}What is a \PYGZdq{}Hermeneutic\PYGZdq{} Calculator?\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{section} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}intro\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}In education, we often see a gap between the formal, structured world of mathematics and the dynamic, sometimes messy ways students actually \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}invent strategies\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} and make sense of numbers.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZdq{}Hermeneutic\PYGZdq{}\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} means \PYGZdq{}meaningful\PYGZdq{} or \PYGZdq{}interpretive.\PYGZdq{} The term comes from the practice of interpreting texts, where understanding operates in a circle: the parts of a text make sense only in relation to the whole, and the whole can only be understood through its parts. Binary terms like \PYGZdq{}conceptual/procedural\PYGZdq{} or \PYGZdq{}inside/outside\PYGZdq{} are hard to define without contradiction \PYG{n+ni}{\PYGZam{}mdash;} their meanings depend on each other in ways that are often paradoxical.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}The \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}Hermeneutic Calculator\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} project bridges three worlds:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}Mathematics Education:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}} Understanding and valuing students\PYGZsq{} invented arithmetic strategies\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}Formal Mathematics:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}} Using automata theory to model these mathematical strategies \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}mathematically\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}\PYGZgt{}\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}Philosophy:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}} Connecting these models to ideas about how systems transcend their own limits\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}My step\PYGZhy{}daughter Maddy once declared, while learning to ride her bike in a circle: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZdq{}To move in a circle, go diagonally.\PYGZdq{}\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} This slogan won\PYGZsq{}t help with the details, but might serve as a mnemotic device for the technical connections between the mathematical technique of \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}diagonalization (\PYGZdl{}\PYGZbs{}delta\PYGZdl{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} and the hermeneutic circle.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}The goal? To show how student thinking illuminates not just mathematics, but also fundamental ideas about \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}human freedom and recognition\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{details}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}History and Development of the Project\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}} (click to expand)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}This approach draws on N101, the course Amy Hackenberg designed for pre\PYGZhy{}service teachers at Indiana University\PYGZhy{}Bloomington. The original version of the Hermeneutic Calculator in my dissertation (Savich, 2022) focused on formalizing misconceptions—creating a \PYGZsq{}negative\PYGZsq{} version of mathematics using Robert Brandom\PYGZsq{}s incompatibility semantics.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}As an N101 instructor, I wanted to develop teaching resources for students to practice with these strategies. The current collection draws on Cognitively Guided Instruction (Carpenter et al., 1999), which emphasizes building on children\PYGZsq{}s existing mathematical understanding.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}My framework, \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}theoretical auto\PYGZhy{}ethnography\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}, builds on Phil Carspecken\PYGZsq{}s theories of critical action (1999) and ethnography (1995), applying them to mathematical thinking and representation.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{details}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}Human/Machine Collaboration:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} While I conceptualized, designed, and refined this project through numerous iterations, I also leveraged AI tools and consulted existing literature (Sudkamp, 2006) to implement aspects of the formal representations. I purposefully adapted formal automata theory to better express my philosophy of number and action \PYG{n+ni}{\PYGZam{}mdash;} such as drawing automata as circles to represent the inherently reflective aspects of human mathematical activity. I include the formalizations to explore philosophical concepts through analogy. Very few of them would just \PYGZsq{}work\PYGZsq{} if plugged into an automaton testing package like pytest or JFLAP. What fascinates me about these formal structures is that they allow for a mathematical action to be represented mathematically. That fascination has not yet transferred into any kind of technical acumen. My automatons. I will not be able to answer every technical question that may arise, but I will do my best!\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}Call to action:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} I welcome contributions from experts in mathematics education, cognitive science, computer science, or philosophy. The software is licensed under CC BY\PYGZhy{}SA 4.0 to encourage collaboration. Graduate student researchers might find opportunities to study how these tools impact student understanding in courses like N101.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{details}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}More on the Project\PYGZsq{}s Scope\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}} (click to expand)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}This project operates at the intersection of several disciplines, each with its own technical language and traditions. For math educators, the focus is on validating and systematizing the rich variety of student\PYGZhy{}invented strategies.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}} For computer or cognitive scientists, please read the formal structures as analogies \PYGZhy{} they do not \PYGZsq{}work.\PYGZsq{} An undergraduate studying computer science would fail the course if they turned in my Push\PYGZhy{}Down Stack Automatons. That said, there are places where an expert could take this work and do interesting things with it. For example, I conduct a pseudo\PYGZhy{}Gödelian arithmetization of an extraordinarily simple arithemtic strategy (rearranging to make bases) to demonstrate emergent behaviors in a formal system. Genuine arithmetization requires multiplication and addition. Rather than taking a \PYGZsq{}complete\PYGZsq{} formal system and proving its incompleteness, I bootstrap a very basic arithmetic procedure by naming the states by what they do. An automaton whose 6th state is to add 6 has that state name as a \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}fixed point\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}. Much like Gaifman\PYGZsq{}s (2005) example \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZsq{}yields when applied to itself a sentence containing twenty words\PYGZsq{} yields when applied to itself a sentence containing twenty words\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}, this 6th state is where subject meets predicate. When programmed in the right language, the automaton can trip itself into an infinite loop of adding 6, never reaching the accept state without being programmed to do so explicitly. Again, if I turned in a program that just loops indefinitely for my Computer Science 101 project, I would not pass the course. It appears \PYGZdq{}broken,\PYGZdq{} but the point is to break at the limits of thought \PYG{n+ni}{\PYGZam{}mdash;} reflection \PYG{n+ni}{\PYGZam{}mdash;} and see if something new might arise.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}If interested, the Prolog code for this arithmetization is here: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://tiosavich.github.io/UMEDCTA/Calculator/Prolog/RMB.pl\PYGZdq{}} \PYG{n+na}{target}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZus{}blank\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}resource\PYGZhy{}link\PYGZdq{}}\PYG{p}{\PYGZgt{}}Prolog code\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}By formalizing these strategies using automata theory, we create precise descriptions of how students think about numbers, which helps us better understand student cognition and design more effective instructional approaches.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{details}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{section}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{details}\PYG{p}{\PYGZgt{}}
+
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{details} \PYG{n+na}{open}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}Understanding Transcendence: A Foundational Star\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{section} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}sneetches\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}key\PYGZhy{}concept\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}Dr. Seuss\PYGZsq{}s Sneetches: A Metaphor for Development and Diagonalization\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}To understand complex ideas like diagonalization, let\PYGZsq{}s start with Dr. Seuss\PYGZsq{}s story of the Sneetches \PYG{n+ni}{\PYGZam{}mdash;} a surprisingly apt metaphor for how systems grow beyond themselves.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}content\PYGZhy{}block\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{img} \PYG{n+na}{src}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}./images/sneechtriptyche.png\PYGZdq{}} \PYG{n+na}{alt}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}Sneetch Triptych \PYGZhy{} Visualizing the pattern of transcendence\PYGZdq{}} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}max\PYGZhy{}width: 90\PYGZpc{}; margin: 0 auto; display: block;\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}In the story, Sneetches with stars (\PYG{n+ni}{\PYGZam{}\PYGZsh{}9733;}) thought they were better than those without. But when Sylvester McMonkey McBean\PYGZsq{}s machine could add or remove stars at will, the distinction collapsed. The Sneetches realized: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}\PYGZdq{}The day they decided that Sneetches are Sneetches and no kind of Sneetch is the best on the beaches.\PYGZdq{}\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}This illustrates a profound pattern in mathematics: When a system tries to define itself by a fixed marker/definition/axiom (the star), that marker can be used to transcend the systems fixity, forcing the system to evolve beyond its original definition. Mathematically, we\PYGZsq{}d write this as: \PYGZdl{}\PYGZbs{}delta(\PYG{n+ni}{\PYGZam{}\PYGZsh{}9733;})=\PYGZdl{}\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cancel\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYG{n+ni}{\PYGZam{}\PYGZsh{}9733;}\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}. The stars are not removed from all the Sneetches, nor does every Sneetch get a star. Crossing out the star does not represent a complete erasure of it, like one might do in a proof by contradiction. Rather, the star is preserved though its meaning changes. \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}Try It Yourself: The Cantor Escape Game\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}content\PYGZhy{}block\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Let\PYGZsq{}s experience this pattern of transcendence hands\PYGZhy{}on:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{ol}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}You\PYGZsq{}ll receive two sets of geometric shapes (i.e., orange squares and green triangles) \PYG{n+ni}{\PYGZam{}mdash;} these are stand\PYGZhy{}ins for Cantor\PYGZsq{}s binary system of mutually exclusive symbols (usually 0 and 1 in most reconstructions of the proof, though Cantor\PYGZsq{}s original text is worth reviewing) \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}Make a few rows of patterns with those shapes, but imagine that all you do for the rest of your life is arrange these shapes in rows \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}} Challenge: Can you create a new row that \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}must\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} be different from every other row you created?\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}Hint: For the new row, exchange the first\PYGZhy{}row/first\PYGZhy{}column with the other shape.
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{ol} \PYG{n+na}{type}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}A\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}That is, if the first element is a square, replace it with a triangle\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}If the first element is a triangle, replace it with a square.
+                            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}For the second element of the new row, look at the second row in your pattern and exchange the second element of the second row with its opposing shape\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}For the third element of the new row, look at the third row in your pattern and exchange the third element of the third row with its opposing shape\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}} Do this forever.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ol}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}} Notice that the new row cannot be equivalent to any of the rows you already created. It differs from the first in the first column, the second in the second column, etc. \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ol}\PYG{p}{\PYGZgt{}}
+
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}visualization\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}Visualizing Cantor\PYGZsq{}s Diagonalization\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Suppose you have these rows of shapes:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}row\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}row\PYGZhy{}label\PYGZdq{}}\PYG{p}{\PYGZgt{}}Row 1:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element highlight\PYGZhy{}cell\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}square\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}square\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}triangle\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}square\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}}...\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}row\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}row\PYGZhy{}label\PYGZdq{}}\PYG{p}{\PYGZgt{}}Row 2:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}triangle\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element highlight\PYGZhy{}cell\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}triangle\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}square\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}triangle\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}}...\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}row\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}row\PYGZhy{}label\PYGZdq{}}\PYG{p}{\PYGZgt{}}Row 3:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}square\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}square\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element highlight\PYGZhy{}cell\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}square\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}triangle\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}}...\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}row\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}row\PYGZhy{}label\PYGZdq{}}\PYG{p}{\PYGZgt{}}Row 4:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}triangle\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}square\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}triangle\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element highlight\PYGZhy{}cell\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}square\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}}...\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}row\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}row\PYGZhy{}label\PYGZdq{}}\PYG{p}{\PYGZgt{}}⋮\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}}⋮\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}}⋮\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}}⋮\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}}⋮\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}}⋱\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}margin: 20px 0;\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}The Diagonal Operation (δ):\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}} Flip each shape along the diagonal:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}display: flex; align\PYGZhy{}items: center; margin\PYGZhy{}left: 95px;\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}square\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}operation\PYGZhy{}arrow\PYGZdq{}}\PYG{p}{\PYGZgt{}}→\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}triangle\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}margin: 0 15px;\PYGZdq{}}\PYG{p}{\PYGZgt{}}and\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}triangle\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}operation\PYGZhy{}arrow\PYGZdq{}}\PYG{p}{\PYGZgt{}}→\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}square\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}The new row created by diagonalization:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}row\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}row\PYGZhy{}label\PYGZdq{}}\PYG{p}{\PYGZgt{}}New Row:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element highlight\PYGZhy{}cell\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}triangle\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element highlight\PYGZhy{}cell\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}square\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element highlight\PYGZhy{}cell\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}triangle\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element highlight\PYGZhy{}cell\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}triangle\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cantor\PYGZhy{}element\PYGZdq{}}\PYG{p}{\PYGZgt{}}...\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Why is this row unique?\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}} It differs from every existing row in at least one position:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}Different from Row 1 in column 1: square → triangle\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}Different from Row 2 in column 2: triangle → square\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}Different from Row 3 in column 3: square → triangle\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}Different from Row 4 in column 4: square → triangle\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}And so on for any other row we might add...\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}This demonstrates Cantor\PYGZsq{}s key insight: for any list of patterns we create, we can always construct a new pattern that isn\PYGZsq{}t on our list using diagonalization.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}By attempting to \PYGZdq{}escape\PYGZdq{} these supposedly complete categories, you\PYGZsq{}ll experience firsthand how mathematical thinking transcends boundaries. This example demonstrates Cantor\PYGZsq{}s insight that no matter how comprehensive our list of patterns seems, there\PYGZsq{}s always a way to construct something new that doesn\PYGZsq{}t fit.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{section}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{details}\PYG{p}{\PYGZgt{}}
+
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{details} \PYG{n+na}{open}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}Diagonalization: Mathematics That Transcends Itself\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{section} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}pattern\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}When we formalize arithmetic strategies and examine foundational mathematical proofs, a recurring pattern emerges: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZdq{}A Foundational Star.\PYGZdq{}\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}From Sneetches to Mathematics: The Same Pattern\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}This same pattern of transcendence appears in foundational mathematical proofs:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}content\PYGZhy{}block\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}Diagonalization in Mathematical Proofs:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}Euclid\PYGZsq{}s Proof of Infinite Primes:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}} For any finite list of primes \PYGZdl{}(A, B, \PYGZbs{}Gamma)\PYGZdl{}, we can construct \PYGZdl{}\PYGZbs{}delta(A,B,\PYGZbs{}Gamma) = A \PYGZbs{}times B \PYGZbs{}times \PYGZbs{}Gamma + 1\PYGZdl{} that cannot be divided by any of the original primes\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}Cantor\PYGZsq{}s Proof of Uncountable Reals:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}} For any list of real numbers, we can construct a new real number not on the list by systematically flipping digits along the diagonal\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}Gödel\PYGZsq{}s Incompleteness Theorem:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}} Any consistent formal system containing basic arithmetic can construct statements about itself that are true but unprovable within the system\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}citation\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                    (Cantor, 1891; Gaifman, 2006; Nagel \PYG{err}{\PYGZam{}} Newman, 2012)
+                \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}content\PYGZhy{}block\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}Sublation in Number Systems:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}The same pattern appears in number systems. Think about tally marks: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{code}\PYG{p}{\PYGZgt{}}|||||||||\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{code}\PYG{p}{\PYGZgt{}} (9). When we add one more, we don\PYGZsq{}t just get ten marks. We \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}negate\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} the individual marks, \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}preserve\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} their value, and \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}transform\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} them into a new unit: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{code}\PYG{p}{\PYGZgt{}}10\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{code}\PYG{p}{\PYGZgt{}}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}concept\PYGZdq{}}\PYG{p}{\PYGZgt{}}|||||||||| → \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cancel\PYGZdq{}}\PYG{p}{\PYGZgt{}}|||||||||\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} → 10\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}The old form is overcome but contained within the new, richer structure \PYGZhy{} just like the Sneetches had to move beyond their star markers.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}citation\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                    (Hegel, 1977; Inwood, 1992)
+                \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{details}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}More Mathematical Details\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}} (click to expand)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}Euclid\PYGZsq{}s proof\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}} doesn\PYGZsq{}t assert \PYGZdq{}infinite primes\PYGZdq{} as commonly claimed. Instead, he shows that for any given list of primes \PYGZdl{}(A, B, \PYGZbs{}Gamma)\PYGZdl{}, we can construct \PYGZdl{}\PYGZbs{}delta(A,B,\PYGZbs{}Gamma) = A \PYGZbs{}times B \PYGZbs{}times \PYGZbs{}Gamma + 1\PYGZdl{} that must be either prime itself or measured by a prime not in our original list.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}Cantor\PYGZsq{}s 1891 proof\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}} uses symbols M and W (not 0s and 1s as often presented), which interestingly are rotationally symmetric—suggesting mathematical truths might appear different but equivalent from different perspectives.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Both proofs follow the same pattern: they take a supposedly complete system, use the system\PYGZsq{}s own elements to construct something new, and thereby show the system cannot contain everything.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}citation\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                    (Euclid, 2007; Gaifman, 2006)
+                \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{details}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: center; margin: 20px 0; padding: 10px; background: \PYGZsh{}f8f8f8; border\PYGZhy{}radius: 5px;\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                Both sublation and diagonalization demonstrate how systems \PYG{p}{\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}grow and transcend limitations from within\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}} \PYGZhy{} just like the Sneetches had to move beyond their star\PYGZhy{}based identity.
+            \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{section}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{details}\PYG{p}{\PYGZgt{}}
+
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{details} \PYG{n+na}{open}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}The Hermeneutic Calculator in Action: Rearranging to Make Bases\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{section} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}student\PYGZhy{}thinking\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Students often develop intuitive strategies to simplify addition by rearranging numbers to form complete base units.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+              \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}RMB Strategy in Action from Carpenter et. al (1999) and Amy Hackenberg\PYGZsq{}s work for N101\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+              \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Teacher:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}} Lucy is eight fish. She buys five more fish. How many fish will Lucy have then?\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Sarah:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}} 13.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Teacher:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}} How\PYGZsq{}d you get 13?\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Sarah:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}} Well, because eight plus two is ten, but then two plus three is five. And she wants to buy five more fish. So you take care of two, and you need to add three more. And so I add three more, and you get 13.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}Adding 8 + 5:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}} Instead of directly adding 8 and 5, the strategy shifts 2 ones from the 5 to the 8. This creates 10 (a complete base) and leaves a remainder of 3. Thus, 10 + 3 = 13.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+              \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+              \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}This approach demonstrates how rearranging numbers can simplify the addition process.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}content\PYGZhy{}block\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+              \PYG{p}{\PYGZlt{}}\PYG{n+nt}{img} \PYG{n+na}{src}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}./images/Easy\PYGZus{}Pictures/SAR\PYGZus{}ADD\PYGZus{}RMB/2x/Asset 1@2x.png\PYGZdq{}} \PYG{n+na}{alt}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}RMB strategy visualization\PYGZdq{}} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}max\PYGZhy{}width: 70\PYGZpc{}; margin: 0 auto; display: block;\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+              \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: center;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{small}\PYG{p}{\PYGZgt{}}Rearranging to Make Bases (RMB) strategy visualization\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{small}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+              \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}Formal Representation\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+              \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}We can model the RMB strategy using a formal automaton approach. In this model, a pushdown automaton (PDA) is used to capture the key steps:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+              \PYG{p}{\PYGZlt{}}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}Identify the gap from the current addend to the next complete base.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}Transfer the necessary ones from the other addend to complete that base.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}Combine the adjusted numbers to obtain the final sum.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+              \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+              \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}This formal model helps reveal the underlying structure of the RMB strategy.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{img} \PYG{n+na}{src}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}./images/SAR\PYGZus{}ADD\PYGZus{}RMB\PYGZus{}diagram.svg\PYGZdq{}} \PYG{n+na}{alt}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}Transition Diagram for Rearranging to Make Bases\PYGZdq{}} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}max\PYGZhy{}width: 80\PYGZpc{}; margin: 0 auto; display: block;\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: center;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{small}\PYG{p}{\PYGZgt{}}Transition Diagram for Rearranging to Make Bases \PYGZhy{} I diagonalized a version of this to demonstrate emergent behavior.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{small}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{details}\PYG{p}{\PYGZgt{}}
+              \PYG{p}{\PYGZlt{}}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Formal Automaton Details for RMB\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}} (click to expand)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}}
+              \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}content\PYGZhy{}block\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}The RMB strategy can be metaphorically formalized as a pushdown automaton defined as:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}M = (Q, Σ, Γ, δ, q\PYG{p}{\PYGZlt{}}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}0\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}, Z\PYG{p}{\PYGZlt{}}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}0\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}, F)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}, where:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+                  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}Q\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}} = \PYGZob{}q\PYG{p}{\PYGZlt{}}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}0\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}, q\PYG{p}{\PYGZlt{}}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}1\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}, q\PYG{p}{\PYGZlt{}}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}2\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}, q\PYG{p}{\PYGZlt{}}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}3\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}, q\PYG{p}{\PYGZlt{}}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}4\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}, q\PYG{p}{\PYGZlt{}}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}5\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}\PYGZcb{}\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}Σ\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}} = \PYGZob{}0, 1, 2, 3, 4, 5, 6, 7, 8, 9, +\PYGZcb{}\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}Γ\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}} includes symbols that represent the number of ones transferred\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}q\PYG{p}{\PYGZlt{}}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}0\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}} is the start (and accept) state\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}F\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}} = \PYGZob{}q\PYG{p}{\PYGZlt{}}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}0\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}\PYGZcb{}\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Key transitions include calculating the deficit to reach a full base, transferring the needed ones, and finally combining the adjusted addends. This mixes a formal PDA and an algorthmic description. To truly formalize this, a recursive counting automaton would have to be embedded in the PDA. I try to draw such an automaton in the Counting part of the Hermeneutic Calculator, but it is still a work in progress. \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+              \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{details}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}Why Formalize the RMB Strategy?\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}content\PYGZhy{}block\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+              \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}This formalization not only clarifies the computation process but also emphasizes that even intuitive methods have a rigorous underlying logic. By modeling the RMB strategy, we better understand how simple rearrangements can lead to more efficient calculations.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://tiosavich.github.io/UMEDCTA/Calculator/index.html\PYGZdq{}} \PYG{n+na}{target}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZus{}blank\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}resource\PYGZhy{}link\PYGZdq{}}\PYG{p}{\PYGZgt{}}Explore the Calculator Interface\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}}
+          \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{section}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{details}\PYG{p}{\PYGZgt{}}
+
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{details} \PYG{n+na}{open}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}Implications: Freedom, Recognition, and Math Ed\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{section} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}implications\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}What does connecting student strategies, automata, and diagonalization offer math educators?\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}content\PYGZhy{}block\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}A Richer View of Student Thinking:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}} Instead of just \PYGZdq{}right\PYGZdq{} or \PYGZdq{}wrong,\PYGZdq{} we see student strategies as steps in a developmental process, reflecting their current understanding of number structure (\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}concept\PYGZdq{}}\PYG{p}{\PYGZgt{}}structuration\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}).\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}Mathematics as Dynamic:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}} Formal proofs of incompleteness (Gödel) and uncountability (Cantor) show that mathematics itself is not a closed, static system. It inherently points beyond its current boundaries.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}Connecting Math to Freedom:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}} The pattern of transcendence (diagonalization) seen in math mirrors the human capacity to move beyond fixed definitions or limitations. Recognizing this pattern formally helps argue for educational approaches that \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}respect student agency and potential for growth\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}, rather than confining them to predetermined algorithms.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}}Recognition:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{b}\PYG{p}{\PYGZgt{}} Just as the Sneetches had to recognize each other beyond the stars, understanding mathematics requires recognizing the underlying structures and relationships, not just surface procedures. It involves recognizing the \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}shared human capacity\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} for mathematical reasoning.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+
+            \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{details}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Philosophical Implications\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}} (click to expand)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                    The connection between mathematical diagonalization and human freedom runs deeper than analogy. In both cases, we see how any attempt to establish final, fixed boundaries leads to their transcendence through the system\PYGZsq{}s own resources.
+                \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                    When we recognize that mathematics itself has this structure, we gain a powerful argument against educational approaches that treat students as mere executors of fixed algorithms. Such approaches contradict the very nature of mathematics.
+                \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                    This perspective resonates with Hegel\PYGZsq{}s concept of mutual recognition, where genuine freedom emerges through recognizing others as free beings capable of growth and self\PYGZhy{}determination.
+                \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{details}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{section}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{details}\PYG{p}{\PYGZgt{}}
+
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{details} \PYG{n+na}{open}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}Conclusion \PYG{err}{\PYGZam{}} Resources\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{section} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}resources\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                The Hermeneutic Calculator project argues that by formally modeling student thinking, we uncover deep connections between math education, formal mathematics, and philosophical ideas about growth and transcendence.
+            \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}content\PYGZhy{}block\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}This shared pattern (\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}concept\PYGZdq{}}\PYG{p}{\PYGZgt{}}sublation/diagonalization\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}) suggests that learning mathematics is not just about acquiring facts, but about participating in a process of \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}recognizing and moving beyond limits\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} \PYG{n+ni}{\PYGZam{}mdash;} a process fundamental to both mathematical discovery and human development.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}content\PYGZhy{}block\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}Key Takeaways:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{ol}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}Student \PYGZdq{}invented\PYGZdq{} strategies are not just preliminary steps toward standard algorithms, but meaningful mathematical actions in their own right.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}The formal structure of mathematics inherently points beyond itself \PYGZhy{} this is not a flaw but its deepest strength.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}Educational approaches that value student agency align with the structure of mathematics itself.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ol}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{details}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}Next Steps: Extending the Hermeneutic Calculator\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}}
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Where does this research go from here? Two promising directions:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}content\PYGZhy{}block\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}1. Incompatibility Semantics\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Integrating Robert Brandom\PYGZsq{}s philosophical framework to analyze the \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}commitments and entitlements\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} involved in mathematical reasoning:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}How different arithmetic strategies create different patterns of inference\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}When strategies are compatible or incompatible with each other\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}How mathematical reasoning involves normative judgments, not just computations\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{small}\PYG{p}{\PYGZgt{}}This approach helps us understand arithmetic as a \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}concept\PYGZdq{}}\PYG{p}{\PYGZgt{}}space of reasons\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}, not just procedures.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{small}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+                \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}content\PYGZhy{}block\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}2. Emergent Mathematical Behavior\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Exploring how automata that model student strategies can demonstrate \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}emergent behavior\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} through self\PYGZhy{}reference:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}Building networks of multiple interconnected strategies\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}Using Gödelian encoding to allow automata to \PYGZdq{}reflect\PYGZdq{} on their own rules\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}Demonstrating how new strategies emerge from existing ones\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+                    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{small}\PYG{p}{\PYGZgt{}}This suggests students should be treated as having \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}concept\PYGZdq{}}\PYG{p}{\PYGZgt{}}non\PYGZhy{}finite potential\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} \PYGZhy{} just as these machines transcend their initial programming.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{small}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+                \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}quote\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+                    \PYGZdq{}Any system that claims completeness contains within itself the seeds of its own transcendence... No fixed set of strategies is ever complete.\PYGZdq{}
+                \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+                \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}These extensions further reinforce our core argument: the mathematical mind is fundamentally \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlight\PYGZdq{}}\PYG{p}{\PYGZgt{}}creative and transcendent\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}, not merely computational.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{details}\PYG{p}{\PYGZgt{}}
+
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}Explore Further:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+             \PYG{p}{\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://tiosavich.github.io/UMEDCTA/Calculator/index.html\PYGZdq{}} \PYG{n+na}{target}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZus{}blank\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}resource\PYGZhy{}link\PYGZdq{}}\PYG{p}{\PYGZgt{}}Hermeneutic Calculator\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}}
+             \PYG{p}{\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}Presentation\PYGZus{}Next\PYGZus{}Steps.html\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}resource\PYGZhy{}link\PYGZdq{}}\PYG{p}{\PYGZgt{}}Next Steps for the Project\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}}
+             \PYG{p}{\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}Incompatibility\PYGZus{}Semantics.html\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}resource\PYGZhy{}link\PYGZdq{}}\PYG{p}{\PYGZgt{}}Incompatibility Semantics \PYG{err}{\PYGZam{}} Mathematical Foundations\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}}
+             \PYG{p}{\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}Emergent\PYGZus{}Behavior.html\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}resource\PYGZhy{}link\PYGZdq{}}\PYG{p}{\PYGZgt{}}Emergent Behavior in Automata\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}}
+             \PYG{p}{\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://tiosavich.github.io/UMEDCTA/Calculator/A\PYGZus{}Foundational\PYGZus{}Star\PYGZus{}DRAFT\PYGZus{}CHAPTER.pdf\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}resource\PYGZhy{}link\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}ref\PYGZhy{}star\PYGZdq{}}\PYG{p}{\PYGZgt{}}Draft chapter from my (perpetually upcoming) book: A Foundational Star [.pdf]\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}}
+             \PYG{p}{\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://tiosavich.github.io/UMEDCTA/Calculator/Hermeneutic\PYGZus{}Calculator.pdf\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}resource\PYGZhy{}link\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}ref\PYGZhy{}star\PYGZdq{}}\PYG{p}{\PYGZgt{}}Draft paper: The Hermeneutic Calculator [.pdf]\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}}
+             \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Thank you for your attention. Questions?\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+             \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Contact: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}contact\PYGZhy{}info\PYGZdq{}}\PYG{p}{\PYGZgt{}}tmsavich AT iu DOT edu\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{section}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{details}\PYG{p}{\PYGZgt{}}
+
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{details} \PYG{n+na}{open}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}References\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{summary}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Brandom, R. B. (1994). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}Making it explicit: Reasoning, representing, and discursive commitment\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}. Harvard University Press.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Brandom, R. B. (2008). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}Between Saying and Doing: Towards an Analytic Pragmatism\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}. Oxford University Press.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Brandom, R. B. (2019). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}A Spirit of Trust: A Reading of Hegel\PYGZsq{}s Phenomenology\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}. The Belknap Press of Harvard University Press.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Cantor, G. (1891). Ueber eine elementare Frage der Mannigfaltigkeitslehre. \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}Jahresbericht der Deutschen Mathematiker\PYGZhy{}Vereinigung\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}, \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}1\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}, 75–78.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Carnielli, W., \PYG{err}{\PYGZam{}} Coniglio, M. E. (2020). Combining Logics. In E. N. Zalta (Ed.), \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}The Stanford Encyclopedia of Philosophy\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}} (Fall 2020 ed.). Metaphysics Research Lab, Stanford University. \PYG{p}{\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://plato.stanford.edu/archives/fall2020/entries/logic\PYGZhy{}combining/\PYGZdq{}}\PYG{p}{\PYGZgt{}}https://plato.stanford.edu/archives/fall2020/entries/logic\PYGZhy{}combining/\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Carpenter, T. P., Fennema, E., Franke, M. L., Levi, L., \PYG{err}{\PYGZam{}} Empson, S. B. (1999). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}Children\PYGZsq{}s mathematics: Cognitively guided instruction – Videotape logs\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}} [Supplementary material]. Heinemann; The National Council of Teachers of Mathematics.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Carspecken, P. F. (1995). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}Critical ethnography in educational research: A theoretical and practical guide\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}. Routledge.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Carspecken, P. F. (1999). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}Four Scenes for Posing the Question of Meaning and Other Essays in Critical Philosophy and Critical Methodology\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}. Peter Lang AG.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Carspecken, P. F. (2018). The Missing Infinite. In R. Winkle\PYGZhy{}Wagner, J. Lee\PYGZhy{}Johnson, \PYG{err}{\PYGZam{}} T. Gaskew (Eds.), \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}Critical Theory and Qualitative Data Analysis in Education\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}} (p. 32). Routledge. \PYG{p}{\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://doi.org/10.4324/9781315158860\PYGZhy{}2\PYGZdq{}}\PYG{p}{\PYGZgt{}}https://doi.org/10.4324/9781315158860\PYGZhy{}2\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Euclid. (2007). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}Euclid\PYGZsq{}s Elements of Geometry\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}} (R. Fitzpatrick, Trans.; Rev. \PYG{err}{\PYGZam{}} corr. ed.). Richard Fitzpatrick.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Franzén, T. (2004). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}Inexhaustibility: A Non\PYGZhy{}Exhaustive Treatment: Lecture Notes in Logic 16\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}} (1st ed.). A K Peters/CRC Press.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Franzén, T. (2005). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}Gödel\PYGZsq{}s theorem: An incomplete guide to its use and abuse\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}. AK Peters/CRC Press.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Gaifman, H. (2005). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}The Easy Way to Gödel\PYGZsq{}s Proof and Related Matters\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}} [Unpublished manuscript].\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Gaifman, H. (2006). Naming and Diagonalization, from Cantor to Gödel to Kleene. \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}Logic Journal of the IGPL\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}, \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}14\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}(5), 709–728. \PYG{p}{\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://doi.org/10.1093/jigpal/jzl006\PYGZdq{}}\PYG{p}{\PYGZgt{}}https://doi.org/10.1093/jigpal/jzl006\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Gödel, K. (1931). Über formal unentscheidbare Sätze der Principia Mathematica und verwandter Systeme I. \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}Monatshefte für Mathematik und Physik\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}, 38(1), 173\PYGZhy{}198.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Hegel, G. W. F. (1977). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}Phenomenology of spirit\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}} (A. V. Miller, Trans.). Oxford University Press. (Original work published 1807)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Inwood, M. J. (1992). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}A Hegel dictionary\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}. Blackwell.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Nagel, E., \PYG{err}{\PYGZam{}} Newman, J. R. (2012). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}Gödel\PYGZsq{}s proof\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}. Routledge. (Original work published 1958)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Savich, T. M. (2022). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}Towards a critical mathematics\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}. Indiana University.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Savich, T. M. (2024, February). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}Built to Break: An Introduction to Theoretical Auto\PYGZhy{}Ethnography\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}} [Invited talk presented at Solent University]. \PYG{p}{\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://iu.mediaspace.kaltura.com/media/t/1\PYGZus{}v1qmm3g9\PYGZdq{}}\PYG{p}{\PYGZgt{}}https://iu.mediaspace.kaltura.com/media/t/1\PYGZus{}v1qmm3g9\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Seuss, Dr. (1961). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}The Sneetches and Other Stories\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}} (1st ed.). Random House Books for Young Readers.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Sudkamp, T. A. (2006). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}Languages and Machines: An Introduction to the Theory of Computer Science\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}. Pearson Addison\PYGZhy{}Wesley.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Taylor, C. (2021). The politics of recognition. In \PYG{p}{\PYGZlt{}}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}}Campus wars\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{i}\PYG{p}{\PYGZgt{}} (pp. 249–263). Routledge.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p} \PYG{n+na}{xmlns:cc}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}http://creativecommons.org/ns\PYGZsh{}\PYGZdq{}} \PYG{n+na}{xmlns:dct}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}http://purl.org/dc/terms/\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{property}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}dct:title\PYGZdq{}} \PYG{n+na}{rel}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cc:attributionURL\PYGZdq{}} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://tiosavich.github.io/UMEDCTA/Calculator/index.html\PYGZdq{}}\PYG{p}{\PYGZgt{}}The Hermeneutic Calculator\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}} by \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{property}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cc:attributionName\PYGZdq{}}\PYG{p}{\PYGZgt{}}Theodore M. Savich\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} is licensed under \PYG{p}{\PYGZlt{}}\PYG{n+nt}{a} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://creativecommons.org/licenses/by\PYGZhy{}sa/4.0/?ref=chooser\PYGZhy{}v1\PYGZdq{}} \PYG{n+na}{target}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZus{}blank\PYGZdq{}} \PYG{n+na}{rel}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}license noopener noreferrer\PYGZdq{}} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}display:inline\PYGZhy{}block;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Creative Commons Attribution\PYGZhy{}ShareAlike 4.0 International\PYG{p}{\PYGZlt{}}\PYG{n+nt}{img} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}height:22px!important;margin\PYGZhy{}left:3px;vertical\PYGZhy{}align:text\PYGZhy{}bottom;\PYGZdq{}} \PYG{n+na}{src}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser\PYGZhy{}v1\PYGZdq{}} \PYG{n+na}{alt}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{img} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}height:22px!important;margin\PYGZhy{}left:3px;vertical\PYGZhy{}align:text\PYGZhy{}bottom;\PYGZdq{}} \PYG{n+na}{src}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser\PYGZhy{}v1\PYGZdq{}} \PYG{n+na}{alt}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{img} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}height:22px!important;margin\PYGZhy{}left:3px;vertical\PYGZhy{}align:text\PYGZhy{}bottom;\PYGZdq{}} \PYG{n+na}{src}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser\PYGZhy{}v1\PYGZdq{}} \PYG{n+na}{alt}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{a}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{details}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{main}\PYG{p}{\PYGZgt{}}
+
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{footer}\PYG{p}{\PYGZgt{}}
+        Presentation based on ongoing research by Theodore M. Savich.
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{footer}\PYG{p}{\PYGZgt{}}
+
+    \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Simple script for smooth scrolling \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\PYG{+w}{        }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{querySelectorAll}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}nav a\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{forEach}\PYG{p}{(}\PYG{n+nx}{anchor}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n+nx}{anchor}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}click\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{e}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{e}\PYG{p}{.}\PYG{n+nx}{preventDefault}\PYG{p}{();}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{targetId}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{getAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}href\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                }\PYG{c+c1}{// Ensure targetId starts with \PYGZsq{}\PYGZsh{}\PYGZsq{} and has more characters}
+\PYG{+w}{                }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{targetId}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{targetId}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{targetElement}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{querySelector}\PYG{p}{(}\PYG{n+nx}{targetId}\PYG{p}{);}
+\PYG{+w}{                    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{targetElement}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                         }\PYG{n+nx}{targetElement}\PYG{p}{.}\PYG{n+nx}{scrollIntoView}\PYG{p}{(\PYGZob{}}
+\PYG{+w}{                            }\PYG{n+nx}{behavior}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}smooth\PYGZsq{}}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{    }\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+
+
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{body}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{html}\PYG{p}{\PYGZgt{}}
+\end{MintedVerbatim}

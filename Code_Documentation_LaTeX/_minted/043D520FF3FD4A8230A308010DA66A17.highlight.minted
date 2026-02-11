@@ -1,0 +1,1221 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part A: Meaning\PYGZhy{}Use Analysis of \PYGZdq{}Sliding\PYGZdq{} Strategy}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Central Material Inferences}
+
+The \PYGZdq{}Sliding\PYGZdq{} strategy for subtraction (e.g., solving 73 \PYGZhy{} 47) is based on the principle of maintaining a constant difference. The core material inference is:
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**If you alter the minuend and the subtrahend by the same amount, then the difference remains unchanged.**}
+
+This can be expressed formally as: \PYG{l+s+sb}{`(a \PYGZhy{} b) = (a + c) \PYGZhy{} (b + c)`}.  The strategy operationalizes this abstract principle. For example, to solve \PYG{l+s+sb}{`73 \PYGZhy{} 47`}, one might infer that adding 3 to both numbers will make the problem easier (\PYG{l+s+sb}{`76 \PYGZhy{} 50`}) without changing the result.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. PP\PYGZhy{}Necessities and PP\PYGZhy{}Sufficiencies}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Necessities (Prerequisite Practices):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P1 (Number Line Intuition):**} A basic understanding of numbers as positions on a line, and of subtraction as measuring the distance between two points.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P2 (Counting/Basic Arithmetic):**} The ability to perform simple addition and subtraction, at least with multiples of 10.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P3 (Base\PYGZhy{}10 Structure):**} Recognizing that numbers ending in 0 are \PYGZdq{}easier\PYGZdq{} to work with.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Sufficiencies (Practices Sufficient to Deploy):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P4 (Difference Invariance):**} The practical ability to add or subtract the same number from both the minuend and subtrahend. This is the core practice of the strategy.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P5 (Strategic Adjustment):**} The ability to identify a target number (usually a multiple of 10) and calculate the necessary adjustment to \PYGZdq{}slide\PYGZdq{} the subtrahend to that target.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Circumstances and Consequences of Application}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Circumstances of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  A subtraction problem is presented, typically one that is cumbersome to solve with direct methods like borrowing (e.g., \PYG{l+s+sb}{`73 \PYGZhy{} 47`}, where \PYG{l+s+sb}{`3 \PYGZlt{} 7`}).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The practitioner recognizes that adjusting the numbers might simplify the calculation.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Consequences of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The original subtraction problem is transformed into a new, equivalent problem.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The new problem is computationally simpler, usually involving a subtrahend that is a multiple of 10.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The final answer is obtained by solving the simpler problem.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Meaning\PYGZhy{}Use Diagram (MUD) for \PYGZdq{}Sliding\PYGZdq{}}
+
+\PYG{l+s+sb}{```mermaid}
+\PYG{l+s}{graph TD}
+\PYG{l+s}{    subgraph \PYGZdq{}V\PYGZhy{}Space (Vocabulary)\PYGZdq{}}
+\PYG{l+s}{        V1(\PYGZdq{}Original Problem: a \PYGZhy{} b\PYGZdq{})}
+\PYG{l+s}{        V2(\PYGZdq{}Adjusted Problem: (a+c) \PYGZhy{} (b+c)\PYGZdq{})}
+\PYG{l+s}{        V3(\PYGZdq{}Simplified Problem: a\PYGZsq{} \PYGZhy{} b\PYGZsq{}\PYGZdq{})}
+\PYG{l+s}{        V4(\PYGZdq{}Final Answer\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    subgraph \PYGZdq{}P\PYGZhy{}Space (Practices)\PYGZdq{}}
+\PYG{l+s}{        P1(\PYGZdq{}P1: Number Line Intuition\PYGZdq{})}
+\PYG{l+s}{        P2(\PYGZdq{}P2: Basic Arithmetic\PYGZdq{})}
+\PYG{l+s}{        P3(\PYGZdq{}P3: Base\PYGZhy{}10 Structure\PYGZdq{})}
+\PYG{l+s}{        P4(\PYGZdq{}P4: Difference Invariance\PYGZdq{})}
+\PYG{l+s}{        P5(\PYGZdq{}P5: Strategic Adjustment\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Relationships}
+\PYG{l+s}{    V1 \PYGZhy{}\PYGZhy{} \PYGZdq{}C: Presented with problem\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Identifies adjustment \PYGZsq{}c\PYGZsq{}\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V2}
+\PYG{l+s}{    V2 \PYGZhy{}\PYGZhy{} \PYGZdq{}Applies adjustment\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V3}
+\PYG{l+s}{    V3 \PYGZhy{}\PYGZhy{} \PYGZdq{}Performs simple subtraction\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V4}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Foundational Practices}
+\PYG{l+s}{    P1 \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P2 \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P3 \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part A: Meaning\PYGZhy{}Use Analysis of \PYGZdq{}Counting On\PYGZdq{} Strategy}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Central Material Inferences}
+
+The \PYGZdq{}Counting On\PYGZdq{} strategy for addition (e.g., solving 5 + 3) is one of the most fundamental calculation strategies. The core material inference is:
+
+\PYG{k}{*}\PYG{+w}{ }  **If you start at a number \PYG{g+ge}{*n*} and count forward \PYG{g+ge}{*m*} times, you will arrive at the sum \PYG{g+ge}{*n + m*}.**
+
+This strategy treats addition as a form of iterated succession. The process itself—the act of counting—embodies the meaning of addition. The inference is not a conscious, propositionally articulated one; rather, it is enacted in the performance of the counting practice.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. PP\PYGZhy{}Necessities and PP\PYGZhy{}Sufficiencies}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Necessities (Prerequisite Practices):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P1 (Stable Order Principle):**} The ability to recite the number words in a fixed, repeatable order (e.g., \PYGZdq{}one, two, three...\PYGZdq{}).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P2 (One\PYGZhy{}to\PYGZhy{}One Correspondence):**} The ability to assign exactly one number word to each item being counted. In this case, the \PYGZdq{}items\PYGZdq{} are the counting acts themselves.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P3 (Cardinality Principle):**} Understanding that the last number word said in a count represents the total number of items.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P4 (Number Recognition):**} The ability to recognize the starting number.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Sufficiencies (Practices Sufficient to Deploy):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P5 (Iterated Succession):**} The ability to begin at a given number and proceed through the number sequence, one step at a time.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P6 (Termination Condition):**} The ability to keep track of how many steps have been taken and to stop when the required number of steps has been completed.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Circumstances and Consequences of Application}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Circumstances of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  An addition problem is presented, typically with a small addend (e.g., \PYG{l+s+sb}{`n + 2`}, \PYG{l+s+sb}{`n + 3`}).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The practitioner may not have memorized the specific addition fact.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Consequences of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The practitioner engages in a rhythmic, sequential process of vocal or sub\PYGZhy{}vocal counting.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The final number uttered in the sequence is taken as the answer to the addition problem.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Meaning\PYGZhy{}Use Diagram (MUD) for \PYGZdq{}Counting On\PYGZdq{}}
+
+\PYG{l+s+sb}{```mermaid}
+\PYG{l+s}{graph TD}
+\PYG{l+s}{    subgraph \PYGZdq{}V\PYGZhy{}Space (Vocabulary)\PYGZdq{}}
+\PYG{l+s}{        V1(\PYGZdq{}Addition Problem: n + m\PYGZdq{})}
+\PYG{l+s}{        V2(\PYGZdq{}Counting Sequence: n+1, n+2, ...\PYGZdq{})}
+\PYG{l+s}{        V3(\PYGZdq{}Final Utterance: n+m\PYGZdq{})}
+\PYG{l+s}{        V4(\PYGZdq{}Answer\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    subgraph \PYGZdq{}P\PYGZhy{}Space (Practices)\PYGZdq{}}
+\PYG{l+s}{        P1(\PYGZdq{}P1: Stable Order\PYGZdq{})}
+\PYG{l+s}{        P2(\PYGZdq{}P2: One\PYGZhy{}to\PYGZhy{}One\PYGZdq{})}
+\PYG{l+s}{        P3(\PYGZdq{}P3: Cardinality\PYGZdq{})}
+\PYG{l+s}{        P4(\PYGZdq{}P4: Number Recognition\PYGZdq{})}
+\PYG{l+s}{        P5(\PYGZdq{}P5: Iterated Succession\PYGZdq{})}
+\PYG{l+s}{        P6(\PYGZdq{}P6: Termination Condition\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Relationships}
+\PYG{l+s}{    V1 \PYGZhy{}\PYGZhy{} \PYGZdq{}C: Presented with problem\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Generates sequence\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V2}
+\PYG{l+s}{    V2 \PYGZhy{}\PYGZhy{} \PYGZdq{}Stops after \PYGZsq{}m\PYGZsq{} steps\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P6 \PYGZhy{}\PYGZhy{} \PYGZdq{}Identifies last number\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V3}
+\PYG{l+s}{    V3 \PYGZhy{}\PYGZhy{} \PYGZdq{}Is the answer\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V4}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Foundational Practices}
+\PYG{l+s}{    P1 \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P2 \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P3 \PYGZhy{}\PYGZhy{}\PYGZgt{} V4}
+\PYG{l+s}{    P4 \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part A: Meaning\PYGZhy{}Use Analysis of \PYGZdq{}Rearranging to Make Bases\PYGZdq{} (RMB)}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Central Material Inferences}
+
+The \PYGZdq{}Rearranging to Make Bases\PYGZdq{} (RMB) strategy for addition (e.g., solving 28 + 7) involves a more complex set of inferences than the previous two strategies. The central material inference is a practical enactment of the associative property of addition:
+
+\PYG{k}{*}\PYG{+w}{ }  **If a number \PYG{g+ge}{*B*} is decomposed into two parts, \PYG{g+ge}{*K*} and \PYG{g+ge}{*R*}, then adding \PYG{g+ge}{*B*} to another number \PYG{g+ge}{*A*} is equivalent to first adding \PYG{g+ge}{*K*} to \PYG{g+ge}{*A*}, and then adding \PYG{g+ge}{*R*} to the result.**
+
+This can be expressed formally as: \PYG{l+s+sb}{`A + B = A + (K + R) = (A + K) + R`}. The strategy involves seeing the second number (B) not as a monolithic quantity, but as a composite that can be strategically broken apart and recombined to simplify the calculation.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. PP\PYGZhy{}Necessities and PP\PYGZhy{}Sufficiencies}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Necessities (Prerequisite Practices):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P1 (Counting On):**} The ability to perform basic addition, which might be used to solve the final, simplified problem (e.g., \PYG{l+s+sb}{`30 + 5`}).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P2 (Base\PYGZhy{}10 Structure):**} A robust understanding of the base\PYGZhy{}10 system, including identifying the \PYGZdq{}next base\PYGZdq{} for a given number.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P3 (Number Decomposition):**} The ability to break a number into two or more parts (e.g., seeing 7 as 2 + 5).
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Sufficiencies (Practices Sufficient to Deploy):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P4 (Gap Calculation):**} The ability to calculate the difference between a number and the next multiple of 10 (e.g., for 28, the gap to 30 is 2).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P5 (Strategic Decomposition):**} The ability to decompose the second number in a way that is useful for the strategy (i.e., using the gap calculated in P4).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P6 (Re\PYGZhy{}association):**} The ability to mentally re\PYGZhy{}group the numbers according to the associative principle (i.e., grouping the first number with the \PYGZdq{}gap\PYGZdq{} part of the second number).
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Circumstances and Consequences of Application}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Circumstances of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  An addition problem is presented, often one where one of the numbers is close to a multiple of 10 (e.g., 28 + 7).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The practitioner wishes to avoid more cumbersome methods, like carrying over in a written algorithm.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Consequences of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The original problem is transformed into a three\PYGZhy{}part addition (\PYG{l+s+sb}{`A + K + R`}).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The three parts are re\PYGZhy{}grouped to create a simpler problem, where the first addition results in a multiple of 10.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The final answer is obtained by solving the simplified problem.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Meaning\PYGZhy{}Use Diagram (MUD) for \PYGZdq{}Rearranging to Make Bases\PYGZdq{}}
+
+\PYG{l+s+sb}{```mermaid}
+\PYG{l+s}{graph TD}
+\PYG{l+s}{    subgraph \PYGZdq{}V\PYGZhy{}Space (Vocabulary)\PYGZdq{}}
+\PYG{l+s}{        V1(\PYGZdq{}Original Problem: A + B\PYGZdq{})}
+\PYG{l+s}{        V2(\PYGZdq{}Decomposed Problem: A + (K + R)\PYGZdq{})}
+\PYG{l+s}{        V3(\PYGZdq{}Re\PYGZhy{}associated Problem: (A + K) + R\PYGZdq{})}
+\PYG{l+s}{        V4(\PYGZdq{}Simplified Problem: A\PYGZsq{} + R\PYGZdq{})}
+\PYG{l+s}{        V5(\PYGZdq{}Final Answer\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    subgraph \PYGZdq{}P\PYGZhy{}Space (Practices)\PYGZdq{}}
+\PYG{l+s}{        P1(\PYGZdq{}P1: Counting On\PYGZdq{})}
+\PYG{l+s}{        P2(\PYGZdq{}P2: Base\PYGZhy{}10 Structure\PYGZdq{})}
+\PYG{l+s}{        P3(\PYGZdq{}P3: Number Decomposition\PYGZdq{})}
+\PYG{l+s}{        P4(\PYGZdq{}P4: Gap Calculation\PYGZdq{})}
+\PYG{l+s}{        P5(\PYGZdq{}P5: Strategic Decomposition\PYGZdq{})}
+\PYG{l+s}{        P6(\PYGZdq{}P6: Re\PYGZhy{}association\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Relationships}
+\PYG{l+s}{    V1 \PYGZhy{}\PYGZhy{} \PYGZdq{}C: Presented with problem\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Calculates K\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Decomposes B into K+R\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V2}
+\PYG{l+s}{    V2 \PYGZhy{}\PYGZhy{} \PYGZdq{}Applies associative property\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P6 \PYGZhy{}\PYGZhy{} \PYGZdq{}Re\PYGZhy{}groups the numbers\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V3}
+\PYG{l+s}{    V3 \PYGZhy{}\PYGZhy{} \PYGZdq{}Simplifies to A\PYGZsq{} + R\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V4}
+\PYG{l+s}{    V4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Solves final addition\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V5}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Foundational Practices}
+\PYG{l+s}{    P1 \PYGZhy{}\PYGZhy{}\PYGZgt{} V4}
+\PYG{l+s}{    P2 \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P3 \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part B: Analysis of the LX Relation}
+
+This part of the analysis evaluates the claim that \PYG{g+gs}{**\PYGZdq{}Rearranging to Make Bases is LX for Counting On.\PYGZdq{}**} To do this, we\PYGZsq{}ll use Brandom\PYGZsq{}s concept of the LX\PYGZhy{}relation, where one vocabulary or set of practices is a \PYGZdq{}Linguistically Elaborated\PYGZdq{} version of another.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. The LX\PYGZhy{}Relation (Elaboration)}
+
+A vocabulary V\PYGZsq{} is LX for a vocabulary V if V\PYGZsq{} makes explicit the practices that were merely implicit in V. In other words, V\PYGZsq{} allows you to \PYG{g+ge}{*say*} what you could only \PYG{g+ge}{*do*} when using V. The LX\PYGZhy{}relation is a key part of Brandom\PYGZsq{}s model of conceptual progress. It\PYGZsq{}s how a community moves from a \PYGZdq{}knowing\PYGZhy{}how\PYGZdq{} (a reliable but un\PYGZhy{}theorized practice) to a \PYGZdq{}knowing\PYGZhy{}that\PYGZdq{} (a practice that is understood in terms of explicit principles).
+
+To show that \PYGZdq{}Rearranging\PYGZdq{} is LX for \PYGZdq{}Counting On,\PYGZdq{} we need to demonstrate that \PYGZdq{}Rearranging\PYGZdq{} provides the conceptual tools to articulate the principles that are implicitly at work in the simpler \PYGZdq{}Counting On\PYGZdq{} strategy.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. \PYGZdq{}Counting On\PYGZdq{} as the Implicit Practice}
+
+As we saw in the MUA for \PYGZdq{}Counting On,\PYGZdq{} the strategy is a reliable, but \PYGZdq{}blind\PYGZdq{} procedure. A child can learn to \PYGZdq{}count on\PYGZdq{} and get the right answer to \PYG{l+s+sb}{`5 + 3`} by saying \PYGZdq{}6, 7, 8.\PYGZdq{} The practice works, but it doesn\PYGZsq{}t, on its own, provide the resources to explain \PYG{g+ge}{*why*} it works, other than by re\PYGZhy{}stating the procedure. The principles of addition (like associativity and decomposition) are not explicitly represented in the strategy itself; they are just part of the background structure of the number system that makes the strategy successful.
+
+The \PYGZdq{}Counting On\PYGZdq{} strategy embodies a \PYGZdq{}knowing\PYGZhy{}how.\PYGZdq{} The practitioner knows \PYG{g+ge}{*how*} to get the answer, but may not be able to articulate \PYG{g+ge}{*that*} the process is an instantiation of the associative property of addition.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. \PYGZdq{}Rearranging\PYGZdq{} as the Explicit Elaboration}
+
+The \PYGZdq{}Rearranging to Make Bases\PYGZdq{} (RMB) strategy is fundamentally different. It is not a simple, linear procedure. It is a strategic manipulation of the numbers involved. Consider the steps:
+
+\PYG{k}{1.}  \PYG{g+gs}{**Decomposition:**} The act of breaking \PYG{l+s+sb}{`B`} into \PYG{l+s+sb}{`K + R`} is an explicit recognition that numbers are composites.
+\PYG{k}{2.}  \PYG{g+gs}{**Re\PYGZhy{}association:**} The act of re\PYGZhy{}grouping \PYG{l+s+sb}{`A + (K + R)`} into \PYG{l+s+sb}{`(A + K) + R`} is an explicit application of the associative principle.
+
+The RMB strategy is not just about getting the right answer; it\PYGZsq{}s about getting the right answer in a way that is computationally elegant and demonstrates a deeper understanding of the underlying mathematical principles. The vocabulary of RMB—\PYGZdq{}gap,\PYGZdq{} \PYGZdq{}decompose,\PYGZdq{} \PYGZdq{}re\PYGZhy{}group\PYGZdq{}—is a meta\PYGZhy{}vocabulary that allows the practitioner to talk about the \PYG{g+ge}{*structure*} of the addition problem, not just its solution.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Conclusion: \PYGZdq{}Rearranging\PYGZdq{} is LX for \PYGZdq{}Counting On\PYGZdq{}}
+
+The claim that \PYGZdq{}Rearranging to Make Bases is LX for Counting On\PYGZdq{} is well\PYGZhy{}founded. Here\PYGZsq{}s why:
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**RMB makes the implicit explicit:**} \PYGZdq{}Counting On\PYGZdq{} implicitly relies on the fact that numbers can be decomposed and re\PYGZhy{}composed. For example, when counting on from 8 by 5, the practitioner implicitly bridges 10 (8+2) and then adds the remaining 3. RMB makes this \PYGZdq{}bridging\PYGZdq{} an explicit, strategic act of decomposition and re\PYGZhy{}association.
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**RMB provides explanatory power:**} A practitioner using RMB can explain \PYG{g+ge}{*why*} \PYG{l+s+sb}{`28 + 7`} is the same as \PYG{l+s+sb}{`30 + 5`}. They can appeal to the principles of decomposition and associativity that are made explicit in the strategy. A practitioner using only \PYGZdq{}Counting On\PYGZdq{} can only explain their process by re\PYGZhy{}stating it.
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**RMB is a conceptual advance:**} Moving from \PYGZdq{}Counting On\PYGZdq{} to \PYGZdq{}RMB\PYGZdq{} is not just learning a new trick. It\PYGZsq{}s learning a new way of seeing numbers—not just as points on a line to be counted, but as structured entities that can be taken apart and put back together in strategic ways.
+
+In Brandomian terms, the \PYGZdq{}Rearranging to Make Bases\PYGZdq{} strategy provides the expressive resources to articulate the material inferential proprieties that were merely implicit in the simpler, more primitive practice of \PYGZdq{}Counting On.\PYGZdq{} It is a clear example of conceptual elaboration.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part A: Meaning\PYGZhy{}Use Analysis of \PYGZdq{}COBO (Counting On by Bases then Ones)\PYGZdq{}}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Central Material Inferences}
+
+The \PYGZdq{}COBO\PYGZdq{} strategy infers that:
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**A number can be decomposed into its constituent base parts and a remainder.**} (e.g., 34 is three 10s and a 4)
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Addition can be performed by sequentially adding these decomposed parts.**} (e.g., \PYG{l+s+sb}{`28 + 34 = 28 + 10 + 10 + 10 + 4`})
+
+The core inference is that a large addition can be broken down into a series of more manageable smaller additions, organized by place value.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. PP\PYGZhy{}Necessities and PP\PYGZhy{}Sufficiencies}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Necessities (Prerequisite Practices):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P1 (Counting On):**} Needed to perform the final step of adding the ones.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P2 (Place Value Understanding):**} The ability to decompose a number into its base components (e.g., knowing 34 is 3 tens and 4 ones).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P3 (Counting by Tens):**} The ability to count in jumps of 10 from any number (e.g., 28, 38, 48...).
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Sufficiencies (Practices Sufficient to Deploy):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P4 (Strategic Decomposition):**} The ability to decompose the second number into bases and ones for the purpose of addition.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P5 (Iterated Base\PYGZhy{}Jumping):**} The practice of repeatedly adding the base value.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P6 (Sequential Processing):**} The ability to manage the two\PYGZhy{}stage process: first adding the bases, then adding the ones.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Circumstances and Consequences of Application}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Circumstances of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  An addition problem \PYG{l+s+sb}{`A + B`} is presented, where \PYG{l+s+sb}{`B`} is large enough to make simple \PYGZdq{}Counting On\PYGZdq{} inefficient.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The practitioner has a good grasp of place value.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Consequences of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The addition is performed in two distinct phases: base jumps and then unit counts.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  This is more efficient than counting by ones, but less abstract than strategies like \PYGZdq{}Rearranging to Make Bases\PYGZdq{}.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The final result is the sum of the original numbers.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Meaning\PYGZhy{}Use Diagram (MUD) for \PYGZdq{}COBO\PYGZdq{}}
+
+\PYG{l+s+sb}{```mermaid}
+\PYG{l+s}{graph TD}
+\PYG{l+s}{    subgraph \PYGZdq{}V\PYGZhy{}Space (Vocabulary)\PYGZdq{}}
+\PYG{l+s}{        V1(\PYGZdq{}Original Problem: A + B\PYGZdq{})}
+\PYG{l+s}{        V2(\PYGZdq{}Decomposed B: n*Base + r\PYGZdq{})}
+\PYG{l+s}{        V3(\PYGZdq{}Intermediate Sum: A + n*Base\PYGZdq{})}
+\PYG{l+s}{        V4(\PYGZdq{}Final Answer\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    subgraph \PYGZdq{}P\PYGZhy{}Space (Practices)\PYGZdq{}}
+\PYG{l+s}{        P1(\PYGZdq{}P1: Counting On\PYGZdq{})}
+\PYG{l+s}{        P2(\PYGZdq{}P2: Place Value\PYGZdq{})}
+\PYG{l+s}{        P3(\PYGZdq{}P3: Counting by Tens\PYGZdq{})}
+\PYG{l+s}{        P4(\PYGZdq{}P4: Strategic Decomposition\PYGZdq{})}
+\PYG{l+s}{        P5(\PYGZdq{}P5: Iterated Base\PYGZhy{}Jumping\PYGZdq{})}
+\PYG{l+s}{        P6(\PYGZdq{}P6: Sequential Processing\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Relationships}
+\PYG{l+s}{    V1 \PYGZhy{}\PYGZhy{} \PYGZdq{}C: Presented with problem\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Decomposes B\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V2}
+\PYG{l+s}{    V2 \PYGZhy{}\PYGZhy{} \PYGZdq{}Initiates base jumps\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Calculates intermediate sum\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V3}
+\PYG{l+s}{    V3 \PYGZhy{}\PYGZhy{} \PYGZdq{}Initiates unit counting\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P1}
+\PYG{l+s}{    P1 \PYGZhy{}\PYGZhy{} \PYGZdq{}Calculates final sum\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V4}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Foundational Practices}
+\PYG{l+s}{    P2 \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P3 \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part A: Meaning\PYGZhy{}Use Analysis of \PYGZdq{}Rounding and Adjusting (Addition)\PYGZdq{}}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Central Material Inferences}
+
+The \PYGZdq{}Rounding and Adjusting\PYGZdq{} strategy infers that:
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**An addition problem can be temporarily simplified by rounding one of the addends to a \PYGZdq{}nicer\PYGZdq{} number (a multiple of 10).**}
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**To maintain the equality, any amount added during rounding must be subtracted later.**}
+
+The core inference is a practical application of the principle of compensation: \PYG{l+s+sb}{`A + B = (A + K) + B \PYGZhy{} K`}. The strategy involves a deliberate, temporary transformation of the problem into an easier form, followed by a corrective adjustment.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. PP\PYGZhy{}Necessities and PP\PYGZhy{}Sufficiencies}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Necessities (Prerequisite Practices):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P1 (Basic Addition/Subtraction):**} Needed to perform the addition with the rounded number and the final adjustment.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P2 (Base\PYGZhy{}10 Structure):**} Understanding of bases and how to round a number to the nearest base.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P3 (Compensation Principle):**} A basic intuition that if you change a number, you have to do something else to \PYGZdq{}make up for it\PYGZdq{}.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Sufficiencies (Practices Sufficient to Deploy):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P4 (Strategic Rounding):**} The ability to identify an addend that is close to a base and calculate the amount needed to round it up.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P5 (Problem Transformation):**} The ability to perform the simplified addition.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P6 (Compensatory Adjustment):**} The ability to remember the rounding amount and subtract it from the intermediate sum to get the final answer.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Circumstances and Consequences of Application}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Circumstances of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  An addition problem is presented where one of the numbers is close to a multiple of 10 (e.g., 29 + 17, 48 + 23).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The practitioner wants to simplify the calculation by working with a round number.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Consequences of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The original problem is transformed into a simpler addition followed by a subtraction.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  This can be more efficient than strategies that involve carrying over, especially if the rounding amount is small.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The final result is the sum of the original numbers.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Meaning\PYGZhy{}Use Diagram (MUD) for \PYGZdq{}Rounding and Adjusting (Addition)\PYGZdq{}}
+
+\PYG{l+s+sb}{```mermaid}
+\PYG{l+s}{graph TD}
+\PYG{l+s}{    subgraph \PYGZdq{}V\PYGZhy{}Space (Vocabulary)\PYGZdq{}}
+\PYG{l+s}{        V1(\PYGZdq{}Original Problem: A + B\PYGZdq{})}
+\PYG{l+s}{        V2(\PYGZdq{}Rounded Problem: (A+K) + B\PYGZdq{})}
+\PYG{l+s}{        V3(\PYGZdq{}Intermediate Sum: C\PYGZdq{})}
+\PYG{l+s}{        V4(\PYGZdq{}Final Answer: C \PYGZhy{} K\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    subgraph \PYGZdq{}P\PYGZhy{}Space (Practices)\PYGZdq{}}
+\PYG{l+s}{        P1(\PYGZdq{}P1: Basic Arithmetic\PYGZdq{})}
+\PYG{l+s}{        P2(\PYGZdq{}P2: Base\PYGZhy{}10 Structure\PYGZdq{})}
+\PYG{l+s}{        P3(\PYGZdq{}P3: Compensation\PYGZdq{})}
+\PYG{l+s}{        P4(\PYGZdq{}P4: Strategic Rounding\PYGZdq{})}
+\PYG{l+s}{        P5(\PYGZdq{}P5: Problem Transformation\PYGZdq{})}
+\PYG{l+s}{        P6(\PYGZdq{}P6: Compensatory Adjustment\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Relationships}
+\PYG{l+s}{    V1 \PYGZhy{}\PYGZhy{} \PYGZdq{}C: Presented with problem\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Rounds A to A+K\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V2}
+\PYG{l+s}{    V2 \PYGZhy{}\PYGZhy{} \PYGZdq{}Performs simplified addition\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Calculates C\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V3}
+\PYG{l+s}{    V3 \PYGZhy{}\PYGZhy{} \PYGZdq{}Initiates adjustment\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P6 \PYGZhy{}\PYGZhy{} \PYGZdq{}Subtracts K\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V4}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Foundational Practices}
+\PYG{l+s}{    P1 \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P1 \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P2 \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P3 \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s+sb}{```}
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part A: Meaning\PYGZhy{}Use Analysis of \PYGZdq{}Chunking (Addition)\PYGZdq{}}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Central Material Inferences}
+
+The \PYGZdq{}Chunking\PYGZdq{} strategy for addition infers that:
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**An addend can be decomposed into convenient \PYGZdq{}chunks,\PYGZdq{} typically based on place value (e.g., tens and ones).**}
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**These chunks can be added sequentially to the other addend.**}
+
+The core inference is that addition is associative over decomposition: \PYG{l+s+sb}{`A + (B1 + B2 + ...)`} is equivalent to \PYG{l+s+sb}{`((A + B1) + B2) + ...`}. The \PYGZdq{}chunks\PYGZdq{} are chosen strategically to simplify the series of additions, often by prioritizing larger place values.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. PP\PYGZhy{}Necessities and PP\PYGZhy{}Sufficiencies}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Necessities (Prerequisite Practices):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P1 (Basic Addition):**} Needed to add the chunks together.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P2 (Number Decomposition):**} The ability to break a number into parts (e.g., 34 is 30 and 4).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P3 (Place Value Understanding):**} To guide the decomposition into meaningful (base\PYGZhy{}ten) chunks.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Sufficiencies (Practices Sufficient to Deploy):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P4 (Strategic Chunking):**} The ability to decompose an addend into chunks that are easy to work with (e.g., multiples of 10).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P5 (Iterative Addition):**} The practice of sequentially adding the chunks to the running total.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P6 (Working Memory):**} The ability to keep track of the intermediate sums and the remaining chunks to be added.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Circumstances and Consequences of Application}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Circumstances of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  An addition problem is presented, especially one with multi\PYGZhy{}digit numbers.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The practitioner is comfortable with decomposing numbers and performing a series of additions.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Consequences of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The addition problem is transformed into a series of simpler additions.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  This avoids the formal algorithm of carrying and allows for more mental flexibility.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The final result is the sum of the original numbers.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Meaning\PYGZhy{}Use Diagram (MUD) for \PYGZdq{}Chunking (Addition)\PYGZdq{}}
+
+\PYG{l+s+sb}{```mermaid}
+\PYG{l+s}{graph TD}
+\PYG{l+s}{    subgraph \PYGZdq{}V\PYGZhy{}Space (Vocabulary)\PYGZdq{}}
+\PYG{l+s}{        V1(\PYGZdq{}Original Problem: A + B\PYGZdq{})}
+\PYG{l+s}{        V2(\PYGZdq{}Decomposed B: B1 + B2 + ...\PYGZdq{})}
+\PYG{l+s}{        V3(\PYGZdq{}Intermediate Sums: A+B1, (A+B1)+B2, ...\PYGZdq{})}
+\PYG{l+s}{        V4(\PYGZdq{}Final Answer\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    subgraph \PYGZdq{}P\PYGZhy{}Space (Practices)\PYGZdq{}}
+\PYG{l+s}{        P1(\PYGZdq{}P1: Basic Addition\PYGZdq{})}
+\PYG{l+s}{        P2(\PYGZdq{}P2: Number Decomposition\PYGZdq{})}
+\PYG{l+s}{        P3(\PYGZdq{}P3: Place Value\PYGZdq{})}
+\PYG{l+s}{        P4(\PYGZdq{}P4: Strategic Chunking\PYGZdq{})}
+\PYG{l+s}{        P5(\PYGZdq{}P5: Iterative Addition\PYGZdq{})}
+\PYG{l+s}{        P6(\PYGZdq{}P6: Working Memory\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Relationships}
+\PYG{l+s}{    V1 \PYGZhy{}\PYGZhy{} \PYGZdq{}C: Presented with problem\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Decomposes B into chunks\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V2}
+\PYG{l+s}{    V2 \PYGZhy{}\PYGZhy{} \PYGZdq{}Initiates iterative addition\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Generates intermediate sums\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V3}
+\PYG{l+s}{    V3 \PYGZhy{}\PYGZhy{} \PYGZdq{}Holds sums in memory\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Reaches final sum\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V4}
+
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Foundational Practices}
+\PYG{l+s}{    P1 \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P2 \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P3 \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s+sb}{```}
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part A: Meaning\PYGZhy{}Use Analysis of \PYGZdq{}Subtraction Chunking (Backwards by Part)\PYGZdq{}}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Central Material Inferences}
+
+The \PYGZdq{}Subtraction Chunking (Backwards by Part)\PYGZdq{} strategy infers that:
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**The number being subtracted (the subtrahend) can be decomposed into convenient chunks (e.g., tens and ones).**}
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**These chunks can be subtracted sequentially from the starting number (the minuend).**}
+
+The core inference is a practical application of the principle that \PYG{l+s+sb}{`M \PYGZhy{} (S1 + S2) = (M \PYGZhy{} S1) \PYGZhy{} S2`}. The problem is transformed from a single, complex subtraction into a series of simpler subtractions.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. PP\PYGZhy{}Necessities and PP\PYGZhy{}Sufficiencies}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Necessities (Prerequisite Practices):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P1 (Basic Subtraction):**} Needed to subtract the individual chunks.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P2 (Number Decomposition):**} The ability to break the subtrahend into parts.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P3 (Place Value Understanding):**} To guide the decomposition into meaningful chunks (e.g., 47 is 40 and 7).
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Sufficiencies (Practices Sufficient to Deploy):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P4 (Strategic Chunking):**} The ability to decompose the subtrahend into chunks that are easy to subtract.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P5 (Iterative Subtraction):**} The practice of sequentially subtracting the chunks from the running total.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P6 (Working Memory):**} The ability to hold the intermediate results in memory as the subtraction proceeds.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Circumstances and Consequences of Application}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Circumstances of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  A subtraction problem is presented, especially one with multi\PYGZhy{}digit numbers where borrowing might be seen as difficult.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The practitioner is comfortable with decomposing numbers and performing a series of subtractions.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Consequences of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The subtraction problem is transformed into a multi\PYGZhy{}step process of smaller subtractions.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  This strategy avoids the borrowing algorithm and allows for mental flexibility.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The final result is the difference between the original numbers.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Meaning\PYGZhy{}Use Diagram (MUD) for \PYGZdq{}Subtraction Chunking (Backwards by Part)\PYGZdq{}}
+
+\PYG{l+s+sb}{```mermaid}
+\PYG{l+s}{graph TD}
+\PYG{l+s}{    subgraph \PYGZdq{}V\PYGZhy{}Space (Vocabulary)\PYGZdq{}}
+\PYG{l+s}{        V1(\PYGZdq{}Original Problem: M \PYGZhy{} S\PYGZdq{})}
+\PYG{l+s}{        V2(\PYGZdq{}Decomposed S: S1 + S2 + ...\PYGZdq{})}
+\PYG{l+s}{        V3(\PYGZdq{}Intermediate Differences: M\PYGZhy{}S1, (M\PYGZhy{}S1)\PYGZhy{}S2, ...\PYGZdq{})}
+\PYG{l+s}{        V4(\PYGZdq{}Final Answer\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    subgraph \PYGZdq{}P\PYGZhy{}Space (Practices)\PYGZdq{}}
+\PYG{l+s}{        P1(\PYGZdq{}P1: Basic Subtraction\PYGZdq{})}
+\PYG{l+s}{        P2(\PYGZdq{}P2: Number Decomposition\PYGZdq{})}
+\PYG{l+s}{        P3(\PYGZdq{}P3: Place Value\PYGZdq{})}
+\PYG{l+s}{        P4(\PYGZdq{}P4: Strategic Chunking\PYGZdq{})}
+\PYG{l+s}{        P5(\PYGZdq{}P5: Iterative Subtraction\PYGZdq{})}
+\PYG{l+s}{        P6(\PYGZdq{}P6: Working Memory\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Relationships}
+\PYG{l+s}{    V1 \PYGZhy{}\PYGZhy{} \PYGZdq{}C: Presented with problem\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Decomposes S into chunks\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V2}
+\PYG{l+s}{    V2 \PYGZhy{}\PYGZhy{} \PYGZdq{}Initiates iterative subtraction\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Generates intermediate differences\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V3}
+\PYG{l+s}{    V3 \PYGZhy{}\PYGZhy{} \PYGZdq{}Holds differences in memory\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Reaches final answer\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V4}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Foundational Practices}
+\PYG{l+s}{    P1 \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P2 \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P3 \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s+sb}{```}
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part A: Meaning\PYGZhy{}Use Analysis of \PYGZdq{}Subtraction Chunking (Forwards from Part)\PYGZdq{}}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Central Material Inferences}
+
+The \PYGZdq{}Subtraction Chunking (Forwards from Part)\PYGZdq{} strategy, also known as \PYGZdq{}counting up,\PYGZdq{} is based on a fundamental reframing of subtraction. The core inferences are:
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**A subtraction problem `M \PYGZhy{} S` can be understood as a \PYGZdq{}missing addend\PYGZdq{} problem `S + ? = M`.**}
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**The missing addend (the difference) can be found by accumulating the \PYGZdq{}jumps\PYGZdq{} required to get from S to M.**}
+
+This strategy infers that subtraction is equivalent to finding the distance between two numbers on a number line, a distance that can be measured by counting up from the smaller number to the larger one.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. PP\PYGZhy{}Necessities and PP\PYGZhy{}Sufficiencies}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Necessities (Prerequisite Practices):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P1 (Addition/Counting On):**} The core of the strategy is addition.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P2 (Inverse Relationship of Add/Sub):**} A conceptual understanding that subtraction and addition are inverse operations.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P3 (Number Decomposition):**} To make strategic jumps (e.g., knowing to jump to the next ten).
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Sufficiencies (Practices Sufficient to Deploy):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P4 (Problem Reframing):**} The ability to transform the subtraction problem into a \PYGZdq{}missing addend\PYGZdq{} problem.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P5 (Strategic Jumps):**} The ability to plan and execute a series of jumps from S to M, often using multiples of 10.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P6 (Accumulating the Difference):**} The ability to keep a running total of the jumps made, which will be the final answer.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Circumstances and Consequences of Application}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Circumstances of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  A subtraction problem is presented, especially one where the minuend and subtrahend are relatively close, making \PYGZdq{}counting up\PYGZdq{} efficient.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  This strategy is also common in situations involving money (e.g., making change).
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Consequences of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The subtraction problem is transformed into a series of additions.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  This can feel more intuitive for some learners as it avoids the \PYGZdq{}take away\PYGZdq{} model of subtraction.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The final answer is the sum of the accumulated jumps.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Meaning\PYGZhy{}Use Diagram (MUD) for \PYGZdq{}Subtraction Chunking (Forwards from Part)\PYGZdq{}}
+
+\PYG{l+s+sb}{```mermaid}
+\PYG{l+s}{graph TD}
+\PYG{l+s}{    subgraph \PYGZdq{}V\PYGZhy{}Space (Vocabulary)\PYGZdq{}}
+\PYG{l+s}{        V1(\PYGZdq{}Original Problem: M \PYGZhy{} S\PYGZdq{})}
+\PYG{l+s}{        V2(\PYGZdq{}Reframed Problem: S + ? = M\PYGZdq{})}
+\PYG{l+s}{        V3(\PYGZdq{}Jumps: J1, J2, ...\PYGZdq{})}
+\PYG{l+s}{        V4(\PYGZdq{}Accumulated Difference: D = J1 + J2 + ...\PYGZdq{})}
+\PYG{l+s}{        V5(\PYGZdq{}Final Answer\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    subgraph \PYGZdq{}P\PYGZhy{}Space (Practices)\PYGZdq{}}
+\PYG{l+s}{        P1(\PYGZdq{}P1: Addition/Counting On\PYGZdq{})}
+\PYG{l+s}{        P2(\PYGZdq{}P2: Inverse Relationship\PYGZdq{})}
+\PYG{l+s}{        P3(\PYGZdq{}P3: Number Decomposition\PYGZdq{})}
+\PYG{l+s}{        P4(\PYGZdq{}P4: Problem Reframing\PYGZdq{})}
+\PYG{l+s}{        P5(\PYGZdq{}P5: Strategic Jumps\PYGZdq{})}
+\PYG{l+s}{        P6(\PYGZdq{}P6: Accumulating Difference\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Relationships}
+\PYG{l+s}{    V1 \PYGZhy{}\PYGZhy{} \PYGZdq{}C: Presented with problem\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Reframes problem\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V2}
+\PYG{l+s}{    V2 \PYGZhy{}\PYGZhy{} \PYGZdq{}Initiates jumps\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Generates jumps\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V3}
+\PYG{l+s}{    V3 \PYGZhy{}\PYGZhy{} \PYGZdq{}Are summed\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P6 \PYGZhy{}\PYGZhy{} \PYGZdq{}Calculates total D\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V4}
+\PYG{l+s}{    V4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Is the answer\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V5}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Foundational Practices}
+\PYG{l+s}{    P1 \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P2 \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P3 \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s+sb}{```}
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part A: Meaning\PYGZhy{}Use Analysis of \PYGZdq{}Subtraction Chunking (Backwards to Part)\PYGZdq{}}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Central Material Inferences}
+
+The \PYGZdq{}Subtraction Chunking (Backwards to Part)\PYGZdq{} strategy is another take on subtraction as finding a distance. The core inferences are:
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**The difference between two numbers, `M` and `S`, can be found by starting at `M` and counting backwards to `S` in strategic jumps.**}
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**The total of these backwards jumps is equivalent to the difference `M \PYGZhy{} S`.**}
+
+This strategy also treats subtraction as finding the distance between two points, but by moving from the larger number to the smaller one.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. PP\PYGZhy{}Necessities and PP\PYGZhy{}Sufficiencies}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Necessities (Prerequisite Practices):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P1 (Basic Subtraction):**} Needed to perform the jumps.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P2 (Number Line Intuition):**} A strong sense of the number line to navigate backwards.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P3 (Place Value Understanding):**} To identify strategic \PYGZdq{}landing spots\PYGZdq{} (multiples of 10).
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Sufficiencies (Practices Sufficient to Deploy):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P4 (Goal\PYGZhy{}Oriented Jumps):**} The ability to plan and execute a series of backward jumps from M with the goal of landing on S.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P5 (Accumulating the Difference):**} The ability to keep a running total of the jumps made.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P6 (Working Memory):**} To hold the current position on the number line and the accumulated difference simultaneously.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Circumstances and Consequences of Application}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Circumstances of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  A subtraction problem is presented. This strategy is flexible and can be used for many types of problems.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The practitioner is comfortable with counting backwards and has a good mental model of the number line.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Consequences of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The subtraction problem is transformed into a series of smaller, more manageable subtractions.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  This provides another alternative to the standard borrowing algorithm.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The final answer is the sum of the accumulated backward jumps.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Meaning\PYGZhy{}Use Diagram (MUD) for \PYGZdq{}Subtraction Chunking (Backwards to Part)\PYGZdq{}}
+
+\PYG{l+s+sb}{```mermaid}
+\PYG{l+s}{graph TD}
+\PYG{l+s}{    subgraph \PYGZdq{}V\PYGZhy{}Space (Vocabulary)\PYGZdq{}}
+\PYG{l+s}{        V1(\PYGZdq{}Original Problem: M \PYGZhy{} S\PYGZdq{})}
+\PYG{l+s}{        V2(\PYGZdq{}Goal: Land on S\PYGZdq{})}
+\PYG{l+s}{        V3(\PYGZdq{}Backward Jumps: J1, J2, ...\PYGZdq{})}
+\PYG{l+s}{        V4(\PYGZdq{}Accumulated Difference: D = J1 + J2 + ...\PYGZdq{})}
+\PYG{l+s}{        V5(\PYGZdq{}Final Answer\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    subgraph \PYGZdq{}P\PYGZhy{}Space (Practices)\PYGZdq{}}
+\PYG{l+s}{        P1(\PYGZdq{}P1: Basic Subtraction\PYGZdq{})}
+\PYG{l+s}{        P2(\PYGZdq{}P2: Number Line Intuition\PYGZdq{})}
+\PYG{l+s}{        P3(\PYGZdq{}P3: Place Value\PYGZdq{})}
+\PYG{l+s}{        P4(\PYGZdq{}P4: Goal\PYGZhy{}Oriented Jumps\PYGZdq{})}
+\PYG{l+s}{        P5(\PYGZdq{}P5: Accumulating Difference\PYGZdq{})}
+\PYG{l+s}{        P6(\PYGZdq{}P6: Working Memory\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Relationships}
+\PYG{l+s}{    V1 \PYGZhy{}\PYGZhy{} \PYGZdq{}C: Presented with problem\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V2}
+\PYG{l+s}{    V2 \PYGZhy{}\PYGZhy{} \PYGZdq{}Initiates backward jumps\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Generates jumps\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V3}
+\PYG{l+s}{    V3 \PYGZhy{}\PYGZhy{} \PYGZdq{}Are summed\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Calculates total D\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V4}
+\PYG{l+s}{    V4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Is the answer\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V5}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Foundational Practices}
+\PYG{l+s}{    P1 \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P2 \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P3 \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P6 \PYGZhy{}\PYGZhy{} \PYGZdq{}Supports\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P4 \PYGZam{} P5}
+\PYG{l+s+sb}{```}
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part A: Meaning\PYGZhy{}Use Analysis of \PYGZdq{}Subtraction COBO (Missing Addend)\PYGZdq{}}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Central Material Inferences}
+
+This strategy reframes subtraction as a \PYGZdq{}missing addend\PYGZdq{} problem. The core inferences are:
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**A subtraction `M \PYGZhy{} S` is equivalent to the missing addend problem `S + ? = M`.**}
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**The distance from S to M can be efficiently covered by first taking large, structured jumps (bases/tens) and then smaller jumps (ones).**}
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**The sum of the accumulated jumps (the distance covered) is the solution to the original subtraction problem.**}
+
+This strategy makes the \PYGZdq{}counting up\PYGZdq{} approach more systematic by explicitly using the base\PYGZhy{}ten structure of the number system to guide the jumps.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. PP\PYGZhy{}Necessities and PP\PYGZhy{}Sufficiencies}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Necessities (Prerequisite Practices):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P1 (Inverse Relationship of Add/Sub):**} The ability to reframe subtraction as a missing addend problem.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P2 (Place Value / Base\PYGZhy{}10 Structure):**} To understand the concept of jumping by tens.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P3 (Counting by Tens):**} The ability to add 10 to any number.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P4 (Counting On):**} To handle the final \PYGZdq{}ones\PYGZdq{} jumps.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Sufficiencies (Practices Sufficient to Deploy):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P5 (Problem Reframing):**} The ability to set up the problem as \PYG{l+s+sb}{`S + ? = M`}.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P6 (Iterated Base\PYGZhy{}Jumping):**} The practice of repeatedly adding 10 until the next jump would exceed the target (M).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P7 (Final Ones Count):**} The practice of counting on by ones to cover the remaining distance.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P8 (Accumulating the Difference):**} Keeping a running total of all the jumps (both base and ones) made.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Circumstances and Consequences of Application}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Circumstances of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  A subtraction problem \PYG{l+s+sb}{`M \PYGZhy{} S`} is presented.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  This strategy is particularly effective when the difference between M and S is large enough that counting by ones would be tedious, but the practitioner wants to use an additive approach.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Consequences of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The subtraction problem is transformed into a structured series of additions (base jumps followed by unit counts).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  This avoids \PYGZdq{}borrowing\PYGZdq{} and can feel more intuitive, as it builds up from a smaller number to a larger one.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The final answer is the accumulated total of the jumps.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Meaning\PYGZhy{}Use Diagram (MUD) for \PYGZdq{}Subtraction COBO (Missing Addend)\PYGZdq{}}
+
+\PYG{l+s+sb}{```mermaid}
+\PYG{l+s}{graph TD}
+\PYG{l+s}{    subgraph \PYGZdq{}V\PYGZhy{}Space (Vocabulary)\PYGZdq{}}
+\PYG{l+s}{        V1(\PYGZdq{}Original Problem: M \PYGZhy{} S\PYGZdq{})}
+\PYG{l+s}{        V2(\PYGZdq{}Reframed Problem: S + ? = M\PYGZdq{})}
+\PYG{l+s}{        V3(\PYGZdq{}Base Jumps: J\PYGZus{}b1, J\PYGZus{}b2, ...\PYGZdq{})}
+\PYG{l+s}{        V4(\PYGZdq{}Ones Jumps: J\PYGZus{}o1, J\PYGZus{}o2, ...\PYGZdq{})}
+\PYG{l+s}{        V5(\PYGZdq{}Accumulated Difference: D = sum(J\PYGZus{}b) + sum(J\PYGZus{}o)\PYGZdq{})}
+\PYG{l+s}{        V6(\PYGZdq{}Final Answer\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    subgraph \PYGZdq{}P\PYGZhy{}Space (Practices)\PYGZdq{}}
+\PYG{l+s}{        P1(\PYGZdq{}P1: Inverse Relationship\PYGZdq{})}
+\PYG{l+s}{        P2(\PYGZdq{}P2: Place Value\PYGZdq{})}
+\PYG{l+s}{        P3(\PYGZdq{}P3: Counting by Tens\PYGZdq{})}
+\PYG{l+s}{        P4(\PYGZdq{}P4: Counting On\PYGZdq{})}
+\PYG{l+s}{        P5(\PYGZdq{}P5: Problem Reframing\PYGZdq{})}
+\PYG{l+s}{        P6(\PYGZdq{}P6: Iterated Base\PYGZhy{}Jumping\PYGZdq{})}
+\PYG{l+s}{        P7(\PYGZdq{}P7: Final Ones Count\PYGZdq{})}
+\PYG{l+s}{        P8(\PYGZdq{}P8: Accumulating Difference\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Relationships}
+\PYG{l+s}{    V1 \PYGZhy{}\PYGZhy{} \PYGZdq{}C: Presented\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Reframes problem\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V2}
+\PYG{l+s}{    V2 \PYGZhy{}\PYGZhy{} \PYGZdq{}Initiates base jumps\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P6 \PYGZhy{}\PYGZhy{} \PYGZdq{}Generates base jumps\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V3}
+\PYG{l+s}{    V3 \PYGZhy{}\PYGZhy{} \PYGZdq{}Leads to ones jumps\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P7}
+\PYG{l+s}{    P7 \PYGZhy{}\PYGZhy{} \PYGZdq{}Generates ones jumps\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V4}
+\PYG{l+s}{    V3 \PYGZam{} V4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Are summed\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P8}
+\PYG{l+s}{    P8 \PYGZhy{}\PYGZhy{} \PYGZdq{}Calculates total D\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V5}
+\PYG{l+s}{    V5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Is the answer\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V6}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Foundational Practices}
+\PYG{l+s}{    P1 \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P2 \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P3 \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P4 \PYGZhy{}\PYGZhy{}\PYGZgt{} P7}
+\PYG{l+s+sb}{```}
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part A: Meaning\PYGZhy{}Use Analysis of \PYGZdq{}Subtraction CBBO (Counting Back by Bases and Ones)\PYGZdq{}}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Central Material Inferences}
+
+This strategy is a structured form of \PYGZdq{}take\PYGZhy{}away\PYGZdq{} subtraction. The core inferences are:
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**The number being subtracted (the subtrahend, S) can be decomposed into its constituent base parts and a remainder.**} (e.g., 25 is two 10s and a 5)
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Subtraction can be performed by sequentially taking away these decomposed parts from the minuend (M).**} (e.g., \PYG{l+s+sb}{`81 \PYGZhy{} 25`} is performed as \PYG{l+s+sb}{`(81 \PYGZhy{} 10) \PYGZhy{} 10`} and then \PYG{l+s+sb}{`\PYGZhy{} 5`})
+
+This strategy infers that a large subtraction can be broken down into a series of more manageable smaller subtractions, organized by place value.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. PP\PYGZhy{}Necessities and PP\PYGZhy{}Sufficiencies}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Necessities (Prerequisite Practices):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P1 (Place Value Understanding):**} The ability to decompose the subtrahend into its base components.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P2 (Counting Back by Tens):**} The ability to subtract 10 from any number.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P3 (Counting Back by Ones):**} The ability to perform simple subtraction of single\PYGZhy{}digit numbers.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Sufficiencies (Practices Sufficient to Deploy):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P4 (Strategic Decomposition):**} The ability to decompose the subtrahend \PYG{l+s+sb}{`S`} into bases and ones for the purpose of subtraction.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P5 (Iterated Base Subtraction):**} The practice of repeatedly subtracting the base value from the minuend \PYG{l+s+sb}{`M`}.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P6 (Final Ones Subtraction):**} The practice of subtracting the remaining ones from the intermediate result.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P7 (Sequential Processing):**} The ability to manage the two\PYGZhy{}stage process: first subtracting bases, then subtracting ones.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Circumstances and Consequences of Application}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Circumstances of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  A subtraction problem \PYG{l+s+sb}{`M \PYGZhy{} S`} is presented.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  This strategy is a natural extension for learners who are comfortable with place value and counting backwards. It\PYGZsq{}s a more structured alternative to simple \PYGZdq{}take\PYGZhy{}away\PYGZdq{} counting.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Consequences of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The subtraction is performed in two distinct phases: subtracting bases and then subtracting units.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  It directly models the \PYGZdq{}take\PYGZhy{}away\PYGZdq{} meaning of subtraction, which can be very intuitive.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The final result is the difference between the two numbers.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Meaning\PYGZhy{}Use Diagram (MUD) for \PYGZdq{}Subtraction CBBO (Counting Back)\PYGZdq{}}
+
+\PYG{l+s+sb}{```mermaid}
+\PYG{l+s}{graph TD}
+\PYG{l+s}{    subgraph \PYGZdq{}V\PYGZhy{}Space (Vocabulary)\PYGZdq{}}
+\PYG{l+s}{        V1(\PYGZdq{}Original Problem: M \PYGZhy{} S\PYGZdq{})}
+\PYG{l+s}{        V2(\PYGZdq{}Decomposed S: n*Base + r\PYGZdq{})}
+\PYG{l+s}{        V3(\PYGZdq{}Intermediate Difference: M \PYGZhy{} n*Base\PYGZdq{})}
+\PYG{l+s}{        V4(\PYGZdq{}Final Answer\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    subgraph \PYGZdq{}P\PYGZhy{}Space (Practices)\PYGZdq{}}
+\PYG{l+s}{        P1(\PYGZdq{}P1: Place Value\PYGZdq{})}
+\PYG{l+s}{        P2(\PYGZdq{}P2: Counting Back by Tens\PYGZdq{})}
+\PYG{l+s}{        P3(\PYGZdq{}P3: Counting Back by Ones\PYGZdq{})}
+\PYG{l+s}{        P4(\PYGZdq{}P4: Strategic Decomposition\PYGZdq{})}
+\PYG{l+s}{        P5(\PYGZdq{}P5: Iterated Base Subtraction\PYGZdq{})}
+\PYG{l+s}{        P6(\PYGZdq{}P6: Final Ones Subtraction\PYGZdq{})}
+\PYG{l+s}{        P7(\PYGZdq{}P7: Sequential Processing\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Relationships}
+\PYG{l+s}{    V1 \PYGZhy{}\PYGZhy{} \PYGZdq{}C: Presented\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Decomposes S\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V2}
+\PYG{l+s}{    V2 \PYGZhy{}\PYGZhy{} \PYGZdq{}Initiates base subtraction\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Calculates intermediate difference\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V3}
+\PYG{l+s}{    V3 \PYGZhy{}\PYGZhy{} \PYGZdq{}Initiates ones subtraction\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P6 \PYGZhy{}\PYGZhy{} \PYGZdq{}Calculates final answer\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V4}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Foundational Practices}
+\PYG{l+s}{    P1 \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P2 \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P3 \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P7 \PYGZhy{}\PYGZhy{} \PYGZdq{}Manages\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P5 \PYGZam{} P6}
+\PYG{l+s+sb}{```}
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part A: Meaning\PYGZhy{}Use Analysis of \PYGZdq{}Subtraction Decomposition (Borrowing)\PYGZdq{}}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Central Material Inferences}
+
+The \PYGZdq{}Subtraction Decomposition (Borrowing)\PYGZdq{} strategy, the standard algorithm, is a highly proceduralized application of place value concepts. The core inferences are:
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Numbers can be decomposed and recomposed across place values.**} (e.g., a \PYGZdq{}ten\PYGZdq{} can be decomposed into ten \PYGZdq{}ones\PYGZdq{}).
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Subtraction can be performed column by column, from right to left.**}
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**If a digit in the minuend is smaller than the corresponding digit in the subtrahend, a \PYGZdq{}borrow\PYGZdq{} from the next higher place value is necessary and justified.**}
+
+This strategy infers that the structure of the base\PYGZhy{}ten system allows for a reliable, step\PYGZhy{}by\PYGZhy{}step procedure for subtraction.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. PP\PYGZhy{}Necessities and PP\PYGZhy{}Sufficiencies}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Necessities (Prerequisite Practices):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P1 (Basic Subtraction Facts):**} To subtract the digits in each column.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P2 (Place Value Alignment):**} The ability to write the problem vertically, aligning the place values correctly.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P3 (Conceptual Decomposition):**} A basic understanding that a ten is also ten ones, a hundred is ten tens, etc.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Sufficiencies (Practices Sufficient to Deploy):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P4 (Algorithmic Procedure):**} The ability to follow the rigid, step\PYGZhy{}by\PYGZhy{}step procedure of the algorithm (right to left, borrow when needed).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P5 (Borrowing/Decomposition Practice):**} The practical ability to decrement the higher place value and increment the lower one.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P6 (Columnar Subtraction):**} The practice of subtracting the digits within each column independently.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Circumstances and Consequences of Application}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Circumstances of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  A subtraction problem is presented, often in a formal, written context (e.g., a worksheet).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  This is the default strategy taught in many educational systems.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Consequences of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The problem is solved in a reliable, though often mechanical, way.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  For many learners, the underlying conceptual basis (the decomposition) can become obscured, leading to rote memorization of the procedure and \PYGZdq{}buggy\PYGZdq{} algorithms when the procedure is forgotten.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The final result is the difference between the two numbers.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Meaning\PYGZhy{}Use Diagram (MUD) for \PYGZdq{}Subtraction Decomposition (Borrowing)\PYGZdq{}}
+
+\PYG{l+s+sb}{```mermaid}
+\PYG{l+s}{graph TD}
+\PYG{l+s}{    subgraph \PYGZdq{}V\PYGZhy{}Space (Vocabulary)\PYGZdq{}}
+\PYG{l+s}{        V1(\PYGZdq{}Original Problem: M \PYGZhy{} S\PYGZdq{})}
+\PYG{l+s}{        V2(\PYGZdq{}Aligned Problem\PYGZdq{})}
+\PYG{l+s}{        V3(\PYGZdq{}Check Ones: M\PYGZus{}o \PYGZlt{} S\PYGZus{}o?\PYGZdq{})}
+\PYG{l+s}{        V4(\PYGZdq{}Decomposed M: M\PYGZus{}t\PYGZhy{}1, M\PYGZus{}o+10\PYGZdq{})}
+\PYG{l+s}{        V5(\PYGZdq{}Columnar Results: R\PYGZus{}o, R\PYGZus{}t, ...\PYGZdq{})}
+\PYG{l+s}{        V6(\PYGZdq{}Final Answer\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    subgraph \PYGZdq{}P\PYGZhy{}Space (Practices)\PYGZdq{}}
+\PYG{l+s}{        P1(\PYGZdq{}P1: Basic Subtraction Facts\PYGZdq{})}
+\PYG{l+s}{        P2(\PYGZdq{}P2: Place Value Alignment\PYGZdq{})}
+\PYG{l+s}{        P3(\PYGZdq{}P3: Conceptual Decomposition\PYGZdq{})}
+\PYG{l+s}{        P4(\PYGZdq{}P4: Algorithmic Procedure\PYGZdq{})}
+\PYG{l+s}{        P5(\PYGZdq{}P5: Borrowing Practice\PYGZdq{})}
+\PYG{l+s}{        P6(\PYGZdq{}P6: Columnar Subtraction\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Relationships}
+\PYG{l+s}{    V1 \PYGZhy{}\PYGZhy{} \PYGZdq{}C: Presented\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P2}
+\PYG{l+s}{    P2 \PYGZhy{}\PYGZhy{} \PYGZdq{}Aligns problem\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V2}
+\PYG{l+s}{    V2 \PYGZhy{}\PYGZhy{} \PYGZdq{}Start algorithm\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Checks ones column\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V3}
+\PYG{l+s}{    V3 \PYGZhy{}\PYGZhy{} \PYGZdq{}If true, initiates borrow\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Decomposes M\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V4}
+\PYG{l+s}{    V4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Allows columnar subtraction\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    V3 \PYGZhy{}\PYGZhy{} \PYGZdq{}If false, allows\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P6 \PYGZhy{}\PYGZhy{} \PYGZdq{}Calculates column results\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V5}
+\PYG{l+s}{    V5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Are combined\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V6}
+
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Foundational Practices}
+\PYG{l+s}{    P1 \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P3 \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s+sb}{```}
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part A: Meaning\PYGZhy{}Use Analysis of \PYGZdq{}Conversion to Bases and Ones (CBO Multiplication)\PYGZdq{}}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Central Material Inferences}
+
+This strategy is a multiplicative form of \PYGZdq{}rounding and adjusting\PYGZdq{}. The core inferences are:
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**A multiplication problem `A x B` can be simplified by rounding one of the factors (say, B) to the nearest base (B\PYGZsq{}).**}
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**This creates a simpler problem (`A x B\PYGZsq{}`), but the result must be adjusted to compensate for the rounding.**}
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**The adjustment is itself a multiplication problem (`A` times the rounding amount `K`), which is then added or subtracted from the intermediate product.**}
+
+The core inference is a practical application of the distributive property of multiplication over addition/subtraction: \PYG{l+s+sb}{`A x B = A x (B\PYGZsq{} +/\PYGZhy{} K) = (A x B\PYGZsq{}) +/\PYGZhy{} (A x K)`}.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. PP\PYGZhy{}Necessities and PP\PYGZhy{}Sufficiencies}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Necessities (Prerequisite Practices):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P1 (Basic Multiplication/Addition/Subtraction):**} Needed to perform the simplified multiplication and the final adjustment.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P2 (Rounding Skills):**} To round one of the factors to a nearby base.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P3 (Distributive Principle):**} A conceptual understanding that multiplication distributes over addition/subtraction.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Sufficiencies (Practices Sufficient to Deploy):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P4 (Strategic Rounding):**} The ability to identify a factor that is close to a base and round it, keeping track of the difference \PYG{l+s+sb}{`K`}.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P5 (Problem Transformation):**} The ability to perform the simplified multiplication \PYG{l+s+sb}{`A x B\PYGZsq{}`}.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P6 (Compensatory Calculation):**} The ability to calculate the total adjustment needed (\PYG{l+s+sb}{`A x K`}).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P7 (Final Adjustment):**} The ability to correctly add or subtract the compensation from the intermediate product.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Circumstances and Consequences of Application}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Circumstances of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  A multiplication problem is presented where one factor is close to a multiple of 10 (e.g., \PYG{l+s+sb}{`7 x 19`}, \PYG{l+s+sb}{`6 x 48`}).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The practitioner is comfortable with the distributive property and can manage a multi\PYGZhy{}step calculation.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Consequences of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The original problem is transformed into a simpler multiplication followed by an addition or subtraction.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  This can be a very powerful strategy for mental math, avoiding the need for a written algorithm.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The final result is the product of the original numbers.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Meaning\PYGZhy{}Use Diagram (MUD) for \PYGZdq{}Conversion to Bases and Ones (CBO Multiplication)\PYGZdq{}}
+
+\PYG{l+s+sb}{```mermaid}
+\PYG{l+s}{graph TD}
+\PYG{l+s}{    subgraph \PYGZdq{}V\PYGZhy{}Space (Vocabulary)\PYGZdq{}}
+\PYG{l+s}{        V1(\PYGZdq{}Original Problem: A x B\PYGZdq{})}
+\PYG{l+s}{        V2(\PYGZdq{}Transformed Problem: A x (B\PYGZsq{} +/\PYGZhy{} K)\PYGZdq{})}
+\PYG{l+s}{        V3(\PYGZdq{}Distributed Problem: (A x B\PYGZsq{}) +/\PYGZhy{} (A x K)\PYGZdq{})}
+\PYG{l+s}{        V4(\PYGZdq{}Intermediate Product \PYGZam{} Adjustment\PYGZdq{})}
+\PYG{l+s}{        V5(\PYGZdq{}Final Answer\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    subgraph \PYGZdq{}P\PYGZhy{}Space (Practices)\PYGZdq{}}
+\PYG{l+s}{        P1(\PYGZdq{}P1: Basic Arithmetic\PYGZdq{})}
+\PYG{l+s}{        P2(\PYGZdq{}P2: Rounding Skills\PYGZdq{})}
+\PYG{l+s}{        P3(\PYGZdq{}P3: Distributive Principle\PYGZdq{})}
+\PYG{l+s}{        P4(\PYGZdq{}P4: Strategic Rounding\PYGZdq{})}
+\PYG{l+s}{        P5(\PYGZdq{}P5: Problem Transformation\PYGZdq{})}
+\PYG{l+s}{        P6(\PYGZdq{}P6: Compensatory Calculation\PYGZdq{})}
+\PYG{l+s}{        P7(\PYGZdq{}P7: Final Adjustment\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Relationships}
+\PYG{l+s}{    V1 \PYGZhy{}\PYGZhy{} \PYGZdq{}C: Presented\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Rounds B to B\PYGZsq{} +/\PYGZhy{} K\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V2}
+\PYG{l+s}{    V2 \PYGZhy{}\PYGZhy{} \PYGZdq{}Applies distributive property\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Transforms problem\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V3}
+\PYG{l+s}{    V3 \PYGZhy{}\PYGZhy{} \PYGZdq{}Leads to calculations\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P1 \PYGZam{} P6}
+\PYG{l+s}{    P1 \PYGZam{} P6 \PYGZhy{}\PYGZhy{} \PYGZdq{}Yield\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V4}
+\PYG{l+s}{    V4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Are combined\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P7}
+\PYG{l+s}{    P7 \PYGZhy{}\PYGZhy{} \PYGZdq{}Calculates final answer\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V5}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Foundational Practices}
+\PYG{l+s}{    P2 \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P3 \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s+sb}{```}
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part A: Meaning\PYGZhy{}Use Analysis of \PYGZdq{}Dealing by Ones (Division \PYGZhy{} Sharing)\PYGZdq{}}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Central Material Inferences}
+
+\PYGZdq{}Dealing by Ones\PYGZdq{} is a foundational strategy for partitive division (sharing). The core inferences are:
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Division (`T / N`) can be understood as fairly sharing a total `T` among `N` groups.**}
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**A \PYGZdq{}fair share\PYGZdq{} means each group receives the same amount.**}
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**This can be achieved by distributing the items one at a time to each group in a round\PYGZhy{}robin fashion until the total is exhausted.**}
+
+This strategy infers a direct, physical procedure for enacting the principle of equal sharing. The result of the division is the size of each resulting share.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. PP\PYGZhy{}Necessities and PP\PYGZhy{}Sufficiencies}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Necessities (Prerequisite Practices):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P1 (One\PYGZhy{}to\PYGZhy{}One Correspondence):**} To deal out one item at a time to each group.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P2 (Counting):**} To count the items in one of the final groups to determine the answer.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P3 (Conservation of Number):**} Understanding that the total number of items remains the same even as they are moved around.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Sufficiencies (Practices Sufficient to Deploy):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P4 (Group Formation):**} The ability to set up \PYG{l+s+sb}{`N`} distinct groups.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P5 (Round\PYGZhy{}Robin Dealing):**} The practice of distributing the \PYG{l+s+sb}{`T`} items one by one into the \PYG{l+s+sb}{`N`} groups, cycling through the groups.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P6 (Exhaustion Recognition):**} The ability to recognize when the total \PYG{l+s+sb}{`T`} has been fully distributed.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P7 (Result Identification):**} The practice of counting the items in a single group to find the quotient.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Circumstances and Consequences of Application}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Circumstances of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  A division problem is presented, especially one that can be easily modeled with physical objects (e.g., \PYGZdq{}12 cookies are shared among 3 friends\PYGZdq{}).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  It is a foundational strategy for learners who are new to the concept of division.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Consequences of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The division is performed as a concrete, physical (or imagined physical) procedure.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  It provides a strong conceptual grounding for the \PYGZdq{}sharing\PYGZdq{} meaning of division.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The strategy becomes very inefficient with larger numbers.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The final answer is the number of items in each of the \PYG{l+s+sb}{`N`} groups.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Meaning\PYGZhy{}Use Diagram (MUD) for \PYGZdq{}Dealing by Ones (Division \PYGZhy{} Sharing)\PYGZdq{}}
+
+\PYG{l+s+sb}{```mermaid}
+\PYG{l+s}{graph TD}
+\PYG{l+s}{    subgraph \PYGZdq{}V\PYGZhy{}Space (Vocabulary)\PYGZdq{}}
+\PYG{l+s}{        V1(\PYGZdq{}Original Problem: T / N\PYGZdq{})}
+\PYG{l+s}{        V2(\PYGZdq{}Conceptualization: Share T among N\PYGZdq{})}
+\PYG{l+s}{        V3(\PYGZdq{}Dealing Process\PYGZdq{})}
+\PYG{l+s}{        V4(\PYGZdq{}Resulting Group Size\PYGZdq{})}
+\PYG{l+s}{        V5(\PYGZdq{}Final Answer\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    subgraph \PYGZdq{}P\PYGZhy{}Space (Practices)\PYGZdq{}}
+\PYG{l+s}{        P1(\PYGZdq{}P1: One\PYGZhy{}to\PYGZhy{}One\PYGZdq{})}
+\PYG{l+s}{        P2(\PYGZdq{}P2: Counting\PYGZdq{})}
+\PYG{l+s}{        P3(\PYGZdq{}P3: Conservation of Number\PYGZdq{})}
+\PYG{l+s}{        P4(\PYGZdq{}P4: Group Formation\PYGZdq{})}
+\PYG{l+s}{        P5(\PYGZdq{}P5: Round\PYGZhy{}Robin Dealing\PYGZdq{})}
+\PYG{l+s}{        P6(\PYGZdq{}P6: Exhaustion Recognition\PYGZdq{})}
+\PYG{l+s}{        P7(\PYGZdq{}P7: Result Identification\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Relationships}
+\PYG{l+s}{    V1 \PYGZhy{}\PYGZhy{} \PYGZdq{}C: Presented\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Sets up N groups\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V2}
+\PYG{l+s}{    V2 \PYGZhy{}\PYGZhy{} \PYGZdq{}Initiates dealing\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Distributes items\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V3}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Until total is exhausted\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P6 \PYGZhy{}\PYGZhy{} \PYGZdq{}Leads to final count\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P7}
+\PYG{l+s}{    P7 \PYGZhy{}\PYGZhy{} \PYGZdq{}Counts items in one group\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V4}
+\PYG{l+s}{    V4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Is the answer\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V5}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Foundational Practices}
+\PYG{l+s}{    P1 \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P2 \PYGZhy{}\PYGZhy{}\PYGZgt{} P7}
+\PYG{l+s}{    P3 \PYGZhy{}\PYGZhy{} \PYGZdq{}Underpins\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part A: Meaning\PYGZhy{}Use Analysis of \PYGZdq{}Inverse Distributive Reasoning (Division)\PYGZdq{}}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Central Material Inferences}
+
+This strategy involves breaking the dividend into \PYGZdq{}friendly\PYGZdq{} numbers that are easily divisible by the divisor. The core inferences are:
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**A dividend can be decomposed into a sum of numbers that are each easily divisible by the divisor.**} (e.g., in \PYG{l+s+sb}{`132 / 4`}, 132 can be seen as \PYG{l+s+sb}{`120 + 12`}).
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**The division operation distributes over this addition.**} The core inference is that \PYG{l+s+sb}{`(A + B) / C`} is equivalent to \PYG{l+s+sb}{`(A / C) + (B / C)`}. The total quotient is the sum of the partial quotients.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. PP\PYGZhy{}Necessities and PP\PYGZhy{}Sufficiencies}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Necessities (Prerequisite Practices):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P1 (Basic Multiplication/Division Facts):**} To recognize \PYGZdq{}friendly\PYGZdq{} numbers and calculate the partial quotients.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P2 (Number Decomposition):**} The ability to break a number into parts.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P3 (Distributive Principle):**} A conceptual understanding that division distributes over addition.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P4 (Basic Addition):**} To sum the partial quotients.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Sufficiencies (Practices Sufficient to Deploy):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P5 (Strategic Decomposition):**} The ability to decompose the dividend into numbers that are convenient multiples of the divisor. This is the key strategic element.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P6 (Partial Quotients Calculation):**} The practice of dividing each part of the decomposed dividend by the divisor.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P7 (Summing Partial Quotients):**} The practice of adding the results of the partial divisions to get the final answer.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Circumstances and Consequences of Application}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Circumstances of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  A division problem is presented, especially one where the standard algorithm might be cumbersome or where the dividend has an obvious \PYGZdq{}friendly\PYGZdq{} decomposition relative to the divisor.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Consequences of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The complex division is transformed into a series of simpler divisions followed by an addition.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  This is a very powerful mental math strategy that demonstrates a deep, flexible understanding of number relationships.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The final answer is the sum of the partial quotients.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Meaning\PYGZhy{}Use Diagram (MUD) for \PYGZdq{}Inverse Distributive Reasoning (Division)\PYGZdq{}}
+
+\PYG{l+s+sb}{```mermaid}
+\PYG{l+s}{graph TD}
+\PYG{l+s}{    subgraph \PYGZdq{}V\PYGZhy{}Space (Vocabulary)\PYGZdq{}}
+\PYG{l+s}{        V1(\PYGZdq{}Original Problem: D / C\PYGZdq{})}
+\PYG{l+s}{        V2(\PYGZdq{}Decomposed Dividend: (A + B) / C\PYGZdq{})}
+\PYG{l+s}{        V3(\PYGZdq{}Distributed Problem: (A / C) + (B / C)\PYGZdq{})}
+\PYG{l+s}{        V4(\PYGZdq{}Partial Quotients: Q\PYGZus{}a, Q\PYGZus{}b\PYGZdq{})}
+\PYG{l+s}{        V5(\PYGZdq{}Final Answer: Q\PYGZus{}a + Q\PYGZus{}b\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    subgraph \PYGZdq{}P\PYGZhy{}Space (Practices)\PYGZdq{}}
+\PYG{l+s}{        P1(\PYGZdq{}P1: Basic Division Facts\PYGZdq{})}
+\PYG{l+s}{        P2(\PYGZdq{}P2: Number Decomposition\PYGZdq{})}
+\PYG{l+s}{        P3(\PYGZdq{}P3: Distributive Principle\PYGZdq{})}
+\PYG{l+s}{        P4(\PYGZdq{}P4: Basic Addition\PYGZdq{})}
+\PYG{l+s}{        P5(\PYGZdq{}P5: Strategic Decomposition\PYGZdq{})}
+\PYG{l+s}{        P6(\PYGZdq{}P6: Partial Quotients Calculation\PYGZdq{})}
+\PYG{l+s}{        P7(\PYGZdq{}P7: Summing Partial Quotients\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Relationships}
+\PYG{l+s}{    V1 \PYGZhy{}\PYGZhy{} \PYGZdq{}C: Presented\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Decomposes D into A+B\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V2}
+\PYG{l+s}{    V2 \PYGZhy{}\PYGZhy{} \PYGZdq{}Applies distributive property\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P3}
+\PYG{l+s}{    P3 \PYGZhy{}\PYGZhy{} \PYGZdq{}Transforms problem\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V3}
+\PYG{l+s}{    V3 \PYGZhy{}\PYGZhy{} \PYGZdq{}Leads to partial divisions\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P6 \PYGZhy{}\PYGZhy{} \PYGZdq{}Calculates Q\PYGZus{}a, Q\PYGZus{}b\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V4}
+\PYG{l+s}{    V4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Are summed\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P7}
+\PYG{l+s}{    P7 \PYGZhy{}\PYGZhy{} \PYGZdq{}Calculates final answer\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V5}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Foundational Practices}
+\PYG{l+s}{    P1 \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P2 \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P4 \PYGZhy{}\PYGZhy{}\PYGZgt{} P7}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part A: Meaning\PYGZhy{}Use Analysis of \PYGZdq{}Using Commutative Reasoning (Division)\PYGZdq{}}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Central Material Inferences}
+
+This strategy, more accurately described as \PYG{g+gs}{**Quotative Division**} or \PYG{g+gs}{**Division by Measurement**}, relies on the inverse relationship between division and multiplication. The name \PYGZdq{}Using Commutative Reasoning\PYGZdq{} is potentially confusing, as division is not commutative. The reasoning likely refers to the implicit use of the commutative property of multiplication when reframing the problem.
+
+The core inferences are:
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**A division problem `E / G` can be reframed as a \PYGZdq{}missing factor\PYGZdq{} multiplication problem: `? x G = E`.**}
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**The unknown factor can be found by repeatedly adding the known factor `G` and counting the number of additions required to reach the total `E`.**}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. PP\PYGZhy{}Necessities and PP\PYGZhy{}Sufficiencies}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Necessities (Prerequisite Practices):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P1 (Basic Addition):**} To perform the repeated additions of the divisor \PYG{l+s+sb}{`G`}.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P2 (Counting):**} To count the number of iterations/groups.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P3 (Inverse Relationship of Mul/Div):**} A conceptual understanding that \PYG{l+s+sb}{`E / G = ?`} is equivalent to \PYG{l+s+sb}{`? x G = E`}.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Sufficiencies (Practices Sufficient to Deploy):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P4 (Problem Reframing):**} The ability to transform the division problem into a \PYGZdq{}how many groups of G are in E?\PYGZdq{} question.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P5 (Iterative Addition/Accumulation):**} The practice of repeatedly adding \PYG{l+s+sb}{`G`} while keeping a running total.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P6 (Termination and Counting):**} The ability to stop when the running total reaches \PYG{l+s+sb}{`E`} and to report the number of iterations as the quotient.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Circumstances and Consequences of Application}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Circumstances of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  A division problem is presented, especially one where the quotient is a small whole number, making repeated addition a feasible strategy.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  It is a foundational strategy for understanding the \PYGZdq{}measurement\PYGZdq{} or \PYGZdq{}quotative\PYGZdq{} meaning of division.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Consequences of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The division is transformed into a series of additions, which can be more intuitive than a \PYGZdq{}sharing\PYGZdq{} model for certain problems.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The strategy becomes inefficient for problems with large quotients.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The final answer is the number of times the divisor was added to reach the dividend.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Meaning\PYGZhy{}Use Diagram (MUD) for \PYGZdq{}Using Commutative Reasoning (Division)\PYGZdq{}}
+
+\PYG{l+s+sb}{```mermaid}
+\PYG{l+s}{graph TD}
+\PYG{l+s}{    subgraph \PYGZdq{}V\PYGZhy{}Space (Vocabulary)\PYGZdq{}}
+\PYG{l+s}{        V1(\PYGZdq{}Original Problem: E / G\PYGZdq{})}
+\PYG{l+s}{        V2(\PYGZdq{}Reframed Problem: ? x G = E\PYGZdq{})}
+\PYG{l+s}{        V3(\PYGZdq{}Iterative Additions: G, G+G, ...\PYGZdq{})}
+\PYG{l+s}{        V4(\PYGZdq{}Iteration Count: N\PYGZdq{})}
+\PYG{l+s}{        V5(\PYGZdq{}Final Answer\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    subgraph \PYGZdq{}P\PYGZhy{}Space (Practices)\PYGZdq{}}
+\PYG{l+s}{        P1(\PYGZdq{}P1: Basic Addition\PYGZdq{})}
+\PYG{l+s}{        P2(\PYGZdq{}P2: Counting\PYGZdq{})}
+\PYG{l+s}{        P3(\PYGZdq{}P3: Inverse Relationship\PYGZdq{})}
+\PYG{l+s}{        P4(\PYGZdq{}P4: Problem Reframing\PYGZdq{})}
+\PYG{l+s}{        P5(\PYGZdq{}P5: Iterative Addition\PYGZdq{})}
+\PYG{l+s}{        P6(\PYGZdq{}P6: Termination and Counting\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Relationships}
+\PYG{l+s}{    V1 \PYGZhy{}\PYGZhy{} \PYGZdq{}C: Presented\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s}{    P4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Reframes problem\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V2}
+\PYG{l+s}{    V2 \PYGZhy{}\PYGZhy{} \PYGZdq{}Initiates iterative addition\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Generates running totals\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V3}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Stops when total equals E\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P6 \PYGZhy{}\PYGZhy{} \PYGZdq{}Counts the iterations\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V4}
+\PYG{l+s}{    V4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Is the answer\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V5}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Foundational Practices}
+\PYG{l+s}{    P1 \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P2 \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P3 \PYGZhy{}\PYGZhy{}\PYGZgt{} P4}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Part A: Meaning\PYGZhy{}Use Analysis of \PYGZdq{}Conversion to Groups Other than Bases (CGOB Division)\PYGZdq{}}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Central Material Inferences}
+
+This is a highly sophisticated strategy for division. The core inferences are:
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**A dividend can be decomposed by place value.**} (e.g., \PYG{l+s+sb}{`84`} becomes \PYG{l+s+sb}{`80 + 4`}).
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**A base unit (e.g., 10) can be conceptually analyzed and regrouped in terms of the divisor.**} This is the key inference. For \PYG{l+s+sb}{`84 / 6`}, one infers that \PYG{l+s+sb}{`10 = 1*6 + 4`}.
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**This relationship, derived from a single base unit, can be scaled up using the distributive property.**} For \PYG{l+s+sb}{`80`}, which is \PYG{l+s+sb}{`8 * 10`}, this becomes \PYG{l+s+sb}{`8 * (1*6 + 4) = (8*6) + (8*4) = 48 + 32`}.
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**The original problem can be entirely reconstituted in these new terms, and the partial quotients summed.**} The problem \PYG{l+s+sb}{`(80 + 4) / 6`} becomes \PYG{l+s+sb}{`(48 + 32 + 4) / 6`}, which simplifies to \PYG{l+s+sb}{`(48/6) + (36/6) = 8 + 6 = 14`}.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. PP\PYGZhy{}Necessities and PP\PYGZhy{}Sufficiencies}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Necessities (Prerequisite Practices):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P1 (Place Value Decomposition):**} To break the dividend into its base\PYGZhy{}10 components.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P2 (Division with Remainder):**} To perform the core analysis of the base unit versus the divisor (e.g., \PYG{l+s+sb}{`10 / 6`}).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P3 (Distributive Property):**} To correctly scale the base/divisor relationship across the magnitude of the dividend\PYGZsq{}s components.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P4 (Basic Arithmetic):**} For multiplication and addition to consolidate remainders and sum the final partial quotients.
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**PP\PYGZhy{}Sufficiencies (Practices Sufficient to Deploy):**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P5 (Base/Divisor Analysis):**} The core practice of analyzing the base unit (10) in terms of the divisor (\PYG{l+s+sb}{`C`}) to find a quotient (\PYG{l+s+sb}{`q`}) and remainder (\PYG{l+s+sb}{`r`}).
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P6 (Remainder Consolidation):**} The ability to correctly scale the remainder \PYG{l+s+sb}{`r`} from the base analysis, add it to the original remainder from the dividend, and then divide that sum by the divisor.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**P7 (Partial Quotient Synthesis):**} The ability to identify all the partial quotients generated during this complex process and sum them to produce the final answer.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Circumstances and Consequences of Application}
+
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Circumstances of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  A division problem is presented, typically one where the divisor does not divide the base\PYGZhy{}10 components of the dividend evenly (e.g., 6 does not divide 80 or 4 evenly).
+\PYG{k}{*}\PYG{+w}{ }  \PYG{g+gs}{**Consequences of Application:**}
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  The problem is transformed through a series of abstract steps that demonstrate a deep, flexible understanding of number properties, moving beyond standard algorithms.
+\PYG{+w}{    }\PYG{k}{*}\PYG{+w}{ }  It is a very powerful but likely uncommon mental math strategy, as it requires significant working memory and a strong grasp of the distributive property.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Meaning\PYGZhy{}Use Diagram (MUD) for \PYGZdq{}Conversion to Groups Other than Bases (CGOB Division)\PYGZdq{}}
+
+\PYG{l+s+sb}{```mermaid}
+\PYG{l+s}{graph TD}
+\PYG{l+s}{    subgraph \PYGZdq{}V\PYGZhy{}Space (Vocabulary)\PYGZdq{}}
+\PYG{l+s}{        V1(\PYGZdq{}Original Problem: T / C\PYGZdq{})}
+\PYG{l+s}{        V2(\PYGZdq{}Decomposed T: (B\PYGZus{}t*10 + B\PYGZus{}o) / C\PYGZdq{})}
+\PYG{l+s}{        V3(\PYGZdq{}Base/Divisor Analysis: 10 = q*C + r\PYGZdq{})}
+\PYG{l+s}{        V4(\PYGZdq{}Scaled \PYGZam{} Recomposed Dividend\PYGZdq{})}
+\PYG{l+s}{        V5(\PYGZdq{}Final Answer\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    subgraph \PYGZdq{}P\PYGZhy{}Space (Practices)\PYGZdq{}}
+\PYG{l+s}{        P1(\PYGZdq{}P1: Place Value Decomposition\PYGZdq{})}
+\PYG{l+s}{        P2(\PYGZdq{}P2: Division with Remainder\PYGZdq{})}
+\PYG{l+s}{        P3(\PYGZdq{}P3: Distributive Property\PYGZdq{})}
+\PYG{l+s}{        P4(\PYGZdq{}P4: Basic Arithmetic\PYGZdq{})}
+\PYG{l+s}{        P5(\PYGZdq{}P5: Base/Divisor Analysis\PYGZdq{})}
+\PYG{l+s}{        P6(\PYGZdq{}P6: Remainder Consolidation\PYGZdq{})}
+\PYG{l+s}{        P7(\PYGZdq{}P7: Partial Quotient Synthesis\PYGZdq{})}
+\PYG{l+s}{    end}
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Relationships}
+\PYG{l+s}{    V1 \PYGZhy{}\PYGZhy{} \PYGZdq{}C: Presented\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P1}
+\PYG{l+s}{    P1 \PYGZhy{}\PYGZhy{} \PYGZdq{}Decomposes T\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V2}
+\PYG{l+s}{    V2 \PYGZhy{}\PYGZhy{} \PYGZdq{}Initiates analysis of 10s part\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P5 \PYGZhy{}\PYGZhy{} \PYGZdq{}Analyzes 10/C\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V3}
+\PYG{l+s}{    V3 \PYGZhy{}\PYGZhy{} \PYGZdq{}Is scaled and applied\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P3}
+\PYG{l+s}{    P3 \PYGZhy{}\PYGZhy{} \PYGZdq{}Transforms dividend\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V4}
+\PYG{l+s}{    V4 \PYGZhy{}\PYGZhy{} \PYGZdq{}Leads to remainder handling\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} P6}
+\PYG{l+s}{    P6 \PYGZam{} P7 \PYGZhy{}\PYGZhy{} \PYGZdq{}Yield partial quotients which are summed\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} V5}
+
+
+\PYG{l+s}{    \PYGZpc{}\PYGZpc{} Foundational Practices}
+\PYG{l+s}{    P2 \PYGZhy{}\PYGZhy{}\PYGZgt{} P5}
+\PYG{l+s}{    P4 \PYGZhy{}\PYGZhy{}\PYGZgt{} P3 \PYGZam{} P6 \PYGZam{} P7}
+\PYG{l+s+sb}{```}
+
+\end{MintedVerbatim}

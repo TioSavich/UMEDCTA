@@ -1,0 +1,12 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k}{import}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{defineConfig}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k+kr}{from}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}vite\PYGZsq{}}\PYG{p}{;}
+\PYG{k}{import}\PYG{+w}{ }\PYG{n+nx}{react}\PYG{+w}{ }\PYG{k+kr}{from}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}@vitejs/plugin\PYGZhy{}react\PYGZsq{}}\PYG{p}{;}
+
+\PYG{k}{export}\PYG{+w}{ }\PYG{k}{default}\PYG{+w}{ }\PYG{n+nx}{defineConfig}\PYG{p}{(\PYGZob{}}
+\PYG{+w}{  }\PYG{n+nx}{plugins}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{n+nx}{react}\PYG{p}{()],}
+\PYG{+w}{  }\PYG{n+nx}{server}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n+nx}{port}\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mf}{3000}\PYG{p}{,}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{},}
+\PYG{p}{\PYGZcb{});}
+
+\end{MintedVerbatim}

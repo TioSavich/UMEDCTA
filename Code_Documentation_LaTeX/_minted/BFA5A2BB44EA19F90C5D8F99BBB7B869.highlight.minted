@@ -1,0 +1,539 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DOMContentLoaded\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} MATRIX AUTOMATON CLASS \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{    }\PYG{k+kd}{class}\PYG{+w}{ }\PYG{n+nx}{MatrixAutomaton}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kr}{constructor}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{gridContainer}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}matrix\PYGZhy{}grid\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{matrix}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[[}\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{]];}\PYG{+w}{ }\PYG{c+c1}{// Start with single M}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{maxSize}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{8}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{render}\PYG{p}{();}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c+c1}{// Cantorian diagonalization}
+\PYG{+w}{        }\PYG{n+nx}{grow}\PYG{p}{(}\PYG{n+nx}{finalCharacter}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{baseMatrix}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{matrix}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{newSize}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{matrix}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// Ripple effect when at max size}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{matrix}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{maxSize}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{newSize}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{maxSize}\PYG{p}{;}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{shifted}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[];}
+\PYG{+w}{                }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{matrix}\PYG{p}{.}\PYG{n+nx}{length}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{n+nx}{shifted}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{matrix}\PYG{p}{[}\PYG{n+nx}{i}\PYG{p}{].}\PYG{n+nx}{slice}\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{p}{));}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                }\PYG{n+nx}{baseMatrix}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{shifted}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{baseMatrix}\PYG{p}{.}\PYG{n+nx}{length}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{newMatrix}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Array}\PYG{p}{(}\PYG{n+nx}{newSize}\PYG{p}{).}\PYG{n+nx}{fill}\PYG{p}{(}\PYG{k+kc}{null}\PYG{p}{).}\PYG{n+nx}{map}\PYG{p}{(()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nb}{Array}\PYG{p}{(}\PYG{n+nx}{newSize}\PYG{p}{).}\PYG{n+nx}{fill}\PYG{p}{(}\PYG{k+kc}{null}\PYG{p}{));}
+
+\PYG{+w}{            }\PYG{c+c1}{// Copy base matrix}
+\PYG{+w}{            }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{j}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{j}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{j}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{n+nx}{newMatrix}\PYG{p}{[}\PYG{n+nx}{i}\PYG{p}{][}\PYG{n+nx}{j}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{baseMatrix}\PYG{p}{[}\PYG{n+nx}{i}\PYG{p}{][}\PYG{n+nx}{j}\PYG{p}{];}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{c+c1}{// Get diagonal and negate it}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{diagonal}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[];}
+\PYG{+w}{            }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{diagonal}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{(}\PYG{n+nx}{baseMatrix}\PYG{p}{[}\PYG{n+nx}{i}\PYG{p}{][}\PYG{n+nx}{i}\PYG{p}{]);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{negatedDiagonal}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{diagonal}\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{(}\PYG{k+kr}{char}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kr}{char}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}W\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{));}
+
+\PYG{+w}{            }\PYG{c+c1}{// Fill last row and column with negated diagonal}
+\PYG{+w}{            }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{newMatrix}\PYG{p}{[}\PYG{n+nx}{n}\PYG{p}{][}\PYG{n+nx}{i}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{negatedDiagonal}\PYG{p}{[}\PYG{n+nx}{i}\PYG{p}{];}
+\PYG{+w}{                }\PYG{n+nx}{newMatrix}\PYG{p}{[}\PYG{n+nx}{i}\PYG{p}{][}\PYG{n+nx}{n}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{negatedDiagonal}\PYG{p}{[}\PYG{n+nx}{i}\PYG{p}{];}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{c+c1}{// Fill corner with new character from Zeeman machine}
+\PYG{+w}{            }\PYG{n+nx}{newMatrix}\PYG{p}{[}\PYG{n+nx}{n}\PYG{p}{][}\PYG{n+nx}{n}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{finalCharacter}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{matrix}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{newMatrix}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{render}\PYG{p}{();}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{n+nx}{render}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{gridContainer}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{size}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{matrix}\PYG{p}{.}\PYG{n+nx}{length}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{gridContainer}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{gridTemplateColumns}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`repeat(}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{size}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{, 50px)`}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{size}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{j}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{j}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{size}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{j}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{cell}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElement}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}div\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                    }\PYG{n+nx}{cell}\PYG{p}{.}\PYG{n+nx}{classList}\PYG{p}{.}\PYG{n+nx}{add}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}matrix\PYGZhy{}cell\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                    }\PYG{n+nx}{cell}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{matrix}\PYG{p}{[}\PYG{n+nx}{i}\PYG{p}{][}\PYG{n+nx}{j}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{gridContainer}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{cell}\PYG{p}{);}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} ZEEMAN CATASTROPHE MACHINE CLASS (WITH PROPER PHYSICS) \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{    }\PYG{k+kd}{class}\PYG{+w}{ }\PYG{n+nx}{ZeemanMachine}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kr}{constructor}\PYG{p}{(}\PYG{n+nx}{matrixAutomaton}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{canvas}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}zeeman\PYGZhy{}canvas\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{canvas}\PYG{p}{.}\PYG{n+nx}{getContext}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}2d\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{automaton}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{matrixAutomaton}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// DOM Elements}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{statusEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}status\PYGZhy{}value\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{timeSpeedSlider}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}time\PYGZhy{}speed\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{springKSlider}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}spring\PYGZhy{}k\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{naturalLengthSlider}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}natural\PYGZhy{}length\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{kValueDisplay}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}k\PYGZhy{}value\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{l0ValueDisplay}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}l0\PYGZhy{}value\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{timeValueDisplay}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}time\PYGZhy{}value\PYGZsq{}}\PYG{p}{);}
+
+\PYG{+w}{            }\PYG{c+c1}{// Canvas parameters}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{width}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{canvas}\PYG{p}{.}\PYG{n+nx}{width}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{height}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{canvas}\PYG{p}{.}\PYG{n+nx}{height}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{wheelRadius}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{60}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{attachmentRadius}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{50}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// R}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{wheelCenter}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{o}{:}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{width}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{o}{:}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{height}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{+w}{ }\PYG{p}{\PYGZcb{};}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{fixedAnchor}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{o}{:}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{width}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mf}{50}\PYG{+w}{ }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{            }\PYG{c+c1}{// Physics parameters (user\PYGZhy{}controllable)}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{springK}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{2.0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Spring constant}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{L0}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{100}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Natural length}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{timeSpeed}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{1.0}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// Physics state}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{angle}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{PI}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Start pointing down (\PYGZsq{}M\PYGZsq{})}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{previousAngle}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{angle}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// Interaction state}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{isDragging}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{controlPoint}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{o}{:}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{width}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{100}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{o}{:}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{height}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{100}\PYG{+w}{ }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{            }\PYG{c+c1}{// Machine state}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{isStable}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{currentStability}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{1.0}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{bindEvents}\PYG{p}{();}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{loop}\PYG{p}{();}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{n+nx}{bindEvents}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// Control point dragging}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{canvas}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}mousedown\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{e}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{rect}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{canvas}\PYG{p}{.}\PYG{n+nx}{getBoundingClientRect}\PYG{p}{();}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{mx}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{e}\PYG{p}{.}\PYG{n+nx}{clientX}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{rect}\PYG{p}{.}\PYG{n+nx}{left}\PYG{p}{;}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{my}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{e}\PYG{p}{.}\PYG{n+nx}{clientY}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{rect}\PYG{p}{.}\PYG{n+nx}{top}\PYG{p}{;}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{dist}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{sqrt}\PYG{p}{(}\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{pow}\PYG{p}{(}\PYG{n+nx}{mx}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{controlPoint}\PYG{p}{.}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{pow}\PYG{p}{(}\PYG{n+nx}{my}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{controlPoint}\PYG{p}{.}\PYG{n+nx}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{));}
+\PYG{+w}{                }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{dist}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mf}{15}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{isDragging}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{});}
+
+\PYG{+w}{            }\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}mousemove\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{e}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{isDragging}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{rect}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{canvas}\PYG{p}{.}\PYG{n+nx}{getBoundingClientRect}\PYG{p}{();}
+\PYG{+w}{                    }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{controlPoint}\PYG{p}{.}\PYG{n+nx}{x}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{max}\PYG{p}{(}\PYG{l+m+mf}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{min}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{width}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{e}\PYG{p}{.}\PYG{n+nx}{clientX}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{rect}\PYG{p}{.}\PYG{n+nx}{left}\PYG{p}{));}
+\PYG{+w}{                    }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{controlPoint}\PYG{p}{.}\PYG{n+nx}{y}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{max}\PYG{p}{(}\PYG{l+m+mf}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{min}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{height}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{e}\PYG{p}{.}\PYG{n+nx}{clientY}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{rect}\PYG{p}{.}\PYG{n+nx}{top}\PYG{p}{));}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{});}
+
+\PYG{+w}{            }\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}mouseup\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{isDragging}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{});}
+
+\PYG{+w}{            }\PYG{c+c1}{// Parameter sliders}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{timeSpeedSlider}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}input\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{e}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{timeSpeed}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{parseFloat}\PYG{p}{(}\PYG{n+nx}{e}\PYG{p}{.}\PYG{n+nx}{target}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{);}
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{timeValueDisplay}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{timeSpeed}\PYG{p}{.}\PYG{n+nx}{toFixed}\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{p}{);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{});}
+
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{springKSlider}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}input\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{e}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{springK}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{parseFloat}\PYG{p}{(}\PYG{n+nx}{e}\PYG{p}{.}\PYG{n+nx}{target}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{);}
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{kValueDisplay}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{springK}\PYG{p}{.}\PYG{n+nx}{toFixed}\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{p}{);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{});}
+
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{naturalLengthSlider}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}input\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{e}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{L0}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{parseFloat}\PYG{p}{(}\PYG{n+nx}{e}\PYG{p}{.}\PYG{n+nx}{target}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{);}
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{l0ValueDisplay}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{L0}\PYG{p}{.}\PYG{n+nx}{toFixed}\PYG{p}{(}\PYG{l+m+mf}{0}\PYG{p}{);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c+c1}{// Get attachment point on wheel rim}
+\PYG{+w}{        }\PYG{n+nx}{getAttachmentPoint}\PYG{p}{(}\PYG{n+nx}{angle}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{x}\PYG{o}{:}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{wheelCenter}\PYG{p}{.}\PYG{n+nx}{x}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{attachmentRadius}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{cos}\PYG{p}{(}\PYG{n+nx}{angle}\PYG{p}{),}
+\PYG{+w}{                }\PYG{n+nx}{y}\PYG{o}{:}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{wheelCenter}\PYG{p}{.}\PYG{n+nx}{y}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{attachmentRadius}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{sin}\PYG{p}{(}\PYG{n+nx}{angle}\PYG{p}{)}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{};}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c+c1}{// Calculate potential energy using Hooke\PYGZsq{}s Law: E = 0.5*k*(L\PYGZhy{}L0)\PYGZca{}2}
+\PYG{+w}{        }\PYG{n+nx}{calculateEnergy}\PYG{p}{(}\PYG{n+nx}{angle}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{P}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{getAttachmentPoint}\PYG{p}{(}\PYG{n+nx}{angle}\PYG{p}{);}
+
+\PYG{+w}{            }\PYG{c+c1}{// Calculate current lengths}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{L1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{sqrt}\PYG{p}{(}\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{pow}\PYG{p}{(}\PYG{n+nx}{P}\PYG{p}{.}\PYG{n+nx}{x}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{fixedAnchor}\PYG{p}{.}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{pow}\PYG{p}{(}\PYG{n+nx}{P}\PYG{p}{.}\PYG{n+nx}{y}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{fixedAnchor}\PYG{p}{.}\PYG{n+nx}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{));}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{L2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{sqrt}\PYG{p}{(}\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{pow}\PYG{p}{(}\PYG{n+nx}{P}\PYG{p}{.}\PYG{n+nx}{x}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{controlPoint}\PYG{p}{.}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{pow}\PYG{p}{(}\PYG{n+nx}{P}\PYG{p}{.}\PYG{n+nx}{y}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{controlPoint}\PYG{p}{.}\PYG{n+nx}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{));}
+
+\PYG{+w}{            }\PYG{c+c1}{// Energy only if stretched beyond L0}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{E1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{L1}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{L0}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+m+mf}{0.5}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{springK}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{pow}\PYG{p}{(}\PYG{n+nx}{L1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{L0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{E2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{L2}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{L0}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+m+mf}{0.5}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{springK}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{pow}\PYG{p}{(}\PYG{n+nx}{L2}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{L0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{E1}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{E2}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c+c1}{// Calculate gradient (torque) \PYGZhy{} dE/dAngle}
+\PYG{+w}{        }\PYG{n+nx}{calculateGradient}\PYG{p}{(}\PYG{n+nx}{angle}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{R}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{attachmentRadius}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// Coordinates relative to wheel center}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{Fx}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{fixedAnchor}\PYG{p}{.}\PYG{n+nx}{x}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{wheelCenter}\PYG{p}{.}\PYG{n+nx}{x}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{Fy}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{fixedAnchor}\PYG{p}{.}\PYG{n+nx}{y}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{wheelCenter}\PYG{p}{.}\PYG{n+nx}{y}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{Cx}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{controlPoint}\PYG{p}{.}\PYG{n+nx}{x}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{wheelCenter}\PYG{p}{.}\PYG{n+nx}{x}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{Cy}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{controlPoint}\PYG{p}{.}\PYG{n+nx}{y}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{wheelCenter}\PYG{p}{.}\PYG{n+nx}{y}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// Attachment point relative to center}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{Px}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{R}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{cos}\PYG{p}{(}\PYG{n+nx}{angle}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{Py}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{R}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{sin}\PYG{p}{(}\PYG{n+nx}{angle}\PYG{p}{);}
+
+\PYG{+w}{            }\PYG{c+c1}{// Calculate lengths}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{L1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{sqrt}\PYG{p}{(}\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{pow}\PYG{p}{(}\PYG{n+nx}{Px}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{Fx}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{pow}\PYG{p}{(}\PYG{n+nx}{Py}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{Fy}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{));}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{L2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{sqrt}\PYG{p}{(}\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{pow}\PYG{p}{(}\PYG{n+nx}{Px}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{Cx}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{pow}\PYG{p}{(}\PYG{n+nx}{Py}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{Cy}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{));}
+
+\PYG{+w}{            }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{Term1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{L1}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{L0}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{L1}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0.001}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{Term1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{springK}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{L0}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n+nx}{L1}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{Fx}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{sin}\PYG{p}{(}\PYG{n+nx}{angle}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{Fy}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{cos}\PYG{p}{(}\PYG{n+nx}{angle}\PYG{p}{));}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{Term2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{L2}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{L0}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{L2}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0.001}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{Term2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{springK}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{L0}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n+nx}{L2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{Cx}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{sin}\PYG{p}{(}\PYG{n+nx}{angle}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{Cy}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{cos}\PYG{p}{(}\PYG{n+nx}{angle}\PYG{p}{));}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{R}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{Term1}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{Term2}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c+c1}{// Estimate stability (second derivative) using central differences}
+\PYG{+w}{        }\PYG{n+nx}{estimateStability}\PYG{p}{(}\PYG{n+nx}{angle}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{dA}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0.01}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{gradientPlus}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{calculateGradient}\PYG{p}{(}\PYG{n+nx}{angle}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{dA}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{gradientMinus}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{calculateGradient}\PYG{p}{(}\PYG{n+nx}{angle}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{dA}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{gradientPlus}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{gradientMinus}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{2}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{dA}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c+c1}{// Update disc state using gradient descent (finds local minimum \PYGZhy{} hysteresis)}
+\PYG{+w}{        }\PYG{n+nx}{updateState}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{newAngle}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{angle}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{learningRate}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0.001}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{maxIterations}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{250}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{convergenceThreshold}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0.05}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{stability}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// Gradient descent loop}
+\PYG{+w}{            }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{maxIterations}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{gradient}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{calculateGradient}\PYG{p}{(}\PYG{n+nx}{newAngle}\PYG{p}{);}
+
+\PYG{+w}{                }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{abs}\PYG{p}{(}\PYG{n+nx}{gradient}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{convergenceThreshold}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{n+nx}{stability}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{estimateStability}\PYG{p}{(}\PYG{n+nx}{newAngle}\PYG{p}{);}
+\PYG{+w}{                    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{stability}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{break}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Found stable minimum}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{                }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{step}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{learningRate}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{gradient}\PYG{p}{;}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{maxStep}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0.1}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{step}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{max}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{n+nx}{maxStep}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{min}\PYG{p}{(}\PYG{n+nx}{maxStep}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{step}\PYG{p}{));}
+
+\PYG{+w}{                }\PYG{n+nx}{newAngle}\PYG{+w}{ }\PYG{o}{\PYGZhy{}=}\PYG{+w}{ }\PYG{n+nx}{step}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{newAngle}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{newAngle}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{4}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{PI}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mf}{2}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{PI}\PYG{p}{);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{stability}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{stability}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{estimateStability}\PYG{p}{(}\PYG{n+nx}{newAngle}\PYG{p}{);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{c+c1}{// Detect catastrophe (snap)}
+\PYG{+w}{            }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{angleDiff}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{newAngle}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{angle}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{angleDiff}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{PI}\PYG{p}{)}\PYG{+w}{ }\PYG{n+nx}{angleDiff}\PYG{+w}{ }\PYG{o}{\PYGZhy{}=}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{PI}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{angleDiff}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{PI}\PYG{p}{)}\PYG{+w}{ }\PYG{n+nx}{angleDiff}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{PI}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{snapped}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{abs}\PYG{p}{(}\PYG{n+nx}{angleDiff}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0.6}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{angle}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{newAngle}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{currentStability}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{stability}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{5000}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Normalize for visualization}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{currentStability}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{max}\PYG{p}{(}\PYG{l+m+mf}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{min}\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{currentStability}\PYG{p}{));}
+
+\PYG{+w}{            }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{snapped}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{n+nx}{update}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{wasStable}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{isStable}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{snapped}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{updateState}\PYG{p}{();}
+
+\PYG{+w}{            }\PYG{c+c1}{// Determine current output character}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{currentOutput}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{angle}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{PI}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{angle}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mf}{3}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{PI}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}W\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// Check stability}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{isStable}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{currentStability}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0.3}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{isStable}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{statusEl}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Stable \PYGZhy{} \PYGZsq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{currentOutput}\PYG{p}{;}
+\PYG{+w}{                }\PYG{c+c1}{// Trigger matrix growth on catastrophe}
+\PYG{+w}{                }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{snapped}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{o}{!}\PYG{n+nx}{wasStable}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{automaton}\PYG{p}{.}\PYG{n+nx}{grow}\PYG{p}{(}\PYG{n+nx}{currentOutput}\PYG{p}{);}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{statusEl}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Superimposed (Indeterminate)\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{n+nx}{draw}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{clearRect}\PYG{p}{(}\PYG{l+m+mf}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{width}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{height}\PYG{p}{);}
+
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{P}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{getAttachmentPoint}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{angle}\PYG{p}{);}
+
+\PYG{+w}{            }\PYG{c+c1}{// Calculate lengths for visualization}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{L1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{sqrt}\PYG{p}{(}\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{pow}\PYG{p}{(}\PYG{n+nx}{P}\PYG{p}{.}\PYG{n+nx}{x}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{fixedAnchor}\PYG{p}{.}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{pow}\PYG{p}{(}\PYG{n+nx}{P}\PYG{p}{.}\PYG{n+nx}{y}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{fixedAnchor}\PYG{p}{.}\PYG{n+nx}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{));}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{L2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{sqrt}\PYG{p}{(}\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{pow}\PYG{p}{(}\PYG{n+nx}{P}\PYG{p}{.}\PYG{n+nx}{x}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{controlPoint}\PYG{p}{.}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{pow}\PYG{p}{(}\PYG{n+nx}{P}\PYG{p}{.}\PYG{n+nx}{y}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{controlPoint}\PYG{p}{.}\PYG{n+nx}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{));}
+
+\PYG{+w}{            }\PYG{c+c1}{// Draw elastic bands}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{lineWidth}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{3}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// Band to fixed anchor}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{beginPath}\PYG{p}{();}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{moveTo}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{fixedAnchor}\PYG{p}{.}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{fixedAnchor}\PYG{p}{.}\PYG{n+nx}{y}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{lineTo}\PYG{p}{(}\PYG{n+nx}{P}\PYG{p}{.}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{P}\PYG{p}{.}\PYG{n+nx}{y}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{L1}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{L0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{setLineDash}\PYG{p}{([}\PYG{l+m+mf}{5}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{5}\PYG{p}{]);}\PYG{+w}{ }\PYG{c+c1}{// Dashed if slack}
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{strokeStyle}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}999\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{setLineDash}\PYG{p}{([]);}
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{strokeStyle}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}c0392b\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Red}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{stroke}\PYG{p}{();}
+
+\PYG{+w}{            }\PYG{c+c1}{// Band to control point}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{beginPath}\PYG{p}{();}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{moveTo}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{controlPoint}\PYG{p}{.}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{controlPoint}\PYG{p}{.}\PYG{n+nx}{y}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{lineTo}\PYG{p}{(}\PYG{n+nx}{P}\PYG{p}{.}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{P}\PYG{p}{.}\PYG{n+nx}{y}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{L2}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{L0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{setLineDash}\PYG{p}{([}\PYG{l+m+mf}{5}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{5}\PYG{p}{]);}\PYG{+w}{ }\PYG{c+c1}{// Dashed if slack}
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{strokeStyle}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}999\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{setLineDash}\PYG{p}{([]);}
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{strokeStyle}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}2980b9\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Blue}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{stroke}\PYG{p}{();}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{setLineDash}\PYG{p}{([]);}
+
+\PYG{+w}{            }\PYG{c+c1}{// Draw fixed anchor}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{beginPath}\PYG{p}{();}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{arc}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{fixedAnchor}\PYG{p}{.}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{fixedAnchor}\PYG{p}{.}\PYG{n+nx}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{8}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{PI}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{fillStyle}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}c0392b\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{fill}\PYG{p}{();}
+
+\PYG{+w}{            }\PYG{c+c1}{// Draw wheel}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{beginPath}\PYG{p}{();}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{arc}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{wheelCenter}\PYG{p}{.}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{wheelCenter}\PYG{p}{.}\PYG{n+nx}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{wheelRadius}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{PI}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{fillStyle}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}ecf0f1\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{fill}\PYG{p}{();}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{strokeStyle}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}7f8c8d\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{lineWidth}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{3}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{stroke}\PYG{p}{();}
+
+\PYG{+w}{            }\PYG{c+c1}{// Draw \PYGZsq{}M\PYGZsq{} character rotating with wheel}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{save}\PYG{p}{();}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{font}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}bold 60px sans\PYGZhy{}serif\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{fillStyle}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{isStable}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}2c3e50\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}rgba(44, 62, 80, 0.3)\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{textAlign}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}center\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{textBaseline}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}middle\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{translate}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{wheelCenter}\PYG{p}{.}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{wheelCenter}\PYG{p}{.}\PYG{n+nx}{y}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{rotate}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{angle}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{PI}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// +90° to make M upright}
+
+\PYG{+w}{            }\PYG{c+c1}{// Apply blur if unstable}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{isStable}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{filter}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`blur(}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{currentStability}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{5}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{px)`}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{fillText}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{restore}\PYG{p}{();}
+
+\PYG{+w}{            }\PYG{c+c1}{// Draw attachment point}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{beginPath}\PYG{p}{();}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{arc}\PYG{p}{(}\PYG{n+nx}{P}\PYG{p}{.}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{P}\PYG{p}{.}\PYG{n+nx}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{6}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{PI}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{fillStyle}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}555\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{fill}\PYG{p}{();}
+
+\PYG{+w}{            }\PYG{c+c1}{// Draw control point}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{beginPath}\PYG{p}{();}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{arc}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{controlPoint}\PYG{p}{.}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{controlPoint}\PYG{p}{.}\PYG{n+nx}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{12}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{PI}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{fillStyle}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}2980b9\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{fill}\PYG{p}{();}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{strokeStyle}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{isDragging}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}fff\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}333\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{lineWidth}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{ctx}\PYG{p}{.}\PYG{n+nx}{stroke}\PYG{p}{();}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{n+nx}{loop}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{update}\PYG{p}{();}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{draw}\PYG{p}{();}
+\PYG{+w}{            }\PYG{n+nx}{requestAnimationFrame}\PYG{p}{(()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{loop}\PYG{p}{());}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} ACOUSTIC VISUALIZATION CLASS \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{    }\PYG{k+kd}{class}\PYG{+w}{ }\PYG{n+nx}{AcousticVisualization}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kr}{constructor}\PYG{p}{(}\PYG{n+nx}{zeemanMachine}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{zeeman}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{zeemanMachine}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{svg}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}acoustic\PYGZhy{}svg\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{svgNS}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}http://www.w3.org/2000/svg\PYGZdq{}}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// Parameters}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{width}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{500}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{height}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{300}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{numParticles}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{200}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{particleRadius}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerWidth}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{40}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerHeight}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{150}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{60}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerY}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{height}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerHeight}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{chamberEndX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{width}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{20}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// Wave propagation}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{waveSpeed}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{6}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{historySeconds}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{1.5}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{fps}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{60}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{history}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nb}{Array}\PYG{p}{(}\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{ceil}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{fps}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{historySeconds}\PYG{p}{)).}\PYG{n+nx}{fill}\PYG{p}{(}\PYG{l+m+mf}{0}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{historyIndex}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{maxDisplacement}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{30}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{sensitivityScale}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{15}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{smoothedDisplacement}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{smoothingFactor}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0.2}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{particles}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[];}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{pistonRect}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{init}\PYG{p}{();}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{n+nx}{init}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{svg}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{particles}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[];}
+
+\PYG{+w}{            }\PYG{c+c1}{// Draw walls}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{drawWall}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{y}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{wall}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElementNS}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{svgNS}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}line\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                }\PYG{n+nx}{wall}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}x1\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerX}\PYG{p}{);}
+\PYG{+w}{                }\PYG{n+nx}{wall}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}y1\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{p}{);}
+\PYG{+w}{                }\PYG{n+nx}{wall}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}x2\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{chamberEndX}\PYG{p}{);}
+\PYG{+w}{                }\PYG{n+nx}{wall}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}y2\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{p}{);}
+\PYG{+w}{                }\PYG{n+nx}{wall}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}stroke\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}999\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                }\PYG{n+nx}{wall}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}stroke\PYGZhy{}width\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}2\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{svg}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{wall}\PYG{p}{);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{};}
+\PYG{+w}{            }\PYG{n+nx}{drawWall}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerY}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{drawWall}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerY}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerHeight}\PYG{p}{);}
+
+\PYG{+w}{            }\PYG{c+c1}{// Draw piston}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{pistonRect}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElementNS}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{svgNS}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}rect\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{pistonRect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}x\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerX}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerWidth}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{pistonRect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}y\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerY}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{pistonRect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}width\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerWidth}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{pistonRect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}height\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerHeight}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{pistonRect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}fill\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}aaa\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{pistonRect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}stroke\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}666\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{pistonRect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}stroke\PYGZhy{}width\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}2\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{svg}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{pistonRect}\PYG{p}{);}
+
+\PYG{+w}{            }\PYG{c+c1}{// Create air particles in a grid}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{particleGroup}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElementNS}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{svgNS}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}g\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{svg}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{particleGroup}\PYG{p}{);}
+
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{startX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerX}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{5}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{endX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{chamberEndX}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{5}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{startY}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerY}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{5}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{endY}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerY}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerHeight}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{5}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{area}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{endX}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{startX}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{endY}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{startY}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{density}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{numParticles}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n+nx}{area}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{sqrt}\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n+nx}{density}\PYG{p}{);}
+
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{numX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{floor}\PYG{p}{((}\PYG{n+nx}{endX}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{startX}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{numY}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{floor}\PYG{p}{((}\PYG{n+nx}{endY}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{startY}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{p}{);}
+
+\PYG{+w}{            }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n+nx}{numX}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{j}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{j}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n+nx}{numY}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{j}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{particles}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{numParticles}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{break}\PYG{p}{;}
+
+\PYG{+w}{                    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{baseX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{startX}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{random}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{0.5}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{0.4}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{baseY}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{startY}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{j}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{random}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{0.5}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{spacing}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{0.4}\PYG{p}{;}
+
+\PYG{+w}{                    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{circle}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElementNS}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{svgNS}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}circle\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                    }\PYG{n+nx}{circle}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}cx\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{baseX}\PYG{p}{.}\PYG{n+nx}{toFixed}\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{p}{));}
+\PYG{+w}{                    }\PYG{n+nx}{circle}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}cy\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{baseY}\PYG{p}{.}\PYG{n+nx}{toFixed}\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{p}{));}
+\PYG{+w}{                    }\PYG{n+nx}{circle}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}r\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{particleRadius}\PYG{p}{);}
+\PYG{+w}{                    }\PYG{n+nx}{circle}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}fill\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}667eea\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                    }\PYG{n+nx}{circle}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}opacity\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}0.7\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                    }\PYG{n+nx}{particleGroup}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{circle}\PYG{p}{);}
+
+\PYG{+w}{                    }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{particles}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{(\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{element}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{circle}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{baseX}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{baseY}\PYG{+w}{ }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{n+nx}{animate}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// Calculate angular velocity (change in angle)}
+\PYG{+w}{            }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{dTheta}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{zeeman}\PYG{p}{.}\PYG{n+nx}{angle}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{zeeman}\PYG{p}{.}\PYG{n+nx}{previousAngle}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{dTheta}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{PI}\PYG{p}{)}\PYG{+w}{ }\PYG{n+nx}{dTheta}\PYG{+w}{ }\PYG{o}{\PYGZhy{}=}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{PI}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{dTheta}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{PI}\PYG{p}{)}\PYG{+w}{ }\PYG{n+nx}{dTheta}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{PI}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// Target displacement based on velocity}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{targetDisplacement}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{maxDisplacement}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{tanh}\PYG{p}{(}\PYG{n+nx}{dTheta}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{sensitivityScale}\PYG{p}{);}
+
+\PYG{+w}{            }\PYG{c+c1}{// Smooth the displacement}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{smoothedDisplacement}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{targetDisplacement}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{smoothedDisplacement}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{smoothingFactor}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// Store in history for wave propagation}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{history}\PYG{p}{[}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{historyIndex}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{smoothedDisplacement}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{historyIndex}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{historyIndex}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{history}\PYG{p}{.}\PYG{n+nx}{length}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// Move piston}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{pistonRect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}x\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerX}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerWidth}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{smoothedDisplacement}\PYG{p}{).}\PYG{n+nx}{toFixed}\PYG{p}{(}\PYG{l+m+mf}{2}\PYG{p}{));}
+
+\PYG{+w}{            }\PYG{c+c1}{// Calculate piston face position}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{pistonFaceX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerX}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{smoothedDisplacement}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// Update particle positions (wave propagation)}
+\PYG{+w}{            }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{p}\PYG{+w}{ }\PYG{k}{of}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{particles}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{distance}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{p}\PYG{p}{.}\PYG{n+nx}{baseX}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{speakerX}\PYG{p}{;}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{timeDelay}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{distance}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{waveSpeed}\PYG{p}{;}
+\PYG{+w}{                }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{lookBackIndex}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{round}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{historyIndex}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{timeDelay}\PYG{p}{);}
+\PYG{+w}{                }\PYG{n+nx}{lookBackIndex}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{lookBackIndex}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{history}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{history}\PYG{p}{.}\PYG{n+nx}{length}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{history}\PYG{p}{.}\PYG{n+nx}{length}\PYG{p}{;}
+
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{historicalDisplacement}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{history}\PYG{p}{[}\PYG{n+nx}{lookBackIndex}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{damping}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{exp}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.003}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{distance}\PYG{p}{);}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{currentX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{p}\PYG{p}{.}\PYG{n+nx}{baseX}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{historicalDisplacement}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{damping}\PYG{p}{;}
+
+\PYG{+w}{                }\PYG{c+c1}{// Clamp to stay within chamber}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{clampedX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{max}\PYG{p}{(}
+\PYG{+w}{                    }\PYG{n+nx}{pistonFaceX}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{particleRadius}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{min}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{chamberEndX}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{particleRadius}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{currentX}\PYG{p}{)}
+\PYG{+w}{                }\PYG{p}{);}
+\PYG{+w}{                }\PYG{n+nx}{p}\PYG{p}{.}\PYG{n+nx}{element}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}cx\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{clampedX}\PYG{p}{.}\PYG{n+nx}{toFixed}\PYG{p}{(}\PYG{l+m+mf}{2}\PYG{p}{));}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{c+c1}{// Update previousAngle for next frame}
+\PYG{+w}{            }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{zeeman}\PYG{p}{.}\PYG{n+nx}{previousAngle}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+nx}{zeeman}\PYG{p}{.}\PYG{n+nx}{angle}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} INITIALIZATION \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{matrixAutomaton}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nx}{MatrixAutomaton}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{zeemanMachine}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nx}{ZeemanMachine}\PYG{p}{(}\PYG{n+nx}{matrixAutomaton}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{acousticViz}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nx}{AcousticVisualization}\PYG{p}{(}\PYG{n+nx}{zeemanMachine}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{c+c1}{// Animation loop for acoustic visualization}
+\PYG{+w}{    }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{animateAll}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nx}{acousticViz}\PYG{p}{.}\PYG{n+nx}{animate}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n+nx}{requestAnimationFrame}\PYG{p}{(}\PYG{n+nx}{animateAll}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nx}{animateAll}\PYG{p}{();}
+\PYG{p}{\PYGZcb{});}
+
+\end{MintedVerbatim}

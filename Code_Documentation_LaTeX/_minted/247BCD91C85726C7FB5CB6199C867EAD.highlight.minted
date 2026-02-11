@@ -1,0 +1,131 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{sys}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{os}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{json}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{pandas}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{pd}
+
+\PYG{c+c1}{\PYGZsh{} Add project root to path to allow importing from src}
+\PYG{n}{sys}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{abspath}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{dirname}\PYG{p}{(}\PYG{n+nv+vm}{\PYGZus{}\PYGZus{}file\PYGZus{}\PYGZus{}}\PYG{p}{),} \PYG{l+s+s1}{\PYGZsq{}../../..\PYGZsq{}}\PYG{p}{)))}
+
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{src.automata.BaseAutomaton}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{BaseAutomaton}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{src.analysis.MUA\PYGZus{}Metadata}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{StrategyMetadata}\PYG{p}{,} \PYG{n}{EmbodiedMetaphor}\PYG{p}{,} \PYG{n}{MaterialInference}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{typing}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Dict}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{DecompositionAutomaton}\PYG{p}{(}\PYG{n}{BaseAutomaton}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    A Register Machine model simulating the \PYGZsq{}Decomposition\PYGZsq{} (Borrowing) strategy for subtraction.}
+\PYG{l+s+sd}{    Models the Left\PYGZhy{}to\PYGZhy{}Right approach: Subtract bases first, then ones, decomposing if necessary.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n+nd}{@property}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{metadata}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{StrategyMetadata}\PYG{p}{:}
+        \PYG{k}{return} \PYG{n}{StrategyMetadata}\PYG{p}{(}
+            \PYG{n}{strategy\PYGZus{}id}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}SAR\PYGZus{}SUB\PYGZus{}Decomposition\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{strategy\PYGZus{}name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Decomposition (Borrowing)\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{description}\PYG{o}{=}\PYG{p}{(}
+                \PYG{l+s+s2}{\PYGZdq{}Simulates the traditional \PYGZsq{}borrowing\PYGZsq{} or \PYGZsq{}decomposition\PYGZsq{} algorithm for subtraction. \PYGZdq{}}
+                \PYG{l+s+s2}{\PYGZdq{}It processes numbers from left to right (or largest place value to smallest). \PYGZdq{}}
+                \PYG{l+s+s2}{\PYGZdq{}If a digit in the minuend is smaller than the corresponding digit in the subtrahend, \PYGZdq{}}
+                \PYG{l+s+s2}{\PYGZdq{}it \PYGZsq{}borrows\PYGZsq{} from the next higher place value.\PYGZdq{}}
+            \PYG{p}{),}
+            \PYG{n}{metaphors}\PYG{o}{=}\PYG{p}{[}
+                \PYG{n}{EmbodiedMetaphor}\PYG{p}{(}
+                    \PYG{n}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Arithmetic as Object Manipulation\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{source\PYGZus{}domain}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Object Manipulation\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{target\PYGZus{}domain}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Arithmetic\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{entailments}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}A larger object (like a ten\PYGZhy{}block) can be broken down or exchanged for an equivalent set of smaller objects (ten one\PYGZhy{}blocks).\PYGZdq{}}
+                \PYG{p}{)}
+            \PYG{p}{],}
+            \PYG{n}{inferences}\PYG{o}{=}\PYG{p}{[}
+                \PYG{n}{MaterialInference}\PYG{p}{(}
+                    \PYG{n}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Place Value Equivalence\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{premise}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}One unit of a higher place value (e.g., 1 Ten) is equivalent to a set number of units of the next lower place value (e.g., 10 Ones).\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{conclusion}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}A unit from a higher place value can be removed and its equivalent value added to a lower place value without changing the total quantity.\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{prerequisites}\PYG{o}{=}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Understanding of base\PYGZhy{}10 system\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Part\PYGZhy{}whole knowledge\PYGZdq{}}\PYG{p}{]}
+                \PYG{p}{)}
+            \PYG{p}{],}
+            \PYG{n}{visualization\PYGZus{}hints}\PYG{o}{=}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Blocks\PYGZdq{}}\PYG{p}{]}
+        \PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{inputs}\PYG{p}{:} \PYG{n}{Dict}\PYG{p}{,} \PYG{n}{Base}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{):}
+        \PYG{n+nb}{super}\PYG{p}{()}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n}{inputs}\PYG{p}{,} \PYG{n}{Base}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{o}{.}\PYG{n}{update}\PYG{p}{(\PYGZob{}}
+            \PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{inputs}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{),}
+            \PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{inputs}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{),}
+            \PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}T\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}O\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}T\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}O\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}
+        \PYG{p}{\PYGZcb{})}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{]} \PYG{o}{\PYGZgt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{]:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Error: Subtrahend (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{) \PYGZgt{} Minuend (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{).\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}start}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Inputs: M=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, S=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}init\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}init}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Decompose M and S into Tens and Ones.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}T\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{]} \PYG{o}{//} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Base}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}O\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{]} \PYG{o}{\PYGZpc{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Base}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}T\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{]} \PYG{o}{//} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Base}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}O\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{]} \PYG{o}{\PYGZpc{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Base}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Decompose M (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}T\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{T+}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}O\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{O) and S (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}T\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{T+}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}O\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{O).\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}sub\PYGZus{}bases\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}sub\PYGZus{}bases}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Subtract the bases (Tens).\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{initial\PYGZus{}R\PYGZus{}T} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}T\PYGZsq{}}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}T\PYGZsq{}}\PYG{p}{]} \PYG{o}{\PYGZhy{}=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}T\PYGZsq{}}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Subtract Bases: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{initial\PYGZus{}R\PYGZus{}T}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{T \PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}T\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{T = }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}T\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{T.\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}check\PYGZus{}ones\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}check\PYGZus{}ones}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Check if there are enough ones to subtract.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}O\PYGZsq{}}\PYG{p}{]} \PYG{o}{\PYGZgt{}=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}O\PYGZsq{}}\PYG{p}{]:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Sufficient Ones (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}O\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZgt{}= }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}O\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{). Proceed.\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}sub\PYGZus{}ones\PYGZsq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Insufficient Ones (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}O\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZlt{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}O\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{). Need decomposition.\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}decompose\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}decompose}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Decompose (borrow) one ten into ones.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}T\PYGZsq{}}\PYG{p}{]} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}T\PYGZsq{}}\PYG{p}{]} \PYG{o}{\PYGZhy{}=} \PYG{l+m+mi}{1}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}O\PYGZsq{}}\PYG{p}{]} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Base}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Decomposed 1 Ten. New state: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}T\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{T, }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}O\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{O.\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}sub\PYGZus{}ones\PYGZsq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}sub\PYGZus{}ones}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Subtract the ones.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{prev\PYGZus{}O} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}O\PYGZsq{}}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}O\PYGZsq{}}\PYG{p}{]} \PYG{o}{\PYGZhy{}=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}O\PYGZsq{}}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Subtract Ones: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{prev\PYGZus{}O}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{O \PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}S\PYGZus{}O\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{O = }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}O\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{O.\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}accept}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Combine results.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}T\PYGZsq{}}\PYG{p}{]} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Base} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}R\PYGZus{}O\PYGZsq{}}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Accept. Final Result: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb}{super}\PYG{p}{()}\PYG{o}{.}\PYG{n}{execute\PYGZus{}q\PYGZus{}accept}\PYG{p}{()}
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZsq{}}\PYG{p}{:}
+    \PYG{c+c1}{\PYGZsh{} Test Case 1: Joel\PYGZsq{}s example (45 \PYGZhy{} 27) \PYGZhy{} Requires Decomposition}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}=== Test Case 1: 45 \PYGZhy{} 27 (Requires Decomposition) ===\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{decomp\PYGZus{}45\PYGZus{}27} \PYG{o}{=} \PYG{n}{DecompositionAutomaton}\PYG{p}{(}\PYG{n}{inputs}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{45}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{27}\PYG{p}{\PYGZcb{})}
+    \PYG{n}{result1} \PYG{o}{=} \PYG{n}{decomp\PYGZus{}45\PYGZus{}27}\PYG{o}{.}\PYG{n}{run}\PYG{p}{()}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Final Result: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{result1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{decomp\PYGZus{}45\PYGZus{}27}\PYG{o}{.}\PYG{n}{display\PYGZus{}history}\PYG{p}{()}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZhy{}\PYGZhy{}\PYGZhy{} JSON Export \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{decomp\PYGZus{}45\PYGZus{}27}\PYG{o}{.}\PYG{n}{export\PYGZus{}trace\PYGZus{}json}\PYG{p}{())}
+
+    \PYG{c+c1}{\PYGZsh{} Test Case 2: No decomposition needed (48 \PYGZhy{} 23)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{=== Test Case 2: 48 \PYGZhy{} 23 (No Decomposition Needed) ===\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{decomp\PYGZus{}48\PYGZus{}23} \PYG{o}{=} \PYG{n}{DecompositionAutomaton}\PYG{p}{(}\PYG{n}{inputs}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{48}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}S\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{23}\PYG{p}{\PYGZcb{})}
+    \PYG{n}{result2} \PYG{o}{=} \PYG{n}{decomp\PYGZus{}48\PYGZus{}23}\PYG{o}{.}\PYG{n}{run}\PYG{p}{()}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Final Result: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{result2}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{decomp\PYGZus{}48\PYGZus{}23}\PYG{o}{.}\PYG{n}{display\PYGZus{}history}\PYG{p}{()}
+
+\end{MintedVerbatim}

@@ -1,0 +1,33 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{g+gh}{\PYGZsh{} The Cognitive Calculator: Teacher\PYGZsq{}s Edition}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Overview}
+This interactive simulation is designed for pre\PYGZhy{}service teachers to practice diagnosing and guiding student mathematical thinking. It uses the underlying computational models (Python scripts) from the UMEDCTA project to simulate student strategies.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} How to Play}
+Run the game from the terminal:
+\PYG{l+s+sb}{```bash}
+python3\PYG{+w}{ }strategy\PYGZus{}game.py
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Modules}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. The Robot Counter (Algorithmic Thinking)}
+\PYG{g+gs}{**Concept:**} Place Value \PYGZam{} Stack Operations.
+\PYG{g+gs}{**Goal:**} Predict the state of a Deterministic Pushdown Automaton (DPDA) that counts.
+\PYG{g+gs}{**Pedagogical Value:**} Understanding that counting is an algorithmic process involving state changes (carries/borrows) rather than just \PYGZdq{}knowing\PYGZdq{} the next number.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. Sarah\PYGZsq{}s Addition (Rearranging to Make Bases)}
+\PYG{g+gs}{**Concept:**} Making 10 (or other bases).
+\PYG{g+gs}{**Goal:**} Guide the student \PYGZdq{}Sarah\PYGZdq{} to decompose the second addend to fill the gap to the next base multiple for the first addend.
+\PYG{g+gs}{**Strategy:**} \PYGZdl{}A + B \PYGZbs{}rightarrow A + (K + R) \PYGZbs{}rightarrow (A+K) + R \PYGZbs{}rightarrow \PYGZbs{}text\PYGZob{}Base\PYGZcb{} + R\PYGZdl{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Sam\PYGZsq{}s Subtraction (Sliding / Constant Difference)}
+\PYG{g+gs}{**Concept:**} Invariance of difference.
+\PYG{g+gs}{**Goal:**} Adjust both the minuend and subtrahend by the same amount (\PYGZdl{}K\PYGZdl{}) so that the subtrahend becomes a friendly base number.
+\PYG{g+gs}{**Strategy:**} \PYGZdl{}M \PYGZhy{} S \PYGZbs{}rightarrow (M+K) \PYGZhy{} (S+K) \PYGZbs{}rightarrow M\PYGZsq{} \PYGZhy{} \PYGZbs{}text\PYGZob{}Base\PYGZcb{}\PYGZdl{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Technical Note}
+This game imports the logic directly from the \PYG{l+s+sb}{`Calculator/Python\PYGZus{}Tests`} directory, ensuring that the gameplay is faithful to the project\PYGZsq{}s theoretical models.
+
+\end{MintedVerbatim}

@@ -1,0 +1,83 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{g+gh}{\PYGZsh{} Dialectical Interpreter Setup Guide}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} You\PYGZsq{}re Almost There!}
+
+The app includes both a React frontend and a Node.js backend to securely handle API calls.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Final Setup Step}
+
+Create a file named \PYG{l+s+sb}{`.env`} in the root directory with your API key:
+
+\PYG{l+s+sb}{```bash}
+\PYG{n+nv}{VITE\PYGZus{}ANTHROPIC\PYGZus{}API\PYGZus{}KEY}\PYG{o}{=}sk\PYGZhy{}ant\PYGZhy{}api\PYGZhy{}YOUR\PYGZhy{}KEY\PYGZhy{}HERE
+\PYG{l+s+sb}{```}
+
+Replace \PYG{l+s+sb}{`sk\PYGZhy{}ant\PYGZhy{}api\PYGZhy{}YOUR\PYGZhy{}KEY\PYGZhy{}HERE`} with your actual Anthropic API key.
+
+\PYG{g+gs}{**Important**}: The \PYG{l+s+sb}{`.env`} file is already in \PYG{l+s+sb}{`.gitignore`}, so it won\PYGZsq{}t be committed to GitHub.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Running the Application}
+
+\PYG{k}{1.} \PYG{g+gs}{**Start both servers**} (backend + frontend):
+\PYG{l+s+sb}{   ```bash}
+\PYG{+w}{   }npm\PYG{+w}{ }run\PYG{+w}{ }dev
+\PYG{l+s+sb}{   ```}
+
+   This starts:
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Backend server on \PYG{l+s+sb}{`http://localhost:3001`} (API proxy)
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Frontend on \PYG{l+s+sb}{`http://localhost:3000`} (React app)
+
+\PYG{k}{2.} \PYG{g+gs}{**Open your browser**} to \PYG{l+s+sb}{`http://localhost:3000`}
+
+\PYG{k}{3.} \PYG{g+gs}{**Start interpreting!**} Paste philosophical text and click \PYGZdq{}Interpret Text\PYGZdq{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Architecture}
+
+The app uses a \PYG{g+gs}{**client\PYGZhy{}server architecture**} to avoid CORS issues:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Frontend**} (Vite + React): User interface
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Backend**} (Express): Proxies requests to Anthropic API with your key
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }This keeps your API key secure and avoids browser CORS restrictions
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Project Structure}
+
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{UMEDCTA/}
+\PYG{l+s+sb}{├── .env                          \PYGZsh{} Your API key (create this!)}
+\PYG{l+s+sb}{├── .env.example                  \PYGZsh{} Template for API key}
+\PYG{l+s+sb}{├── .gitignore                    \PYGZsh{} Protects your API key}
+\PYG{l+s+sb}{├── server.js                     \PYGZsh{} Backend API proxy server}
+\PYG{l+s+sb}{├── index.html                    \PYGZsh{} Main HTML file}
+\PYG{l+s+sb}{├── vite.config.js               \PYGZsh{} Vite configuration}
+\PYG{l+s+sb}{├── package.json                  \PYGZsh{} Dependencies and scripts}
+\PYG{l+s+sb}{└── src/}
+\PYG{l+s+sb}{    ├── main.jsx                  \PYGZsh{} React entry point}
+\PYG{l+s+sb}{    └── DialecticalInterpreter.jsx \PYGZsh{} Main component}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Features}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**PML Formalization**}: Converts text into Polarized Modal Logic
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Proof Steps**}: Shows logical derivations
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Meta\PYGZhy{}Critique**}: Compares against scholarly readings
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Self\PYGZhy{}Evolution**}: Proposes and integrates new axioms
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Conversation Mode**}: Ask follow\PYGZhy{}up questions
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Re\PYGZhy{}reading Support**}: Tracks iteration depth and formalized concepts
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Cost Estimate}
+
+Each interpretation uses the Claude Sonnet 4 API:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Typical cost: \PYGZdl{}0.10\PYGZhy{}0.30 per interpretation
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Pricing: \PYGZdl{}3/million input tokens, \PYGZdl{}15/million output tokens
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Troubleshooting}
+
+\PYG{g+gs}{**API key error**}: Make sure your \PYG{l+s+sb}{`.env`} file exists and has the correct format
+\PYG{g+gs}{**Module errors**}: Run \PYG{l+s+sb}{`npm install`} again
+\PYG{g+gs}{**Port in use**}: Change the port in \PYG{l+s+sb}{`vite.config.js`}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Next Steps}
+
+See [\PYG{n+nt}{Prolog/dialectical\PYGZhy{}interpreter\PYGZhy{}README.md}](\PYG{n+na}{Prolog/dialectical\PYGZhy{}interpreter\PYGZhy{}README.md}) for information about the temporal phenomenology approach and how to use the interpreter effectively.
+
+\end{MintedVerbatim}

@@ -1,0 +1,119 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{sys}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{os}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{json}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{pandas}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{pd}
+
+\PYG{c+c1}{\PYGZsh{} Add project root to path to allow importing from src}
+\PYG{n}{sys}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{abspath}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{dirname}\PYG{p}{(}\PYG{n+nv+vm}{\PYGZus{}\PYGZus{}file\PYGZus{}\PYGZus{}}\PYG{p}{),} \PYG{l+s+s1}{\PYGZsq{}../../../..\PYGZsq{}}\PYG{p}{)))}
+
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{src.automata.BaseAutomaton}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{BaseAutomaton}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{src.analysis.MUA\PYGZus{}Metadata}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{StrategyMetadata}\PYG{p}{,} \PYG{n}{EmbodiedMetaphor}\PYG{p}{,} \PYG{n}{MaterialInference}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{typing}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Dict}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{CommutativeReasoningMultiplicationAutomaton}\PYG{p}{(}\PYG{n}{BaseAutomaton}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    A Register Machine model simulating multiplication using commutative reasoning.}
+\PYG{l+s+sd}{    The strategy evaluates whether A x B or B x A is easier to compute (by picking the smaller multiplier)}
+\PYG{l+s+sd}{    and then performs multiplication by repeated addition.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n+nd}{@property}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{metadata}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{StrategyMetadata}\PYG{p}{:}
+        \PYG{k}{return} \PYG{n}{StrategyMetadata}\PYG{p}{(}
+            \PYG{n}{strategy\PYGZus{}id}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}MULT\PYGZus{}COMM\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{strategy\PYGZus{}name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Commutative Reasoning (Multiplication)\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{description}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Selects the easier orientation for multiplication (e.g., 3 x 9 instead of 9 x 3) and then calculates via repeated addition.\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{metaphors}\PYG{o}{=}\PYG{p}{[}
+                \PYG{n}{EmbodiedMetaphor}\PYG{p}{(}
+                    \PYG{n}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Arithmetic as Object Collection\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{source\PYGZus{}domain}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Object Collection\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{target\PYGZus{}domain}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Arithmetic\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{entailments}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}3 groups of 9 is the same total as 9 groups of 3. It\PYGZsq{}s easier to conceptualize and count the former.\PYGZdq{}}
+                \PYG{p}{)}
+            \PYG{p}{],}
+            \PYG{n}{inferences}\PYG{o}{=}\PYG{p}{[}
+                \PYG{n}{MaterialInference}\PYG{p}{(}
+                    \PYG{n}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Commutativity of Multiplication\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{premise}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}The order of factors does not change the product.\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{conclusion}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}A x B is equivalent to B x A.\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{prerequisites}\PYG{o}{=}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Understanding that multiplication can represent groups of items\PYGZdq{}}\PYG{p}{]}
+                \PYG{p}{),}
+                \PYG{n}{MaterialInference}\PYG{p}{(}
+                    \PYG{n}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Multiplication as Repeated Addition\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{premise}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Multiplying by N is equivalent to adding a number to itself N times.\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{conclusion}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}The product can be found by iterating additions.\PYGZdq{}}\PYG{p}{,}
+                    \PYG{n}{prerequisites}\PYG{o}{=}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Addition skills\PYGZdq{}}\PYG{p}{]}
+                \PYG{p}{)}
+            \PYG{p}{],}
+            \PYG{n}{visualization\PYGZus{}hints}\PYG{o}{=}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}ObjectArrays\PYGZdq{}}\PYG{p}{]}
+        \PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{inputs}\PYG{p}{:} \PYG{n}{Dict}\PYG{p}{,} \PYG{n}{Base}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{):}
+        \PYG{n+nb}{super}\PYG{p}{()}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n}{inputs}\PYG{p}{,} \PYG{n}{Base}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{o}{.}\PYG{n}{update}\PYG{p}{(\PYGZob{}}
+            \PYG{l+s+s1}{\PYGZsq{}A\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{inputs}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}A\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{),}
+            \PYG{l+s+s1}{\PYGZsq{}B\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{inputs}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}B\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{),}
+            \PYG{l+s+s1}{\PYGZsq{}Multiplier\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}Multiplicand\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}Product\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}Counter\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}
+        \PYG{p}{\PYGZcb{})}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}start}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Inputs: A=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}A\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, B=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}B\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}evaluate\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}evaluate}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Evaluate which number is smaller to use as the multiplier.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{a} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}A\PYGZsq{}}\PYG{p}{]}
+        \PYG{n}{b} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}B\PYGZsq{}}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Evaluate which is smaller: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{a}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ or }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{b}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}repackage\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}repackage}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Set the smaller number as the Multiplier.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{a} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}A\PYGZsq{}}\PYG{p}{]}
+        \PYG{n}{b} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}B\PYGZsq{}}\PYG{p}{]}
+        \PYG{k}{if} \PYG{n}{a} \PYG{o}{\PYGZlt{}} \PYG{n}{b}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Multiplier\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{a}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Multiplicand\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{b}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Chose }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{a}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ as Multiplier (A \PYGZlt{} B). Problem is }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{a}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ x }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{b}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Multiplier\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{b}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Multiplicand\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{a}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Chose }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{b}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ as Multiplier (B \PYGZlt{}= A). Problem is }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{b}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ x }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{a}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Counter\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Multiplier\PYGZsq{}}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}calc\PYGZus{}loop\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}calc\PYGZus{}loop}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Perform multiplication via repeated addition.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Counter\PYGZsq{}}\PYG{p}{]} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n}{multiplicand} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Multiplicand\PYGZsq{}}\PYG{p}{]}
+            \PYG{n}{prev\PYGZus{}product} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Product\PYGZsq{}}\PYG{p}{]}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Product\PYGZsq{}}\PYG{p}{]} \PYG{o}{+=} \PYG{n}{multiplicand}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Counter\PYGZsq{}}\PYG{p}{]} \PYG{o}{\PYGZhy{}=} \PYG{l+m+mi}{1}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Repeated addition: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{prev\PYGZus{}product}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ + }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{multiplicand}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ = }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Product\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{. (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Counter\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ additions remaining).\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Product\PYGZsq{}}\PYG{p}{]}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Calculation complete. Product = }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{)}
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZsq{}}\PYG{p}{:}
+    \PYG{c+c1}{\PYGZsh{} Test Case: 3 x 9 (should be easier than 9 x 3)}
+    \PYG{n}{A\PYGZus{}test} \PYG{o}{=} \PYG{l+m+mi}{9}
+    \PYG{n}{B\PYGZus{}test} \PYG{o}{=} \PYG{l+m+mi}{3}
+    \PYG{n}{comm\PYGZus{}auto} \PYG{o}{=} \PYG{n}{CommutativeReasoningMultiplicationAutomaton}\PYG{p}{(}\PYG{n}{inputs}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}A\PYGZsq{}}\PYG{p}{:} \PYG{n}{A\PYGZus{}test}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}B\PYGZsq{}}\PYG{p}{:} \PYG{n}{B\PYGZus{}test}\PYG{p}{\PYGZcb{})}
+    \PYG{n}{result} \PYG{o}{=} \PYG{n}{comm\PYGZus{}auto}\PYG{o}{.}\PYG{n}{run}\PYG{p}{()}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZhy{}\PYGZhy{}\PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{comm\PYGZus{}auto}\PYG{o}{.}\PYG{n}{metadata}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ History (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{A\PYGZus{}test}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ x }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{B\PYGZus{}test}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{) \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Final Result: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{result}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{comm\PYGZus{}auto}\PYG{o}{.}\PYG{n}{history}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}No history recorded.\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{n}{df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n}{comm\PYGZus{}auto}\PYG{o}{.}\PYG{n}{history}\PYG{p}{)}
+        \PYG{n}{df}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Registers\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{df}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Registers\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{apply}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{x}\PYG{p}{:} \PYG{n}{json}\PYG{o}{.}\PYG{n}{dumps}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{indent}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{))}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{df}\PYG{p}{)}
+
+\end{MintedVerbatim}

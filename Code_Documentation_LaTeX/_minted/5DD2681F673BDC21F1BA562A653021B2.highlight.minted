@@ -1,0 +1,9 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+PWD /Users/tio/Documents/GitHub/UMEDCTA/Calculator/Tex
+INPUT /usr/local/texlive/2025/texmf.cnf
+INPUT /usr/local/texlive/2025/texmf\PYGZhy{}dist/web2c/texmf.cnf
+INPUT /usr/local/texlive/2025/texmf\PYGZhy{}var/web2c/pdftex/pdflatex.fmt
+INPUT /Users/tio/Documents/GitHub/UMEDCTA/Calculator/Tex/SAR\PYGZus{}ADD\PYGZus{}ABAO.tex
+OUTPUT SAR\PYGZus{}ADD\PYGZus{}ABAO.log
+
+\end{MintedVerbatim}

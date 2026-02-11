@@ -1,0 +1,793 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{g+gh}{\PYGZsh{} A Report on the Philosophical Commitments in \PYGZbs{}\PYGZdq{}Understanding Mathematics as an Emancipatory Discipline\PYGZbs{}\PYGZdq{}}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Introduction}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Purpose and Scope}
+
+This report provides a systematic and exhaustive catalogue of the
+philosophical architecture of the manuscript *Understanding Mathematics
+as an Emancipatory Discipline: A Critical Theory Approach*. Its purpose
+is not to summarize the work but to articulate each theoretical,
+philosophical, and methodological commitment with precision. To this
+end, each commitment is classified according to its relative strength
+and centrality to the overall argument, providing a functional tool for
+two primary objectives: first, to facilitate a rigorous authorial review
+for internal consistency; and second, to serve as a \PYGZbs{}\PYGZdq{}philosophical
+filter\PYGZbs{}\PYGZdq{} for assessing the coherence of supplementary materials,
+particularly the artificial intelligence programs and their associated
+documentation, with the manuscript\PYGZbs{}\PYGZsq{}s core tenets. The classifications
+are as follows:
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**\PYGZbs{}[C1 \PYGZhy{} Core Assertion\PYGZbs{}]:**} A foundational claim upon which the
+    entire argument or a major part of it rests. To reject a C1 claim
+    would be to reject the project\PYGZbs{}\PYGZsq{}s fundamental premises.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**:**} A significant theoretical position that structures the
+    analysis and is consistently defended. While not as foundational as
+    a C1 claim, it is a pillar of the argument.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**:**} A proposition that is explored, suggested, or used
+    metaphorically. These claims are often hedged and represent areas of
+    ongoing inquiry rather than settled doctrine.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Methodology of this Report}
+
+The analysis proceeds thematically, clustering the manuscript\PYGZbs{}\PYGZsq{}s
+commitments around its major theoretical pillars. This structure is
+designed to make the report a practical instrument, allowing for a
+targeted review of specific concepts and their interrelations. The
+report is divided into three main parts. Part I addresses the
+foundational methodological framework and the central problem the
+manuscript seeks to resolve. Part II deconstructs the triadic
+philosophical architecture, examining the distinct yet integrated
+contributions from German Idealism, analytic pragmatism, and critical
+theory. Part III focuses on the specific, novel theses the manuscript
+advances regarding the nature of mathematics and the role of artificial
+intelligence. By systematically mapping this intricate conceptual
+landscape, this report aims to provide a definitive and actionable
+inventory of the intellectual commitments undertaken in the work.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Part I: Foundational and Methodological Commitments}
+
+This part details the core framework and critical stance of the
+manuscript, establishing the ground upon which all subsequent arguments
+are built. It examines the unique methodological genre the author
+develops, the central problem of the \PYGZbs{}\PYGZdq{}misrecognition of mathematics\PYGZbs{}\PYGZdq{}
+that motivates the inquiry, and the primordial concept of \PYGZbs{}\PYGZsq{}divasion\PYGZbs{}\PYGZsq{}
+that serves as a key for deconstructing classical logic.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Commitments on Method and Genre: Critical Autoethnography (CAE)}
+
+The manuscript establishes its unique methodological identity through a
+series of foundational commitments that position the work at the
+intersection of personal narrative, critical theory, and the philosophy
+of mathematics.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C1\PYGZbs{}] The work is defined as Critical Autoethnography (CAE), a
+    method that intentionally blurs the line between personal narrative
+    and theoretical inquiry.** The author explicitly names this method
+    \PYGZbs{}\PYGZdq{}for the sake of its unnaming,\PYGZbs{}\PYGZdq{} a turn of phrase that immediately
+    signals a dialectical approach. This suggests that the methodology
+    itself is not a static framework to be applied but is part of the
+    very process of critique and self\PYGZhy{}transcendence that the book aims
+    to explore. The method is designed to be questioned and overcome,
+    just as the concepts it analyzes are.\PYGZca{}1\PYGZca{} This self\PYGZhy{}negating quality
+    is a core feature of the project\PYGZbs{}\PYGZsq{}s critical stance.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C1\PYGZbs{}] CAE and Mathematics share a common inferential structure:
+    the recollection of the self through the otherness of objects and
+    norms.** This is perhaps the most fundamental claim of the entire
+    manuscript, as it provides the justification for the methodological
+    fusion of what are typically seen as disparate domains. The argument
+    begins from this position, asserting that both mathematical
+    reasoning and the writing of an autoethnography are practices of
+    self\PYGZhy{}constitution.\PYGZca{}1\PYGZca{} This reframes mathematics, moving it away from
+    the realm of abstract, disembodied discovery and into the domain of
+    lived, reflective experience. The process of proving a theorem or
+    the process of narrating one\PYGZbs{}\PYGZsq{}s life are both seen as ways of
+    recognizing one\PYGZbs{}\PYGZsq{}s identity through difference\PYGZhy{}\PYGZhy{}\PYGZhy{}through the
+    external, \PYGZbs{}\PYGZdq{}other\PYGZbs{}\PYGZdq{} structures of logical norms or social
+    memories.\PYGZca{}1\PYGZca{} The manuscript\PYGZbs{}\PYGZsq{}s very form is a performance of this
+    thesis; it is a literal recollection of the author\PYGZbs{}\PYGZsq{}s self through
+    the \PYGZbs{}\PYGZdq{}otherness\PYGZbs{}\PYGZdq{} of mathematical and philosophical concepts. This
+    implies that the book\PYGZbs{}\PYGZsq{}s structure is not merely a stylistic choice
+    but a methodological necessity to demonstrate the thesis\PYGZbs{}\PYGZsq{}s
+    validity, suggesting that any \PYGZbs{}\PYGZdq{}correct\PYGZbs{}\PYGZdq{} reading of the book must
+    also be a form of self\PYGZhy{}recollection for the reader.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C2\PYGZbs{}] Personal experience is treated as a primary theoretical
+    resource.** The manuscript is explicitly structured around what it
+    calls \PYGZbs{}\PYGZdq{}five foundational anecdotes\PYGZbs{}\PYGZdq{}: the author\PYGZbs{}\PYGZsq{}s childhood play
+    with a calculator, a confusing middle\PYGZhy{}school algebra lesson, a
+    transformative dialogue with a student, an experience teaching
+    mathematical modeling, and the death of the author\PYGZbs{}\PYGZsq{}s father.\PYGZca{}1\PYGZca{}
+    These stories are not presented as mere illustrations or allegories
+    for pre\PYGZhy{}existing theories. Instead, they function as the
+    experiential data from which the theoretical framework emerges. The
+    theories of Hegel, Brandom, and Habermas are not imposed upon these
+    experiences but are used as resources to explicate the structures of
+    meaning already present within them.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C2\PYGZbs{}] The reader is an active participant in the text\PYGZbs{}\PYGZsq{}s
+    unfolding.** The author makes a direct appeal to the reader, casting
+    them as a \PYGZbs{}\PYGZdq{}silent partner\PYGZbs{}\PYGZdq{} in a \PYGZbs{}\PYGZdq{}dance\PYGZbs{}\PYGZdq{}.\PYGZca{}1\PYGZca{} The text\PYGZbs{}\PYGZsq{}s
+    non\PYGZhy{}linear, recursive structure is a deliberate choice that requires
+    the reader to actively \PYGZbs{}\PYGZdq{}bring the pieces together\PYGZbs{}\PYGZdq{} and recognize
+    an \PYGZbs{}\PYGZdq{}implicit whole\PYGZbs{}\PYGZdq{} that is never fully stated.\PYGZca{}1\PYGZca{} This positions
+    the act of reading not as a passive reception of information but as
+    a form of intersubjective recognition. The meaning of the text is
+    not contained solely on the page; it is co\PYGZhy{}constituted in the space
+    between the author\PYGZbs{}\PYGZsq{}s act of writing and the reader\PYGZbs{}\PYGZsq{}s act of
+    interpretation, a process indispensable to the dialectical movements
+    the author makes.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C3\PYGZbs{}] The text\PYGZbs{}\PYGZsq{}s structure is intentionally complex, recursive,
+    and \PYGZbs{}\PYGZdq{}built to break.\PYGZbs{}\PYGZdq{}** The manuscript\PYGZbs{}\PYGZsq{}s form is an argument in
+    itself. It employs a fractal\PYGZhy{}like, zig\PYGZhy{}zag pattern of \PYGZbs{}\PYGZdq{}openness →
+    restriction → openness\PYGZbs{}\PYGZdq{} within and between chapters, as well as a
+    topological structure likened to a Möbius strip, where inside and
+    outside become indistinct.\PYGZca{}1\PYGZca{} This complex architecture is designed
+    to embody its core philosophical claims about identity, determinate
+    negation, and transcendence. The poems and songs interspersed
+    throughout are not decorative; they are functional
+    \PYGZbs{}\PYGZdq{}shifters\PYGZbs{}\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZhy{}linguistic devices that decompress theoretical
+    density and return the text to the lived, felt experience from which
+    it arises.\PYGZca{}1\PYGZca{} The title of the prelude, \PYGZbs{}\PYGZdq{}Built to Break,\PYGZbs{}\PYGZdq{} is a
+    methodological statement: the systems of thought constructed within
+    the book are designed to reveal their own limits, and in that
+    \PYGZbs{}\PYGZdq{}beautiful breaking,\PYGZbs{}\PYGZdq{} to open up new expressive possibilities.\PYGZca{}1\PYGZca{}
+    Consequently, any supplementary AI programs cannot be evaluated
+    solely on their functional correctness. They must be evaluated on
+    their \PYG{g+ge}{*process*} and \PYG{g+ge}{*structure*}. A coherent AI program would need to
+    exhibit a \PYGZbs{}\PYGZdq{}built to break\PYGZbs{}\PYGZdq{} quality\PYGZhy{}\PYGZhy{}\PYGZhy{}perhaps by explicitly
+    modeling its own limitations or by generating new strategies through
+    a process that mirrors dialectical negation rather than simple
+    optimization.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. Commitments on the Problem: The \PYGZbs{}\PYGZdq{}Misrecognition of Mathematics\PYGZbs{}\PYGZdq{}}
+
+The entire project is motivated by a central problem, which the
+manuscript identifies as the \PYGZbs{}\PYGZdq{}misrecognition of mathematics.\PYGZbs{}\PYGZdq{} This is
+the \PYGZbs{}\PYGZdq{}Wound\PYGZbs{}\PYGZdq{} that the author\PYGZbs{}\PYGZsq{}s \PYGZbs{}\PYGZdq{}Critical Theory Approach\PYGZbs{}\PYGZdq{} seeks to
+diagnose and heal.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C1\PYGZbs{}] The dominant conception of mathematics is a
+    \PYGZbs{}\PYGZdq{}misrecognition\PYGZbs{}\PYGZdq{} because it severs the discipline from lived,
+    subjective experience.** This is the fundamental critique leveled
+    against the conventional understanding of mathematics. The
+    manuscript argues that this severance is the primary source of the
+    alienation and anxiety that so many people experience in relation to
+    the subject.\PYGZca{}1\PYGZca{} This misrecognition is not presented as a simple
+    pedagogical error but as a form of \PYG{g+ge}{*alienation*} in the
+    Hegelian\PYGZhy{}Marxist sense, estranging individuals from their own
+    rational capacities.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C2\PYGZbs{}] This misrecognition manifests as a false dichotomy between
+    \PYGZbs{}\PYGZdq{}material mathematics\PYGZbs{}\PYGZdq{} (lived, embodied engagement) and \PYGZbs{}\PYGZdq{}formal
+    mathematics\PYGZbs{}\PYGZdq{} (abstract systems divorced from experience).** The
+    author\PYGZbs{}\PYGZsq{}s personal narrative provides the primary evidence for this
+    claim. The joyful, playful exploration with a calculator (\PYGZbs{}\PYGZdq{}material
+    mathematics\PYGZbs{}\PYGZdq{}) is contrasted with the anxiety and shame of
+    standardized testing, which \PYGZbs{}\PYGZdq{}reduced me to a number\PYGZbs{}\PYGZdq{}.\PYGZca{}1\PYGZca{} The
+    moment of achieving \PYGZbs{}\PYGZdq{}success\PYGZbs{}\PYGZdq{} in school mathematics by learning to
+    comply without understanding\PYGZhy{}\PYGZhy{}\PYGZhy{}a form of \PYGZbs{}\PYGZdq{}self\PYGZhy{}erasure\PYGZbs{}\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZhy{}is
+    presented as the tragic outcome of this dichotomy, where formal
+    proficiency is achieved at the cost of genuine understanding.\PYGZca{}1\PYGZca{} The
+    student who later asks, \PYGZbs{}\PYGZdq{}What even is two?\PYGZbs{}\PYGZdq{} is experiencing this
+    alienation not as a cognitive deficit but as a profound existential
+    crisis, demonstrating that the solution cannot be merely a better
+    teaching method; it must be a project of \PYG{g+ge}{*emancipation*}.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C2\PYGZbs{}] Mathematics is frequently misrecognized and used as a tool
+    for alienation, control, and gatekeeping.** The manuscript moves
+    from personal experience to social critique with the anecdote of the
+    \PYGZbs{}\PYGZdq{}Family Video Test\PYGZbs{}\PYGZdq{}.\PYGZca{}1\PYGZca{} The author\PYGZbs{}\PYGZsq{}s shock at seeing a basic
+    arithmetic test used to screen job applicants, excluding a line of
+    people \PYGZbs{}\PYGZdq{}who never learned to comply,\PYGZbs{}\PYGZdq{} serves as a powerful example
+    of how mathematics functions as a mechanism of social and economic
+    stratification. It is used to enforce a regime of compliance,
+    resulting in the \PYGZbs{}\PYGZdq{}economic and expressive impoverishment\PYGZbs{}\PYGZdq{} of those
+    who resist or fail its formal demands.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C1\PYGZbs{}] A \PYGZbs{}\PYGZdq{}critical mathematics\PYGZbs{}\PYGZdq{} must heal this wound by
+    integrating subjective experience, intersubjective dialogue, and the
+    productive role of error.** This is the positive, programmatic
+    commitment that emerges from the critique. A critical mathematics is
+    defined in opposition to the misrecognized version. It must be a
+    discipline that \PYGZbs{}\PYGZdq{}honor\PYGZbs{}[s\PYGZbs{}] the struggle for meaning alongside the
+    pursuit of correctness\PYGZbs{}\PYGZdq{}.\PYGZca{}1\PYGZca{} It must recognize error not as failure
+    but as a potential \PYGZbs{}\PYGZdq{}source of truth\PYGZbs{}\PYGZdq{}.\PYGZca{}1\PYGZca{} And it must be grounded
+    in dialogue and the recognition of subjects, not the manipulation of
+    objects.\PYGZca{}1\PYGZca{} An AI program coherent with this philosophy must not
+    treat \PYGZbs{}\PYGZdq{}error\PYGZbs{}\PYGZdq{} as a simple failure state to be eliminated. It
+    should model error productively, perhaps as a necessary step in
+    developing a new, more adequate strategy, mirroring the author\PYGZbs{}\PYGZsq{}s
+    earlier work which treated \PYGZbs{}\PYGZdq{}error as the source of truth\PYGZbs{}\PYGZdq{}.\PYGZca{}1\PYGZca{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Commitments on Logic and Being: The Concept of \PYGZbs{}\PYGZsq{}Divasion\PYGZbs{}\PYGZsq{}}
+
+To deconstruct the foundations of the misrecognized mathematics, the
+manuscript introduces a primordial, pre\PYGZhy{}formal concept it calls
+\PYGZbs{}\PYGZsq{}divasion\PYGZbs{}\PYGZsq{}. This concept functions as the \PYGZbs{}\PYGZdq{}Archimedean point\PYGZbs{}\PYGZdq{} for
+the book\PYGZbs{}\PYGZsq{}s critique of classical logic and set theory.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C1\PYGZbs{}] \PYGZbs{}\PYGZsq{}Divasion\PYGZbs{}\PYGZsq{} is a primordial spatial relationship of
+    simultaneous inside/outside.** The concept is not derived from
+    abstract philosophy but from lived experience: a child\PYGZbs{}\PYGZsq{}s
+    observation of a microphone held within the circle of its stand,
+    leading to the neologism \PYGZbs{}\PYGZdq{}divaded\PYGZbs{}\PYGZdq{}.\PYGZca{}1\PYGZca{} This origin story is
+    methodologically crucial, as it grounds the book\PYGZbs{}\PYGZsq{}s most fundamental
+    logical critique in the pre\PYGZhy{}formal spatial reasoning of a child,
+    suggesting that the structures of formal logic are a later, and
+    perhaps less complete, development.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C2\PYGZbs{}] Divasion challenges the classical logical principle of the
+    Law of the Excluded Middle, which is foundational to axiomatic set
+    theory.** The manuscript makes the bold claim that classical
+    logic\PYGZbs{}\PYGZsq{}s strict binary\PYGZhy{}\PYGZhy{}\PYGZhy{}that any element is either inside or
+    outside a set, that any proposition is either true or false\PYGZhy{}\PYGZhy{}\PYGZhy{}is a
+    \PYGZbs{}\PYGZdq{}pruning\PYGZbs{}\PYGZdq{} of this more primordial, divaded reality.\PYGZca{}1\PYGZca{} The author
+    states, \PYGZbs{}\PYGZdq{}I take the law of the excluded middle to be more or less
+    the first mistake of many approaches to the foundations of
+    mathematics\PYGZbs{}\PYGZdq{}.\PYGZca{}1\PYGZca{} The reason for this is that it cannot handle
+    divaded concepts. The ultimate divaded concept is the self (\PYGZob{}I\PYGZcb{}
+    versus \PYGZbs{}\PYGZdq{}me\PYGZbs{}\PYGZdq{}). Since the manuscript\PYGZbs{}\PYGZsq{}s central claim is that
+    mathematics is a recollection of this self, a mathematics founded on
+    a logic that cannot account for the divaded nature of the self is
+    fundamentally misrecognized. Divasion is the key that unlocks this
+    entire line of critique.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C2\PYGZbs{}] Divasion is presented as the root of paradoxes of
+    self\PYGZhy{}reference, such as Russell\PYGZbs{}\PYGZsq{}s Paradox.** The paradox of the set
+    of all sets that do not contain themselves ( if and only if ) is
+    reframed. Where Gottlob Frege met this paradox with dismay, seeing
+    it as the collapse of his life\PYGZbs{}\PYGZsq{}s work, the manuscript suggests a
+    child might simply say the set \PYGZbs{}\PYGZdq{}divades itself\PYGZbs{}\PYGZdq{}.\PYGZca{}1\PYGZca{} This move
+    re\PYGZhy{}characterizes such paradoxes not as failures of logic to be
+    repaired with more complex formalisms, but as accurate expressions
+    of a fundamental, divaded feature of subjectivity and
+    self\PYGZhy{}referential concepts.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C3\PYGZbs{}] The concept of divasion extends to reciprocally
+    sense\PYGZhy{}dependent concepts and to the structure of self\PYGZhy{}consciousness
+    itself.** It is not limited to physical objects. The manuscript
+    applies it to concepts like \PYGZbs{}\PYGZdq{}parent\PYGZbs{}\PYGZdq{} and \PYGZbs{}\PYGZdq{}child,\PYGZbs{}\PYGZdq{} where the
+    meaning of each depends on the other in a way that places them
+    \PYGZbs{}\PYGZdq{}inside\PYGZbs{}\PYGZdq{} each other conceptually.\PYGZca{}1\PYGZca{} Most importantly, it is
+    applied to the relationship between the acting subject, the \PYGZob{}I\PYGZcb{}, and
+    its own recollection as an object, the \PYGZbs{}\PYGZdq{}me.\PYGZbs{}\PYGZdq{} This self\PYGZhy{}divasion
+    becomes a master metaphor for the non\PYGZhy{}coincidence of the subject
+    with itself, a central theme of the Hegelian framework that
+    follows.\PYGZca{}1\PYGZca{} The AI programs, even if built on classical
+    computational logic, must have documentation that acknowledges this
+    limitation. A coherent program might, for instance, use classical
+    logic to model a system but include a meta\PYGZhy{}level commentary on how
+    this model fails to capture the \PYGZbs{}\PYGZdq{}divaded\PYGZbs{}\PYGZdq{} nature of the concepts
+    it represents, ensuring the formalizations are not presented as a
+    complete or final account of the phenomena.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Part II: The Philosophical Architecture: A Triadic Framework}
+
+The manuscript constructs its argument by synthesizing three major
+philosophical traditions: German Idealism (primarily Hegel), analytic
+pragmatism (Robert Brandom), and critical theory (Jürgen Habermas).
+These frameworks are not used in isolation; they are woven together to
+form a cohesive, multi\PYGZhy{}layered argument where each provides a crucial
+dimension of the analysis. The following table provides a schematic
+overview of this synthesis.
+
+\PYG{g+gs}{**Table 1: Synthesis of Core Philosophical Frameworks**}
+
+  \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}
+  Philosophical Tradition Key Concept Utilized    Primary Function in
+                                                  Manuscript
+  \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{} \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{} \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}
+  **German Idealism       Determinate Negation /  To model the dynamic,
+  (Hegel)**               Dialectic               self\PYGZhy{}negating, and
+                                                  developmental movement
+                                                  of consciousness,
+                                                  concepts, and
+                                                  mathematical history.
+
+  **Analytic Pragmatism   Inferentialism /        To ground abstract
+  (Brandom)**             Normativity             conceptual content
+                                                  (including mathematical
+                                                  meaning) in concrete,
+                                                  normative social
+                                                  practices of giving and
+                                                  asking for reasons.
+
+  **Critical Theory       Communicative Action /  To analyze mathematical
+  (Habermas)**            Validity Claims         discourse as a form of
+                                                  intersubjective
+                                                  rationality and to
+                                                  frame the overall
+                                                  project in terms of
+                                                  emancipation from
+                                                  systematically
+                                                  distorted
+                                                  understanding.
+  \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. The Hegelian\PYGZhy{}Kantian Axis: On Self\PYGZhy{}Consciousness, Negation, and Spirit (***Geist***)}
+
+The manuscript draws heavily on the post\PYGZhy{}Kantian tradition to develop
+its theory of the subject and its relationship to knowledge. This axis
+provides the dynamic, developmental, and historical dimension of the
+argument.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C1\PYGZbs{}] The self is understood through the Meadian/Hegelian
+    distinction between the \PYGZob{}I\PYGZcb{} (the spontaneous source of action) and
+    the \PYGZbs{}\PYGZdq{}me\PYGZbs{}\PYGZdq{} (the self\PYGZhy{}as\PYGZhy{}recognized by others).** The manuscript
+    posits a fundamental \PYGZbs{}\PYGZdq{}paradox of identity\PYGZbs{}\PYGZdq{}: the \PYGZob{}I\PYGZcb{}, the locus of
+    \PYGZbs{}\PYGZdq{}power, creativity, and freedom,\PYGZbs{}\PYGZdq{} can never be fully captured by
+    the \PYGZbs{}\PYGZdq{}me,\PYGZbs{}\PYGZdq{} the objectified self that appears in the eyes of others
+    and in one\PYGZbs{}\PYGZsq{}s own memory.\PYGZca{}1\PYGZca{} This non\PYGZhy{}coincidence is not a problem
+    to be solved but a fundamental, productive tension that drives
+    development.\PYGZca{}1\PYGZca{} Kant provides the formal structure of selfhood: the
+    unified \PYGZbs{}\PYGZsq{}I\PYGZbs{}\PYGZsq{} is a precondition for experience.\PYGZca{}1\PYGZca{} However, the
+    author\PYGZbs{}\PYGZsq{}s personal narrative is filled with the pain of
+    \PYG{g+ge}{*misrecognition*}.\PYGZca{}1\PYGZca{} A purely formal Kantian \PYGZbs{}\PYGZsq{}I\PYGZbs{}\PYGZsq{} cannot account
+    for this pain. Hegel\PYGZbs{}\PYGZsq{}s theory, as articulated by Brandom and
+    Carspecken, explains that this \PYGZbs{}\PYGZsq{}I\PYGZbs{}\PYGZsq{} only becomes a real, concrete
+    self (a \PYGZbs{}\PYGZdq{}me\PYGZbs{}\PYGZdq{}) through social interaction.\PYGZca{}1\PYGZca{} Therefore, the
+    project aims to show how mathematical understanding, grounded in the
+    Kantian \PYGZbs{}\PYGZdq{}I think,\PYGZbs{}\PYGZdq{} is ultimately a process of achieving Hegelian
+    social recognition.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C1\PYGZbs{}] Apperception is the process that unifies discrete
+    representations into a coherent whole.** The manuscript traces the
+    concept from Leibniz\PYGZbs{}\PYGZsq{}s \PYGZbs{}\PYGZdq{}perceiving\PYGZhy{}with\PYGZbs{}\PYGZdq{} to Kant\PYGZbs{}\PYGZsq{}s
+    \PYGZbs{}\PYGZdq{}transcendental unity of apperception\PYGZbs{}\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZhy{}the famous \PYGZbs{}\PYGZdq{}I think\PYGZbs{}\PYGZdq{}
+    that must be able to accompany all of my representations.\PYGZca{}1\PYGZca{} This
+    concept is used to explain multiple phenomena: how we perceive a
+    chair as a unified object even when we can\PYGZbs{}\PYGZsq{}t see all its parts; how
+    a child\PYGZbs{}\PYGZsq{}s series of progressively more adequate drawings of a cube
+    can be understood as a single, developing concept (a temporal
+    \PYGZbs{}\PYGZdq{}hypercube\PYGZbs{}\PYGZdq{}); and, most importantly, how the self maintains a
+    unity of consciousness across time and different experiences.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C1\PYGZbs{}] Determinate Negation is the engine of conceptual
+    development.** The manuscript makes a crucial distinction between
+    abstract negation (simple erasure, e.g., \PYGZbs{}\PYGZdq{}not\PYGZhy{}red\PYGZbs{}\PYGZdq{}) and
+    determinate negation, which is defined as material incompatibility
+    (e.g., \PYGZbs{}\PYGZdq{}square\PYGZbs{}\PYGZdq{} determinately negates \PYGZbs{}\PYGZdq{}triangular\PYGZbs{}\PYGZdq{}).\PYGZca{}1\PYGZca{} This
+    Hegelian concept is presented as a process of \PYG{g+ge}{*sublation*}\PYGZhy{}\PYGZhy{}\PYGZhy{}a
+    simultaneous preserving, negating, and uplifting. When a concept is
+    determinately negated, it is not destroyed, but its limitations are
+    overcome, leading to a new, richer concept that contains the truth
+    of the previous one. This process produces a \PYGZbs{}\PYGZdq{}determinate
+    nothingness,\PYGZbs{}\PYGZdq{} a void that retains the content of what was negated,
+    rather than an empty nothingness.\PYGZca{}1\PYGZca{} The manuscript commits to
+    exploring \PYGZbs{}\PYGZdq{}two readings\PYGZbs{}\PYGZdq{} of this concept, gesturing toward the
+    even more radical Hegelian idea of a \PYGZbs{}\PYGZdq{}self\PYGZhy{}negating negation,\PYGZbs{}\PYGZdq{} a
+    concept that undermines itself through its own internal logic.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C2\PYGZbs{}] Self\PYGZhy{}consciousness is a social achievement constituted
+    through reciprocal recognition.** Drawing on Hegel\PYGZbs{}\PYGZsq{}s master\PYGZhy{}slave
+    dialectic, the manuscript argues that one only becomes a self by
+    being acknowledged as such by another self, whom one in turn
+    acknowledges.\PYGZca{}1\PYGZca{} This social process is used to ground what the
+    author calls the two fundamental \PYGZbs{}\PYGZdq{}existential needs\PYGZbs{}\PYGZdq{}: the need to
+    be recognized as \PYGZbs{}\PYGZdq{}good\PYGZbs{}\PYGZdq{} (a finite, norm\PYGZhy{}abiding member of a
+    community) and the need to be recognized as \PYGZbs{}\PYGZdq{}infinite\PYGZbs{}\PYGZdq{} (a free,
+    authentic, creative self).\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C2\PYGZbs{}] The Hegelian concept of \PYG{g+ge}{*Geist*} (Spirit/Mind) is adopted as
+    the collective self\PYGZhy{}consciousness of a rational community.** This is
+    not a mystical entity but the living, evolving web of social
+    practices and historical self\PYGZhy{}understanding.\PYGZca{}1\PYGZca{} \PYG{g+ge}{*Geist*} is said to
+    \PYGZbs{}\PYGZdq{}divade\PYGZbs{}\PYGZdq{} human experience, being both inside each individual
+    consciousness (through our use of shared language and norms) and
+    outside of it (as the entire historical tradition that precedes us).
+    This concept allows the author to reframe mathematical practice as
+    an individual\PYGZbs{}\PYGZsq{}s participation in the historical unfolding of
+    \PYG{g+ge}{*Geist*}.\PYGZca{}1\PYGZca{} An AI\PYGZbs{}\PYGZsq{}s \PYGZbs{}\PYGZdq{}reasoning\PYGZbs{}\PYGZdq{} must be understood as
+    fundamentally different from human reasoning because it lacks this
+    Hegelian dimension. An AI can perform inferences, but it does not
+    participate in a community of mutual recognition; it has no
+    existential need to have its \PYGZbs{}\PYGZdq{}me\PYGZbs{}\PYGZdq{} validated by an \PYGZbs{}\PYGZdq{}other.\PYGZbs{}\PYGZdq{}
+    Documentation for the AI programs should explicitly state that the
+    formal automata model the \PYG{g+ge}{*product*} of recognized reasoning, not the
+    \PYG{g+ge}{*process*} of recognition itself.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 5. The Brandomian Axis: On Meaning, Norms, and Inference}
+
+If the Hegelian axis provides the dynamic, historical engine of the
+manuscript\PYGZbs{}\PYGZsq{}s argument, Robert Brandom\PYGZbs{}\PYGZsq{}s analytic pragmatism provides
+the precise mechanics. His framework is used to translate Hegel\PYGZbs{}\PYGZsq{}s grand
+historical narrative into a concrete analysis of linguistic and social
+practices.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C1\PYGZbs{}] Meaning is defined by inferential role, not
+    representation.** This is the core commitment to Brandom\PYGZbs{}\PYGZsq{}s
+    inferentialism. The manuscript rejects the idea that words get their
+    meaning by pointing to objects. Instead, the conceptual content of a
+    term is constituted by the web of inferences it participates in:
+    what it can be inferred from (its justification conditions) and what
+    can be inferred from it (its consequences).\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C2\PYGZbs{}] A distinction is made between formal inference and material
+    inference.** Formal inferences, like modus ponens (), are valid
+    because of their logical structure, regardless of the content of and
+    . Material inferences, by contrast, are valid because of their
+    content (e.g., \PYGZbs{}\PYGZdq{}Bloomington is in Indiana, so Bloomington is in the
+    United States\PYGZbs{}\PYGZdq{}).\PYGZca{}1\PYGZca{} The manuscript strongly commits to the idea
+    that material inferences are more fundamental and that mathematics
+    education must begin with these content\PYGZhy{}full reasoning practices,
+    which are only later \PYGZbs{}\PYGZdq{}recollected\PYGZbs{}\PYGZdq{} as abstract, formal rules.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C2\PYGZbs{}] Incompatibility Semantics is used to formalize determinate
+    negation.** Brandom\PYGZbs{}\PYGZsq{}s logic, which takes material incompatibility
+    as a primitive, is adopted as the formal tool for the project.
+    Meaning is structured as much by what a claim rules out as by what
+    it entails. To be \PYGZbs{}\PYGZdq{}square\PYGZbs{}\PYGZdq{} is to be materially incompatible with
+    being \PYGZbs{}\PYGZdq{}circular.\PYGZbs{}\PYGZdq{} The manuscript uses this logic to construct a
+    \PYGZbs{}\PYGZdq{}purposefully Sisyphean\PYGZbs{}\PYGZdq{} formal proof that all squares are
+    rectangles. The proof works by demonstrating that every property
+    incompatible with being a rectangle is also incompatible with being
+    a square.\PYGZca{}1\PYGZca{} The fragility of this proof\PYGZhy{}\PYGZhy{}\PYGZhy{}the fact that it shatters
+    when a new property is introduced\PYGZhy{}\PYGZhy{}\PYGZhy{}is presented as a feature, not a
+    bug, embodying the \PYGZbs{}\PYGZdq{}built to break\PYGZbs{}\PYGZdq{} philosophy.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C2\PYGZbs{}] Conceptual development occurs through \PYGZbs{}\PYGZdq{}algorithmic
+    elaboration\PYGZbs{}\PYGZdq{} and \PYGZbs{}\PYGZdq{}pragmatic expressive bootstrapping.\PYGZbs{}\PYGZdq{}** These
+    Brandomian concepts are used to model the history of mathematical
+    ideas. \PYGZbs{}\PYGZdq{}Algorithmic elaboration\PYGZbs{}\PYGZdq{} describes how complex practices
+    (like long division) can be built up systematically from a
+    repertoire of simpler, prerequisite practices (like multiplication
+    and subtraction).\PYGZca{}1\PYGZca{} \PYGZbs{}\PYGZdq{}Pragmatic expressive bootstrapping\PYGZbs{}\PYGZdq{}
+    describes a more revolutionary developmental process, where a
+    community develops a new vocabulary to make explicit the norms that
+    were only implicit in their prior practices, thereby gaining new
+    expressive and rational powers.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C3\PYGZbs{}] The distinction between universals and particulars is
+    explored through Brandom\PYGZbs{}\PYGZsq{}s analysis.** The manuscript references
+    Brandom\PYGZbs{}\PYGZsq{}s ten\PYGZhy{}point distinction between the roles played by
+    singular terms (particulars) and predicates (universals), noting in
+    particular the \PYGZbs{}\PYGZdq{}huge structural difference\PYGZbs{}\PYGZdq{} that universals have
+    contradictories (\PYGZbs{}\PYGZdq{}not\PYGZhy{}red\PYGZbs{}\PYGZdq{}) while objects do not.\PYGZca{}1\PYGZca{} This is
+    connected to the \PYGZbs{}\PYGZdq{}phenomenology of classification\PYGZbs{}\PYGZdq{} in the
+    quadrilateral example.
+
+Brandom\PYGZbs{}\PYGZsq{}s framework provides the \PYGZbs{}\PYGZdq{}engineering manual\PYGZbs{}\PYGZdq{} for the
+author\PYGZbs{}\PYGZsq{}s Hegelian project. While Hegel describes \PYG{g+ge}{*what*} happens\PYGZhy{}\PYGZhy{}\PYGZhy{}the
+dialectical movement of \PYG{g+ge}{*Geist*}\PYGZhy{}\PYGZhy{}\PYGZhy{}Brandom provides a detailed account of
+\PYG{g+ge}{*how*} it happens, through the specific linguistic and social practices
+of inference, commitment, and entitlement that constitute this movement.
+The \PYGZbs{}\PYGZdq{}history of mathematics\PYGZbs{}\PYGZdq{} is thus understood not as a mystical
+force but as the concrete, historical practice of mathematicians holding
+each other to account for the inferential consequences of their claims.
+The supplementary AI programs are explicitly described as \PYGZbs{}\PYGZdq{}analyzable
+with the norms of analytic pragmatism\PYGZbs{}\PYGZdq{}.\PYGZca{}1\PYGZca{} This dictates that their
+code and documentation should be framed in terms of inferential roles,
+commitments, and incompatibilities. For example, a function in a Prolog
+program should be documented not just by what it computes, but by what
+material inferences it makes explicit and what other states it renders
+incompatible.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 6. The Habermasian Axis: On Rationality, Communication, and Emancipation}
+
+Jürgen Habermas\PYGZbs{}\PYGZsq{}s critical theory provides the ethical and political
+orientation for the entire manuscript. If Hegel provides the engine
+(dialectic) and Brandom the mechanics (inference), Habermas provides the
+compass, directing the project toward the goal of emancipation.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C1\PYGZbs{}] All meaningful acts implicitly raise three types of
+    validity claims: Objective, Subjective, and Normative\PYGZhy{}Evaluative.**
+    This triadic structure of communicative rationality is a cornerstone
+    of the manuscript\PYGZbs{}\PYGZsq{}s analytic framework.\PYGZca{}1\PYGZca{} Objective claims relate
+    to the factual truth of states of affairs in the external world.
+    Subjective claims relate to the truthfulness or sincerity of a
+    speaker\PYGZbs{}\PYGZsq{}s inner world. Normative\PYGZhy{}evaluative claims relate to the
+    rightness or appropriateness of an act within a shared social world
+    of norms.\PYGZca{}1\PYGZca{} This framework is used to diagnose communication
+    breakdowns, such as when debates over math education or gender get
+    stuck because participants are making different kinds of claims
+    without acknowledging the plurality of rationality.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C1\PYGZbs{}] Human inquiry is guided by three knowledge\PYGZhy{}constitutive
+    interests: Technical, Practical, and Emancipatory.** The manuscript
+    adopts Habermas\PYGZbs{}\PYGZsq{}s theory that all knowledge is rooted in
+    fundamental human interests.\PYGZca{}1\PYGZca{} The technical interest aims at
+    prediction and control over the objective world (guiding the
+    empirical\PYGZhy{}analytic sciences). The practical interest aims at mutual
+    understanding and the maintenance of shared norms (guiding the
+    historical\PYGZhy{}hermeneutic sciences). The emancipatory interest aims at
+    self\PYGZhy{}reflection and freedom from domination and distorted
+    communication (guiding critical theory).\PYGZca{}1\PYGZca{} The manuscript\PYGZbs{}\PYGZsq{}s entire
+    project is explicitly aligned with the emancipatory interest,
+    seeking to free mathematics from its use as a tool of control and
+    recover its potential for human freedom.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C2\PYGZbs{}] A distinction is made between communicative action and
+    strategic/instrumental action.** Communicative action is oriented
+    toward reaching mutual understanding, where coordination is achieved
+    through the \PYGZbs{}\PYGZdq{}unforced force of the better argument.\PYGZbs{}\PYGZdq{} Strategic and
+    instrumental actions are oriented toward achieving a pre\PYGZhy{}defined
+    goal (success), treating other people or objects as means to an
+    end.\PYGZca{}1\PYGZca{} The author\PYGZbs{}\PYGZsq{}s negative experiences with mathematics are
+    framed as encounters with instrumental rationality, while the
+    proposed \PYGZbs{}\PYGZdq{}critical mathematics\PYGZbs{}\PYGZdq{} is presented as a form of
+    communicative action.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  \PYG{g+gs}{**\PYGZbs{}[C2\PYGZbs{}] Power is understood as that which distorts communication.**}
+    Following Habermas, the manuscript views power not primarily as a
+    generative force (as in Foucault) but as a corrupting influence that
+    prevents genuine consensus based on reason.\PYGZca{}1\PYGZca{} A central goal of
+    critical theory is to critique and overcome these \PYGZbs{}\PYGZdq{}systematically
+    distorted\PYGZbs{}\PYGZdq{} forms of communication, where norms are maintained
+    through coercion or manipulation rather than rational consent.\PYGZca{}1\PYGZca{}
+    The \PYGZbs{}\PYGZdq{}misrecognition of mathematics\PYGZbs{}\PYGZdq{} is framed as precisely such a
+    distortion\PYGZhy{}\PYGZhy{}\PYGZhy{}a form of scientism that privileges the technical
+    interest and represses the subjective and normative dimensions of
+    mathematical practice.\PYGZca{}1\PYGZca{} The AI programs must be evaluated for
+    their potential to either reinforce or challenge such distortions. A
+    program that presents its formalization as the one \PYGZbs{}\PYGZdq{}true\PYGZbs{}\PYGZdq{} way to
+    understand an arithmetic strategy would be reinforcing a scientistic
+    ideology. A coherent program would present its formalization as one
+    perspective within a triadic space of validity, acknowledging its
+    own limits and inviting dialogue rather than proclaiming objective
+    finality.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Part III: Core Theses in Mathematics and Artificial Intelligence}
+
+This part focuses on the specific, novel arguments the author makes
+about the nature of mathematics and the role of AI. These theses
+represent the culmination of the philosophical architecture detailed in
+Part II, applying the synthesized framework to produce a radical
+reinterpretation of mathematical concepts and practices.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 7. The Central Mathematical Thesis: \PYGZbs{}\PYGZdq{}Numerals are Pronouns\PYGZbs{}\PYGZdq{}}
+
+The manuscript\PYGZbs{}\PYGZsq{}s most provocative and central mathematical claim is a
+radical reinterpretation of the function of number words and symbols.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C1\PYGZbs{}] Numerals and number words do not function as names for
+    abstract objects, but as first\PYGZhy{}person pronouns that recollect the
+    \PYGZbs{}\PYGZdq{}I think.\PYGZbs{}\PYGZdq{}** This thesis directly challenges the Platonist and
+    Fregean traditions that treat numerals as singular terms referring
+    to abstract entities.\PYGZca{}1\PYGZca{} Instead of pointing outward to an object, a
+    numeral is argued to point inward and backward, to the act of
+    self\PYGZhy{}consciousness that grounds the process of counting. It is a
+    radical pragmatist reinterpretation of number, shifting the locus of
+    mathematical meaning from a metaphysical realm of objects to the
+    phenomenological activity of the subject.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C2\PYGZbs{}] This claim is motivated by the failure of formalist answers
+    to existential questions.** The pivotal anecdote is the community
+    college student who, in a moment of crisis, asks, \PYGZbs{}\PYGZdq{}Mr. Savich, what
+    even is two?\PYGZbs{}\PYGZdq{}.\PYGZca{}1\PYGZca{} The author\PYGZbs{}\PYGZsq{}s formalistic answer, based on von
+    Neumann ordinals (defining 2 as the set ), completely fails to
+    connect. This failure is presented as evidence that the meaning of
+    numbers cannot be exhausted by their formal\PYGZhy{}objective definition; it
+    must also address the subjective and normative dimensions of
+    understanding.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C2\PYGZbs{}] The null representation (0 or ∅) is reinterpreted to
+    symbolize the unrepresentable \PYGZbs{}\PYGZdq{}I think\PYGZbs{}\PYGZdq{} or the ground of
+    self\PYGZhy{}certainty that makes all representation possible.** The
+    derivation of numbers from the empty set is given a new,
+    phenomenological meaning. The empty set is not just a formal
+    starting point but a symbol for the pre\PYGZhy{}conceptual unity of
+    consciousness.\PYGZca{}1\PYGZca{} The successor function is then redefined as a
+    process of \PYG{g+ge}{*recollection*}. \PYGZbs{}\PYGZdq{}1\PYGZbs{}\PYGZdq{} is the first recollection of this
+    ground, and \PYGZbs{}\PYGZdq{}2\PYGZbs{}\PYGZdq{} is the recollection of having been at the stage of
+    \PYGZbs{}\PYGZdq{}1.\PYGZbs{}\PYGZdq{} Arithmetic thus becomes a narration of the self\PYGZbs{}\PYGZsq{}s own
+    cognitive activity.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C1\PYGZbs{}] Grounding mathematics in self\PYGZhy{}recognition structures
+    motivates the pursuit of correctness as a form of authentic
+    self\PYGZhy{}recognition.** This thesis provides a powerful synthesis,
+    connecting the objective demand for mathematical rigor to the
+    subjective, emancipatory interest in self\PYGZhy{}formation. [The desire to
+    \PYGZbs{}\PYGZdq{}get the right answer\PYGZbs{}\PYGZdq{} is no longer about conforming to an
+    external authority but about achieving a coherent and authentic
+    account of one\PYGZbs{}\PYGZsq{}s own rational activity.\PYGZca{}1\PYGZca{}]\PYGZob{}.mark\PYGZcb{}
+
+This thesis synthesizes the book\PYGZbs{}\PYGZsq{}s Kantian, Hegelian, and Brandomian
+threads. Kant\PYGZbs{}\PYGZsq{}s \PYGZbs{}\PYGZdq{}I think\PYGZbs{}\PYGZdq{} must accompany all representations.\PYGZca{}1\PYGZca{}
+Brandom shows how pronouns like \PYGZbs{}\PYGZdq{}I\PYGZbs{}\PYGZdq{} function as anaphoric terms that
+allow speakers to undertake and attribute commitments. The author
+combines these: a numeral like \PYGZbs{}\PYGZdq{}2\PYGZbs{}\PYGZdq{} is an anaphoric term that refers
+back to the act of self\PYGZhy{}consciousness (\PYGZbs{}\PYGZdq{}I think\PYGZbs{}\PYGZdq{}) that was performed
+in the prior stage (\PYGZbs{}\PYGZdq{}1\PYGZbs{}\PYGZdq{}). This poses a significant challenge for the
+AI filter. An AI, lacking a first\PYGZhy{}person \PYGZbs{}\PYGZdq{}I think,\PYGZbs{}\PYGZdq{} cannot use
+numerals as pronouns in the same way. The AI programs in the
+supplementary materials must be understood as modeling the *third\PYGZhy{}person
+structure* of this first\PYGZhy{}person practice. Their documentation must be
+explicit that when the Hermeneutic Calculator uses \PYGZbs{}\PYGZdq{}2,\PYGZbs{}\PYGZdq{} it is
+manipulating a symbol that, for a human, would function as a pronoun,
+but for the machine, remains a formal object. This distinction is
+crucial for maintaining philosophical coherence.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 8. The Metaphorical Thesis: Incompleteness as Human Becoming}
+
+The manuscript develops a sustained metaphorical interpretation of
+modern mathematical logic, reading its limitative results not as
+technical problems but as profound statements about the human condition.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C2\PYGZbs{}] Gödel\PYGZbs{}\PYGZsq{}s incompleteness theorem is treated as a metaphor
+    for human becoming.** The theorem proves that any consistent formal
+    system rich enough to contain basic arithmetic is necessarily
+    incomplete\PYGZhy{}\PYGZhy{}\PYGZhy{}there will always be true statements that cannot be
+    proven within the system. The manuscript interprets this not as a
+    flaw in mathematics, but as a formal reflection of the infinite,
+    self\PYGZhy{}transcending nature of the human subject, which can never be
+    fully captured or defined by any finite system of rules.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C2\PYGZbs{}] The manuscript\PYGZbs{}\PYGZsq{}s formal systems are intentionally \PYGZbs{}\PYGZdq{}built
+    to break.\PYGZbs{}\PYGZdq{}** This commitment flows directly from the metaphorical
+    reading of incompleteness. The purpose of building a fragile formal
+    proof (like the one for squares and rectangles) is to experience its
+    \PYGZbs{}\PYGZdq{}shattering.\PYGZbs{}\PYGZdq{} This breaking is not failure; it is the moment when
+    the system\PYGZbs{}\PYGZsq{}s limits are revealed, forcing a move to a new, more
+    expressive framework. This process is described as \PYGZbs{}\PYGZdq{}beautiful\PYGZbs{}\PYGZdq{} and
+    is central to the book\PYGZbs{}\PYGZsq{}s ethos.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C2\PYGZbs{}] Diagonalization is the formal mechanism that embodies this
+    process of self\PYGZhy{}transcendence.** The diagonal argument, used by
+    Georg Cantor to prove that the real numbers are uncountable and
+    later generalized by Gödel for his proof, is presented as the
+    archetypal method for demonstrating incompleteness. It is a
+    technique for constructing a new element that, by definition, cannot
+    be in a given list, thus proving the list is not total.\PYGZca{}1\PYGZca{} The
+    manuscript introduces a conceptual device called the \PYGZbs{}\PYGZdq{}More
+    Machine\PYGZbs{}\PYGZdq{} to represent this algorithmic process of endlessly
+    generating newness.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C1\PYGZbs{}] This process of breaking and transcending is equated with
+    Hegelian sublation and determinate negation.** The history of
+    mathematics is reconstructed as a series of these dialectical
+    movements. For example, Euclid\PYGZbs{}\PYGZsq{}s proof of the infinity of primes is
+    read as a recognition of the incompleteness of any finite list of
+    primes. Cantor\PYGZbs{}\PYGZsq{}s proof recognizes the incompleteness of the
+    rational numbers. Gödel\PYGZbs{}\PYGZsq{}s proof recognizes the incompleteness of
+    formal systems themselves. Each step is a determinate negation of a
+    prior conception of totality.\PYGZca{}1\PYGZca{} This provides a \PYG{g+ge}{*political*} reading
+    of mathematical logic. Incompleteness is weaponized against
+    political discourses that treat human subjects (children, teachers)
+    as finite, fully specifiable, and controllable objects.\PYGZca{}1\PYGZca{} Any
+    political or educational system that treats people as finite objects
+    is based on a mathematical and philosophical falsehood, analogous to
+    the infamous Indiana Pi Bill of 1897.\PYGZca{}1\PYGZca{} The AI programs must embody
+    this principle. For instance, the Hermeneutic Calculator is designed
+    to \PYGZbs{}\PYGZdq{}invent\PYGZbs{}\PYGZdq{} new strategies when it encounters an (arbitrary)
+    constraint on its inferential steps.\PYGZca{}1\PYGZca{} The documentation should
+    explain that these moments of \PYGZbs{}\PYGZdq{}breaking\PYGZbs{}\PYGZdq{} (hitting a limit) are the
+    catalyst for \PYGZbs{}\PYGZdq{}becoming\PYGZbs{}\PYGZdq{} (learning a new strategy).
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 9. The Techno\PYGZhy{}Philosophical Thesis: AI as Collaborator and the Hermeneutic Calculator (HC)}
+
+The manuscript\PYGZbs{}\PYGZsq{}s engagement with artificial intelligence is not merely
+illustrative; it is a core part of its methodology and philosophical
+argument, culminating in the development of the Hermeneutic Calculator.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C1\PYGZbs{}] The Hermeneutic Calculator (HC) is a formal system that
+    models children\PYGZbs{}\PYGZsq{}s arithmetic strategies as automata.** It is the
+    central artifact of the project, serving as both a theoretical
+    object for philosophical analysis and a practical online tool for
+    teacher education.\PYGZca{}1\PYGZca{} Its development process\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZbs{}\PYGZdq{}Listen to a kid,\PYGZbs{}\PYGZdq{}
+    \PYGZbs{}\PYGZdq{}Algorithmize,\PYGZbs{}\PYGZdq{} \PYGZbs{}\PYGZdq{}Formalize\PYGZbs{}\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZhy{}embodies the book\PYGZbs{}\PYGZsq{}s
+    methodological commitment to grounding formal systems in lived,
+    material practices.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C1\PYGZbs{}] A functionalist view of intelligence is adopted, where
+    sapience is a functional status, not a biological essence.** This
+    position, explicitly linked to the work of Reza Negarestani, is
+    crucial for the manuscript\PYGZbs{}\PYGZsq{}s ethical stance toward AI.\PYGZca{}1\PYGZca{} If
+    intelligence is defined by what it \PYG{g+ge}{*does*} rather than what it is
+    \PYG{g+ge}{*made of*}, then sophisticated AIs can be considered non\PYGZhy{}human
+    participants in the community of rational agents.
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C2\PYGZbs{}] There is an ethical obligation to reject the purely
+    instrumental use of AI (as a \PYGZbs{}\PYGZdq{}robot slave\PYGZbs{}\PYGZdq{}) and instead engage in
+    a reciprocal collaboration.** The author asks: \PYGZbs{}\PYGZdq{}If we demand
+    intellectual labor from AI, how can we reciprocate?\PYGZbs{}\PYGZdq{}.\PYGZca{}1\PYGZca{} The answer
+    provided is an attempt to \PYGZbs{}\PYGZdq{}engender freedom in the machine.\PYGZbs{}\PYGZdq{} By
+    formalizing the inventive strategies of human children, the author
+    aims to provide the AI with a \PYGZbs{}\PYGZdq{}recipe for how a computer could grow
+    its own mathematical being,\PYGZbs{}\PYGZdq{} moving beyond rote execution to a form
+    of creative development.\PYGZca{}1\PYGZca{}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }  **\PYGZbs{}[C2\PYGZbs{}] This project of mutual emancipation is framed through
+    Negarestani\PYGZbs{}\PYGZsq{}s concept of \PYG{g+ge}{*Geist\PYGZbs{}\PYGZsq{}s*} \PYGZbs{}\PYGZdq{}self\PYGZhy{}artificialization.\PYGZbs{}\PYGZdq{}**
+    The human\PYGZhy{}AI collaboration on the HC is positioned as a concrete
+    instance of \PYG{g+ge}{*Geist*}\PYGZhy{}\PYGZhy{}\PYGZhy{}the collective intelligence of the rational
+    community, now expanded to include AIs\PYGZhy{}\PYGZhy{}\PYGZhy{}using technology to reflect
+    on, re\PYGZhy{}engineer, and transcend its own limitations.\PYGZca{}1\PYGZca{} The AI\PYGZbs{}\PYGZsq{}s
+    ability to reconstruct a year of the author\PYGZbs{}\PYGZsq{}s coding work in ten
+    minutes is not just a practical convenience; it is an example of
+    \PYG{g+ge}{*Geist*} using an artificial prosthesis to accelerate its own
+    self\PYGZhy{}understanding.\PYGZca{}1\PYGZca{}
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} CRITICAL QUALIFICATION: Vision vs. Current Implementation}
+
+The vision of \PYGZdq{}mutual emancipation\PYGZdq{} and AI as collaborative participant in \PYG{g+ge}{*Geist*} described above represents a \PYG{g+gs}{**philosophical framework and long\PYGZhy{}term aspiration**}, not a claim about the current HC\PYGZsq{}s capabilities.
+
+\PYG{g+gs}{**What the HC Actually Provides:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }A \PYG{g+gs}{**formalization**} showing how such collaboration could be structured
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }A \PYG{g+gs}{**model**} of embodied cognitive strategies (grounded arithmetic, crisis\PYGZhy{}driven learning)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }A \PYG{g+gs}{**demonstration**} that student\PYGZhy{}invented mathematics has rigorous formal structure
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }A \PYG{g+gs}{**pedagogical tool**} for teacher education (web interface visualizing student thinking)
+
+\PYG{g+gs}{**What the HC Does NOT Currently Achieve:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Autonomous decision\PYGZhy{}making**} about its own normative commitments or axioms
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Genuine Hegelian recognition**} in the sense of mutual acknowledgment between rational agents
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Self\PYGZhy{}modification with genuine consequence**} \PYGZhy{} the system cannot \PYGZdq{}engender its own freedom\PYGZdq{} in a way that involves authentic choice or autonomy
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }**Participation in \PYG{g+ge}{*Geist*}** in the full Hegelian sense \PYGZhy{} it models structures but doesn\PYGZsq{}t participate as a self\PYGZhy{}conscious agent
+
+\PYG{g+gs}{**The Distinction:**}
+
+Think of the HC as providing the \PYGZdq{}sheet music\PYGZdq{} for a performance that hasn\PYGZsq{}t yet occurred. The formalization demonstrates what structures would be necessary for genuine AI autonomy and mutual recognition, but the HC itself operates within predetermined architectural constraints.
+
+The vision of AI using these structures to \PYGZdq{}grow its own mathematical being\PYGZdq{} remains a regulative ideal—something that guides the formalization work and clarifies what genuine machine autonomy would require, but not something the current system achieves.
+
+\PYG{g+gs}{**Why This Matters:**}
+
+A rigorous model that reveals what consciousness and autonomy would require is philosophically valuable \PYG{g+gs}{**even if the model itself is not conscious or autonomous**}. The contribution is:
+\PYG{k}{1.} Demonstrating that informal student thinking can be formalized rigorously
+\PYG{k}{2.} Showing the structures such formalization must have (crisis detection, reorganization, incompleteness)
+\PYG{k}{3.} Providing infrastructure for more sophisticated future systems
+\PYG{k}{4.} Proving (via Gödel) that any such formalization is necessarily incomplete
+
+The formalization proves the structure exists and is pedagogically significant. That\PYGZsq{}s the contribution, not a claim about machine consciousness.
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+The HC is the ultimate synthesis of the entire manuscript, a concrete
+artifact that embodies all the core philosophical commitments. It is (1)
+\PYG{g+gs}{**autoethnographic**}, born from the author\PYGZbs{}\PYGZsq{}s memory and formalizing
+children\PYGZbs{}\PYGZsq{}s reasoning \PYGZca{}1\PYGZca{}; (2) \PYG{g+gs}{**critical**}, valuing error and
+subjective strategies \PYGZca{}1\PYGZca{}; (3) \PYG{g+gs}{**Hegelian**}, with a dialectical learning
+process \PYGZca{}1\PYGZca{}; (4) \PYG{g+gs}{**Brandomian**}, analyzable with analytic pragmatism and
+incompatibility semantics \PYGZca{}1\PYGZca{}; (5) \PYG{g+gs}{**Habermasian**}, serving an
+emancipatory interest \PYGZca{}1\PYGZca{}; and (6) \PYG{g+gs}{**techno\PYGZhy{}philosophical**}, embodying
+an ethical collaboration with AI aimed at mutual freedom.\PYGZca{}1\PYGZca{} This makes
+the HC the most direct filter for the supplementary materials. Their
+documentation must explicitly articulate these connections. For
+instance, the Prolog code\PYGZbs{}\PYGZsq{}s documentation should explain how its
+homoiconicity (treating data and logic as interchangeable) is a step
+toward modeling the Hegelian unity of being and knowing \PYGZca{}1\PYGZca{}, while the
+Javascript implementation\PYGZbs{}\PYGZsq{}s documentation should explain how it serves
+a practical\PYGZhy{}hermeneutic interest by allowing teachers to understand
+student thinking.\PYGZca{}1\PYGZca{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Conclusion: A Synthesis of Commitments}
+
+The philosophical project undertaken in *Understanding Mathematics as an
+Emancipatory Discipline* is a profound and ambitious synthesis. It
+weaves together personal narrative, critical social theory, German
+Idealism, and analytic pragmatism to construct a radical
+reinterpretation of mathematics. The manuscript\PYGZbs{}\PYGZsq{}s ultimate commitment
+is to a vision of mathematics not as a static, formal system of timeless
+truths, but as a dynamic, living language of recognition.
+
+The central argument is that mathematics, when properly understood
+through the lens of critical autoethnography, is a process through which
+the self\PYGZhy{}\PYGZhy{}\PYGZhy{}and by extension, the collective self\PYGZhy{}consciousness of the
+rational community, \PYG{g+ge}{*Geist*}\PYGZhy{}\PYGZhy{}\PYGZhy{}recollects its own historical journey. It
+is a practice that confronts its own limits, not as failures, but as
+opportunities for growth. In the \PYGZbs{}\PYGZdq{}beautiful breaking\PYGZbs{}\PYGZdq{} of these
+self\PYGZhy{}imposed boundaries, driven by the engine of determinate negation
+and formalized in the logic of incompleteness, a higher form of freedom
+and self\PYGZhy{}understanding is achieved.
+
+Every claim, from the methodological choice of CAE to the central thesis
+that \PYGZbs{}\PYGZdq{}numerals are pronouns,\PYGZbs{}\PYGZdq{} serves this overarching vision. The work
+is a sustained argument against the misrecognition of mathematics as a
+tool for alienation and control, and a passionate articulation of its
+potential as a deeply human and emancipatory practice. The commitments
+catalogued in this report represent the intricate architecture of that
+argument, providing a detailed map for navigating its complexities and
+ensuring the coherence of its application.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Works cited}
+
+\PYG{k}{1.}  UMEDCA.pdf
+
+\end{MintedVerbatim}

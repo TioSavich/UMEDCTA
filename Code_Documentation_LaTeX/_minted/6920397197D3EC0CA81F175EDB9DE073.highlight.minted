@@ -1,0 +1,44 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{os}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{sys}
+
+\PYG{c+c1}{\PYGZsh{} Add the project root to the Python path}
+\PYG{n}{project\PYGZus{}root} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{abspath}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{dirname}\PYG{p}{(}\PYG{n+nv+vm}{\PYGZus{}\PYGZus{}file\PYGZus{}\PYGZus{}}\PYG{p}{),} \PYG{l+s+s1}{\PYGZsq{}..\PYGZsq{}}\PYG{p}{))}
+\PYG{n}{sys}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{project\PYGZus{}root}\PYG{p}{)}
+
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{eple.core.mua}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Synthesizer}\PYG{p}{,} \PYG{n}{visualize\PYGZus{}mud}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{eple.domains.arithmetic.parsing}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{parse\PYGZus{}strategies}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{():}
+    \PYG{c+c1}{\PYGZsh{} Define paths relative to the project root}
+    \PYG{n}{ASSETS\PYGZus{}DIR} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{project\PYGZus{}root}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}eple/assets\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{RAW\PYGZus{}HTML\PYGZus{}DIR} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{ASSETS\PYGZus{}DIR}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}data/raw\PYGZus{}html\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{PROCESSED\PYGZus{}DATA\PYGZus{}DIR} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{ASSETS\PYGZus{}DIR}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}data/processed\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{CMT\PYGZus{}DATA} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{PROCESSED\PYGZus{}DATA\PYGZus{}DIR}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}cmt\PYGZus{}data.json\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{STRATEGIES\PYGZus{}CSV} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{PROCESSED\PYGZus{}DATA\PYGZus{}DIR}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}strategies.csv\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{OUTPUT\PYGZus{}DIR} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{ASSETS\PYGZus{}DIR}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}output/visualizations\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Create directories if they don\PYGZsq{}t exist}
+    \PYG{n}{os}\PYG{o}{.}\PYG{n}{makedirs}\PYG{p}{(}\PYG{n}{PROCESSED\PYGZus{}DATA\PYGZus{}DIR}\PYG{p}{,} \PYG{n}{exist\PYGZus{}ok}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+    \PYG{n}{os}\PYG{o}{.}\PYG{n}{makedirs}\PYG{p}{(}\PYG{n}{OUTPUT\PYGZus{}DIR}\PYG{p}{,} \PYG{n}{exist\PYGZus{}ok}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Parse strategies from HTML}
+    \PYG{n}{parse\PYGZus{}strategies}\PYG{p}{(}\PYG{n}{RAW\PYGZus{}HTML\PYGZus{}DIR}\PYG{p}{,} \PYG{n}{STRATEGIES\PYGZus{}CSV}\PYG{p}{)}
+
+    \PYG{n}{synthesizer} \PYG{o}{=} \PYG{n}{Synthesizer}\PYG{p}{(}\PYG{n}{CMT\PYGZus{}DATA}\PYG{p}{)}
+    \PYG{n}{synthesizer}\PYG{o}{.}\PYG{n}{load\PYGZus{}strategies}\PYG{p}{(}\PYG{n}{STRATEGIES\PYGZus{}CSV}\PYG{p}{)}
+
+    \PYG{n}{count} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{k}{for} \PYG{n}{index}\PYG{p}{,} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n}{synthesizer}\PYG{o}{.}\PYG{n}{strategies\PYGZus{}df}\PYG{o}{.}\PYG{n}{iterrows}\PYG{p}{():}
+        \PYG{n}{mud} \PYG{o}{=} \PYG{n}{synthesizer}\PYG{o}{.}\PYG{n}{generate\PYGZus{}mud}\PYG{p}{(}\PYG{n}{row}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{mud}\PYG{p}{:}
+            \PYG{n}{output\PYGZus{}path} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{OUTPUT\PYGZus{}DIR}\PYG{p}{,} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}MUD\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{row}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}id\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{index}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.gv\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{visualize\PYGZus{}mud}\PYG{p}{(}\PYG{n}{mud}\PYG{p}{,} \PYG{n}{output\PYGZus{}path}\PYG{p}{)}
+            \PYG{n}{count} \PYG{o}{+=} \PYG{l+m+mi}{1}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Successfully generated }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{count}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ Meaning\PYGZhy{}Use Diagrams in }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{OUTPUT\PYGZus{}DIR}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    \PYG{n}{main}\PYG{p}{()}
+
+\end{MintedVerbatim}

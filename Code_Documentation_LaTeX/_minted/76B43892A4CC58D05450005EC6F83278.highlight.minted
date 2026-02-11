@@ -1,0 +1,413 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{pygame}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{sys}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{os}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{random}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{importlib.util}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{contextlib}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{io}
+
+\PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} CONFIGURATION \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{n}{SCREEN\PYGZus{}WIDTH} \PYG{o}{=} \PYG{l+m+mi}{800}
+\PYG{n}{SCREEN\PYGZus{}HEIGHT} \PYG{o}{=} \PYG{l+m+mi}{600}
+\PYG{n}{TILE\PYGZus{}SIZE} \PYG{o}{=} \PYG{l+m+mi}{40}
+\PYG{n}{FPS} \PYG{o}{=} \PYG{l+m+mi}{60}
+
+\PYG{c+c1}{\PYGZsh{} COLORS}
+\PYG{n}{WHITE} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{255}\PYG{p}{)}
+\PYG{n}{BLACK} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{n}{GREEN} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{50}\PYG{p}{,} \PYG{l+m+mi}{200}\PYG{p}{,} \PYG{l+m+mi}{50}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Hero}
+\PYG{n}{RED} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{200}\PYG{p}{,} \PYG{l+m+mi}{50}\PYG{p}{,} \PYG{l+m+mi}{50}\PYG{p}{)}   \PYG{c+c1}{\PYGZsh{} Enemy}
+\PYG{n}{BLUE} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{50}\PYG{p}{,} \PYG{l+m+mi}{50}\PYG{p}{,} \PYG{l+m+mi}{200}\PYG{p}{)}  \PYG{c+c1}{\PYGZsh{} UI}
+\PYG{n}{GRAY} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{100}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{)}
+\PYG{n}{GOLD} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{215}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{n}{PURPLE} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{128}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{128}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} FONTS}
+\PYG{n}{pygame}\PYG{o}{.}\PYG{n}{font}\PYG{o}{.}\PYG{n}{init}\PYG{p}{()}
+\PYG{n}{FONT\PYGZus{}MAIN} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{font}\PYG{o}{.}\PYG{n}{SysFont}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Arial\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{24}\PYG{p}{)}
+\PYG{n}{FONT\PYGZus{}TITLE} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{font}\PYG{o}{.}\PYG{n}{SysFont}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Arial\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{48}\PYG{p}{,} \PYG{n}{bold}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+\PYG{n}{FONT\PYGZus{}SMALL} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{font}\PYG{o}{.}\PYG{n}{SysFont}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Courier New\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{18}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Context manager to suppress stdout}
+\PYG{n+nd}{@contextlib}\PYG{o}{.}\PYG{n}{contextmanager}
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{suppress\PYGZus{}stdout}\PYG{p}{():}
+    \PYG{n}{s} \PYG{o}{=} \PYG{n}{io}\PYG{o}{.}\PYG{n}{StringIO}\PYG{p}{()}
+    \PYG{n}{old\PYGZus{}stdout} \PYG{o}{=} \PYG{n}{sys}\PYG{o}{.}\PYG{n}{stdout}
+    \PYG{n}{sys}\PYG{o}{.}\PYG{n}{stdout} \PYG{o}{=} \PYG{n}{s}
+    \PYG{k}{try}\PYG{p}{:}
+        \PYG{k}{yield}
+    \PYG{k}{finally}\PYG{p}{:}
+        \PYG{n}{sys}\PYG{o}{.}\PYG{n}{stdout} \PYG{o}{=} \PYG{n}{old\PYGZus{}stdout}
+
+\PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} IMPORT STRATEGIES \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{c+c1}{\PYGZsh{} We need to dynamically import from the sibling directory}
+\PYG{n}{current\PYGZus{}dir} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{dirname}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{abspath}\PYG{p}{(}\PYG{n+nv+vm}{\PYGZus{}\PYGZus{}file\PYGZus{}\PYGZus{}}\PYG{p}{))}
+\PYG{n}{project\PYGZus{}root} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{dirname}\PYG{p}{(}\PYG{n}{current\PYGZus{}dir}\PYG{p}{)}
+\PYG{n}{strategies\PYGZus{}path} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{project\PYGZus{}root}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Calculator\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Python\PYGZus{}Tests\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{sys}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{strategies\PYGZus{}path}\PYG{p}{)}
+
+\PYG{k}{try}\PYG{p}{:}
+    \PYG{k}{with} \PYG{n}{suppress\PYGZus{}stdout}\PYG{p}{():}
+        \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{SAR\PYGZus{}ADD\PYGZus{}RMB}
+        \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{SAR\PYGZus{}SUB\PYGZus{}Sliding}
+        \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{counting\PYGZus{}on\PYGZus{}back}
+    \PYG{n}{MODULES\PYGZus{}LOADED} \PYG{o}{=} \PYG{k+kc}{True}
+\PYG{k}{except} \PYG{n+ne}{ImportError} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Warning: Math modules not found: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{MODULES\PYGZus{}LOADED} \PYG{o}{=} \PYG{k+kc}{False}
+
+\PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} GAME CLASSES \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{GameState}\PYG{p}{:}
+    \PYG{n}{OVERWORLD} \PYG{o}{=} \PYG{l+m+mi}{1}
+    \PYG{n}{BATTLE} \PYG{o}{=} \PYG{l+m+mi}{2}
+    \PYG{n}{MENU} \PYG{o}{=} \PYG{l+m+mi}{3}
+    \PYG{n}{GAME\PYGZus{}OVER} \PYG{o}{=} \PYG{l+m+mi}{4}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{Player}\PYG{p}{:}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{grid\PYGZus{}x} \PYG{o}{=} \PYG{n}{x}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{grid\PYGZus{}y} \PYG{o}{=} \PYG{n}{y}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hp} \PYG{o}{=} \PYG{l+m+mi}{100}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{max\PYGZus{}hp} \PYG{o}{=} \PYG{l+m+mi}{100}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{xp} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{level} \PYG{o}{=} \PYG{l+m+mi}{1}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{spells} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Count\PYGZdq{}}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} Starting spell}
+        \PYG{k}{if} \PYG{n}{MODULES\PYGZus{}LOADED}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{spells}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}RMB\PYGZdq{}}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Unlock for testing}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{spells}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Sliding\PYGZdq{}}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Unlock for testing}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{move}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{dx}\PYG{p}{,} \PYG{n}{dy}\PYG{p}{,} \PYG{n}{world}\PYG{p}{):}
+        \PYG{n}{new\PYGZus{}x} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{grid\PYGZus{}x} \PYG{o}{+} \PYG{n}{dx}
+        \PYG{n}{new\PYGZus{}y} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{grid\PYGZus{}y} \PYG{o}{+} \PYG{n}{dy}
+        \PYG{k}{if} \PYG{n}{world}\PYG{o}{.}\PYG{n}{is\PYGZus{}walkable}\PYG{p}{(}\PYG{n}{new\PYGZus{}x}\PYG{p}{,} \PYG{n}{new\PYGZus{}y}\PYG{p}{):}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{grid\PYGZus{}x} \PYG{o}{=} \PYG{n}{new\PYGZus{}x}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{grid\PYGZus{}y} \PYG{o}{=} \PYG{n}{new\PYGZus{}y}
+            \PYG{k}{return} \PYG{k+kc}{True}
+        \PYG{k}{return} \PYG{k+kc}{False}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{draw}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{screen}\PYG{p}{,} \PYG{n}{offset\PYGZus{}x}\PYG{p}{,} \PYG{n}{offset\PYGZus{}y}\PYG{p}{):}
+        \PYG{n}{rect} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{Rect}\PYG{p}{(}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{grid\PYGZus{}x} \PYG{o}{*} \PYG{n}{TILE\PYGZus{}SIZE} \PYG{o}{+} \PYG{n}{offset\PYGZus{}x}\PYG{p}{,}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{grid\PYGZus{}y} \PYG{o}{*} \PYG{n}{TILE\PYGZus{}SIZE} \PYG{o}{+} \PYG{n}{offset\PYGZus{}y}\PYG{p}{,}
+            \PYG{n}{TILE\PYGZus{}SIZE}\PYG{p}{,} \PYG{n}{TILE\PYGZus{}SIZE}
+        \PYG{p}{)}
+        \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{rect}\PYG{p}{(}\PYG{n}{screen}\PYG{p}{,} \PYG{n}{GREEN}\PYG{p}{,} \PYG{n}{rect}\PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} Draw eyes to make it look like a character}
+        \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{circle}\PYG{p}{(}\PYG{n}{screen}\PYG{p}{,} \PYG{n}{BLACK}\PYG{p}{,} \PYG{p}{(}\PYG{n}{rect}\PYG{o}{.}\PYG{n}{x} \PYG{o}{+} \PYG{l+m+mi}{12}\PYG{p}{,} \PYG{n}{rect}\PYG{o}{.}\PYG{n}{y} \PYG{o}{+} \PYG{l+m+mi}{12}\PYG{p}{),} \PYG{l+m+mi}{4}\PYG{p}{)}
+        \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{circle}\PYG{p}{(}\PYG{n}{screen}\PYG{p}{,} \PYG{n}{BLACK}\PYG{p}{,} \PYG{p}{(}\PYG{n}{rect}\PYG{o}{.}\PYG{n}{x} \PYG{o}{+} \PYG{l+m+mi}{28}\PYG{p}{,} \PYG{n}{rect}\PYG{o}{.}\PYG{n}{y} \PYG{o}{+} \PYG{l+m+mi}{12}\PYG{p}{),} \PYG{l+m+mi}{4}\PYG{p}{)}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{Enemy}\PYG{p}{:}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{,} \PYG{n}{difficulty}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{grid\PYGZus{}x} \PYG{o}{=} \PYG{n}{x}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{grid\PYGZus{}y} \PYG{o}{=} \PYG{n}{y}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{difficulty} \PYG{o}{=} \PYG{n}{difficulty}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{value} \PYG{o}{=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{99}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} The number representing the monster}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{defeated} \PYG{o}{=} \PYG{k+kc}{False}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{draw}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{screen}\PYG{p}{,} \PYG{n}{offset\PYGZus{}x}\PYG{p}{,} \PYG{n}{offset\PYGZus{}y}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{defeated}\PYG{p}{:} \PYG{k}{return}
+        \PYG{n}{rect} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{Rect}\PYG{p}{(}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{grid\PYGZus{}x} \PYG{o}{*} \PYG{n}{TILE\PYGZus{}SIZE} \PYG{o}{+} \PYG{n}{offset\PYGZus{}x}\PYG{p}{,}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{grid\PYGZus{}y} \PYG{o}{*} \PYG{n}{TILE\PYGZus{}SIZE} \PYG{o}{+} \PYG{n}{offset\PYGZus{}y}\PYG{p}{,}
+            \PYG{n}{TILE\PYGZus{}SIZE}\PYG{p}{,} \PYG{n}{TILE\PYGZus{}SIZE}
+        \PYG{p}{)}
+        \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{rect}\PYG{p}{(}\PYG{n}{screen}\PYG{p}{,} \PYG{n}{RED}\PYG{p}{,} \PYG{n}{rect}\PYG{p}{)}
+        \PYG{n}{text} \PYG{o}{=} \PYG{n}{FONT\PYGZus{}SMALL}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{value}\PYG{p}{),} \PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{WHITE}\PYG{p}{)}
+        \PYG{n}{screen}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n}{text}\PYG{p}{,} \PYG{p}{(}\PYG{n}{rect}\PYG{o}{.}\PYG{n}{x} \PYG{o}{+} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{n}{rect}\PYG{o}{.}\PYG{n}{y} \PYG{o}{+} \PYG{l+m+mi}{10}\PYG{p}{))}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{World}\PYG{p}{:}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{width}\PYG{p}{,} \PYG{n}{height}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{width} \PYG{o}{=} \PYG{n}{width}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{height} \PYG{o}{=} \PYG{n}{height}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tiles} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}} \PYG{c+c1}{\PYGZsh{} (x,y): type}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{enemies} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{generate}\PYG{p}{()}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{generate}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{c+c1}{\PYGZsh{} Simple room generation}
+        \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{width}\PYG{p}{):}
+            \PYG{k}{for} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{height}\PYG{p}{):}
+                \PYG{k}{if} \PYG{n}{x} \PYG{o}{==} \PYG{l+m+mi}{0} \PYG{o+ow}{or} \PYG{n}{x} \PYG{o}{==} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{width} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1} \PYG{o+ow}{or} \PYG{n}{y} \PYG{o}{==} \PYG{l+m+mi}{0} \PYG{o+ow}{or} \PYG{n}{y} \PYG{o}{==} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{height} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{:}
+                    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tiles}\PYG{p}{[(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{p}{)]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}wall\PYGZsq{}}
+                \PYG{k}{else}\PYG{p}{:}
+                    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tiles}\PYG{p}{[(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{p}{)]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}floor\PYGZsq{}}
+                    \PYG{c+c1}{\PYGZsh{} Random obstacles}
+                    \PYG{k}{if} \PYG{n}{random}\PYG{o}{.}\PYG{n}{random}\PYG{p}{()} \PYG{o}{\PYGZlt{}} \PYG{l+m+mf}{0.1}\PYG{p}{:}
+                        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tiles}\PYG{p}{[(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{p}{)]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}rock\PYGZsq{}}
+
+        \PYG{c+c1}{\PYGZsh{} Spawn enemies}
+        \PYG{k}{for} \PYG{n}{\PYGZus{}} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{):}
+            \PYG{n}{ex}\PYG{p}{,} \PYG{n}{ey} \PYG{o}{=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{width}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{2}\PYG{p}{),} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{height}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{2}\PYG{p}{)}
+            \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tiles}\PYG{p}{[(}\PYG{n}{ex}\PYG{p}{,}\PYG{n}{ey}\PYG{p}{)]} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}floor\PYGZsq{}}\PYG{p}{:}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{enemies}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{Enemy}\PYG{p}{(}\PYG{n}{ex}\PYG{p}{,} \PYG{n}{ey}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{))}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{is\PYGZus{}walkable}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{):}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tiles}\PYG{o}{.}\PYG{n}{get}\PYG{p}{((}\PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{p}{))} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}floor\PYGZsq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{get\PYGZus{}enemy\PYGZus{}at}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{):}
+        \PYG{k}{for} \PYG{n}{e} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{enemies}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{e}\PYG{o}{.}\PYG{n}{grid\PYGZus{}x} \PYG{o}{==} \PYG{n}{x} \PYG{o+ow}{and} \PYG{n}{e}\PYG{o}{.}\PYG{n}{grid\PYGZus{}y} \PYG{o}{==} \PYG{n}{y} \PYG{o+ow}{and} \PYG{o+ow}{not} \PYG{n}{e}\PYG{o}{.}\PYG{n}{defeated}\PYG{p}{:}
+                \PYG{k}{return} \PYG{n}{e}
+        \PYG{k}{return} \PYG{k+kc}{None}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{draw}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{screen}\PYG{p}{):}
+        \PYG{c+c1}{\PYGZsh{} Simple camera centering could go here, but we\PYGZsq{}ll just draw fixed for now}
+        \PYG{n}{offset\PYGZus{}x} \PYG{o}{=} \PYG{l+m+mi}{50}
+        \PYG{n}{offset\PYGZus{}y} \PYG{o}{=} \PYG{l+m+mi}{50}
+
+        \PYG{k}{for} \PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{p}{),} \PYG{n}{tile\PYGZus{}type} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tiles}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+            \PYG{n}{rect} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{Rect}\PYG{p}{(}\PYG{n}{x}\PYG{o}{*}\PYG{n}{TILE\PYGZus{}SIZE} \PYG{o}{+} \PYG{n}{offset\PYGZus{}x}\PYG{p}{,} \PYG{n}{y}\PYG{o}{*}\PYG{n}{TILE\PYGZus{}SIZE} \PYG{o}{+} \PYG{n}{offset\PYGZus{}y}\PYG{p}{,} \PYG{n}{TILE\PYGZus{}SIZE}\PYG{p}{,} \PYG{n}{TILE\PYGZus{}SIZE}\PYG{p}{)}
+            \PYG{k}{if} \PYG{n}{tile\PYGZus{}type} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}wall\PYGZsq{}}\PYG{p}{:}
+                \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{rect}\PYG{p}{(}\PYG{n}{screen}\PYG{p}{,} \PYG{n}{GRAY}\PYG{p}{,} \PYG{n}{rect}\PYG{p}{)}
+            \PYG{k}{elif} \PYG{n}{tile\PYGZus{}type} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}rock\PYGZsq{}}\PYG{p}{:}
+                \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{rect}\PYG{p}{(}\PYG{n}{screen}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{80}\PYG{p}{,}\PYG{l+m+mi}{80}\PYG{p}{,}\PYG{l+m+mi}{80}\PYG{p}{),} \PYG{n}{rect}\PYG{p}{)}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{rect}\PYG{p}{(}\PYG{n}{screen}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{200}\PYG{p}{,}\PYG{l+m+mi}{200}\PYG{p}{,}\PYG{l+m+mi}{200}\PYG{p}{),} \PYG{n}{rect}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Grid lines for floor}
+
+        \PYG{k}{for} \PYG{n}{e} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{enemies}\PYG{p}{:}
+            \PYG{n}{e}\PYG{o}{.}\PYG{n}{draw}\PYG{p}{(}\PYG{n}{screen}\PYG{p}{,} \PYG{n}{offset\PYGZus{}x}\PYG{p}{,} \PYG{n}{offset\PYGZus{}y}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{n}{offset\PYGZus{}x}\PYG{p}{,} \PYG{n}{offset\PYGZus{}y}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{BattleSystem}\PYG{p}{:}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{player}\PYG{p}{,} \PYG{n}{enemy}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{player} \PYG{o}{=} \PYG{n}{player}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{enemy} \PYG{o}{=} \PYG{n}{enemy}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{turn} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}PLAYER\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}A Wild Number appeared!\PYGZdq{}}\PYG{p}{,} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}It is a }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{enemy}\PYG{o}{.}\PYG{n}{value}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{!\PYGZdq{}}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}problem} \PYG{o}{=} \PYG{k+kc}{None}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}SELECT\PYGZus{}SPELL\PYGZdq{}} \PYG{c+c1}{\PYGZsh{} SELECT\PYGZus{}SPELL, SOLVING, ENEMY\PYGZus{}TURN, WIN, LOSE}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{input\PYGZus{}buffer} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{update}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{events}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}SELECT\PYGZus{}SPELL\PYGZdq{}}\PYG{p}{:}
+            \PYG{k}{pass} \PYG{c+c1}{\PYGZsh{} Waiting for key press mapped in main loop}
+
+        \PYG{k}{elif} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}SOLVING\PYGZdq{}}\PYG{p}{:}
+            \PYG{k}{for} \PYG{n}{event} \PYG{o+ow}{in} \PYG{n}{events}\PYG{p}{:}
+                \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{type} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{KEYDOWN}\PYG{p}{:}
+                    \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{key} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{K\PYGZus{}RETURN}\PYG{p}{:}
+                        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{check\PYGZus{}answer}\PYG{p}{()}
+                    \PYG{k}{elif} \PYG{n}{event}\PYG{o}{.}\PYG{n}{key} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{K\PYGZus{}BACKSPACE}\PYG{p}{:}
+                        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{input\PYGZus{}buffer} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{input\PYGZus{}buffer}\PYG{p}{[:}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}
+                    \PYG{k}{else}\PYG{p}{:}
+                        \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{unicode}\PYG{o}{.}\PYG{n}{isnumeric}\PYG{p}{()} \PYG{o+ow}{or} \PYG{n}{event}\PYG{o}{.}\PYG{n}{unicode} \PYG{o+ow}{in} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}\PYGZhy{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.\PYGZsq{}}\PYG{p}{]:}
+                            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{input\PYGZus{}buffer} \PYG{o}{+=} \PYG{n}{event}\PYG{o}{.}\PYG{n}{unicode}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{cast\PYGZus{}spell}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{spell\PYGZus{}name}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}spell} \PYG{o}{=} \PYG{n}{spell\PYGZus{}name}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{input\PYGZus{}buffer} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+
+        \PYG{k}{if} \PYG{n}{spell\PYGZus{}name} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}RMB\PYGZdq{}}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{} Generate RMB problem}
+            \PYG{c+c1}{\PYGZsh{} We want to add something to the enemy value to make a base}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{addend} \PYG{o}{=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{9}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{target\PYGZus{}base} \PYG{o}{=} \PYG{p}{((}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{enemy}\PYG{o}{.}\PYG{n}{value} \PYG{o}{//} \PYG{l+m+mi}{10}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{*} \PYG{l+m+mi}{10}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{gap} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{target\PYGZus{}base} \PYG{o}{\PYGZhy{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{enemy}\PYG{o}{.}\PYG{n}{value}
+
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Casting RMB on }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{enemy}\PYG{o}{.}\PYG{n}{value}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ + }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{addend}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{...\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}How many does }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{enemy}\PYG{o}{.}\PYG{n}{value}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ need to reach }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{target\PYGZus{}base}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{?\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}answer} \PYG{o}{=} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{gap}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}SOLVING\PYGZdq{}}
+
+        \PYG{k}{elif} \PYG{n}{spell\PYGZus{}name} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}Sliding\PYGZdq{}}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{} Generate Sliding problem}
+            \PYG{c+c1}{\PYGZsh{} Enemy value is Minuend. We need a subtrahend.}
+            \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{enemy}\PYG{o}{.}\PYG{n}{value} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{10}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{enemy}\PYG{o}{.}\PYG{n}{value} \PYG{o}{+=} \PYG{l+m+mi}{20}
+            \PYG{n}{subtrahend} \PYG{o}{=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{enemy}\PYG{o}{.}\PYG{n}{value} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{5}\PYG{p}{)}
+
+            \PYG{n}{target\PYGZus{}sub} \PYG{o}{=} \PYG{p}{((}\PYG{n}{subtrahend} \PYG{o}{//} \PYG{l+m+mi}{10}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{*} \PYG{l+m+mi}{10}
+            \PYG{n}{k} \PYG{o}{=} \PYG{n}{target\PYGZus{}sub} \PYG{o}{\PYGZhy{}} \PYG{n}{subtrahend}
+
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Casting Sliding on }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{enemy}\PYG{o}{.}\PYG{n}{value}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{subtrahend}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{...\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}To make }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{subtrahend}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ a base (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{target\PYGZus{}sub}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{), what is K?\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}answer} \PYG{o}{=} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{k}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}SOLVING\PYGZdq{}}
+
+        \PYG{k}{elif} \PYG{n}{spell\PYGZus{}name} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}Count\PYGZdq{}}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{} Simple counting check}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}What comes after }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{enemy}\PYG{o}{.}\PYG{n}{value}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{?\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}answer} \PYG{o}{=} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{enemy}\PYG{o}{.}\PYG{n}{value} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}SOLVING\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{check\PYGZus{}answer}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{input\PYGZus{}buffer} \PYG{o}{==} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}answer}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Correct! The spell hits!\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{enemy}\PYG{o}{.}\PYG{n}{defeated} \PYG{o}{=} \PYG{k+kc}{True}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}WIN\PYGZdq{}}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Fizzle! Expected }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}answer}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}ENEMY\PYGZus{}TURN\PYGZdq{}}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{input\PYGZus{}buffer} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{enemy\PYGZus{}attack}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n}{dmg} \PYG{o}{=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{15}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{player}\PYG{o}{.}\PYG{n}{hp} \PYG{o}{\PYGZhy{}=} \PYG{n}{dmg}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}The Number attacks! \PYGZhy{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{dmg}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ HP\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{player}\PYG{o}{.}\PYG{n}{hp} \PYG{o}{\PYGZlt{}=} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}LOSE\PYGZdq{}}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}SELECT\PYGZus{}SPELL\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{draw}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{screen}\PYG{p}{):}
+        \PYG{c+c1}{\PYGZsh{} Draw Battle UI}
+        \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{rect}\PYG{p}{(}\PYG{n}{screen}\PYG{p}{,} \PYG{n}{BLACK}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{SCREEN\PYGZus{}WIDTH}\PYG{p}{,} \PYG{n}{SCREEN\PYGZus{}HEIGHT}\PYG{p}{))}
+
+        \PYG{c+c1}{\PYGZsh{} Enemy}
+        \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{rect}\PYG{p}{(}\PYG{n}{screen}\PYG{p}{,} \PYG{n}{RED}\PYG{p}{,} \PYG{p}{(}\PYG{n}{SCREEN\PYGZus{}WIDTH}\PYG{o}{//}\PYG{l+m+mi}{2} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{50}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{))}
+        \PYG{n}{val\PYGZus{}text} \PYG{o}{=} \PYG{n}{FONT\PYGZus{}TITLE}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{enemy}\PYG{o}{.}\PYG{n}{value}\PYG{p}{),} \PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{WHITE}\PYG{p}{)}
+        \PYG{n}{screen}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n}{val\PYGZus{}text}\PYG{p}{,} \PYG{p}{(}\PYG{n}{SCREEN\PYGZus{}WIDTH}\PYG{o}{//}\PYG{l+m+mi}{2} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{130}\PYG{p}{))}
+
+        \PYG{c+c1}{\PYGZsh{} Player Stats}
+        \PYG{n}{stats} \PYG{o}{=} \PYG{n}{FONT\PYGZus{}MAIN}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}HP: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{player}\PYG{o}{.}\PYG{n}{hp}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{player}\PYG{o}{.}\PYG{n}{max\PYGZus{}hp}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{GREEN}\PYG{p}{)}
+        \PYG{n}{screen}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n}{stats}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{50}\PYG{p}{,} \PYG{l+m+mi}{400}\PYG{p}{))}
+
+        \PYG{c+c1}{\PYGZsh{} Log}
+        \PYG{n}{y} \PYG{o}{=} \PYG{l+m+mi}{450}
+        \PYG{k}{for} \PYG{n}{line} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{4}\PYG{p}{:]:}
+            \PYG{n}{text} \PYG{o}{=} \PYG{n}{FONT\PYGZus{}SMALL}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{n}{line}\PYG{p}{,} \PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{WHITE}\PYG{p}{)}
+            \PYG{n}{screen}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n}{text}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{50}\PYG{p}{,} \PYG{n}{y}\PYG{p}{))}
+            \PYG{n}{y} \PYG{o}{+=} \PYG{l+m+mi}{25}
+
+        \PYG{c+c1}{\PYGZsh{} Input/Menu}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}SELECT\PYGZus{}SPELL\PYGZdq{}}\PYG{p}{:}
+            \PYG{n}{menu\PYGZus{}y} \PYG{o}{=} \PYG{l+m+mi}{400}
+            \PYG{n}{screen}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n}{FONT\PYGZus{}MAIN}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Select Spell:\PYGZdq{}}\PYG{p}{,} \PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{GOLD}\PYG{p}{),} \PYG{p}{(}\PYG{l+m+mi}{400}\PYG{p}{,} \PYG{n}{menu\PYGZus{}y}\PYG{p}{))}
+            \PYG{k}{for} \PYG{n}{i}\PYG{p}{,} \PYG{n}{spell} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{player}\PYG{o}{.}\PYG{n}{spells}\PYG{p}{):}
+                \PYG{n}{txt} \PYG{o}{=} \PYG{n}{FONT\PYGZus{}MAIN}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{i}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{. }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{spell}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{WHITE}\PYG{p}{)}
+                \PYG{n}{screen}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n}{txt}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{420}\PYG{p}{,} \PYG{n}{menu\PYGZus{}y} \PYG{o}{+} \PYG{l+m+mi}{30} \PYG{o}{+} \PYG{n}{i}\PYG{o}{*}\PYG{l+m+mi}{30}\PYG{p}{))}
+
+        \PYG{k}{elif} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}SOLVING\PYGZdq{}}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{} Draw Input Box}
+            \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{rect}\PYG{p}{(}\PYG{n}{screen}\PYG{p}{,} \PYG{n}{BLUE}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{300}\PYG{p}{,} \PYG{l+m+mi}{300}\PYG{p}{,} \PYG{l+m+mi}{200}\PYG{p}{,} \PYG{l+m+mi}{50}\PYG{p}{),} \PYG{l+m+mi}{2}\PYG{p}{)}
+            \PYG{n}{ans\PYGZus{}txt} \PYG{o}{=} \PYG{n}{FONT\PYGZus{}MAIN}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{input\PYGZus{}buffer}\PYG{p}{,} \PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{WHITE}\PYG{p}{)}
+            \PYG{n}{screen}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n}{ans\PYGZus{}txt}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{310}\PYG{p}{,} \PYG{l+m+mi}{310}\PYG{p}{))}
+
+        \PYG{k}{elif} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}WIN\PYGZdq{}}\PYG{p}{:}
+            \PYG{n}{screen}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n}{FONT\PYGZus{}TITLE}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}VICTORY!\PYGZdq{}}\PYG{p}{,} \PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{GOLD}\PYG{p}{),} \PYG{p}{(}\PYG{l+m+mi}{300}\PYG{p}{,} \PYG{l+m+mi}{250}\PYG{p}{))}
+            \PYG{n}{screen}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n}{FONT\PYGZus{}SMALL}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Press SPACE to continue\PYGZdq{}}\PYG{p}{,} \PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{WHITE}\PYG{p}{),} \PYG{p}{(}\PYG{l+m+mi}{320}\PYG{p}{,} \PYG{l+m+mi}{300}\PYG{p}{))}
+
+        \PYG{k}{elif} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}LOSE\PYGZdq{}}\PYG{p}{:}
+            \PYG{n}{screen}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n}{FONT\PYGZus{}TITLE}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}DEFEAT...\PYGZdq{}}\PYG{p}{,} \PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{RED}\PYG{p}{),} \PYG{p}{(}\PYG{l+m+mi}{300}\PYG{p}{,} \PYG{l+m+mi}{250}\PYG{p}{))}
+
+\PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} MAIN GAME LOOP \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{():}
+    \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{init}\PYG{p}{()}
+    \PYG{n}{screen} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{set\PYGZus{}mode}\PYG{p}{((}\PYG{n}{SCREEN\PYGZus{}WIDTH}\PYG{p}{,} \PYG{n}{SCREEN\PYGZus{}HEIGHT}\PYG{p}{))}
+    \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{set\PYGZus{}caption}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}The Hermeneutic Hero: Legends of Logic\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{clock} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{time}\PYG{o}{.}\PYG{n}{Clock}\PYG{p}{()}
+
+    \PYG{c+c1}{\PYGZsh{} Init Game Objects}
+    \PYG{n}{world} \PYG{o}{=} \PYG{n}{World}\PYG{p}{(}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{15}\PYG{p}{)}
+    \PYG{n}{player} \PYG{o}{=} \PYG{n}{Player}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{n}{game\PYGZus{}state} \PYG{o}{=} \PYG{n}{GameState}\PYG{o}{.}\PYG{n}{MENU}
+    \PYG{n}{battle} \PYG{o}{=} \PYG{k+kc}{None}
+
+    \PYG{n}{running} \PYG{o}{=} \PYG{k+kc}{True}
+    \PYG{k}{while} \PYG{n}{running}\PYG{p}{:}
+        \PYG{n}{events} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{event}\PYG{o}{.}\PYG{n}{get}\PYG{p}{()}
+        \PYG{k}{for} \PYG{n}{event} \PYG{o+ow}{in} \PYG{n}{events}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{type} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{QUIT}\PYG{p}{:}
+                \PYG{n}{running} \PYG{o}{=} \PYG{k+kc}{False}
+
+            \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} MENU INPUT \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+            \PYG{k}{if} \PYG{n}{game\PYGZus{}state} \PYG{o}{==} \PYG{n}{GameState}\PYG{o}{.}\PYG{n}{MENU}\PYG{p}{:}
+                \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{type} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{KEYDOWN}\PYG{p}{:}
+                    \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{key} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{K\PYGZus{}RETURN}\PYG{p}{:}
+                        \PYG{n}{game\PYGZus{}state} \PYG{o}{=} \PYG{n}{GameState}\PYG{o}{.}\PYG{n}{OVERWORLD}
+                    \PYG{k}{elif} \PYG{n}{event}\PYG{o}{.}\PYG{n}{key} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{K\PYGZus{}q}\PYG{p}{:}
+                        \PYG{n}{running} \PYG{o}{=} \PYG{k+kc}{False}
+
+            \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} OVERWORLD INPUT \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+            \PYG{k}{elif} \PYG{n}{game\PYGZus{}state} \PYG{o}{==} \PYG{n}{GameState}\PYG{o}{.}\PYG{n}{OVERWORLD}\PYG{p}{:}
+                \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{type} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{KEYDOWN}\PYG{p}{:}
+                    \PYG{n}{moved} \PYG{o}{=} \PYG{k+kc}{False}
+                    \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{key} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{K\PYGZus{}LEFT}\PYG{p}{:} \PYG{n}{moved} \PYG{o}{=} \PYG{n}{player}\PYG{o}{.}\PYG{n}{move}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{world}\PYG{p}{)}
+                    \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{key} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{K\PYGZus{}RIGHT}\PYG{p}{:} \PYG{n}{moved} \PYG{o}{=} \PYG{n}{player}\PYG{o}{.}\PYG{n}{move}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{world}\PYG{p}{)}
+                    \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{key} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{K\PYGZus{}UP}\PYG{p}{:} \PYG{n}{moved} \PYG{o}{=} \PYG{n}{player}\PYG{o}{.}\PYG{n}{move}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{world}\PYG{p}{)}
+                    \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{key} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{K\PYGZus{}DOWN}\PYG{p}{:} \PYG{n}{moved} \PYG{o}{=} \PYG{n}{player}\PYG{o}{.}\PYG{n}{move}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{world}\PYG{p}{)}
+
+                    \PYG{k}{if} \PYG{n}{moved}\PYG{p}{:}
+                        \PYG{c+c1}{\PYGZsh{} Check for encounter}
+                        \PYG{n}{enemy} \PYG{o}{=} \PYG{n}{world}\PYG{o}{.}\PYG{n}{get\PYGZus{}enemy\PYGZus{}at}\PYG{p}{(}\PYG{n}{player}\PYG{o}{.}\PYG{n}{grid\PYGZus{}x}\PYG{p}{,} \PYG{n}{player}\PYG{o}{.}\PYG{n}{grid\PYGZus{}y}\PYG{p}{)}
+                        \PYG{k}{if} \PYG{n}{enemy}\PYG{p}{:}
+                            \PYG{n}{game\PYGZus{}state} \PYG{o}{=} \PYG{n}{GameState}\PYG{o}{.}\PYG{n}{BATTLE}
+                            \PYG{n}{battle} \PYG{o}{=} \PYG{n}{BattleSystem}\PYG{p}{(}\PYG{n}{player}\PYG{p}{,} \PYG{n}{enemy}\PYG{p}{)}
+
+            \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} BATTLE INPUT \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+            \PYG{k}{elif} \PYG{n}{game\PYGZus{}state} \PYG{o}{==} \PYG{n}{GameState}\PYG{o}{.}\PYG{n}{BATTLE}\PYG{p}{:}
+                \PYG{k}{if} \PYG{n}{battle}\PYG{o}{.}\PYG{n}{state} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}SELECT\PYGZus{}SPELL\PYGZdq{}}\PYG{p}{:}
+                    \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{type} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{KEYDOWN}\PYG{p}{:}
+                        \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{key} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{K\PYGZus{}1} \PYG{o+ow}{and} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{player}\PYG{o}{.}\PYG{n}{spells}\PYG{p}{)} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{1}\PYG{p}{:}
+                            \PYG{n}{battle}\PYG{o}{.}\PYG{n}{cast\PYGZus{}spell}\PYG{p}{(}\PYG{n}{player}\PYG{o}{.}\PYG{n}{spells}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{])}
+                        \PYG{k}{elif} \PYG{n}{event}\PYG{o}{.}\PYG{n}{key} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{K\PYGZus{}2} \PYG{o+ow}{and} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{player}\PYG{o}{.}\PYG{n}{spells}\PYG{p}{)} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{2}\PYG{p}{:}
+                            \PYG{n}{battle}\PYG{o}{.}\PYG{n}{cast\PYGZus{}spell}\PYG{p}{(}\PYG{n}{player}\PYG{o}{.}\PYG{n}{spells}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])}
+                        \PYG{k}{elif} \PYG{n}{event}\PYG{o}{.}\PYG{n}{key} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{K\PYGZus{}3} \PYG{o+ow}{and} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{player}\PYG{o}{.}\PYG{n}{spells}\PYG{p}{)} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{3}\PYG{p}{:}
+                            \PYG{n}{battle}\PYG{o}{.}\PYG{n}{cast\PYGZus{}spell}\PYG{p}{(}\PYG{n}{player}\PYG{o}{.}\PYG{n}{spells}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{])}
+
+                \PYG{k}{elif} \PYG{n}{battle}\PYG{o}{.}\PYG{n}{state} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}WIN\PYGZdq{}}\PYG{p}{:}
+                    \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{type} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{KEYDOWN} \PYG{o+ow}{and} \PYG{n}{event}\PYG{o}{.}\PYG{n}{key} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{K\PYGZus{}SPACE}\PYG{p}{:}
+                        \PYG{n}{game\PYGZus{}state} \PYG{o}{=} \PYG{n}{GameState}\PYG{o}{.}\PYG{n}{OVERWORLD}
+                        \PYG{n}{battle} \PYG{o}{=} \PYG{k+kc}{None}
+
+                \PYG{k}{elif} \PYG{n}{battle}\PYG{o}{.}\PYG{n}{state} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}LOSE\PYGZdq{}}\PYG{p}{:}
+                    \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{type} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{KEYDOWN} \PYG{o+ow}{and} \PYG{n}{event}\PYG{o}{.}\PYG{n}{key} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{K\PYGZus{}SPACE}\PYG{p}{:}
+                        \PYG{c+c1}{\PYGZsh{} Reset game}
+                        \PYG{n}{player}\PYG{o}{.}\PYG{n}{hp} \PYG{o}{=} \PYG{n}{player}\PYG{o}{.}\PYG{n}{max\PYGZus{}hp}
+                        \PYG{n}{player}\PYG{o}{.}\PYG{n}{grid\PYGZus{}x}\PYG{p}{,} \PYG{n}{player}\PYG{o}{.}\PYG{n}{grid\PYGZus{}y} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{1}
+                        \PYG{n}{game\PYGZus{}state} \PYG{o}{=} \PYG{n}{GameState}\PYG{o}{.}\PYG{n}{OVERWORLD}
+                        \PYG{n}{battle} \PYG{o}{=} \PYG{k+kc}{None}
+
+                \PYG{k}{elif} \PYG{n}{battle}\PYG{o}{.}\PYG{n}{state} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}ENEMY\PYGZus{}TURN\PYGZdq{}}\PYG{p}{:}
+                     \PYG{c+c1}{\PYGZsh{} Auto advance for now}
+                     \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{time}\PYG{o}{.}\PYG{n}{wait}\PYG{p}{(}\PYG{l+m+mi}{1000}\PYG{p}{)}
+                     \PYG{n}{battle}\PYG{o}{.}\PYG{n}{enemy\PYGZus{}attack}\PYG{p}{()}
+
+        \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} UPDATE \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+        \PYG{k}{if} \PYG{n}{game\PYGZus{}state} \PYG{o}{==} \PYG{n}{GameState}\PYG{o}{.}\PYG{n}{BATTLE}\PYG{p}{:}
+            \PYG{n}{battle}\PYG{o}{.}\PYG{n}{update}\PYG{p}{(}\PYG{n}{events}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} DRAW \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+        \PYG{n}{screen}\PYG{o}{.}\PYG{n}{fill}\PYG{p}{(}\PYG{n}{BLACK}\PYG{p}{)}
+
+        \PYG{k}{if} \PYG{n}{game\PYGZus{}state} \PYG{o}{==} \PYG{n}{GameState}\PYG{o}{.}\PYG{n}{MENU}\PYG{p}{:}
+            \PYG{n}{screen}\PYG{o}{.}\PYG{n}{fill}\PYG{p}{((}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{))}
+            \PYG{n}{title} \PYG{o}{=} \PYG{n}{FONT\PYGZus{}TITLE}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}THE HERMENEUTIC HERO\PYGZdq{}}\PYG{p}{,} \PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{GOLD}\PYG{p}{)}
+            \PYG{n}{subtitle} \PYG{o}{=} \PYG{n}{FONT\PYGZus{}MAIN}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Legends of Logic\PYGZdq{}}\PYG{p}{,} \PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{WHITE}\PYG{p}{)}
+            \PYG{n}{start\PYGZus{}txt} \PYG{o}{=} \PYG{n}{FONT\PYGZus{}MAIN}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Press ENTER to Start\PYGZdq{}}\PYG{p}{,} \PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{GREEN}\PYG{p}{)}
+            \PYG{n}{quit\PYGZus{}txt} \PYG{o}{=} \PYG{n}{FONT\PYGZus{}SMALL}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Press Q to Quit\PYGZdq{}}\PYG{p}{,} \PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{GRAY}\PYG{p}{)}
+
+            \PYG{n}{screen}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n}{title}\PYG{p}{,} \PYG{p}{(}\PYG{n}{SCREEN\PYGZus{}WIDTH}\PYG{o}{//}\PYG{l+m+mi}{2} \PYG{o}{\PYGZhy{}} \PYG{n}{title}\PYG{o}{.}\PYG{n}{get\PYGZus{}width}\PYG{p}{()}\PYG{o}{//}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{150}\PYG{p}{))}
+            \PYG{n}{screen}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n}{subtitle}\PYG{p}{,} \PYG{p}{(}\PYG{n}{SCREEN\PYGZus{}WIDTH}\PYG{o}{//}\PYG{l+m+mi}{2} \PYG{o}{\PYGZhy{}} \PYG{n}{subtitle}\PYG{o}{.}\PYG{n}{get\PYGZus{}width}\PYG{p}{()}\PYG{o}{//}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{210}\PYG{p}{))}
+            \PYG{n}{screen}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n}{start\PYGZus{}txt}\PYG{p}{,} \PYG{p}{(}\PYG{n}{SCREEN\PYGZus{}WIDTH}\PYG{o}{//}\PYG{l+m+mi}{2} \PYG{o}{\PYGZhy{}} \PYG{n}{start\PYGZus{}txt}\PYG{o}{.}\PYG{n}{get\PYGZus{}width}\PYG{p}{()}\PYG{o}{//}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{400}\PYG{p}{))}
+            \PYG{n}{screen}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n}{quit\PYGZus{}txt}\PYG{p}{,} \PYG{p}{(}\PYG{n}{SCREEN\PYGZus{}WIDTH}\PYG{o}{//}\PYG{l+m+mi}{2} \PYG{o}{\PYGZhy{}} \PYG{n}{quit\PYGZus{}txt}\PYG{o}{.}\PYG{n}{get\PYGZus{}width}\PYG{p}{()}\PYG{o}{//}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{500}\PYG{p}{))}
+
+        \PYG{k}{elif} \PYG{n}{game\PYGZus{}state} \PYG{o}{==} \PYG{n}{GameState}\PYG{o}{.}\PYG{n}{OVERWORLD}\PYG{p}{:}
+            \PYG{n}{off\PYGZus{}x}\PYG{p}{,} \PYG{n}{off\PYGZus{}y} \PYG{o}{=} \PYG{n}{world}\PYG{o}{.}\PYG{n}{draw}\PYG{p}{(}\PYG{n}{screen}\PYG{p}{)}
+            \PYG{n}{player}\PYG{o}{.}\PYG{n}{draw}\PYG{p}{(}\PYG{n}{screen}\PYG{p}{,} \PYG{n}{off\PYGZus{}x}\PYG{p}{,} \PYG{n}{off\PYGZus{}y}\PYG{p}{)}
+
+            \PYG{c+c1}{\PYGZsh{} UI}
+            \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{rect}\PYG{p}{(}\PYG{n}{screen}\PYG{p}{,} \PYG{n}{BLUE}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{500}\PYG{p}{,} \PYG{n}{SCREEN\PYGZus{}WIDTH}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{))}
+            \PYG{n}{screen}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n}{FONT\PYGZus{}MAIN}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Hero: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{player}\PYG{o}{.}\PYG{n}{name}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{n+nb}{hasattr}\PYG{p}{(}\PYG{n}{player}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}name\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Teacher\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{WHITE}\PYG{p}{),} \PYG{p}{(}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{520}\PYG{p}{))}
+            \PYG{n}{screen}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n}{FONT\PYGZus{}SMALL}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Use Arrow Keys to Move. Find the Numbers!\PYGZdq{}}\PYG{p}{,} \PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{WHITE}\PYG{p}{),} \PYG{p}{(}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{550}\PYG{p}{))}
+
+            \PYG{c+c1}{\PYGZsh{} Draw Level/XP}
+            \PYG{n}{lvl\PYGZus{}txt} \PYG{o}{=} \PYG{n}{FONT\PYGZus{}MAIN}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}LVL: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{player}\PYG{o}{.}\PYG{n}{level}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{GOLD}\PYG{p}{)}
+            \PYG{n}{screen}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n}{lvl\PYGZus{}txt}\PYG{p}{,} \PYG{p}{(}\PYG{n}{SCREEN\PYGZus{}WIDTH} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{100}\PYG{p}{,} \PYG{l+m+mi}{520}\PYG{p}{))}
+
+        \PYG{k}{elif} \PYG{n}{game\PYGZus{}state} \PYG{o}{==} \PYG{n}{GameState}\PYG{o}{.}\PYG{n}{BATTLE}\PYG{p}{:}
+            \PYG{n}{battle}\PYG{o}{.}\PYG{n}{draw}\PYG{p}{(}\PYG{n}{screen}\PYG{p}{)}
+
+        \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{flip}\PYG{p}{()}
+        \PYG{n}{clock}\PYG{o}{.}\PYG{n}{tick}\PYG{p}{(}\PYG{n}{FPS}\PYG{p}{)}
+
+    \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{quit}\PYG{p}{()}
+    \PYG{n}{sys}\PYG{o}{.}\PYG{n}{exit}\PYG{p}{()}
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    \PYG{n}{main}\PYG{p}{()}
+
+\end{MintedVerbatim}

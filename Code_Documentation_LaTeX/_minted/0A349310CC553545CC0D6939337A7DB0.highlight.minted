@@ -1,0 +1,335 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/** \PYGZlt{}module\PYGZgt{} Brandomian Analysis of Arithmetic Strategies}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  Represents arithmetic strategies (Sliding, Counting On, Rearranging to Make Bases)}
+\PYG{c+cm}{ *  as practices with PP\PYGZhy{}necessities and PP\PYGZhy{}sufficiencies, following Brandom\PYGZsq{}s}
+\PYG{c+cm}{ *  meaning\PYGZhy{}use analysis.}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  Each strategy is modeled as:}
+\PYG{c+cm}{ *  1. Material inferences (the \PYGZdq{}how\PYGZdq{} of the strategy)}
+\PYG{c+cm}{ *  2. PP\PYGZhy{}necessities (prerequisite practices)}
+\PYG{c+cm}{ *  3. PP\PYGZhy{}sufficiencies (practices sufficient to deploy)}
+\PYG{c+cm}{ *  4. Circumstances and Consequences of Application}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  These can be subjected to critique to identify:}
+\PYG{c+cm}{ *  \PYGZhy{} Missing prerequisites}
+\PYG{c+cm}{ *  \PYGZhy{} Inefficient deployments}
+\PYG{c+cm}{ *  \PYGZhy{} LX\PYGZhy{}relations (elaboration hierarchies)}
+\PYG{c+cm}{ */}
+
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{module}\PYG{p}{(}\PYG{l+s+sAtom}{arithmetic\PYGZus{}strategies}\PYG{p}{,} \PYG{p}{[}
+    \PYG{l+s+sAtom}{strategy}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{l+s+sAtom}{pp\PYGZus{}necessity}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{,}
+    \PYG{l+s+sAtom}{pp\PYGZus{}sufficiency}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{,}
+    \PYG{l+s+sAtom}{elaborates}\PYG{o}{/}\PYG{l+m+mi}{2}
+\PYG{p}{]).}
+
+\PYG{c+c1}{\PYGZpc{} Declare discontiguous predicates (definitions spread across file)}
+\PYG{p}{:\PYGZhy{}} \PYG{l+s+sAtom}{discontiguous} \PYG{l+s+sAtom}{pp\PYGZus{}necessity}\PYG{o}{/}\PYG{l+m+mf}{2.}
+\PYG{p}{:\PYGZhy{}} \PYG{l+s+sAtom}{discontiguous} \PYG{l+s+sAtom}{pp\PYGZus{}sufficiency}\PYG{o}{/}\PYG{l+m+mf}{2.}
+
+\PYG{c+c1}{\PYGZpc{} Ensure operators are available}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{comp\PYGZus{}nec}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{exp\PYGZus{}nec}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{exp\PYGZus{}poss}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{comp\PYGZus{}poss}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{neg}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{1050}\PYG{p}{,} \PYG{l+s+sAtom}{xfy}\PYG{p}{,} \PYG{l+s+sAtom}{=\PYGZgt{}}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Strategy Declarations}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{n+nf}{strategy}\PYG{p}{(}\PYG{l+s+sAtom}{sliding}\PYG{p}{).}
+\PYG{n+nf}{strategy}\PYG{p}{(}\PYG{l+s+sAtom}{counting\PYGZus{}on}\PYG{p}{).}
+\PYG{n+nf}{strategy}\PYG{p}{(}\PYG{l+s+sAtom}{rearranging\PYGZus{}to\PYGZus{}make\PYGZus{}bases}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Strategy 1: \PYGZdq{}Sliding\PYGZdq{} (Additive Invariance)}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{c+c1}{\PYGZpc{} Central Material Inference: (a \PYGZhy{} b) = (a + c) \PYGZhy{} (b + c)}
+\PYG{c+c1}{\PYGZpc{} The difference between two numbers is invariant under parallel shifts}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{subtraction}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{,} \PYG{n+nv}{B}\PYG{p}{)),} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{shift}\PYG{p}{(}\PYG{n+nv}{C}\PYG{p}{))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{equals}\PYG{p}{(}\PYG{n+nf}{subtraction}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{,} \PYG{n+nv}{B}\PYG{p}{),} \PYG{n+nf}{subtraction}\PYG{p}{(}\PYG{n+nf}{add}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{,} \PYG{n+nv}{C}\PYG{p}{),} \PYG{n+nf}{add}\PYG{p}{(}\PYG{n+nv}{B}\PYG{p}{,} \PYG{n+nv}{C}\PYG{p}{)))),}
+    \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} Strategy: sliding}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} Example: 18 \PYGZhy{} 9 = 19 \PYGZhy{} 10 = 9}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{problem}\PYG{p}{(}\PYG{n+nf}{subtraction}\PYG{p}{(}\PYG{l+m+mi}{18}\PYG{p}{,} \PYG{l+m+mi}{9}\PYG{p}{)))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{n+nf}{shift\PYGZus{}to}\PYG{p}{(}\PYG{n+nf}{subtraction}\PYG{p}{(}\PYG{l+m+mi}{19}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{)))),}
+    \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} Sliding makes problem easier}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} PP\PYGZhy{}Necessities for Sliding}
+
+\PYG{n+nf}{pp\PYGZus{}necessity}\PYG{p}{(}\PYG{l+s+sAtom}{sliding}\PYG{p}{,} \PYG{l+s+sAtom}{number\PYGZus{}line\PYGZus{}intuition}\PYG{p}{).}
+\PYG{n+nf}{pp\PYGZus{}necessity}\PYG{p}{(}\PYG{l+s+sAtom}{sliding}\PYG{p}{,} \PYG{l+s+sAtom}{basic\PYGZus{}arithmetic}\PYG{p}{).}
+\PYG{n+nf}{pp\PYGZus{}necessity}\PYG{p}{(}\PYG{l+s+sAtom}{sliding}\PYG{p}{,} \PYG{l+s+sAtom}{base\PYGZus{}10\PYGZus{}structure}\PYG{p}{).}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{practice}\PYG{p}{(}\PYG{l+s+sAtom}{sliding}\PYG{p}{)),} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{neg}\PYG{p}{(}\PYG{l+s+sAtom}{number\PYGZus{}line\PYGZus{}intuition}\PYG{p}{))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{n+nf}{failure}\PYG{p}{(}\PYG{l+s+sAtom}{sliding}\PYG{p}{))),}
+    \PYG{l+s+sAtom}{missing\PYGZus{}prerequisite}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} PP\PYGZhy{}Sufficiencies for Sliding}
+
+\PYG{n+nf}{pp\PYGZus{}sufficiency}\PYG{p}{(}\PYG{l+s+sAtom}{sliding}\PYG{p}{,} \PYG{l+s+sAtom}{difference\PYGZus{}invariance}\PYG{p}{).}
+\PYG{n+nf}{pp\PYGZus{}sufficiency}\PYG{p}{(}\PYG{l+s+sAtom}{sliding}\PYG{p}{,} \PYG{l+s+sAtom}{strategic\PYGZus{}adjustment}\PYG{p}{).}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{possesses}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{l+s+sAtom}{difference\PYGZus{}invariance}\PYG{p}{)),}
+     \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{possesses}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{l+s+sAtom}{strategic\PYGZus{}adjustment}\PYG{p}{))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{exp\PYGZus{}poss}\PYG{p}{(}\PYG{n+nf}{deploys}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{l+s+sAtom}{sliding}\PYG{p}{))),}
+    \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} Sufficiency condition for deployment}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Strategy 2: \PYGZdq{}Counting On\PYGZdq{}}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{c+c1}{\PYGZpc{} Central Material Inference: a + b = result\PYGZus{}of\PYGZus{}counting\PYGZus{}b\PYGZus{}steps\PYGZus{}from\PYGZus{}a}
+\PYG{c+c1}{\PYGZpc{} Addition is enacted as rhythmic succession through the number sequence}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{addition}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{,} \PYG{n+nv}{B}\PYG{p}{))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{count\PYGZus{}steps}\PYG{p}{(}\PYG{n+nv}{B}\PYG{p}{,} \PYG{n+nf}{starting\PYGZus{}from}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{))),}
+    \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} Strategy: counting on}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} Example: 5 + 3 enacted as \PYGZdq{}6, 7, 8\PYGZdq{}}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{problem}\PYG{p}{(}\PYG{n+nf}{addition}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{)))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{n+nf}{sequence}\PYG{p}{([}\PYG{l+m+mi}{6}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{,} \PYG{l+m+mi}{8}\PYG{p}{]))),}
+    \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} Counting on generates sequence}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} PP\PYGZhy{}Necessities for Counting On}
+
+\PYG{n+nf}{pp\PYGZus{}necessity}\PYG{p}{(}\PYG{l+s+sAtom}{counting\PYGZus{}on}\PYG{p}{,} \PYG{l+s+sAtom}{stable\PYGZus{}order\PYGZus{}principle}\PYG{p}{).}
+\PYG{n+nf}{pp\PYGZus{}necessity}\PYG{p}{(}\PYG{l+s+sAtom}{counting\PYGZus{}on}\PYG{p}{,} \PYG{l+s+sAtom}{one\PYGZus{}to\PYGZus{}one\PYGZus{}correspondence}\PYG{p}{).}
+\PYG{n+nf}{pp\PYGZus{}necessity}\PYG{p}{(}\PYG{l+s+sAtom}{counting\PYGZus{}on}\PYG{p}{,} \PYG{l+s+sAtom}{cardinality\PYGZus{}principle}\PYG{p}{).}
+\PYG{n+nf}{pp\PYGZus{}necessity}\PYG{p}{(}\PYG{l+s+sAtom}{counting\PYGZus{}on}\PYG{p}{,} \PYG{l+s+sAtom}{number\PYGZus{}recognition}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} PP\PYGZhy{}Sufficiencies for Counting On}
+
+\PYG{n+nf}{pp\PYGZus{}sufficiency}\PYG{p}{(}\PYG{l+s+sAtom}{counting\PYGZus{}on}\PYG{p}{,} \PYG{l+s+sAtom}{iterated\PYGZus{}succession}\PYG{p}{).}
+\PYG{n+nf}{pp\PYGZus{}sufficiency}\PYG{p}{(}\PYG{l+s+sAtom}{counting\PYGZus{}on}\PYG{p}{,} \PYG{l+s+sAtom}{termination\PYGZus{}condition}\PYG{p}{).}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{possesses}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{l+s+sAtom}{iterated\PYGZus{}succession}\PYG{p}{)),}
+     \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{possesses}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{l+s+sAtom}{termination\PYGZus{}condition}\PYG{p}{))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{exp\PYGZus{}poss}\PYG{p}{(}\PYG{n+nf}{deploys}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{l+s+sAtom}{counting\PYGZus{}on}\PYG{p}{))),}
+    \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} Sufficiency condition for deployment}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Strategy 3: \PYGZdq{}Rearranging to Make Bases\PYGZdq{} (RMB)}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{c+c1}{\PYGZpc{} Central Material Inference: A + B = A + (K + R) = (A + K) + R}
+\PYG{c+c1}{\PYGZpc{} Strategic decomposition to create multiples of 10}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{addition}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{,} \PYG{n+nv}{B}\PYG{p}{)),} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{decompose}\PYG{p}{(}\PYG{n+nv}{B}\PYG{p}{,} \PYG{n+nv}{K}\PYG{p}{,} \PYG{n+nv}{R}\PYG{p}{)),} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{next\PYGZus{}base}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{,} \PYG{n+nv}{K}\PYG{p}{))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{equals}\PYG{p}{(}\PYG{n+nf}{addition}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{,} \PYG{n+nv}{B}\PYG{p}{),} \PYG{n+nf}{addition}\PYG{p}{(}\PYG{n+nf}{addition}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{,} \PYG{n+nv}{K}\PYG{p}{),} \PYG{n+nv}{R}\PYG{p}{))),}
+    \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} Strategy: rearranging to make bases}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} Example: 28 + 7 = 28 + (2 + 5) = (28 + 2) + 5 = 30 + 5 = 35}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{problem}\PYG{p}{(}\PYG{n+nf}{addition}\PYG{p}{(}\PYG{l+m+mi}{28}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{)))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{n+nf}{decompose}\PYG{p}{(}\PYG{l+m+mi}{7}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{))),}
+    \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} RMB strategic decomposition}
+\PYG{p}{).}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{decompose}\PYG{p}{(}\PYG{l+m+mi}{7}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{)),} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{addition}\PYG{p}{(}\PYG{l+m+mi}{28}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{n+nf}{simplified\PYGZus{}problem}\PYG{p}{(}\PYG{n+nf}{addition}\PYG{p}{(}\PYG{l+m+mi}{30}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{)))),}
+    \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} RMB creates base}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} PP\PYGZhy{}Necessities for RMB}
+
+\PYG{n+nf}{pp\PYGZus{}necessity}\PYG{p}{(}\PYG{l+s+sAtom}{rearranging\PYGZus{}to\PYGZus{}make\PYGZus{}bases}\PYG{p}{,} \PYG{l+s+sAtom}{counting\PYGZus{}on}\PYG{p}{).}
+\PYG{n+nf}{pp\PYGZus{}necessity}\PYG{p}{(}\PYG{l+s+sAtom}{rearranging\PYGZus{}to\PYGZus{}make\PYGZus{}bases}\PYG{p}{,} \PYG{l+s+sAtom}{base\PYGZus{}10\PYGZus{}structure}\PYG{p}{).}
+\PYG{n+nf}{pp\PYGZus{}necessity}\PYG{p}{(}\PYG{l+s+sAtom}{rearranging\PYGZus{}to\PYGZus{}make\PYGZus{}bases}\PYG{p}{,} \PYG{l+s+sAtom}{number\PYGZus{}decomposition}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} PP\PYGZhy{}Sufficiencies for RMB}
+
+\PYG{n+nf}{pp\PYGZus{}sufficiency}\PYG{p}{(}\PYG{l+s+sAtom}{rearranging\PYGZus{}to\PYGZus{}make\PYGZus{}bases}\PYG{p}{,} \PYG{l+s+sAtom}{gap\PYGZus{}calculation}\PYG{p}{).}
+\PYG{n+nf}{pp\PYGZus{}sufficiency}\PYG{p}{(}\PYG{l+s+sAtom}{rearranging\PYGZus{}to\PYGZus{}make\PYGZus{}bases}\PYG{p}{,} \PYG{l+s+sAtom}{strategic\PYGZus{}decomposition}\PYG{p}{).}
+\PYG{n+nf}{pp\PYGZus{}sufficiency}\PYG{p}{(}\PYG{l+s+sAtom}{rearranging\PYGZus{}to\PYGZus{}make\PYGZus{}bases}\PYG{p}{,} \PYG{l+s+sAtom}{reassociation}\PYG{p}{).}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{possesses}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{l+s+sAtom}{gap\PYGZus{}calculation}\PYG{p}{)),}
+     \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{possesses}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{l+s+sAtom}{strategic\PYGZus{}decomposition}\PYG{p}{)),}
+     \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{possesses}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{l+s+sAtom}{reassociation}\PYG{p}{))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{exp\PYGZus{}poss}\PYG{p}{(}\PYG{n+nf}{deploys}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{l+s+sAtom}{rearranging\PYGZus{}to\PYGZus{}make\PYGZus{}bases}\PYG{p}{))),}
+    \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} Sufficiency condition for deployment}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} LX\PYGZhy{}Relations: Elaboration Hierarchies}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{c+c1}{\PYGZpc{} \PYGZdq{}Rearranging to Make Bases\PYGZdq{} is LX for \PYGZdq{}Counting On\PYGZdq{}}
+\PYG{c+c1}{\PYGZpc{} RMB makes explicit the principles (associativity, decomposition) that are}
+\PYG{c+c1}{\PYGZpc{} implicit in the simpler Counting On strategy}
+
+\PYG{n+nf}{elaborates}\PYG{p}{(}\PYG{l+s+sAtom}{rearranging\PYGZus{}to\PYGZus{}make\PYGZus{}bases}\PYG{p}{,} \PYG{l+s+sAtom}{counting\PYGZus{}on}\PYG{p}{).}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{elaborates}\PYG{p}{(}\PYG{n+nv}{Strategy\PYGZus{}Explicit}\PYG{p}{,} \PYG{n+nv}{Strategy\PYGZus{}Implicit}\PYG{p}{))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{n+nf}{lx\PYGZus{}relation}\PYG{p}{(}\PYG{n+nv}{Strategy\PYGZus{}Explicit}\PYG{p}{,} \PYG{n+nv}{Strategy\PYGZus{}Implicit}\PYG{p}{))),}
+    \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} Brandomian elaboration}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} The LX\PYGZhy{}relation means: Strategy\PYGZus{}Explicit allows you to SAY what you could only DO with Strategy\PYGZus{}Implicit}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{lx\PYGZus{}relation}\PYG{p}{(}\PYG{n+nv}{S\PYGZus{}Explicit}\PYG{p}{,} \PYG{n+nv}{S\PYGZus{}Implicit}\PYG{p}{)),} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{deploys}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{n+nv}{S\PYGZus{}Explicit}\PYG{p}{))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{exp\PYGZus{}nec}\PYG{p}{(}\PYG{n+nf}{can\PYGZus{}articulate\PYGZus{}principles\PYGZus{}of}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{n+nv}{S\PYGZus{}Implicit}\PYG{p}{))),}
+    \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} LX provides metavocabulary}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Pathologies in Arithmetic Strategies}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{c+c1}{\PYGZpc{} Pathology 1: Deploying a strategy without prerequisites}
+\PYG{c+c1}{\PYGZpc{} This creates a failure mode}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{deploys}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{n+nv}{Strategy}\PYG{p}{)),} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{pp\PYGZus{}necessity}\PYG{p}{(}\PYG{n+nv}{Strategy}\PYG{p}{,} \PYG{n+nv}{Prerequisite}\PYG{p}{)),} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{neg}\PYG{p}{(}\PYG{n+nf}{possesses}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{n+nv}{Prerequisite}\PYG{p}{)))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{n+nf}{failure}\PYG{p}{(}\PYG{n+nv}{Strategy}\PYG{p}{,} \PYG{n+nf}{missing\PYGZus{}prerequisite}\PYG{p}{(}\PYG{n+nv}{Prerequisite}\PYG{p}{)))),}
+    \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} Prerequisite violation}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} Example: Trying to use Sliding without number line intuition}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{is\PYGZus{}incoherent}\PYG{p}{(}\PYG{n+nv}{X}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{member}\PYG{p}{(}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{deploys}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{l+s+sAtom}{sliding}\PYG{p}{)),} \PYG{n+nv}{X}\PYG{p}{),}
+    \PYG{n+nf}{member}\PYG{p}{(}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{neg}\PYG{p}{(}\PYG{n+nf}{possesses}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{l+s+sAtom}{number\PYGZus{}line\PYGZus{}intuition}\PYG{p}{))),} \PYG{n+nv}{X}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  PATHOLOGY: Cannot deploy Sliding without Number Line Intuition\PYGZsq{}}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} Pathology 2: Circular dependency in prerequisites}
+\PYG{c+c1}{\PYGZpc{} If Strategy A requires B, and B requires A, we have a Bad Infinite}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{is\PYGZus{}incoherent}\PYG{p}{(}\PYG{n+nv}{X}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{member}\PYG{p}{(}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{pp\PYGZus{}necessity}\PYG{p}{(}\PYG{n+nv}{Strategy\PYGZus{}A}\PYG{p}{,} \PYG{n+nv}{Strategy\PYGZus{}B}\PYG{p}{)),} \PYG{n+nv}{X}\PYG{p}{),}
+    \PYG{n+nf}{member}\PYG{p}{(}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{pp\PYGZus{}necessity}\PYG{p}{(}\PYG{n+nv}{Strategy\PYGZus{}B}\PYG{p}{,} \PYG{n+nv}{Strategy\PYGZus{}A}\PYG{p}{)),} \PYG{n+nv}{X}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  PATHOLOGY: Circular prerequisite dependency detected\PYGZsq{}}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Integration with PML Dynamics}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{c+c1}{\PYGZpc{} Strategies are enacted in the Subjective modal context (S)}
+\PYG{c+c1}{\PYGZpc{} They compress problems into simpler forms (compressive necessity)}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{enact}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{n+nv}{Strategy}\PYG{p}{,} \PYG{n+nv}{Problem}\PYG{p}{))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{n+nf}{simplified}\PYG{p}{(}\PYG{n+nv}{Problem}\PYG{p}{))),}
+    \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} Strategy is compressive}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} Successful strategy deployment leads to expansive release (the answer)}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{simplified}\PYG{p}{(}\PYG{n+nv}{Problem}\PYG{p}{)),} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{solve}\PYG{p}{(}\PYG{n+nv}{Problem}\PYG{p}{,} \PYG{n+nv}{Answer}\PYG{p}{))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{exp\PYGZus{}nec}\PYG{p}{(}\PYG{n+nf}{answer}\PYG{p}{(}\PYG{n+nv}{Answer}\PYG{p}{))),}
+    \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} Compression leads to expansion}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} Failed strategy deployment creates tension (awareness of inadequacy)}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{enact}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{n+nv}{Strategy}\PYG{p}{,} \PYG{n+nv}{Problem}\PYG{p}{)),} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{failure}\PYG{p}{(}\PYG{n+nv}{Strategy}\PYG{p}{,} \PYG{n+nv}{Reason}\PYG{p}{))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{n+nf}{awareness\PYGZus{}of\PYGZus{}inadequacy}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{n+nv}{Reason}\PYG{p}{))),}
+    \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} Failure creates tension}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} This tension can trigger the ORR cycle (critique and accommodation)}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{awareness\PYGZus{}of\PYGZus{}inadequacy}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{n+nv}{Reason}\PYG{p}{))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{exp\PYGZus{}poss}\PYG{p}{(}\PYG{n+nf}{triggers\PYGZus{}critique}\PYG{p}{(}\PYG{n+nv}{Reason}\PYG{p}{))),}
+    \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} Tension enables reflection}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Meaning\PYGZhy{}Use Diagrams (MUDs) as Proof Structures}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{c+c1}{\PYGZpc{} A MUD is a graph showing relationships between vocabulary (V\PYGZhy{}space) and practices (P\PYGZhy{}space)}
+\PYG{c+c1}{\PYGZpc{} In PML, this is represented as a proof tree where:}
+\PYG{c+c1}{\PYGZpc{} \PYGZhy{} V\PYGZhy{}space nodes are vocabulary terms in the antecedent/consequent}
+\PYG{c+c1}{\PYGZpc{} \PYGZhy{} P\PYGZhy{}space nodes are practices in the justification conditions}
+\PYG{c+c1}{\PYGZpc{} \PYGZhy{} Edges are material inferences}
+
+\PYG{c+c1}{\PYGZpc{} MUD for Counting On:}
+\PYG{c+c1}{\PYGZpc{} V1: Problem \PYGZdq{}n + m\PYGZdq{} \PYGZhy{}\PYGZgt{} P5: Iterated Succession}
+\PYG{c+c1}{\PYGZpc{} P5: Generates sequence \PYGZhy{}\PYGZgt{} V2: Counting Sequence}
+\PYG{c+c1}{\PYGZpc{} V2: Stops after m steps \PYGZhy{}\PYGZgt{} P6: Termination Condition}
+\PYG{c+c1}{\PYGZpc{} P6: Identifies last number \PYGZhy{}\PYGZgt{} V3: Final Utterance}
+\PYG{c+c1}{\PYGZpc{} V3: Is the answer \PYGZhy{}\PYGZgt{} V4: Answer}
+
+\PYG{n+nf}{mud}\PYG{p}{(}\PYG{l+s+sAtom}{counting\PYGZus{}on}\PYG{p}{,} \PYG{p}{[}
+    \PYG{n+nf}{edge}\PYG{p}{(}\PYG{n+nf}{problem}\PYG{p}{(}\PYG{n+nf}{addition}\PYG{p}{(}\PYG{n+nv}{N}\PYG{p}{,} \PYG{n+nv}{M}\PYG{p}{)),} \PYG{l+s+sAtom}{iterated\PYGZus{}succession}\PYG{p}{),}
+    \PYG{n+nf}{edge}\PYG{p}{(}\PYG{l+s+sAtom}{iterated\PYGZus{}succession}\PYG{p}{,} \PYG{n+nf}{counting\PYGZus{}sequence}\PYG{p}{(}\PYG{n+nv}{N}\PYG{p}{,} \PYG{n+nv}{M}\PYG{p}{)),}
+    \PYG{n+nf}{edge}\PYG{p}{(}\PYG{n+nf}{counting\PYGZus{}sequence}\PYG{p}{(}\PYG{n+nv}{N}\PYG{p}{,} \PYG{n+nv}{M}\PYG{p}{),} \PYG{n+nf}{termination\PYGZus{}condition}\PYG{p}{(}\PYG{n+nv}{M}\PYG{p}{)),}
+    \PYG{n+nf}{edge}\PYG{p}{(}\PYG{n+nf}{termination\PYGZus{}condition}\PYG{p}{(}\PYG{n+nv}{M}\PYG{p}{),} \PYG{l+s+sAtom}{final\PYGZus{}utterance}\PYG{p}{),}
+    \PYG{n+nf}{edge}\PYG{p}{(}\PYG{l+s+sAtom}{final\PYGZus{}utterance}\PYG{p}{,} \PYG{l+s+sAtom}{answer}\PYG{p}{)}
+\PYG{p}{]).}
+
+\PYG{c+c1}{\PYGZpc{} A valid MUD corresponds to a valid proof in incompatibility\PYGZus{}semantics}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{mud}\PYG{p}{(}\PYG{n+nv}{Strategy}\PYG{p}{,} \PYG{n+nv}{Edges}\PYG{p}{)),} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{all\PYGZus{}edges\PYGZus{}valid}\PYG{p}{(}\PYG{n+nv}{Edges}\PYG{p}{))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{n+nf}{valid\PYGZus{}meaning\PYGZus{}use\PYGZus{}analysis}\PYG{p}{(}\PYG{n+nv}{Strategy}\PYG{p}{))),}
+    \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} MUD validity}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Commentary}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{c+c1}{\PYGZpc{} This module demonstrates how Brandomian meaning\PYGZhy{}use analysis can be}
+\PYG{c+c1}{\PYGZpc{} represented in the PML framework:}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{} 1. Strategies are PRACTICES with material\PYGZhy{}inferential content}
+\PYG{c+c1}{\PYGZpc{}    They are not just procedures, but ways of making sense of problems}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{} 2. PP\PYGZhy{}necessities and PP\PYGZhy{}sufficiencies are NORMATIVE STATUSES}
+\PYG{c+c1}{\PYGZpc{}    They determine what is CORRECT (not just what is possible)}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{} 3. LX\PYGZhy{}relations create ELABORATION HIERARCHIES}
+\PYG{c+c1}{\PYGZpc{}    More sophisticated strategies make explicit what simpler ones leave implicit}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{} 4. Pathologies arise when:}
+\PYG{c+c1}{\PYGZpc{}    \PYGZhy{} Prerequisites are missing (failure to deploy)}
+\PYG{c+c1}{\PYGZpc{}    \PYGZhy{} Circular dependencies exist (Bad Infinite)}
+\PYG{c+c1}{\PYGZpc{}    \PYGZhy{} Strategies are applied outside their domain of applicability}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{} 5. Strategy deployment is MODAL:}
+\PYG{c+c1}{\PYGZpc{}    \PYGZhy{} Enacting a strategy is COMPRESSIVE (simplification)}
+\PYG{c+c1}{\PYGZpc{}    \PYGZhy{} Getting the answer is EXPANSIVE (release)}
+\PYG{c+c1}{\PYGZpc{}    \PYGZhy{} Failure creates TENSION (awareness, the \PYGZdq{}A\PYGZdq{} in U \PYGZhy{}\PYGZgt{} A \PYGZhy{}\PYGZgt{} LG \PYGZhy{}\PYGZgt{} U\PYGZsq{})}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{} 6. The ORR cycle can be triggered by strategy failure}
+\PYG{c+c1}{\PYGZpc{}    \PYGZhy{} Observe: Strategy deployed}
+\PYG{c+c1}{\PYGZpc{}    \PYGZhy{} Reflect: Failure detected (missing prerequisite, incoherence)}
+\PYG{c+c1}{\PYGZpc{}    \PYGZhy{} Reorganize: Accommodate by learning prerequisite or switching strategy}
+\PYG{c+c1}{\PYGZpc{}    \PYGZhy{} Retry: Deploy revised strategy}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{} This is how practices become CONTENT for critique.}
+
+\end{MintedVerbatim}

@@ -1,0 +1,214 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c}{/* Unified Stylesheet for Hermeneutic Calculator Strategy Pages */}
+
+\PYG{p}{@}\PYG{k}{import}\PYG{+w}{ }\PYG{n+nt}{url}\PYG{o}{(}\PYG{l+s+s1}{\PYGZsq{}https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700\PYGZam{}family=Inter:wght@400;500;600\PYGZam{}display=swap\PYGZsq{}}\PYG{o}{)}\PYG{p}{;}
+
+\PYG{n+nt}{body}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}family}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Inter\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{n}{apple\PYGZhy{}system}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{BlinkMacSystemFont}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Segoe UI\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{sans\PYGZhy{}serif}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{background}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nb}{linear\PYGZhy{}gradient}\PYG{p}{(}\PYG{l+m+mi}{135}\PYG{k+kt}{deg}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}e0e0e0}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{k+kt}{\PYGZpc{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}c0c0c0}\PYG{+w}{ }\PYG{l+m+mi}{100}\PYG{k+kt}{\PYGZpc{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}333}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{20}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{min\PYGZhy{}height}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{100}\PYG{k+kt}{vh}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{line\PYGZhy{}height}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.6}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{.}\PYG{n+nc}{container}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{max\PYGZhy{}width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{900}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{k+kc}{auto}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{background}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{white}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{border\PYGZhy{}radius}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{15}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{30}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{box\PYGZhy{}shadow}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{20}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{n+nb}{rgba}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0.3}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n+nt}{h1}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}family}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Orbitron\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{sans\PYGZhy{}serif}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}4a4a4a}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.8}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}weight}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{700}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{margin\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{20}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{text\PYGZhy{}align}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{center}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{border\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}90ee90}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{padding\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{15}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n+nt}{h2}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}family}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Orbitron\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{sans\PYGZhy{}serif}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}555}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.3}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}weight}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{500}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{margin\PYGZhy{}top}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{25}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{margin\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{15}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n+nt}{h3}\PYG{o}{,}\PYG{+w}{ }\PYG{n+nt}{h4}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}family}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Orbitron\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{sans\PYGZhy{}serif}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{.}\PYG{n+nc}{input\PYGZhy{}section}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{background}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}f5f5f5}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{20}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{border\PYGZhy{}radius}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{margin\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{20}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{display}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{flex}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{gap}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{20}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{align\PYGZhy{}items}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{center}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{flex\PYGZhy{}wrap}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{wrap}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{.}\PYG{n+nc}{input\PYGZhy{}section}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n+nt}{div}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{display}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{flex}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{align\PYGZhy{}items}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{center}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{gap}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n+nt}{label}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}family}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Inter\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{sans\PYGZhy{}serif}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}weight}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{500}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}555}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n+nt}{input}\PYG{o}{[}\PYG{n+nt}{type}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}number\PYGZdq{}}\PYG{o}{]}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}family}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Inter\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{sans\PYGZhy{}serif}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{8}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{12}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{border}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}888}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{border\PYGZhy{}radius}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{100}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{background}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{white}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n+nt}{p}\PYG{o}{,}\PYG{+w}{ }\PYG{n+nt}{li}\PYG{o}{,}\PYG{+w}{ }\PYG{n+nt}{div}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}family}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Inter\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{sans\PYGZhy{}serif}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n+nt}{button}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}family}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Orbitron\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{sans\PYGZhy{}serif}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.95}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}weight}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{500}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{12}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{24}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{border}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}888}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{border\PYGZhy{}radius}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{8}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}d8d8d8}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}333}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{cursor}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{pointer}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{box\PYGZhy{}shadow}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{n+nb}{rgba}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0.2}\PYG{p}{),}\PYG{+w}{ }\PYG{k+kc}{inset}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}fff}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{inset}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}aaa}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{transition}\PYG{p}{:}\PYG{+w}{ }\PYG{k}{background\PYGZhy{}color}\PYG{+w}{ }\PYG{l+m+mf}{0.2}\PYG{k+kt}{s}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{box\PYGZhy{}shadow}\PYG{+w}{ }\PYG{l+m+mf}{0.2}\PYG{k+kt}{s}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{transform}\PYG{+w}{ }\PYG{l+m+mf}{0.1}\PYG{k+kt}{s}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n+nt}{button}\PYG{p}{:}\PYG{n+nd}{hover}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}e8e8e8}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n+nt}{button}\PYG{p}{:}\PYG{n+nd}{active}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{box\PYGZhy{}shadow}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{inset}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{n+nb}{rgba}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0.3}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}ccc}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{transform}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nb}{translateY}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{.}\PYG{n+nc}{pdf\PYGZhy{}button}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}ffacac}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}500}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{margin\PYGZhy{}top}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{15}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{.}\PYG{n+nc}{pdf\PYGZhy{}button}\PYG{p}{:}\PYG{n+nd}{hover}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}ffc0c0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{.}\PYG{n+nc}{back\PYGZhy{}button}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}90ee90}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}2d5016}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{margin\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{20}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{.}\PYG{n+nc}{back\PYGZhy{}button}\PYG{p}{:}\PYG{n+nd}{hover}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}a0ffa0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{\PYGZsh{}}\PYG{n+nn}{outputContainer}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{margin\PYGZhy{}top}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{30}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{20}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{background}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}f9f9f9}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{border\PYGZhy{}radius}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{border}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}e0e0e0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{\PYGZsh{}}\PYG{n+nn}{outputContainer}\PYG{+w}{ }\PYG{n+nt}{p}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{line\PYGZhy{}height}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.6}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{8}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n+nt}{svg}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{border}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}d3d3d3}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{border\PYGZhy{}radius}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{20}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{auto}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{display}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{block}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{background}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{white}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c}{/* SVG element styles */}
+\PYG{p}{.}\PYG{n+nc}{number\PYGZhy{}line\PYGZhy{}tick}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{stroke}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{black}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{stroke\PYGZhy{}width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{.}\PYG{n+nc}{number\PYGZhy{}line\PYGZhy{}break}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{stroke}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{black}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{stroke\PYGZhy{}width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{stroke\PYGZhy{}dasharray}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{.}\PYG{n+nc}{number\PYGZhy{}line\PYGZhy{}label}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{12}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{text\PYGZhy{}anchor}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{middle}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{.}\PYG{n+nc}{jump\PYGZhy{}arrow}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{fill}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{none}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{stroke}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}667eea}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{stroke\PYGZhy{}width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{.}\PYG{n+nc}{jump\PYGZhy{}arrow\PYGZhy{}head}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{fill}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}667eea}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{stroke}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}667eea}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{.}\PYG{n+nc}{jump\PYGZhy{}label}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{text\PYGZhy{}anchor}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{middle}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{fill}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}667eea}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{.}\PYG{n+nc}{tens\PYGZhy{}jump\PYGZhy{}label}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{12}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{text\PYGZhy{}anchor}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{middle}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{fill}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}764ba2}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}weight}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{bold}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{.}\PYG{n+nc}{stopping\PYGZhy{}point}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{fill}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}ff6b6b}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{stroke}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{black}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{stroke\PYGZhy{}width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{.}\PYG{n+nc}{extended\PYGZhy{}tick}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{stroke}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{black}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{stroke\PYGZhy{}width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{.}\PYG{n+nc}{extended\PYGZhy{}tick\PYGZhy{}label}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{12}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{text\PYGZhy{}anchor}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{start}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{fill}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}667eea}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{.}\PYG{n+nc}{number\PYGZhy{}line\PYGZhy{}arrow}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{fill}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{black}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{stroke}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{black}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\end{MintedVerbatim}

@@ -1,0 +1,4 @@
+\contentsline {section}{\numberline {1}Quadrilateral\_Substitution/brandom\_lesson.js}{2}{section.1}%
+\contentsline {section}{\numberline {2}Quadrilateral\_Substitution/brandom\_styles.css}{15}{section.2}%
+\contentsline {section}{\numberline {3}Quadrilateral\_Substitution/inferential\_strength.html}{23}{section.3}%
+\contentsline {section}{\numberline {4}Quadrilateral\_Substitution/inferential\_strength\_styles.css}{32}{section.4}%

@@ -1,0 +1,76 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/** \PYGZlt{}module\PYGZgt{} PML Operators and Vocabulary}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  This module defines the syntax and core vocabulary for Polarized Modal Logic (PML).}
+\PYG{c+cm}{ *  It establishes the operators for the three modes of validity (S, O, N) and the}
+\PYG{c+cm}{ *  two polarities (Compressive/↓ and Expansive/↑).}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  (Synthesis\PYGZus{}1, Chapter 3)}
+\PYG{c+cm}{ */}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{module}\PYG{p}{(}\PYG{l+s+sAtom}{pml\PYGZus{}operators}\PYG{p}{,}
+          \PYG{p}{[} \PYG{c+c1}{\PYGZpc{} Modes of Validity}
+            \PYG{l+s+sAtom}{s}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+s+sAtom}{o}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+s+sAtom}{n}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{p}{,}
+            \PYG{c+c1}{\PYGZpc{} Polarized Modal Operators}
+            \PYG{l+s+sAtom}{\PYGZsq{}comp\PYGZus{}nec\PYGZsq{}}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}exp\PYGZus{}nec\PYGZsq{}}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}exp\PYGZus{}poss\PYGZsq{}}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}comp\PYGZus{}poss\PYGZsq{}}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{p}{,}
+            \PYG{c+c1}{\PYGZpc{} Standard Logical Operators}
+            \PYG{l+s+sAtom}{\PYGZsq{}neg\PYGZsq{}}\PYG{o}{/}\PYG{l+m+mi}{1}
+            \PYG{c+c1}{\PYGZpc{} Note: =\PYGZgt{} (sequent) and conj (conjunction) are used but not explicitly exported as predicates}
+          \PYG{p}{]).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Operator Definitions}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{c+c1}{\PYGZpc{} Compressive Necessity (Box\PYGZus{}down ↓)}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{comp\PYGZus{}nec}\PYG{p}{).}
+\PYG{c+c1}{\PYGZpc{} Expansive Necessity (Box\PYGZus{}up ↑)}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{exp\PYGZus{}nec}\PYG{p}{).}
+\PYG{c+c1}{\PYGZpc{} Expansive Possibility (Diamond\PYGZus{}up ↑)}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{exp\PYGZus{}poss}\PYG{p}{).}
+\PYG{c+c1}{\PYGZpc{} Compressive Possibility (Diamond\PYGZus{}down ↓)}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{comp\PYGZus{}poss}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} Negation}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{neg}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} Sequent Arrow}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{1050}\PYG{p}{,} \PYG{l+s+sAtom}{xfy}\PYG{p}{,} \PYG{l+s+sAtom}{=\PYGZgt{}}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Vocabulary Placeholders}
+\PYG{c+c1}{\PYGZpc{} (Ensures predicates can be referenced even if not yet defined)}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{c+c1}{\PYGZpc{}! s(P) is det.}
+\PYG{c+c1}{\PYGZpc{} Subjective Validity wrapper.}
+\PYG{n+nf}{s}\PYG{p}{(}\PYG{k}{\PYGZus{}}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}! o(P) is det.}
+\PYG{c+c1}{\PYGZpc{} Objective Validity wrapper.}
+\PYG{n+nf}{o}\PYG{p}{(}\PYG{k}{\PYGZus{}}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}! n(P) is det.}
+\PYG{c+c1}{\PYGZpc{} Normative Validity wrapper.}
+\PYG{n+nf}{n}\PYG{p}{(}\PYG{k}{\PYGZus{}}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}! neg(P) is det.}
+\PYG{c+c1}{\PYGZpc{} Negation.}
+\PYG{n+nf}{neg}\PYG{p}{(}\PYG{k}{\PYGZus{}}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}! comp\PYGZus{}nec(P) is det.}
+\PYG{c+c1}{\PYGZpc{} Compressive necessity modality (↓). Fixation, Crystallization.}
+\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{k}{\PYGZus{}}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}! exp\PYGZus{}nec(P) is det.}
+\PYG{c+c1}{\PYGZpc{} Expansive necessity modality (↑). Release, Liquefaction.}
+\PYG{n+nf}{exp\PYGZus{}nec}\PYG{p}{(}\PYG{k}{\PYGZus{}}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}! exp\PYGZus{}poss(P) is det.}
+\PYG{c+c1}{\PYGZpc{} Expansive possibility modality (↑). Potential for release.}
+\PYG{n+nf}{exp\PYGZus{}poss}\PYG{p}{(}\PYG{k}{\PYGZus{}}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}! comp\PYGZus{}poss(P) is det.}
+\PYG{c+c1}{\PYGZpc{} Compressive possibility modality (↓). Temptation to fixate.}
+\PYG{n+nf}{comp\PYGZus{}poss}\PYG{p}{(}\PYG{k}{\PYGZus{}}\PYG{p}{).}
+
+\end{MintedVerbatim}

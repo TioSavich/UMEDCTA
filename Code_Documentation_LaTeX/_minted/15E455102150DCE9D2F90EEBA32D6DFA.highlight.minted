@@ -1,0 +1,175 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}!DOCTYPE html\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{html} \PYG{n+na}{lang}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}en\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{head}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{meta} \PYG{n+na}{charset}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}UTF\PYGZhy{}8\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{meta} \PYG{n+na}{name}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}viewport\PYGZdq{}} \PYG{n+na}{content}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}width=device\PYGZhy{}width, initial\PYGZhy{}scale=1.0\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{title}\PYG{p}{\PYGZgt{}}The Hermeneutic Calculator\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{title}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{style}\PYG{p}{\PYGZgt{}}
+\PYG{+w}{        }\PYG{n+nt}{body}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}family}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Orbitron\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{sans\PYGZhy{}serif}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* A font that looks a bit digital/retro */}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}e0e0e0}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Light grey background */}
+\PYG{+w}{            }\PYG{k}{display}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{flex}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{justify\PYGZhy{}content}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{center}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{align\PYGZhy{}items}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{center}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{min\PYGZhy{}height}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{100}\PYG{k+kt}{vh}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c}{/* Import Orbitron font */}
+\PYG{+w}{        }\PYG{p}{@}\PYG{k}{import}\PYG{+w}{ }\PYG{n+nt}{url}\PYG{o}{(}\PYG{l+s+s1}{\PYGZsq{}https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700\PYGZam{}display=swap\PYGZsq{}}\PYG{o}{)}\PYG{p}{;}
+
+\PYG{+w}{        }\PYG{p}{\PYGZsh{}}\PYG{n+nn}{calculator\PYGZhy{}body}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}c0c0c0}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Silver/grey calculator body */}
+\PYG{+w}{            }\PYG{k}{border}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}555}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}radius}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{25}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{box\PYGZhy{}shadow}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{15}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{n+nb}{rgba}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0.4}\PYG{p}{),}\PYG{+w}{ }\PYG{k+kc}{inset}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}fff}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{inset}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}888}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{600}\PYG{k+kt}{px}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Adjust width as needed */}
+\PYG{+w}{            }\PYG{k}{max\PYGZhy{}width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{90}\PYG{k+kt}{\PYGZpc{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{text\PYGZhy{}align}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{center}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{\PYGZsh{}}\PYG{n+nn}{display}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}4a4a4a}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Dark grey display */}
+\PYG{+w}{            }\PYG{k}{border}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}333}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}radius}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{15}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{margin\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{20}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{box\PYGZhy{}shadow}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{inset}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{n+nb}{rgba}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0.5}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{\PYGZsh{}}\PYG{n+nn}{display}\PYG{+w}{ }\PYG{n+nt}{h1}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}90ee90}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Light green text like old LCD */}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.8}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{text\PYGZhy{}shadow}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}90ee90}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}weight}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{700}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{\PYGZsh{}}\PYG{n+nn}{button\PYGZhy{}panel}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{display}\PYG{p}{:}\PYG{+w}{ }\PYG{k}{grid}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{grid\PYGZhy{}template\PYGZhy{}columns}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nf}{repeat}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{n}{fr}\PYG{p}{);}\PYG{+w}{ }\PYG{c}{/* 4 columns for buttons */}
+\PYG{+w}{            }\PYG{k}{gap}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{margin\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{20}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{calc\PYGZhy{}button}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}family}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Orbitron\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{sans\PYGZhy{}serif}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.8}\PYG{k+kt}{em}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Smaller font for buttons */}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}weight}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{400}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{12}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Adjust padding */}
+\PYG{+w}{            }\PYG{k}{border}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}888}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}radius}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}d8d8d8}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Light grey button */}
+\PYG{+w}{            }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}333}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{cursor}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{pointer}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{box\PYGZhy{}shadow}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{n+nb}{rgba}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0.2}\PYG{p}{),}\PYG{+w}{ }\PYG{k+kc}{inset}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}fff}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{inset}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}aaa}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{transition}\PYG{p}{:}\PYG{+w}{ }\PYG{k}{background\PYGZhy{}color}\PYG{+w}{ }\PYG{l+m+mf}{0.2}\PYG{k+kt}{s}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{box\PYGZhy{}shadow}\PYG{+w}{ }\PYG{l+m+mf}{0.2}\PYG{k+kt}{s}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{min\PYGZhy{}height}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{50}\PYG{k+kt}{px}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Ensure buttons have some height */}
+\PYG{+w}{            }\PYG{k}{display}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{flex}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Center text vertically */}
+\PYG{+w}{            }\PYG{k}{justify\PYGZhy{}content}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{center}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{align\PYGZhy{}items}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{center}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{text\PYGZhy{}align}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{center}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Center text horizontally */}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{calc\PYGZhy{}button}\PYG{p}{:}\PYG{n+nd}{hover}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}e8e8e8}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* Lighter on hover */}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{.}\PYG{n+nc}{calc\PYGZhy{}button}\PYG{p}{:}\PYG{n+nd}{active}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{box\PYGZhy{}shadow}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{inset}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{n+nb}{rgba}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0.3}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}ccc}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{\PYGZsh{}}\PYG{n+nn}{pdf\PYGZhy{}button}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}family}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Orbitron\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{sans\PYGZhy{}serif}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.9}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{15}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}888}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{border\PYGZhy{}radius}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}ffacac}\PYG{p}{;}\PYG{+w}{ }\PYG{c}{/* A slightly different color */}
+\PYG{+w}{            }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}500}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{cursor}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{pointer}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{box\PYGZhy{}shadow}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{n+nb}{rgba}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0.2}\PYG{p}{),}\PYG{+w}{ }\PYG{k+kc}{inset}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}fff}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{inset}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}aaa}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{transition}\PYG{p}{:}\PYG{+w}{ }\PYG{k}{background\PYGZhy{}color}\PYG{+w}{ }\PYG{l+m+mf}{0.2}\PYG{k+kt}{s}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{box\PYGZhy{}shadow}\PYG{+w}{ }\PYG{l+m+mf}{0.2}\PYG{k+kt}{s}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{display}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{inline\PYGZhy{}block}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{margin\PYGZhy{}top}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{\PYGZsh{}}\PYG{n+nn}{pdf\PYGZhy{}button}\PYG{p}{:}\PYG{n+nd}{hover}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}ffc0c0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{p}{\PYGZsh{}}\PYG{n+nn}{pdf\PYGZhy{}button}\PYG{p}{:}\PYG{n+nd}{active}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{box\PYGZhy{}shadow}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{inset}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{n+nb}{rgba}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0.3}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}f09a9a}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{style}\PYG{p}{\PYGZgt{}}
+    \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Link Orbitron font from Google Fonts \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{link} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700\PYGZam{}display=swap\PYGZdq{}} \PYG{n+na}{rel}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}stylesheet\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{head}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{body}\PYG{p}{\PYGZgt{}}
+
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calculator\PYGZhy{}body\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}display\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}The Hermeneutic Calculator\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}button\PYGZhy{}panel\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+            \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Addition Strategies \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SAR\PYGZus{}ADD\PYGZus{}COBO.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Add: COBO\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SAR\PYGZus{}ADD\PYGZus{}CHUNKING.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Add: Chunking\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SAR\PYGZus{}ADD\PYGZus{}ABAO.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Add: ABAO\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SAR\PYGZus{}ADD\PYGZus{}RMB.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Add: RMB\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SAR\PYGZus{}ADD\PYGZus{}Rounding.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Add: Rounding\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+
+            \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Subtraction Strategies \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SAR\PYGZus{}SUB\PYGZus{}COBO.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Sub: COBO\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SAR\PYGZus{}SUB\PYGZus{}CHUNKING.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Sub: Chunking\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SAR\PYGZus{}SUB\PYGZus{}Decomposition.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Sub: Decomp\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SAR\PYGZus{}SUB\PYGZus{}Sliding.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Sub: Sliding\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SAR\PYGZus{}SUB\PYGZus{}Rounding.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Sub: Rounding\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+
+            \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Multiplication Strategies \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SMR\PYGZus{}Multiplication\PYGZus{}Coordinating\PYGZus{}Two\PYGZus{}Counts.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Mult: C2C\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SMR\PYGZus{}MULT\PYGZus{}Commutative\PYGZus{}Reasoning.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Mult: Commute\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SMR\PYGZus{}MULT\PYGZus{}DR.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Mult: Distribute\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SMR\PYGZus{}MULTIPLICATION\PYGZus{}Strategic\PYGZus{}Counting.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Mult: Strat Count\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+             \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SMR\PYGZus{}Multiplication\PYGZus{}CBO.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Mult: CBO\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+
+            \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Division Strategies \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SMR\PYGZus{}DIV\PYGZus{}Dealing\PYGZus{}By\PYGZus{}Ones.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Div: Dealing Ones\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SMR\PYGZus{}DIV\PYGZus{}UCR.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Div: Dealing Rounds\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SMR\PYGZus{}DIV\PYGZus{}Strategic\PYGZus{}Trials.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Div: Strat Trials\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SMR\PYGZus{}DIV\PYGZus{}IDP.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Div: Inv Distribute\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}SMR\PYGZus{}DIV\PYGZus{}CGOB.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Div: CGOB\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+
+            \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Other/Fundamental \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}counting.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Counting\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}AceofBases/index.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}Ace of Base\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+
+            \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Placeholder for empty grid slots if needed, or add more buttons \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+            \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}presentation.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}IMERS 2025 Presentation\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+             \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}calc\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{disabled} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}background\PYGZhy{}color: \PYGZsh{}b0b0b0; cursor: default; box\PYGZhy{}shadow: inset 1px 1px 3px rgba(0,0,0,0.2);\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+
+
+
+
+        \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}pdf\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}openPdfDocumentation()\PYGZdq{}}\PYG{p}{\PYGZgt{}}Draft paper: The Hermeneutic Calculator (PDF)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\PYG{+w}{        }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{openPdfDocumentation}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// Updated to point to combined\PYGZus{}strategies\PYGZus{}and\PYGZus{}automata.pdf in the same folder}
+\PYG{+w}{            }\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{open}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}./Hermeneutic\PYGZus{}Calculator.pdf\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}blank\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Opens in a new tab}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{body}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{html}\PYG{p}{\PYGZgt{}}
+\end{MintedVerbatim}

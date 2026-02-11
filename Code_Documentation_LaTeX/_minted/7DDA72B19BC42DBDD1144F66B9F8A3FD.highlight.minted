@@ -1,0 +1,179 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{pandas}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{pd}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{SubtractionIterativeAutomaton}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Base class for iterative subtraction strategies.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{M}\PYG{p}{,} \PYG{n}{S}\PYG{p}{,} \PYG{n}{Base}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{M} \PYG{o}{=} \PYG{n}{M} \PYG{c+c1}{\PYGZsh{} Minuend (Whole)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S} \PYG{o}{=} \PYG{n}{S} \PYG{c+c1}{\PYGZsh{} Subtrahend (Known Part)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{BaseUnit} \PYG{o}{=} \PYG{n}{Base}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}start\PYGZsq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+        \PYG{c+c1}{\PYGZsh{} Initialize registers for consistent history recording}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CurrentValue} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+        \PYG{k}{if} \PYG{n}{S} \PYG{o}{\PYGZgt{}} \PYG{n}{M}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}
+            \PYG{c+c1}{\PYGZsh{} Manually record error history as derived class registers may not be initialized yet}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}State\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Interpretation\PYGZsq{}}\PYG{p}{:} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Error: Subtrahend (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{S}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{) \PYGZgt{} Minuend (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{M}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{).\PYGZdq{}}\PYG{p}{\PYGZcb{})}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{interpretation}\PYG{p}{,} \PYG{o}{**}\PYG{n}{kwargs}\PYG{p}{):}
+        \PYG{c+c1}{\PYGZsh{} Standardize history recording}
+        \PYG{n}{record} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}State\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Interpretation\PYGZsq{}}\PYG{p}{:} \PYG{n}{interpretation}\PYG{p}{\PYGZcb{}}
+        \PYG{c+c1}{\PYGZsh{} Include core registers if they exist in the specific strategy}
+        \PYG{k}{if} \PYG{n+nb}{hasattr}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}CurrentValue\PYGZsq{}}\PYG{p}{):}
+            \PYG{n}{record}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}CV\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CurrentValue}
+        \PYG{k}{if} \PYG{n+nb}{hasattr}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Distance\PYGZsq{}}\PYG{p}{):}
+            \PYG{n}{record}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Dist\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Distance}
+        \PYG{k}{if} \PYG{n+nb}{hasattr}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}BaseCounter\PYGZsq{}}\PYG{p}{):}
+            \PYG{n}{record}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}BC\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{BaseCounter}
+        \PYG{k}{if} \PYG{n+nb}{hasattr}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}OneCounter\PYGZsq{}}\PYG{p}{):}
+            \PYG{n}{record}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}OC\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{OneCounter}
+
+        \PYG{n}{record}\PYG{o}{.}\PYG{n}{update}\PYG{p}{(}\PYG{n}{kwargs}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Add any specific overrides}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{record}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{transition}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{next\PYGZus{}state}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{n}{next\PYGZus{}state}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{run}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{while} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}\PYG{p}{]:}
+            \PYG{n}{executor} \PYG{o}{=} \PYG{n+nb}{getattr}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}execute\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{execute\PYGZus{}error}\PYG{p}{)}
+            \PYG{n}{executor}\PYG{p}{()}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}error}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{!=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Error: Entered unknown state }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}start}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{c+c1}{\PYGZsh{} Common start state}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Start.\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}init\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{display\PYGZus{}history}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZhy{}\PYGZhy{}\PYGZhy{} Subtraction History (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{M}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{) | Strategy: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history}\PYG{p}{)}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{df}\PYG{o}{.}\PYG{n}{empty}\PYG{p}{:}
+             \PYG{c+c1}{\PYGZsh{} Define desired column order and filter existing columns}
+            \PYG{n}{cols\PYGZus{}order} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}State\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Interpretation\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}CV\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Dist\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}BC\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}OC\PYGZsq{}}\PYG{p}{]}
+            \PYG{n}{cols} \PYG{o}{=} \PYG{p}{[}\PYG{n}{col} \PYG{k}{for} \PYG{n}{col} \PYG{o+ow}{in} \PYG{n}{cols\PYGZus{}order} \PYG{k}{if} \PYG{n}{col} \PYG{o+ow}{in} \PYG{n}{df}\PYG{o}{.}\PYG{n}{columns}\PYG{p}{]}
+            \PYG{n}{df} \PYG{o}{=} \PYG{n}{df}\PYG{p}{[}\PYG{n}{cols}\PYG{p}{]}\PYG{o}{.}\PYG{n}{fillna}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{df}\PYG{o}{.}\PYG{n}{to\PYGZus{}markdown}\PYG{p}{(}\PYG{n}{index}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{))}
+
+\PYG{c+c1}{\PYGZsh{} =============================================================================}
+\PYG{c+c1}{\PYGZsh{} Strategy 1: COBO (Counting On \PYGZhy{} Missing Addend)}
+\PYG{c+c1}{\PYGZsh{} =============================================================================}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{COBO\PYGZus{}MissingAddend}\PYG{p}{(}\PYG{n}{SubtractionIterativeAutomaton}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    COBO (Counting On): Start at S, count up to M iteratively. Result is distance.}
+\PYG{l+s+sd}{    Models Rita\PYGZsq{}s strategy.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{strategy\PYGZus{}name} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}COBO (Counting On \PYGZhy{} Missing Addend)\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{M}\PYG{p}{,} \PYG{n}{S}\PYG{p}{,} \PYG{n}{Base}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{):}
+        \PYG{n+nb}{super}\PYG{p}{()}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n}{M}\PYG{p}{,} \PYG{n}{S}\PYG{p}{,} \PYG{n}{Base}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Distance} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Target} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{M}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}init}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CurrentValue} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Distance} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Initialize at S (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{). Target is M (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{M}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{).\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}add\PYGZus{}bases\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}add\PYGZus{}bases}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Iteratively add bases, checking for overshoot.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{c+c1}{\PYGZsh{} Condition: Can add a base without overshooting M}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CurrentValue} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{BaseUnit} \PYG{o}{\PYGZlt{}=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Target}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CurrentValue} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{BaseUnit}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Distance} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{BaseUnit}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Count on by base (+}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{BaseUnit}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{). New Value=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CurrentValue}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+            \PYG{c+c1}{\PYGZsh{} Stay in q\PYGZus{}add\PYGZus{}bases}
+        \PYG{c+c1}{\PYGZsh{} Condition: Adding a base would overshoot}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Next base overshoots target. Switching to ones.\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}add\PYGZus{}ones\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}add\PYGZus{}ones}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Iteratively add ones until M is reached.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{c+c1}{\PYGZsh{} Condition: Not yet reached M}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CurrentValue} \PYG{o}{\PYGZlt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Target}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CurrentValue} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Distance} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Count on by one (+1). New Value=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CurrentValue}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+            \PYG{c+c1}{\PYGZsh{} Stay in q\PYGZus{}add\PYGZus{}ones}
+        \PYG{c+c1}{\PYGZsh{} Condition: Reached M}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Distance}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Target reached. Result (Distance) = }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} =============================================================================}
+\PYG{c+c1}{\PYGZsh{} Strategy 2: CBBO (Counting Back \PYGZhy{} Take Away)}
+\PYG{c+c1}{\PYGZsh{} =============================================================================}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{CBBO\PYGZus{}TakeAway}\PYG{p}{(}\PYG{n}{SubtractionIterativeAutomaton}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    CBBO (Counting Back): Start at M, subtract S iteratively. Result is final position.}
+\PYG{l+s+sd}{    Models the alternative strategy diagram.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{strategy\PYGZus{}name} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}CBBO (Counting Back \PYGZhy{} Take Away)\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{M}\PYG{p}{,} \PYG{n}{S}\PYG{p}{,} \PYG{n}{Base}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{):}
+        \PYG{n+nb}{super}\PYG{p}{()}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n}{M}\PYG{p}{,} \PYG{n}{S}\PYG{p}{,} \PYG{n}{Base}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{BaseCounter} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{OneCounter} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}init}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CurrentValue} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{M}
+        \PYG{c+c1}{\PYGZsh{} Decompose S into iterative counts}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{BaseCounter} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S} \PYG{o}{//} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{BaseUnit}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{OneCounter} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S} \PYG{o}{\PYGZpc{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{BaseUnit}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Initialize at M (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{M}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{). Decompose S (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{): }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{BaseCounter}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ bases, }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{OneCounter}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ ones.\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}sub\PYGZus{}bases\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}sub\PYGZus{}bases}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Iteratively subtract bases.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{BaseCounter} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CurrentValue} \PYG{o}{\PYGZhy{}=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{BaseUnit}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{BaseCounter} \PYG{o}{\PYGZhy{}=} \PYG{l+m+mi}{1}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Count back by base (\PYGZhy{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{BaseUnit}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{). New Value=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CurrentValue}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Bases finished. Switching to ones.\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}sub\PYGZus{}ones\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}sub\PYGZus{}ones}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Iteratively subtract ones.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{OneCounter} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CurrentValue} \PYG{o}{\PYGZhy{}=} \PYG{l+m+mi}{1}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{OneCounter} \PYG{o}{\PYGZhy{}=} \PYG{l+m+mi}{1}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Count back by one (\PYGZhy{}1). New Value=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CurrentValue}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CurrentValue}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Subtraction finished. Result (Final Position) = }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} =============================================================================}
+\PYG{c+c1}{\PYGZsh{} Testing (Example: 94 \PYGZhy{} 65)}
+\PYG{c+c1}{\PYGZsh{} =============================================================================}
+
+\PYG{n}{M\PYGZus{}test} \PYG{o}{=} \PYG{l+m+mi}{94}
+\PYG{n}{S\PYGZus{}test} \PYG{o}{=} \PYG{l+m+mi}{65}
+
+\PYG{c+c1}{\PYGZsh{} Test COBO (Rita\PYGZsq{}s actual strategy)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}=== Testing Rita\PYGZsq{}s Strategy (COBO) ===\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{cobo} \PYG{o}{=} \PYG{n}{COBO\PYGZus{}MissingAddend}\PYG{p}{(}\PYG{n}{M}\PYG{o}{=}\PYG{n}{M\PYGZus{}test}\PYG{p}{,} \PYG{n}{S}\PYG{o}{=}\PYG{n}{S\PYGZus{}test}\PYG{p}{)}
+\PYG{n}{cobo}\PYG{o}{.}\PYG{n}{run}\PYG{p}{()}
+\PYG{n}{cobo}\PYG{o}{.}\PYG{n}{display\PYGZus{}history}\PYG{p}{()}
+
+\PYG{c+c1}{\PYGZsh{} Test CBBO (The alternative strategy shown in the diagram)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{=== Testing Alternative Strategy (CBBO) ===\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{cbbo} \PYG{o}{=} \PYG{n}{CBBO\PYGZus{}TakeAway}\PYG{p}{(}\PYG{n}{M}\PYG{o}{=}\PYG{n}{M\PYGZus{}test}\PYG{p}{,} \PYG{n}{S}\PYG{o}{=}\PYG{n}{S\PYGZus{}test}\PYG{p}{)}
+\PYG{n}{cbbo}\PYG{o}{.}\PYG{n}{run}\PYG{p}{()}
+\PYG{n}{cbbo}\PYG{o}{.}\PYG{n}{display\PYGZus{}history}\PYG{p}{()}
+\end{MintedVerbatim}

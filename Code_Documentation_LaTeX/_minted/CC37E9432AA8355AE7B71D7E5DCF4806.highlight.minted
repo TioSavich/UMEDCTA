@@ -1,0 +1,274 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{fractions}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{typing}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{List}\PYG{p}{,} \PYG{n}{Tuple}\PYG{p}{,} \PYG{n}{Dict}\PYG{p}{,} \PYG{n}{Any}
+
+\PYG{c+c1}{\PYGZsh{} =============================================================================}
+\PYG{c+c1}{\PYGZsh{} I. Cognitive Material Representation (ContinuousUnit)}
+\PYG{c+c1}{\PYGZsh{} =============================================================================}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{ContinuousUnit}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Represents a continuous quantity (a \PYGZsq{}stick\PYGZsq{}) in Jason\PYGZsq{}s cognition.}
+\PYG{l+s+sd}{    It tracks not just the numerical value but the operational history}
+\PYG{l+s+sd}{    that constitutes its meaning (U = (Q, H)).}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{value}\PYG{p}{:} \PYG{n}{fractions}\PYG{o}{.}\PYG{n}{Fraction}\PYG{p}{,} \PYG{n}{history}\PYG{p}{:} \PYG{n+nb}{str} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Reference Unit\PYGZdq{}}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{value} \PYG{o}{=} \PYG{n}{value}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history} \PYG{o}{=} \PYG{n}{history}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}repr\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{c+c1}{\PYGZsh{} Display the numerical value and its constructed derivation}
+        \PYG{k}{return} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Unit(}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{value}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ derived from: \PYGZsq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZsq{})\PYGZdq{}}
+
+\PYG{c+c1}{\PYGZsh{} =============================================================================}
+\PYG{c+c1}{\PYGZsh{} II. Iterative Core: Explicitly Nested Number Sequence (ENS) Operations}
+\PYG{c+c1}{\PYGZsh{} =============================================================================}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{ENSOperations}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    The fundamental, iterative core operations derived from Jason\PYGZsq{}s ENS.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n+nd}{@staticmethod}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{partition}\PYG{p}{(}\PYG{n}{unit}\PYG{p}{:} \PYG{n}{ContinuousUnit}\PYG{p}{,} \PYG{n}{n}\PYG{p}{:} \PYG{n+nb}{int}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{List}\PYG{p}{[}\PYG{n}{ContinuousUnit}\PYG{p}{]:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        [CORE::Partitioning]}
+\PYG{l+s+sd}{        Divides a continuous unit into N equal parts.}
+\PYG{l+s+sd}{        Cognitively: Applying the structure of the number sequence (1 to N)}
+\PYG{l+s+sd}{        as a template onto the continuous material.}
+\PYG{l+s+sd}{        Returns a list representing the structured whole (the collection of parts).}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{n}{n} \PYG{o}{\PYGZlt{}=} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{k}{raise} \PYG{n+ne}{ValueError}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Partition must be a positive integer.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{new\PYGZus{}value} \PYG{o}{=} \PYG{n}{unit}\PYG{o}{.}\PYG{n}{value} \PYG{o}{/} \PYG{n}{n}
+        \PYG{c+c1}{\PYGZsh{} The history of the part reflects its origin from the parent unit}
+        \PYG{n}{new\PYGZus{}history} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}1/}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{n}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ part of (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{unit}\PYG{o}{.}\PYG{n}{history}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{)\PYGZdq{}}
+
+        \PYG{k}{return} \PYG{p}{[}\PYG{n}{ContinuousUnit}\PYG{p}{(}\PYG{n}{new\PYGZus{}value}\PYG{p}{,} \PYG{n}{new\PYGZus{}history}\PYG{p}{)} \PYG{k}{for} \PYG{n}{\PYGZus{}} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{n}\PYG{p}{)]}
+
+    \PYG{n+nd}{@staticmethod}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{disembed}\PYG{p}{(}\PYG{n}{partitioned\PYGZus{}whole}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n}{ContinuousUnit}\PYG{p}{])} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{ContinuousUnit}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        [CORE::Disembedding]}
+\PYG{l+s+sd}{        Isolates a single unit part from the partitioned whole.}
+\PYG{l+s+sd}{        Cognitively: Mentally isolating the unit fraction (1/N).}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{partitioned\PYGZus{}whole}\PYG{p}{:}
+            \PYG{k}{raise} \PYG{n+ne}{ValueError}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Cannot disembed from an empty partition.\PYGZdq{}}\PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} In equi\PYGZhy{}partitioning, any part suffices.}
+        \PYG{k}{return} \PYG{n}{partitioned\PYGZus{}whole}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+
+    \PYG{n+nd}{@staticmethod}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{iterate}\PYG{p}{(}\PYG{n}{unit}\PYG{p}{:} \PYG{n}{ContinuousUnit}\PYG{p}{,} \PYG{n}{m}\PYG{p}{:} \PYG{n+nb}{int}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{ContinuousUnit}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        [CORE::Iterating]}
+\PYG{l+s+sd}{        Repeats a unit M times.}
+\PYG{l+s+sd}{        Cognitively: Treating the unit fraction as a countable composite unit}
+\PYG{l+s+sd}{        and repeating it (Temporal Compression).}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{new\PYGZus{}value} \PYG{o}{=} \PYG{n}{unit}\PYG{o}{.}\PYG{n}{value} \PYG{o}{*} \PYG{n}{m}
+        \PYG{c+c1}{\PYGZsh{} The history reflects the iteration of the source part}
+        \PYG{n}{new\PYGZus{}history} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{m}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ iterations of [}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{unit}\PYG{o}{.}\PYG{n}{history}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{]\PYGZdq{}}
+
+        \PYG{k}{return} \PYG{n}{ContinuousUnit}\PYG{p}{(}\PYG{n}{new\PYGZus{}value}\PYG{p}{,} \PYG{n}{new\PYGZus{}history}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} =============================================================================}
+\PYG{c+c1}{\PYGZsh{} III. Strategic Shell: The Partitive Fractional Scheme (PFS)}
+\PYG{c+c1}{\PYGZsh{} =============================================================================}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{PartitiveFractionalScheme}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    [SHELL::PFS]}
+\PYG{l+s+sd}{    An automaton model of Jason\PYGZsq{}s primary scheme for constructing proper fractions.}
+\PYG{l+s+sd}{    It organizes the core ENS operations into a goal\PYGZhy{}directed sequence.}
+\PYG{l+s+sd}{    M = (Q, V, delta, q0, F)}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Q} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}start\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}partition\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}disembed\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}iterate\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{\PYGZcb{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{F} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{\PYGZcb{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}} \PYG{c+c1}{\PYGZsh{} Variables/Registers}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{trace} \PYG{o}{=} \PYG{p}{[]}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{initialize}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{whole}\PYG{p}{:} \PYG{n}{ContinuousUnit}\PYG{p}{,} \PYG{n}{numerator}\PYG{p}{:} \PYG{n+nb}{int}\PYG{p}{,} \PYG{n}{denominator}\PYG{p}{:} \PYG{n+nb}{int}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+            \PYG{l+s+s1}{\PYGZsq{}Whole\PYGZsq{}}\PYG{p}{:} \PYG{n}{whole}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}N\PYGZsq{}}\PYG{p}{:} \PYG{n}{denominator}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{:} \PYG{n}{numerator}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}PartitionedWhole\PYGZsq{}}\PYG{p}{:} \PYG{k+kc}{None}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}UnitFraction\PYGZsq{}}\PYG{p}{:} \PYG{k+kc}{None}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}Result\PYGZsq{}}\PYG{p}{:} \PYG{k+kc}{None}
+        \PYG{p}{\PYGZcb{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}start\PYGZsq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{trace} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log\PYGZus{}state}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}PFS Initialized: Find }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{numerator}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{denominator}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ of }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{whole}\PYG{o}{.}\PYG{n}{value}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{log\PYGZus{}state}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{action\PYGZus{}description}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{):}
+        \PYG{c+c1}{\PYGZsh{} Logs the state transition and action for visualizing the choreography}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{trace}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(\PYGZob{}}
+            \PYG{l+s+s1}{\PYGZsq{}State\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}Action\PYGZsq{}}\PYG{p}{:} \PYG{n}{action\PYGZus{}description}\PYG{p}{,}
+        \PYG{p}{\PYGZcb{})}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{transition}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}The transition function (delta) implemented as a state machine.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}start\PYGZsq{}}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}partition\PYGZsq{}}
+
+        \PYG{k}{elif} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}partition\PYGZsq{}}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log\PYGZus{}state}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}[State: q\PYGZus{}partition] Action: Partitioning Whole into }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}N\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ parts.\PYGZdq{}}\PYG{p}{)}
+            \PYG{c+c1}{\PYGZsh{} Action: Partition(Whole, N)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}PartitionedWhole\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{ENSOperations}\PYG{o}{.}\PYG{n}{partition}\PYG{p}{(}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Whole\PYGZsq{}}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}N\PYGZsq{}}\PYG{p}{]}
+            \PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}disembed\PYGZsq{}}
+
+        \PYG{k}{elif} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}disembed\PYGZsq{}}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{} Action: Disembed(PartitionedWhole)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}UnitFraction\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{ENSOperations}\PYG{o}{.}\PYG{n}{disembed}\PYG{p}{(}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}PartitionedWhole\PYGZsq{}}\PYG{p}{]}
+            \PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log\PYGZus{}state}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}[State: q\PYGZus{}disembed] Action: Disembedded Unit Fraction (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}UnitFraction\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{value}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{).\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}iterate\PYGZsq{}}
+
+        \PYG{k}{elif} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}iterate\PYGZsq{}}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log\PYGZus{}state}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}[State: q\PYGZus{}iterate] Action: Iterating Unit Fraction }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ times.\PYGZdq{}}\PYG{p}{)}
+            \PYG{c+c1}{\PYGZsh{} Action: Iterate(UnitFraction, M)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Result\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{ENSOperations}\PYG{o}{.}\PYG{n}{iterate}\PYG{p}{(}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}UnitFraction\PYGZsq{}}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}M\PYGZsq{}}\PYG{p}{]}
+            \PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{run}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{whole}\PYG{p}{:} \PYG{n}{ContinuousUnit}\PYG{p}{,} \PYG{n}{numerator}\PYG{p}{:} \PYG{n+nb}{int}\PYG{p}{,} \PYG{n}{denominator}\PYG{p}{:} \PYG{n+nb}{int}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{ContinuousUnit}\PYG{p}{:}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{initialize}\PYG{p}{(}\PYG{n}{whole}\PYG{p}{,} \PYG{n}{numerator}\PYG{p}{,} \PYG{n}{denominator}\PYG{p}{)}
+        \PYG{k}{while} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{F}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log\PYGZus{}state}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}PFS Complete.\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Result\PYGZsq{}}\PYG{p}{]}
+
+\PYG{c+c1}{\PYGZsh{} =============================================================================}
+\PYG{c+c1}{\PYGZsh{} IV. Strategic Shell: The Fractional Composition Scheme (FCS)}
+\PYG{c+c1}{\PYGZsh{} =============================================================================}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{FractionalCompositionScheme}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    [SHELL::FCS]}
+\PYG{l+s+sd}{    Models the scheme developed after the \PYGZdq{}metamorphic accommodation\PYGZdq{} of recursive partitioning.}
+\PYG{l+s+sd}{    This automaton demonstrates Fractal Architecture (FCS invokes PFS).}
+\PYG{l+s+sd}{    It handles tasks like \PYGZdq{}A/B of C/D of a Whole\PYGZdq{}.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Q} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}start\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}inner\PYGZus{}PFS\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accommodate\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}outer\PYGZus{}PFS\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{\PYGZcb{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{F} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{\PYGZcb{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}
+        \PYG{c+c1}{\PYGZsh{} The FCS contains the PFS as a subroutine (Fractal Elaboration)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{PFS} \PYG{o}{=} \PYG{n}{PartitiveFractionalScheme}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{trace} \PYG{o}{=} \PYG{p}{[]}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{initialize}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{whole}\PYG{p}{:} \PYG{n}{ContinuousUnit}\PYG{p}{,} \PYG{n}{outer\PYGZus{}frac}\PYG{p}{:} \PYG{n}{Tuple}\PYG{p}{[}\PYG{n+nb}{int}\PYG{p}{,} \PYG{n+nb}{int}\PYG{p}{],} \PYG{n}{inner\PYGZus{}frac}\PYG{p}{:} \PYG{n}{Tuple}\PYG{p}{[}\PYG{n+nb}{int}\PYG{p}{,} \PYG{n+nb}{int}\PYG{p}{]):}
+        \PYG{n}{A}\PYG{p}{,} \PYG{n}{B} \PYG{o}{=} \PYG{n}{outer\PYGZus{}frac}
+        \PYG{n}{C}\PYG{p}{,} \PYG{n}{D} \PYG{o}{=} \PYG{n}{inner\PYGZus{}frac}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+            \PYG{l+s+s1}{\PYGZsq{}Whole\PYGZsq{}}\PYG{p}{:} \PYG{n}{whole}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}A\PYGZsq{}}\PYG{p}{:} \PYG{n}{A}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}B\PYGZsq{}}\PYG{p}{:} \PYG{n}{B}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}C\PYGZsq{}}\PYG{p}{:} \PYG{n}{C}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}D\PYGZsq{}}\PYG{p}{:} \PYG{n}{D}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}IntermediateResult\PYGZsq{}}\PYG{p}{:} \PYG{k+kc}{None}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}FinalResult\PYGZsq{}}\PYG{p}{:} \PYG{k+kc}{None}
+        \PYG{p}{\PYGZcb{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}start\PYGZsq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{trace} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log\PYGZus{}state}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}FCS Initialized: Find }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{A}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{B}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ of }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{C}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{D}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ of }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{whole}\PYG{o}{.}\PYG{n}{value}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{log\PYGZus{}state}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{action\PYGZus{}description}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{nested\PYGZus{}trace}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{):}
+        \PYG{n}{entry} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}State\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Action\PYGZsq{}}\PYG{p}{:} \PYG{n}{action\PYGZus{}description}\PYG{p}{\PYGZcb{}}
+        \PYG{k}{if} \PYG{n}{nested\PYGZus{}trace}\PYG{p}{:}
+            \PYG{n}{entry}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}NestedTrace\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{nested\PYGZus{}trace}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{trace}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{entry}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{transition}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}start\PYGZsq{}}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}inner\PYGZus{}PFS\PYGZsq{}}
+
+        \PYG{k}{elif} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}inner\PYGZus{}PFS\PYGZsq{}}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log\PYGZus{}state}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}[State: q\PYGZus{}inner\PYGZus{}PFS] Action: Calculating inner fraction (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}C\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}D\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{).\PYGZdq{}}\PYG{p}{)}
+            \PYG{c+c1}{\PYGZsh{} Action: Invoke PFS(Whole, C/D)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}IntermediateResult\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{PFS}\PYG{o}{.}\PYG{n}{run}\PYG{p}{(}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Whole\PYGZsq{}}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}C\PYGZsq{}}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}D\PYGZsq{}}\PYG{p}{]}
+            \PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log\PYGZus{}state}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZgt{} Intermediate Result: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}IntermediateResult\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{value}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{PFS}\PYG{o}{.}\PYG{n}{trace}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accommodate\PYGZsq{}}
+
+        \PYG{k}{elif} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accommodate\PYGZsq{}}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{} CRITICAL STEP: Metamorphic Accommodation / Recursive Partitioning}
+            \PYG{c+c1}{\PYGZsh{} The output of the previous operation (IntermediateResult) is re\PYGZhy{}assimilated}
+            \PYG{c+c1}{\PYGZsh{} as the input Whole for the next operation.}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log\PYGZus{}state}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}[State: q\PYGZus{}accommodate] METAMORPHIC ACCOMMODATION: Using IntermediateResult as new Whole.\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}NewWhole\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}IntermediateResult\PYGZsq{}}\PYG{p}{]}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}outer\PYGZus{}PFS\PYGZsq{}}
+
+        \PYG{k}{elif} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}outer\PYGZus{}PFS\PYGZsq{}}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log\PYGZus{}state}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}[State: q\PYGZus{}outer\PYGZus{}PFS] Action: Calculating outer fraction (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}A\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}B\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{) on new Whole.\PYGZdq{}}\PYG{p}{)}
+            \PYG{c+c1}{\PYGZsh{} Action: Invoke PFS(NewWhole, A/B)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}FinalResult\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{PFS}\PYG{o}{.}\PYG{n}{run}\PYG{p}{(}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}NewWhole\PYGZsq{}}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}A\PYGZsq{}}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}B\PYGZsq{}}\PYG{p}{]}
+            \PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log\PYGZus{}state}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZgt{} Final Result: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}FinalResult\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{value}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{PFS}\PYG{o}{.}\PYG{n}{trace}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{run}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{whole}\PYG{p}{:} \PYG{n}{ContinuousUnit}\PYG{p}{,} \PYG{n}{outer\PYGZus{}frac}\PYG{p}{:} \PYG{n}{Tuple}\PYG{p}{[}\PYG{n+nb}{int}\PYG{p}{,} \PYG{n+nb}{int}\PYG{p}{],} \PYG{n}{inner\PYGZus{}frac}\PYG{p}{:} \PYG{n}{Tuple}\PYG{p}{[}\PYG{n+nb}{int}\PYG{p}{,} \PYG{n+nb}{int}\PYG{p}{])} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{ContinuousUnit}\PYG{p}{:}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{initialize}\PYG{p}{(}\PYG{n}{whole}\PYG{p}{,} \PYG{n}{outer\PYGZus{}frac}\PYG{p}{,} \PYG{n}{inner\PYGZus{}frac}\PYG{p}{)}
+        \PYG{k}{while} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{current\PYGZus{}state} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{F}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log\PYGZus{}state}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}FCS Complete.\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{V}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}FinalResult\PYGZsq{}}\PYG{p}{]}
+
+\PYG{c+c1}{\PYGZsh{} =============================================================================}
+\PYG{c+c1}{\PYGZsh{} V. Demonstration and Testing}
+\PYG{c+c1}{\PYGZsh{} =============================================================================}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{print\PYGZus{}trace}\PYG{p}{(}\PYG{n}{trace}\PYG{p}{,} \PYG{n}{indent}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Helper function to print the execution trace (choreography).\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{k}{for} \PYG{n}{step} \PYG{o+ow}{in} \PYG{n}{trace}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{indent}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{State: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{step}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}State\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, Action: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{step}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Action\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{l+s+s1}{\PYGZsq{}NestedTrace\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{step}\PYG{p}{:}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{indent}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{  [Begin Nested PFS Execution]\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{print\PYGZus{}trace}\PYG{p}{(}\PYG{n}{step}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}NestedTrace\PYGZsq{}}\PYG{p}{],} \PYG{n}{indent} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}    \PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{indent}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{  [End Nested PFS Execution]\PYGZdq{}}\PYG{p}{)}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{run\PYGZus{}tests}\PYG{p}{():}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}=== JASON AUTOMATON MODEL TESTING ===\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Define the initial Whole (the reference \PYGZsq{}stick\PYGZsq{})}
+    \PYG{n}{TheWhole} \PYG{o}{=} \PYG{n}{ContinuousUnit}\PYG{p}{(}\PYG{n}{fractions}\PYG{o}{.}\PYG{n}{Fraction}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{))}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} Test 1: Partitive Fractional Scheme (PFS) \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+    \PYG{c+c1}{\PYGZsh{} Task: Construct 3/7 of the stick.}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}=\PYGZdq{}}\PYG{o}{*}\PYG{l+m+mi}{60}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}TEST 1: Construct 3/7 of the Whole (PFS)\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}=\PYGZdq{}}\PYG{o}{*}\PYG{l+m+mi}{60}\PYG{p}{)}
+    \PYG{n}{PFS\PYGZus{}Automaton} \PYG{o}{=} \PYG{n}{PartitiveFractionalScheme}\PYG{p}{()}
+    \PYG{n}{result\PYGZus{}pfs} \PYG{o}{=} \PYG{n}{PFS\PYGZus{}Automaton}\PYG{o}{.}\PYG{n}{run}\PYG{p}{(}\PYG{n}{TheWhole}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{)}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Execution Trace (Cognitive Choreography):\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{print\PYGZus{}trace}\PYG{p}{(}\PYG{n}{PFS\PYGZus{}Automaton}\PYG{o}{.}\PYG{n}{trace}\PYG{p}{)}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{RESULT (PFS): }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{result\PYGZus{}pfs}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} Test 2: Fractional Composition Scheme (FCS) \PYGZam{} Recursive Partitioning \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+    \PYG{c+c1}{\PYGZsh{} Task: The pivotal novelty event: Find 3/4 of 1/4 of the stick.}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}=\PYGZdq{}}\PYG{o}{*}\PYG{l+m+mi}{60}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}TEST 2: Construct 3/4 of 1/4 of the Whole (FCS)\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Modeling Metamorphic Accommodation (Recursive Partitioning)\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}=\PYGZdq{}}\PYG{o}{*}\PYG{l+m+mi}{60}\PYG{p}{)}
+    \PYG{n}{FCS\PYGZus{}Automaton} \PYG{o}{=} \PYG{n}{FractionalCompositionScheme}\PYG{p}{()}
+    \PYG{c+c1}{\PYGZsh{} Outer fraction: 3/4, Inner fraction: 1/4}
+    \PYG{n}{result\PYGZus{}fcs} \PYG{o}{=} \PYG{n}{FCS\PYGZus{}Automaton}\PYG{o}{.}\PYG{n}{run}\PYG{p}{(}\PYG{n}{TheWhole}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{),} \PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{))}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Execution Trace (Cognitive Choreography):\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{print\PYGZus{}trace}\PYG{p}{(}\PYG{n}{FCS\PYGZus{}Automaton}\PYG{o}{.}\PYG{n}{trace}\PYG{p}{)}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{RESULT (FCS): }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{result\PYGZus{}fcs}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    \PYG{c+c1}{\PYGZsh{} This allows the code to be executed via the tool interface.}
+    \PYG{n}{run\PYGZus{}tests}\PYG{p}{()}
+\end{MintedVerbatim}

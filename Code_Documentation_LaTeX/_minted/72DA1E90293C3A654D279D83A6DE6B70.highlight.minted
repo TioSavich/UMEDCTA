@@ -1,0 +1,97 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{sys}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{os}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{typing}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Dict}
+
+\PYG{c+c1}{\PYGZsh{} Add project root to path to allow importing from src}
+\PYG{n}{sys}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{abspath}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{dirname}\PYG{p}{(}\PYG{n+nv+vm}{\PYGZus{}\PYGZus{}file\PYGZus{}\PYGZus{}}\PYG{p}{),} \PYG{l+s+s1}{\PYGZsq{}../../../..\PYGZsq{}}\PYG{p}{)))}
+
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{src.automata.BaseAutomaton}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{BaseAutomaton}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{src.analysis.MUA\PYGZus{}Metadata}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{StrategyMetadata}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{ConversionToGroupsOtherThanBasesCgobDivisionAutomaton}\PYG{p}{(}\PYG{n}{BaseAutomaton}\PYG{p}{):}
+    \PYG{n}{\PYGZus{}metadata} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+        \PYG{l+s+s2}{\PYGZdq{}Name\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Conversion to Groups Other than Bases (CGOB Division)\PYGZdq{}}\PYG{p}{,}
+        \PYG{l+s+s2}{\PYGZdq{}Description\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Leverage base decomposition of dividend T and analysis of base/divisor relation.\PYGZdq{}}\PYG{p}{,}
+        \PYG{l+s+s2}{\PYGZdq{}Cognitive Steps\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}init\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}analyze\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}processBases\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}combineR\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}processR\PYGZsq{}}\PYG{p}{],}
+        \PYG{l+s+s2}{\PYGZdq{}Examples\PYGZdq{}}\PYG{p}{:} \PYG{p}{[]}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{n+nd}{@property}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{metadata}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{StrategyMetadata}\PYG{p}{:}
+        \PYG{k}{return} \PYG{n}{StrategyMetadata}\PYG{p}{(}
+            \PYG{n}{strategy\PYGZus{}id}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}SMR\PYGZus{}DIV\PYGZus{}CGOB\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{strategy\PYGZus{}name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Conversion to Groups Other than Bases (CGOB Division)\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{description}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Leverage base decomposition of dividend T and analysis of base/divisor relation.\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{metaphors}\PYG{o}{=}\PYG{p}{[],}
+            \PYG{n}{inferences}\PYG{o}{=}\PYG{p}{[],}
+            \PYG{n}{visualization\PYGZus{}hints}\PYG{o}{=}\PYG{p}{[]}
+        \PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{inputs}\PYG{p}{:} \PYG{n}{Dict}\PYG{p}{,} \PYG{n}{Base}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{):}
+        \PYG{n+nb}{super}\PYG{p}{()}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n}{inputs}\PYG{p}{,} \PYG{n}{Base}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{o}{.}\PYG{n}{update}\PYG{p}{(\PYGZob{}}
+            \PYG{l+s+s1}{\PYGZsq{}T\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{inputs}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}T\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{42}\PYG{p}{),}  \PYG{c+c1}{\PYGZsh{} Dividend}
+            \PYG{l+s+s1}{\PYGZsq{}D\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{inputs}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}D\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{6}\PYG{p}{),}   \PYG{c+c1}{\PYGZsh{} Divisor}
+            \PYG{l+s+s1}{\PYGZsq{}Quotient\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}Remainder\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}CurrentValue\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}
+        \PYG{p}{\PYGZcb{})}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}start}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Starting division: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}T\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ ÷ }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}D\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}init\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}init}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Initialize division process.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}CurrentValue\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}T\PYGZsq{}}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Quotient\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Remainder\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Initialized: T=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}T\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, D=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}D\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}analyze\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}analyze}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Analyze the division problem.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{t} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}T\PYGZsq{}}\PYG{p}{]}
+        \PYG{n}{d} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}D\PYGZsq{}}\PYG{p}{]}
+
+        \PYG{k}{if} \PYG{n}{d} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Error: Division by zero\PYGZdq{}}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}\PYG{p}{)}
+            \PYG{k}{return}
+
+        \PYG{c+c1}{\PYGZsh{} Simple division for now}
+        \PYG{n}{quotient} \PYG{o}{=} \PYG{n}{t} \PYG{o}{//} \PYG{n}{d}
+        \PYG{n}{remainder} \PYG{o}{=} \PYG{n}{t} \PYG{o}{\PYGZpc{}} \PYG{n}{d}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Quotient\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{quotient}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Remainder\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{remainder}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Analysis complete: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{t}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ ÷ }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{d}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ = }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{quotient}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ remainder }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{remainder}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}processBases\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}processBases}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Process base components.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Processing base components\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}combineR\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}combineR}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Combine results.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Combining results\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}processR\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}processR}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Process final result.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{quotient} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Quotient\PYGZsq{}}\PYG{p}{]}
+        \PYG{n}{remainder} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Remainder\PYGZsq{}}\PYG{p}{]}
+
+        \PYG{k}{if} \PYG{n}{remainder} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result} \PYG{o}{=} \PYG{n}{quotient}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Division complete: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}T\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ ÷ }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}D\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ = }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{quotient}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ remainder }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{remainder}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Division complete with remainder: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{)}
+
+\end{MintedVerbatim}

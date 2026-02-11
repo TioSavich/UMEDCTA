@@ -1,0 +1,154 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{Parses the analysis from brandomian\PYGZus{}analysis.md and populates the metadata for each strategy.}
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{json}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{os}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{re}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{typing}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{List}\PYG{p}{,} \PYG{n}{Dict}\PYG{p}{,} \PYG{n}{Optional}
+
+\PYG{c+c1}{\PYGZsh{} Assuming the metadata structures are in a place that can be imported}
+\PYG{c+c1}{\PYGZsh{} from src.analysis.MUA\PYGZus{}Metadata import StrategyMetadata, Practice, LXRelation, MaterialInference}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{get\PYGZus{}strategy\PYGZus{}id}\PYG{p}{(}\PYG{n}{name}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generates a strategy ID from its name.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{name} \PYG{o}{=} \PYG{n}{name}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()}
+    \PYG{n}{name} \PYG{o}{=} \PYG{n}{name}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{} (addition)\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{name} \PYG{o}{=} \PYG{n}{name}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{} (division \PYGZhy{} sharing)\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{name} \PYG{o}{=} \PYG{n}{name}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{} (missing addend)\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{name} \PYG{o}{=} \PYG{n}{name}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{} (counting back)\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{name} \PYG{o}{=} \PYG{n}{name}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{} (borrowing)\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{name} \PYG{o}{=} \PYG{n}{name}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{} (multiplication)\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{name} \PYG{o}{=} \PYG{n}{name}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{} (backwards by part)\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{name} \PYG{o}{=} \PYG{n}{name}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{} (forwards from part)\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{name} \PYG{o}{=} \PYG{n}{name}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{} (backwards to part)\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n}{parts} \PYG{o}{=} \PYG{n}{re}\PYG{o}{.}\PYG{n}{findall}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}b\PYGZbs{}w\PYGZsq{}}\PYG{p}{,} \PYG{n}{name}\PYG{p}{)}
+    \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{parts}\PYG{p}{)}\PYG{o}{.}\PYG{n}{upper}\PYG{p}{()}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{parse\PYGZus{}practices}\PYG{p}{(}\PYG{n}{text}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{List}\PYG{p}{[}\PYG{n}{Dict}\PYG{p}{]:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Parses a list of practices (PP\PYGZhy{}Necessities/Sufficiencies).\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{practices} \PYG{o}{=} \PYG{p}{[]}
+    \PYG{c+c1}{\PYGZsh{} Regex to capture the ID (P1), the name in parens, and the description}
+    \PYG{n}{pattern} \PYG{o}{=} \PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}*\PYGZbs{}s+\PYGZbs{}*\PYGZbs{}*(P\PYGZbs{}d+)\PYGZbs{}s*(?:\PYGZbs{}((.*?)\PYGZbs{}))?:\PYGZbs{}*\PYGZbs{}*\PYGZbs{}s*(.*)\PYGZsq{}}
+    \PYG{n}{matches} \PYG{o}{=} \PYG{n}{re}\PYG{o}{.}\PYG{n}{findall}\PYG{p}{(}\PYG{n}{pattern}\PYG{p}{,} \PYG{n}{text}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{match} \PYG{o+ow}{in} \PYG{n}{matches}\PYG{p}{:}
+        \PYG{n}{practice\PYGZus{}id}\PYG{p}{,} \PYG{n}{name}\PYG{p}{,} \PYG{n}{description} \PYG{o}{=} \PYG{n}{match}
+        \PYG{c+c1}{\PYGZsh{} Create a more descriptive ID if a name is present}
+        \PYG{n}{full\PYGZus{}id} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}P\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{name}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{} \PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}} \PYG{k}{if} \PYG{n}{name} \PYG{k}{else} \PYG{n}{practice\PYGZus{}id}
+        \PYG{n}{practices}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(\PYGZob{}}
+            \PYG{l+s+s2}{\PYGZdq{}id\PYGZdq{}}\PYG{p}{:} \PYG{n}{full\PYGZus{}id}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:} \PYG{n}{description}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}
+        \PYG{p}{\PYGZcb{})}
+    \PYG{k}{return} \PYG{n}{practices}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{parse\PYGZus{}jules\PYGZus{}analysis}\PYG{p}{(}\PYG{n}{file\PYGZus{}path}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{List}\PYG{p}{[}\PYG{n}{Dict}\PYG{p}{]:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Parses the markdown file and extracts strategy analysis.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Parsing analysis from: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{file\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{file\PYGZus{}path}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}r\PYGZsq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+        \PYG{n}{content} \PYG{o}{=} \PYG{n}{f}\PYG{o}{.}\PYG{n}{read}\PYG{p}{()}
+
+    \PYG{n}{strategy\PYGZus{}metadata\PYGZus{}list} \PYG{o}{=} \PYG{p}{[]}
+
+    \PYG{c+c1}{\PYGZsh{} Split the document into sections for each strategy}
+    \PYG{n}{strategy\PYGZus{}sections} \PYG{o}{=} \PYG{n}{re}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Part A: Meaning\PYGZhy{}Use Analysis of \PYGZdq{}(.*?)\PYGZdq{}\PYGZsq{}}\PYG{p}{,} \PYG{n}{content}\PYG{p}{)}
+
+    \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}sections}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{2}\PYG{p}{:}
+        \PYG{k}{return} \PYG{p}{[]}
+
+    \PYG{c+c1}{\PYGZsh{} The first element is anything before the first strategy, so we skip it.}
+    \PYG{c+c1}{\PYGZsh{} The sections come in pairs: (strategy\PYGZus{}name, strategy\PYGZus{}content)}
+    \PYG{n}{it} \PYG{o}{=} \PYG{n+nb}{iter}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}sections}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{:])}
+    \PYG{k}{for} \PYG{n}{name}\PYG{p}{,} \PYG{n}{section} \PYG{o+ow}{in} \PYG{n+nb}{zip}\PYG{p}{(}\PYG{n}{it}\PYG{p}{,} \PYG{n}{it}\PYG{p}{):}
+        \PYG{n}{strategy\PYGZus{}name} \PYG{o}{=} \PYG{n}{name}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}
+        \PYG{n}{strategy\PYGZus{}id} \PYG{o}{=} \PYG{n}{get\PYGZus{}strategy\PYGZus{}id}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}name}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Extract Deployed Vocabulary from Material Inferences}
+        \PYG{n}{deployed\PYGZus{}vocabulary} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{inference\PYGZus{}match} \PYG{o}{=} \PYG{n}{re}\PYG{o}{.}\PYG{n}{search}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 1\PYGZbs{}. Central Material Inferences\PYGZbs{}s*\PYGZbs{}*\PYGZbs{}s*(.*?)\PYGZbs{}s*\PYGZbs{}*\PYGZsq{}}\PYG{p}{,} \PYG{n}{section}\PYG{p}{,} \PYG{n}{re}\PYG{o}{.}\PYG{n}{DOTALL}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{inference\PYGZus{}match}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{} A simple heuristic: take the first sentence\PYGZsq{}s core concept.}
+            \PYG{n}{first\PYGZus{}sentence} \PYG{o}{=} \PYG{n}{inference\PYGZus{}match}\PYG{o}{.}\PYG{n}{group}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.\PYGZsq{}}\PYG{p}{)[}\PYG{l+m+mi}{0}\PYG{p}{]}
+            \PYG{c+c1}{\PYGZsh{} This is a rough heuristic and could be improved}
+            \PYG{k}{if} \PYG{l+s+s2}{\PYGZdq{}principle of\PYGZdq{}} \PYG{o+ow}{in} \PYG{n}{first\PYGZus{}sentence}\PYG{p}{:}
+                \PYG{n}{deployed\PYGZus{}vocabulary} \PYG{o}{=} \PYG{n}{first\PYGZus{}sentence}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}principle of\PYGZdq{}}\PYG{p}{)[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}
+            \PYG{k}{elif} \PYG{l+s+s2}{\PYGZdq{}embodies the meaning of\PYGZdq{}} \PYG{o+ow}{in} \PYG{n}{first\PYGZus{}sentence}\PYG{p}{:}
+                 \PYG{n}{deployed\PYGZus{}vocabulary} \PYG{o}{=} \PYG{n}{first\PYGZus{}sentence}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}embodies the meaning of\PYGZdq{}}\PYG{p}{)[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}
+            \PYG{k}{elif} \PYG{l+s+s2}{\PYGZdq{}enactment of the\PYGZdq{}} \PYG{o+ow}{in} \PYG{n}{first\PYGZus{}sentence}\PYG{p}{:}
+                \PYG{n}{deployed\PYGZus{}vocabulary} \PYG{o}{=} \PYG{n}{first\PYGZus{}sentence}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}enactment of the\PYGZdq{}}\PYG{p}{)[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}
+
+        \PYG{c+c1}{\PYGZsh{} Extract PP\PYGZhy{}Necessities}
+        \PYG{n}{pp\PYGZus{}necessities} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n}{necessities\PYGZus{}match} \PYG{o}{=} \PYG{n}{re}\PYG{o}{.}\PYG{n}{search}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}*\PYGZbs{}*PP\PYGZhy{}Necessities \PYGZbs{}(Prerequisite Practices\PYGZbs{}):\PYGZbs{}*\PYGZbs{}*(.*?)\PYGZbs{}*\PYGZbs{}*PP\PYGZhy{}Sufficiencies\PYGZsq{}}\PYG{p}{,} \PYG{n}{section}\PYG{p}{,} \PYG{n}{re}\PYG{o}{.}\PYG{n}{DOTALL}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{necessities\PYGZus{}match}\PYG{p}{:}
+            \PYG{n}{pp\PYGZus{}necessities} \PYG{o}{=} \PYG{n}{parse\PYGZus{}practices}\PYG{p}{(}\PYG{n}{necessities\PYGZus{}match}\PYG{o}{.}\PYG{n}{group}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{))}
+
+        \PYG{c+c1}{\PYGZsh{} Extract PP\PYGZhy{}Sufficiencies}
+        \PYG{n}{pp\PYGZus{}sufficiencies} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n}{sufficiencies\PYGZus{}match} \PYG{o}{=} \PYG{n}{re}\PYG{o}{.}\PYG{n}{search}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}*\PYGZbs{}*PP\PYGZhy{}Sufficiencies \PYGZbs{}(Practices Sufficient to Deploy\PYGZbs{}):\PYGZbs{}*\PYGZbs{}*(.*?)(?:\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} 3|```mermaid)\PYGZsq{}}\PYG{p}{,} \PYG{n}{section}\PYG{p}{,} \PYG{n}{re}\PYG{o}{.}\PYG{n}{DOTALL}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{sufficiencies\PYGZus{}match}\PYG{p}{:}
+            \PYG{n}{pp\PYGZus{}sufficiencies} \PYG{o}{=} \PYG{n}{parse\PYGZus{}practices}\PYG{p}{(}\PYG{n}{sufficiencies\PYGZus{}match}\PYG{o}{.}\PYG{n}{group}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{))}
+
+        \PYG{c+c1}{\PYGZsh{} For now, LX relations are manually defined as they require interpretation}
+        \PYG{n}{lx\PYGZus{}relations} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{k}{if} \PYG{l+s+s2}{\PYGZdq{}Rearranging to Make Bases\PYGZdq{}} \PYG{o+ow}{in} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{:}
+             \PYG{n}{lx\PYGZus{}relations}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(\PYGZob{}}
+                    \PYG{l+s+s2}{\PYGZdq{}elaborates\PYGZus{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}CO\PYGZdq{}}\PYG{p}{,} \PYG{c+c1}{\PYGZsh{} Counting On}
+                    \PYG{l+s+s2}{\PYGZdq{}implicit\PYGZus{}practice\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Implicitly bridging 10 when counting.\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}explicit\PYGZus{}principle\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Associativity of addition can be used for strategic advantage.\PYGZdq{}}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}explanation\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}RMB makes the associative property explicit to form convenient groups, while Counting On just implicitly relies on number system structure.\PYGZdq{}}
+                \PYG{p}{\PYGZcb{})}
+
+        \PYG{n}{strategy\PYGZus{}metadata} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+            \PYG{l+s+s2}{\PYGZdq{}strategy\PYGZus{}id\PYGZdq{}}\PYG{p}{:} \PYG{n}{strategy\PYGZus{}id}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}strategy\PYGZus{}name\PYGZdq{}}\PYG{p}{:} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}deployed\PYGZus{}vocabulary\PYGZdq{}}\PYG{p}{:} \PYG{n}{deployed\PYGZus{}vocabulary}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}pp\PYGZus{}necessities\PYGZdq{}}\PYG{p}{:} \PYG{n}{pp\PYGZus{}necessities}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}pp\PYGZus{}sufficiencies\PYGZus{}alg\PYGZus{}elaboration\PYGZdq{}}\PYG{p}{:} \PYG{n}{pp\PYGZus{}sufficiencies}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}lx\PYGZus{}relations\PYGZdq{}}\PYG{p}{:} \PYG{n}{lx\PYGZus{}relations}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}inferences\PYGZdq{}}\PYG{p}{:} \PYG{p}{[],} \PYG{c+c1}{\PYGZsh{} Placeholder}
+            \PYG{l+s+s2}{\PYGZdq{}metaphors\PYGZdq{}}\PYG{p}{:} \PYG{p}{[],} \PYG{c+c1}{\PYGZsh{} Placeholder}
+            \PYG{l+s+s2}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,} \PYG{c+c1}{\PYGZsh{} Placeholder}
+            \PYG{l+s+s2}{\PYGZdq{}visualization\PYGZus{}hints\PYGZdq{}}\PYG{p}{:} \PYG{p}{[]} \PYG{c+c1}{\PYGZsh{} Placeholder}
+        \PYG{p}{\PYGZcb{}}
+        \PYG{n}{strategy\PYGZus{}metadata\PYGZus{}list}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}metadata}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{n}{strategy\PYGZus{}metadata\PYGZus{}list}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{():}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Main function to run the parsing and output the JSON data.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{c+c1}{\PYGZsh{} Get the directory where the script is located}
+    \PYG{n}{script\PYGZus{}dir} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{dirname}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{abspath}\PYG{p}{(}\PYG{n+nv+vm}{\PYGZus{}\PYGZus{}file\PYGZus{}\PYGZus{}}\PYG{p}{))}
+    \PYG{c+c1}{\PYGZsh{} Go up one level to the project root}
+    \PYG{n}{project\PYGZus{}root} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{dirname}\PYG{p}{(}\PYG{n}{script\PYGZus{}dir}\PYG{p}{)}
+
+    \PYG{n}{analysis\PYGZus{}file} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{project\PYGZus{}root}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}brandomian\PYGZus{}analysis.md\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{output\PYGZus{}dir} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{project\PYGZus{}root}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}data\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{output\PYGZus{}file} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{output\PYGZus{}dir}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}strategy\PYGZus{}metadata.json\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{exists}\PYG{p}{(}\PYG{n}{analysis\PYGZus{}file}\PYG{p}{):}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Error: Analysis file not found at \PYGZsq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{analysis\PYGZus{}file}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZsq{}.\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{return}
+
+    \PYG{c+c1}{\PYGZsh{} Create data directory if it doesn\PYGZsq{}t exist}
+    \PYG{n}{os}\PYG{o}{.}\PYG{n}{makedirs}\PYG{p}{(}\PYG{n}{output\PYGZus{}dir}\PYG{p}{,} \PYG{n}{exist\PYGZus{}ok}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Parse the analysis}
+    \PYG{n}{metadata} \PYG{o}{=} \PYG{n}{parse\PYGZus{}jules\PYGZus{}analysis}\PYG{p}{(}\PYG{n}{analysis\PYGZus{}file}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Write the output to a JSON file}
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{output\PYGZus{}file}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}w\PYGZsq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+        \PYG{n}{json}\PYG{o}{.}\PYG{n}{dump}\PYG{p}{(}\PYG{n}{metadata}\PYG{p}{,} \PYG{n}{f}\PYG{p}{,} \PYG{n}{indent}\PYG{o}{=}\PYG{l+m+mi}{4}\PYG{p}{)}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Successfully generated strategy metadata at: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{output\PYGZus{}file}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZsq{}}\PYG{p}{:}
+    \PYG{n}{main}\PYG{p}{()}
+
+\end{MintedVerbatim}

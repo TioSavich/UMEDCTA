@@ -1,0 +1,387 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{g+gh}{\PYGZsh{} UMEDCTA Supplementary Code Documentation}
+
+This document provides a comprehensive guide to the computational implementations supporting \PYG{g+ge}{*Understanding Mathematics as an Emancipatory Discipline: A Critical Theory Approach*}.
+
+\PYG{g+gs}{**All code is accessible at:**} https://tiosavich.github.io/UMEDCTA/
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Table of Contents}
+
+\PYG{k}{1.} [\PYG{n+nt}{The Hermeneutic Calculator (Prolog Implementation)}](\PYG{n+na}{\PYGZsh{}1\PYGZhy{}the\PYGZhy{}hermeneutic\PYGZhy{}calculator\PYGZhy{}prolog\PYGZhy{}implementation})
+\PYG{k}{2.} [\PYG{n+nt}{LK\PYGZus{}RB\PYGZus{}Synthesis: Algorithmic Elaboration Discovery}](\PYG{n+na}{\PYGZsh{}2\PYGZhy{}lk\PYGZus{}rb\PYGZus{}synthesis\PYGZhy{}algorithmic\PYGZhy{}elaboration\PYGZhy{}discovery})
+\PYG{k}{3.} [\PYG{n+nt}{Interactive Web Interfaces}](\PYG{n+na}{\PYGZsh{}3\PYGZhy{}interactive\PYGZhy{}web\PYGZhy{}interfaces})
+\PYG{k}{4.} [\PYG{n+nt}{Philosophical Teaching Modules}](\PYG{n+na}{\PYGZsh{}4\PYGZhy{}philosophical\PYGZhy{}teaching\PYGZhy{}modules})
+\PYG{k}{5.} [\PYG{n+nt}{How to Cite These Materials}](\PYG{n+na}{\PYGZsh{}5\PYGZhy{}how\PYGZhy{}to\PYGZhy{}cite\PYGZhy{}these\PYGZhy{}materials})
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} 1. The Hermeneutic Calculator (Prolog Implementation)}
+
+\PYG{g+gs}{**URL:**} https://tiosavich.github.io/UMEDCTA/Calculator/Prolog/
+
+\PYG{g+gs}{**Full README:**} https://tiosavich.github.io/UMEDCTA/Calculator/Prolog/readme.md
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} What It Does}
+
+The Hermeneutic Calculator (HC) is a formal system implemented in SWI\PYGZhy{}Prolog that models children\PYGZsq{}s arithmetic strategies as computational automata. It serves three primary functions:
+
+\PYG{k}{1.} \PYG{g+gs}{**Formalizes Student\PYGZhy{}Invented Strategies**}: Implements 17+ strategies from CGI (Cognitively Guided Instruction) research, preserving the cognitive phenomenology of how students actually solve problems
+\PYG{k}{2.} \PYG{g+gs}{**Implements Brandomian Incompatibility Semantics**}: The first computational implementation of Robert Brandom\PYGZsq{}s logic of material inference
+\PYG{k}{3.} \PYG{g+gs}{**Models Crisis\PYGZhy{}Driven Learning**}: Implements a computational version of Piagetian equilibration and Hegelian determinate negation through the Observe\PYGZhy{}Reorganize\PYGZhy{}Reflect (ORR) cycle
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Core Architecture}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} FSM Engine Architecture}
+\PYG{g+gs}{**Files:**} \PYG{l+s+sb}{`fsm\PYGZus{}engine.pl`}, \PYG{l+s+sb}{`grounded\PYGZus{}arithmetic.pl`}, \PYG{l+s+sb}{`grounded\PYGZus{}utils.pl`}
+
+A unified finite state machine engine that standardizes all student strategy execution, providing:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Consistent modal logic integration (\PYG{l+s+sb}{`s/1`}, \PYG{l+s+sb}{`comp\PYGZus{}nec/1`}, \PYG{l+s+sb}{`exp\PYGZus{}poss/1`} operators)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Cognitive cost tracking for every operation
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Grounded arithmetic foundation (numbers as recollection structures, not abstract objects)
+
+\PYG{g+gs}{**Theoretical Significance:**} The FSM engine demonstrates that informal student thinking has rigorous formal structure. The modal operators connect computational steps to Brandomian incompatibility semantics.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} The ORR Cycle (Observe\PYGZhy{}Reorganize\PYGZhy{}Reflect)}
+\PYG{g+gs}{**Files:**} \PYG{l+s+sb}{`execution\PYGZus{}handler.pl`}, \PYG{l+s+sb}{`meta\PYGZus{}interpreter.pl`}, \PYG{l+s+sb}{`reflective\PYGZus{}monitor.pl`}, \PYG{l+s+sb}{`reorganization\PYGZus{}engine.pl`}
+
+The system\PYGZsq{}s learning capability, modeling Piagetian cognitive development:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Observe**}: Meta\PYGZhy{}interpreter produces execution traces, making reasoning observable to itself
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Reflect**}: Analyzes traces for \PYGZdq{}disequilibrium\PYGZdq{} (goal failures, contradictions)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Reorganize**}: Modifies its own knowledge base to resolve conflicts
+
+\PYG{g+gs}{**Theoretical Significance:**} This is a computational model of determinate negation—the system recognizes its own limits and transcends them through self\PYGZhy{}modification.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Incompatibility Semantics}
+\PYG{g+gs}{**File:**} \PYG{l+s+sb}{`incompatibility\PYGZus{}semantics.pl`}
+
+Implements Brandom\PYGZsq{}s logic where meaning is defined by material incompatibility rather than truth tables. For example, \PYGZdq{}square\PYGZdq{} is incompatible with \PYGZdq{}circular\PYGZdq{}—this incompatibility \PYG{g+ge}{*constitutes*} the meaning of \PYGZdq{}square.\PYGZdq{}
+
+\PYG{g+gs}{**Theoretical Significance:**} Formalizes the claim that mathematical concepts are defined by what they rule out, not by reference to abstract objects.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Student Strategy Models}
+\PYG{g+gs}{**Files:**} \PYG{l+s+sb}{`sar\PYGZus{}*.pl`} (addition/subtraction), \PYG{l+s+sb}{`smr\PYGZus{}*.pl`} (multiplication/division)
+
+17+ models of actual student strategies, all unified under the FSM engine. Examples:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`sar\PYGZus{}add\PYGZus{}cobo.pl`}: Counting On by Bases and Ones
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`sar\PYGZus{}sub\PYGZus{}chunking\PYGZus{}a.pl`}: Chunking subtraction strategy
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`smr\PYGZus{}mult\PYGZus{}c2c.pl`}: Coordinating Two Counts for multiplication
+
+\PYG{g+gs}{**Theoretical Significance:**} Each strategy is a formal proof that children\PYGZsq{}s \PYGZdq{}informal\PYGZdq{} mathematical thinking has rigorous logical structure.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Web Interface}
+
+\PYG{g+gs}{**URL:**} https://tiosavich.github.io/UMEDCTA/Calculator/index.html
+
+\PYG{g+gs}{**Startup:**} Run \PYG{l+s+sb}{`./start\PYGZus{}system.sh`} to launch local version
+
+The web interface allows teachers and researchers to:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Explore individual student strategies interactively
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }See step\PYGZhy{}by\PYGZhy{}step visualizations of arithmetic processes
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Understand the cognitive structure behind student solutions
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Grounded Fractional Arithmetic System}
+
+\PYG{g+gs}{**Files:**} \PYG{l+s+sb}{`jason.pl`}, \PYG{l+s+sb}{`composition\PYGZus{}engine.pl`}, \PYG{l+s+sb}{`fraction\PYGZus{}semantics.pl`}, \PYG{l+s+sb}{`grounded\PYGZus{}ens\PYGZus{}operations.pl`}, \PYG{l+s+sb}{`normalization.pl`}
+
+A comprehensive implementation of Jason\PYGZsq{}s partitive fractional schemes using \PYG{g+gs}{**nested unit representation**} instead of rational numbers. This models how students actually think about fractions (as parts\PYGZhy{}of\PYGZhy{}wholes) rather than as ratios.
+
+\PYG{g+gs}{**Theoretical Significance:**} Demonstrates that even advanced concepts like fractions can be grounded in embodied cognitive processes, supporting the manuscript\PYGZsq{}s anti\PYGZhy{}Platonist stance.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Critical Qualifications}
+
+\PYG{g+gs}{**What the HC Does:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Provides a rigorous formalization showing how AI collaboration could be structured
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Models embodied cognitive strategies with crisis\PYGZhy{}driven learning
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Demonstrates that student thinking has formal logical structure
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Proves (via Gödel) that any such formalization is necessarily incomplete
+
+\PYG{g+gs}{**What the HC Does NOT Do:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Does not implement machine consciousness or self\PYGZhy{}awareness
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Cannot make genuine autonomous decisions about its foundational norms
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Does not participate in Hegelian \PYG{g+ge}{*Geist*} as a self\PYGZhy{}conscious agent
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Models the structure of mathematical consciousness without instantiating it
+
+\PYG{g+gs}{**Analogy:**} A wind tunnel models flight dynamics but does not fly. The HC models mathematical consciousness but is not conscious.
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} 2. LK\PYGZus{}RB\PYGZus{}Synthesis: Algorithmic Elaboration Discovery}
+
+\PYG{g+gs}{**URL:**} https://tiosavich.github.io/UMEDCTA/Calculator/LK\PYGZus{}RB\PYGZus{}Synthesis/
+
+\PYG{g+gs}{**Full README:**} https://tiosavich.github.io/UMEDCTA/Calculator/LK\PYGZus{}RB\PYGZus{}Synthesis/README.md
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} What It Does}
+
+The LK\PYGZus{}RB\PYGZus{}Synthesis system automatically discovers \PYG{g+gs}{**algorithmic elaborations**} between student arithmetic strategies. It analyzes Python automaton implementations to identify shared computational patterns and generate Meaning\PYGZhy{}Use Analysis (MUA) reports in the framework of Robert Brandom.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Core Functions}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Automated Pattern Discovery (AST Analysis)}
+\PYG{g+gs}{**File:**} \PYG{l+s+sb}{`mud\PYGZus{}generator.py`}
+
+Uses Abstract Syntax Tree parsing to identify computational patterns:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**base\PYGZus{}decomposition**}: Breaking numbers into components (\PYG{l+s+sb}{`//`} and \PYG{l+s+sb}{`\PYGZpc{}`} operations)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**incremental\PYGZus{}counting**}: State\PYGZhy{}based counting loops
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**iterative\PYGZus{}arithmetic**}: Repeated addition/subtraction
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**value\PYGZus{}adjustment**}: Target value calculations
+
+\PYG{g+gs}{**Theoretical Significance:**} Reveals the implicit computational structure that students deploy when solving arithmetic problems, making explicit the \PYGZdq{}practices\PYGZdq{} that are \PYGZdq{}sufficient\PYGZdq{} for deploying mathematical \PYGZdq{}vocabulary\PYGZdq{} (Brandom\PYGZsq{}s PV\PYGZhy{}sufficiency).
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Algorithmic Elaboration Detection}
+
+Automatically discovers how strategies build upon each other. For example:
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{ADD\PYGZus{}Counting → ADD\PYGZus{}COBO → ADD\PYGZus{}Chunking}
+\PYG{l+s+sb}{    (via incremental counting pattern)}
+
+\PYG{l+s+sb}{ADD\PYGZus{}Rounding → ADD\PYGZus{}RMB → ADD\PYGZus{}COBO}
+\PYG{l+s+sb}{    (via base decomposition pattern)}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Theoretical Significance:**} Implements Brandom\PYGZsq{}s concept of \PYGZdq{}algorithmic elaboration,\PYGZdq{} where complex practices are systematically built from simpler prerequisite practices.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Rich Metadata Extraction}
+
+Extracts documentation from automata including:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Embodied Metaphors**} (Lakoff \PYGZam{} Núñez): Source/target domains and entailments
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Material Inferences**} (Brandom): Premises, conclusions, prerequisites
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Visualization Hints**}: Suggested cognitive representations
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Deployed Vocabulary**}: Key conceptual terms
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Brandomian MUA Reports}
+\PYG{g+gs}{**File:**} \PYG{l+s+sb}{`mua\PYGZus{}report\PYGZus{}generator.py`}
+
+Generates detailed Meaning\PYGZhy{}Use Analysis reports:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**PV\PYGZhy{}Sufficiency**}: What practices are sufficient to deploy vocabulary?
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**PP\PYGZhy{}Sufficiency**}: What practices are sufficient for other practices?
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**VP\PYGZhy{}Sufficiency**}: What vocabulary is sufficient for practices?
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**LX Relations**}: Elaborated\PYGZhy{}Explicating relationships
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Pragmatic Metavocabulary**}: Analysis of how weaker vocabularies bootstrap stronger ones
+
+\PYG{g+gs}{**Example Output:**} https://tiosavich.github.io/UMEDCTA/Calculator/LK\PYGZus{}RB\PYGZus{}Synthesis/output/mua\PYGZus{}full\PYGZus{}report.md
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Usage}
+
+\PYG{l+s+sb}{```bash}
+\PYG{c+c1}{\PYGZsh{} Run complete analysis}
+python3\PYG{+w}{ }main.py\PYG{+w}{ }analyze
+
+\PYG{c+c1}{\PYGZsh{} List all strategies}
+python3\PYG{+w}{ }main.py\PYG{+w}{ }list
+
+\PYG{c+c1}{\PYGZsh{} Generate report for specific strategy}
+python3\PYG{+w}{ }main.py\PYG{+w}{ }report\PYG{+w}{ }\PYGZhy{}\PYGZhy{}strategy\PYG{+w}{ }ADD\PYGZus{}COBO
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Theoretical Significance}
+
+The LK\PYGZus{}RB\PYGZus{}Synthesis system provides computational evidence for the manuscript\PYGZsq{}s claim that mathematical understanding develops through \PYG{g+gs}{**pragmatic expressive bootstrapping**}—the process by which simpler practices and vocabularies serve as the metavocabulary for articulating more complex mathematical concepts.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Limitations}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Does not generate visual MUD diagrams (text reports only)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Does not implement full Brandomian deontic scorekeeping
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Does not model Lakoff\PYGZsq{}s conceptual metaphor mappings formally
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Analysis reveals structure but verification of philosophical claims requires human judgment
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} 3. Interactive Web Interfaces}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} The Calculator (Main Interface)}
+
+\PYG{g+gs}{**URL:**} https://tiosavich.github.io/UMEDCTA/Calculator/index.html
+
+\PYG{g+gs}{**What It Does:**} Interactive web interface for exploring student arithmetic strategies. Features:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Buttons for each strategy (COBO, Chunking, RMB, etc.)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Real\PYGZhy{}time SVG visualizations of number lines and operations
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Step\PYGZhy{}by\PYGZhy{}step textual explanations
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Links to detailed PDF documentation for each strategy
+
+\PYG{g+gs}{**Theoretical Significance:**} Allows teachers to develop what Habermas calls \PYGZdq{}practical knowledge\PYGZdq{}—understanding student thinking through interactive engagement rather than abstract theory.
+
+\PYG{g+gs}{**Styling:**} https://tiosavich.github.io/UMEDCTA/Calculator/strategy\PYGZus{}styles.css
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Ace of Bases}
+
+\PYG{g+gs}{**URL:**} https://tiosavich.github.io/UMEDCTA/Calculator/AceofBases/index.html
+
+\PYG{g+gs}{**What It Does:**} Interactive canvas\PYGZhy{}based exploration of place value and number bases. Users:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Drag to select cubes representing a grouping unit (base 2\PYGZhy{}15)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Compose and decompose quantities
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }See base conversion in real\PYGZhy{}time
+
+\PYG{g+gs}{**Theoretical Significance:**} Demonstrates that place value is not a \PYGZdq{}fact\PYGZdq{} to memorize but a \PYG{g+gs}{**constructed**} understanding—users literally construct different base systems through embodied interaction with visual objects.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} More Zeeman: Catastrophe Machine}
+
+\PYG{g+gs}{**URL:**} https://tiosavich.github.io/UMEDCTA/More\PYGZus{}Zeeman/index\PYGZus{}unified.html
+
+\PYG{g+gs}{**What It Does:**} Interactive visualization of the Zeeman Catastrophe Machine coupled with:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**The Thinker (Zeeman Machine)**}: Draggable control point affecting elastic bands, demonstrating catastrophe theory (sudden jumps in state due to smooth changes in parameters)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**The Memory (More Machine)**}: Matrix that grows via Cantorian diagonalization after each catastrophe
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**The Sound of Time (Acoustic Metaphor)**}: Visual representation of air compression waves synchronized with the wheel\PYGZsq{}s angular velocity
+
+\PYG{g+gs}{**Theoretical Significance:**} Embodies three key manuscript themes:
+\PYG{k}{1.} \PYG{g+gs}{**Catastrophe as consciousness**}: Only discontinuous \PYGZdq{}memorable\PYGZdq{} events (catastrophes) trigger memory/matrix growth
+\PYG{k}{2.} \PYG{g+gs}{**Diagonalization as self\PYGZhy{}transcendence**}: The More Machine generates elements provably not in any finite list (Cantor\PYGZsq{}s proof)
+\PYG{k}{3.} \PYG{g+gs}{**The sound of time**}: Angular velocity (change) creates \PYGZdq{}sound\PYGZdq{} (phenomenological experience of temporality)
+
+\PYG{g+gs}{**Technical Features:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Proper Hooke\PYGZsq{}s Law physics with gradient descent
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }User\PYGZhy{}adjustable spring parameters (stiffness, natural length, time speed)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Hysteresis (system \PYGZdq{}remembers\PYGZdq{} its current state until forced to jump)
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} 4. Philosophical Teaching Modules}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Inferential Strength (Brandom Module)}
+
+\PYG{g+gs}{**URL:**} https://tiosavich.github.io/UMEDCTA/Quadrilateral\PYGZus{}Substitution/inferential\PYGZus{}strength.html
+
+\PYG{g+gs}{**What It Does:**} Interactive 7\PYGZhy{}module teaching sequence on Robert Brandom\PYGZsq{}s argument for why singular terms must have symmetric substitution significance. Covers:
+
+\PYG{k}{1.} \PYG{g+gs}{**Module 1**}: Meaning as inferential role (Square ⇒ Rectangle)
+\PYG{k}{2.} \PYG{g+gs}{**Module 2**}: Incompatibility and inferential strength (interactive constraint relaxation)
+\PYG{k}{3.} \PYG{g+gs}{**Module 3**}: Substitution roles (substituted\PYGZhy{}for vs. frame)
+\PYG{k}{4.} \PYG{g+gs}{**Module 4**}: Polarity inversion (how logical contexts flip inferential relationships)
+\PYG{k}{5.} \PYG{g+gs}{**Module 5**}: The argument for symmetric terms (why \PYGZdq{}SquareTerm ⇒ RectangleTerm\PYGZdq{} leads to contradiction)
+\PYG{k}{6.} \PYG{g+gs}{**Module 6**}: Matrix of substitutional possibilities (ruling out three of four options)
+\PYG{k}{7.} \PYG{g+gs}{**Module 7**}: Conclusion and expressive deduction
+
+\PYG{g+gs}{**Theoretical Significance:**} Makes Brandom\PYGZsq{}s highly technical argument from \PYG{g+ge}{*Articulating Reasons*} Chapter 4 accessible through interactive exploration. Demonstrates that the structure of language (singular terms vs. predicates) is not arbitrary but required for logical expressiveness.
+
+\PYG{g+gs}{**Technical Features:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Live shape filtering in Module 2 (shapes transform as users relax constraints)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Polarity inversion visualization in Module 4 (sliders showing strength relationships)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Substitution animation in Module 5 (visual demonstration of the key argument)
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} 5. How to Cite These Materials}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} General Citation}
+
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{Savich, T. (2025). UMEDCTA Supplementary Materials: Computational}
+\PYG{l+s+sb}{Implementations for Understanding Mathematics as an Emancipatory}
+\PYG{l+s+sb}{Discipline. https://tiosavich.github.io/UMEDCTA/}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Specific Components}
+
+\PYG{g+gs}{**For the Hermeneutic Calculator (Prolog):**}
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{Savich, T. (2025). The Hermeneutic Calculator: A Prolog Implementation}
+\PYG{l+s+sb}{of Student Arithmetic Strategies with Incompatibility Semantics.}
+\PYG{l+s+sb}{https://tiosavich.github.io/UMEDCTA/Calculator/Prolog/}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**For LK\PYGZus{}RB\PYGZus{}Synthesis:**}
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{Savich, T. (2025). LK\PYGZus{}RB\PYGZus{}Synthesis: Automated Algorithmic Elaboration}
+\PYG{l+s+sb}{Discovery for Student Arithmetic Strategies.}
+\PYG{l+s+sb}{https://tiosavich.github.io/UMEDCTA/Calculator/LK\PYGZus{}RB\PYGZus{}Synthesis/}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**For Interactive Web Interfaces:**}
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{Savich, T. (2025). Interactive Web Interfaces for Student Arithmetic}
+\PYG{l+s+sb}{Strategies. https://tiosavich.github.io/UMEDCTA/Calculator/index.html}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**For Philosophical Teaching Modules:**}
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{Savich, T. (2025). Inferential Strength: An Interactive Guide to}
+\PYG{l+s+sb}{Brandom\PYGZsq{}s Argument for Singular Terms.}
+\PYG{l+s+sb}{https://tiosavich.github.io/UMEDCTA/Quadrilateral\PYGZus{}Substitution/inferential\PYGZus{}strength.html}
+\PYG{l+s+sb}{```}
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Coherence with Manuscript Claims}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Critical Alignment Checklist}
+
+All supplementary materials must cohere with the manuscript\PYGZsq{}s core philosophical commitments:
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} ✅ **Autoethnographic Method**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }HC born from author\PYGZsq{}s memory of teaching
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Formalizes actual children\PYGZsq{}s reasoning (not idealized algorithms)
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} ✅ **Critical Stance**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Values error as \PYGZdq{}source of truth\PYGZdq{} (ORR cycle learns from failure)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Respects subjective student strategies over formal correctness
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} ✅ **Hegelian Dialectic**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }ORR cycle implements determinate negation
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }System recognizes its limits and transcends them
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYGZdq{}Built to break\PYGZdq{} philosophy in fragile formalizations
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} ✅ **Brandomian Inferentialism**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Incompatibility semantics implemented computationally
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Algorithmic elaboration discovery in LK\PYGZus{}RB\PYGZus{}Synthesis
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Material inferences grounded in practices
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} ✅ **Habermasian Emancipation**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Serves practical\PYGZhy{}hermeneutic interest (teacher understanding)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Provides technical models without claiming they\PYGZsq{}re \PYGZdq{}complete\PYGZdq{}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Documentation acknowledges system limits
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} ✅ **Numerals as Pronouns**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Numbers represented as recollection structures (\PYG{l+s+sb}{`s(s(s(0)))`})
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Grounded in successor function (not abstract objects)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Models first\PYGZhy{}person \PYGZdq{}I think\PYGZdq{} as computational trace
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} ✅ **Incompleteness as Becoming**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }System can detect its own limitations (ORR cycle)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYGZdq{}More Machine\PYGZdq{} implements diagonalization
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Documentation explicitly states formalization is incomplete
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Technical Requirements}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} For Local Development}
+
+\PYG{g+gs}{**Prolog System:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }SWI\PYGZhy{}Prolog 8.0+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Run: \PYG{l+s+sb}{`./start\PYGZus{}system.sh`} in Calculator/Prolog/
+
+\PYG{g+gs}{**Python Analysis:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Python 3.8+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Run: \PYG{l+s+sb}{`pip install \PYGZhy{}r requirements.txt`} in Calculator/LK\PYGZus{}RB\PYGZus{}Synthesis/
+
+\PYG{g+gs}{**Web Interfaces:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Any modern browser
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }No build process required (vanilla HTML/CSS/JS)
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} For Manuscript Integration}
+
+When citing these materials in the manuscript:
+
+\PYG{k}{1.} \PYG{g+gs}{**Use specific URLs**} for each component (not just the repository root)
+\PYG{k}{2.} \PYG{g+gs}{**Reference specific files**} when discussing technical details (e.g., \PYGZdq{}\PYG{l+s+sb}{`incompatibility\PYGZus{}semantics.pl`} implements Brandom\PYGZsq{}s logic...\PYGZdq{})
+\PYG{k}{3.} \PYG{g+gs}{**Acknowledge limitations**} (e.g., \PYGZdq{}The HC models consciousness without instantiating it...\PYGZdq{})
+\PYG{k}{4.} \PYG{g+gs}{**Explain philosophical significance**} (e.g., \PYGZdq{}The ORR cycle demonstrates that...\PYGZdq{})
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Questions and Contributions}
+
+For questions about these materials, open an issue at:
+https://github.com/TioSavich/UMEDCTA/issues
+
+For the manuscript itself, contact the author directly.
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gs}{**Last Updated:**} 2025\PYGZhy{}10\PYGZhy{}12
+\PYG{g+gs}{**Version:**} 1.0
+\PYG{g+gs}{**License:**} [Specify license]
+
+\end{MintedVerbatim}

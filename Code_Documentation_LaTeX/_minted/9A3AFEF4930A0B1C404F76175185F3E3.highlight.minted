@@ -1,0 +1,106 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} src/automata/BaseAutomaton.py}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{pandas}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{pd}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{abc}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{ABC}\PYG{p}{,} \PYG{n}{abstractmethod}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{src.analysis.MUA\PYGZus{}Metadata}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{StrategyMetadata}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{json}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{typing}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Dict}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{BaseAutomaton}\PYG{p}{(}\PYG{n}{ABC}\PYG{p}{):}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{inputs}\PYG{p}{:} \PYG{n}{Dict}\PYG{p}{,} \PYG{n}{Base}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{inputs} \PYG{o}{=} \PYG{n}{inputs} \PYG{c+c1}{\PYGZsh{} Dictionary of initial inputs (e.g., \PYGZob{}\PYGZsq{}M\PYGZsq{}: 73, \PYGZsq{}S\PYGZsq{}: 47\PYGZcb{})}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Base} \PYG{o}{=} \PYG{n}{Base}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}start\PYGZsq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}} \PYG{c+c1}{\PYGZsh{} Flexible dictionary for internal registers}
+
+    \PYG{n+nd}{@property}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{metadata}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{StrategyMetadata}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Must be implemented by subclasses to provide MUA metadata.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{c+c1}{\PYGZsh{} Check if we have an overridden metadata object}
+        \PYG{k}{if} \PYG{n+nb}{hasattr}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}metadata\PYGZus{}obj\PYGZsq{}}\PYG{p}{):}
+            \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}metadata\PYGZus{}obj}
+
+        \PYG{c+c1}{\PYGZsh{} Try to get metadata from subclass \PYGZhy{} handle both patterns}
+        \PYG{k}{try}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{} Check if subclass has defined its own metadata property}
+            \PYG{n}{metadata\PYGZus{}attr} \PYG{o}{=} \PYG{n+nb}{getattr}\PYG{p}{(}\PYG{n+nb}{type}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{),} \PYG{l+s+s1}{\PYGZsq{}metadata\PYGZsq{}}\PYG{p}{,} \PYG{k+kc}{None}\PYG{p}{)}
+            \PYG{k}{if} \PYG{n}{metadata\PYGZus{}attr} \PYG{o+ow}{and} \PYG{n+nb}{hasattr}\PYG{p}{(}\PYG{n}{metadata\PYGZus{}attr}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}fget\PYGZsq{}}\PYG{p}{)} \PYG{o+ow}{and} \PYG{n}{metadata\PYGZus{}attr}\PYG{o}{.}\PYG{n}{fget} \PYG{o}{!=} \PYG{n}{BaseAutomaton}\PYG{o}{.}\PYG{n}{metadata}\PYG{o}{.}\PYG{n}{fget}\PYG{p}{:}
+                \PYG{c+c1}{\PYGZsh{} Subclass has its own metadata property implementation}
+                \PYG{k}{return} \PYG{n}{metadata\PYGZus{}attr}\PYG{o}{.}\PYG{n}{fget}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{c+c1}{\PYGZsh{} Try \PYGZus{}get\PYGZus{}metadata method}
+                \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}get\PYGZus{}metadata}\PYG{p}{()}
+        \PYG{k}{except} \PYG{p}{(}\PYG{n+ne}{AttributeError}\PYG{p}{,} \PYG{n+ne}{NotImplementedError}\PYG{p}{):}
+            \PYG{c+c1}{\PYGZsh{} Fallback for existing subclasses}
+            \PYG{k}{raise} \PYG{n+ne}{NotImplementedError}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Subclasses must implement metadata property or \PYGZus{}get\PYGZus{}metadata method\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}get\PYGZus{}metadata}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{StrategyMetadata}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Default implementation \PYGZhy{} subclasses should override this or the metadata property.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{raise} \PYG{n+ne}{NotImplementedError}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Subclasses must implement \PYGZus{}get\PYGZus{}metadata method\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{interpretation}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{):}
+        \PYG{c+c1}{\PYGZsh{} This method now automatically captures the state of all registers}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(\PYGZob{}}
+            \PYG{l+s+s1}{\PYGZsq{}State\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}Interpretation\PYGZsq{}}\PYG{p}{:} \PYG{n}{interpretation}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}Registers\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{registers}\PYG{o}{.}\PYG{n}{copy}\PYG{p}{(),} \PYG{c+c1}{\PYGZsh{} Crucial: use copy()}
+            \PYG{l+s+s1}{\PYGZsq{}Highlight\PYGZsq{}}\PYG{p}{:} \PYG{n}{highlight}
+        \PYG{p}{\PYGZcb{})}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{transition}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{next\PYGZus{}state}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{n}{next\PYGZus{}state}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{run}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{while} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}\PYG{p}{]:}
+            \PYG{n}{executor} \PYG{o}{=} \PYG{n+nb}{getattr}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}execute\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{execute\PYGZus{}error}\PYG{p}{)}
+            \PYG{n}{executor}\PYG{p}{()}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Result}
+
+    \PYG{n+nd}{@abstractmethod}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}start}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{pass}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}error}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{!=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Error: Entered unknown state }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}accept}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{pass} \PYG{c+c1}{\PYGZsh{} Final state}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{display\PYGZus{}history}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Displays the execution history as a pandas DataFrame.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history}\PYG{p}{:}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}No history recorded.\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{return}
+        \PYG{n}{df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Format the \PYGZsq{}Registers\PYGZsq{} column to be more readable}
+        \PYG{n}{df}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Registers\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{df}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Registers\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{apply}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{x}\PYG{p}{:} \PYG{n}{json}\PYG{o}{.}\PYG{n}{dumps}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{indent}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{))}
+
+        \PYG{c+c1}{\PYGZsh{} Highlighting logic}
+        \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{highlight\PYGZus{}rows}\PYG{p}{(}\PYG{n}{row}\PYG{p}{):}
+            \PYG{k}{if} \PYG{n}{row}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Highlight\PYGZsq{}}\PYG{p}{]:}
+                \PYG{k}{return} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}background\PYGZhy{}color: yellow\PYGZsq{}}\PYG{p}{]} \PYG{o}{*} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{row}\PYG{p}{)}
+            \PYG{k}{return} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{]} \PYG{o}{*} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{row}\PYG{p}{)}
+
+        \PYG{n}{styled\PYGZus{}df} \PYG{o}{=} \PYG{n}{df}\PYG{o}{.}\PYG{n}{style}\PYG{o}{.}\PYG{n}{apply}\PYG{p}{(}\PYG{n}{highlight\PYGZus{}rows}\PYG{p}{,} \PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{styled\PYGZus{}df}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{export\PYGZus{}trace\PYGZus{}json}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Exports the execution history and metadata for visualization and analysis.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{c+c1}{\PYGZsh{} Custom JSON encoder to handle dataclass objects}
+        \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{custom\PYGZus{}encoder}\PYG{p}{(}\PYG{n}{obj}\PYG{p}{):}
+            \PYG{k}{if} \PYG{n+nb}{hasattr}\PYG{p}{(}\PYG{n}{obj}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZus{}dict\PYGZus{}\PYGZus{}\PYGZsq{}}\PYG{p}{):}
+                \PYG{k}{return} \PYG{n}{obj}\PYG{o}{.}\PYG{n+nv+vm}{\PYGZus{}\PYGZus{}dict\PYGZus{}\PYGZus{}}
+            \PYG{k}{raise} \PYG{n+ne}{TypeError}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Object of type }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{obj}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ is not JSON serializable\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Note: Serialization might require handling dataclass conversion if not using Python 3.10+}
+        \PYG{k}{return} \PYG{n}{json}\PYG{o}{.}\PYG{n}{dumps}\PYG{p}{(\PYGZob{}}
+            \PYG{l+s+s2}{\PYGZdq{}metadata\PYGZdq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{metadata}\PYG{o}{.}\PYG{n+nv+vm}{\PYGZus{}\PYGZus{}dict\PYGZus{}\PYGZus{}} \PYG{k}{if} \PYG{n+nb}{hasattr}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{metadata}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZus{}dict\PYGZus{}\PYGZus{}\PYGZsq{}}\PYG{p}{)} \PYG{k}{else} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{metadata}\PYG{p}{),}
+            \PYG{l+s+s2}{\PYGZdq{}history\PYGZdq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history}
+        \PYG{p}{\PYGZcb{},} \PYG{n}{indent}\PYG{o}{=}\PYG{l+m+mi}{4}\PYG{p}{,} \PYG{n}{default}\PYG{o}{=}\PYG{n}{custom\PYGZus{}encoder}\PYG{p}{)}
+
+\end{MintedVerbatim}

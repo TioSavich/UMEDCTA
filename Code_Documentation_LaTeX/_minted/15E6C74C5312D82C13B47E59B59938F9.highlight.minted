@@ -1,0 +1,130 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{g+gh}{\PYGZsh{} LK\PYGZus{}RB\PYGZus{}Synthesis Changelog}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Summary}
+
+This system analyzes student\PYGZhy{}invented arithmetic strategies using:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**AST pattern detection**} for computational analysis
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Brandomian Meaning\PYGZhy{}Use Analysis**} for pragmatic semantics
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Lakoff \PYGZam{} Núñez embodied metaphors**} for conceptual grounding
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Version History}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} v2.0 \PYGZhy{} October 12, 2025}
+
+\PYG{g+gs}{**Major Changes:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Replaced TikZ MUD diagram generation with Markdown MUA reports
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Added rich metadata extraction from automata (metaphors, inferences, prerequisites)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Added cross\PYGZhy{}referencing of conceptual metaphors across strategies
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Fixed strategy listing to show all 21 strategies (was only showing 9)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Cleaned up repository: removed all .tex/.pdf files and obsolete documentation
+
+\PYG{g+gs}{**Features Added:**}
+\PYG{k}{1.} \PYG{g+gs}{**Metadata Mining (Enhancement 1)**}
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Extracts embodied metaphors from automata
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Extracts material inferences with premises/conclusions
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Displays PP\PYGZhy{}Necessities (prerequisites)
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Shows visualization hints and deployed vocabulary
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Result: 18/21 strategies with rich metadata
+
+\PYG{k}{2.} \PYG{g+gs}{**Metaphor Cross\PYGZhy{}Referencing (Enhancement 2)**}
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Groups strategies by shared conceptual metaphors
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Categorizes as Foundational (≥5 uses), Common (3\PYGZhy{}4), or Specialized (\PYGZlt{}3)
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Provides PP\PYGZhy{}Sufficiency hypotheses about embodied source domains
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Result: 4 unique metaphors identified
+
+\PYG{g+gs}{**Files Modified:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`main.py`} \PYGZhy{} Fixed list\PYGZus{}strategies() to use strategy\PYGZus{}patterns
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`mud\PYGZus{}generator.py`} \PYGZhy{} Added metadata extraction and metaphor analysis
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`mua\PYGZus{}report\PYGZus{}generator.py`} \PYGZhy{} Added metadata sections and metaphor analysis
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`README.md`} \PYGZhy{} Updated to reflect current capabilities
+
+\PYG{g+gs}{**Files Removed:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }All .tex and .pdf files (MUD diagram generation obsolete)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }parse\PYGZus{}latex.py
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Intermediate markdown documents (lakoff\PYGZus{}tiny.md, synthesis\PYGZus{}lk\PYGZus{}rb.md, etc.)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Old MUD\PYGZhy{}related files (automated\PYGZus{}mud\PYGZus{}results.json, MUD\PYGZus{}Evolution\PYGZus{}Comparison.md)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Obsolete utilities (generate\PYGZus{}skeletons.py, strategies.json)
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} v1.0 \PYGZhy{} September 24, 2025}
+
+\PYG{g+gs}{**Initial Implementation:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }AST\PYGZhy{}based computational pattern detection
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Algorithmic elaboration discovery
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }TikZ MUD diagram generation
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Basic Brandomian analysis framework
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Current Capabilities}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Analysis Features}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ 21 strategies analyzed
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ 2 computational patterns detected (base\PYGZus{}decomposition, incremental\PYGZus{}counting)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ 16 algorithmic elaboration relationships identified
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ 18 strategies with rich metadata (metaphors, inferences)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ 4 unique embodied metaphors cross\PYGZhy{}referenced
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Report Sections Generated}
+\PYG{k}{1.} \PYG{g+gs}{**Strategy Metadata**} \PYGZhy{} Metaphors, inferences, prerequisites from automaton documentation
+\PYG{k}{2.} \PYG{g+gs}{**Strategy Overview**} \PYGZhy{} Patterns used, elaboration relationships
+\PYG{k}{3.} \PYG{g+gs}{**PV\PYGZhy{}Sufficiency Analysis**} \PYGZhy{} Practices needed to deploy vocabulary
+\PYG{k}{4.} \PYG{g+gs}{**PP\PYGZhy{}Sufficiency Analysis**} \PYGZhy{} Prerequisite strategies and practices
+\PYG{k}{5.} \PYG{g+gs}{**VP\PYGZhy{}Sufficiency Analysis**} \PYGZhy{} Vocabulary sufficient to specify practices
+\PYG{k}{6.} \PYG{g+gs}{**LX Relation Analysis**} \PYGZhy{} Candidate elaborated\PYGZhy{}explicating relationships
+\PYG{k}{7.} \PYG{g+gs}{**Pragmatic Metavocabulary Analysis**} \PYGZhy{} What serves as metavocabulary
+\PYG{k}{8.} \PYG{g+gs}{**Conceptual Metaphor Analysis**} (full report only) \PYGZhy{} Shared metaphors across strategies
+\PYG{k}{9.} \PYG{g+gs}{**Computational Pattern Analysis**} (full report only) \PYGZhy{} Primitive practices
+\PYG{k}{10.} \PYG{g+gs}{**Elaboration Analysis**} (full report only) \PYGZhy{} PP\PYGZhy{}sufficiency chains
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Architecture}
+
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{LK\PYGZus{}RB\PYGZus{}Synthesis/}
+\PYG{l+s+sb}{├── main.py                          \PYGZsh{} CLI interface}
+\PYG{l+s+sb}{├── mud\PYGZus{}generator.py                 \PYGZsh{} Pattern analyzer \PYGZam{} metadata extractor}
+\PYG{l+s+sb}{├── mua\PYGZus{}report\PYGZus{}generator.py          \PYGZsh{} Brandomian report generator}
+\PYG{l+s+sb}{├── requirements.txt                 \PYGZsh{} Python dependencies}
+\PYG{l+s+sb}{├── README.md                        \PYGZsh{} User guide}
+\PYG{l+s+sb}{├── CHANGELOG.md                     \PYGZsh{} This file}
+\PYG{l+s+sb}{├── src/}
+\PYG{l+s+sb}{│   ├── automata/                    \PYGZsh{} Strategy implementations}
+\PYG{l+s+sb}{│   │   ├── addition/}
+\PYG{l+s+sb}{│   │   ├── subtraction/}
+\PYG{l+s+sb}{│   │   ├── multiplication/}
+\PYG{l+s+sb}{│   │   └── division/}
+\PYG{l+s+sb}{│   └── analysis/                    \PYGZsh{} Analysis utilities}
+\PYG{l+s+sb}{│       ├── MUA\PYGZus{}Metadata.py}
+\PYG{l+s+sb}{│       └── ast\PYGZus{}analyzer.py}
+\PYG{l+s+sb}{└── output/                          \PYGZsh{} Generated reports}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Known Limitations}
+
+\PYG{k}{1.} \PYG{g+gs}{**Pattern Detection**}: Only detects 2 computational patterns currently (base\PYGZus{}decomposition, incremental\PYGZus{}counting). Many strategies show 0 patterns \PYGZhy{} may need more sophisticated detection.
+
+\PYG{k}{2.} \PYG{g+gs}{**Metadata Coverage**}: 10/21 strategies have documented metaphors. More documentation needed for comprehensive metaphor analysis.
+
+\PYG{k}{3.} \PYG{g+gs}{**LX Relations**}: System identifies \PYG{g+ge}{*candidate*} LX relations but cannot verify if they represent genuine explication (requires philosophical analysis).
+
+\PYG{k}{4.} \PYG{g+gs}{**Practical Elaboration**}: Cannot detect practical elaboration through training (Wittgensteinian \PYGZdq{}going on in the same way\PYGZdq{}) \PYGZhy{} only algorithmic elaboration visible in code.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Future Enhancement Opportunities}
+
+From ENHANCEMENT\PYGZus{}PROPOSALS.md:
+
+\PYG{g+gs}{**Easy (2\PYGZhy{}3 hours each):**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Enhancement 3: Inference Chain Analysis
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Enhancement 6: Visualization Hint Clustering
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Enhancement 7: Prerequisites Verification
+
+\PYG{g+gs}{**Medium (4\PYGZhy{}6 hours each):**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Enhancement 4: Metaphor\PYGZhy{}Pattern Correlation
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Enhancement 5: Vocabulary Deployment Analysis
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} References}
+
+\PYG{g+gs}{**Theoretical Foundations:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Robert Brandom, \PYG{g+ge}{*Between Saying and Doing: Towards an Analytic Pragmatism*}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }George Lakoff \PYGZam{} Rafael Núñez, \PYG{g+ge}{*Where Mathematics Comes From: How the Embodied Mind Brings Mathematics into Being*}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Cognitively Guided Instruction (CGI) framework for student arithmetic strategies
+
+\end{MintedVerbatim}

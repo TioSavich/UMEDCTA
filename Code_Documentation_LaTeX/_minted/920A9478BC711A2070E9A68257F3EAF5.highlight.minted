@@ -1,0 +1,15 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYGZob{}
+\PYGZca{}\PYGZca{}I\PYGZdq{}folders\PYGZdq{}: [
+\PYGZca{}\PYGZca{}I\PYGZca{}\PYGZca{}I\PYGZob{}
+\PYGZca{}\PYGZca{}I\PYGZca{}\PYGZca{}I\PYGZca{}\PYGZca{}I\PYGZdq{}path\PYGZdq{}: \PYGZdq{}..\PYGZdq{}
+\PYGZca{}\PYGZca{}I\PYGZca{}\PYGZca{}I\PYGZcb{},
+\PYGZca{}\PYGZca{}I\PYGZca{}\PYGZca{}I\PYGZob{}
+\PYGZca{}\PYGZca{}I\PYGZca{}\PYGZca{}I\PYGZca{}\PYGZca{}I\PYGZdq{}path\PYGZdq{}: \PYGZdq{}PDF\PYGZus{}Documentation\PYGZus{}Of\PYGZus{}Strategies\PYGZdq{}
+\PYGZca{}\PYGZca{}I\PYGZca{}\PYGZca{}I\PYGZcb{}
+\PYGZca{}\PYGZca{}I],
+\PYGZca{}\PYGZca{}I\PYGZdq{}settings\PYGZdq{}: \PYGZob{}
+\PYGZca{}\PYGZca{}I\PYGZca{}\PYGZca{}I\PYGZdq{}liveServer.settings.multiRootWorkspaceName\PYGZdq{}: \PYGZdq{}UMEDCTA\PYGZdq{}
+\PYGZca{}\PYGZca{}I\PYGZcb{}
+\PYGZcb{}
+\end{MintedVerbatim}

@@ -1,0 +1,374 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}!DOCTYPE html\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{html}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{head}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{title}\PYG{p}{\PYGZgt{}}Multiplication: Conversion to Bases and Ones (CBO \PYGZhy{} Redistribution)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{title}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{link} \PYG{n+na}{rel}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}stylesheet\PYGZdq{}} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}strategy\PYGZus{}styles.css\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+  \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Add MathJax support \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{script} \PYG{n+na}{type}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text/javascript\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}MathJax\PYGZhy{}script\PYGZdq{}} \PYG{n+na}{async}
+    \PYG{n+na}{src}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex\PYGZhy{}mml\PYGZhy{}chtml.js\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+\PYG{+w}{  }\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{head}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{body}\PYG{p}{\PYGZgt{}}
+
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}container\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}back\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}index.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}← Back to Calculator\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}page\PYGZhy{}container\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}Strategic Multiplicative Reasoning: Conversion to Bases and Ones (CBO)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}
+
+  \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Sticky control panel \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}controls\PYGZhy{}container\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}input\PYGZhy{}group\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+      \PYG{p}{\PYGZlt{}}\PYG{n+nt}{label} \PYG{n+na}{for}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cboGroups\PYGZdq{}}\PYG{p}{\PYGZgt{}}Groups (N):\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{label}\PYG{p}{\PYGZgt{}}
+      \PYG{p}{\PYGZlt{}}\PYG{n+nt}{input} \PYG{n+na}{type}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}number\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cboGroups\PYGZdq{}} \PYG{n+na}{value}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}7\PYGZdq{}} \PYG{n+na}{min}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}1\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+
+      \PYG{p}{\PYGZlt{}}\PYG{n+nt}{label} \PYG{n+na}{for}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cboItems\PYGZdq{}}\PYG{p}{\PYGZgt{}}Items per Group (S):\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{label}\PYG{p}{\PYGZgt{}}
+      \PYG{p}{\PYGZlt{}}\PYG{n+nt}{input} \PYG{n+na}{type}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}number\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cboItems\PYGZdq{}} \PYG{n+na}{value}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}9\PYGZdq{}} \PYG{n+na}{min}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}1\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+
+      \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}action\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}runCBOAutomaton()\PYGZdq{}}\PYG{p}{\PYGZgt{}}Calculate\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+    \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Step navigation controls \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}step\PYGZhy{}controls\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+      \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}prevStepBtn\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}step\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{disabled}\PYG{p}{\PYGZgt{}}◀ Previous\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+      \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}stepIndicator\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}step\PYGZhy{}indicator\PYGZdq{}}\PYG{p}{\PYGZgt{}}Step 0/0\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}
+      \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}nextStepBtn\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}step\PYGZhy{}button\PYGZdq{}}\PYG{p}{\PYGZgt{}}Next ▶\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+  \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Step explanation appears directly below controls \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}stepExplanation\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}step\PYGZhy{}explanation\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+    Click \PYGZdq{}Calculate\PYGZdq{} to begin.
+  \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+  \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Main visualization section \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}visualization\PYGZhy{}container\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+    \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Diagram is now above the notation so it\PYGZsq{}s visible immediately \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}Diagram:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{svg} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cboDiagram\PYGZdq{}} \PYG{n+na}{width}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}100\PYGZpc{}\PYGZdq{}} \PYG{n+na}{height}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}600\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{svg}\PYG{p}{\PYGZgt{}} \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Increased from 400 to 600 \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}outputContainer\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+      \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}Notation:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+      \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}cboOutput\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+        \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} MathJax notation will be displayed here \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+      \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\PYG{+w}{  }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Simulation Function for CBO Redistribution \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{  }\PYG{c+c1}{// This function simulates the redistribution process. It creates an array of groups}
+\PYG{+w}{  }\PYG{c+c1}{// (each starting with S items) and then repeatedly “donates” items from the right‐most group(s)}
+\PYG{+w}{  }\PYG{c+c1}{// to left groups until as many groups as possible are filled to 10.}
+\PYG{+w}{  }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{simulateRedistribution}\PYG{p}{(}\PYG{n+nx}{numGroups}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{itemsPerGroup}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{groups}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nb}{Array}\PYG{p}{(}\PYG{n+nx}{numGroups}\PYG{p}{).}\PYG{n+nx}{fill}\PYG{p}{(}\PYG{n+nx}{itemsPerGroup}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{steps}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[];}
+\PYG{+w}{    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{receiverIndex}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{donorIndex}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{;}
+\PYG{+w}{    }\PYG{c+c1}{// While there is at least one receiver (index \PYGZlt{} donor) that is not yet full}
+\PYG{+w}{    }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{receiverIndex}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{donorIndex}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{groups}\PYG{p}{[}\PYG{n+nx}{receiverIndex}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{needed}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{groups}\PYG{p}{[}\PYG{n+nx}{receiverIndex}\PYG{p}{];}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{groups}\PYG{p}{[}\PYG{n+nx}{donorIndex}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{n+nx}{needed}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{c+c1}{// Donor can completely fill the receiver group.}
+\PYG{+w}{          }\PYG{n+nx}{groups}\PYG{p}{[}\PYG{n+nx}{receiverIndex}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{;}
+\PYG{+w}{          }\PYG{n+nx}{groups}\PYG{p}{[}\PYG{n+nx}{donorIndex}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZhy{}=}\PYG{+w}{ }\PYG{n+nx}{needed}\PYG{p}{;}
+\PYG{+w}{          }\PYG{n+nx}{steps}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{(\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{fromGroup}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{donorIndex}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{toGroup}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{receiverIndex}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{itemsToMove}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{needed}\PYG{+w}{ }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{          }\PYG{n+nx}{receiverIndex}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{groups}\PYG{p}{[}\PYG{n+nx}{donorIndex}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{c+c1}{// Donor has some items but not enough to completely fill the receiver.}
+\PYG{+w}{          }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{move}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{groups}\PYG{p}{[}\PYG{n+nx}{donorIndex}\PYG{p}{];}
+\PYG{+w}{          }\PYG{n+nx}{groups}\PYG{p}{[}\PYG{n+nx}{receiverIndex}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{n+nx}{move}\PYG{p}{;}
+\PYG{+w}{          }\PYG{n+nx}{groups}\PYG{p}{[}\PYG{n+nx}{donorIndex}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{          }\PYG{n+nx}{steps}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{(\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{fromGroup}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{donorIndex}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{toGroup}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{receiverIndex}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{itemsToMove}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{move}\PYG{+w}{ }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{          }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{groups}\PYG{p}{[}\PYG{n+nx}{receiverIndex}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n+nx}{donorIndex}\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{donorIndex}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n+nx}{receiverIndex}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{          }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n+nx}{receiverIndex}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{          }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{c+c1}{// If the current donor is empty, move to the next available donor.}
+\PYG{+w}{          }\PYG{n+nx}{donorIndex}\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{p}{;}
+\PYG{+w}{          }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{donorIndex}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n+nx}{receiverIndex}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nx}{receiverIndex}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{groups}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{steps}\PYG{+w}{ }\PYG{p}{\PYGZcb{};}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Notation Generation \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{  }\PYG{c+c1}{// Based on the total number of items (N×S), we know the final result can be written as}
+\PYG{+w}{  }\PYG{c+c1}{// (fullTens) × 10 + (remainder). In the CBO strategy, each “full” group is originally S but receives}
+\PYG{+w}{  }\PYG{c+c1}{// an extra (10–S) donated items. We then build equivalent expressions.}
+\PYG{+w}{  }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{generateNotation}\PYG{p}{(}\PYG{n+nx}{numGroups}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{itemsPerGroup}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{total}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{itemsPerGroup}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{fullTens}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{floor}\PYG{p}{(}\PYG{n+nx}{total}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// number of complete tens}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{remainder}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{total}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{fullTens}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{notation}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{    }\PYG{c+c1}{// Original multiplication}
+\PYG{+w}{    }\PYG{n+nx}{notation}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZdl{}\PYGZdl{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{numGroups}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}times }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{itemsPerGroup}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdl{}\PYGZdl{}\PYGZbs{}n`}\PYG{p}{;}
+\PYG{+w}{    }\PYG{c+c1}{// Express as sum of groups that remain unchanged plus donated items}
+\PYG{+w}{    }\PYG{n+nx}{notation}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZdl{}\PYGZdl{}= }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{fullTens}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}times }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{itemsPerGroup}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ + }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{fullTens}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}times (}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{l+m+mf}{10}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{itemsPerGroup}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{) + }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{remainder}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdl{}\PYGZdl{}\PYGZbs{}n`}\PYG{p}{;}
+\PYG{+w}{    }\PYG{c+c1}{// Factor out the full tens}
+\PYG{+w}{    }\PYG{n+nx}{notation}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZdl{}\PYGZdl{}= }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{fullTens}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}times (}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{itemsPerGroup}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ + }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{l+m+mf}{10}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{itemsPerGroup}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{) + }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{remainder}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdl{}\PYGZdl{}\PYGZbs{}n`}\PYG{p}{;}
+\PYG{+w}{    }\PYG{c+c1}{// Simplify the parenthesis}
+\PYG{+w}{    }\PYG{n+nx}{notation}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZdl{}\PYGZdl{}= }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{fullTens}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}times 10 + }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{remainder}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdl{}\PYGZdl{}\PYGZbs{}n`}\PYG{p}{;}
+\PYG{+w}{    }\PYG{c+c1}{// Write as numerical addition}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{tensValue}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{fullTens}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n+nx}{notation}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZdl{}\PYGZdl{}= }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{tensValue}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ + }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{remainder}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdl{}\PYGZdl{}\PYGZbs{}n`}\PYG{p}{;}
+\PYG{+w}{    }\PYG{c+c1}{// Final result}
+\PYG{+w}{    }\PYG{n+nx}{notation}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZdl{}\PYGZdl{}= }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{total}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdl{}\PYGZdl{}\PYGZbs{}n`}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{notation}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Global Animation Variables \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{  }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{currentStep}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{  }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{totalSteps}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{  }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{animationSteps}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[];}
+\PYG{+w}{  }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{finalGroupsState}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[];}\PYG{+w}{  }\PYG{c+c1}{// Final state of each group after redistribution}
+\PYG{+w}{  }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{itemsPerGroup}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{totalItems}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{finalTensCount}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{finalOnesCount}\PYG{p}{;}
+
+\PYG{+w}{  }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} drawTenBlock Function \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{  }\PYG{c+c1}{// This function draws a consolidated \PYGZdq{}ten block\PYGZdq{} (a rod representing 10 items) vertically.}
+\PYG{+w}{  }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{drawTenBlock}\PYG{p}{(}\PYG{n+nx}{svg}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{width}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{height}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{fill}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{unitBlockSize}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{group}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElementNS}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}http://www.w3.org/2000/svg\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}g\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{backgroundRect}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElementNS}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}http://www.w3.org/2000/svg\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}rect\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{backgroundRect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}x\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{backgroundRect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}y\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{backgroundRect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}width\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{width}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{backgroundRect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}height\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{height}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{backgroundRect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}fill\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{fill}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{backgroundRect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}class\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}ten\PYGZhy{}block\PYGZhy{}bg block\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{group}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{backgroundRect}\PYG{p}{);}
+\PYG{+w}{    }\PYG{c+c1}{// Draw inner lines (optional) to denote the 10 parts.}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{unitBlock}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElementNS}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}http://www.w3.org/2000/svg\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}rect\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{      }\PYG{n+nx}{unitBlock}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}x\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{p}{);}
+\PYG{+w}{      }\PYG{n+nx}{unitBlock}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}y\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{unitBlockSize}\PYG{p}{);}
+\PYG{+w}{      }\PYG{n+nx}{unitBlock}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}width\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{unitBlockSize}\PYG{p}{);}
+\PYG{+w}{      }\PYG{n+nx}{unitBlock}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}height\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{unitBlockSize}\PYG{p}{);}
+\PYG{+w}{      }\PYG{n+nx}{unitBlock}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}fill\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{fill}\PYG{p}{);}
+\PYG{+w}{      }\PYG{n+nx}{unitBlock}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}class\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}unit\PYGZhy{}block\PYGZhy{}inner\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{      }\PYG{n+nx}{group}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{unitBlock}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nx}{svg}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{group}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DOMContentLoaded\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kd}{function}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{outputElement}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}cboOutput\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{groupsInput}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}cboGroups\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{itemsInput}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}cboItems\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{diagramSVG}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}cboDiagram\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{prevStepBtn}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}prevStepBtn\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{nextStepBtn}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}nextStepBtn\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{stepIndicator}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}stepIndicator\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{stepExplanation}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}stepExplanation\PYGZsq{}}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{numberToWord}\PYG{p}{(}\PYG{n+nx}{num}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{words}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Zero\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}One\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Two\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Three\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Four\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Five\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Six\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Seven\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Eight\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Nine\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Ten\PYGZdq{}}\PYG{p}{];}
+\PYG{+w}{      }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{num}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{num}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{words}\PYG{p}{.}\PYG{n+nx}{length}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{words}\PYG{p}{[}\PYG{n+nx}{num}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{num}\PYG{p}{.}\PYG{n+nx}{toString}\PYG{p}{();}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nx}{prevStepBtn}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}click\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kd}{function}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{currentStep}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nx}{currentStep}\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n+nx}{updateVisualization}\PYG{p}{();}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{});}
+
+\PYG{+w}{    }\PYG{n+nx}{nextStepBtn}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}click\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kd}{function}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{currentStep}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{totalSteps}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nx}{currentStep}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n+nx}{updateVisualization}\PYG{p}{();}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{});}
+
+\PYG{+w}{    }\PYG{c+c1}{// Update the visualization and explanation according to the current step.}
+\PYG{+w}{    }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{updateVisualization}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{prevStepBtn}\PYG{p}{.}\PYG{n+nx}{disabled}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{currentStep}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{      }\PYG{n+nx}{nextStepBtn}\PYG{p}{.}\PYG{n+nx}{disabled}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{currentStep}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{n+nx}{totalSteps}\PYG{p}{;}
+\PYG{+w}{      }\PYG{n+nx}{stepIndicator}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Step }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{currentStep}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ of }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{totalSteps}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{;}
+
+\PYG{+w}{      }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{currentStep}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nx}{stepExplanation}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}p\PYGZgt{}\PYGZlt{}strong\PYGZgt{}Initial State:\PYGZlt{}/strong\PYGZgt{} We have }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{numGroups}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ groups, each with }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{itemsPerGroup}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ items (Total = }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{totalItems}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{).\PYGZlt{}/p\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{currentStep}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{n+nx}{totalSteps}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nx}{stepExplanation}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}p\PYGZgt{}\PYGZlt{}strong\PYGZgt{}Final State:\PYGZlt{}/strong\PYGZgt{} After redistribution, we have }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{finalTensCount}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ complete base‑10 groups and }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{finalOnesCount}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ remaining items, showing that \PYGZbs{}\PYGZbs{}( }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{numGroups}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}times }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{itemsPerGroup}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ = }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{finalTensCount}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}times 10 + }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{finalOnesCount}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}).\PYGZlt{}/p\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{MathJax}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nx}{MathJax}\PYG{p}{.}\PYG{n+nx}{typesetPromise}\PYG{p}{([}\PYG{n+nx}{stepExplanation}\PYG{p}{]);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{step}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{animationSteps}\PYG{p}{[}\PYG{n+nx}{currentStep}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{];}
+\PYG{+w}{        }\PYG{n+nx}{stepExplanation}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}p\PYGZgt{}\PYGZlt{}strong\PYGZgt{}Step }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{currentStep}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{:\PYGZlt{}/strong\PYGZgt{} Move }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{numberToWord}\PYG{p}{(}\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{itemsToMove}\PYG{p}{).}\PYG{n+nx}{toLowerCase}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ item(s) from Group }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{fromGroup}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ to Group }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{toGroup}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{.\PYGZlt{}/p\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{      }\PYG{c+c1}{// Redraw the diagram using the current step to simulate partial redistribution.}
+\PYG{+w}{      }\PYG{n+nx}{drawCBODiagram}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}cboDiagram\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{currentStep}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// Main function triggered by the \PYGZdq{}Calculate\PYGZdq{} button.}
+\PYG{+w}{    }\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{runCBOAutomaton}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kd}{function}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nx}{numGroups}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{parseInt}\PYG{p}{(}\PYG{n+nx}{groupsInput}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{itemsPerGroup}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{parseInt}\PYG{p}{(}\PYG{n+nx}{itemsInput}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{isNaN}\PYG{p}{(}\PYG{n+nx}{numGroups}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{isNaN}\PYG{p}{(}\PYG{n+nx}{itemsPerGroup}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nx}{itemsPerGroup}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nx}{outputElement}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Please enter valid positive numbers for groups and items.\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{          }\PYG{n+nx}{diagramSVG}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{          }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{n+nx}{totalItems}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{itemsPerGroup}\PYG{p}{;}
+\PYG{+w}{        }\PYG{c+c1}{// If items per group is 10 or more, the strategy is not used.}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{itemsPerGroup}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nx}{outputElement}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZdl{}\PYGZdl{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{numGroups}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZbs{}\PYGZbs{}times }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{itemsPerGroup}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ = }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{totalItems}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdl{}\PYGZdl{} (Direct calculation)`}\PYG{p}{;}
+\PYG{+w}{          }\PYG{n+nx}{diagramSVG}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{          }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{numGroups}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nx}{outputElement}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}CBO strategy requires at least two groups for redistribution.\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{          }\PYG{n+nx}{diagramSVG}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{          }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{c+c1}{// Simulate the redistribution process.}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{simulationResult}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{simulateRedistribution}\PYG{p}{(}\PYG{n+nx}{numGroups}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{itemsPerGroup}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{finalGroupsState}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{simulationResult}\PYG{p}{.}\PYG{n+nx}{groups}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n+nx}{animationSteps}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{simulationResult}\PYG{p}{.}\PYG{n+nx}{steps}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n+nx}{totalSteps}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{animationSteps}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// The last step shows the final state.}
+\PYG{+w}{        }\PYG{n+nx}{currentStep}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+
+\PYG{+w}{        }\PYG{c+c1}{// Determine final tens and ones.}
+\PYG{+w}{        }\PYG{n+nx}{finalTensCount}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{finalGroupsState}\PYG{p}{.}\PYG{n+nx}{filter}\PYG{p}{(}\PYG{n+nx}{g}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{g}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{).}\PYG{n+nx}{length}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n+nx}{finalOnesCount}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{totalItems}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{finalTensCount}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{;}
+
+\PYG{+w}{        }\PYG{c+c1}{// Generate MathJax notation.}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{notationStr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{generateNotation}\PYG{p}{(}\PYG{n+nx}{numGroups}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{itemsPerGroup}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{outputElement}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{notationStr}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{MathJax}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nx}{MathJax}\PYG{p}{.}\PYG{n+nx}{typesetPromise}\PYG{p}{();}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{n+nx}{updateVisualization}\PYG{p}{();}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{catch}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{error}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{error}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Error in runCBOAutomaton:\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{error}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{outputElement}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Error: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{error}\PYG{p}{.}\PYG{n+nx}{message}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n+nx}{stepExplanation}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}An error occurred.\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n+nx}{diagramSVG}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Drawing Function with Consolidated Ten Block \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{    }\PYG{c+c1}{// This function redraws the groups according to the redistribution steps.}
+\PYG{+w}{    }\PYG{c+c1}{// If a group reaches exactly 10 items, it is drawn as one consolidated \PYGZdq{}ten block\PYGZdq{}.}
+\PYG{+w}{    }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{drawCBODiagram}\PYG{p}{(}\PYG{n+nx}{svgId}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{currentStep}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{svg}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{n+nx}{svgId}\PYG{p}{);}
+\PYG{+w}{      }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{svg}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{      }\PYG{n+nx}{svg}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{blockUnitSize}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{20}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Size of each individual block.}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{tenBlockWidth}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{blockUnitSize}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{tenBlockHeight}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{blockUnitSize}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{blockSpacing}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{5}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{groupSpacingX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{50}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{startX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{30}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{currentY}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{50}\PYG{p}{;}
+
+\PYG{+w}{      }\PYG{c+c1}{// Make a copy of the initial state.}
+\PYG{+w}{      }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{currentGroups}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nb}{Array}\PYG{p}{(}\PYG{n+nx}{numGroups}\PYG{p}{).}\PYG{n+nx}{fill}\PYG{p}{(}\PYG{n+nx}{itemsPerGroup}\PYG{p}{);}
+\PYG{+w}{      }\PYG{c+c1}{// Apply the animation steps up to the currentStep.}
+\PYG{+w}{      }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{s}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{s}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{currentStep}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{s}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{animationSteps}\PYG{p}{.}\PYG{n+nx}{length}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{s}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{step}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{animationSteps}\PYG{p}{[}\PYG{n+nx}{s}\PYG{p}{];}
+\PYG{+w}{        }\PYG{n+nx}{currentGroups}\PYG{p}{[}\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{fromGroup}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZhy{}=}\PYG{+w}{ }\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{itemsToMove}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n+nx}{currentGroups}\PYG{p}{[}\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{toGroup}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{itemsToMove}\PYG{p}{;}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{      }\PYG{c+c1}{// Draw each group.}
+\PYG{+w}{      }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{g}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{g}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{g}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{groupX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{startX}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{g}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{groupSpacingX}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{items}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{currentGroups}\PYG{p}{[}\PYG{n+nx}{g}\PYG{p}{];}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{items}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{c+c1}{// Group is exactly full, so draw a consolidated ten block.}
+\PYG{+w}{          }\PYG{n+nx}{drawTenBlock}\PYG{p}{(}\PYG{n+nx}{svg}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{groupX}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{currentY}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{tenBlockWidth}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{tenBlockHeight}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}lightgreen\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{blockUnitSize}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{c+c1}{// Otherwise, draw the group as individual unit blocks.}
+\PYG{+w}{          }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{items}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{groupX}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{currentY}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{blockUnitSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{blockSpacing}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{rect}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElementNS}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}http://www.w3.org/2000/svg\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}rect\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{rect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}x\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{rect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}y\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{rect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}width\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{blockUnitSize}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{rect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}height\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{blockUnitSize}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{rect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}fill\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}teal\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{rect}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}stroke\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}black\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{svg}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{rect}\PYG{p}{);}
+\PYG{+w}{          }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{c+c1}{// Label each group.}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{text}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElementNS}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}http://www.w3.org/2000/svg\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}text\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{text}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}x\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{groupX}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{text}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}y\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{currentY}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{text}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`G}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{g}\PYG{o}{+}\PYG{l+m+mf}{1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n+nx}{text}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}font\PYGZhy{}size\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}14px\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{svg}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{text}\PYG{p}{);}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{      }\PYG{c+c1}{// If we are in the middle of an animation step, draw an arrow indicating the current move.}
+\PYG{+w}{      }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{currentStep}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{currentStep}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n+nx}{animationSteps}\PYG{p}{.}\PYG{n+nx}{length}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{step}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{animationSteps}\PYG{p}{[}\PYG{n+nx}{currentStep}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{];}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{donorX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{startX}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{fromGroup}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{groupSpacingX}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{receiverX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{startX}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{toGroup}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{groupSpacingX}\PYG{p}{;}
+
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{donorY}\PYG{p}{;}
+\PYG{+w}{        }\PYG{c+c1}{// If the donor group is consolidated (i.e. has 10 items), point to the center of the ten block.}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{currentGroups}\PYG{p}{[}\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{fromGroup}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nx}{donorY}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{currentY}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{tenBlockHeight}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nx}{donorY}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{currentY}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{currentGroups}\PYG{p}{[}\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{fromGroup}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{itemsToMove}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{blockUnitSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{blockSpacing}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{blockUnitSize}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{receiverY}\PYG{p}{;}
+\PYG{+w}{        }\PYG{c+c1}{// For the receiver, if it\PYGZsq{}s now full (consolidated), target the center of its ten block.}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{currentGroups}\PYG{p}{[}\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{toGroup}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nx}{receiverY}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{currentY}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{tenBlockHeight}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{          }\PYG{n+nx}{receiverY}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{currentY}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{currentGroups}\PYG{p}{[}\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{toGroup}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{step}\PYG{p}{.}\PYG{n+nx}{itemsToMove}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{blockUnitSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{blockSpacing}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{blockUnitSize}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{arrow}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElementNS}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}http://www.w3.org/2000/svg\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}line\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{arrow}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}x1\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{donorX}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{blockUnitSize}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{arrow}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}y1\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{donorY}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{arrow}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}x2\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{receiverX}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{arrow}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}y2\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{receiverY}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{arrow}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}stroke\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}orange\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{arrow}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}stroke\PYGZhy{}width\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{svg}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{arrow}\PYG{p}{);}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{      }\PYG{c+c1}{// Adjust the SVG height to ensure all blocks are visible.}
+\PYG{+w}{      }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{maxItems}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{max}\PYG{p}{(...}\PYG{n+nx}{currentGroups}\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{(}\PYG{n+nx}{count}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{count}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{count}\PYG{p}{)));}
+\PYG{+w}{      }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{diagramHeight}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{currentY}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{maxItems}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{10}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{tenBlockHeight}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{maxItems}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{blockUnitSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{blockSpacing}\PYG{p}{))}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{50}\PYG{p}{;}
+\PYG{+w}{      }\PYG{n+nx}{svg}\PYG{p}{.}\PYG{n+nx}{setAttribute}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}height\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{diagramHeight}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// Run the automaton on page load.}
+\PYG{+w}{    }\PYG{n+nx}{runCBOAutomaton}\PYG{p}{();}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{});}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}pdf\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}pdf\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}openPdfViewer()\PYGZdq{}}\PYG{p}{\PYGZgt{}}📄 Learn More: View Detailed PDF Documentation\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\PYG{+w}{  }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{openPdfViewer}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// Opens the PDF documentation for the strategy.}
+\PYG{+w}{    }\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{open}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}../SMR\PYGZus{}Multiplication\PYGZus{}CBO.pdf\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}blank\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{body}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{html}\PYG{p}{\PYGZgt{}}
+
+\end{MintedVerbatim}

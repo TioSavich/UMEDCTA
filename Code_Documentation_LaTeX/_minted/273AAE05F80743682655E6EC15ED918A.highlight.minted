@@ -1,0 +1,570 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{g+gh}{\PYGZsh{} Enhancement Proposals for LK\PYGZus{}RB\PYGZus{}Synthesis}
+\PYG{g+gs}{**Date:**} October 12, 2025
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} The Goldmine: Rich Metadata Currently Ignored}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} What You Already Have:}
+
+Your automata contain \PYG{g+gs}{**extensive hand\PYGZhy{}crafted metadata**} that the current analyzer completely ignores:
+
+\PYG{l+s+sb}{```python}
+\PYG{c+c1}{\PYGZsh{} From SAR\PYGZus{}ADD\PYGZus{}COBO.py (lines 18\PYGZhy{}43)}
+\PYG{n}{metadata} \PYG{o}{=} \PYG{n}{StrategyMetadata}\PYG{p}{(}
+    \PYG{n}{strategy\PYGZus{}id}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}SAR\PYGZus{}ADD\PYGZus{}COBO\PYGZdq{}}\PYG{p}{,}
+    \PYG{n}{strategy\PYGZus{}name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}COBO (Counting On by Bases and Ones)\PYGZdq{}}\PYG{p}{,}
+    \PYG{n}{metaphors}\PYG{o}{=}\PYG{p}{[}
+        \PYG{n}{EmbodiedMetaphor}\PYG{p}{(}
+            \PYG{n}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Arithmetic as Motion Along a Path\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{source\PYGZus{}domain}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Motion\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{target\PYGZus{}domain}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Arithmetic\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{entailments}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Moving along a path can be done in segments...\PYGZdq{}}
+        \PYG{p}{)}
+    \PYG{p}{],}
+    \PYG{n}{inferences}\PYG{o}{=}\PYG{p}{[}
+        \PYG{n}{MaterialInference}\PYG{p}{(}
+            \PYG{n}{name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Iterative Addition\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{premise}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}A quantity can be added by repeatedly adding a smaller unit.\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{conclusion}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Adding B = adding \PYGZsq{}10\PYGZsq{} (B//10) times + \PYGZsq{}1\PYGZsq{} (B\PYGZpc{}10) times.\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{prerequisites}\PYG{o}{=}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Counting skills\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Place value decomposition\PYGZdq{}}\PYG{p}{]}
+        \PYG{p}{)}
+    \PYG{p}{],}
+    \PYG{n}{visualization\PYGZus{}hints}\PYG{o}{=}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}NumberLine\PYGZdq{}}\PYG{p}{]}
+\PYG{p}{)}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Problem:**} The current \PYG{l+s+sb}{`AutomatonAnalyzer`} only does AST analysis. It \PYG{g+gs}{**never reads this metadata**}.
+
+\PYG{g+gs}{**Result:**} Reports only show computational patterns, not the rich conceptual metaphors, material inferences, and prerequisite practices you\PYGZsq{}ve already documented.
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Enhancement Proposals (Easy → Medium Difficulty)}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 🟢 **Enhancement 1: Mine Existing Metadata** (EASIEST \PYGZhy{} High Impact)}
+
+\PYG{g+gs}{**Effort:**} 1\PYGZhy{}2 hours
+\PYG{g+gs}{**Impact:**} Massive \PYGZhy{} immediately reveals all your hand\PYGZhy{}crafted knowledge
+
+\PYG{g+gs}{**What to do:**}
+Modify \PYG{l+s+sb}{`AutomatonAnalyzer`} to instantiate each automaton and extract its \PYG{l+s+sb}{`.metadata`} property.
+
+\PYG{g+gs}{**Implementation:**}
+\PYG{l+s+sb}{```python}
+\PYG{c+c1}{\PYGZsh{} In mud\PYGZus{}generator.py, add to AutomatonAnalyzer:}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}extract\PYGZus{}metadata\PYGZus{}from\PYGZus{}automaton}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{filepath}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{Optional}\PYG{p}{[}\PYG{n}{StrategyMetadata}\PYG{p}{]:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Instantiate automaton and extract its metadata.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{k}{try}\PYG{p}{:}
+        \PYG{c+c1}{\PYGZsh{} Import and instantiate the automaton class}
+        \PYG{n}{module} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}import\PYGZus{}module\PYGZus{}from\PYGZus{}file}\PYG{p}{(}\PYG{n}{filepath}\PYG{p}{)}
+        \PYG{n}{automaton\PYGZus{}class} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}find\PYGZus{}automaton\PYGZus{}class}\PYG{p}{(}\PYG{n}{module}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Create dummy instance to access metadata}
+        \PYG{n}{instance} \PYG{o}{=} \PYG{n}{automaton\PYGZus{}class}\PYG{p}{(}\PYG{n}{inputs}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}A\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}B\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{})}
+        \PYG{k}{return} \PYG{n}{instance}\PYG{o}{.}\PYG{n}{metadata}
+    \PYG{k}{except} \PYG{n+ne}{Exception} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}
+        \PYG{k}{return} \PYG{k+kc}{None}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Then in reports, include:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Embodied Metaphors**} used by each strategy
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Material Inferences**} enacted
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Prerequisites**} (PP\PYGZhy{}necessities already documented!)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Visualization hints**}
+
+\PYG{g+gs}{**Example Enhanced Report Section:**}
+\PYG{l+s+sb}{```markdown}
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Strategy: SAR\PYGZus{}ADD\PYGZus{}COBO}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Embodied Metaphors (Lakoff \PYGZam{} Núñez)}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Arithmetic as Motion Along a Path**}
+\PYG{+w}{  }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Source: Motion
+\PYG{+w}{  }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Target: Arithmetic
+\PYG{+w}{  }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Entailments: Moving along a path can be done in segments...
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Material Inferences (Brandom)}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Iterative Addition**}
+\PYG{+w}{  }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Premise: A quantity can be added by repeatedly adding smaller units
+\PYG{+w}{  }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Conclusion: Adding B = adding \PYGZsq{}10\PYGZsq{} (B//10) times + \PYGZsq{}1\PYGZsq{} (B\PYGZpc{}10) times
+\PYG{+w}{  }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Prerequisites: Counting skills, Place value decomposition
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} PP\PYGZhy{}Necessities (from metadata)}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Counting skills
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Place value decomposition
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Why this is a goldmine:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }You\PYGZsq{}ve already done the hard work of documenting metaphors/inferences
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Just need to surface it in reports
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Instantly makes reports 10x more interesting
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 🟢 **Enhancement 2: Cross\PYGZhy{}Reference Metaphors** (EASY)}
+
+\PYG{g+gs}{**Effort:**} 2\PYGZhy{}3 hours
+\PYG{g+gs}{**Impact:**} Shows how metaphors propagate across strategies
+
+\PYG{g+gs}{**What to do:**}
+Track which strategies share the same embodied metaphors.
+
+\PYG{g+gs}{**Implementation:**}
+\PYG{l+s+sb}{```python}
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}analyze\PYGZus{}metaphor\PYGZus{}sharing}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{Dict}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]]:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Find strategies sharing conceptual metaphors.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{metaphor\PYGZus{}to\PYGZus{}strategies} \PYG{o}{=} \PYG{n}{defaultdict}\PYG{p}{(}\PYG{n+nb}{list}\PYG{p}{)}
+
+    \PYG{k}{for} \PYG{n}{strategy}\PYG{p}{,} \PYG{n}{metadata} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}metadata}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+        \PYG{k}{for} \PYG{n}{metaphor} \PYG{o+ow}{in} \PYG{n}{metadata}\PYG{o}{.}\PYG{n}{metaphors}\PYG{p}{:}
+            \PYG{n}{metaphor\PYGZus{}to\PYGZus{}strategies}\PYG{p}{[}\PYG{n}{metaphor}\PYG{o}{.}\PYG{n}{name}\PYG{p}{]}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{strategy}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{n}{metaphor\PYGZus{}to\PYGZus{}strategies}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Enhanced Report Section:**}
+\PYG{l+s+sb}{```markdown}
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Conceptual Metaphor Analysis}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} \PYGZdq{}Arithmetic as Motion Along a Path\PYGZdq{}}
+Used by 8 strategies:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }SAR\PYGZus{}ADD\PYGZus{}COBO, SAR\PYGZus{}SUB\PYGZus{}Sliding, SAR\PYGZus{}ADD\PYGZus{}Counting, ...
+
+\PYG{g+gs}{**Interpretation:**} This is a foundational grounding metaphor (Lakoff\PYGZsq{}s 4G).
+Strategies using this metaphor conceptualize arithmetic as movement in space.
+
+\PYG{g+gs}{**PP\PYGZhy{}Sufficiency Hypothesis:**} Mastery of spatial reasoning (P\PYGZus{}Motion) may be
+PP\PYGZhy{}sufficient for basic arithmetic (P\PYGZus{}Arithmetic) via this metaphor.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} \PYGZdq{}Arithmetic as Object Collection\PYGZdq{}}
+Used by 5 strategies:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }ADD\PYGZus{}Chunking, SUB\PYGZus{}CBBO, ...
+
+\PYG{g+gs}{**Interpretation:**} Alternative grounding metaphor. Strategies using this
+conceptualize arithmetic as physical manipulation of discrete objects.
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Why interesting:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Shows which metaphors are \PYGZdq{}foundational\PYGZdq{} (used widely)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Reveals metaphor clusters
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Connects to Lakoff \PYGZam{} Núñez\PYGZsq{}s 4 Grounding Metaphors theory
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 🟢 **Enhancement 3: Inference Chain Analysis** (EASY\PYGZhy{}MEDIUM)}
+
+\PYG{g+gs}{**Effort:**} 3\PYGZhy{}4 hours
+\PYG{g+gs}{**Impact:**} Shows how material inferences build on each other
+
+\PYG{g+gs}{**What to do:**}
+Analyze the \PYG{l+s+sb}{`prerequisites`} field in \PYG{l+s+sb}{`MaterialInference`} to build inference chains.
+
+\PYG{g+gs}{**Implementation:**}
+\PYG{l+s+sb}{```python}
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}build\PYGZus{}inference\PYGZus{}chains}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{List}\PYG{p}{[}\PYG{n}{Tuple}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n+nb}{str}\PYG{p}{]]:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Build chains showing how inferences depend on practices.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{chains} \PYG{o}{=} \PYG{p}{[]}
+
+    \PYG{k}{for} \PYG{n}{strategy}\PYG{p}{,} \PYG{n}{metadata} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}metadata}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+        \PYG{k}{for} \PYG{n}{inference} \PYG{o+ow}{in} \PYG{n}{metadata}\PYG{o}{.}\PYG{n}{inferences}\PYG{p}{:}
+            \PYG{k}{for} \PYG{n}{prereq} \PYG{o+ow}{in} \PYG{n}{inference}\PYG{o}{.}\PYG{n}{prerequisites}\PYG{p}{:}
+                \PYG{c+c1}{\PYGZsh{} Find if any other strategy provides this prerequisite}
+                \PYG{n}{chains}\PYG{o}{.}\PYG{n}{append}\PYG{p}{((}\PYG{n}{prereq}\PYG{p}{,} \PYG{n}{strategy}\PYG{p}{,} \PYG{n}{inference}\PYG{o}{.}\PYG{n}{name}\PYG{p}{))}
+
+    \PYG{k}{return} \PYG{n}{chains}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Enhanced Report Section:**}
+\PYG{l+s+sb}{```markdown}
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Material Inference Chains}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Inference: \PYGZdq{}Iterative Addition\PYGZdq{} (COBO)}
+\PYG{g+gs}{**Prerequisites:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Counting skills → Provided by: ADD\PYGZus{}Counting (implicit)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Place value decomposition → Provided by: ADD\PYGZus{}Rounding, ADD\PYGZus{}RMB
+
+\PYG{g+gs}{**Interpretation:**} COBO\PYGZsq{}s material inference depends on practices from
+simpler strategies. This suggests a PP\PYGZhy{}sufficiency chain:
+\PYG{l+s+sb}{```}
+P\PYG{g+ge}{\PYGZus{}Counting + P\PYGZus{}}PlaceValue → P\PYGZus{}COBO
+\PYG{l+s+sb}{```}
+
+\PYG{l+s+sb}{**LX Hypothesis:** COBO may be LX to ADD\PYGZus{}Counting because it makes explicit}
+\PYG{l+s+sb}{(via place value decomposition) what ADD\PYGZus{}Counting leaves implicit.}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Why interesting:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Shows actual cognitive prerequisites (not just computational patterns)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Reveals learning progressions
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Connects to educational research (CGI framework)
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 🟡 **Enhancement 4: Metaphor\PYGZhy{}Pattern Correlation** (MEDIUM)}
+
+\PYG{g+gs}{**Effort:**} 4\PYGZhy{}6 hours
+\PYG{g+gs}{**Impact:**} Connects abstract metaphors to concrete computation
+
+\PYG{g+gs}{**What to do:**}
+Correlate which computational patterns appear in strategies using specific metaphors.
+
+\PYG{g+gs}{**Implementation:**}
+\PYG{l+s+sb}{```python}
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}correlate\PYGZus{}metaphors\PYGZus{}and\PYGZus{}patterns}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{Dict}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{Dict}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n+nb}{int}\PYG{p}{]]:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Find which computational patterns co\PYGZhy{}occur with which metaphors.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{correlations} \PYG{o}{=} \PYG{n}{defaultdict}\PYG{p}{(}\PYG{k}{lambda}\PYG{p}{:} \PYG{n}{defaultdict}\PYG{p}{(}\PYG{n+nb}{int}\PYG{p}{))}
+
+    \PYG{k}{for} \PYG{n}{strategy} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategies}\PYG{p}{:}
+        \PYG{n}{metadata} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}metadata}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{strategy}\PYG{p}{)}
+        \PYG{n}{patterns} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}patterns}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{strategy}\PYG{p}{,} \PYG{n+nb}{set}\PYG{p}{())}
+
+        \PYG{k}{for} \PYG{n}{metaphor} \PYG{o+ow}{in} \PYG{n}{metadata}\PYG{o}{.}\PYG{n}{metaphors}\PYG{p}{:}
+            \PYG{k}{for} \PYG{n}{pattern} \PYG{o+ow}{in} \PYG{n}{patterns}\PYG{p}{:}
+                \PYG{n}{correlations}\PYG{p}{[}\PYG{n}{metaphor}\PYG{o}{.}\PYG{n}{name}\PYG{p}{][}\PYG{n}{pattern}\PYG{p}{]} \PYG{o}{+=} \PYG{l+m+mi}{1}
+
+    \PYG{k}{return} \PYG{n}{correlations}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Enhanced Report Section:**}
+\PYG{l+s+sb}{```markdown}
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Metaphor\PYGZhy{}Computation Correlation Analysis}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} \PYGZdq{}Arithmetic as Motion Along a Path\PYGZdq{}}
+\PYG{g+gs}{**Computational signatures:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`incremental\PYGZus{}counting`}: 7/8 strategies (87.5\PYGZpc{})
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`base\PYGZus{}decomposition`}: 3/8 strategies (37.5\PYGZpc{})
+
+\PYG{g+gs}{**Interpretation:**} The \PYGZdq{}motion\PYGZdq{} metaphor strongly correlates with incremental
+counting patterns. This suggests the cognitive metaphor of \PYGZdq{}moving along a path\PYGZdq{}
+is computationally realized as state\PYGZhy{}based iteration (while loops, counters).
+
+\PYG{g+gs}{**Embodied Grounding:**} The physical practice of walking from point A to point B
+(P\PYGZus{}Motion) is elaborated into the computational practice of iterative succession
+(P\PYGZus{}IncrementalCounting), which enables arithmetic vocabulary (V\PYGZus{}Addition).
+
+This is \PYG{g+gs}{**pragmatic expressive bootstrapping**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }V\PYG{g+ge}{\PYGZus{}Spatial (weaker) → specifies P\PYGZus{}}Motion → elaborates to P\PYG{g+ge}{\PYGZus{}Counting → deploys V\PYGZus{}}Arithmetic (stronger)
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Why interesting:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Shows HOW abstract metaphors become concrete algorithms
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Bridges Lakoff (conceptual) with implementation (computational)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Tests whether metaphors actually predict computational structure
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 🟡 **Enhancement 5: Vocabulary Deployment Analysis** (MEDIUM)}
+
+\PYG{g+gs}{**Effort:**} 3\PYGZhy{}5 hours
+\PYG{g+gs}{**Impact:**} Tracks what mathematical concepts each strategy introduces
+
+\PYG{g+gs}{**What to do:**}
+Use the \PYG{l+s+sb}{`deployed\PYGZus{}vocabulary`} field to track which strategies introduce new concepts.
+
+\PYG{g+gs}{**Implementation:**}
+\PYG{l+s+sb}{```python}
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}analyze\PYGZus{}vocabulary\PYGZus{}deployment}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{Dict}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]]:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Track which strategies deploy which mathematical vocabularies.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{vocab\PYGZus{}to\PYGZus{}strategies} \PYG{o}{=} \PYG{n}{defaultdict}\PYG{p}{(}\PYG{n+nb}{list}\PYG{p}{)}
+
+    \PYG{k}{for} \PYG{n}{strategy}\PYG{p}{,} \PYG{n}{metadata} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}metadata}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+        \PYG{k}{if} \PYG{n}{metadata}\PYG{o}{.}\PYG{n}{deployed\PYGZus{}vocabulary}\PYG{p}{:}
+            \PYG{n}{vocab\PYGZus{}to\PYGZus{}strategies}\PYG{p}{[}\PYG{n}{metadata}\PYG{o}{.}\PYG{n}{deployed\PYGZus{}vocabulary}\PYG{p}{]}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{strategy}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{n}{vocab\PYGZus{}to\PYGZus{}strategies}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Enhanced Report Section:**}
+\PYG{l+s+sb}{```markdown}
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Vocabulary Deployment (VV\PYGZhy{}Resultance)}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Concept: \PYGZdq{}Place Value\PYGZdq{}}
+Deployed by: ADD\PYGZus{}RMB, ADD\PYGZus{}COBO, SUB\PYGZus{}Chunking
+
+\PYG{g+gs}{**PV\PYGZhy{}Sufficiency:**} To deploy the vocabulary \PYGZdq{}place value,\PYGZdq{} practitioners must
+master decomposition practices (P\PYGZus{}Decompose: seeing 37 as 30+7).
+
+\PYG{g+gs}{**PP\PYGZhy{}Sufficiency Chain:**}
+\PYG{l+s+sb}{```}
+P\PYG{g+ge}{\PYGZus{}Counting (ADD\PYGZus{}}Counting) → P\PYG{g+ge}{\PYGZus{}Decompose (ADD\PYGZus{}}RMB) → V\PYGZus{}PlaceValue
+\PYG{l+s+sb}{```}
+
+\PYG{l+s+sb}{**LX Relation:** ADD\PYGZus{}RMB is LX to ADD\PYGZus{}Counting:}
+\PYG{l+s+sb}{\PYGZhy{} ADD\PYGZus{}Counting implicitly uses place structure (counting by tens)}
+\PYG{l+s+sb}{\PYGZhy{} ADD\PYGZus{}RMB makes it explicit (decomposes into tens and ones)}
+\PYG{l+s+sb}{\PYGZhy{} Provides vocabulary to SAY what ADD\PYGZus{}Counting only DOES}
+
+\PYG{l+s+sb}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Concept: \PYGZdq{}Invariance under Translation\PYGZdq{}}
+\PYG{l+s+sb}{Deployed by: SUB\PYGZus{}Sliding}
+
+\PYG{l+s+sb}{**Material Inference:** (a \PYGZhy{} b) = (a + c) \PYGZhy{} (b + c)}
+
+\PYG{l+s+sb}{**Embodied Grounding:** Spatial invariance (distance doesn\PYGZsq{}t change when you}
+\PYG{l+s+sb}{move both endpoints) grounds arithmetic invariance (difference doesn\PYGZsq{}t change}
+\PYG{l+s+sb}{when you add same amount to both numbers).}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Why interesting:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Shows which strategies introduce new concepts vs. use existing ones
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Identifies \PYGZdq{}vocabulary\PYGZhy{}rich\PYGZdq{} vs. \PYGZdq{}practice\PYGZhy{}rich\PYGZdq{} strategies
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Maps conceptual progress through the curriculum
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 🟡 **Enhancement 6: Visualization Hint Clustering** (EASY\PYGZhy{}MEDIUM)}
+
+\PYG{g+gs}{**Effort:**} 2\PYGZhy{}3 hours
+\PYG{g+gs}{**Impact:**} Groups strategies by cognitive representation
+
+\PYG{g+gs}{**What to do:**}
+Use \PYG{l+s+sb}{`visualization\PYGZus{}hints`} to group strategies by preferred representations.
+
+\PYG{g+gs}{**Implementation:**}
+\PYG{l+s+sb}{```python}
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}cluster\PYGZus{}by\PYGZus{}visualization}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{Dict}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]]:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Group strategies by visualization type.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{viz\PYGZus{}to\PYGZus{}strategies} \PYG{o}{=} \PYG{n}{defaultdict}\PYG{p}{(}\PYG{n+nb}{list}\PYG{p}{)}
+
+    \PYG{k}{for} \PYG{n}{strategy}\PYG{p}{,} \PYG{n}{metadata} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}metadata}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+        \PYG{k}{for} \PYG{n}{viz\PYGZus{}hint} \PYG{o+ow}{in} \PYG{n}{metadata}\PYG{o}{.}\PYG{n}{visualization\PYGZus{}hints}\PYG{p}{:}
+            \PYG{n}{viz\PYGZus{}to\PYGZus{}strategies}\PYG{p}{[}\PYG{n}{viz\PYGZus{}hint}\PYG{p}{]}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{strategy}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{n}{viz\PYGZus{}to\PYGZus{}strategies}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Enhanced Report Section:**}
+\PYG{l+s+sb}{```markdown}
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Cognitive Representation Analysis}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Number Line Strategies (8 strategies)}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }ADD\PYGZus{}Counting, ADD\PYGZus{}COBO, SUB\PYGZus{}Sliding, ...
+
+\PYG{g+gs}{**Interpretation:**} These strategies use the \PYGZdq{}Arithmetic as Motion\PYGZdq{} metaphor
+and are best visualized on a number line. Students may find these strategies
+easier if they have strong spatial reasoning skills.
+
+\PYG{g+gs}{**Pedagogical Implication:**} Students struggling with these strategies might
+benefit from physical number line activities before moving to symbolic work.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Object Collection Strategies (5 strategies)}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }ADD\PYGZus{}Chunking, SUB\PYGZus{}CBBO, ...
+
+\PYG{g+gs}{**Interpretation:**} These strategies use the \PYGZdq{}Arithmetic as Object Collection\PYGZdq{}
+metaphor and are best visualized with manipulatives (blocks, counters).
+
+\PYG{g+gs}{**Embodied Practice:**} Physical manipulation of objects (P\PYGZus{}Manipulate) grounds
+abstract arithmetic (V\PYGZus{}Addition) via AOC metaphor.
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Why interesting:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Connects to educational psychology (visual\PYGZhy{}spatial vs. object\PYGZhy{}manipulation)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Helps understand why different students prefer different strategies
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Suggests personalized teaching approaches
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 🟢 **Enhancement 7: Prerequisites → Elaboration Verification** (EASY)}
+
+\PYG{g+gs}{**Effort:**} 2\PYGZhy{}3 hours
+\PYG{g+gs}{**Impact:**} Validates that detected elaborations match documented prerequisites
+
+\PYG{g+gs}{**What to do:**}
+Check if strategies marked as prerequisites in metadata actually show up as elaboration sources.
+
+\PYG{g+gs}{**Implementation:**}
+\PYG{l+s+sb}{```python}
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}verify\PYGZus{}prerequisites\PYGZus{}match\PYGZus{}elaborations}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{List}\PYG{p}{[}\PYG{n}{Dict}\PYG{p}{]:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Check if metadata prerequisites match discovered elaborations.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{mismatches} \PYG{o}{=} \PYG{p}{[]}
+
+    \PYG{k}{for} \PYG{n}{strategy}\PYG{p}{,} \PYG{n}{metadata} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}metadata}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+        \PYG{n}{documented\PYGZus{}prereqs} \PYG{o}{=} \PYG{n+nb}{set}\PYG{p}{()}
+        \PYG{k}{for} \PYG{n}{inference} \PYG{o+ow}{in} \PYG{n}{metadata}\PYG{o}{.}\PYG{n}{inferences}\PYG{p}{:}
+            \PYG{n}{documented\PYGZus{}prereqs}\PYG{o}{.}\PYG{n}{update}\PYG{p}{(}\PYG{n}{inference}\PYG{o}{.}\PYG{n}{prerequisites}\PYG{p}{)}
+
+        \PYG{n}{discovered\PYGZus{}prereqs} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+            \PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}
+            \PYG{k}{for} \PYG{n}{elab} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elaborations}
+            \PYG{k}{if} \PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}elaborated\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]} \PYG{o}{==} \PYG{n}{strategy}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{k}{if} \PYG{n}{documented\PYGZus{}prereqs} \PYG{o}{!=} \PYG{n}{discovered\PYGZus{}prereqs}\PYG{p}{:}
+            \PYG{n}{mismatches}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(\PYGZob{}}
+                \PYG{l+s+s1}{\PYGZsq{}strategy\PYGZsq{}}\PYG{p}{:} \PYG{n}{strategy}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}documented\PYGZsq{}}\PYG{p}{:} \PYG{n}{documented\PYGZus{}prereqs}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}discovered\PYGZsq{}}\PYG{p}{:} \PYG{n}{discovered\PYGZus{}prereqs}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}missing\PYGZsq{}}\PYG{p}{:} \PYG{n}{documented\PYGZus{}prereqs} \PYG{o}{\PYGZhy{}} \PYG{n}{discovered\PYGZus{}prereqs}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}unexpected\PYGZsq{}}\PYG{p}{:} \PYG{n}{discovered\PYGZus{}prereqs} \PYG{o}{\PYGZhy{}} \PYG{n}{documented\PYGZus{}prereqs}
+            \PYG{p}{\PYGZcb{})}
+
+    \PYG{k}{return} \PYG{n}{mismatches}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Enhanced Report Section:**}
+\PYG{l+s+sb}{```markdown}
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Prerequisite Verification}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Strategy: ADD\PYGZus{}COBO}
+\PYG{g+gs}{**Documented prerequisites:**} Counting skills, Place value decomposition
+\PYG{g+gs}{**Discovered elaborations:**} ADD\PYGZus{}Counting, ADD\PYGZus{}Chunking
+
+✅ \PYG{g+gs}{**Match:**} ADD\PYGZus{}Counting provides counting skills
+⚠️ \PYG{g+gs}{**Mismatch:**} \PYGZdq{}Place value decomposition\PYGZdq{} not explicitly detected
+
+\PYG{g+gs}{**Interpretation:**} The AST analyzer may not recognize place value decomposition
+as a distinct pattern. This is a limitation of purely computational analysis.
+
+\PYG{g+gs}{**Recommendation:**} Consider \PYGZdq{}place value decomposition\PYGZdq{} as a \PYG{g+ge}{*practical*}
+elaboration (cognitive skill) rather than \PYG{g+ge}{*algorithmic*} elaboration (code pattern).
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Why interesting:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Validates AST analysis against human expert knowledge
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Identifies blind spots in pattern detection
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Shows where practical ≠ algorithmic elaboration
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Implementation Priority}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Quick Wins (1\PYGZhy{}2 days total):}
+\PYG{k}{1.} \PYG{g+gs}{**Enhancement 1: Mine Existing Metadata**} ⭐⭐⭐
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Highest impact, easiest implementation
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Immediately surfaces all your hard work
+
+\PYG{k}{2.} \PYG{g+gs}{**Enhancement 2: Cross\PYGZhy{}Reference Metaphors**}
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Shows metaphor distribution
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Reveals foundational vs. specialized metaphors
+
+\PYG{k}{3.} \PYG{g+gs}{**Enhancement 6: Visualization Clustering**}
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Simple grouping, interesting pedagogical insights
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Medium Effort (3\PYGZhy{}5 days total):}
+\PYG{k}{4.} \PYG{g+gs}{**Enhancement 3: Inference Chain Analysis**}
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }More complex but very insightful
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Shows learning progressions
+
+\PYG{k}{5.} \PYG{g+gs}{**Enhancement 7: Prerequisites Verification**}
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Validates your system
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Identifies gaps
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Advanced (1\PYGZhy{}2 weeks):}
+\PYG{k}{6.} \PYG{g+gs}{**Enhancement 4: Metaphor\PYGZhy{}Pattern Correlation**}
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Tests whether metaphors predict computation
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Bridges theory and practice
+
+\PYG{k}{7.} \PYG{g+gs}{**Enhancement 5: Vocabulary Deployment**}
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Tracks conceptual progress
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Complex but rich insights
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Example: Enhanced Report for ADD\PYGZus{}COBO}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Current Report (computational only):}
+\PYG{l+s+sb}{```markdown}
+\PYG{g+gh}{\PYGZsh{} Meaning\PYGZhy{}Use Analysis: ADD\PYGZus{}COBO}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} PV\PYGZhy{}Sufficiency Analysis}
+Computational patterns: incremental\PYGZus{}counting
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Enhanced Report (with metadata mining):}
+\PYG{l+s+sb}{```markdown}
+\PYG{g+gh}{\PYGZsh{} Meaning\PYGZhy{}Use Analysis: ADD\PYGZus{}COBO}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Strategy Overview}
+\PYG{g+gs}{**Name:**} Counting On by Bases and Ones
+\PYG{g+gs}{**Description:**} Decomposes B into base\PYGZhy{}ten and ones, then counts on from A
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Embodied Metaphors}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Arithmetic as Motion Along a Path**} (Lakoff 4G)
+\PYG{+w}{  }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Source: Motion
+\PYG{+w}{  }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Target: Arithmetic
+\PYG{+w}{  }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Entailment: Moving in segments = adding in segments
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Material Inferences}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Iterative Addition**}
+\PYG{+w}{  }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Premise: Quantity can be added by repeatedly adding smaller units
+\PYG{+w}{  }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Conclusion: Adding B = adding \PYGZsq{}10\PYGZsq{} (B//10) times + \PYGZsq{}1\PYGZsq{} (B\PYGZpc{}10) times
+\PYG{+w}{  }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Prerequisites: Counting skills, Place value decomposition
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Computational Patterns (AST Analysis)}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }P\PYG{g+ge}{\PYGZus{}incremental\PYGZus{}}counting (state\PYGZhy{}based iteration)
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Metaphor\PYGZhy{}Computation Link}
+The \PYGZdq{}Motion Along Path\PYGZdq{} metaphor is realized computationally as
+incremental\PYGZus{}counting (while loops with counters). This shows how the
+spatial metaphor becomes algorithmic.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} PP\PYGZhy{}Sufficiency Analysis}
+\PYG{g+gs}{**Documented Prerequisites:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Counting skills (provided by ADD\PYGZus{}Counting)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Place value decomposition (provided by ADD\PYGZus{}RMB)
+
+\PYG{g+gs}{**Discovered Elaborations:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }ADD\PYGZus{}Counting → ADD\PYGZus{}COBO (via incremental\PYGZus{}counting)
+
+\PYG{g+gs}{**Interpretation:**} COBO algorithmically elaborates from ADD\PYGZus{}Counting,
+but also requires practical elaboration (place value understanding)
+not visible in code.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} LX Relation Analysis}
+\PYG{g+gs}{**Candidate:**} ADD\PYGZus{}COBO is LX to ADD\PYGZus{}Counting
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }ADD\PYGZus{}Counting: counts on one\PYGZhy{}by\PYGZhy{}one (implicit structure)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }ADD\PYGZus{}COBO: explicitly decomposes into tens and ones
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Makes place value structure explicit (explication)
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Pedagogical Insights}
+\PYG{g+gs}{**Visualization:**} Number line (motion metaphor)
+\PYG{g+gs}{**Learning progression:**} Master counting → add place value → COBO
+\PYG{g+gs}{**Difficulty:**} Medium (requires two elaborations)
+\PYG{l+s+sb}{```}
+
+\PYG{g+gs}{**Improvement:**} Goes from sparse computational analysis to rich conceptual analysis
+with embodied grounding, material inferences, and pedagogical implications!
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Why These Enhancements Matter}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} For Your Manuscript:}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Demonstrates that formalization preserves rich cognitive content
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Shows connection between Lakoff\PYGZsq{}s metaphors and actual computation
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Validates Brandomian PP/PV/VP\PYGZhy{}sufficiency structure empirically
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Provides evidence that student strategies form coherent system
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} For Future Research:}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Tool can analyze ANY new strategy you add
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Can test predictions (e.g., does metaphor X predict pattern Y?)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Can discover unexpected relationships in your knowledge base
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Can validate educational progressions
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} For Readers/Reviewers:}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Makes reports much more interesting and accessible
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Connects abstract theory (Brandom/Lakoff) to concrete examples
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Shows practical value of formalization
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Demonstrates interdisciplinary synthesis working
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Recommendation}
+
+\PYG{g+gs}{**Start with Enhancement 1**} (Mine Existing Metadata). It\PYGZsq{}s:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ Easy to implement (1\PYGZhy{}2 hours)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ High impact (10x more interesting reports)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ Zero risk (doesn\PYGZsq{}t change existing code)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ Reveals YOUR hard work documenting metaphors/inferences
+
+Then add \PYG{g+gs}{**Enhancement 2**} (Cross\PYGZhy{}Reference Metaphors) to show which
+metaphors are foundational vs. specialized.
+
+These two alone will transform reports from \PYGZdq{}sparse computational analysis\PYGZdq{}
+to \PYGZdq{}rich conceptual analysis grounded in Lakoff \PYGZam{} Brandom.\PYGZdq{}
+
+Want me to implement Enhancement 1 now? I can modify the analyzer to mine
+and report the metadata you\PYGZsq{}ve already documented.
+
+\end{MintedVerbatim}

@@ -1,0 +1,588 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+ch}{\PYGZsh{}!/usr/bin/env python3}
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{mua\PYGZus{}report\PYGZus{}generator.py: Meaning\PYGZhy{}Use Analysis Report Generator}
+
+\PYG{l+s+sd}{Generates Brandomian MUA reports for student arithmetic strategies based on}
+\PYG{l+s+sd}{discovered computational patterns and elaboration relationships.}
+
+\PYG{l+s+sd}{Concepts from Brandom\PYGZsq{}s \PYGZdq{}Between Saying and Doing\PYGZdq{}:}
+\PYG{l+s+sd}{\PYGZhy{} PV\PYGZhy{}Sufficiency: Practices sufficient to deploy a Vocabulary}
+\PYG{l+s+sd}{\PYGZhy{} VP\PYGZhy{}Sufficiency: Vocabulary sufficient to specify Practices}
+\PYG{l+s+sd}{\PYGZhy{} PP\PYGZhy{}Sufficiency: Practices sufficient for other Practices}
+\PYG{l+s+sd}{  \PYGZhy{} Algorithmic Elaboration: Decomposable into primitives + algorithm}
+\PYG{l+s+sd}{  \PYGZhy{} Practical Elaboration through Training: Developed via experience (pragmatic projection)}
+\PYG{l+s+sd}{\PYGZhy{} Pragmatic Metavocabulary: V1 that specifies practices for V2}
+\PYG{l+s+sd}{\PYGZhy{} LX Relation: V\PYGZsq{} is elaborated from and explicates V}
+\PYG{l+s+sd}{\PYGZhy{} Pragmatic Expressive Bootstrapping: Weaker V serves as metavocabulary for stronger V}
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{typing}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Dict}\PYG{p}{,} \PYG{n}{List}\PYG{p}{,} \PYG{n}{Set}\PYG{p}{,} \PYG{n}{Any}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{datetime}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{datetime}
+
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{MUAReportGenerator}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generates Meaning\PYGZhy{}Use Analysis reports for strategy elaborations.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{analysis\PYGZus{}results}\PYG{p}{:} \PYG{n}{Dict}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{Any}\PYG{p}{]):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Initialize with analysis results from AutomatonAnalyzer.}
+
+\PYG{l+s+sd}{        Args:}
+\PYG{l+s+sd}{            analysis\PYGZus{}results: Dict containing:}
+\PYG{l+s+sd}{                \PYGZhy{} patterns: Dict of ComputationalPattern objects}
+\PYG{l+s+sd}{                \PYGZhy{} strategy\PYGZus{}patterns: Dict mapping strategy \PYGZhy{}\PYGZgt{} set of pattern names}
+\PYG{l+s+sd}{                \PYGZhy{} elaborations: List of AlgorithmicElaboration objects}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{analysis\PYGZus{}results} \PYG{o}{=} \PYG{n}{analysis\PYGZus{}results}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{patterns} \PYG{o}{=} \PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}patterns\PYGZsq{}}\PYG{p}{,} \PYG{p}{\PYGZob{}\PYGZcb{})}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}patterns} \PYG{o}{=} \PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}strategy\PYGZus{}patterns\PYGZsq{}}\PYG{p}{,} \PYG{p}{\PYGZob{}\PYGZcb{})}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elaborations} \PYG{o}{=} \PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}elaborations\PYGZsq{}}\PYG{p}{,} \PYG{p}{[])}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}metadata} \PYG{o}{=} \PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}strategy\PYGZus{}metadata\PYGZsq{}}\PYG{p}{,} \PYG{p}{\PYGZob{}\PYGZcb{})}  \PYG{c+c1}{\PYGZsh{} NEW}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{metaphor\PYGZus{}sharing} \PYG{o}{=} \PYG{n}{analysis\PYGZus{}results}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}metaphor\PYGZus{}sharing\PYGZsq{}}\PYG{p}{,} \PYG{p}{\PYGZob{}\PYGZcb{})}  \PYG{c+c1}{\PYGZsh{} NEW}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{generate\PYGZus{}full\PYGZus{}report}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate complete MUA report for all strategies.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{report} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n}{report}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{} Meaning\PYGZhy{}Use Analysis Report\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{report}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Generated: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{datetime}\PYG{o}{.}\PYG{n}{now}\PYG{p}{()}\PYG{o}{.}\PYG{n}{strftime}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZpc{}Y\PYGZhy{}\PYGZpc{}m\PYGZhy{}}\PYG{l+s+si}{\PYGZpc{}d}\PYG{l+s+s1}{ \PYGZpc{}H:\PYGZpc{}M:\PYGZpc{}S\PYGZsq{}}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{report}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}=\PYGZdq{}}\PYG{o}{*}\PYG{l+m+mi}{80} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{report}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}overview}\PYG{p}{())}
+        \PYG{n}{report}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}theoretical\PYGZus{}framework}\PYG{p}{())}
+        \PYG{n}{report}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}pattern\PYGZus{}analysis}\PYG{p}{())}
+        \PYG{n}{report}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}metaphor\PYGZus{}analysis}\PYG{p}{())}  \PYG{c+c1}{\PYGZsh{} NEW}
+        \PYG{n}{report}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}elaboration\PYGZus{}analysis}\PYG{p}{())}
+        \PYG{n}{report}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}lx\PYGZus{}analysis}\PYG{p}{())}
+
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{report}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{generate\PYGZus{}strategy\PYGZus{}report}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate detailed MUA report for a specific strategy.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{report} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n}{report}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{} Meaning\PYGZhy{}Use Analysis: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{report}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Generated: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{datetime}\PYG{o}{.}\PYG{n}{now}\PYG{p}{()}\PYG{o}{.}\PYG{n}{strftime}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZpc{}Y\PYGZhy{}\PYGZpc{}m\PYGZhy{}}\PYG{l+s+si}{\PYGZpc{}d}\PYG{l+s+s1}{ \PYGZpc{}H:\PYGZpc{}M:\PYGZpc{}S\PYGZsq{}}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{report}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}=\PYGZdq{}}\PYG{o}{*}\PYG{l+m+mi}{80} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Get strategy data}
+        \PYG{n}{patterns} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}patterns}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}name}\PYG{p}{,} \PYG{n+nb}{set}\PYG{p}{())}
+        \PYG{n}{base\PYGZus{}elabs} \PYG{o}{=} \PYG{p}{[}\PYG{n}{e} \PYG{k}{for} \PYG{n}{e} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elaborations} \PYG{k}{if} \PYG{n}{e}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]} \PYG{o}{==} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{]}
+        \PYG{n}{elab\PYGZus{}elabs} \PYG{o}{=} \PYG{p}{[}\PYG{n}{e} \PYG{k}{for} \PYG{n}{e} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elaborations} \PYG{k}{if} \PYG{n}{e}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}elaborated\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]} \PYG{o}{==} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{]}
+
+        \PYG{c+c1}{\PYGZsh{} NEW: Add rich metadata section first if available}
+        \PYG{n}{metadata} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}metadata}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}name}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{metadata}\PYG{p}{:}
+            \PYG{n}{report}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}metadata\PYGZus{}section}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}name}\PYG{p}{,} \PYG{n}{metadata}\PYG{p}{))}
+
+        \PYG{n}{report}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}strategy\PYGZus{}overview}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}name}\PYG{p}{,} \PYG{n}{patterns}\PYG{p}{,} \PYG{n}{base\PYGZus{}elabs}\PYG{p}{,} \PYG{n}{elab\PYGZus{}elabs}\PYG{p}{))}
+        \PYG{n}{report}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}pv\PYGZus{}analysis}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}name}\PYG{p}{,} \PYG{n}{patterns}\PYG{p}{))}
+        \PYG{n}{report}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}pp\PYGZus{}analysis}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}name}\PYG{p}{,} \PYG{n}{patterns}\PYG{p}{,} \PYG{n}{elab\PYGZus{}elabs}\PYG{p}{))}
+        \PYG{n}{report}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}vp\PYGZus{}analysis}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}name}\PYG{p}{,} \PYG{n}{patterns}\PYG{p}{))}
+        \PYG{n}{report}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}strategy\PYGZus{}lx\PYGZus{}analysis}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}name}\PYG{p}{,} \PYG{n}{base\PYGZus{}elabs}\PYG{p}{,} \PYG{n}{elab\PYGZus{}elabs}\PYG{p}{))}
+        \PYG{n}{report}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}generate\PYGZus{}pragmatic\PYGZus{}metavocabulary\PYGZus{}analysis}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}name}\PYG{p}{,} \PYG{n}{patterns}\PYG{p}{))}
+
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{report}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}overview}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate overview section.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{} Overview}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Strategies Analyzed:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}patterns}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Computational Patterns Identified:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{patterns}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Elaboration Relationships Discovered:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elaborations}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Strategies\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{for} \PYG{n}{strategy} \PYG{o+ow}{in} \PYG{n+nb}{sorted}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}patterns}\PYG{o}{.}\PYG{n}{keys}\PYG{p}{()):}
+            \PYG{n}{pattern\PYGZus{}count} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}patterns}\PYG{p}{[}\PYG{n}{strategy}\PYG{p}{])}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}count}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ patterns)\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}theoretical\PYGZus{}framework}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Explain Brandomian framework used in analysis.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}\PYGZsh{}\PYGZsh{} Theoretical Framework}
+
+\PYG{l+s+s2}{This report analyzes student arithmetic strategies using Robert Brandom\PYGZsq{}s Meaning\PYGZhy{}Use Analysis}
+\PYG{l+s+s2}{(MUA) framework from \PYGZdq{}Between Saying and Doing: Towards an Analytic Pragmatism.\PYGZdq{}}
+
+\PYG{l+s+s2}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Key Concepts}
+
+\PYG{l+s+s2}{**1. Practice\PYGZhy{}Vocabulary Relations:**}
+\PYG{l+s+s2}{\PYGZhy{} **PV\PYGZhy{}Sufficiency**: Practices (P) are sufficient to deploy a Vocabulary (V)}
+\PYG{l+s+s2}{  \PYGZhy{} What you must DO to correctly use the vocabulary}
+\PYG{l+s+s2}{\PYGZhy{} **VP\PYGZhy{}Sufficiency**: Vocabulary (V) is sufficient to specify Practices (P)}
+\PYG{l+s+s2}{  \PYGZhy{} What you can SAY to describe what needs to be done}
+
+\PYG{l+s+s2}{**2. Practice\PYGZhy{}Practice Relations (PP\PYGZhy{}Sufficiency):**}
+\PYG{l+s+s2}{\PYGZhy{} **Algorithmic Elaboration**: Complex practice decomposable into primitive practices + algorithm}
+\PYG{l+s+s2}{  \PYGZhy{} Example: Long division = repeated subtraction + place value tracking}
+\PYG{l+s+s2}{  \PYGZhy{} Fully mechanizable; no creative insight needed}
+
+\PYG{l+s+s2}{\PYGZhy{} **Practical Elaboration through Training** (Pragmatic Projection):}
+\PYG{l+s+s2}{  \PYGZhy{} New practice developed from prior practice through experience}
+\PYG{l+s+s2}{  \PYGZhy{} Cannot be fully algorithmically decomposed}
+\PYG{l+s+s2}{  \PYGZhy{} Requires \PYGZdq{}going on in the same way\PYGZdq{} (Wittgenstein)}
+\PYG{l+s+s2}{  \PYGZhy{} Involves genuine learning, not just mechanical execution}
+
+\PYG{l+s+s2}{**3. Pragmatic Metavocabulary:**}
+\PYG{l+s+s2}{\PYGZhy{} V₁ is a pragmatic metavocabulary for V₂ when:}
+\PYG{l+s+s2}{  \PYGZhy{} V₁ can specify the practices P₂ needed to deploy V₂}
+\PYG{l+s+s2}{  \PYGZhy{} Often V₁ is expressively weaker than V₂}
+
+\PYG{l+s+s2}{**4. LX Relation (Elaborated\PYGZhy{}Explicating):**}
+\PYG{l+s+s2}{\PYGZhy{} V\PYGZsq{} is LX to V when V\PYGZsq{} is:}
+\PYG{l+s+s2}{  \PYGZhy{} **(L) Elaborated from** the practices underlying V}
+\PYG{l+s+s2}{  \PYGZhy{} **(X) Explicating of** those practices (makes implicit explicit)}
+\PYG{l+s+s2}{\PYGZhy{} LX captures conceptual progress: knowing\PYGZhy{}how → knowing\PYGZhy{}that}
+
+\PYG{l+s+s2}{**5. Pragmatic Expressive Bootstrapping:**}
+\PYG{l+s+s2}{\PYGZhy{} A weaker vocabulary can serve as metavocabulary for a stronger one}
+\PYG{l+s+s2}{\PYGZhy{} Example: Non\PYGZhy{}indexical language can specify use of indexical language}
+\PYG{l+s+s2}{\PYGZhy{} Explains how embodied practices ground abstract mathematics}
+
+\PYG{l+s+s2}{\PYGZsh{}\PYGZsh{}\PYGZsh{} What This Analysis Can Determine}
+
+\PYG{l+s+s2}{Based on AST analysis of Python automaton implementations, this system identifies:}
+
+\PYG{l+s+s2}{✅ **Computational patterns** as proxies for primitive practices}
+\PYG{l+s+s2}{✅ **Algorithmic elaborations** where strategies share computational structure}
+\PYG{l+s+s2}{✅ **PP\PYGZhy{}sufficiency chains** showing prerequisite relationships}
+\PYG{l+s+s2}{✅ **Candidate LX relations** where complex strategies make simple ones explicit}
+
+\PYG{l+s+s2}{⚠️ **Limitations**:}
+\PYG{l+s+s2}{\PYGZhy{} Cannot determine semantic content or conceptual metaphors from code alone}
+\PYG{l+s+s2}{\PYGZhy{} Cannot identify practical elaborations requiring genuine insight}
+\PYG{l+s+s2}{\PYGZhy{} Patterns are computational, not necessarily cognitive}
+\PYG{l+s+s2}{\PYGZhy{} LX relations are candidates requiring philosophical verification}
+
+\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}pattern\PYGZus{}analysis}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Analyze identified computational patterns as primitive practices.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{} Computational Patterns as Primitive Practices}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}The following patterns represent primitive computational practices\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}identified in the strategy implementations:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{for} \PYG{n}{pattern\PYGZus{}name}\PYG{p}{,} \PYG{n}{pattern\PYGZus{}data} \PYG{o+ow}{in} \PYG{n+nb}{sorted}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{patterns}\PYG{o}{.}\PYG{n}{items}\PYG{p}{()):}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Pattern: `}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{`}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Type:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}unknown\PYGZsq{}}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Used by:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}usage\PYGZus{}count\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ strategies\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Strategies:** }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n+nb}{sorted}\PYG{p}{(}\PYG{n}{pattern\PYGZus{}data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}strategies\PYGZus{}using\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{[])))}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+            \PYG{c+c1}{\PYGZsh{} Interpret pattern as practice}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{**Interpretation as Practice (P\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{):**\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{if} \PYG{n}{pattern\PYGZus{}name} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}decomposition\PYGZsq{}}\PYG{p}{:}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} Breaking numbers into base\PYGZhy{}10 components (tens, ones)\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} Computational signature: `num // 10`, `num \PYGZpc{} 10`\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} Cognitive analogue: Place value understanding\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **PP\PYGZhy{}Necessity for:** Most multi\PYGZhy{}digit strategies\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{elif} \PYG{n}{pattern\PYGZus{}name} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}incremental\PYGZus{}counting\PYGZsq{}}\PYG{p}{:}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} State\PYGZhy{}based iteration with accumulation\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} Computational signature: `while` loops, register increments\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} Cognitive analogue: Iterated succession, counting on\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **PP\PYGZhy{}Necessity for:** Strategies building on counting\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} Computational practice identified in code\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} Represents shared subroutine across strategies\PYGZdq{}}\PYG{p}{)}
+
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}metaphor\PYGZus{}analysis}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Analyze conceptual metaphors shared across strategies.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{} Conceptual Metaphor Analysis (Lakoff \PYGZam{} Núñez)}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}
+
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{metaphor\PYGZus{}sharing}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}No metaphor data available from automaton metadata.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}This section analyzes which strategies share embodied conceptual metaphors,\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}revealing foundational grounding metaphors vs. specialized ones.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Sort metaphors by usage count (descending)}
+        \PYG{n}{metaphor\PYGZus{}counts} \PYG{o}{=} \PYG{p}{[(}\PYG{n}{metaphor}\PYG{p}{,} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{strategies}\PYG{p}{))} \PYG{k}{for} \PYG{n}{metaphor}\PYG{p}{,} \PYG{n}{strategies} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{metaphor\PYGZus{}sharing}\PYG{o}{.}\PYG{n}{items}\PYG{p}{()]}
+        \PYG{n}{metaphor\PYGZus{}counts}\PYG{o}{.}\PYG{n}{sort}\PYG{p}{(}\PYG{n}{key}\PYG{o}{=}\PYG{k}{lambda} \PYG{n}{x}\PYG{p}{:} \PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{reverse}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+
+        \PYG{k}{for} \PYG{n}{metaphor\PYGZus{}name}\PYG{p}{,} \PYG{n}{count} \PYG{o+ow}{in} \PYG{n}{metaphor\PYGZus{}counts}\PYG{p}{:}
+            \PYG{n}{strategies} \PYG{o}{=} \PYG{n+nb}{sorted}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{metaphor\PYGZus{}sharing}\PYG{p}{[}\PYG{n}{metaphor\PYGZus{}name}\PYG{p}{])}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{} }\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{metaphor\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Used by }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{count}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ strateg}\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}y\PYGZsq{}}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{count}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}ies\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{:**\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{strategies}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+            \PYG{c+c1}{\PYGZsh{} Get metaphor details from first strategy that uses it}
+            \PYG{n}{metaphor\PYGZus{}details} \PYG{o}{=} \PYG{k+kc}{None}
+            \PYG{k}{for} \PYG{n}{strategy} \PYG{o+ow}{in} \PYG{n}{strategies}\PYG{p}{:}
+                \PYG{n}{metadata} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}metadata}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{strategy}\PYG{p}{,} \PYG{p}{\PYGZob{}\PYGZcb{})}
+                \PYG{k}{for} \PYG{n}{m} \PYG{o+ow}{in} \PYG{n}{metadata}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}metaphors\PYGZsq{}}\PYG{p}{,} \PYG{p}{[]):}
+                    \PYG{k}{if} \PYG{n}{m}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}name\PYGZsq{}}\PYG{p}{]} \PYG{o}{==} \PYG{n}{metaphor\PYGZus{}name}\PYG{p}{:}
+                        \PYG{n}{metaphor\PYGZus{}details} \PYG{o}{=} \PYG{n}{m}
+                        \PYG{k}{break}
+                \PYG{k}{if} \PYG{n}{metaphor\PYGZus{}details}\PYG{p}{:}
+                    \PYG{k}{break}
+
+            \PYG{k}{if} \PYG{n}{metaphor\PYGZus{}details}\PYG{p}{:}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Source Domain:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{metaphor\PYGZus{}details}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}source\PYGZus{}domain\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Target Domain:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{metaphor\PYGZus{}details}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}target\PYGZus{}domain\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Key Entailments:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{metaphor\PYGZus{}details}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}entailments\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+            \PYG{c+c1}{\PYGZsh{} Interpret based on usage}
+            \PYG{k}{if} \PYG{n}{count} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{5}\PYG{p}{:}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Interpretation:** This is a **foundational grounding metaphor** (Lakoff\PYGZsq{}s 4Gs).\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Wide usage suggests it\PYGZsq{}s a core conceptual structure for arithmetic reasoning.\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Students must master the source domain (}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{metaphor\PYGZus{}details}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}source\PYGZus{}domain\PYGZsq{}}\PYG{p}{]}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{metaphor\PYGZus{}details}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}?\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{)\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}to deploy these strategies.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**PP\PYGZhy{}Sufficiency Hypothesis:** Mastery of embodied practices in the\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{metaphor\PYGZus{}details}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}source\PYGZus{}domain\PYGZsq{}}\PYG{p}{]}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{metaphor\PYGZus{}details}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}source\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ domain\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}may be PP\PYGZhy{}sufficient for basic arithmetic practices via this metaphor.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{elif} \PYG{n}{count} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{3}\PYG{p}{:}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Interpretation:** This is a **common metaphor** used across multiple operations.\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Strategies using this metaphor form a conceptual cluster.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Interpretation:** This is a **specialized metaphor** for specific strategies.\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}May represent advanced or operation\PYGZhy{}specific conceptualizations.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Summary}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Summary}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Total unique metaphors identified:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{metaphor\PYGZus{}sharing}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{foundational} \PYG{o}{=} \PYG{p}{[}\PYG{n}{m} \PYG{k}{for} \PYG{n}{m}\PYG{p}{,} \PYG{n}{c} \PYG{o+ow}{in} \PYG{n}{metaphor\PYGZus{}counts} \PYG{k}{if} \PYG{n}{c} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{5}\PYG{p}{]}
+        \PYG{n}{common} \PYG{o}{=} \PYG{p}{[}\PYG{n}{m} \PYG{k}{for} \PYG{n}{m}\PYG{p}{,} \PYG{n}{c} \PYG{o+ow}{in} \PYG{n}{metaphor\PYGZus{}counts} \PYG{k}{if} \PYG{l+m+mi}{3} \PYG{o}{\PYGZlt{}=} \PYG{n}{c} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{5}\PYG{p}{]}
+        \PYG{n}{specialized} \PYG{o}{=} \PYG{p}{[}\PYG{n}{m} \PYG{k}{for} \PYG{n}{m}\PYG{p}{,} \PYG{n}{c} \PYG{o+ow}{in} \PYG{n}{metaphor\PYGZus{}counts} \PYG{k}{if} \PYG{n}{c} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{3}\PYG{p}{]}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **Foundational (≥5 strategies):** }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{foundational}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{foundational}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}  \PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{foundational}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **Common (3\PYGZhy{}4 strategies):** }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{common}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{common}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}  \PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{common}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **Specialized (\PYGZlt{}3 strategies):** }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{specialized}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{specialized}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}  \PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{specialized}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{**Pedagogical Implication:** Students who struggle with foundational metaphors\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}may need remediation in the corresponding embodied source domains before\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}advancing to abstract arithmetic strategies.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}elaboration\PYGZus{}analysis}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Analyze PP\PYGZhy{}sufficiency relationships (algorithmic elaborations).\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{} PP\PYGZhy{}Sufficiency: Algorithmic Elaborations}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}These are **algorithmic elaborations** where one strategy\PYGZsq{}s practices\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}are computationally sufficient for another strategy.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Group by shared patterns}
+        \PYG{n}{by\PYGZus{}pattern} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}
+        \PYG{k}{for} \PYG{n}{elab} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elaborations}\PYG{p}{:}
+            \PYG{n}{patterns} \PYG{o}{=} \PYG{n+nb}{tuple}\PYG{p}{(}\PYG{n+nb}{sorted}\PYG{p}{(}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}shared\PYGZus{}patterns\PYGZsq{}}\PYG{p}{]))}
+            \PYG{k}{if} \PYG{n}{patterns} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{by\PYGZus{}pattern}\PYG{p}{:}
+                \PYG{n}{by\PYGZus{}pattern}\PYG{p}{[}\PYG{n}{patterns}\PYG{p}{]} \PYG{o}{=} \PYG{p}{[]}
+            \PYG{n}{by\PYGZus{}pattern}\PYG{p}{[}\PYG{n}{patterns}\PYG{p}{]}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{elab}\PYG{p}{)}
+
+        \PYG{k}{for} \PYG{n}{patterns}\PYG{p}{,} \PYG{n}{elabs} \PYG{o+ow}{in} \PYG{n+nb}{sorted}\PYG{p}{(}\PYG{n}{by\PYGZus{}pattern}\PYG{o}{.}\PYG{n}{items}\PYG{p}{()):}
+            \PYG{n}{pattern\PYGZus{}str} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}, \PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{patterns}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Elaborations via: `}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}str}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{`}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+            \PYG{k}{for} \PYG{n}{elab} \PYG{o+ow}{in} \PYG{n}{elabs}\PYG{p}{:}
+                \PYG{n}{base} \PYG{o}{=} \PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}
+                \PYG{n}{elaborated} \PYG{o}{=} \PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}elaborated\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}
+                \PYG{n}{conf} \PYG{o}{=} \PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}confidence\PYGZsq{}}\PYG{p}{]}
+
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ → }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elaborated}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{** (confidence: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{conf}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{)\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **Type:** Algorithmic Elaboration\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **PP\PYGZhy{}Sufficiency:** P\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ is sufficient for P\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elaborated}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **Shared practices:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern\PYGZus{}str}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **Interpretation:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{elaborated}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ builds on computational patterns from }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{**Note on Algorithmic vs. Practical Elaboration:**\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} These are *algorithmic* elaborations (code reuse, shared subroutines)\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} *Practical* elaborations (insight, training) cannot be detected from code\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} Cognitive development may involve practical elaboration not visible here\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}lx\PYGZus{}analysis}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Identify candidate LX relations.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{} LX Relations: Candidate Elaborated\PYGZhy{}Explicating Pairs}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Candidate LX relations where a complex strategy may make\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}a simpler strategy\PYGZsq{}s implicit practices explicit.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Find chains: A → B → C suggests B might be LX to A}
+        \PYG{n}{strategy\PYGZus{}to\PYGZus{}prereqs} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}
+        \PYG{n}{strategy\PYGZus{}to\PYGZus{}successors} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}
+
+        \PYG{k}{for} \PYG{n}{elab} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elaborations}\PYG{p}{:}
+            \PYG{n}{base} \PYG{o}{=} \PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}
+            \PYG{n}{elaborated} \PYG{o}{=} \PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}elaborated\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}
+
+            \PYG{k}{if} \PYG{n}{elaborated} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{strategy\PYGZus{}to\PYGZus{}prereqs}\PYG{p}{:}
+                \PYG{n}{strategy\PYGZus{}to\PYGZus{}prereqs}\PYG{p}{[}\PYG{n}{elaborated}\PYG{p}{]} \PYG{o}{=} \PYG{p}{[]}
+            \PYG{n}{strategy\PYGZus{}to\PYGZus{}prereqs}\PYG{p}{[}\PYG{n}{elaborated}\PYG{p}{]}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{base}\PYG{p}{)}
+
+            \PYG{k}{if} \PYG{n}{base} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{strategy\PYGZus{}to\PYGZus{}successors}\PYG{p}{:}
+                \PYG{n}{strategy\PYGZus{}to\PYGZus{}successors}\PYG{p}{[}\PYG{n}{base}\PYG{p}{]} \PYG{o}{=} \PYG{p}{[]}
+            \PYG{n}{strategy\PYGZus{}to\PYGZus{}successors}\PYG{p}{[}\PYG{n}{base}\PYG{p}{]}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{elaborated}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Strategies that both depend on others and are depended upon}
+        \PYG{n}{lx\PYGZus{}candidates} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{k}{for} \PYG{n}{strategy} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}patterns}\PYG{o}{.}\PYG{n}{keys}\PYG{p}{():}
+            \PYG{n}{prereqs} \PYG{o}{=} \PYG{n}{strategy\PYGZus{}to\PYGZus{}prereqs}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{strategy}\PYG{p}{,} \PYG{p}{[])}
+            \PYG{n}{successors} \PYG{o}{=} \PYG{n}{strategy\PYGZus{}to\PYGZus{}successors}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{strategy}\PYG{p}{,} \PYG{p}{[])}
+            \PYG{k}{if} \PYG{n}{prereqs} \PYG{o+ow}{and} \PYG{n}{successors}\PYG{p}{:}
+                \PYG{n}{lx\PYGZus{}candidates}\PYG{o}{.}\PYG{n}{append}\PYG{p}{((}\PYG{n}{strategy}\PYG{p}{,} \PYG{n}{prereqs}\PYG{p}{,} \PYG{n}{successors}\PYG{p}{))}
+
+        \PYG{k}{if} \PYG{n}{lx\PYGZus{}candidates}\PYG{p}{:}
+            \PYG{k}{for} \PYG{n}{strategy}\PYG{p}{,} \PYG{n}{prereqs}\PYG{p}{,} \PYG{n}{successors} \PYG{o+ow}{in} \PYG{n}{lx\PYGZus{}candidates}\PYG{p}{:}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Candidate: `}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{` as LX}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Elaborated from:** }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{prereqs}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Explicates for:** }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{successors}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{**Why this might be LX:**\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ builds on practices from }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{prereqs}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ provides structure used by }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{successors}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} May make implicit patterns in }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{prereqs}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ explicit\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{**Verification needed:** Philosophical analysis of whether }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}genuinely explicates (makes sayable) what }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{prereqs}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ only does.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}No clear LX candidates detected in elaboration chains.\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}LX relations typically require longer elaboration sequences.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}strategy\PYGZus{}overview}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{patterns}\PYG{p}{:} \PYG{n}{Set}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{],}
+                                   \PYG{n}{base\PYGZus{}elabs}\PYG{p}{:} \PYG{n}{List}\PYG{p}{,} \PYG{n}{elab\PYGZus{}elabs}\PYG{p}{:} \PYG{n}{List}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate overview section for specific strategy.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{} Strategy Overview}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Computational Patterns Used:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{patterns}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{patterns}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n+nb}{sorted}\PYG{p}{(}\PYG{n}{patterns}\PYG{p}{))}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{**Elaborates from** (depends on): }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{elab\PYGZus{}elabs}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ strategies\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Elaborates to** (enables): }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{base\PYGZus{}elabs}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ strategies}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}pv\PYGZus{}analysis}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{patterns}\PYG{p}{:} \PYG{n}{Set}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{])} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Analyze PV\PYGZhy{}sufficiency: practices sufficient to deploy this strategy.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{} PV\PYGZhy{}Sufficiency Analysis}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Question:** What practices (P) are PV\PYGZhy{}sufficient to deploy V\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{?\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Answer (from computational analysis):**}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{if} \PYG{n}{patterns}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}The following computational practices are necessary:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{for} \PYG{n}{pattern} \PYG{o+ow}{in} \PYG{n+nb}{sorted}\PYG{p}{(}\PYG{n}{patterns}\PYG{p}{):}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **P\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{**: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}describe\PYGZus{}pattern}\PYG{p}{(}\PYG{n}{pattern}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{**Interpretation:** To deploy the vocabulary of }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{,\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}a practitioner must master these computational practices.\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}No distinctive computational patterns detected.\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}This strategy may: (a) be primitive, (b) rely on patterns not yet identified,\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}or (c) involve practical elaboration not visible in code.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{**Limitations:** AST analysis reveals computational practices only.\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Cognitive practices (e.g., \PYGZsq{}recognizing patterns\PYGZsq{}, \PYGZsq{}strategic thinking\PYGZsq{})\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}may be PV\PYGZhy{}necessary but not detectable from code.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}pp\PYGZus{}analysis}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{patterns}\PYG{p}{:} \PYG{n}{Set}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{],} \PYG{n}{elab\PYGZus{}elabs}\PYG{p}{:} \PYG{n}{List}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Analyze PP\PYGZhy{}sufficiency: practices sufficient for this strategy.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{} PP\PYGZhy{}Sufficiency Analysis}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Question:** What practices are PP\PYGZhy{}sufficient for P\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{?\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Answer (from computational analysis):**}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{if} \PYG{n}{elab\PYGZus{}elabs}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Prerequisite Strategies (PP\PYGZhy{}Necessities)}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{for} \PYG{n}{elab} \PYG{o+ow}{in} \PYG{n}{elab\PYGZus{}elabs}\PYG{p}{:}
+                \PYG{n}{base} \PYG{o}{=} \PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]}
+                \PYG{n}{shared} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{elab}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}shared\PYGZus{}patterns\PYGZsq{}}\PYG{p}{])}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **P\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{** (via }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{shared}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{)\PYGZdq{}}\PYG{p}{)}
+
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{**Interpretation:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ is algorithmically elaborated from\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}these prerequisite strategies. Mastering the prerequisites provides\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}computational patterns sufficient for }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}No prerequisite strategies detected.\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}This may be a **primitive strategy** in the elaboration hierarchy.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Note:** This analysis identifies *algorithmic* PP\PYGZhy{}sufficiency only.\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}*Practical elaboration through training* would require additional practices\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}(e.g., \PYGZsq{}strategic insight\PYGZsq{}, \PYGZsq{}pattern recognition\PYGZsq{}) not visible in code.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}vp\PYGZus{}analysis}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{patterns}\PYG{p}{:} \PYG{n}{Set}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{])} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Analyze VP\PYGZhy{}sufficiency: vocabulary sufficient to specify practices.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{} VP\PYGZhy{}Sufficiency Analysis}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Question:** What vocabulary is VP\PYGZhy{}sufficient to specify P\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{?\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Answer (from computational analysis):**}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Computational Metavocabulary}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}The vocabulary of **computational patterns** is VP\PYGZhy{}sufficient:\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} We can SAY what P\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ does using pattern vocabulary:\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{patterns}\PYG{p}{:}
+            \PYG{k}{for} \PYG{n}{pattern} \PYG{o+ow}{in} \PYG{n+nb}{sorted}\PYG{p}{(}\PYG{n}{patterns}\PYG{p}{):}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}  \PYGZhy{} Uses `}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{pattern}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{`: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}describe\PYGZus{}pattern}\PYG{p}{(}\PYG{n}{pattern}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Python Implementation\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}The Python code itself serves as a VP\PYGZhy{}sufficient metavocabulary:\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} The automaton implementation specifies the practice algorithmically\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} Anyone can read the code to understand the computational practice\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{**Pragmatic Expressive Bootstrapping:** The vocabulary of Python + computational\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}patterns (expressively weaker than arithmetic vocabulary) is sufficient to specify\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}the practice of }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}strategy\PYGZus{}lx\PYGZus{}analysis}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{base\PYGZus{}elabs}\PYG{p}{:} \PYG{n}{List}\PYG{p}{,} \PYG{n}{elab\PYGZus{}elabs}\PYG{p}{:} \PYG{n}{List}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Analyze potential LX relations for this strategy.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{} LX Relation Analysis}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Question:** Is }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ LX to any simpler strategy?\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Or does any strategy serve as LX elaboration of }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{?}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{if} \PYG{n}{elab\PYGZus{}elabs} \PYG{o+ow}{and} \PYG{n}{base\PYGZus{}elabs}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ as Potential LX Mediator}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{prereqs} \PYG{o}{=} \PYG{p}{[}\PYG{n}{e}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]} \PYG{k}{for} \PYG{n}{e} \PYG{o+ow}{in} \PYG{n}{elab\PYGZus{}elabs}\PYG{p}{]}
+            \PYG{n}{successors} \PYG{o}{=} \PYG{p}{[}\PYG{n}{e}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}elaborated\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]} \PYG{k}{for} \PYG{n}{e} \PYG{o+ow}{in} \PYG{n}{base\PYGZus{}elabs}\PYG{p}{]}
+
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **Elaborated from:** }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{prereqs}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **Enables elaboration to:** }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{successors}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{**LX Hypothesis:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ may be LX to }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{prereqs}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ if:\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}1. It makes explicit the practices implicit in }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{prereqs}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}2. It provides vocabulary to SAY what }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{prereqs}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ only DOES\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}3. It represents conceptual progress, not just mechanical elaboration\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{**Verification:** Requires philosophical analysis of whether }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}genuinely explicates (not just reuses) the practices of }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{prereqs}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{elif} \PYG{n}{base\PYGZus{}elabs}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ as Potential LX Base}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{successors} \PYG{o}{=} \PYG{p}{[}\PYG{n}{e}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}elaborated\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]} \PYG{k}{for} \PYG{n}{e} \PYG{o+ow}{in} \PYG{n}{base\PYGZus{}elabs}\PYG{p}{]}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Successors:** }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{successors}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ may be a primitive practice that more complex strategies\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}elaborate and explicate. Check if successors make }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZsq{}s\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}implicit structure explicit.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{elif} \PYG{n}{elab\PYGZus{}elabs}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ as Potential LX Elaboration}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{prereqs} \PYG{o}{=} \PYG{p}{[}\PYG{n}{e}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}strategy\PYGZsq{}}\PYG{p}{]} \PYG{k}{for} \PYG{n}{e} \PYG{o+ow}{in} \PYG{n}{elab\PYGZus{}elabs}\PYG{p}{]}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Prerequisites:** }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{prereqs}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ may be LX to }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{prereqs}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ if it makes explicit\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}what }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{prereqs}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ leaves implicit. No further elaborations detected,\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}so }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ may be terminal in this elaboration chain.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}No clear LX relationships detected.\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ appears isolated in the elaboration network.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}pragmatic\PYGZus{}metavocabulary\PYGZus{}analysis}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{patterns}\PYG{p}{:} \PYG{n}{Set}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{])} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Analyze pragmatic metavocabulary relationships.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{} Pragmatic Metavocabulary Analysis}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Question:** What serves as pragmatic metavocabulary for V\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{?}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Computational Metavocabulary\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}The vocabulary of computational patterns serves as pragmatic metavocabulary:\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **V\PYGZus{}Patterns** can specify the practices P\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} Patterns detected: }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n+nb}{sorted}\PYG{p}{(}\PYG{n}{patterns}\PYG{p}{))}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{patterns}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}none\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Embodied Metavocabulary (Hypothetical)\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Following Lakoff \PYGZam{} Núñez, embodied practices likely serve as metavocabulary:\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **V\PYGZus{}Embodied** (e.g., \PYGZsq{}collect objects\PYGZsq{}, \PYGZsq{}move along line\PYGZsq{})\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} These embodied terms can specify mathematical practices\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **Limitation:** Cannot verify from code; requires cognitive analysis\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{**Expressive Bootstrapping:** Weaker vocabularies (Python, patterns, embodiment)\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}serve as metavocabularies for stronger vocabulary (arithmetic of }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{).\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}generate\PYGZus{}metadata\PYGZus{}section}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{metadata}\PYG{p}{:} \PYG{n}{Dict}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generate section for rich metadata (metaphors, inferences) from automaton.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{} Strategy Metadata (From Automaton Documentation)}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}
+
+        \PYG{c+c1}{\PYGZsh{} Strategy name and description}
+        \PYG{k}{if} \PYG{n}{metadata}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}strategy\PYGZus{}name\PYGZsq{}}\PYG{p}{):}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Full Name:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{metadata}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}strategy\PYGZus{}name\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{metadata}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}description\PYGZsq{}}\PYG{p}{):}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Description:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{metadata}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}description\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Embodied Metaphors (Lakoff \PYGZam{} Núñez)}
+        \PYG{n}{metaphors} \PYG{o}{=} \PYG{n}{metadata}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}metaphors\PYGZsq{}}\PYG{p}{,} \PYG{p}{[])}
+        \PYG{k}{if} \PYG{n}{metaphors}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Embodied Metaphors (Lakoff \PYGZam{} Núñez)}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{for} \PYG{n}{m} \PYG{o+ow}{in} \PYG{n}{metaphors}\PYG{p}{:}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{m}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}name\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{**\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **Source Domain:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{m}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}source\PYGZus{}domain\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **Target Domain:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{m}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}target\PYGZus{}domain\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **Key Entailments:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{m}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}entailments\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Material Inferences (Brandom)}
+        \PYG{n}{inferences} \PYG{o}{=} \PYG{n}{metadata}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}inferences\PYGZsq{}}\PYG{p}{,} \PYG{p}{[])}
+        \PYG{k}{if} \PYG{n}{inferences}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Material Inferences (Brandom)}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{for} \PYG{n}{inf} \PYG{o+ow}{in} \PYG{n}{inferences}\PYG{p}{:}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{inf}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}name\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{**\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **Premise:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{inf}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}premise\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **Conclusion:** }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{inf}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}conclusion\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{k}{if} \PYG{n}{inf}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}prerequisites\PYGZsq{}}\PYG{p}{):}
+                    \PYG{n}{prereq\PYGZus{}str} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{inf}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}prerequisites\PYGZsq{}}\PYG{p}{])}
+                    \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} **Prerequisites (PP\PYGZhy{}Necessities):** }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{prereq\PYGZus{}str}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Visualization hints}
+        \PYG{n}{viz\PYGZus{}hints} \PYG{o}{=} \PYG{n}{metadata}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}visualization\PYGZus{}hints\PYGZsq{}}\PYG{p}{,} \PYG{p}{[])}
+        \PYG{k}{if} \PYG{n}{viz\PYGZus{}hints}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Cognitive Representation\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}**Visualization Type:** }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{viz\PYGZus{}hints}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Deployed vocabulary}
+        \PYG{n}{deployed\PYGZus{}vocab} \PYG{o}{=} \PYG{n}{metadata}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}deployed\PYGZus{}vocabulary\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{deployed\PYGZus{}vocab}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Vocabulary Deployed\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}This strategy introduces/deploys: **}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{deployed\PYGZus{}vocab}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{**}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}describe\PYGZus{}pattern}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{pattern\PYGZus{}name}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n+nb}{str}\PYG{p}{:}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Provide description of computational pattern.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{descriptions} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+            \PYG{l+s+s1}{\PYGZsq{}base\PYGZus{}decomposition\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}Breaking numbers into base\PYGZhy{}10 components (// and }\PYG{l+s+si}{\PYGZpc{} o}\PYG{l+s+s1}{perations)\PYGZsq{}}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}incremental\PYGZus{}counting\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}State\PYGZhy{}based iteration with accumulation\PYGZsq{}}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}iterative\PYGZus{}arithmetic\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}Repeated addition/subtraction in loops\PYGZsq{}}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}value\PYGZus{}adjustment\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}Target value calculation and adjustment\PYGZsq{}}
+        \PYG{p}{\PYGZcb{}}
+        \PYG{k}{return} \PYG{n}{descriptions}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{pattern\PYGZus{}name}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Computational pattern identified in code\PYGZsq{}}\PYG{p}{)}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{():}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Example usage.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{json}
+
+    \PYG{c+c1}{\PYGZsh{} Load existing analysis results}
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}output/eple\PYGZus{}results.json\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}r\PYGZsq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+        \PYG{n}{data} \PYG{o}{=} \PYG{n}{json}\PYG{o}{.}\PYG{n}{load}\PYG{p}{(}\PYG{n}{f}\PYG{p}{)}
+
+    \PYG{n}{analysis\PYGZus{}results} \PYG{o}{=} \PYG{n}{data}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}analysis\PYGZus{}results\PYGZsq{}}\PYG{p}{)}
+    \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{analysis\PYGZus{}results}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}No analysis results found. Run \PYGZsq{}python main.py analyze\PYGZsq{} first.\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{return}
+
+    \PYG{n}{generator} \PYG{o}{=} \PYG{n}{MUAReportGenerator}\PYG{p}{(}\PYG{n}{analysis\PYGZus{}results}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Generate full report}
+    \PYG{n}{report} \PYG{o}{=} \PYG{n}{generator}\PYG{o}{.}\PYG{n}{generate\PYGZus{}full\PYGZus{}report}\PYG{p}{()}
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}output/mua\PYGZus{}full\PYGZus{}report.md\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}w\PYGZsq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+        \PYG{n}{f}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{report}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}✅ Generated: output/mua\PYGZus{}full\PYGZus{}report.md\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Generate strategy\PYGZhy{}specific report}
+    \PYG{n}{strategy\PYGZus{}report} \PYG{o}{=} \PYG{n}{generator}\PYG{o}{.}\PYG{n}{generate\PYGZus{}strategy\PYGZus{}report}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}ADD\PYGZus{}COBO\PYGZsq{}}\PYG{p}{)}
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}output/mua\PYGZus{}strategy\PYGZus{}ADD\PYGZus{}COBO.md\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}w\PYGZsq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+        \PYG{n}{f}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{strategy\PYGZus{}report}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}✅ Generated: output/mua\PYGZus{}strategy\PYGZus{}ADD\PYGZus{}COBO.md\PYGZdq{}}\PYG{p}{)}
+
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZsq{}}\PYG{p}{:}
+    \PYG{n}{main}\PYG{p}{()}
+
+\end{MintedVerbatim}

@@ -1,0 +1,59 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/** Test all strategies in hermeneutic calculator */}
+
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{hermeneutic\PYGZus{}calculator}\PYG{p}{).}
+
+\PYG{n+nf}{test\PYGZus{}all} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}=== Testing Addition Strategies ===\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{test\PYGZus{}addition}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}=== Testing Subtraction Strategies ===\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{test\PYGZus{}subtraction}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}=== Testing Multiplication Strategies ===\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{test\PYGZus{}multiplication}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}=== Testing Division Strategies ===\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{test\PYGZus{}division}\PYG{p}{.}
+
+\PYG{n+nf}{test\PYGZus{}addition} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{l+m+mi}{7}\PYG{p}{,} \PYG{l+s+sAtom}{+}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}COBO\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{12}\PYG{p}{),}
+    \PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{l+m+mi}{7}\PYG{p}{,} \PYG{l+s+sAtom}{+}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}Chunking\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{12}\PYG{p}{),}
+    \PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{l+m+mi}{7}\PYG{p}{,} \PYG{l+s+sAtom}{+}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}RMB\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{12}\PYG{p}{),}
+    \PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{l+m+mi}{7}\PYG{p}{,} \PYG{l+s+sAtom}{+}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}Rounding\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{12}\PYG{p}{).}
+
+\PYG{n+nf}{test\PYGZus{}subtraction} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{l+m+mi}{12}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZhy{}}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}COBO (Missing Addend)\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{),}
+    \PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{l+m+mi}{12}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZhy{}}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}CBBO (Take Away)\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{),}
+    \PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{l+m+mi}{12}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZhy{}}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}Decomposition\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{),}
+    \PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{l+m+mi}{12}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZhy{}}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}Rounding\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{),}
+    \PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{l+m+mi}{12}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZhy{}}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}Sliding\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{),}
+    \PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{l+m+mi}{12}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZhy{}}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}Chunking A\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{),}
+    \PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{l+m+mi}{12}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZhy{}}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}Chunking B\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{),}
+    \PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{l+m+mi}{12}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZhy{}}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}Chunking C\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{).}
+
+\PYG{n+nf}{test\PYGZus{}multiplication} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+s+sAtom}{*}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}C2C\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{12}\PYG{p}{),}
+    \PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+s+sAtom}{*}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}CBO\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{12}\PYG{p}{),}
+    \PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+s+sAtom}{*}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}Commutative Reasoning\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{12}\PYG{p}{),}
+    \PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+s+sAtom}{*}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}DR\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{12}\PYG{p}{).}
+
+\PYG{n+nf}{test\PYGZus{}division} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{l+m+mi}{12}\PYG{p}{,} \PYG{l+s+sAtom}{/}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}CBO (Division)\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{),}
+    \PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{l+m+mi}{12}\PYG{p}{,} \PYG{l+s+sAtom}{/}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}Dealing by Ones\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{),}
+    \PYG{c+c1}{\PYGZpc{} IDP requires learned multiplication facts, skip for now}
+    \PYG{c+c1}{\PYGZpc{} test\PYGZus{}strategy(12, /, 3, \PYGZsq{}IDP\PYGZsq{}, 4),}
+    \PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{l+m+mi}{12}\PYG{p}{,} \PYG{l+s+sAtom}{/}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+s+sAtom}{\PYGZsq{}UCR\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{).}
+
+\PYG{n+nf}{test\PYGZus{}strategy}\PYG{p}{(}\PYG{n+nv}{N1}\PYG{p}{,} \PYG{n+nv}{Op}\PYG{p}{,} \PYG{n+nv}{N2}\PYG{p}{,} \PYG{n+nv}{Strategy}\PYG{p}{,} \PYG{n+nv}{Expected}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Testing: \PYGZti{}w \PYGZti{}w \PYGZti{}w using \PYGZti{}w... \PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{N1}\PYG{p}{,} \PYG{n+nv}{Op}\PYG{p}{,} \PYG{n+nv}{N2}\PYG{p}{,} \PYG{n+nv}{Strategy}\PYG{p}{]),}
+    \PYG{p}{(}   \PYG{n+nf}{catch}\PYG{p}{(}\PYG{n+nf}{calculate}\PYG{p}{(}\PYG{n+nv}{N1}\PYG{p}{,} \PYG{n+nv}{Op}\PYG{p}{,} \PYG{n+nv}{N2}\PYG{p}{,} \PYG{n+nv}{Strategy}\PYG{p}{,} \PYG{n+nv}{Result}\PYG{p}{,} \PYG{k}{\PYGZus{}}\PYG{p}{),} \PYG{n+nv}{Error}\PYG{p}{,} \PYG{p}{(}
+            \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}ERROR: \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Error}\PYG{p}{]),}
+            \PYG{l+s+sAtom}{fail}
+        \PYG{p}{)),}
+        \PYG{n+nv}{Result} \PYG{o}{=:=} \PYG{n+nv}{Expected}
+    \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}  \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}PASS\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{;}   \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}FAIL (got \PYGZti{}w, expected \PYGZti{}w)\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Result}\PYG{p}{,} \PYG{n+nv}{Expected}\PYG{p}{])}
+    \PYG{p}{).}
+
+\end{MintedVerbatim}

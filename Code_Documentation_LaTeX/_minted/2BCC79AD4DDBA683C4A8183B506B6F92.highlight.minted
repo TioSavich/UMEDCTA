@@ -1,0 +1,106 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{pandas}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{pd}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{C2C\PYGZus{}MultiplicationAutomaton}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    A Register Machine modeling the \PYGZsq{}Coordinating Two Counts\PYGZsq{} (C2C) strategy for multiplication.}
+\PYG{l+s+sd}{    Models the process of counting all items by ones while tracking group boundaries.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{strategy\PYGZus{}name} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Coordinating Two Counts (C2C)\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{N}\PYG{p}{,} \PYG{n}{S}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{N} \PYG{o}{=} \PYG{n}{N} \PYG{c+c1}{\PYGZsh{} Total number of Groups}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S} \PYG{o}{=} \PYG{n}{S} \PYG{c+c1}{\PYGZsh{} Size of each group (Items per group)}
+
+        \PYG{c+c1}{\PYGZsh{} Registers (Counters)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{G} \PYG{o}{=} \PYG{l+m+mi}{0} \PYG{c+c1}{\PYGZsh{} Group Counter}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{I} \PYG{o}{=} \PYG{l+m+mi}{0} \PYG{c+c1}{\PYGZsh{} Item Counter (within current group)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{T} \PYG{o}{=} \PYG{l+m+mi}{0} \PYG{c+c1}{\PYGZsh{} Total Counter}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}init\PYGZsq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history} \PYG{o}{=} \PYG{p}{[]}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{interpretation}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{):}
+        \PYG{n}{record} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+            \PYG{l+s+s1}{\PYGZsq{}State\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Interpretation\PYGZsq{}}\PYG{p}{:} \PYG{n}{interpretation}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}G (Groups Done)\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{G}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}I (Item in Group)\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{I}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}T (Total)\PYGZsq{}}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,}
+            \PYG{l+s+s1}{\PYGZsq{}Highlight\PYGZsq{}}\PYG{p}{:} \PYG{n}{highlight}
+        \PYG{p}{\PYGZcb{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{record}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{transition}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{next\PYGZus{}state}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o}{=} \PYG{n}{next\PYGZus{}state}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{run}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{while} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}\PYG{p}{]:}
+            \PYG{n}{executor} \PYG{o}{=} \PYG{n+nb}{getattr}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}execute\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{execute\PYGZus{}error}\PYG{p}{)}
+            \PYG{n}{executor}\PYG{p}{()}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{T}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}error}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Error: Entered unknown state }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{state}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}error\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} State Execution Methods \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}init}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Initialize all counters to zero.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{G} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{I} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{T} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Inputs: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{N}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ groups of }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{. Initialize counters.\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} Proceed to check status immediately (handles N=0 case as well)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}check\PYGZus{}G\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}check\PYGZus{}G}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{         }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Outer loop check: Check if all groups are counted.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+         \PYG{c+c1}{\PYGZsh{} Condition: More groups remain (G \PYGZlt{} N)}
+         \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{G} \PYG{o}{\PYGZlt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{N}\PYG{p}{:}
+              \PYG{c+c1}{\PYGZsh{} We use G+1 for interpretation to align with 1\PYGZhy{}based counting (Group 1, 2...)}
+              \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}G \PYGZlt{} N. Starting Group }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{G}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+              \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}count\PYGZus{}items\PYGZsq{}}\PYG{p}{)}
+         \PYG{c+c1}{\PYGZsh{} Condition: All groups finished (G == N)}
+         \PYG{k}{else}\PYG{p}{:}
+              \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}G = N. All groups counted. Result = }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{T}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+              \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}accept\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}count\PYGZus{}items}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Inner loop: Count items within the current group.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{c+c1}{\PYGZsh{} Condition: More items remain in the current group (I \PYGZlt{} S)}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{I} \PYG{o}{\PYGZlt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{I} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{T} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{c+c1}{\PYGZsh{} Interpretation mirrors student vocalizing the total count and tracking context}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Count: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{T}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{. (Item }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{I}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ in Group }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{G}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{).\PYGZdq{}}\PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} Condition: Current group is finished (I == S)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Group }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{G}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ finished.\PYGZdq{}}\PYG{p}{,} \PYG{n}{highlight}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}next\PYGZus{}group\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute\PYGZus{}q\PYGZus{}next\PYGZus{}group}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Outer loop increment: Move to the next group.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{G} \PYG{o}{+=} \PYG{l+m+mi}{1}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{I} \PYG{o}{=} \PYG{l+m+mi}{0} \PYG{c+c1}{\PYGZsh{} Reset item counter}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}record\PYGZus{}history}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Increment G. Reset I.\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transition}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}q\PYGZus{}check\PYGZus{}G\PYGZsq{}}\PYG{p}{)}
+
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{display\PYGZus{}history}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{summarized}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{):}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZhy{}\PYGZhy{}\PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ History (}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{N}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ x }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{S}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{) \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{history}\PYG{p}{)}
+        \PYG{n}{display\PYGZus{}cols} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}State\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Interpretation\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}G (Groups Done)\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}I (Item in Group)\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}T (Total)\PYGZsq{}}\PYG{p}{]}
+
+        \PYG{k}{if} \PYG{n}{summarized}\PYG{p}{:}
+             \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Summary Trace (Group Boundaries):\PYGZdq{}}\PYG{p}{)}
+             \PYG{n}{summary\PYGZus{}df} \PYG{o}{=} \PYG{n}{df}\PYG{p}{[}\PYG{n}{df}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Highlight\PYGZsq{}}\PYG{p}{]} \PYG{o}{==} \PYG{k+kc}{True}\PYG{p}{]}
+             \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{summary\PYGZus{}df}\PYG{o}{.}\PYG{n}{empty}\PYG{p}{:}
+                \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{summary\PYGZus{}df}\PYG{p}{[}\PYG{n}{display\PYGZus{}cols}\PYG{p}{]}\PYG{o}{.}\PYG{n}{to\PYGZus{}markdown}\PYG{p}{(}\PYG{n}{index}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{))}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Full Iterative Trace:\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{df}\PYG{p}{[}\PYG{n}{display\PYGZus{}cols}\PYG{p}{]}\PYG{o}{.}\PYG{n}{to\PYGZus{}markdown}\PYG{p}{(}\PYG{n}{index}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{))}
+
+\PYG{c+c1}{\PYGZsh{} Test Case: Example from PDF (3 bags of 6 cookies)}
+\PYG{n}{N\PYGZus{}test} \PYG{o}{=} \PYG{l+m+mi}{3}
+\PYG{n}{S\PYGZus{}test} \PYG{o}{=} \PYG{l+m+mi}{6}
+\PYG{n}{c2c} \PYG{o}{=} \PYG{n}{C2C\PYGZus{}MultiplicationAutomaton}\PYG{p}{(}\PYG{n}{N}\PYG{o}{=}\PYG{n}{N\PYGZus{}test}\PYG{p}{,} \PYG{n}{S}\PYG{o}{=}\PYG{n}{S\PYGZus{}test}\PYG{p}{)}
+\PYG{n}{c2c}\PYG{o}{.}\PYG{n}{run}\PYG{p}{()}
+\PYG{n}{c2c}\PYG{o}{.}\PYG{n}{display\PYGZus{}history}\PYG{p}{(}\PYG{n}{summarized}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{)}
+\end{MintedVerbatim}

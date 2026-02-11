@@ -1,0 +1,133 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYGZsh{} Fdb version 4
+[\PYGZdq{}biber Jason\PYGZdq{}] 0 \PYGZdq{}Jason.bcf\PYGZdq{} \PYGZdq{}Jason.bbl\PYGZdq{} \PYGZdq{}Jason\PYGZdq{} 0 0
+  \PYGZdq{}Jason.bcf\PYGZdq{} 0 \PYGZhy{}1 0 \PYGZdq{}pdflatex\PYGZdq{}
+  \PYGZdq{}references.bib\PYGZdq{} 0 \PYGZhy{}1 0 \PYGZdq{}\PYGZdq{}
+  (generated)
+  \PYGZdq{}Jason.bbl\PYGZdq{}
+  \PYGZdq{}Jason.blg\PYGZdq{}
+  (rewritten before read)
+[\PYGZdq{}pdflatex\PYGZdq{}] 1756998447.79484 \PYGZdq{}/Users/tio/Documents/GitHub/UMEDCTA/Calculator/Tex/Jason.tex\PYGZdq{} \PYGZdq{}Jason.pdf\PYGZdq{} \PYGZdq{}Jason\PYGZdq{} 1756998449.06105 0
+  \PYGZdq{}/Users/tio/Documents/GitHub/UMEDCTA/Calculator/Tex/Jason.tex\PYGZdq{} 1756998444.31422 16762 e0316b9f78e1a2729717cb8bbb27b906 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/enc/dvips/cm\PYGZhy{}super/cm\PYGZhy{}super\PYGZhy{}ts1.enc\PYGZdq{} 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/map/fontname/texfonts.map\PYGZdq{} 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/jknappen/ec/tcrm1000.tfm\PYGZdq{} 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm\PYGZdq{} 1246382020 1004 54797486969f23fa377b128694d548df \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm\PYGZdq{} 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/cm/cmbx10.tfm\PYGZdq{} 1136768653 1328 c834bbb027764024c09d3d2bf908b5f0 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/cm/cmbx12.tfm\PYGZdq{} 1136768653 1324 c910af8c371558dc20f2d7822f66fe64 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/cm/cmbx9.tfm\PYGZdq{} 1136768653 1328 5442e22a7072966dbaf88ca900acf3f0 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/cm/cmex10.tfm\PYGZdq{} 1136768653 992 662f679a0b3d2d53c1b94050fdaa3f50 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/cm/cmitt10.tfm\PYGZdq{} 1136768653 768 2297ad2ac26f37e67f756dad27c77d68 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/cm/cmmi12.tfm\PYGZdq{} 1136768653 1524 4414a8315f39513458b80dfc63bff03a \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/cm/cmmi6.tfm\PYGZdq{} 1136768653 1512 f21f83efb36853c0b70002322c1ab3ad \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/cm/cmmi8.tfm\PYGZdq{} 1136768653 1520 eccf95517727cb11801f4f1aee3a21b4 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/cm/cmr12.tfm\PYGZdq{} 1136768653 1288 655e228510b4c2a1abe905c368440826 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/cm/cmr17.tfm\PYGZdq{} 1136768653 1292 296a67155bdbfc32aa9c636f21e91433 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/cm/cmr6.tfm\PYGZdq{} 1136768653 1300 b62933e007d01cfd073f79b963c01526 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/cm/cmr8.tfm\PYGZdq{} 1136768653 1292 21c1c5bfeaebccffdb478fd231a0997d \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/cm/cmr9.tfm\PYGZdq{} 1136768653 1292 6b21b9c2c7bebb38aa2273f7ca0fb3af \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/cm/cmsy10.tfm\PYGZdq{} 1136768653 1124 6c73e740cf17375f03eec0ee63599741 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/cm/cmsy6.tfm\PYGZdq{} 1136768653 1116 933a60c408fc0a863a92debe84b2d294 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/cm/cmsy8.tfm\PYGZdq{} 1136768653 1120 8b7d695260f3cff42e636090a8002094 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/cm/cmti10.tfm\PYGZdq{} 1136768653 1480 aa8e34af0eb6a2941b776984cf1dfdc4 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/cm/cmtt10.tfm\PYGZdq{} 1136768653 768 1321e9409b4137d6fb428ac9dc956269 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/tfm/public/cm/cmtt9.tfm\PYGZdq{} 1136768653 764 c98a2af25c99b73a368cf7336e255190 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb\PYGZdq{} 1248133631 34811 78b52f49e893bcba91bd7581cdc144c0 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb\PYGZdq{} 1248133631 32080 340ef9bf63678554ee606688e7b5339d \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb\PYGZdq{} 1248133631 32298 c6d25bb16d1eac01ebdc6d7084126a1e \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb\PYGZdq{} 1248133631 26057 fad158094905eaf20f4ae3782af0c45c \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb\PYGZdq{} 1248133631 36299 5f9df58c2139e7edcf37c8fca4bd384d \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb\PYGZdq{} 1248133631 36281 c355509802a035cadc5f15869451dcee \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/type1/public/amsfonts/cm/cmr10.pfb\PYGZdq{} 1248133631 35752 024fb6c41858982481f6968b5fc26508 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/type1/public/amsfonts/cm/cmr12.pfb\PYGZdq{} 1248133631 32722 d7379af29a190c3f453aba36302ff5a9 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/type1/public/amsfonts/cm/cmr17.pfb\PYGZdq{} 1248133631 32362 179c33bbf43f19adbb3825bb4e36e57a \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/type1/public/amsfonts/cm/cmr5.pfb\PYGZdq{} 1248133631 31809 8670ca339bf94e56da1fc21c80635e2a \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/type1/public/amsfonts/cm/cmr7.pfb\PYGZdq{} 1248133631 32762 224316ccc9ad3ca0423a14971cfa7fc1 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/type1/public/amsfonts/cm/cmr9.pfb\PYGZdq{} 1248133631 33993 9b89b85fd2d9df0482bd47194d1d3bf3 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb\PYGZdq{} 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/type1/public/amsfonts/cm/cmti10.pfb\PYGZdq{} 1248133631 37944 359e864bd06cde3b1cf57bb20757fb06 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb\PYGZdq{} 1248133631 31099 c85edf1dd5b9e826d67c9c7293b6786c \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb\PYGZdq{} 1248133631 29078 718ea4567ceff944262b0f5b0800e1d9 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/fonts/type1/public/cm\PYGZhy{}super/sfrm1000.pfb\PYGZdq{} 1215737283 138258 6525c253f16cededa14c7fd0da7f67b2 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/context/base/mkii/supp\PYGZhy{}pdf.mkii\PYGZdq{} 1461363279 71627 94eb9990bed73c364d7f53f960cc8c5b \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/generic/catchfile/catchfile.sty\PYGZdq{} 1576016007 8622 63834878edeb14dd71d58d8f22bc3e06 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/generic/etexcmds/etexcmds.sty\PYGZdq{} 1576625273 7734 b98cbb34c81f667027c1e3ebdbfce34b \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/generic/iftex/iftex.sty\PYGZdq{} 1734129479 7984 7dbb9280f03c0a315425f1b4f35d43ee \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/generic/iftex/ifvtex.sty\PYGZdq{} 1572645307 1057 525c2192b5febbd8c1f662c9468335bb \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/generic/infwarerr/infwarerr.sty\PYGZdq{} 1575499628 8356 7bbb2c2373aa810be568c29e333da8ed \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/generic/ltxcmds/ltxcmds.sty\PYGZdq{} 1701727651 17865 1a9bd36b4f98178fa551aca822290953 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/generic/pdftexcmds/pdftexcmds.sty\PYGZdq{} 1593379760 20089 80423eac55aa175305d35b49e04fe23b \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/generic/pgf/utilities/pgfkeys.code.tex\PYGZdq{} 1673816307 39784 414c54e866ebab4b801e2ad81d9b21d8 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.tex\PYGZdq{} 1673816307 37433 940bc6d409f1ffd298adfdcaf125dd86 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/amsmath/amsbsy.sty\PYGZdq{} 1748806692 2222 27db7d52163edae53881b71ff62e754e \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/amsmath/amsgen.sty\PYGZdq{} 1748806692 4173 1b3e76addfb8afcb47db4811d66e1dc6 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/amsmath/amsmath.sty\PYGZdq{} 1750190222 88401 0c3d1897569ad77cb9d8fb25b0bdf668 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/amsmath/amsopn.sty\PYGZdq{} 1748806692 4474 c510a88aa5f51b8c773b50a7ee92befd \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/amsmath/amstext.sty\PYGZdq{} 1748806692 2444 9983e1d0683f102e3b190c64a49313aa \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/base/article.cls\PYGZdq{} 1748806692 20144 b966087dda3b194755eb460d32e2ef75 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/base/ifthen.sty\PYGZdq{} 1748806692 5525 1593ca62a2554dd7423fc8a4e5a82125 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/base/omscmr.fd\PYGZdq{} 1738182759 2469 c75f72b1dc17277decdd842fa4a321a8 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/base/size10.clo\PYGZdq{} 1748806692 8448 686612a86f0e04f41ea577f5ec7e83d8 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/biblatex/bbx/authoryear.bbx\PYGZdq{} 1752177141 8023 e8e0dc3bee7befd5fd19457f269384bc \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/biblatex/bbx/standard.bbx\PYGZdq{} 1609451401 25680 409c3f3d570418bc545e8065bebd0688 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/biblatex/biblatex.cfg\PYGZdq{} 1342308459 69 249fa6df04d948e51b6d5c67bea30c42 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/biblatex/biblatex.def\PYGZdq{} 1752177141 96838 ffbc2c4ed45b0b76660254a85df40e90 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/biblatex/biblatex.sty\PYGZdq{} 1752177141 537439 2a9e171c3538c29f9ba74ff3cff6f014 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/biblatex/blx\PYGZhy{}case\PYGZhy{}expl3.sty\PYGZdq{} 1711143581 9961 107fdb78f652fccae7bce0d23bdc19cd \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/biblatex/blx\PYGZhy{}compat.def\PYGZdq{} 1643926307 13919 5426dbe90e723f089052b4e908b56ef9 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/biblatex/blx\PYGZhy{}dm.def\PYGZdq{} 1711143581 32761 18d14e3b502c120f79b2184de4e21d14 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/biblatex/cbx/authoryear.cbx\PYGZdq{} 1752177141 4008 c51491f8410fa34bc351010cfdc053b8 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/biblatex/lbx/english.lbx\PYGZdq{} 1711143581 40021 daa5a82ed0967f3ac4b77cb8384cac55 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/booktabs/booktabs.sty\PYGZdq{} 1579038678 6078 f1cb470c9199e7110a27851508ed7a5c \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/epstopdf\PYGZhy{}pkg/epstopdf\PYGZhy{}base.sty\PYGZdq{} 1579991033 13886 d1306dcf79a944f6988e688c1785f9ce \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/etoolbox/etoolbox.sty\PYGZdq{} 1739306980 46850 d87daedc2abdc653769a6f1067849fe0 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/fancyvrb/fancyvrb.sty\PYGZdq{} 1753819787 43717 653cd083c203051741d10c7e48c3b24f \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/float/float.sty\PYGZdq{} 1137110151 6749 16d2656a1984957e674b149555f1ea1d \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/fvextra/fvextra.sty\PYGZdq{} 1748639913 130233 043c4b0b54538f98c721738f5a963eef \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/geometry/geometry.sty\PYGZdq{} 1578002852 41601 9cf6c5257b1bc7af01a58859749dd37a \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/graphics\PYGZhy{}cfg/color.cfg\PYGZdq{} 1459978653 1213 620bba36b25224fa9b7e1ccb4ecb76fd \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/graphics\PYGZhy{}cfg/graphics.cfg\PYGZdq{} 1465944070 1224 978390e9c2234eab29404bc21b268d1e \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/graphics\PYGZhy{}def/pdftex.def\PYGZdq{} 1713382759 19440 9da9dcbb27470349a580fca7372d454b \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/graphics/graphics.sty\PYGZdq{} 1748806692 18363 69bb4f5538964bfea50d1e6d89cbe69f \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/graphics/graphicx.sty\PYGZdq{} 1748806692 8118 43b99e52946c33a23f5f43b52d5cc5ec \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/graphics/keyval.sty\PYGZdq{} 1748806692 2671 d9941f4bf4750e9b0603c9a2ec54693b \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/graphics/mathcolor.ltx\PYGZdq{} 1667332637 2885 9c645d672ae17285bba324998918efd8 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/graphics/trig.sty\PYGZdq{} 1748806692 4023 e66acf578d6b564c4670fb57ff336a7a \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/kvoptions/kvoptions.sty\PYGZdq{} 1655478651 22555 6d8e155cfef6d82c3d5c742fea7c992e \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/kvsetkeys/kvsetkeys.sty\PYGZdq{} 1665067230 13815 760b0c02f691ea230f5359c4e1de23a7 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/l3backend/l3backend\PYGZhy{}pdftex.def\PYGZdq{} 1751059413 30351 a2b09edc6c93a742566b222c33d0278e \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/l3kernel/expl3.sty\PYGZdq{} 1753996160 6558 93e4e44e8ec0dfe3e03bb4a2d96e5c11 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/l3packages/xparse/xparse.sty\PYGZdq{} 1724879202 9783 ab4bee47700c04aadedb8da27591b0ab \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/latex2pydata/latex2pydata.sty\PYGZdq{} 1743102429 20321 c31a455b8b82a5f39c512ba4019e828d \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/latexconfig/epstopdf\PYGZhy{}sys.cfg\PYGZdq{} 1279039959 678 4792914a8f45be57bb98413425e4c7af \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/lineno/lineno.sty\PYGZdq{} 1747166482 154960 d8c67419d37a002abc40815be8d0ebfb \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/logreq/logreq.def\PYGZdq{} 1284153563 1620 fb1c32b818f2058eca187e5c41dfae77 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/logreq/logreq.sty\PYGZdq{} 1284153563 6187 b27afc771af565d3a9ff1ca7d16d0d46 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/minted/minted.sty\PYGZdq{} 1747337128 71269 70f9b2e5317efd4dab254158308dc60a \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/pgf/utilities/pgfkeys.sty\PYGZdq{} 1601326656 274 5ae372b7df79135d240456a1c6f2cf9a \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/pgfopts/pgfopts.sty\PYGZdq{} 1405118212 5540 d5c60cf09c59da351aa4023ed084e4eb \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/tools/shellesc.sty\PYGZdq{} 1748806692 4121 d611256e8b768e99aa5a680aad44990d \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/upquote/upquote.sty\PYGZdq{} 1334873510 1048 517e01cde97c1c0baf72e69d43aa5a2e \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/url/url.sty\PYGZdq{} 1388531844 12796 8edb7d69a20b857904dd0ea757c14ec9 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/tex/latex/xcolor/xcolor.sty\PYGZdq{} 1727642399 55384 b454dec21c2d9f45ec0b793f0995b992 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}dist/web2c/texmf.cnf\PYGZdq{} 1749313668 42213 4e2ca030e8e2640502016e9e45868dcb \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}var/fonts/map/pdftex/updmap/pdftex.map\PYGZdq{} 1754170007 5526361 5adee4aa342457daf971a29efd2119d0 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf\PYGZhy{}var/web2c/pdftex/pdflatex.fmt\PYGZdq{} 1754170164 3605693 aaabb9188815402c342bd032eec66885 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}/usr/local/texlive/2025/texmf.cnf\PYGZdq{} 1741450484 577 418a7058ec8e006d8704f60ecd22c938 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}Jason.aux\PYGZdq{} 1756998448.92297 2353 c0d1743fb0f72b42417c668557b691ed \PYGZdq{}pdflatex\PYGZdq{}
+  \PYGZdq{}Jason.bbl\PYGZdq{} 0 \PYGZhy{}1 0 \PYGZdq{}biber Jason\PYGZdq{}
+  \PYGZdq{}Jason.run.xml\PYGZdq{} 1756998448.92473 2318 5f08d9af99291403998a6396b31561e4 \PYGZdq{}pdflatex\PYGZdq{}
+  \PYGZdq{}Jason.tex\PYGZdq{} 1756998444.31422 16762 e0316b9f78e1a2729717cb8bbb27b906 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}\PYGZus{}minted/86B4E34F36FB3792CD41403973761AD3.highlight.minted\PYGZdq{} 1756998446.10491 8533 a117db4f0d917ca3a393956c4a9d75c8 \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}\PYGZus{}minted/\PYGZus{}472D46CB829018F9DBD65FB8479A49BB.index.minted\PYGZdq{} 1756998446.10579 263 4158c9b4d02851c98695687e351cf90e \PYGZdq{}\PYGZdq{}
+  \PYGZdq{}\PYGZus{}minted/default.style.minted\PYGZdq{} 1756998446.0828 6426 e1fb43a91491f41b33310478eee48cdb \PYGZdq{}\PYGZdq{}
+  (generated)
+  \PYGZdq{}Jason.aux\PYGZdq{}
+  \PYGZdq{}Jason.bcf\PYGZdq{}
+  \PYGZdq{}Jason.log\PYGZdq{}
+  \PYGZdq{}Jason.pdf\PYGZdq{}
+  \PYGZdq{}Jason.run.xml\PYGZdq{}
+  (rewritten before read)
+
+\end{MintedVerbatim}

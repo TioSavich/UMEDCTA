@@ -1,0 +1,85 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/** \PYGZlt{}module\PYGZgt{} Pragmatic Axioms (The Axioms of Praxis)}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  This module defines the pragmatic axioms governing embodied action,}
+\PYG{c+cm}{ *  separated from the semantic rules. These articulate the fundamental}
+\PYG{c+cm}{ *  drives and limitations of praxis by integrating them directly into the logic.}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  (Synthesis\PYGZus{}1, Chapter 4.1)}
+\PYG{c+cm}{ */}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{module}\PYG{p}{(}\PYG{l+s+sAtom}{pragmatic\PYGZus{}axioms}\PYG{p}{,}
+          \PYG{p}{[}
+            \PYG{l+s+sAtom}{i\PYGZus{}feeling}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{p}{,}        \PYG{c+c1}{\PYGZpc{} I\PYGZus{}f (The Elusive Subject)}
+            \PYG{l+s+sAtom}{identity\PYGZus{}claim}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{p}{,}   \PYG{c+c1}{\PYGZpc{} C\PYGZus{}Id (The Objectified Self)}
+            \PYG{l+s+sAtom}{impetus}\PYG{o}{/}\PYG{l+m+mi}{1}           \PYG{c+c1}{\PYGZpc{} I (Holistic striving)}
+          \PYG{p}{]).}
+
+\PYG{c+c1}{\PYGZpc{} Import operators \PYGZhy{} must be declared before use}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{comp\PYGZus{}nec}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{exp\PYGZus{}nec}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{exp\PYGZus{}poss}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{comp\PYGZus{}poss}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{neg}\PYG{p}{).}
+
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{automata}\PYG{p}{,} \PYG{p}{[}\PYG{l+s+sAtom}{generate\PYGZus{}trace}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+s+sAtom}{contains\PYGZus{}trace}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{p}{]).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{pml\PYGZus{}operators}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Multifile Declarations}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Extend the logic engine with the pragmatic axioms.}
+\PYG{p}{:\PYGZhy{}} \PYG{l+s+sAtom}{multifile} \PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:material\PYGZus{}inference}\PYG{o}{/}\PYG{l+m+mf}{3.}
+\PYG{p}{:\PYGZhy{}} \PYG{l+s+sAtom}{multifile} \PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:is\PYGZus{}incoherent}\PYG{o}{/}\PYG{l+m+mf}{1.}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} The Vocabulary of Praxis}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{c+c1}{\PYGZpc{}!  i\PYGZus{}feeling(?I\PYGZus{}f) is semidet.}
+\PYG{c+c1}{\PYGZpc{}   The I\PYGZhy{}Feeling Mode (I\PYGZus{}f): The singular, unifying aspect of experience; the elusive subject.}
+\PYG{c+c1}{\PYGZpc{}   Implemented using the Arche\PYGZhy{}Trace to ensure it resists objectification.}
+\PYG{n+nf}{i\PYGZus{}feeling}\PYG{p}{(}\PYG{n+nv}{I\PYGZus{}f}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{p}{(}\PYG{n+nf}{var}\PYG{p}{(}\PYG{n+nv}{I\PYGZus{}f}\PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}} \PYG{n+nf}{generate\PYGZus{}trace}\PYG{p}{(}\PYG{n+nv}{I\PYGZus{}f}\PYG{p}{)} \PYG{p}{;} \PYG{n+nf}{contains\PYGZus{}trace}\PYG{p}{(}\PYG{n+nv}{I\PYGZus{}f}\PYG{p}{)).}
+
+\PYG{c+c1}{\PYGZpc{}!  identity\PYGZus{}claim(?C\PYGZus{}Id) is semidet.}
+\PYG{c+c1}{\PYGZpc{}   The Identity Claim (C\PYGZus{}Id): The articulated, objectified self (the \PYGZdq{}me\PYGZdq{}).}
+\PYG{c+c1}{\PYGZpc{}   Must be a concrete term (cannot contain the Trace).}
+\PYG{n+nf}{identity\PYGZus{}claim}\PYG{p}{(}\PYG{n+nv}{C\PYGZus{}Id}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{l+s+sAtom}{\PYGZbs{}+} \PYG{n+nf}{contains\PYGZus{}trace}\PYG{p}{(}\PYG{n+nv}{C\PYGZus{}Id}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}!  impetus(?I) is semidet.}
+\PYG{c+c1}{\PYGZpc{}   The Impetus to Act (I): The holistic, pre\PYGZhy{}conceptual striving.}
+\PYG{c+c1}{\PYGZpc{}   (Placeholder definition, as its holistic nature resists full formalization).}
+\PYG{n+nf}{impetus}\PYG{p}{(}\PYG{l+s+sAtom}{holistic\PYGZus{}striving}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Axiom 1: The Elusive Subject (S\PYGZhy{}O Inversion)}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Any attempt to subjectively fixate (Box\PYGZus{}down\PYGZus{}S) the I\PYGZhy{}Feeling (I\PYGZus{}f)}
+\PYG{c+c1}{\PYGZpc{} results in its necessary objective dissolution (Box\PYGZus{}up\PYGZus{}O).}
+\PYG{c+c1}{\PYGZpc{} (Synthesis\PYGZus{}1, Chapter 3.6.1, Axiom 1)}
+
+\PYG{c+c1}{\PYGZpc{} Box\PYGZus{}down\PYGZus{}S(I\PYGZus{}f) =\PYGZgt{} Box\PYGZus{}up\PYGZus{}O(I\PYGZus{}f)}
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{comp\PYGZus{}nec} \PYG{n+nv}{I\PYGZus{}f}\PYG{p}{)],}
+    \PYG{n+nf}{o}\PYG{p}{(}\PYG{l+s+sAtom}{exp\PYGZus{}nec} \PYG{n+nv}{I\PYGZus{}f}\PYG{p}{),}
+    \PYG{n+nf}{i\PYGZus{}feeling}\PYG{p}{(}\PYG{n+nv}{I\PYGZus{}f}\PYG{p}{)} \PYG{c+c1}{\PYGZpc{} Body ensures I\PYGZus{}f is the Trace}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Axiom 3: The Unsatisfiable Desire}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} The infinite desire for recognition of the \PYGZdq{}I\PYGZdq{} (I\PYGZus{}f) can never be fully}
+\PYG{c+c1}{\PYGZpc{} satisfied by the recognition of a finite identity claim (C\PYGZus{}Id).}
+\PYG{c+c1}{\PYGZpc{} (Synthesis\PYGZus{}1, Chapter 4.1.1, Axiom 3)}
+
+\PYG{c+c1}{\PYGZpc{} This is implemented as an incoherence: It is impossible to simultaneously}
+\PYG{c+c1}{\PYGZpc{} hold that an Identity Claim (C\PYGZus{}Id) fully represents the I\PYGZhy{}Feeling (I\PYGZus{}f).}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{is\PYGZus{}incoherent}\PYG{p}{(}\PYG{n+nv}{X}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{member}\PYG{p}{(}\PYG{n+nf}{n}\PYG{p}{(}\PYG{n+nf}{represents}\PYG{p}{(}\PYG{n+nv}{C\PYGZus{}Id}\PYG{p}{,} \PYG{n+nv}{I\PYGZus{}f}\PYG{p}{)),} \PYG{n+nv}{X}\PYG{p}{),}
+    \PYG{n+nf}{identity\PYGZus{}claim}\PYG{p}{(}\PYG{n+nv}{C\PYGZus{}Id}\PYG{p}{),}
+    \PYG{n+nf}{i\PYGZus{}feeling}\PYG{p}{(}\PYG{n+nv}{I\PYGZus{}f}\PYG{p}{).}
+
+\end{MintedVerbatim}

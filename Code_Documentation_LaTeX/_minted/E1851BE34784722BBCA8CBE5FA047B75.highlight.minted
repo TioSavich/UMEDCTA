@@ -1,0 +1,113 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/** \PYGZlt{}module\PYGZgt{} Test Grounded Arithmetic Infrastructure}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ * Quick tests to verify the grounded arithmetic modules work correctly.}
+\PYG{c+cm}{ */}
+
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{grounded\PYGZus{}arithmetic}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{grounded\PYGZus{}utils}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{composition\PYGZus{}engine}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{normalization}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{fsm\PYGZus{}engine}\PYG{p}{).}
+
+\PYG{n+nf}{test\PYGZus{}grounded\PYGZus{}add} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZbs{}n[TEST] Grounded Addition\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{integer\PYGZus{}to\PYGZus{}recollection}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{n+nv}{A}\PYG{p}{),}
+    \PYG{n+nf}{integer\PYGZus{}to\PYGZus{}recollection}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{n+nv}{B}\PYG{p}{),}
+    \PYG{n+nf}{add\PYGZus{}grounded}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{,} \PYG{n+nv}{B}\PYG{p}{,} \PYG{n+nv}{C}\PYG{p}{),}
+    \PYG{n+nf}{recollection\PYGZus{}to\PYGZus{}integer}\PYG{p}{(}\PYG{n+nv}{C}\PYG{p}{,} \PYG{n+nv}{Result}\PYG{p}{),}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  5 + 3 = \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Result}\PYG{p}{]),}
+    \PYG{p}{(} \PYG{n+nv}{Result} \PYG{o}{=} \PYG{l+m+mi}{8} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  PASS\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{;}
+        \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  FAIL\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{n+nf}{test\PYGZus{}grounded\PYGZus{}subtract} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZbs{}n[TEST] Grounded Subtraction\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{integer\PYGZus{}to\PYGZus{}recollection}\PYG{p}{(}\PYG{l+m+mi}{7}\PYG{p}{,} \PYG{n+nv}{A}\PYG{p}{),}
+    \PYG{n+nf}{integer\PYGZus{}to\PYGZus{}recollection}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{n+nv}{B}\PYG{p}{),}
+    \PYG{n+nf}{subtract\PYGZus{}grounded}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{,} \PYG{n+nv}{B}\PYG{p}{,} \PYG{n+nv}{C}\PYG{p}{),}
+    \PYG{n+nf}{recollection\PYGZus{}to\PYGZus{}integer}\PYG{p}{(}\PYG{n+nv}{C}\PYG{p}{,} \PYG{n+nv}{Result}\PYG{p}{),}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  7 \PYGZhy{} 3 = \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Result}\PYG{p}{]),}
+    \PYG{p}{(} \PYG{n+nv}{Result} \PYG{o}{=} \PYG{l+m+mi}{4} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  PASS\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{;}
+        \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  FAIL\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{n+nf}{test\PYGZus{}grounded\PYGZus{}multiply} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZbs{}n[TEST] Grounded Multiplication\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{integer\PYGZus{}to\PYGZus{}recollection}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{,} \PYG{n+nv}{A}\PYG{p}{),}
+    \PYG{n+nf}{integer\PYGZus{}to\PYGZus{}recollection}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{n+nv}{B}\PYG{p}{),}
+    \PYG{n+nf}{multiply\PYGZus{}grounded}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{,} \PYG{n+nv}{B}\PYG{p}{,} \PYG{n+nv}{C}\PYG{p}{),}
+    \PYG{n+nf}{recollection\PYGZus{}to\PYGZus{}integer}\PYG{p}{(}\PYG{n+nv}{C}\PYG{p}{,} \PYG{n+nv}{Result}\PYG{p}{),}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  4 * 3 = \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Result}\PYG{p}{]),}
+    \PYG{p}{(} \PYG{n+nv}{Result} \PYG{o}{=} \PYG{l+m+mi}{12} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  PASS\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{;}
+        \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  FAIL\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{n+nf}{test\PYGZus{}base\PYGZus{}decompose} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZbs{}n[TEST] Base\PYGZhy{}10 Decomposition\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{integer\PYGZus{}to\PYGZus{}recollection}\PYG{p}{(}\PYG{l+m+mi}{27}\PYG{p}{,} \PYG{n+nv}{N}\PYG{p}{),}
+    \PYG{n+nf}{decompose\PYGZus{}base10}\PYG{p}{(}\PYG{n+nv}{N}\PYG{p}{,} \PYG{n+nv}{Tens}\PYG{p}{,} \PYG{n+nv}{Ones}\PYG{p}{),}
+    \PYG{n+nf}{recollection\PYGZus{}to\PYGZus{}integer}\PYG{p}{(}\PYG{n+nv}{Tens}\PYG{p}{,} \PYG{n+nv}{TensInt}\PYG{p}{),}
+    \PYG{n+nf}{recollection\PYGZus{}to\PYGZus{}integer}\PYG{p}{(}\PYG{n+nv}{Ones}\PYG{p}{,} \PYG{n+nv}{OnesInt}\PYG{p}{),}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  27 = \PYGZti{}w (tens) + \PYGZti{}w (ones)\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{TensInt}\PYG{p}{,} \PYG{n+nv}{OnesInt}\PYG{p}{]),}
+    \PYG{p}{(} \PYG{n+nv}{TensInt} \PYG{o}{=} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{n+nv}{OnesInt} \PYG{o}{=} \PYG{l+m+mi}{7} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  PASS\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{;}
+        \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  FAIL\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{n+nf}{test\PYGZus{}comparison} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZbs{}n[TEST] Comparison Operations\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{integer\PYGZus{}to\PYGZus{}recollection}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{n+nv}{A}\PYG{p}{),}
+    \PYG{n+nf}{integer\PYGZus{}to\PYGZus{}recollection}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{n+nv}{B}\PYG{p}{),}
+    \PYG{p}{(} \PYG{n+nf}{greater\PYGZus{}than}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{,} \PYG{n+nv}{B}\PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  5 \PYGZgt{} 3: PASS\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{;}
+        \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  5 \PYGZgt{} 3: FAIL\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{),}
+    \PYG{p}{(} \PYG{n+nf}{smaller\PYGZus{}than}\PYG{p}{(}\PYG{n+nv}{B}\PYG{p}{,} \PYG{n+nv}{A}\PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  3 \PYGZlt{} 5: PASS\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{;}
+        \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  3 \PYGZlt{} 5: FAIL\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{n+nf}{test\PYGZus{}counting} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZbs{}n[TEST] Counting Automaton\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{catch}\PYG{p}{(}
+        \PYG{p}{(} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{counting2}\PYG{p}{),}
+          \PYG{l+s+sAtom}{counting2:}\PYG{n+nf}{run\PYGZus{}counter}\PYG{p}{(}\PYG{l+m+mi}{25}\PYG{p}{,} \PYG{n+nv}{Result}\PYG{p}{),}
+          \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  Counted to: \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Result}\PYG{p}{]),}
+          \PYG{p}{(} \PYG{n+nv}{Result} \PYG{o}{=} \PYG{l+m+mi}{25} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+              \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  PASS\PYGZsq{}}\PYG{p}{)}
+          \PYG{p}{;}
+              \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  FAIL\PYGZsq{}}\PYG{p}{)}
+          \PYG{p}{)}
+        \PYG{p}{),}
+        \PYG{n+nv}{Error}\PYG{p}{,}
+        \PYG{p}{(} \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  ERROR: \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Error}\PYG{p}{]),}
+          \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  FAIL\PYGZsq{}}\PYG{p}{)}
+        \PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{n+nf}{run\PYGZus{}all\PYGZus{}tests} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}=== GROUNDED ARITHMETIC INFRASTRUCTURE TESTS ===\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{test\PYGZus{}grounded\PYGZus{}add}\PYG{p}{,}
+    \PYG{l+s+sAtom}{test\PYGZus{}grounded\PYGZus{}subtract}\PYG{p}{,}
+    \PYG{l+s+sAtom}{test\PYGZus{}grounded\PYGZus{}multiply}\PYG{p}{,}
+    \PYG{l+s+sAtom}{test\PYGZus{}base\PYGZus{}decompose}\PYG{p}{,}
+    \PYG{l+s+sAtom}{test\PYGZus{}comparison}\PYG{p}{,}
+    \PYG{l+s+sAtom}{test\PYGZus{}counting}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}=== TESTS COMPLETE ===\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZsq{}}\PYG{p}{).}
+
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{initialization}\PYG{p}{(}\PYG{l+s+sAtom}{run\PYGZus{}all\PYGZus{}tests}\PYG{p}{,} \PYG{l+s+sAtom}{main}\PYG{p}{).}
+
+\end{MintedVerbatim}

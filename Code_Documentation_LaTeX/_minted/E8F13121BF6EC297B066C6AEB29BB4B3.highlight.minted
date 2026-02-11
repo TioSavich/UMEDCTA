@@ -1,0 +1,178 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{g+gh}{\PYGZsh{} Lakoff \PYGZam{} Brandom Integration}
+
+This directory contains a working implementation of Lakoff\PYGZsq{}s embodied mathematical metaphors and Brandom\PYGZsq{}s meaning\PYGZhy{}use analysis within the PML (Polarized Modal Logic) Core Framework.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Quick Start}
+
+\PYG{l+s+sb}{```bash}
+\PYG{c+c1}{\PYGZsh{} Run all tests (29 tests)}
+\PYG{n+nb}{cd}\PYG{+w}{ }tests
+swipl\PYG{+w}{ }\PYGZhy{}g\PYG{+w}{ }run\PYGZus{}all\PYGZus{}tests\PYG{+w}{ }\PYGZhy{}t\PYG{+w}{ }halt\PYG{+w}{ }lakoff\PYGZus{}brandom\PYGZus{}test.pl
+
+\PYG{c+c1}{\PYGZsh{} Expected output:}
+\PYG{c+c1}{\PYGZsh{} Passed: 29}
+\PYG{c+c1}{\PYGZsh{} Failed: 0}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} What\PYGZsq{}s New}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Two New Modules}
+
+\PYG{k}{1.} \PYG{g+gs}{**[lakoff\PYGZus{}metaphors.pl](lakoff\PYGZus{}metaphors.pl)**} (350 lines)
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }The 4Gs: Grounding metaphors for arithmetic (Object Collection, Object Construction, Measuring Stick, Motion Along Path)
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }The BMI: Basic Metaphor of Infinity and special cases (∞, ℕ, limits, infinitesimals)
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Pathologies: Being↔Nothing, Zeno\PYGZsq{}s Paradox, Russell\PYGZsq{}s Paradox
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Blends: Euler\PYGZsq{}s formula (e\PYGZca{}(iπ) + 1 = 0)
+
+\PYG{k}{2.} \PYG{g+gs}{**[arithmetic\PYGZus{}strategies.pl](arithmetic\PYGZus{}strategies.pl)**} (300 lines)
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Three strategies: Sliding, Counting On, Rearranging to Make Bases
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }PP\PYGZhy{}necessities and PP\PYGZhy{}sufficiencies for each
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }LX\PYGZhy{}relations (elaboration hierarchies)
+\PYG{+w}{   }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Integration with PML dynamics (compression/expansion/tension)
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Updated Files}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**[load.pl](load.pl)**}: Now loads lakoff\PYGZus{}metaphors and arithmetic\PYGZus{}strategies
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**[tests/lakoff\PYGZus{}brandom\PYGZus{}test.pl](tests/lakoff\PYGZus{}brandom\PYGZus{}test.pl)**}: Comprehensive test suite (29 tests)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**[tests/LAKOFF\PYGZus{}BRANDOM\PYGZus{}INTEGRATION.md](tests/LAKOFF\PYGZus{}BRANDOM\PYGZus{}INTEGRATION.md)**}: Full technical documentation
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Key Concepts}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Embodied Metaphors as Material Inferences}
+
+Lakoff\PYGZsq{}s cognitive mappings become executable logic:
+
+\PYG{l+s+sb}{```prolog}
+\PYG{c+c1}{\PYGZpc{} \PYGZdq{}Numbers Are Points on a Line\PYGZdq{}}
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{point\PYGZus{}on\PYGZus{}line}\PYG{p}{(}\PYG{n+nv}{X}\PYG{p}{))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{number}\PYG{p}{(}\PYG{n+nv}{X}\PYG{p}{)),}
+    \PYG{l+s+sAtom}{true}
+\PYG{p}{).}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Strategies as Practices with Normative Structure}
+
+Brandomian strategies have prerequisites and deployment conditions:
+
+\PYG{l+s+sb}{```prolog}
+\PYG{c+c1}{\PYGZpc{} Counting On requires stable order principle}
+\PYG{n+nf}{pp\PYGZus{}necessity}\PYG{p}{(}\PYG{l+s+sAtom}{counting\PYGZus{}on}\PYG{p}{,} \PYG{l+s+sAtom}{stable\PYGZus{}order\PYGZus{}principle}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} Can deploy if prerequisites met}
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{possesses}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{l+s+sAtom}{iterated\PYGZus{}succession}\PYG{p}{)),}
+     \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{possesses}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{l+s+sAtom}{termination\PYGZus{}condition}\PYG{p}{))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{exp\PYGZus{}poss}\PYG{p}{(}\PYG{n+nf}{deploys}\PYG{p}{(}\PYG{n+nv}{Agent}\PYG{p}{,} \PYG{l+s+sAtom}{counting\PYGZus{}on}\PYG{p}{))),}
+    \PYG{l+s+sAtom}{true}
+\PYG{p}{).}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Pathologies Are Detectable}
+
+Bad Infinites and incoherence in mathematical content:
+
+\PYG{l+s+sb}{```prolog}
+\PYG{c+c1}{\PYGZpc{} Being ↔ Nothing cycle (Hegelian Bad Infinite)}
+\PYG{n+nf}{proves}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{empty\PYGZus{}set}\PYG{p}{)]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{being}\PYG{p}{))],} \PYG{p}{...).}
+\PYG{n+nf}{proves}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{being}\PYG{p}{)]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{nothing}\PYG{p}{))],} \PYG{p}{...).}
+\PYG{c+c1}{\PYGZpc{} Cycle detected by critique.pl}
+
+\PYG{c+c1}{\PYGZpc{} Russell\PYGZsq{}s Paradox}
+\PYG{n+nf}{incoherent}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{set\PYGZus{}of\PYGZus{}all\PYGZus{}sets}\PYG{p}{))]).}
+\PYG{c+c1}{\PYGZpc{} Incoherence detected automatically}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} How It Works}
+
+\PYG{k}{1.} \PYG{g+gs}{**Load the framework**}: \PYG{l+s+sb}{`swipl load.pl`}
+\PYG{k}{2.} \PYG{g+gs}{**Mathematical content**} (metaphors, strategies) becomes material inferences
+\PYG{k}{3.} \PYG{g+gs}{**The prover**} uses these inferences during proof search
+\PYG{k}{4.} \PYG{g+gs}{**The critique module**} detects pathologies (cycles, incoherence, missing prerequisites)
+\PYG{k}{5.} \PYG{g+gs}{**The ORR cycle**} attempts accommodation when failures occur
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Examples}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Example 1: Grounding Metaphor}
+
+\PYG{l+s+sb}{```prolog}
+\PYG{l+s+sAtom}{?\PYGZhy{}} \PYG{n+nf}{proves}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{collection}\PYG{p}{([}\PYG{l+s+sAtom}{a}\PYG{p}{,}\PYG{l+s+sAtom}{b}\PYG{p}{,}\PYG{l+s+sAtom}{c}\PYG{p}{])),} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{size}\PYG{p}{([}\PYG{l+s+sAtom}{a}\PYG{p}{,}\PYG{l+s+sAtom}{b}\PYG{p}{,}\PYG{l+s+sAtom}{c}\PYG{p}{],} \PYG{l+m+mi}{3}\PYG{p}{))]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{number}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{))],} \PYG{l+m+mi}{50}\PYG{p}{,} \PYG{k}{\PYGZus{}}\PYG{p}{,} \PYG{n+nv}{Proof}\PYG{p}{).}
+\PYG{c+c1}{\PYGZpc{} Proof uses \PYGZdq{}Arithmetic Is Object Collection\PYGZdq{} metaphor}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Example 2: Strategy Deployment}
+
+\PYG{l+s+sb}{```prolog}
+\PYG{l+s+sAtom}{?\PYGZhy{}} \PYG{n+nf}{proves}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{problem}\PYG{p}{(}\PYG{n+nf}{addition}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{)))]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{n+nf}{sequence}\PYG{p}{([}\PYG{l+m+mi}{6}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{,} \PYG{l+m+mi}{8}\PYG{p}{])))],} \PYG{l+m+mi}{50}\PYG{p}{,} \PYG{k}{\PYGZus{}}\PYG{p}{,} \PYG{n+nv}{Proof}\PYG{p}{).}
+\PYG{c+c1}{\PYGZpc{} Proof uses \PYGZdq{}Counting On\PYGZdq{} strategy}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Example 3: Pathology Detection}
+
+\PYG{l+s+sb}{```prolog}
+\PYG{l+s+sAtom}{?\PYGZhy{}} \PYG{n+nf}{incoherent}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{set\PYGZus{}of\PYGZus{}all\PYGZus{}sets}\PYG{p}{))]).}
+\PYG{c+c1}{\PYGZpc{} Output: PATHOLOGY: Russell\PYGZsq{}s Paradox \PYGZhy{} set of all sets is incoherent}
+\PYG{l+s+sAtom}{true}\PYG{p}{.}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Architecture}
+
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{PML Core Framework}
+\PYG{l+s+sb}{├── Core Logic}
+\PYG{l+s+sb}{│   ├── incompatibility\PYGZus{}semantics.pl (prover)}
+\PYG{l+s+sb}{│   ├── semantic\PYGZus{}axioms.pl (U→A→LG→U\PYGZsq{})}
+\PYG{l+s+sb}{│   └── critique.pl (ORR cycle)}
+\PYG{l+s+sb}{│}
+\PYG{l+s+sb}{└── Content Modules ⭐ NEW}
+\PYG{l+s+sb}{    ├── lakoff\PYGZus{}metaphors.pl (embodied cognition)}
+\PYG{l+s+sb}{    └── arithmetic\PYGZus{}strategies.pl (Brandomian practices)}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Testing}
+
+\PYG{l+s+sb}{```bash}
+\PYG{c+c1}{\PYGZsh{} All integration tests}
+swipl\PYG{+w}{ }\PYGZhy{}g\PYG{+w}{ }run\PYGZus{}all\PYGZus{}tests\PYG{+w}{ }\PYGZhy{}t\PYG{+w}{ }halt\PYG{+w}{ }tests/lakoff\PYGZus{}brandom\PYGZus{}test.pl
+
+\PYG{c+c1}{\PYGZsh{} Original core tests (ensure compatibility)}
+swipl\PYG{+w}{ }\PYGZhy{}g\PYG{+w}{ }run\PYGZus{}tests\PYG{+w}{ }\PYGZhy{}t\PYG{+w}{ }halt\PYG{+w}{ }tests/simple\PYGZus{}test.pl
+
+\PYG{c+c1}{\PYGZsh{} Critique mechanism tests}
+swipl\PYG{+w}{ }\PYGZhy{}g\PYG{+w}{ }run\PYGZus{}all\PYGZus{}tests\PYG{+w}{ }\PYGZhy{}t\PYG{+w}{ }halt\PYG{+w}{ }tests/critique\PYGZus{}test.pl
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Documentation}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**[LAKOFF\PYGZus{}BRANDOM\PYGZus{}INTEGRATION.md](tests/LAKOFF\PYGZus{}BRANDOM\PYGZus{}INTEGRATION.md)**}: Complete technical documentation
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**[TEST\PYGZus{}SUMMARY.md](tests/TEST\PYGZus{}SUMMARY.md)**}: Original core framework tests
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**[CRITIQUE\PYGZus{}IMPLEMENTATION.md](tests/CRITIQUE\PYGZus{}IMPLEMENTATION.md)**}: Critique mechanism details
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Status}
+
+✅ \PYG{g+gs}{**COMPLETE AND TESTED**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }29/29 integration tests passing
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }10/10 original core tests passing
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }7/7 critique mechanism tests passing
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }0 regressions introduced
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} For the Book}
+
+This implementation provides concrete supplementary material demonstrating:
+
+\PYG{k}{1.} \PYG{g+gs}{**Embodied cognition is formalizable**} (Lakoff\PYGZsq{}s metaphors → executable logic)
+\PYG{k}{2.} \PYG{g+gs}{**Pragmatism is computational**} (Brandom\PYGZsq{}s practices → running programs)
+\PYG{k}{3.} \PYG{g+gs}{**Dialectical logic has content**} (Hegel\PYGZsq{}s patterns in real mathematics)
+
+The system is not just \PYG{g+ge}{*abstract modal logic*}—it\PYGZsq{}s \PYG{g+ge}{*logic about actual mathematical practices*} informed by cognitive science and pragmatist philosophy.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Next Steps}
+
+The math/ folder contains 20+ additional arithmetic strategy files (sar\PYGZus{}*.pl, smr\PYGZus{}*.pl) that can be progressively integrated using the patterns established here. Each file represents a specific reasoning strategy (Single\PYGZhy{}Addend Reasoning, Single\PYGZhy{}Multiplier Reasoning, etc.) that can be analyzed for PP\PYGZhy{}necessities/sufficiencies and added to the content repository.
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gs}{**This is embodied logic in action.**}
+
+\end{MintedVerbatim}

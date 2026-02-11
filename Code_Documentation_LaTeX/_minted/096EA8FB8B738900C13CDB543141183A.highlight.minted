@@ -1,0 +1,128 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/** \PYGZlt{}module\PYGZgt{} Automata (Mathematical Models of Practices)}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  This module implements the core mathematical automata that model the}
+\PYG{c+cm}{ *  \PYGZdq{}practices\PYGZhy{}or\PYGZhy{}abilities\PYGZdq{} (Pragmatic Foundations), along with utilities}
+\PYG{c+cm}{ *  for analyzing their formal limits (Gödel numbering utilities).}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  Includes:}
+\PYG{c+cm}{ *  \PYGZhy{} The Highlander Automaton (Uniqueness constraint).}
+\PYG{c+cm}{ *  \PYGZhy{} The Arche\PYGZhy{}Trace (Möbius/Derridean dynamic, resistance to stabilization).}
+\PYG{c+cm}{ *  \PYGZhy{} Prime Number Utilities (for arithmetization and incompleteness analysis).}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  (Synthesis\PYGZus{}1, Chapter 8.2; Möbius Conclusion)}
+\PYG{c+cm}{ */}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{module}\PYG{p}{(}\PYG{l+s+sAtom}{automata}\PYG{p}{,}
+          \PYG{p}{[} \PYG{c+c1}{\PYGZpc{} Highlander}
+            \PYG{l+s+sAtom}{highlander}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{,}
+            \PYG{c+c1}{\PYGZpc{} Arche\PYGZhy{}Trace}
+            \PYG{l+s+sAtom}{generate\PYGZus{}trace}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{p}{,}
+            \PYG{l+s+sAtom}{contains\PYGZus{}trace}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{p}{,}
+            \PYG{c+c1}{\PYGZpc{} Prime Number Utilities}
+            \PYG{l+s+sAtom}{nth\PYGZus{}prime}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{,}
+            \PYG{l+s+sAtom}{is\PYGZus{}prime}\PYG{o}{/}\PYG{l+m+mi}{1}
+            \PYG{c+c1}{\PYGZpc{} Export the attribute hook for SWI\PYGZhy{}Prolog}
+            \PYG{p}{,} \PYG{n+nn}{automata}\PYG{p}{:}\PYG{l+s+sAtom}{attr\PYGZus{}unify\PYGZus{}hook}\PYG{o}{/}\PYG{l+m+mi}{2}
+          \PYG{p}{]).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} The Highlander Automaton}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{c+c1}{\PYGZpc{}!      highlander(+List:list, \PYGZhy{}Result) is semidet.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}       A pragmatic axiom enforcing uniqueness: \PYGZdq{}There can be only one.\PYGZdq{}}
+\PYG{c+c1}{\PYGZpc{}       Succeeds if the list contains exactly one element.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}       @param List The input list.}
+\PYG{c+c1}{\PYGZpc{}       @param Result The single element of the list.}
+\PYG{n+nf}{highlander}\PYG{p}{([}\PYG{n+nv}{Result}\PYG{p}{],} \PYG{n+nv}{Result}\PYG{p}{)} \PYG{p}{:\PYGZhy{}} \PYG{p}{!.}
+\PYG{n+nf}{highlander}\PYG{p}{([],} \PYG{k}{\PYGZus{}}\PYG{p}{)} \PYG{p}{:\PYGZhy{}} \PYG{p}{!,} \PYG{l+s+sAtom}{fail}\PYG{p}{.}
+\PYG{c+c1}{\PYGZpc{} Fixed from P0: The original implementation allowed multiple identical elements.}
+\PYG{c+c1}{\PYGZpc{} We enforce strict singularity.}
+\PYG{n+nf}{highlander}\PYG{p}{([}\PYG{k}{\PYGZus{}}\PYG{p}{,} \PYG{k}{\PYGZus{}}\PYG{p}{|}\PYG{k}{\PYGZus{}}\PYG{p}{],} \PYG{k}{\PYGZus{}}\PYG{p}{)} \PYG{p}{:\PYGZhy{}} \PYG{l+s+sAtom}{fail}\PYG{p}{.}
+
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} The Arche\PYGZhy{}Trace (Deconstruction Engine / Möbius Dynamic)}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Implements the Elusive Subject (I\PYGZus{}f) and the necessary failure of formal systems}
+\PYG{c+c1}{\PYGZpc{} using attributed variables. The Trace resists stabilization (unification with a concrete term).}
+
+\PYG{c+c1}{\PYGZpc{} Note: This implementation is specific to SWI\PYGZhy{}Prolog (using put\PYGZus{}attr/3 and module\PYGZhy{}specific hooks).}
+
+\PYG{c+c1}{\PYGZpc{}!  generate\PYGZus{}trace(\PYGZhy{}T) is det.}
+\PYG{c+c1}{\PYGZpc{}   Creates a variable imbued with the arche\PYGZus{}trace attribute.}
+\PYG{c+c1}{\PYGZpc{}   The attribute name is the module name (automata).}
+\PYG{n+nf}{generate\PYGZus{}trace}\PYG{p}{(}\PYG{n+nv}{T}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{put\PYGZus{}attr}\PYG{p}{(}\PYG{n+nv}{T}\PYG{p}{,} \PYG{l+s+sAtom}{automata}\PYG{p}{,} \PYG{l+s+sAtom}{arche\PYGZus{}trace}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}!  attr\PYGZus{}unify\PYGZus{}hook(+AttValue, +VarValue) is semidet.}
+\PYG{c+c1}{\PYGZpc{}   The Deconstruction Hook (The Twist). Called by the Prolog engine during unification.}
+\PYG{c+c1}{\PYGZpc{}   This models the resistance to stabilization (Möbius Conclusion, Section 3.2).}
+\PYG{n+nn}{automata}\PYG{p}{:}\PYG{n+nf}{attr\PYGZus{}unify\PYGZus{}hook}\PYG{p}{(}\PYG{l+s+sAtom}{arche\PYGZus{}trace}\PYG{p}{,} \PYG{n+nv}{Value}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{p}{(} \PYG{n+nf}{var}\PYG{p}{(}\PYG{n+nv}{Value}\PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{c+c1}{\PYGZpc{} Différance (Propagation and Deferral): If unifying with another variable, propagate the attribute.}
+        \PYG{p}{(} \PYG{n+nf}{get\PYGZus{}attr}\PYG{p}{(}\PYG{n+nv}{Value}\PYG{p}{,} \PYG{l+s+sAtom}{automata}\PYG{p}{,} \PYG{l+s+sAtom}{arche\PYGZus{}trace}\PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+            \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} Value already has the trace attribute}
+        \PYG{p}{;}
+            \PYG{n+nf}{put\PYGZus{}attr}\PYG{p}{(}\PYG{n+nv}{Value}\PYG{p}{,} \PYG{l+s+sAtom}{automata}\PYG{p}{,} \PYG{l+s+sAtom}{arche\PYGZus{}trace}\PYG{p}{)}  \PYG{c+c1}{\PYGZpc{} Propagate the trace}
+        \PYG{p}{)}
+    \PYG{p}{;}
+        \PYG{c+c1}{\PYGZpc{} Resistance to Representation (The \PYGZdq{}Gobbling Up\PYGZdq{}):}
+        \PYG{c+c1}{\PYGZpc{} If an attempt is made to stabilize the Trace with a concrete term (nonvar), unification fails.}
+        \PYG{l+s+sAtom}{fail}
+    \PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}!  contains\PYGZus{}trace(+Term) is semidet.}
+\PYG{c+c1}{\PYGZpc{}   Succeeds if Term is or contains a variable attributed with arche\PYGZus{}trace.}
+\PYG{n+nf}{contains\PYGZus{}trace}\PYG{p}{(}\PYG{n+nv}{T}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{term\PYGZus{}variables}\PYG{p}{(}\PYG{n+nv}{T}\PYG{p}{,} \PYG{n+nv}{Vars}\PYG{p}{),}
+    \PYG{n+nf}{member}\PYG{p}{(}\PYG{n+nv}{V}\PYG{p}{,} \PYG{n+nv}{Vars}\PYG{p}{),}
+    \PYG{n+nf}{get\PYGZus{}attr}\PYG{p}{(}\PYG{n+nv}{V}\PYG{p}{,} \PYG{l+s+sAtom}{automata}\PYG{p}{,} \PYG{l+s+sAtom}{arche\PYGZus{}trace}\PYG{p}{),} \PYG{p}{!.}
+
+\PYG{c+c1}{\PYGZpc{} ========================================================================}
+\PYG{c+c1}{\PYGZpc{} Prime Number Utilities (for Gödel Numbering and Formal Analysis)}
+\PYG{c+c1}{\PYGZpc{} ========================================================================}
+
+\PYG{c+c1}{\PYGZpc{}!  nth\PYGZus{}prime(+N:integer, \PYGZhy{}Prime:integer) is det.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   Returns the Nth prime number (1\PYGZhy{}indexed).}
+\PYG{n+nf}{nth\PYGZus{}prime}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{)} \PYG{p}{:\PYGZhy{}} \PYG{p}{!.}
+\PYG{n+nf}{nth\PYGZus{}prime}\PYG{p}{(}\PYG{n+nv}{N}\PYG{p}{,} \PYG{n+nv}{Prime}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nv}{N} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n+nf}{nth\PYGZus{}prime\PYGZus{}helper}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n+nv}{N}\PYG{p}{,} \PYG{n+nv}{Prime}\PYG{p}{).}
+
+\PYG{n+nf}{nth\PYGZus{}prime\PYGZus{}helper}\PYG{p}{(}\PYG{n+nv}{Candidate}\PYG{p}{,} \PYG{n+nv}{Count}\PYG{p}{,} \PYG{n+nv}{Target}\PYG{p}{,} \PYG{n+nv}{Prime}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nv}{Count} \PYG{o}{=:=} \PYG{n+nv}{Target}\PYG{p}{,}
+    \PYG{p}{!,}
+    \PYG{n+nv}{Prime} \PYG{o}{=} \PYG{n+nv}{Candidate}\PYG{p}{.}
+\PYG{n+nf}{nth\PYGZus{}prime\PYGZus{}helper}\PYG{p}{(}\PYG{n+nv}{Candidate}\PYG{p}{,} \PYG{n+nv}{Count}\PYG{p}{,} \PYG{n+nv}{Target}\PYG{p}{,} \PYG{n+nv}{Prime}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nv}{Count} \PYG{o}{\PYGZlt{}} \PYG{n+nv}{Target}\PYG{p}{,}
+    \PYG{n+nv}{NextCandidate} \PYG{o}{is} \PYG{n+nv}{Candidate} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{p}{(} \PYG{n+nf}{is\PYGZus{}prime}\PYG{p}{(}\PYG{n+nv}{NextCandidate}\PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nv}{NewCount} \PYG{o}{is} \PYG{n+nv}{Count} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,}
+        \PYG{n+nf}{nth\PYGZus{}prime\PYGZus{}helper}\PYG{p}{(}\PYG{n+nv}{NextCandidate}\PYG{p}{,} \PYG{n+nv}{NewCount}\PYG{p}{,} \PYG{n+nv}{Target}\PYG{p}{,} \PYG{n+nv}{Prime}\PYG{p}{)}
+    \PYG{p}{;}
+        \PYG{n+nf}{nth\PYGZus{}prime\PYGZus{}helper}\PYG{p}{(}\PYG{n+nv}{NextCandidate}\PYG{p}{,} \PYG{n+nv}{Count}\PYG{p}{,} \PYG{n+nv}{Target}\PYG{p}{,} \PYG{n+nv}{Prime}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}!  is\PYGZus{}prime(+N:integer) is semidet.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   True if N is prime.}
+\PYG{n+nf}{is\PYGZus{}prime}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{)} \PYG{p}{:\PYGZhy{}} \PYG{p}{!.}
+\PYG{n+nf}{is\PYGZus{}prime}\PYG{p}{(}\PYG{n+nv}{N}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nv}{N} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{2}\PYG{p}{,}
+    \PYG{n+nv}{N} \PYG{o}{mod} \PYG{l+m+mi}{2} \PYG{l+s+sAtom}{=\PYGZbs{}=} \PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{l+s+sAtom}{\PYGZbs{}+} \PYG{n+nf}{has\PYGZus{}divisor}\PYG{p}{(}\PYG{n+nv}{N}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{).}
+
+\PYG{n+nf}{has\PYGZus{}divisor}\PYG{p}{(}\PYG{n+nv}{N}\PYG{p}{,} \PYG{n+nv}{D}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nv}{D} \PYG{o}{*} \PYG{n+nv}{D} \PYG{o}{=\PYGZlt{}} \PYG{n+nv}{N}\PYG{p}{,}
+    \PYG{p}{(} \PYG{n+nv}{N} \PYG{o}{mod} \PYG{n+nv}{D} \PYG{o}{=:=} \PYG{l+m+mi}{0} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{l+s+sAtom}{true}
+    \PYG{p}{;}
+        \PYG{n+nv}{D2} \PYG{o}{is} \PYG{n+nv}{D} \PYG{o}{+} \PYG{l+m+mi}{2}\PYG{p}{,}
+        \PYG{n+nf}{has\PYGZus{}divisor}\PYG{p}{(}\PYG{n+nv}{N}\PYG{p}{,} \PYG{n+nv}{D2}\PYG{p}{)}
+    \PYG{p}{).}
+
+\end{MintedVerbatim}

@@ -1,0 +1,700 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// brandom\PYGZus{}lesson.js}
+
+\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DOMContentLoaded\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Module Navigation \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{modules}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{querySelectorAll}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.module\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{prevButton}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}prevButton\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{nextButton}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}nextButton\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{moduleIndicator}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}moduleIndicator\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{currentModuleIndex}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{moduleInitializers}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{};}\PYG{+w}{ }\PYG{c+c1}{// Store functions to initialize modules}
+
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Helper function for SVG (assuming it\PYGZsq{}s used elsewhere too, place outside initializers) \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{    }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{getShapeSvg}\PYG{p}{(}\PYG{n+nx}{shapeName}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{       }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{svg}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}svg viewBox=\PYGZdq{}0 0 100 100\PYGZdq{} width=\PYGZdq{}70\PYGZdq{} height=\PYGZdq{}70\PYGZdq{} class=\PYGZdq{}shape\PYGZhy{}viz\PYGZdq{}\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{       }\PYG{n+nx}{svg}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}title\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{shapeName}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/title\PYGZgt{}`}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Tooltip for SVG (shows on hover)}
+\PYG{+w}{       }\PYG{k}{switch}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{shapeName}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{case}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Square\PYGZdq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{svg}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}rect x=\PYGZdq{}10\PYGZdq{} y=\PYGZdq{}10\PYGZdq{} width=\PYGZdq{}80\PYGZdq{} height=\PYGZdq{}80\PYGZdq{} fill=\PYGZdq{}\PYGZsh{}cfe2ff\PYGZdq{} stroke=\PYGZdq{}\PYGZsh{}0d6efd\PYGZdq{} stroke\PYGZhy{}width=\PYGZdq{}2\PYGZdq{}/\PYGZgt{}`}\PYG{p}{;}\PYG{+w}{ }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{case}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Rectangle\PYGZdq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{svg}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}rect x=\PYGZdq{}10\PYGZdq{} y=\PYGZdq{}20\PYGZdq{} width=\PYGZdq{}80\PYGZdq{} height=\PYGZdq{}60\PYGZdq{} fill=\PYGZdq{}\PYGZsh{}d1e7dd\PYGZdq{} stroke=\PYGZdq{}\PYGZsh{}198754\PYGZdq{} stroke\PYGZhy{}width=\PYGZdq{}2\PYGZdq{}/\PYGZgt{}`}\PYG{p}{;}\PYG{+w}{ }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{case}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Rhombus\PYGZdq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{svg}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}polygon points=\PYGZdq{}50,5 95,50 50,95 5,50\PYGZdq{} fill=\PYGZdq{}\PYGZsh{}f8d7da\PYGZdq{} stroke=\PYGZdq{}\PYGZsh{}dc3545\PYGZdq{} stroke\PYGZhy{}width=\PYGZdq{}2\PYGZdq{}/\PYGZgt{}`}\PYG{p}{;}\PYG{+w}{ }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{case}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Parallelogram\PYGZdq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{svg}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}polygon points=\PYGZdq{}25,5 95,5 75,95 5,95\PYGZdq{} fill=\PYGZdq{}\PYGZsh{}fff3cd\PYGZdq{} stroke=\PYGZdq{}\PYGZsh{}ffc107\PYGZdq{} stroke\PYGZhy{}width=\PYGZdq{}2\PYGZdq{}/\PYGZgt{}`}\PYG{p}{;}\PYG{+w}{ }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{case}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Kite\PYGZdq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{svg}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}polygon points=\PYGZdq{}50,10 85,50 50,90 15,50\PYGZdq{} fill=\PYGZdq{}\PYGZsh{}f3d7f8\PYGZdq{} stroke=\PYGZdq{}\PYGZsh{}a30cff\PYGZdq{} stroke\PYGZhy{}width=\PYGZdq{}2\PYGZdq{}/\PYGZgt{}`}\PYG{p}{;}\PYG{+w}{ }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{case}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Trapezoid\PYGZdq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{svg}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}polygon points=\PYGZdq{}30,10 70,10 100,90 0,90\PYGZdq{} fill=\PYGZdq{}\PYGZsh{}e2e3e5\PYGZdq{} stroke=\PYGZdq{}\PYGZsh{}6c757d\PYGZdq{} stroke\PYGZhy{}width=\PYGZdq{}2\PYGZdq{}/\PYGZgt{}`}\PYG{p}{;}\PYG{+w}{ }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{case}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Quadrilateral\PYGZdq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{k}{default}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{svg}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}polygon points=\PYGZdq{}10,10 90,20 80,80 20,90\PYGZdq{} fill=\PYGZdq{}\PYGZsh{}f8f9fa\PYGZdq{} stroke=\PYGZdq{}\PYGZsh{}adb5bd\PYGZdq{} stroke\PYGZhy{}width=\PYGZdq{}2\PYGZdq{}/\PYGZgt{}`}\PYG{p}{;}\PYG{+w}{ }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{       }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{       }\PYG{n+nx}{svg}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}/svg\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{       }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{svg}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{showModule}\PYG{p}{(}\PYG{n+nx}{index}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{totalModules}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{7}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// **** UPDATE THIS ****}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{index}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nx}{index}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{n+nx}{totalModules}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{p}{;}
+
+\PYG{+w}{        }\PYG{n+nx}{modules}\PYG{p}{.}\PYG{n+nx}{forEach}\PYG{p}{((}\PYG{n+nx}{module}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n+nx}{module}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{display}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}none\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{module}\PYG{p}{.}\PYG{n+nx}{classList}\PYG{p}{.}\PYG{n+nx}{remove}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}current\PYGZhy{}module\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}hidden\PYGZhy{}module\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{n+nx}{index}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{module}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{display}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}block\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{module}\PYG{p}{.}\PYG{n+nx}{classList}\PYG{p}{.}\PYG{n+nx}{add}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}current\PYGZhy{}module\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{module}\PYG{p}{.}\PYG{n+nx}{classList}\PYG{p}{.}\PYG{n+nx}{add}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}hidden\PYGZhy{}module\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{});}
+
+\PYG{+w}{        }\PYG{n+nx}{currentModuleIndex}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{index}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n+nx}{moduleIndicator}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Module }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{index}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ of }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{totalModules}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// **** UPDATE THIS ****}
+\PYG{+w}{        }\PYG{n+nx}{prevButton}\PYG{p}{.}\PYG{n+nx}{disabled}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{index}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n+nx}{nextButton}\PYG{p}{.}\PYG{n+nx}{disabled}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{index}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{n+nx}{totalModules}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// **** UPDATE THIS ****}
+
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o+ow}{typeof}\PYG{+w}{ }\PYG{n+nx}{moduleInitializers}\PYG{p}{[}\PYG{n+nx}{index}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}function\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                 }\PYG{n+nx}{moduleInitializers}\PYG{p}{[}\PYG{n+nx}{index}\PYG{p}{]();}
+\PYG{+w}{                 }\PYG{n+nx}{moduleInitializers}\PYG{p}{[}\PYG{n+nx}{index}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Mark as run}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{catch}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{error}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                 }\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{error}\PYG{p}{(}\PYG{l+s+sb}{`Error initializing module }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{index}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{:`}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{error}\PYG{p}{);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c+c1}{// Scroll to top}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{targetModule}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{modules}\PYG{p}{[}\PYG{n+nx}{index}\PYG{p}{];}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{targetModule}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{headerOffset}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{querySelector}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}header\PYGZsq{}}\PYG{p}{)}\PYG{o}{?}\PYG{p}{.}\PYG{n+nx}{offsetHeight}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{l+m+mf}{60}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{elementPosition}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{targetModule}\PYG{p}{.}\PYG{n+nx}{getBoundingClientRect}\PYG{p}{().}\PYG{n+nx}{top}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{offsetPosition}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{elementPosition}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{pageYOffset}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nx}{headerOffset}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{20}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{scrollTo}\PYG{p}{(\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{top}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{offsetPosition}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{behavior}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}smooth\PYGZsq{}}\PYG{+w}{ }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{         }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nx}{prevButton}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}click\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{showModule}\PYG{p}{(}\PYG{n+nx}{currentModuleIndex}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{));}
+\PYG{+w}{    }\PYG{n+nx}{nextButton}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}click\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{showModule}\PYG{p}{(}\PYG{n+nx}{currentModuleIndex}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{));}
+
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Data Structures \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{shapeHierarchy}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}Square\PYGZdq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{superclasses}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Rectangle\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Rhombus\PYGZdq{}}\PYG{p}{],}\PYG{+w}{ }\PYG{n+nx}{properties}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}4 equal sides\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}4 right angles\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}opposite sides parallel\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}diagonals bisect perpendicularly\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}diagonals are equal\PYGZdq{}}\PYG{p}{],}\PYG{+w}{ }\PYG{n+nx}{incompatibilities}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}has obtuse angle\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}unequal adjacent sides\PYGZdq{}}\PYG{p}{]}\PYG{+w}{ }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}Rectangle\PYGZdq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{superclasses}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Parallelogram\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{c+cm}{/*\PYGZdq{}Isosceles Trapezoid\PYGZdq{} \PYGZhy{} Removed for simpler linear hierarchy in slider */}\PYG{p}{],}\PYG{+w}{ }\PYG{n+nx}{properties}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}4 right angles\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}opposite sides parallel\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}opposite sides equal\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}diagonals are equal\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}diagonals bisect each other\PYGZdq{}}\PYG{p}{],}\PYG{+w}{ }\PYG{n+nx}{incompatibilities}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}has acute angle (internal)\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}unequal diagonals\PYGZdq{}}\PYG{p}{]}\PYG{+w}{ }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}Rhombus\PYGZdq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{superclasses}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Parallelogram\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Kite\PYGZdq{}}\PYG{p}{],}\PYG{+w}{ }\PYG{n+nx}{properties}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}4 equal sides\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}opposite sides parallel\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}opposite angles equal\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}diagonals bisect perpendicularly\PYGZdq{}}\PYG{p}{],}\PYG{+w}{ }\PYG{n+nx}{incompatibilities}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}has right angle but unequal adjacent sides\PYGZdq{}}\PYG{p}{]}\PYG{+w}{ }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}Parallelogram\PYGZdq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{superclasses}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Trapezoid\PYGZdq{}}\PYG{p}{],}\PYG{+w}{ }\PYG{n+nx}{properties}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}opposite sides parallel\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}opposite sides equal\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}opposite angles equal\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}diagonals bisect each other\PYGZdq{}}\PYG{p}{],}\PYG{+w}{ }\PYG{n+nx}{incompatibilities}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}only one pair parallel sides\PYGZdq{}}\PYG{p}{]}\PYG{+w}{ }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}Kite\PYGZdq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{superclasses}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Quadrilateral\PYGZdq{}}\PYG{p}{],}\PYG{+w}{ }\PYG{n+nx}{properties}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}2 pairs adjacent equal sides\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}one pair opposite angles equal\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}diagonals perpendicular\PYGZdq{}}\PYG{p}{],}\PYG{+w}{ }\PYG{n+nx}{incompatibilities}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}opposite sides parallel\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}all sides equal\PYGZdq{}}\PYG{p}{]}\PYG{+w}{ }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZdq{}Isosceles Trapezoid\PYGZdq{}: \PYGZob{} superclasses: [\PYGZdq{}Trapezoid\PYGZdq{}], properties: [\PYGZdq{}one pair parallel sides\PYGZdq{}, \PYGZdq{}base angles equal\PYGZdq{}, \PYGZdq{}diagonals are equal\PYGZdq{}], incompatibilities: [\PYGZdq{}is equilateral\PYGZdq{}, \PYGZdq{}has perpendicular diagonals\PYGZdq{}] \PYGZcb{}, // Removed for linear slider}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}Trapezoid\PYGZdq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{superclasses}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Quadrilateral\PYGZdq{}}\PYG{p}{],}\PYG{+w}{ }\PYG{n+nx}{properties}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}at least one pair parallel sides\PYGZdq{}}\PYG{p}{],}\PYG{+w}{ }\PYG{n+nx}{incompatibilities}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}no parallel sides\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}all sides equal\PYGZdq{}}\PYG{p}{]}\PYG{+w}{ }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{        }\PYG{l+s+s2}{\PYGZdq{}Quadrilateral\PYGZdq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{superclasses}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[],}\PYG{+w}{ }\PYG{n+nx}{properties}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}4 sides\PYGZdq{}}\PYG{p}{],}\PYG{+w}{ }\PYG{n+nx}{incompatibilities}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}is a triangle\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}has 5 sides\PYGZdq{}}\PYG{p}{]}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{};}
+\PYG{+w}{    }\PYG{c+c1}{// Define the chain for sliders \PYGZhy{} ensure it matches hierarchy logic where needed}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{hierarchyChainForSlider}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Quadrilateral\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Trapezoid\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Parallelogram\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Rectangle\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Square\PYGZdq{}}\PYG{p}{];}\PYG{+w}{ }\PYG{c+c1}{// Weakest to Strongest}
+
+
+\PYG{+w}{    }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{isSubclass}\PYG{p}{(}\PYG{n+nx}{shapeA}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{shapeB}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{shapeA}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{n+nx}{shapeB}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{shapeHierarchy}\PYG{p}{[}\PYG{n+nx}{shapeA}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{o}{!}\PYG{n+nx}{shapeHierarchy}\PYG{p}{[}\PYG{n+nx}{shapeB}\PYG{p}{])}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// console.warn(`isSubclass: Shape definition missing for \PYGZdl{}\PYGZob{}shapeA\PYGZcb{} or \PYGZdl{}\PYGZob{}shapeB\PYGZcb{}`);}
+\PYG{+w}{            }\PYG{k}{return}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{queue}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[...(}\PYG{n+nx}{shapeHierarchy}\PYG{p}{[}\PYG{n+nx}{shapeA}\PYG{p}{].}\PYG{n+nx}{superclasses}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{p}{[])];}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{visited}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nb}{Set}\PYG{p}{([}\PYG{n+nx}{shapeA}\PYG{p}{]);}
+\PYG{+w}{        }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{queue}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{current}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{queue}\PYG{p}{.}\PYG{n+nx}{shift}\PYG{p}{();}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{current}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{n+nx}{shapeB}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{visited}\PYG{p}{.}\PYG{n+nx}{has}\PYG{p}{(}\PYG{n+nx}{current}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{shapeHierarchy}\PYG{p}{[}\PYG{n+nx}{current}\PYG{p}{])}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{visited}\PYG{p}{.}\PYG{n+nx}{add}\PYG{p}{(}\PYG{n+nx}{current}\PYG{p}{);}
+\PYG{+w}{                }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{shapeHierarchy}\PYG{p}{[}\PYG{n+nx}{current}\PYG{p}{].}\PYG{n+nx}{superclasses}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                     }\PYG{n+nx}{queue}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{(...}\PYG{n+nx}{shapeHierarchy}\PYG{p}{[}\PYG{n+nx}{current}\PYG{p}{].}\PYG{n+nx}{superclasses}\PYG{p}{);}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Module Initializers \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// Module 1: Intro}
+\PYG{+w}{    }\PYG{n+nx}{moduleInitializers}\PYG{p}{[}\PYG{l+m+mf}{0}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kd}{function}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{vizSquare}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}viz\PYGZhy{}square\PYGZhy{}m1\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{vizRectangle}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}viz\PYGZhy{}rectangle\PYGZhy{}m1\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{vizSquare}\PYG{p}{)}\PYG{+w}{ }\PYG{n+nx}{vizSquare}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{getShapeSvg}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Square\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{vizRectangle}\PYG{p}{)}\PYG{+w}{ }\PYG{n+nx}{vizRectangle}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{getShapeSvg}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Rectangle\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{        }\PYG{c+c1}{// *** REVISED Module 2: Quadrilateral Checklist Initializer ***}
+\PYG{+w}{        }\PYG{n+nx}{moduleInitializers}\PYG{p}{[}\PYG{l+m+mf}{1}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{setupQuadrilateralChecklist}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// Define shape data using \PYGZsq{}false\PYGZsq{} for \PYGZdq{}rejects property / incompatibility holds\PYGZdq{}}
+\PYG{+w}{            }\PYG{c+c1}{// Corresponds to Table 1 logic where X means incompatibility (rejects the \PYGZdq{}No...\PYGZdq{} property)}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{shapesDataM2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{                }\PYG{c+c1}{// Property keys match checkbox IDs r1\PYGZhy{}r6}
+\PYG{+w}{                }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{name}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Square\PYGZdq{}}\PYG{p}{,}\PYG{+w}{       }\PYG{n+nx}{r1}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r2}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r3}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r4}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r5}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r6}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{+w}{ }\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{c+c1}{// Rejects all \PYGZdq{}No...\PYGZdq{} props}
+\PYG{+w}{                }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{name}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Rectangle\PYGZdq{}}\PYG{p}{,}\PYG{+w}{    }\PYG{n+nx}{r1}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r2}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}\PYG{+w}{  }\PYG{n+nx}{r3}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r4}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}\PYG{+w}{  }\PYG{n+nx}{r5}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r6}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{+w}{ }\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{c+c1}{// Allows r2, r4}
+\PYG{+w}{                }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{name}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Rhombus\PYGZdq{}}\PYG{p}{,}\PYG{+w}{      }\PYG{n+nx}{r1}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r2}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r3}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r4}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r5}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r6}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{+w}{ }\PYG{p}{\PYGZcb{},}\PYG{+w}{  }\PYG{c+c1}{// Allows r6}
+\PYG{+w}{                }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{name}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Parallelogram\PYGZdq{}}\PYG{p}{,}\PYG{n+nx}{r1}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r2}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}\PYG{+w}{  }\PYG{n+nx}{r3}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r4}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}\PYG{+w}{  }\PYG{n+nx}{r5}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r6}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{+w}{ }\PYG{p}{\PYGZcb{},}\PYG{+w}{  }\PYG{c+c1}{// Allows r2, r4, r6}
+\PYG{+w}{                }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{name}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Trapezoid\PYGZdq{}}\PYG{p}{,}\PYG{+w}{    }\PYG{n+nx}{r1}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}\PYG{+w}{  }\PYG{n+nx}{r2}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}\PYG{+w}{  }\PYG{n+nx}{r3}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}\PYG{+w}{  }\PYG{n+nx}{r4}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}\PYG{+w}{  }\PYG{n+nx}{r5}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r6}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{+w}{ }\PYG{p}{\PYGZcb{},}\PYG{+w}{  }\PYG{c+c1}{// Only rejects r5}
+\PYG{+w}{                }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{name}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Kite\PYGZdq{}}\PYG{p}{,}\PYG{+w}{         }\PYG{n+nx}{r1}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r2}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r3}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}\PYG{+w}{  }\PYG{n+nx}{r4}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{r5}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}\PYG{+w}{  }\PYG{n+nx}{r6}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{+w}{ }\PYG{p}{\PYGZcb{},}\PYG{+w}{  }\PYG{c+c1}{// Allows r3, r5, r6}
+\PYG{+w}{                }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{name}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Quadrilateral\PYGZdq{}}\PYG{p}{,}\PYG{n+nx}{r1}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}\PYG{+w}{  }\PYG{n+nx}{r2}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}\PYG{+w}{  }\PYG{n+nx}{r3}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}\PYG{+w}{  }\PYG{n+nx}{r4}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}\PYG{+w}{  }\PYG{n+nx}{r5}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}\PYG{+w}{  }\PYG{n+nx}{r6}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}\PYG{+w}{   }\PYG{c+c1}{// Allows all}
+\PYG{+w}{            }\PYG{p}{];}
+
+\PYG{+w}{            }\PYG{c+c1}{// Map names to data for easier lookup later (e.g., in Module 4)}
+\PYG{+w}{            }\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{shapeDataMap}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{shapesDataM2}\PYG{p}{.}\PYG{n+nx}{reduce}\PYG{p}{((}\PYG{n+nx}{acc}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{shape}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{acc}\PYG{p}{[}\PYG{n+nx}{shape}\PYG{p}{.}\PYG{n+nx}{name}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{shape}\PYG{p}{;}
+\PYG{+w}{                }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{acc}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{});}
+
+
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{checkboxesContainer}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}restrictionCheckboxesM2\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{checkboxesContainer}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                 }\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{error}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Module 2 checkboxes container not found!\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{                 }\PYG{k}{return}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Exit if container is missing}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{checkboxes}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{checkboxesContainer}\PYG{p}{.}\PYG{n+nx}{querySelectorAll}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}input[type=\PYGZdq{}checkbox\PYGZdq{}]\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{shapesContainer}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}shapesContainerM2\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Use the new ID}
+
+\PYG{+w}{            }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Calculate Strength \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{            }\PYG{c+c1}{// Strength = number of properties the shape REJECTS (has \PYGZsq{}false\PYGZsq{} for)}
+\PYG{+w}{            }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{calculateStrength}\PYG{p}{(}\PYG{n+nx}{shape}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{strength}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{                }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mf}{6}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{shape}\PYG{p}{[}\PYG{l+s+sb}{`r}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{i}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{n+nx}{strength}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{strength}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{c+c1}{// Add strength to the main data structure for easy access}
+\PYG{+w}{            }\PYG{n+nx}{shapesDataM2}\PYG{p}{.}\PYG{n+nx}{forEach}\PYG{p}{(}\PYG{n+nx}{shape}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{shape}\PYG{p}{.}\PYG{n+nx}{strength}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{calculateStrength}\PYG{p}{(}\PYG{n+nx}{shape}\PYG{p}{);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{});}
+
+
+\PYG{+w}{            }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{getActiveRestrictions}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{active}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{};}
+\PYG{+w}{                }\PYG{n+nx}{checkboxes}\PYG{p}{.}\PYG{n+nx}{forEach}\PYG{p}{(}\PYG{n+nx}{cb}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{n+nx}{active}\PYG{p}{[}\PYG{n+nx}{cb}\PYG{p}{.}\PYG{n+nx}{dataset}\PYG{p}{.}\PYG{n+nx}{propertyKey}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{cb}\PYG{p}{.}\PYG{n+nx}{checked}\PYG{p}{;}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{                }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{active}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{filterShapes}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{activeRestrictions}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{getActiveRestrictions}\PYG{p}{();}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{targetValue}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// A shape survives if it REJECTS the property (has \PYGZsq{}false\PYGZsq{}) when the restriction is active}
+
+\PYG{+w}{                }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{shapesDataM2}\PYG{p}{.}\PYG{n+nx}{filter}\PYG{p}{(}\PYG{n+nx}{shape}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{restrictionKey}\PYG{+w}{ }\PYG{o+ow}{in}\PYG{+w}{ }\PYG{n+nx}{activeRestrictions}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{c+c1}{// If the restriction checkbox IS CHECKED (activeRestrictions[restrictionKey] is true)...}
+\PYG{+w}{                        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{activeRestrictions}\PYG{p}{[}\PYG{n+nx}{restrictionKey}\PYG{p}{])}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                            }\PYG{c+c1}{// ...then the shape MUST have \PYGZsq{}false\PYGZsq{} for this property to survive.}
+\PYG{+w}{                            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{shape}\PYG{p}{[}\PYG{n+nx}{restrictionKey}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{!==}\PYG{+w}{ }\PYG{n+nx}{targetValue}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                                }\PYG{k}{return}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Filter out this shape}
+\PYG{+w}{                            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                    }\PYG{k}{return}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Survived all active restrictions}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{updateShapesDisplay}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{shapesContainer}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Safety check}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{filteredShapes}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{filterShapes}\PYG{p}{();}
+\PYG{+w}{                }\PYG{n+nx}{shapesContainer}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Clear previous shapes}
+\PYG{+w}{                }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{filteredShapes}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{n+nx}{shapesContainer}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZlt{}p\PYGZgt{}No quadrilaterals match the current restrictions.\PYGZlt{}/p\PYGZgt{}\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{c+c1}{// Sort shapes maybe by strength? (Optional)}
+\PYG{+w}{                    }\PYG{c+c1}{// filteredShapes.sort((a, b) =\PYGZgt{} b.strength \PYGZhy{} a.strength);}
+
+\PYG{+w}{                    }\PYG{n+nx}{filteredShapes}\PYG{p}{.}\PYG{n+nx}{forEach}\PYG{p}{(}\PYG{n+nx}{shape}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{div}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElement}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}div\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                        }\PYG{n+nx}{div}\PYG{p}{.}\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}shape\PYGZhy{}item\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                        }\PYG{n+nx}{div}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{textAlign}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}center\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                        }\PYG{n+nx}{div}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{margin}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}10px\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                        }\PYG{c+c1}{// Add SVG and strength label below it}
+\PYG{+w}{                        }\PYG{n+nx}{div}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{getShapeSvg}\PYG{p}{(}\PYG{n+nx}{shape}\PYG{p}{.}\PYG{n+nx}{name}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}
+\PYG{+w}{                            }\PYG{l+s+sb}{`\PYGZlt{}div style=\PYGZdq{}margin\PYGZhy{}top: 8px; font\PYGZhy{}size: 0.9em; font\PYGZhy{}weight: 600; color: \PYGZsh{}667eea;\PYGZdq{}\PYGZgt{}Strength: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{shape}\PYG{p}{.}\PYG{n+nx}{strength}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/div\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{                        }\PYG{n+nx}{shapesContainer}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{div}\PYG{p}{);}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{c+c1}{// Attach event listeners to checkboxes within this module}
+\PYG{+w}{            }\PYG{n+nx}{checkboxes}\PYG{p}{.}\PYG{n+nx}{forEach}\PYG{p}{(}\PYG{n+nx}{cb}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{cb}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}change\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{updateShapesDisplay}\PYG{p}{);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{});}
+
+\PYG{+w}{            }\PYG{c+c1}{// Initial display update for this module}
+\PYG{+w}{            }\PYG{n+nx}{updateShapesDisplay}\PYG{p}{();}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{};}\PYG{+w}{ }\PYG{c+c1}{// End Module 2 Initializer}
+
+
+\PYG{+w}{    }\PYG{c+c1}{// Module 3: Substitution Conceptual Intro}
+\PYG{+w}{    }\PYG{n+nx}{moduleInitializers}\PYG{p}{[}\PYG{l+m+mf}{2}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kd}{function}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// This module is now primarily text and static examples in the HTML.}
+\PYG{+w}{        }\PYG{c+c1}{// No dynamic JS needed unless you add interactive highlighting later.}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{    }\PYG{c+c1}{// Module 4: Polarity Demo}
+\PYG{+w}{        }\PYG{c+c1}{// *** REVISED Module 4: Polarity Demo Initializer ***}
+\PYG{+w}{    }\PYG{n+nx}{moduleInitializers}\PYG{p}{[}\PYG{l+m+mf}{3}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{setupPolarityDemo}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// Ensure shape data is available from Module 2}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o+ow}{typeof}\PYG{+w}{ }\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{shapeDataMap}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}undefined\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{error}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Shape data not initialized from Module 2. Run Module 2 first.\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{c+c1}{// Attempt to run Module 2 initializer if it hasn\PYGZsq{}t run}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o+ow}{typeof}\PYG{+w}{ }\PYG{n+nx}{moduleInitializers}\PYG{p}{[}\PYG{l+m+mf}{1}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}function\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{warn}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Attempting to initialize Module 2 now...\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{                }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{n+nx}{moduleInitializers}\PYG{p}{[}\PYG{l+m+mf}{1}\PYG{p}{]();}
+\PYG{+w}{                    }\PYG{n+nx}{moduleInitializers}\PYG{p}{[}\PYG{l+m+mf}{1}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Mark as run}
+\PYG{+w}{                    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o+ow}{typeof}\PYG{+w}{ }\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{shapeDataMap}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}undefined\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                         }\PYG{c+c1}{// Still failed}
+\PYG{+w}{                         }\PYG{n+nx}{alert}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Error: Module 2 data needed for Module 4. Please reload and navigate sequentially.\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{                         }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                 }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{catch}\PYG{p}{(}\PYG{n+nx}{e}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                      }\PYG{n+nx}{alert}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Error initializing Module 2 data. Please reload and navigate sequentially.\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{                      }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                 }\PYG{n+nx}{alert}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Module 2 already initialized but data missing. Please reload.\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{                 }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c+c1}{// Use unique IDs for Module 4 elements}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{fixedSelect}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}fixedConceptSelectM4\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{strengthSlider}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}strengthSliderM4\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{varConceptLabel}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}variableConceptLabelM4\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{varConceptLabelCond}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}variableConceptLabelCondM4\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{vizP\PYGZus{}El}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}vizPM4\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{vizQ\PYGZus{}R\PYGZus{}El}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}vizQM4\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Renamed for clarity, shows Q}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{relationArrowEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}relationArrowM4\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{strengthPEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}strengthPM4\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Span for P strength}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{strengthQEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}strengthQM4\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Span for Q strength}
+
+
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{baseInferEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}baseInferM4\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{converseInferEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}converseInferM4\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{contraInferEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}contraInferM4\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{inverseInferEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}inverseInferM4\PYGZsq{}}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{propertyRSelect}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}propertyRSelectM4\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{propertyRLabel}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}propertyRLabelM4\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{condAntecedentEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}condAntecedentM4\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{condAntecedentStatusEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}condAntecedentStatusM4\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{condConsequentEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}condConsequentM4\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{condConsequentStatusEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}condConsequentStatusM4\PYGZsq{}}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{c+c1}{// Use the defined slider chain}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{sliderChain}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{hierarchyChainForSlider}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Uses the global constant}
+
+\PYG{+w}{        }\PYG{c+c1}{// Populate fixed concept select}
+\PYG{+w}{        }\PYG{n+nx}{fixedSelect}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{sliderChain}\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{(}\PYG{n+nx}{t}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}option value=\PYGZdq{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{t}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{t}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/option\PYGZgt{}`}\PYG{p}{).}\PYG{n+nx}{join}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{fixedSelect}\PYG{p}{.}\PYG{n+nx}{value}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Rectangle\PYGZdq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Default Q}
+
+\PYG{+w}{        }\PYG{c+c1}{// Populate Property R select (remains the same)}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{availableProperties}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}HAS\PYGZus{}4\PYGZus{}SIDES\PYGZdq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{value}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}has 4 sides\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{description}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}has 4 sides\PYGZdq{}}\PYG{+w}{ }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}HAS\PYGZus{}PARALLEL\PYGZus{}SIDES\PYGZdq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{value}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}at least one pair parallel sides\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{description}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}at least one pair parallel sides\PYGZdq{}}\PYG{+w}{ }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}OPPOSITE\PYGZus{}SIDES\PYGZus{}PARALLEL\PYGZdq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{value}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}opposite sides parallel\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{description}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}opposite sides parallel\PYGZdq{}}\PYG{+w}{ }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}HAS\PYGZus{}4\PYGZus{}RIGHT\PYGZus{}ANGLES\PYGZdq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{value}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}4 right angles\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{description}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}has 4 right angles\PYGZdq{}}\PYG{+w}{ }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{            }\PYG{l+s+s2}{\PYGZdq{}HAS\PYGZus{}4\PYGZus{}EQUAL\PYGZus{}SIDES\PYGZdq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{value}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}4 equal sides\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{description}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}has 4 equal sides\PYGZdq{}}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{};}
+\PYG{+w}{        }\PYG{n+nx}{propertyRSelect}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Object}\PYG{p}{.}\PYG{n+nx}{values}\PYG{p}{(}\PYG{n+nx}{availableProperties}\PYG{p}{)}
+\PYG{+w}{            }\PYG{p}{.}\PYG{n+nx}{map}\PYG{p}{(}\PYG{n+nx}{p}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}option value=\PYGZdq{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{p}\PYG{p}{.}\PYG{n+nx}{value}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{p}\PYG{p}{.}\PYG{n+nx}{description}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/option\PYGZgt{}`}\PYG{p}{)}
+\PYG{+w}{            }\PYG{p}{.}\PYG{n+nx}{join}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{propertyRSelect}\PYG{p}{.}\PYG{n+nx}{value}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}4 right angles\PYGZdq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Default R}
+
+\PYG{+w}{        }\PYG{c+c1}{// Set Slider Labels and Range}
+\PYG{+w}{        }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}sliderMinLabelM4\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{sliderChain}\PYG{p}{[}\PYG{l+m+mf}{0}\PYG{p}{];}
+\PYG{+w}{        }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}sliderMaxLabelM4\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{sliderChain}\PYG{p}{[}\PYG{n+nx}{sliderChain}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{];}
+\PYG{+w}{        }\PYG{n+nx}{strengthSlider}\PYG{p}{.}\PYG{n+nx}{max}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{sliderChain}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n+nx}{strengthSlider}\PYG{p}{.}\PYG{n+nx}{value}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{sliderChain}\PYG{p}{.}\PYG{n+nx}{findIndex}\PYG{p}{(}\PYG{n+nx}{s}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{s}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Square\PYGZdq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Default P = Strongest}
+
+\PYG{+w}{         }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Validity Helper Functions (remain the same) \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{         }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{conceptEntailsProperty}\PYG{p}{(}\PYG{n+nx}{conceptP}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{propertyR\PYGZus{}value}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{              }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{shapeHierarchy}\PYG{p}{[}\PYG{n+nx}{conceptP}\PYG{p}{])}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}
+\PYG{+w}{              }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{queue}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[}\PYG{n+nx}{conceptP}\PYG{p}{];}
+\PYG{+w}{              }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{visited}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nb}{Set}\PYG{p}{();}
+\PYG{+w}{              }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{queue}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                  }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{node}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{queue}\PYG{p}{.}\PYG{n+nx}{shift}\PYG{p}{();}
+\PYG{+w}{                  }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{visited}\PYG{p}{.}\PYG{n+nx}{has}\PYG{p}{(}\PYG{n+nx}{node}\PYG{p}{))}\PYG{+w}{ }\PYG{k}{continue}\PYG{p}{;}
+\PYG{+w}{                  }\PYG{n+nx}{visited}\PYG{p}{.}\PYG{n+nx}{add}\PYG{p}{(}\PYG{n+nx}{node}\PYG{p}{);}
+\PYG{+w}{                  }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{shapeHierarchy}\PYG{p}{[}\PYG{n+nx}{node}\PYG{p}{]}\PYG{o}{?}\PYG{p}{.}\PYG{n+nx}{properties}\PYG{o}{?}\PYG{p}{.}\PYG{n+nx}{includes}\PYG{p}{(}\PYG{n+nx}{propertyR\PYGZus{}value}\PYG{p}{))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                      }\PYG{k}{return}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                  }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                  }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{shapeHierarchy}\PYG{p}{[}\PYG{n+nx}{node}\PYG{p}{]}\PYG{o}{?}\PYG{p}{.}\PYG{n+nx}{superclasses}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                      }\PYG{n+nx}{shapeHierarchy}\PYG{p}{[}\PYG{n+nx}{node}\PYG{p}{].}\PYG{n+nx}{superclasses}\PYG{p}{.}\PYG{n+nx}{forEach}\PYG{p}{(}\PYG{n+nx}{sc}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{visited}\PYG{p}{.}\PYG{n+nx}{has}\PYG{p}{(}\PYG{n+nx}{sc}\PYG{p}{))}\PYG{+w}{ }\PYG{n+nx}{queue}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{(}\PYG{n+nx}{sc}\PYG{p}{);}\PYG{+w}{ }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{                  }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{              }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{              }\PYG{k}{return}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}
+\PYG{+w}{          }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{          }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{propertyEntailsConcept}\PYG{p}{(}\PYG{n+nx}{propertyR\PYGZus{}value}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{conceptP}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{              }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{shapeHierarchy}\PYG{p}{[}\PYG{n+nx}{conceptP}\PYG{p}{])}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}
+\PYG{+w}{              }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{shapesThatGuaranteeR}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[];}
+\PYG{+w}{              }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{shape}\PYG{+w}{ }\PYG{o+ow}{in}\PYG{+w}{ }\PYG{n+nx}{shapeHierarchy}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                  }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{conceptEntailsProperty}\PYG{p}{(}\PYG{n+nx}{shape}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{propertyR\PYGZus{}value}\PYG{p}{))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                      }\PYG{n+nx}{shapesThatGuaranteeR}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{(}\PYG{n+nx}{shape}\PYG{p}{);}
+\PYG{+w}{                  }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{              }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{              }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{shapesThatGuaranteeR}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}
+\PYG{+w}{              }\PYG{c+c1}{// Check if *all* shapes guaranteeing R are subclasses of conceptP}
+\PYG{+w}{              }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{shapesThatGuaranteeR}\PYG{p}{.}\PYG{n+nx}{every}\PYG{p}{(}\PYG{n+nx}{shape}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{isSubclass}\PYG{p}{(}\PYG{n+nx}{shape}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{conceptP}\PYG{p}{));}
+\PYG{+w}{          }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{updatePolarityDemo}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{fixedConceptQ}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{fixedSelect}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{sliderIndex}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{parseInt}\PYG{p}{(}\PYG{n+nx}{strengthSlider}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{variableConceptP}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{sliderChain}\PYG{p}{[}\PYG{n+nx}{sliderIndex}\PYG{p}{];}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{selectedPropertyR\PYGZus{}value}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{propertyRSelect}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{selectedPropertyR\PYGZus{}desc}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{propertyRSelect}\PYG{p}{.}\PYG{n+nx}{options}\PYG{p}{[}\PYG{n+nx}{propertyRSelect}\PYG{p}{.}\PYG{n+nx}{selectedIndex}\PYG{p}{].}\PYG{n+nx}{text}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Get Strengths using Module 2 data \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{strengthP}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{shapeDataMap}\PYG{p}{[}\PYG{n+nx}{variableConceptP}\PYG{p}{]}\PYG{o}{?}\PYG{p}{.}\PYG{n+nx}{strength}\PYG{+w}{ }\PYG{o}{??}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}?\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{strengthQ}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{shapeDataMap}\PYG{p}{[}\PYG{n+nx}{fixedConceptQ}\PYG{p}{]}\PYG{o}{?}\PYG{p}{.}\PYG{n+nx}{strength}\PYG{+w}{ }\PYG{o}{??}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}?\PYGZsq{}}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// Update labels and strengths}
+\PYG{+w}{            }\PYG{n+nx}{varConceptLabel}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{variableConceptP}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{strengthPEl}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{strengthP}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{strengthQEl}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{strengthQ}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{varConceptLabelCond}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{variableConceptP}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{propertyRLabel}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{selectedPropertyR\PYGZus{}desc}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{n+nx}{vizP\PYGZus{}El}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{getShapeSvg}\PYG{p}{(}\PYG{n+nx}{variableConceptP}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{vizQ\PYGZus{}R\PYGZus{}El}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{getShapeSvg}\PYG{p}{(}\PYG{n+nx}{fixedConceptQ}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Display Q here}
+
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{pImpliesQ}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{isSubclass}\PYG{p}{(}\PYG{n+nx}{variableConceptP}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{fixedConceptQ}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{qImpliesP}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{isSubclass}\PYG{p}{(}\PYG{n+nx}{fixedConceptQ}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{variableConceptP}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{relationSymbol}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}❓\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{pImpliesQ}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{qImpliesP}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{relationSymbol}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}⇔ Equivalent\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{pImpliesQ}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{relationSymbol}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`⇒ Stronger (S=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{strengthP}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{) ⇒`}\PYG{p}{;}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{c+c1}{// Show P is stronger}
+\PYG{+w}{            }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{qImpliesP}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{relationSymbol}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`⇐ Weaker (S=}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{strengthP}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{) ⇐`}\PYG{p}{;}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{c+c1}{// Show P is weaker}
+\PYG{+w}{            }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{relationSymbol}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{} unrelated \PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{c+c1}{// Added case for unrelated}
+\PYG{+w}{            }\PYG{n+nx}{relationArrowEl}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{relationSymbol}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// Update Base/Converse/Contra/Inverse validity displays (logic remains the same)}
+\PYG{+w}{            }\PYG{n+nx}{baseInferEl}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Base (P ⇒ Q): If X is \PYGZlt{}span class=\PYGZdq{}term\PYGZdq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{variableConceptP}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/span\PYGZgt{} then X is \PYGZlt{}span class=\PYGZdq{}term\PYGZdq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{fixedConceptQ}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/span\PYGZgt{}? \PYGZlt{}span class=\PYGZdq{}status\PYGZhy{}indicator }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{pImpliesQ}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}valid\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}invalid\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{pImpliesQ}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Valid\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Invalid\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/span\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{converseInferEl}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Converse (Q ⇒ P): If X is \PYGZlt{}span class=\PYGZdq{}term\PYGZdq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{fixedConceptQ}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/span\PYGZgt{} then X is \PYGZlt{}span class=\PYGZdq{}term\PYGZdq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{variableConceptP}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/span\PYGZgt{}? \PYGZlt{}span class=\PYGZdq{}status\PYGZhy{}indicator }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{qImpliesP}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}valid\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}invalid\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{qImpliesP}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Valid\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Invalid\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/span\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{notQImpliesNotP}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{pImpliesQ}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Validity matches base}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{notPImpliesNotQ}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{qImpliesP}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Validity matches converse}
+\PYG{+w}{            }\PYG{n+nx}{contraInferEl}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Contrapositive (¬Q ⇒ ¬P): If X is not \PYGZlt{}span class=\PYGZdq{}term\PYGZdq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{fixedConceptQ}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/span\PYGZgt{} then X is not \PYGZlt{}span class=\PYGZdq{}term\PYGZdq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{variableConceptP}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/span\PYGZgt{}? \PYGZlt{}span class=\PYGZdq{}status\PYGZhy{}indicator }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{notQImpliesNotP}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}valid\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}invalid\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{notQImpliesNotP}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Valid\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Invalid\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/span\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{inverseInferEl}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Inverse (¬P ⇒ ¬Q): If X is not \PYGZlt{}span class=\PYGZdq{}term\PYGZdq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{variableConceptP}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/span\PYGZgt{} then X is not \PYGZlt{}span class=\PYGZdq{}term\PYGZdq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{fixedConceptQ}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/span\PYGZgt{}? \PYGZlt{}span class=\PYGZdq{}status\PYGZhy{}indicator }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{notPImpliesNotQ}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}valid\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}invalid\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{notPImpliesNotQ}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Valid\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Invalid\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/span\PYGZgt{}`}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Calculate Validity ONCE at the beginning of this section \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{ifPThenR\PYGZus{}Valid}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{conceptEntailsProperty}\PYG{p}{(}\PYG{n+nx}{variableConceptP}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{selectedPropertyR\PYGZus{}value}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{ifRThenP\PYGZus{}Valid}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{propertyEntailsConcept}\PYG{p}{(}\PYG{n+nx}{selectedPropertyR\PYGZus{}value}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{variableConceptP}\PYG{p}{);}
+
+\PYG{+w}{            }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Update Conditional Embedding displays (using the calculated values) \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+
+\PYG{+w}{            }\PYG{c+c1}{// Rebuild Antecedent Element Content}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{antecedentSentenceHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Antecedent Position: \PYGZdq{}If X is \PYGZlt{}span class=\PYGZsq{}term\PYGZsq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{variableConceptP}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/span\PYGZgt{}, then X }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{selectedPropertyR\PYGZus{}desc}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdq{}`}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{condAntecedentEl}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{antecedentSentenceHTML}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Set the sentence HTML}
+\PYG{+w}{            }\PYG{c+c1}{// Use the already calculated \PYGZsq{}ifPThenR\PYGZus{}Valid\PYGZsq{}}
+\PYG{+w}{            }\PYG{n+nx}{condAntecedentStatusEl}\PYG{p}{.}\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`status\PYGZhy{}indicator }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{ifPThenR\PYGZus{}Valid}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}valid\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}invalid\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{condAntecedentStatusEl}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{ifPThenR\PYGZus{}Valid}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Valid\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Invalid\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{condAntecedentEl}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{condAntecedentStatusEl}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Append the status indicator}
+
+\PYG{+w}{            }\PYG{c+c1}{// Rebuild Consequent Element Content}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{consequentSentenceHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Consequent Position: \PYGZdq{}If X }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{selectedPropertyR\PYGZus{}desc}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{, then X is \PYGZlt{}span class=\PYGZsq{}term\PYGZsq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{variableConceptP}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/span\PYGZgt{}\PYGZdq{}`}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{condConsequentEl}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{consequentSentenceHTML}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Set the sentence HTML}
+\PYG{+w}{            }\PYG{c+c1}{// Use the already calculated \PYGZsq{}ifRThenP\PYGZus{}Valid\PYGZsq{}}
+\PYG{+w}{            }\PYG{n+nx}{condConsequentStatusEl}\PYG{p}{.}\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`status\PYGZhy{}indicator }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{ifRThenP\PYGZus{}Valid}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}valid\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}invalid\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{condConsequentStatusEl}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{ifRThenP\PYGZus{}Valid}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Valid\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Invalid\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{condConsequentEl}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{condConsequentStatusEl}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Append the status indicator}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c+c1}{// Event Listeners}
+\PYG{+w}{        }\PYG{n+nx}{fixedSelect}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}change\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{updatePolarityDemo}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{strengthSlider}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}input\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{updatePolarityDemo}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{propertyRSelect}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}change\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{updatePolarityDemo}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{n+nx}{updatePolarityDemo}\PYG{p}{();}\PYG{+w}{ }\PYG{c+c1}{// Initial call}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{};}\PYG{+w}{ }\PYG{c+c1}{// End Module 4 Initializer}
+
+\PYG{+w}{    }\PYG{c+c1}{// Module 5: Substitution Argument + Animation}
+\PYG{+w}{    }\PYG{n+nx}{moduleInitializers}\PYG{p}{[}\PYG{l+m+mf}{4}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{setupSubstitutionDemoViz}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{exampleSelect}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}substExampleSelectViz\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{frameSelect}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}frameSelectViz\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{frameVizEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}frameViz\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{exprA\PYGZus{}VizEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}exprA\PYGZus{}Viz\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{exprB\PYGZus{}VizEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}exprB\PYGZus{}Viz\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{animateBtn}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}animateSubstButtonViz\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{resetBtn}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}resetSubstButtonViz\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{baseSentenceEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}baseSentenceViz\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{resultSentenceEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}resultSentenceViz\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{infer1StatusEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}infer1StatusViz\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{infer2StatusEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}infer2StatusViz\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{analysisEl}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}substAnalysisViz\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// The explanation area}
+
+\PYG{+w}{        }\PYG{c+c1}{// Define frames with polarity info}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{frames}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n+nx}{simple\PYGZus{}assertion}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{template}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Shape S \PYGZob{}expr\PYGZcb{}.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nx}{display}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Shape S \PYGZus{}.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nx}{isInverting}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nx}{property}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{null}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{            }\PYG{n+nx}{conditional\PYGZus{}antecedent}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{c+c1}{// UPDATED}
+\PYG{+w}{                }\PYG{n+nx}{template}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}If Shape S \PYGZob{}expr\PYGZcb{}, then S is a Rhombus.\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{c+c1}{// New Consequent}
+\PYG{+w}{                }\PYG{n+nx}{display}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}If Shape S \PYGZus{}, then S is a Rhombus.\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{c+c1}{// New Display}
+\PYG{+w}{                }\PYG{n+nx}{isInverting}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nx}{property}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}is a Rhombus\PYGZdq{}}\PYG{+w}{ }\PYG{c+c1}{// Store the consequent property}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{            }\PYG{n+nx}{negation}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{template}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}It is NOT the case that Shape S \PYGZob{}expr\PYGZcb{}.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nx}{display}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}It is NOT the case that Shape S \PYGZus{}.\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nx}{isInverting}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nx}{property}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{null}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{        }\PYG{c+c1}{// Define examples with underlying rules}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{examples}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n+nx}{singularTerms}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{exprA}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Mark Twain\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nx}{exprB}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Samuel Clemens\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nx}{isSymmetric}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nx}{underlyingRule}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}A ↔ B (Assumed Co\PYGZhy{}referential)\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nx}{explanationTemplate}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Substituting co\PYGZhy{}referential terms (\PYGZsq{}\PYGZdl{}\PYGZob{}exprA\PYGZcb{}\PYGZsq{} ↔ \PYGZsq{}\PYGZdl{}\PYGZob{}exprB\PYGZcb{}\PYGZsq{}). Significance is SYMMETRIC.\PYGZdq{}}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{            }\PYG{n+nx}{predicatesStrongerToWeaker}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{exprA}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}is a Square\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nx}{exprB}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}is a Rectangle\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nx}{isSymmetric}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nx}{underlyingRule}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}A ⇒ B (Square ⇒ Rectangle)\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                 }\PYG{n+nx}{explanationTemplate}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Substituting a stronger predicate (\PYGZsq{}\PYGZdl{}\PYGZob{}exprA\PYGZcb{}\PYGZsq{}) with a weaker one (\PYGZsq{}\PYGZdl{}\PYGZob{}exprB\PYGZcb{}\PYGZsq{}). Significance is ASYMMETRIC.\PYGZdq{}}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{            }\PYG{n+nx}{predicatesWeakerToStronger}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                 }\PYG{n+nx}{exprA}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}is a Rectangle\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                 }\PYG{n+nx}{exprB}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}is a Square\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                 }\PYG{n+nx}{isSymmetric}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}
+\PYG{+w}{                 }\PYG{n+nx}{underlyingRule}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}A ⇏ B (Rectangle ⇏ Square), but B ⇒ A\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{c+c1}{// Note the base directionality}
+\PYG{+w}{                 }\PYG{n+nx}{explanationTemplate}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Substituting a weaker predicate (\PYGZsq{}\PYGZdl{}\PYGZob{}exprA\PYGZcb{}\PYGZsq{}) with a stronger one (\PYGZsq{}\PYGZdl{}\PYGZob{}exprB\PYGZcb{}\PYGZsq{}). Significance is ASYMMETRIC.\PYGZdq{}}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{         }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{animationTimeout}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// To clear existing timeouts on reset/change}
+
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Helper to build sentences with spans for animation \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{         }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{buildSentence}\PYG{p}{(}\PYG{n+nx}{template}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{expression}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{              }\PYG{c+c1}{// Simple replacement for now, assuming one placeholder \PYGZsq{}\PYGZob{}expr\PYGZcb{}\PYGZsq{}}
+\PYG{+w}{              }\PYG{c+c1}{// Escape expression to prevent HTML issues if needed, though unlikely here}
+\PYG{+w}{              }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{escapedExpr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{expression}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Simplification}
+\PYG{+w}{              }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{placeholder}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}expr\PYGZcb{}\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{              }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{parts}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{template}\PYG{p}{.}\PYG{n+nx}{split}\PYG{p}{(}\PYG{n+nx}{placeholder}\PYG{p}{);}
+\PYG{+w}{              }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{parts}\PYG{p}{.}\PYG{n+nx}{length}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                  }\PYG{c+c1}{// Wrap the expression part in a span for animation targeting}
+\PYG{+w}{                  }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{parts}\PYG{p}{[}\PYG{l+m+mf}{0}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}span class=\PYGZdq{}substituted\PYGZhy{}part\PYGZdq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{escapedExpr}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/span\PYGZgt{}`}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{parts}\PYG{p}{[}\PYG{l+m+mf}{1}\PYG{p}{];}
+\PYG{+w}{              }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{              }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{template}\PYG{p}{.}\PYG{n+nx}{replace}\PYG{p}{(}\PYG{n+nx}{placeholder}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}span class=\PYGZdq{}substituted\PYGZhy{}part\PYGZdq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{escapedExpr}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/span\PYGZgt{}`}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Fallback}
+\PYG{+w}{         }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Setup the initial view \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{        }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{setupInitialView}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n+nx}{clearTimeout}\PYG{p}{(}\PYG{n+nx}{animationTimeout}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Clear any pending animation}
+\PYG{+w}{            }\PYG{n+nx}{animateBtn}\PYG{p}{.}\PYG{n+nx}{disabled}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Re\PYGZhy{}enable button}
+
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{selectedExampleKey}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{exampleSelect}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{selectedFrameKey}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{frameSelect}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{example}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{examples}\PYG{p}{[}\PYG{n+nx}{selectedExampleKey}\PYG{p}{];}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{frame}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{frames}\PYG{p}{[}\PYG{n+nx}{selectedFrameKey}\PYG{p}{];}
+
+\PYG{+w}{            }\PYG{n+nx}{exprA\PYGZus{}VizEl}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{example}\PYG{p}{.}\PYG{n+nx}{exprA}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{exprB\PYGZus{}VizEl}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{example}\PYG{p}{.}\PYG{n+nx}{exprB}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{frameVizEl}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{frame}\PYG{p}{.}\PYG{n+nx}{display}\PYG{p}{;}
+
+\PYG{+w}{             }\PYG{c+c1}{// Reset styling on expression boxes}
+\PYG{+w}{             }\PYG{n+nx}{exprA\PYGZus{}VizEl}\PYG{p}{.}\PYG{n+nx}{classList}\PYG{p}{.}\PYG{n+nx}{remove}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}highlight\PYGZhy{}replace\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}lift\PYGZhy{}out\PYGZhy{}anim\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}fade\PYGZhy{}out\PYGZhy{}anim\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{             }\PYG{n+nx}{exprB\PYGZus{}VizEl}\PYG{p}{.}\PYG{n+nx}{classList}\PYG{p}{.}\PYG{n+nx}{remove}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}highlight\PYGZhy{}incoming\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{             }\PYG{n+nx}{exprA\PYGZus{}VizEl}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{opacity}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}1\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{exprA\PYGZus{}VizEl}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{transform}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{             }\PYG{n+nx}{exprB\PYGZus{}VizEl}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{opacity}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}1\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{exprB\PYGZus{}VizEl}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{transform}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+
+
+\PYG{+w}{            }\PYG{c+c1}{// Build and display initial sentences}
+\PYG{+w}{            }\PYG{n+nx}{baseSentenceEl}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{buildSentence}\PYG{p}{(}\PYG{n+nx}{frame}\PYG{p}{.}\PYG{n+nx}{template}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{example}\PYG{p}{.}\PYG{n+nx}{exprA}\PYG{p}{);}
+\PYG{+w}{            }\PYG{c+c1}{// Reset result sentence visually, perhaps hide it initially or show placeholder}
+\PYG{+w}{            }\PYG{n+nx}{resultSentenceEl}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{buildSentence}\PYG{p}{(}\PYG{n+nx}{frame}\PYG{p}{.}\PYG{n+nx}{template}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}...\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Placeholder}
+\PYG{+w}{            }\PYG{n+nx}{resultSentenceEl}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{opacity}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0.5}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Dim it initially}
+
+\PYG{+w}{            }\PYG{c+c1}{// Clear status indicators}
+\PYG{+w}{            }\PYG{n+nx}{infer1StatusEl}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{infer1StatusEl}\PYG{p}{.}\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}status\PYGZhy{}indicator\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{infer2StatusEl}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{infer2StatusEl}\PYG{p}{.}\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}status\PYGZhy{}indicator\PYGZsq{}}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// Reset analysis text}
+\PYG{+w}{            }\PYG{n+nx}{analysisEl}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}h4\PYGZgt{}4. Analysis: What Happens?\PYGZlt{}/h4\PYGZgt{}\PYGZlt{}p\PYGZgt{}Select an example and context, then click ▶️ Animate to see the substitution and evaluate the inferences.\PYGZlt{}/p\PYGZgt{}`}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// Ensure spans inside sentences are reset}
+\PYG{+w}{            }\PYG{n+nx}{baseSentenceEl}\PYG{p}{.}\PYG{n+nx}{querySelectorAll}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.substituted\PYGZhy{}part, .substituting\PYGZhy{}part\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{forEach}\PYG{p}{(}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{span}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{opacity}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{span}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{transform}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{span}\PYG{p}{.}\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}substituted\PYGZhy{}part\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Ensure it starts as the base part}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{             }\PYG{n+nx}{resultSentenceEl}\PYG{p}{.}\PYG{n+nx}{querySelectorAll}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.substituted\PYGZhy{}part, .substituting\PYGZhy{}part\PYGZsq{}}\PYG{p}{).}\PYG{n+nx}{forEach}\PYG{p}{(}\PYG{n+nx}{span}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                 }\PYG{n+nx}{span}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}...\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{n+nx}{span}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{opacity}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}0\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{span}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{transform}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{n+nx}{span}\PYG{p}{.}\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}substituted\PYGZhy{}part\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{             }\PYG{p}{\PYGZcb{});}
+
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Run the animation \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{        }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{runSubstitutionAnimation}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n+nx}{clearTimeout}\PYG{p}{(}\PYG{n+nx}{animationTimeout}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Clear previous timeouts}
+\PYG{+w}{            }\PYG{n+nx}{animateBtn}\PYG{p}{.}\PYG{n+nx}{disabled}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Disable button during animation}
+
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{selectedExampleKey}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{exampleSelect}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{selectedFrameKey}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{frameSelect}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{example}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{examples}\PYG{p}{[}\PYG{n+nx}{selectedExampleKey}\PYG{p}{];}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{frame}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{frames}\PYG{p}{[}\PYG{n+nx}{selectedFrameKey}\PYG{p}{];}
+
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{baseSpan}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{baseSentenceEl}\PYG{p}{.}\PYG{n+nx}{querySelector}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.substituted\PYGZhy{}part\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{resultSpanTemplate}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}span class=\PYGZdq{}substituting\PYGZhy{}part\PYGZdq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{example}\PYG{p}{.}\PYG{n+nx}{exprB}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/span\PYGZgt{}`}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Prepare the incoming part}
+
+\PYG{+w}{            }\PYG{c+c1}{// 1. Highlight the term to be substituted}
+\PYG{+w}{            }\PYG{n+nx}{exprA\PYGZus{}VizEl}\PYG{p}{.}\PYG{n+nx}{classList}\PYG{p}{.}\PYG{n+nx}{add}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}highlight\PYGZhy{}replace\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{if}\PYG{p}{(}\PYG{n+nx}{baseSpan}\PYG{p}{)}\PYG{+w}{ }\PYG{n+nx}{baseSpan}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{backgroundColor}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}a8d5ff\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Highlight in sentence}
+
+\PYG{+w}{            }\PYG{n+nx}{animationTimeout}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{setTimeout}\PYG{p}{(()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{c+c1}{// 2. Lift out the original term visually}
+\PYG{+w}{                }\PYG{n+nx}{exprA\PYGZus{}VizEl}\PYG{p}{.}\PYG{n+nx}{classList}\PYG{p}{.}\PYG{n+nx}{add}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}lift\PYGZhy{}out\PYGZhy{}anim\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                }\PYG{k}{if}\PYG{p}{(}\PYG{n+nx}{baseSpan}\PYG{p}{)}\PYG{+w}{ }\PYG{n+nx}{baseSpan}\PYG{p}{.}\PYG{n+nx}{classList}\PYG{p}{.}\PYG{n+nx}{add}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}lift\PYGZhy{}out\PYGZhy{}anim\PYGZsq{}}\PYG{p}{);}
+
+\PYG{+w}{                }\PYG{n+nx}{animationTimeout}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{setTimeout}\PYG{p}{(()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{c+c1}{// 3. Fade out the original term}
+\PYG{+w}{                    }\PYG{n+nx}{exprA\PYGZus{}VizEl}\PYG{p}{.}\PYG{n+nx}{classList}\PYG{p}{.}\PYG{n+nx}{add}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}fade\PYGZhy{}out\PYGZhy{}anim\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                     }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{baseSpan}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                         }\PYG{n+nx}{baseSpan}\PYG{p}{.}\PYG{n+nx}{classList}\PYG{p}{.}\PYG{n+nx}{add}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}fade\PYGZhy{}out\PYGZhy{}anim\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                     }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{                     }\PYG{c+c1}{// Prepare result sentence content *while* base fades}
+\PYG{+w}{                     }\PYG{n+nx}{resultSentenceEl}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{baseSentenceEl}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{p}{.}\PYG{n+nx}{replace}\PYG{p}{(}\PYG{l+s+sr}{/\PYGZlt{}span class=\PYGZdq{}substituted\PYGZhy{}part lift\PYGZhy{}out\PYGZhy{}anim fade\PYGZhy{}out\PYGZhy{}anim\PYGZdq{}[\PYGZca{}\PYGZgt{}]*\PYGZgt{}.*?\PYGZlt{}\PYGZbs{}/span\PYGZgt{}/}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{resultSpanTemplate}\PYG{p}{);}
+\PYG{+w}{                     }\PYG{n+nx}{resultSentenceEl}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{opacity}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Make result sentence visible}
+
+\PYG{+w}{                    }\PYG{n+nx}{animationTimeout}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{setTimeout}\PYG{p}{(()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                         }\PYG{c+c1}{// 4. Highlight the incoming term}
+\PYG{+w}{                         }\PYG{n+nx}{exprB\PYGZus{}VizEl}\PYG{p}{.}\PYG{n+nx}{classList}\PYG{p}{.}\PYG{n+nx}{add}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}highlight\PYGZhy{}incoming\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                         }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{resultSpan}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{resultSentenceEl}\PYG{p}{.}\PYG{n+nx}{querySelector}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.substituting\PYGZhy{}part\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Find the newly added span}
+
+\PYG{+w}{                         }\PYG{n+nx}{animationTimeout}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{setTimeout}\PYG{p}{(()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                              }\PYG{c+c1}{// 5. Move in the new term}
+\PYG{+w}{                              }\PYG{n+nx}{exprB\PYGZus{}VizEl}\PYG{p}{.}\PYG{n+nx}{classList}\PYG{p}{.}\PYG{n+nx}{remove}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}highlight\PYGZhy{}incoming\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Remove highlight}
+\PYG{+w}{                              }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{resultSpan}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                                  }\PYG{n+nx}{resultSpan}\PYG{p}{.}\PYG{n+nx}{classList}\PYG{p}{.}\PYG{n+nx}{add}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}move\PYGZhy{}in\PYGZhy{}anim\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Trigger move\PYGZhy{}in style}
+\PYG{+w}{                              }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{                              }\PYG{c+c1}{// 6. Evaluate and display inferences AFTER animation settles}
+\PYG{+w}{                             }\PYG{n+nx}{animationTimeout}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{setTimeout}\PYG{p}{(()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                                  }\PYG{n+nx}{evaluateAndDisplayInferences}\PYG{p}{();}\PYG{+w}{ }\PYG{c+c1}{// Calculate validity and update text}
+\PYG{+w}{                                  }\PYG{n+nx}{animateBtn}\PYG{p}{.}\PYG{n+nx}{disabled}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Re\PYGZhy{}enable button}
+\PYG{+w}{                                  }\PYG{c+c1}{// Optional: Clean up animation classes on spans if needed, though reset handles it}
+\PYG{+w}{                                  }\PYG{k}{if}\PYG{p}{(}\PYG{n+nx}{baseSpan}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{baseSpan}\PYG{p}{.}\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}substituted\PYGZhy{}part\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{baseSpan}\PYG{p}{.}\PYG{n+nx}{style}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                                  }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{finalResultSpan}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{resultSentenceEl}\PYG{p}{.}\PYG{n+nx}{querySelector}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.substituting\PYGZhy{}part\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                                  }\PYG{k}{if}\PYG{p}{(}\PYG{n+nx}{finalResultSpan}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{finalResultSpan}\PYG{p}{.}\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}substituted\PYGZhy{}part\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{finalResultSpan}\PYG{p}{.}\PYG{n+nx}{style}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{c+c1}{// Treat it as base now}
+\PYG{+w}{                             }\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{l+m+mf}{400}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Wait for move\PYGZhy{}in animation}
+
+\PYG{+w}{                         }\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{l+m+mf}{300}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Duration of incoming highlight}
+
+\PYG{+w}{                    }\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{l+m+mf}{300}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Duration of fade\PYGZhy{}out}
+
+\PYG{+w}{                }\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{l+m+mf}{300}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Duration of lift\PYGZhy{}out}
+
+\PYG{+w}{            }\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{l+m+mf}{200}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Initial highlight duration}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Evaluate Inferences (Simplified Logic \PYGZhy{} NEEDS Brandom\PYGZsq{}s Logic) \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{         }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{evaluateAndDisplayInferences}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{             }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{selectedKey}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{exampleSelect}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{;}
+\PYG{+w}{             }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{selectedFrameKey}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{frameSelect}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{;}
+\PYG{+w}{             }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{example}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{examples}\PYG{p}{[}\PYG{n+nx}{selectedKey}\PYG{p}{];}
+\PYG{+w}{             }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{frame}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{frames}\PYG{p}{[}\PYG{n+nx}{selectedFrameKey}\PYG{p}{];}
+\PYG{+w}{             }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{termA}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{example}\PYG{p}{.}\PYG{n+nx}{exprA}\PYG{p}{;}
+\PYG{+w}{             }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{termB}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{example}\PYG{p}{.}\PYG{n+nx}{exprB}\PYG{p}{;}
+
+\PYG{+w}{             }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Determine Underlying Material Implications \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{             }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{aMateriallyImpliesB}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{bMateriallyImpliesA}\PYG{p}{;}
+\PYG{+w}{             }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{isSymmetricExample}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{example}\PYG{p}{.}\PYG{n+nx}{isSymmetric}\PYG{p}{;}
+
+\PYG{+w}{             }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{isSymmetricExample}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                 }\PYG{n+nx}{aMateriallyImpliesB}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// By definition for co\PYGZhy{}referential terms}
+\PYG{+w}{                 }\PYG{n+nx}{bMateriallyImpliesA}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{             }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                 }\PYG{c+c1}{// Use the conceptual hierarchy for predicates}
+\PYG{+w}{                 }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{conceptA}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{termA}\PYG{p}{.}\PYG{n+nx}{startsWith}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}is a \PYGZdq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{termA}\PYG{p}{.}\PYG{n+nx}{substring}\PYG{p}{(}\PYG{l+m+mf}{5}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{termA}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{conceptB}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{termB}\PYG{p}{.}\PYG{n+nx}{startsWith}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}is a \PYGZdq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{termB}\PYG{p}{.}\PYG{n+nx}{substring}\PYG{p}{(}\PYG{l+m+mf}{5}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{termB}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{n+nx}{aMateriallyImpliesB}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{isSubclass}\PYG{p}{(}\PYG{n+nx}{conceptA}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{conceptB}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// e.g., Square is subclass of Rectangle}
+\PYG{+w}{                 }\PYG{n+nx}{bMateriallyImpliesA}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{isSubclass}\PYG{p}{(}\PYG{n+nx}{conceptB}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{conceptA}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// e.g., Rectangle is NOT subclass of Square}
+\PYG{+w}{             }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{             }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Determine Validity of the Substitution Inference (Base =\PYGZgt{} Result) \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{             }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{infer1\PYGZus{}valid}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}
+\PYG{+w}{             }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{isSymmetricExample}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                 }\PYG{n+nx}{infer1\PYGZus{}valid}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Symmetric substitution is always valid in both directions *if terms co\PYGZhy{}refer*}
+\PYG{+w}{             }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                 }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{frame}\PYG{p}{.}\PYG{n+nx}{isInverting}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                     }\PYG{c+c1}{// Polarity inverted: Inference Base =\PYGZgt{} Result is valid IF B materially implies A}
+\PYG{+w}{                     }\PYG{n+nx}{infer1\PYGZus{}valid}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{bMateriallyImpliesA}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                     }\PYG{c+c1}{// Normal polarity: Inference Base =\PYGZgt{} Result is valid IF A materially implies B}
+\PYG{+w}{                     }\PYG{n+nx}{infer1\PYGZus{}valid}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{aMateriallyImpliesB}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{             }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{             }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Determine Validity of the Reverse Substitution Inference (Result =\PYGZgt{} Base) \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{             }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{infer2\PYGZus{}valid}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}
+\PYG{+w}{             }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{isSymmetricExample}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                 }\PYG{n+nx}{infer2\PYGZus{}valid}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Symmetric}
+\PYG{+w}{             }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                 }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{frame}\PYG{p}{.}\PYG{n+nx}{isInverting}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                      }\PYG{c+c1}{// Polarity inverted: Inference Result =\PYGZgt{} Base is valid IF A materially implies B}
+\PYG{+w}{                     }\PYG{n+nx}{infer2\PYGZus{}valid}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{aMateriallyImpliesB}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                      }\PYG{c+c1}{// Normal polarity: Inference Result =\PYGZgt{} Base is valid IF B materially implies A}
+\PYG{+w}{                     }\PYG{n+nx}{infer2\PYGZus{}valid}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{bMateriallyImpliesA}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{             }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{             }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Update DOM elements \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{             }\PYG{n+nx}{infer1StatusEl}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{infer1\PYGZus{}valid}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Valid\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Invalid\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{             }\PYG{n+nx}{infer1StatusEl}\PYG{p}{.}\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`status\PYGZhy{}indicator }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{infer1\PYGZus{}valid}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}valid\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}invalid\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{;}
+\PYG{+w}{             }\PYG{n+nx}{infer2StatusEl}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{infer2\PYGZus{}valid}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Valid\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Invalid\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{             }\PYG{n+nx}{infer2StatusEl}\PYG{p}{.}\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`status\PYGZhy{}indicator }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{infer2\PYGZus{}valid}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}valid\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}invalid\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// Update analysis text based on results}
+\PYG{+w}{             }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{analysisText}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}h4\PYGZgt{}4. Analysis: What Happened?\PYGZlt{}/h4\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{             }\PYG{n+nx}{analysisText}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}p\PYGZgt{}Underlying Rule: \PYGZlt{}strong\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{example}\PYG{p}{.}\PYG{n+nx}{underlyingRule}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/strong\PYGZgt{}. Context Polarity: \PYGZlt{}strong\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{frame}\PYG{p}{.}\PYG{n+nx}{isInverting}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Inverting\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Non\PYGZhy{}Inverting\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/strong\PYGZgt{}.\PYGZlt{}/p\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{             }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{isSymmetricExample}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                 }\PYG{n+nx}{analysisText}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}p\PYGZgt{}✅ With \PYGZlt{}strong\PYGZgt{}Symmetric Terms\PYGZlt{}/strong\PYGZgt{}, the substitution is valid in \PYGZlt{}strong\PYGZgt{}both directions\PYGZlt{}/strong\PYGZgt{} (}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{infer1\PYGZus{}valid}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}✓\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}✗\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ Base⇒Result, }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{infer2\PYGZus{}valid}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}✓\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}✗\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ Result⇒Base), regardless of the context\PYGZsq{}s polarity. This stability is key for terms referring to objects.\PYGZlt{}/p\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{             }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                 }\PYG{n+nx}{analysisText}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}p\PYGZgt{}⚠️ With \PYGZlt{}strong\PYGZgt{}Asymmetric Predicates\PYGZlt{}/strong\PYGZgt{}:\PYGZlt{}/p\PYGZgt{}\PYGZlt{}ul\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{n+nx}{analysisText}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}li\PYGZgt{}Base ⇒ Result validity (}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{infer1\PYGZus{}valid}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}✓ Valid\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}✗ Invalid\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{) }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{frame}\PYG{p}{.}\PYG{n+nx}{isInverting}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}depends on the REVERSE material rule (B⇒A)\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}depends on the FORWARD material rule (A⇒B)\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ because the context is }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{frame}\PYG{p}{.}\PYG{n+nx}{isInverting}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}INVERTING\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Non\PYGZhy{}Inverting\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{.\PYGZlt{}/li\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{n+nx}{analysisText}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}li\PYGZgt{}Result ⇒ Base validity (}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{infer2\PYGZus{}valid}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}✓ Valid\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}✗ Invalid\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{) }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{frame}\PYG{p}{.}\PYG{n+nx}{isInverting}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}depends on the FORWARD material rule (A⇒B)\PYGZsq{}}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}depends on the REVERSE material rule (B⇒A)\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{.\PYGZlt{}/li\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{frame}\PYG{p}{.}\PYG{n+nx}{isInverting}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{aMateriallyImpliesB}\PYG{+w}{ }\PYG{o}{!==}\PYG{+w}{ }\PYG{n+nx}{bMateriallyImpliesA}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                     }\PYG{n+nx}{analysisText}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}li style=\PYGZdq{}color: purple; font\PYGZhy{}weight: bold;\PYGZdq{}\PYGZgt{}🚨 Notice the flip! The valid inference direction changed compared to a simple context because this context is inverting.\PYGZlt{}/li\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{frame}\PYG{p}{.}\PYG{n+nx}{isInverting}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{aMateriallyImpliesB}\PYG{+w}{ }\PYG{o}{!==}\PYG{+w}{ }\PYG{n+nx}{bMateriallyImpliesA}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                     }\PYG{n+nx}{analysisText}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}li\PYGZgt{}This follows the basic asymmetric pattern, as the context is not inverting.\PYGZlt{}/li\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                  }\PYG{n+nx}{analysisText}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}/ul\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{                  }\PYG{n+nx}{analysisText}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}p\PYGZgt{}\PYGZlt{}strong\PYGZgt{}The Breakdown:\PYGZlt{}/strong\PYGZgt{} If \PYGZsq{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{termA}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZsq{}/\PYGZsq{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{termB}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZsq{} were playing the basic \PYGZsq{}Substituted\PYGZhy{}For\PYGZsq{} role but *had* this asymmetric rule, the rule wouldn\PYGZsq{}t work consistently across all contexts. One rule would demand A⇒B in simple contexts but B⇒A in inverting ones!\PYGZlt{}/p\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{                  }\PYG{n+nx}{analysisText}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}p\PYGZgt{}\PYGZlt{}strong\PYGZgt{}Brandom\PYGZsq{}s Conclusion:\PYGZlt{}/strong\PYGZgt{} Therefore, the basic \PYGZsq{}Substituted\PYGZhy{}For\PYGZsq{} role *must* have SYMMETRIC significance (like terms). The asymmetric rules (like Square⇒Rectangle) belong to the \PYGZsq{}Frame\PYGZsq{} role (predicates), and logic handles the polarity flips for those frames correctly.\PYGZlt{}/p\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{             }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{             }\PYG{n+nx}{analysisEl}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{analysisText}\PYG{p}{;}
+\PYG{+w}{         }\PYG{p}{\PYGZcb{}}
+
+
+\PYG{+w}{        }\PYG{c+c1}{// Event Listeners}
+\PYG{+w}{        }\PYG{n+nx}{exampleSelect}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}change\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{setupInitialView}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{frameSelect}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}change\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{setupInitialView}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{animateBtn}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}click\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{runSubstitutionAnimation}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n+nx}{resetBtn}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}click\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{setupInitialView}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{c+c1}{// Initial setup}
+\PYG{+w}{        }\PYG{n+nx}{setupInitialView}\PYG{p}{();}\PYG{+w}{ }\PYG{c+c1}{// Make sure the view is correct on load}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{    }\PYG{c+c1}{// Module 6: Matrix (Original Module 5)}
+\PYG{+w}{    }\PYG{n+nx}{moduleInitializers}\PYG{p}{[}\PYG{l+m+mf}{5}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kd}{function}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{c+cm}{/* Module 6 (Original 5) \PYGZhy{} Likely static */}\PYG{+w}{ }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{    }\PYG{c+c1}{// Module 7: Conclusion (Original Module 6)}
+\PYG{+w}{    }\PYG{n+nx}{moduleInitializers}\PYG{p}{[}\PYG{l+m+mf}{6}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kd}{function}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{c+cm}{/* Module 7 (Original 6) \PYGZhy{} Likely static */}\PYG{+w}{ }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{    }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Initialize first module \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{    }\PYG{n+nx}{showModule}\PYG{p}{(}\PYG{l+m+mf}{0}\PYG{p}{);}
+
+\PYG{p}{\PYGZcb{});}\PYG{+w}{ }\PYG{c+c1}{// End DOMContentLoaded}
+\end{MintedVerbatim}

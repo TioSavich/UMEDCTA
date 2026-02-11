@@ -1,0 +1,179 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{os}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{subprocess}
+
+\PYG{n}{ROOT\PYGZus{}DIR} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}/Users/tio/Documents/GitHub/UMEDCTA\PYGZdq{}}
+\PYG{n}{OUTPUT\PYGZus{}DIR} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{ROOT\PYGZus{}DIR}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Code\PYGZus{}Documentation\PYGZus{}LaTeX\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{SKIP\PYGZus{}DIRS} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}.git\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}node\PYGZus{}modules\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.claude\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Code\PYGZus{}Documentation\PYGZus{}LaTeX\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}files (3)\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.git\PYGZhy{}rewrite\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZus{}pycache\PYGZus{}\PYGZus{}\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.vscode\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.idea\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}minted\PYGZsq{}}\PYG{p}{\PYGZcb{}}
+\PYG{n}{SKIP\PYGZus{}EXTENSIONS} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}.zip\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.DS\PYGZus{}Store\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.png\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.jpg\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.jpeg\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.pdf\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.tex\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.log\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.aux\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.out\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.toc\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.pyc\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.gz\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.svg\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.ico\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.mp3\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}.wav\PYGZsq{}}\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{\PYGZsh{} Map extensions to minted languages}
+\PYG{n}{EXT\PYGZus{}TO\PYGZus{}LANG} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+    \PYG{l+s+s1}{\PYGZsq{}.py\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}python\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}.js\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}javascript\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}.jsx\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}javascript\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}.ts\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}typescript\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}.tsx\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}typescript\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}.html\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}html\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}.css\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}css\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}.md\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}markdown\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}.json\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}json\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}.pl\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}prolog\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}.sh\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}bash\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}.xml\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}xml\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}.yml\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}yaml\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}.yaml\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}yaml\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}.c\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}c\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}.cpp\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}cpp\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}.h\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}cpp\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}.java\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}java\PYGZsq{}}\PYG{p}{,}
+    \PYG{l+s+s1}{\PYGZsq{}.txt\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}text\PYGZsq{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{escape\PYGZus{}latex}\PYG{p}{(}\PYG{n}{text}\PYG{p}{):}
+    \PYG{n}{chars} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+        \PYG{l+s+s1}{\PYGZsq{}\PYGZam{}\PYGZsq{}}\PYG{p}{:} \PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}\PYGZam{}\PYGZsq{}}\PYG{p}{,}
+        \PYG{l+s+s1}{\PYGZsq{}\PYGZpc{}\PYGZsq{}}\PYG{p}{:} \PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}\PYGZpc{}\PYGZsq{}}\PYG{p}{,}
+        \PYG{l+s+s1}{\PYGZsq{}\PYGZdl{}\PYGZsq{}}\PYG{p}{:} \PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}\PYGZdl{}\PYGZsq{}}\PYG{p}{,}
+        \PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}\PYGZsq{}}\PYG{p}{:} \PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}\PYGZsh{}\PYGZsq{}}\PYG{p}{,}
+        \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}}\PYG{p}{:} \PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}\PYGZus{}\PYGZsq{}}\PYG{p}{,}
+        \PYG{l+s+s1}{\PYGZsq{}\PYGZob{}\PYGZsq{}}\PYG{p}{:} \PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}\PYGZob{}\PYGZsq{}}\PYG{p}{,}
+        \PYG{l+s+s1}{\PYGZsq{}\PYGZcb{}\PYGZsq{}}\PYG{p}{:} \PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}\PYGZcb{}\PYGZsq{}}\PYG{p}{,}
+        \PYG{l+s+s1}{\PYGZsq{}\PYGZti{}\PYGZsq{}}\PYG{p}{:} \PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}textasciitilde}\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+        \PYG{l+s+s1}{\PYGZsq{}\PYGZca{}\PYGZsq{}}\PYG{p}{:} \PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}textasciicircum}\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+        \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{:} \PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}textbackslash}\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+    \PYG{p}{\PYGZcb{}}
+    \PYG{k}{return} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{chars}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{c}\PYG{p}{,} \PYG{n}{c}\PYG{p}{)} \PYG{k}{for} \PYG{n}{c} \PYG{o+ow}{in} \PYG{n}{text}\PYG{p}{)}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{generate\PYGZus{}latex\PYGZus{}for\PYGZus{}folder}\PYG{p}{(}\PYG{n}{folder\PYGZus{}name}\PYG{p}{,} \PYG{n}{base\PYGZus{}path}\PYG{p}{,} \PYG{n}{files\PYGZus{}to\PYGZus{}process}\PYG{p}{):}
+    \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{files\PYGZus{}to\PYGZus{}process}\PYG{p}{:}
+        \PYG{k}{return}
+
+    \PYG{n}{tex\PYGZus{}filename} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{folder\PYGZus{}name}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{folder\PYGZus{}name}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Root\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.tex\PYGZdq{}}
+    \PYG{n}{tex\PYGZus{}path} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{OUTPUT\PYGZus{}DIR}\PYG{p}{,} \PYG{n}{tex\PYGZus{}filename}\PYG{p}{)}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Generating }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{tex\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ with }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{files\PYGZus{}to\PYGZus{}process}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ files...\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{tex\PYGZus{}path}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}w\PYGZsq{}}\PYG{p}{,} \PYG{n}{encoding}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}utf\PYGZhy{}8\PYGZsq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+        \PYG{n}{f}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}\PYGZbs{}documentclass}\PYG{l+s+si}{\PYGZob{}article\PYGZcb{}}
+\PYG{l+s+s2}{\PYGZbs{}usepackage}\PYG{l+s+si}{\PYGZob{}fontspec\PYGZcb{}}
+\PYG{l+s+s2}{\PYGZbs{}usepackage}\PYG{l+s+si}{\PYGZob{}minted\PYGZcb{}}
+\PYG{l+s+s2}{\PYGZbs{}usepackage}\PYG{l+s+si}{\PYGZob{}hyperref\PYGZcb{}}
+\PYG{l+s+s2}{\PYGZbs{}usepackage}\PYG{l+s+si}{\PYGZob{}geometry\PYGZcb{}}
+\PYG{l+s+s2}{\PYGZbs{}usepackage}\PYG{l+s+si}{\PYGZob{}xcolor\PYGZcb{}}
+\PYG{l+s+s2}{\PYGZbs{}usepackage}\PYG{l+s+si}{\PYGZob{}fancyhdr\PYGZcb{}}
+
+\PYG{l+s+s2}{\PYGZbs{}geometry\PYGZob{}a4paper, margin=1in\PYGZcb{}}
+\PYG{l+s+s2}{\PYGZbs{}usemintedstyle}\PYG{l+s+si}{\PYGZob{}friendly\PYGZcb{}}
+\PYG{l+s+s2}{\PYGZbs{}setmonofont}\PYG{l+s+si}{\PYGZob{}Menlo\PYGZcb{}}\PYG{l+s+s2}{ [Scale=MatchLowercase]}
+
+\PYG{l+s+s2}{\PYGZbs{}pagestyle}\PYG{l+s+si}{\PYGZob{}fancy\PYGZcb{}}
+\PYG{l+s+s2}{\PYGZbs{}fancyhf}\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}
+\PYG{l+s+s2}{\PYGZbs{}lhead\PYGZob{}Code Documentation\PYGZcb{}}
+\PYG{l+s+s2}{\PYGZbs{}rhead\PYGZob{}\PYGZdq{}\PYGZdq{}\PYGZdq{}} \PYG{o}{+} \PYG{n}{escape\PYGZus{}latex}\PYG{p}{(}\PYG{n}{folder\PYGZus{}name} \PYG{k}{if} \PYG{n}{folder\PYGZus{}name} \PYG{k}{else} \PYG{l+s+s2}{\PYGZdq{}Root Directory\PYGZdq{}}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+sa}{r}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}\PYGZcb{}}
+\PYG{l+s+s2}{\PYGZbs{}cfoot\PYGZob{}\PYGZbs{}thepage\PYGZcb{}}
+
+\PYG{l+s+s2}{\PYGZbs{}title\PYGZob{}Code Documentation: \PYGZdq{}\PYGZdq{}\PYGZdq{}} \PYG{o}{+} \PYG{n}{escape\PYGZus{}latex}\PYG{p}{(}\PYG{n}{folder\PYGZus{}name} \PYG{k}{if} \PYG{n}{folder\PYGZus{}name} \PYG{k}{else} \PYG{l+s+s2}{\PYGZdq{}Root Directory\PYGZdq{}}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+sa}{r}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}\PYGZcb{}}
+\PYG{l+s+s2}{\PYGZbs{}author\PYGZob{}UMEDCTA Repository\PYGZcb{}}
+\PYG{l+s+s2}{\PYGZbs{}date\PYGZob{}\PYGZbs{}today\PYGZcb{}}
+
+\PYG{l+s+s2}{\PYGZbs{}begin}\PYG{l+s+si}{\PYGZob{}document\PYGZcb{}}
+
+\PYG{l+s+s2}{\PYGZbs{}maketitle}
+\PYG{l+s+s2}{\PYGZbs{}tableofcontents}
+\PYG{l+s+s2}{\PYGZbs{}newpage}
+\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{for} \PYG{n}{file\PYGZus{}path} \PYG{o+ow}{in} \PYG{n+nb}{sorted}\PYG{p}{(}\PYG{n}{files\PYGZus{}to\PYGZus{}process}\PYG{p}{):}
+            \PYG{n}{rel\PYGZus{}path} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{relpath}\PYG{p}{(}\PYG{n}{file\PYGZus{}path}\PYG{p}{,} \PYG{n}{ROOT\PYGZus{}DIR}\PYG{p}{)}
+            \PYG{n}{ext} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{splitext}\PYG{p}{(}\PYG{n}{file\PYGZus{}path}\PYG{p}{)[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()}
+            \PYG{n}{lang} \PYG{o}{=} \PYG{n}{EXT\PYGZus{}TO\PYGZus{}LANG}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{ext}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}text\PYGZsq{}}\PYG{p}{)}
+
+            \PYG{n}{f}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{section}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{escape\PYGZus{}latex}\PYG{p}{(}\PYG{n}{rel\PYGZus{}path}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+            \PYG{k}{try}\PYG{p}{:}
+                \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{file\PYGZus{}path}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}r\PYGZsq{}}\PYG{p}{,} \PYG{n}{encoding}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}utf\PYGZhy{}8\PYGZsq{}}\PYG{p}{,} \PYG{n}{errors}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}replace\PYGZsq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{source\PYGZus{}file}\PYG{p}{:}
+                    \PYG{n}{content} \PYG{o}{=} \PYG{n}{source\PYGZus{}file}\PYG{o}{.}\PYG{n}{read}\PYG{p}{()}
+                    \PYG{c+c1}{\PYGZsh{} Remove null bytes and other non\PYGZhy{}printable characters that might confuse TeX}
+                    \PYG{n}{content} \PYG{o}{=} \PYG{n}{content}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+se}{\PYGZbs{}x00}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{)}
+
+                    \PYG{c+c1}{\PYGZsh{} Basic check to avoid empty files or binary looking files}
+                    \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{content}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{():}
+                        \PYG{n}{f}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}File is empty.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                        \PYG{k}{continue}
+
+                \PYG{n}{f}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{begin}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{minted}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{[breaklines, linenos, fontsize=}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{small, frame=single]}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{lang}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{f}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{content}\PYG{p}{)}
+                \PYG{c+c1}{\PYGZsh{} Split the end tag to avoid confusing minted when this script is documented}
+                \PYG{n}{end\PYGZus{}tag} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{end\PYGZob{}\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}minted\PYGZcb{}\PYGZdq{}}
+                \PYG{n}{f}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{end\PYGZus{}tag}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}n\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{newpage}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{except} \PYG{n+ne}{Exception} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}
+                \PYG{n}{f}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Error reading file: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{f}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s2}{\PYGZdq{}\PYGZbs{}end}\PYG{l+s+si}{\PYGZob{}document\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{():}
+    \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{exists}\PYG{p}{(}\PYG{n}{OUTPUT\PYGZus{}DIR}\PYG{p}{):}
+        \PYG{n}{os}\PYG{o}{.}\PYG{n}{makedirs}\PYG{p}{(}\PYG{n}{OUTPUT\PYGZus{}DIR}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} 1. Identify top\PYGZhy{}level folders and root files}
+    \PYG{n}{subfolders} \PYG{o}{=} \PYG{p}{[]}
+    \PYG{n}{root\PYGZus{}files} \PYG{o}{=} \PYG{p}{[]}
+
+    \PYG{k}{for} \PYG{n}{item} \PYG{o+ow}{in} \PYG{n}{os}\PYG{o}{.}\PYG{n}{listdir}\PYG{p}{(}\PYG{n}{ROOT\PYGZus{}DIR}\PYG{p}{):}
+        \PYG{n}{item\PYGZus{}path} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{ROOT\PYGZus{}DIR}\PYG{p}{,} \PYG{n}{item}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{item} \PYG{o+ow}{in} \PYG{n}{SKIP\PYGZus{}DIRS} \PYG{o+ow}{or} \PYG{n}{item}\PYG{o}{.}\PYG{n}{startswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.\PYGZsq{}}\PYG{p}{):}
+            \PYG{k}{continue}
+
+        \PYG{k}{if} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{isdir}\PYG{p}{(}\PYG{n}{item\PYGZus{}path}\PYG{p}{):}
+            \PYG{n}{subfolders}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{item}\PYG{p}{)}
+        \PYG{k}{elif} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{isfile}\PYG{p}{(}\PYG{n}{item\PYGZus{}path}\PYG{p}{):}
+            \PYG{n}{ext} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{splitext}\PYG{p}{(}\PYG{n}{item}\PYG{p}{)[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()}
+            \PYG{k}{if} \PYG{n}{ext} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{SKIP\PYGZus{}EXTENSIONS}\PYG{p}{:}
+                \PYG{n}{root\PYGZus{}files}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{item\PYGZus{}path}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Process Root Files}
+    \PYG{k}{if} \PYG{n}{root\PYGZus{}files}\PYG{p}{:}
+        \PYG{n}{generate\PYGZus{}latex\PYGZus{}for\PYGZus{}folder}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,} \PYG{n}{ROOT\PYGZus{}DIR}\PYG{p}{,} \PYG{n}{root\PYGZus{}files}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Process Subfolders}
+    \PYG{k}{for} \PYG{n}{folder} \PYG{o+ow}{in} \PYG{n}{subfolders}\PYG{p}{:}
+        \PYG{n}{folder\PYGZus{}path} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{ROOT\PYGZus{}DIR}\PYG{p}{,} \PYG{n}{folder}\PYG{p}{)}
+        \PYG{n}{files\PYGZus{}in\PYGZus{}folder} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{k}{for} \PYG{n}{root}\PYG{p}{,} \PYG{n}{dirs}\PYG{p}{,} \PYG{n}{files} \PYG{o+ow}{in} \PYG{n}{os}\PYG{o}{.}\PYG{n}{walk}\PYG{p}{(}\PYG{n}{folder\PYGZus{}path}\PYG{p}{):}
+            \PYG{c+c1}{\PYGZsh{} Modify dirs in\PYGZhy{}place to skip unwanted directories}
+            \PYG{n}{dirs}\PYG{p}{[:]} \PYG{o}{=} \PYG{p}{[}\PYG{n}{d} \PYG{k}{for} \PYG{n}{d} \PYG{o+ow}{in} \PYG{n}{dirs} \PYG{k}{if} \PYG{n}{d} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{SKIP\PYGZus{}DIRS} \PYG{o+ow}{and} \PYG{o+ow}{not} \PYG{n}{d}\PYG{o}{.}\PYG{n}{startswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.\PYGZsq{}}\PYG{p}{)]}
+
+            \PYG{k}{for} \PYG{n}{file} \PYG{o+ow}{in} \PYG{n}{files}\PYG{p}{:}
+                \PYG{k}{if} \PYG{n}{file}\PYG{o}{.}\PYG{n}{startswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.\PYGZsq{}}\PYG{p}{):}
+                    \PYG{k}{continue}
+                \PYG{n}{ext} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{splitext}\PYG{p}{(}\PYG{n}{file}\PYG{p}{)[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()}
+                \PYG{k}{if} \PYG{n}{ext} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{SKIP\PYGZus{}EXTENSIONS}\PYG{p}{:}
+                    \PYG{n}{files\PYGZus{}in\PYGZus{}folder}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{root}\PYG{p}{,} \PYG{n}{file}\PYG{p}{))}
+
+        \PYG{k}{if} \PYG{n}{files\PYGZus{}in\PYGZus{}folder}\PYG{p}{:}
+            \PYG{n}{generate\PYGZus{}latex\PYGZus{}for\PYGZus{}folder}\PYG{p}{(}\PYG{n}{folder}\PYG{p}{,} \PYG{n}{folder\PYGZus{}path}\PYG{p}{,} \PYG{n}{files\PYGZus{}in\PYGZus{}folder}\PYG{p}{)}
+
+    \PYG{n}{compile\PYGZus{}pdfs}\PYG{p}{()}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{compile\PYGZus{}pdfs}\PYG{p}{():}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Compiling PDFs...\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{filename} \PYG{o+ow}{in} \PYG{n}{os}\PYG{o}{.}\PYG{n}{listdir}\PYG{p}{(}\PYG{n}{OUTPUT\PYGZus{}DIR}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n}{filename}\PYG{o}{.}\PYG{n}{endswith}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}.tex\PYGZdq{}}\PYG{p}{):}
+            \PYG{n}{tex\PYGZus{}path} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{OUTPUT\PYGZus{}DIR}\PYG{p}{,} \PYG{n}{filename}\PYG{p}{)}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Compiling }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{filename}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{...\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{try}\PYG{p}{:}
+                \PYG{c+c1}{\PYGZsh{} Run xelatex twice to resolve TOC}
+                \PYG{c+c1}{\PYGZsh{} Using \PYGZhy{}shell\PYGZhy{}escape is crucial for minted.}
+                \PYG{c+c1}{\PYGZsh{} \PYGZhy{}interaction=nonstopmode prevents hanging on errors.}
+                \PYG{n}{cmd} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}xelatex\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZhy{}shell\PYGZhy{}escape\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZhy{}interaction=nonstopmode\PYGZsq{}}\PYG{p}{,} \PYG{n}{filename}\PYG{p}{]}
+                \PYG{n}{subprocess}\PYG{o}{.}\PYG{n}{run}\PYG{p}{(}\PYG{n}{cmd}\PYG{p}{,} \PYG{n}{cwd}\PYG{o}{=}\PYG{n}{OUTPUT\PYGZus{}DIR}\PYG{p}{,} \PYG{n}{check}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{stdout}\PYG{o}{=}\PYG{n}{subprocess}\PYG{o}{.}\PYG{n}{DEVNULL}\PYG{p}{,} \PYG{n}{stderr}\PYG{o}{=}\PYG{n}{subprocess}\PYG{o}{.}\PYG{n}{DEVNULL}\PYG{p}{)}
+                \PYG{n}{subprocess}\PYG{o}{.}\PYG{n}{run}\PYG{p}{(}\PYG{n}{cmd}\PYG{p}{,} \PYG{n}{cwd}\PYG{o}{=}\PYG{n}{OUTPUT\PYGZus{}DIR}\PYG{p}{,} \PYG{n}{check}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{stdout}\PYG{o}{=}\PYG{n}{subprocess}\PYG{o}{.}\PYG{n}{DEVNULL}\PYG{p}{,} \PYG{n}{stderr}\PYG{o}{=}\PYG{n}{subprocess}\PYG{o}{.}\PYG{n}{DEVNULL}\PYG{p}{)}
+                \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Successfully compiled }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{filename}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{except} \PYG{n}{subprocess}\PYG{o}{.}\PYG{n}{CalledProcessError}\PYG{p}{:}
+                \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Error compiling }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{filename}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{. Check }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{filename}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.tex\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}.log\PYGZsq{}}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ for details.\PYGZdq{}}\PYG{p}{)}
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    \PYG{n}{main}\PYG{p}{()}
+
+\end{MintedVerbatim}

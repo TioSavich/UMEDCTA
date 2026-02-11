@@ -1,0 +1,1059 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}!DOCTYPE html\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{html} \PYG{n+na}{xmlns}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}http://www.w3.org/1999/xhtml\PYGZdq{}} \PYG{n+na}{lang}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZdq{}} \PYG{n+na}{xml:lang}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{head}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{meta} \PYG{n+na}{charset}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}utf\PYGZhy{}8\PYGZdq{}} \PYG{p}{/\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{meta} \PYG{n+na}{name}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}generator\PYGZdq{}} \PYG{n+na}{content}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}pandoc\PYGZdq{}} \PYG{p}{/\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{meta} \PYG{n+na}{name}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}viewport\PYGZdq{}} \PYG{n+na}{content}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}width=device\PYGZhy{}width, initial\PYGZhy{}scale=1.0, user\PYGZhy{}scalable=yes\PYGZdq{}} \PYG{p}{/\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{meta} \PYG{n+na}{name}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}author\PYGZdq{}} \PYG{n+na}{content}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}Theodore M. Savich\PYGZdq{}} \PYG{p}{/\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{meta} \PYG{n+na}{name}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}dcterms.date\PYGZdq{}} \PYG{n+na}{content}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}2025\PYGZhy{}04\PYGZhy{}01\PYGZdq{}} \PYG{p}{/\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{title}\PYG{p}{\PYGZgt{}}Integrating Brandom’s Semantics with Dialectical Logic and Mathematical Foundations\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{title}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{style}\PYG{p}{\PYGZgt{}}
+\PYG{+w}{    }\PYG{n+nt}{html}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}1a1a1a}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}fdfdfd}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{body}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{k+kc}{auto}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{max\PYGZhy{}width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{36}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{padding\PYGZhy{}left}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{50}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{padding\PYGZhy{}right}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{50}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{padding\PYGZhy{}top}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{50}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{padding\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{50}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{hyphens}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{auto}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{overflow\PYGZhy{}wrap}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{break\PYGZhy{}word}\PYG{p}{;}
+\PYG{+w}{      }\PYG{n}{text\PYGZhy{}rendering}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{optimizeLegibility}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{font\PYGZhy{}kerning}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{normal}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{@}\PYG{k}{media}\PYG{+w}{ }\PYG{o}{(}\PYG{n+nt}{max\PYGZhy{}width}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nt}{600px}\PYG{o}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{body}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.9}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{12}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{n+nt}{h1}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.8}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{@}\PYG{k}{media}\PYG{+w}{ }\PYG{n+nt}{print}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nt}{html}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{white}\PYG{p}{;}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{n+nt}{body}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{transparent}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{black}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{12}\PYG{k+kt}{pt}\PYG{p}{;}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{n+nt}{p}\PYG{o}{,}\PYG{+w}{ }\PYG{n+nt}{h2}\PYG{o}{,}\PYG{+w}{ }\PYG{n+nt}{h3}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{orphans}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{widows}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{p}{;}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{n+nt}{h2}\PYG{o}{,}\PYG{+w}{ }\PYG{n+nt}{h3}\PYG{o}{,}\PYG{+w}{ }\PYG{n+nt}{h4}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{page\PYGZhy{}break\PYGZhy{}after}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{avoid}\PYG{p}{;}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{p}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{a}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}1a1a1a}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{a}\PYG{p}{:}\PYG{n+nd}{visited}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}1a1a1a}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{img}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{max\PYGZhy{}width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{100}\PYG{k+kt}{\PYGZpc{}}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{svg}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{height}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{auto}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{max\PYGZhy{}width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{100}\PYG{k+kt}{\PYGZpc{}}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{h1}\PYG{o}{,}\PYG{+w}{ }\PYG{n+nt}{h2}\PYG{o}{,}\PYG{+w}{ }\PYG{n+nt}{h3}\PYG{o}{,}\PYG{+w}{ }\PYG{n+nt}{h4}\PYG{o}{,}\PYG{+w}{ }\PYG{n+nt}{h5}\PYG{o}{,}\PYG{+w}{ }\PYG{n+nt}{h6}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{margin\PYGZhy{}top}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.4}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{h5}\PYG{o}{,}\PYG{+w}{ }\PYG{n+nt}{h6}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{font\PYGZhy{}style}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{italic}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{h6}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{font\PYGZhy{}weight}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{normal}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{ol}\PYG{o}{,}\PYG{+w}{ }\PYG{n+nt}{ul}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{padding\PYGZhy{}left}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.7}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{margin\PYGZhy{}top}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{li}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n+nt}{ol}\PYG{o}{,}\PYG{+w}{ }\PYG{n+nt}{li}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n+nt}{ul}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{margin\PYGZhy{}top}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{blockquote}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mf}{1.7}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{padding\PYGZhy{}left}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{border\PYGZhy{}left}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}e6e6e6}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}606060}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{code}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{font\PYGZhy{}family}\PYG{p}{:}\PYG{+w}{ }\PYG{n}{Menlo}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Monaco}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Consolas}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Lucida Console\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{monospace}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{85}\PYG{k+kt}{\PYGZpc{}}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{hyphens}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{manual}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{pre}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{overflow}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{auto}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{pre}\PYG{+w}{ }\PYG{n+nt}{code}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{overflow}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{visible}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{overflow\PYGZhy{}wrap}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{normal}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{.}\PYG{n+nc}{sourceCode}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{     }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{transparent}\PYG{p}{;}
+\PYG{+w}{     }\PYG{k}{overflow}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{visible}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{hr}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{background\PYGZhy{}color}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}1a1a1a}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{border}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{none}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{height}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{table}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{border\PYGZhy{}collapse}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{collapse}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{100}\PYG{k+kt}{\PYGZpc{}}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{overflow\PYGZhy{}x}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{auto}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{display}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{block}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{font\PYGZhy{}variant\PYGZhy{}numeric}\PYG{p}{:}\PYG{+w}{ }\PYG{n}{lining\PYGZhy{}nums}\PYG{+w}{ }\PYG{n}{tabular\PYGZhy{}nums}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{table}\PYG{+w}{ }\PYG{n+nt}{caption}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{margin\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.75}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{tbody}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{margin\PYGZhy{}top}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.5}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{border\PYGZhy{}top}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}1a1a1a}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{border\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}1a1a1a}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{th}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{border\PYGZhy{}top}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{k+kt}{px}\PYG{+w}{ }\PYG{k+kc}{solid}\PYG{+w}{ }\PYG{l+m+mh}{\PYGZsh{}1a1a1a}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.25}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mf}{0.5}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mf}{0.25}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mf}{0.5}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{td}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{padding}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.125}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mf}{0.5}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mf}{0.25}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mf}{0.5}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{header}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{margin\PYGZhy{}bottom}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{4}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{text\PYGZhy{}align}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{center}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZsh{}}\PYG{n+nn}{TOC}\PYG{+w}{ }\PYG{n+nt}{li}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{list\PYGZhy{}style}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{none}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZsh{}}\PYG{n+nn}{TOC}\PYG{+w}{ }\PYG{n+nt}{ul}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{padding\PYGZhy{}left}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.3}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZsh{}}\PYG{n+nn}{TOC}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n+nt}{ul}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{padding\PYGZhy{}left}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZsh{}}\PYG{n+nn}{TOC}\PYG{+w}{ }\PYG{n+nt}{a}\PYG{p}{:}\PYG{n+nd}{not}\PYG{o}{(}\PYG{p}{:}\PYG{n+nd}{hover}\PYG{o}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{text\PYGZhy{}decoration}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{none}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{code}\PYG{p}{\PYGZob{}}\PYG{k}{white\PYGZhy{}space}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{pre\PYGZhy{}wrap}\PYG{p}{;\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{span}\PYG{p}{.}\PYG{n+nc}{smallcaps}\PYG{p}{\PYGZob{}}\PYG{k}{font\PYGZhy{}variant}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{small\PYGZhy{}caps}\PYG{p}{;\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{div}\PYG{p}{.}\PYG{n+nc}{columns}\PYG{p}{\PYGZob{}}\PYG{k}{display}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{flex}\PYG{p}{;}\PYG{+w}{ }\PYG{k}{gap}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nf}{min}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{k+kt}{vw}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{1.5}\PYG{k+kt}{em}\PYG{p}{);\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{div}\PYG{p}{.}\PYG{n+nc}{column}\PYG{p}{\PYGZob{}}\PYG{k}{flex}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{auto}\PYG{p}{;}\PYG{+w}{ }\PYG{k}{overflow\PYGZhy{}x}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{auto}\PYG{p}{;\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{div}\PYG{p}{.}\PYG{n+nc}{hanging\PYGZhy{}indent}\PYG{p}{\PYGZob{}}\PYG{k}{margin\PYGZhy{}left}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{1.5}\PYG{k+kt}{em}\PYG{p}{;}\PYG{+w}{ }\PYG{k}{text\PYGZhy{}indent}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{\PYGZhy{}1.5}\PYG{k+kt}{em}\PYG{p}{;\PYGZcb{}}
+\PYG{+w}{    }\PYG{c}{/* The extra [class] is a hack that increases specificity enough to}
+\PYG{c}{       override a similar rule in reveal.js */}
+\PYG{+w}{    }\PYG{n+nt}{ul}\PYG{p}{.}\PYG{n+nc}{task\PYGZhy{}list}\PYG{o}{[}\PYG{n+nt}{class}\PYG{o}{]}\PYG{p}{\PYGZob{}}\PYG{k}{list\PYGZhy{}style}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{none}\PYG{p}{;\PYGZcb{}}
+\PYG{+w}{    }\PYG{n+nt}{ul}\PYG{p}{.}\PYG{n+nc}{task\PYGZhy{}list}\PYG{+w}{ }\PYG{n+nt}{li}\PYG{+w}{ }\PYG{n+nt}{input}\PYG{o}{[}\PYG{n+nt}{type}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}checkbox\PYGZdq{}}\PYG{o}{]}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{font\PYGZhy{}size}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{inherit}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{width}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mf}{0.8}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{margin}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{l+m+mf}{0.8}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mf}{0.2}\PYG{k+kt}{em}\PYG{+w}{ }\PYG{l+m+mf}{\PYGZhy{}1.6}\PYG{k+kt}{em}\PYG{p}{;}
+\PYG{+w}{      }\PYG{k}{vertical\PYGZhy{}align}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{middle}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{style}\PYG{p}{\PYGZgt{}}
+  \PYG{p}{\PYGZlt{}}\PYG{n+nt}{script}
+  \PYG{n+na}{src}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex\PYGZhy{}chtml\PYGZhy{}full.js\PYGZdq{}}
+  \PYG{n+na}{type}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text/javascript\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{head}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{body}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{header} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}title\PYGZhy{}block\PYGZhy{}header\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h1} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}title\PYGZdq{}}\PYG{p}{\PYGZgt{}}Integrating Brandom’s Semantics with Dialectical Logic
+and Mathematical Foundations\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}author\PYGZdq{}}\PYG{p}{\PYGZgt{}}Theodore M. Savich\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}date\PYGZdq{}}\PYG{p}{\PYGZgt{}}2025\PYGZhy{}04\PYGZhy{}01\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{header}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h1} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}robert\PYGZhy{}brandoms\PYGZhy{}incompatibility\PYGZhy{}semantics\PYGZdq{}}\PYG{p}{\PYGZgt{}}Robert Brandom’s (2008)
+Incompatibility Semantics\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}definitions\PYGZhy{}and\PYGZhy{}axioms\PYGZdq{}}\PYG{p}{\PYGZgt{}}Definitions and Axioms\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}We are given a language \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(L\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} (set
+of sentences). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(L\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} is proper if, for
+each \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(p \PYGZbs{}in L\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} and each \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(q\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} a subformula of \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}, we also have \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(q \PYGZbs{}in L\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}. All languages under
+consideration are proper.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}axiom\PYGZhy{}persistence\PYGZdq{}}\PYG{p}{\PYGZgt{}}Axiom: Persistence\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}If a set of sentences is incoherent (Inc), adding more sentences to
+it cannot make it coherent.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math display\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}[\PYGZbs{}label\PYGZob{}eq:persistence\PYGZcb{}
+\PYGZbs{}forall X, Y \PYGZbs{}subseteq L, (X \PYGZbs{}subseteq Y \PYGZbs{}wedge X \PYGZbs{}in \PYGZbs{}text\PYGZob{}Inc\PYGZcb{})
+\PYGZbs{}rightarrow Y \PYGZbs{}in \PYGZbs{}text\PYGZob{}Inc\PYGZcb{}\PYGZbs{}]\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Incoherence, once established, cannot be resolved by merely adding
+more sentences. Contradictions require removal or correction of
+conflicting elements.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}axiom\PYGZhy{}partition\PYGZdq{}}\PYG{p}{\PYGZgt{}}Axiom: Partition\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}1\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Two sets of sentences are incompatible (\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(I\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}) if and only if their union is
+incoherent (\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}text\PYGZob{}Inc\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}).\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}1\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math display\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}[\PYGZbs{}label\PYGZob{}eq:partition\PYGZcb{}
+X \PYGZbs{}cup Y \PYGZbs{}in \PYGZbs{}text\PYGZob{}Inc\PYGZcb{} \PYGZbs{}iff X \PYGZbs{}in I(Y)\PYGZbs{}]\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}1\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Incompatibility between sets is equivalent to their union being
+incoherent. Combining incompatible statements leads to
+contradiction.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}entailment\PYGZdq{}}\PYG{p}{\PYGZgt{}}Entailment\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}2\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}One set of sentences entails (\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}models\PYGZus{}I\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}) another if everything
+incompatible with the conclusion is incompatible with the premise.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}2\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math display\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}[\PYGZbs{}label\PYGZob{}eq:entailment\PYGZcb{}
+X \PYGZbs{}models\PYGZus{}I Y \PYGZbs{}iff \PYGZbs{}bigcup\PYGZus{}\PYGZob{}p \PYGZbs{}in Y\PYGZcb{} I(\PYGZbs{}\PYGZob{}p\PYGZbs{}\PYGZcb{}) \PYGZbs{}subseteq
+I(X)\PYGZbs{}]\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}2\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Entailment means the truth (or commitment to) \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(X\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} guarantees the truth (or commitment to)
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(Y\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}. If anything contradicts \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(Y\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}, it must also contradict \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(X\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}connective\PYGZhy{}definitions\PYGZdq{}}\PYG{p}{\PYGZgt{}}Connective Definitions\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Axioms governing \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(N\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} (Negation),
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(K\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} (Conjunction), and \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(L\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} (Necessity).\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}axiom\PYGZhy{}negation\PYGZhy{}introduction\PYGZhy{}ni\PYGZdq{}}\PYG{p}{\PYGZgt{}}Axiom: Negation Introduction
+(NI)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}3\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Introducing negation (\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(N\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}) based
+on incoherence. \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(Np\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} means \PYGZdq{}not \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}\PYGZdq{}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}3\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math display\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}[\PYGZbs{}label\PYGZob{}eq:ni\PYGZcb{}
+X \PYGZbs{}cup \PYGZbs{}\PYGZob{}Np\PYGZbs{}\PYGZcb{} \PYGZbs{}in \PYGZbs{}text\PYGZob{}Inc\PYGZcb{} \PYGZbs{}iff X \PYGZbs{}models \PYGZbs{}\PYGZob{}p\PYGZbs{}\PYGZcb{}\PYGZbs{}]\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}3\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Adding \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(Np\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} yields incoherence iff
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(X\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} entails \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}. Reflects contradiction arising from
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} and \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}neg p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}axiom\PYGZhy{}conjunction\PYGZhy{}introduction\PYGZhy{}ci\PYGZdq{}}\PYG{p}{\PYGZgt{}}Axiom: Conjunction
+Introduction (CI)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}4\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Introducing conjunction (\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(K\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}})
+based on incoherence. \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(Kpq\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} means
+\PYGZdq{}both \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} and \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(q\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}\PYGZdq{}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}4\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math display\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}[\PYGZbs{}label\PYGZob{}eq:ci\PYGZcb{}
+X \PYGZbs{}cup \PYGZbs{}\PYGZob{}Kpq\PYGZbs{}\PYGZcb{} \PYGZbs{}in \PYGZbs{}text\PYGZob{}Inc\PYGZcb{} \PYGZbs{}iff X \PYGZbs{}cup \PYGZbs{}\PYGZob{}p, q\PYGZbs{}\PYGZcb{} \PYGZbs{}in
+\PYGZbs{}text\PYGZob{}Inc\PYGZcb{}\PYGZbs{}]\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}4\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Conjunction \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(Kpq\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} leads to
+incoherence iff combining \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(X\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} with
+both \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} and \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(q\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} does. Reflects that conjunction is true
+iff both conjuncts are.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}axiom\PYGZhy{}l\PYGZhy{}introduction\PYGZhy{}li\PYGZdq{}}\PYG{p}{\PYGZgt{}}Axiom: L Introduction (LI)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}5\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Introducing necessity (\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(L\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(Lp\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} means \PYGZdq{}necessarily \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}\PYGZdq{}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}5\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math display\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}[\PYGZbs{}label\PYGZob{}eq:li\PYGZcb{}
+X \PYGZbs{}cup \PYGZbs{}\PYGZob{}Lp\PYGZbs{}\PYGZcb{} \PYGZbs{}in \PYGZbs{}text\PYGZob{}Inc\PYGZcb{} \PYGZbs{}iff X \PYGZbs{}in \PYGZbs{}text\PYGZob{}Inc\PYGZcb{} \PYGZbs{}text\PYGZob{} or \PYGZcb{} \PYGZbs{}exists Y
+[X \PYGZbs{}cup Y \PYGZbs{}not\PYGZbs{}in \PYGZbs{}text\PYGZob{}Inc\PYGZcb{} \PYGZbs{}text\PYGZob{} and \PYGZcb{} Y \PYGZbs{}not\PYGZbs{}models
+\PYGZbs{}\PYGZob{}p\PYGZbs{}\PYGZcb{}]\PYGZbs{}]\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}5\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(Lp\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} leads to incoherence with
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(X\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} if \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(X\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} is already incoherent, or if there’s a
+consistent extension \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(Y\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} of \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(X\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} that doesn’t entail \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}. Captures necessity’s link to
+consistency across contexts.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}basic\PYGZhy{}lemmas\PYGZdq{}}\PYG{p}{\PYGZgt{}}Basic Lemmas\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}lemma\PYGZhy{}weakening\PYGZdq{}}\PYG{p}{\PYGZgt{}}Lemma: Weakening\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}6\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Adding assumptions and conclusions preserves entailment (\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}models\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}).\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}6\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math display\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}[\PYGZbs{}text\PYGZob{}If \PYGZcb{} X \PYGZbs{}models Y, \PYGZbs{}text\PYGZob{} then \PYGZcb{} X,
+W \PYGZbs{}models Y, V\PYGZbs{}]\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}6\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Reflects monotonicity: more information doesn’t invalidate previous
+inferences.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}lemma\PYGZhy{}cut\PYGZdq{}}\PYG{p}{\PYGZgt{}}Lemma: Cut\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}7\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Transitivity of entailment.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}7\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math display\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}[\PYGZbs{}text\PYGZob{}If \PYGZcb{} X \PYGZbs{}models q, Y \PYGZbs{}text\PYGZob{} and \PYGZcb{}
+q, W \PYGZbs{}models V, \PYGZbs{}text\PYGZob{} then \PYGZcb{} X, W \PYGZbs{}models Y, V\PYGZbs{}]\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}7\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Allows breaking complex inferences into steps via intermediate
+statements.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}some\PYGZhy{}modal\PYGZhy{}properties\PYGZdq{}}\PYG{p}{\PYGZgt{}}Some Modal Properties\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}lemma\PYGZhy{}3.1\PYGZdq{}}\PYG{p}{\PYGZgt{}}Lemma 3.1\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}8\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Condition relating non\PYGZhy{}entailment and non\PYGZhy{}tautology.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}8\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math display\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}[\PYGZbs{}exists Y [Y \PYGZbs{}not\PYGZbs{}models \PYGZbs{}emptyset
+\PYGZbs{}text\PYGZob{} and \PYGZcb{} Y \PYGZbs{}not\PYGZbs{}models p] \PYGZbs{}iff \PYGZbs{}not\PYGZbs{}models p\PYGZbs{}]\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}8\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}If there’s a consistent context \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(Y\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} not entailing \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}, then \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} is not universally entailed (not a
+tautology).\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}lemma\PYGZhy{}3.2\PYGZdq{}}\PYG{p}{\PYGZgt{}}Lemma 3.2\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}9\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Condition relating necessity and inconsistency.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}9\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math display\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}[Lp \PYGZbs{}models \PYGZbs{}emptyset \PYGZbs{}iff \PYGZbs{}models
+\PYGZbs{}emptyset \PYGZbs{}text\PYGZob{} or \PYGZcb{} \PYGZbs{}not\PYGZbs{}models p\PYGZbs{}]\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}9\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(Lp\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} entails inconsistency iff the
+base system is inconsistent or \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} is
+not universally entailed. Necessity’s failure can signal inconsistency
+or contingency.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}reduction\PYGZhy{}schemata\PYGZhy{}for\PYGZhy{}non\PYGZhy{}modal\PYGZhy{}connectives\PYGZdq{}}\PYG{p}{\PYGZgt{}}Reduction Schemata
+for Non\PYGZhy{}Modal Connectives\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}left\PYGZhy{}negation\PYGZhy{}ln\PYGZdq{}}\PYG{p}{\PYGZgt{}}Left Negation (LN)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}10\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Negation on the left.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}10\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math display\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}[\PYGZbs{}label\PYGZob{}eq:ln\PYGZcb{}
+X, Np \PYGZbs{}models Y \PYGZbs{}iff X \PYGZbs{}models Y, p\PYGZbs{}]\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}10\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Moves negation from premise\PYGZhy{}side to conclusion\PYGZhy{}side.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}right\PYGZhy{}negation\PYGZhy{}rn\PYGZdq{}}\PYG{p}{\PYGZgt{}}Right Negation (RN)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}11\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Negation on the right.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}11\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math display\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}[\PYGZbs{}label\PYGZob{}eq:rn\PYGZcb{}
+X \PYGZbs{}models Y, Np \PYGZbs{}iff X, p \PYGZbs{}models Y\PYGZbs{}]\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}11\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Moves negation from conclusion\PYGZhy{}side to premise\PYGZhy{}side.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}left\PYGZhy{}conjunction\PYGZhy{}lk\PYGZdq{}}\PYG{p}{\PYGZgt{}}Left Conjunction (LK)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}12\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Conjunction on the left.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}12\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math display\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}[\PYGZbs{}label\PYGZob{}eq:lk\PYGZcb{}
+X, Kpq \PYGZbs{}models Y \PYGZbs{}iff X, p, q \PYGZbs{}models Y\PYGZbs{}]\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}12\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Breaks down conjunction in premises.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}right\PYGZhy{}conjunction\PYGZhy{}rk\PYGZdq{}}\PYG{p}{\PYGZgt{}}Right Conjunction (RK)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}13\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Conjunction on the right.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}13\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math display\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}[\PYGZbs{}label\PYGZob{}eq:rk\PYGZcb{}
+X \PYGZbs{}models Y, Kpq \PYGZbs{}iff X \PYGZbs{}models Y, p \PYGZbs{}text\PYGZob{} and \PYGZcb{} X \PYGZbs{}models Y,
+q\PYGZbs{}]\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}13\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Distributes entailment over conjunction in conclusions.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}reduction\PYGZhy{}schemata\PYGZhy{}for\PYGZhy{}modal\PYGZhy{}connectives\PYGZdq{}}\PYG{p}{\PYGZgt{}}Reduction Schemata for
+Modal Connectives\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}left\PYGZhy{}necessity\PYGZhy{}ll\PYGZdq{}}\PYG{p}{\PYGZgt{}}Left Necessity (LL)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}14\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Necessity on the left.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}14\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math display\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}[\PYGZbs{}label\PYGZob{}eq:ll\PYGZcb{}
+X, Lp \PYGZbs{}models Y \PYGZbs{}iff X \PYGZbs{}models Y \PYGZbs{}text\PYGZob{} or \PYGZcb{} \PYGZbs{}not\PYGZbs{}models p\PYGZbs{}]\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}14\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Necessity in premise adds a strong condition related to universal
+entailment of \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}right\PYGZhy{}necessity\PYGZhy{}rl\PYGZdq{}}\PYG{p}{\PYGZgt{}}Right Necessity (RL)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}15\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Necessity on the right.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}15\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math display\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}[\PYGZbs{}label\PYGZob{}eq:rl\PYGZcb{}
+X \PYGZbs{}models Y, Lp \PYGZbs{}iff X \PYGZbs{}models Y \PYGZbs{}text\PYGZob{} or \PYGZcb{} \PYGZbs{}models p\PYGZbs{}]\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}15\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Entailing necessary \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} requires
+either entailing \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(Y\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} or \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} being universally entailed.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}validity\PYGZhy{}of\PYGZhy{}classical\PYGZhy{}logic\PYGZdq{}}\PYG{p}{\PYGZgt{}}Validity of Classical Logic\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}The reduction schemata show that the incompatibility semantics
+validates classical logic for \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(N\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} and
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(K\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}, and the modal system S5 for
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(L\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h1} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}sec:mathematics\PYGZdq{}}\PYG{p}{\PYGZgt{}}Mathematics\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Von Neumann ordinals provide a foundational method for representing
+natural numbers within set theory. They are adopted here as a normative
+standard.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}definition\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Definition 1\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}} (Von Neumann Ordinal). Each natural
+number is represented as the set of all smaller natural numbers: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math display\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}[0 = \PYGZbs{}varnothing, \PYGZbs{}quad 1 = \PYGZbs{}\PYGZob{}0\PYGZbs{}\PYGZcb{} =
+\PYGZbs{}\PYGZob{}\PYGZbs{}varnothing\PYGZbs{}\PYGZcb{}, \PYGZbs{}quad 2 = \PYGZbs{}\PYGZob{}0, 1\PYGZbs{}\PYGZcb{} = \PYGZbs{}\PYGZob{}\PYGZbs{}varnothing, \PYGZbs{}\PYGZob{}\PYGZbs{}varnothing\PYGZbs{}\PYGZcb{}\PYGZbs{}\PYGZcb{},
+\PYGZbs{}quad \PYGZbs{}ldots\PYGZbs{}]\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Construction requires the empty set, guaranteed by axioms (e.g., in
+ZF or KP). The empty set \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}varnothing = \PYGZbs{}\PYGZob{} x
+\PYGZbs{}mid x \PYGZbs{}neq x \PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} aligns with the normative understanding that
+objects cannot possess mutually incompatible properties (\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}citation\PYGZdq{}} \PYG{n+na}{data\PYGZhy{}cites}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}Brandom2008\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}varnothing\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} serves as a foundational
+building block.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}tab:von\PYGZus{}neumann\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{table}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{caption}\PYG{p}{\PYGZgt{}}Von Neumann Ordinals\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{caption}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{thead}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{th} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Number\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{th}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{th} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Successor Representation\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{th}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{th} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Representation as Sets\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{th}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{thead}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tbody}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}0\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZob{}\PYGZcb{}\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}varnothing\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}1\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{}0\PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{}\PYGZbs{}varnothing\PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}2\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{}0,
+1\PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{}\PYGZbs{}varnothing,
+\PYGZbs{}\PYGZob{}\PYGZbs{}varnothing\PYGZbs{}\PYGZcb{}\PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}3\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{}0, 1,
+2\PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{}\PYGZbs{}varnothing,
+\PYGZbs{}\PYGZob{}\PYGZbs{}varnothing\PYGZbs{}\PYGZcb{}, \PYGZbs{}\PYGZob{}\PYGZbs{}varnothing, \PYGZbs{}\PYGZob{}\PYGZbs{}varnothing\PYGZbs{}\PYGZcb{}\PYGZbs{}\PYGZcb{}\PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tbody}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{table}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}}Note:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}} Von Neumann ordinals used as the normative standard
+for numbers.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}subsec:mathematical\PYGZhy{}judgment\PYGZdq{}}\PYG{p}{\PYGZgt{}}Mathematical Judgment\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Foundational judgment involves **Particular Instantiations (PINs)**
+of properties (\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}citation\PYGZdq{}} \PYG{n+na}{data\PYGZhy{}cites}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}Priest2018\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}).
+E.g., \PYGZdq{}PIN\PYG{p}{\PYGZlt{}}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}A\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}} of \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(P\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} is
+distinct from PIN\PYG{p}{\PYGZlt{}}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}}B\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{sub}\PYG{p}{\PYGZgt{}} of \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(P\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}.\PYGZdq{}\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Example:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{ol}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}}Pokey and Buddy are distinct dogs.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Implicitly: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}}Pokey is a dog.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ol}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Recognizing \PYGZdq{}Pokey is a dog\PYGZdq{} relies on intersubjective agreement
+within a recognitive community.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}intersubjectivity\PYGZdq{}}\PYG{p}{\PYGZgt{}}Intersubjectivity\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Judgments presuppose an audience and shared understanding
+(lifeworld), often implicit.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}structure\PYGZhy{}of\PYGZhy{}judgments\PYGZdq{}}\PYG{p}{\PYGZgt{}}Structure of Judgments\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Judgments occur with intentions. Asserting \PYGZdq{}Pokey is a dog\PYGZdq{}
+anticipates numerical/logical structures based on purposes.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}apperception\PYGZhy{}and\PYGZhy{}judgment\PYGZdq{}}\PYG{p}{\PYGZgt{}}Apperception and Judgment\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}definition\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Definition 2\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}} (Apperception). The process by which
+judgments unify and differentiate entities through negation, ensuring
+consistency within a normative framework.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}the\PYGZhy{}i\PYGZhy{}think\PYGZdq{}}\PYG{p}{\PYGZgt{}}The \PYGZdq{}I\PYGZhy{}think\PYGZdq{}\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Every judgment involves the subject’s awareness. Representing this
+formally:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{ol} \PYG{n+na}{start}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}2\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}}Pokey is a dog.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}vdash\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} Pokey is a
+dog.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}}\PYGZob{}Pokey is a dog\PYGZcb{}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}}\PYGZob{}Pokey \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}varnothing\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} is a
+dog\PYGZcb{}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}}I said \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}varnothing\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}
+‘Pokey \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}varnothing\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} is a
+dog’.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}}I said \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}varnothing\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} ‘I
+said \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}varnothing\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} ‘Pokey \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}varnothing\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} is a dog’.’\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}}Pokey and Buddy are \PYGZob{}\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}varnothing\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}, \PYGZob{}\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}varnothing\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}\PYGZcb{}\PYGZcb{} distinct
+dogs.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}}Pokey and Buddy are 2 distinct dogs.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ol}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Here, \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}varnothing\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} marks the
+subject’s role. Numerical terms emerge from relational properties of
+judgments, aligning with von Neumann ordinals: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(2 \PYGZbs{}leftrightarrow \PYGZbs{}\PYGZob{}\PYGZbs{}varnothing,
+\PYGZbs{}\PYGZob{}\PYGZbs{}varnothing\PYGZbs{}\PYGZcb{}\PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}anaphoric\PYGZhy{}number\PYGZhy{}and\PYGZhy{}successor\PYGZhy{}function\PYGZdq{}}\PYG{p}{\PYGZgt{}}Anaphoric Number and
+Successor Function\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Numbers act anaphorically, referencing prior judgments. The sequence
+(2)\PYGZhy{}(8) reflects the successor function inherent in von Neumann
+ordinals.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}transition\PYGZhy{}to\PYGZhy{}object\PYGZhy{}collections\PYGZdq{}}\PYG{p}{\PYGZgt{}}Transition to Object
+Collections\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Numeral dependency on object collections suggests a distinction
+explored later.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}subsec:the\PYGZhy{}exercise\PYGZdq{}}\PYG{p}{\PYGZgt{}}The Exercise\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Connecting mathematical concepts to embodied experience via
+proprioception (\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}citation\PYGZdq{}}
+\PYG{n+na}{data\PYGZhy{}cites}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}Carspecken1999\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}).\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}proprioceptive\PYGZhy{}relaxation\PYGZhy{}exercise\PYGZdq{}}\PYG{p}{\PYGZgt{}}Proprioceptive Relaxation
+Exercise\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Sequence: Relax \PYGZhy{}\PYG{n+ni}{\PYGZam{}gt;} Identify Tension \PYGZhy{}\PYG{n+ni}{\PYGZam{}gt;} Let Go \PYGZhy{}\PYG{n+ni}{\PYGZam{}gt;} Perceive
+Unity \PYGZhy{}\PYG{n+ni}{\PYGZam{}gt;} Judge Feelings \PYGZhy{}\PYG{n+ni}{\PYGZam{}gt;} Reflect on Rules \PYGZhy{}\PYG{n+ni}{\PYGZam{}gt;} Observe
+Breath/Judgment \PYGZhy{}\PYG{n+ni}{\PYGZam{}gt;} Philosophical Reflection (Unity/Individuality,
+Self/Other).\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}connection\PYGZhy{}to\PYGZhy{}mathematical\PYGZhy{}concepts\PYGZdq{}}\PYG{p}{\PYGZgt{}}Connection to Mathematical
+Concepts\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}The exercise highlights unity/differentiation interplay. Judging
+disrupts unity, creating distinct entities, paralleling number emergence
+from judgments. The self (’I’) creates abstractions through
+negation/unification. \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}citation\PYGZdq{}}
+\PYG{n+na}{data\PYGZhy{}cites}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}Hegel1977\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} notes the ’I’ as pure negativity forming
+unities.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}subsec:algorithmic\PYGZhy{}elaboration\PYGZdq{}}\PYG{p}{\PYGZgt{}}Algorithmic Elaboration: From
+Body Feelings to Concepts\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Algorithmically elaborating **categories** (concepts, predicates,
+universals) from body feelings.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}bounded\PYGZhy{}regions\PYGZhy{}and\PYGZhy{}categories\PYGZdq{}}\PYG{p}{\PYGZgt{}}Bounded Regions and
+Categories\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Proprioception defines boundaries (interior/exterior). Rules for
+\PYGZdq{}bounded region\PYGZdq{} vocabulary:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{ol}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}In region \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}implies\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} not
+out.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Out of region \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}implies\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} not
+in.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Deep in region \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}implies\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} far
+from out.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}On edge of region \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}implies\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}
+close to in.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ol}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{figure} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}fig:AlgorithmForBoundedRegions\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}}Note:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}} Branched\PYGZhy{}schedule algorithm for articulating bounded
+regions.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{figcaption}\PYG{p}{\PYGZgt{}}Algorithm for Bounded Regions\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{figcaption}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{figure}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}substitution\PYGZhy{}rules\PYGZhy{}for\PYGZhy{}categories\PYGZdq{}}\PYG{p}{\PYGZgt{}}Substitution Rules for
+Categories\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{ol}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}\PYGZdq{}Categories\PYGZdq{} for \PYGZdq{}Bounded regions\PYGZdq{}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}\PYGZdq{}Category members\PYGZdq{} for \PYGZdq{}Objects inside\PYGZdq{}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}\PYGZdq{}Subcategory\PYGZdq{} for \PYGZdq{}Region inside another\PYGZdq{}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ol}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}This grounds category vocabulary in body\PYGZhy{}feeling.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{figure} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}fig:AlgorithmForCategories\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{figcaption}\PYG{p}{\PYGZgt{}}Algorithm for Categories\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{figcaption}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{figure}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}educational\PYGZhy{}implications\PYGZdq{}}\PYG{p}{\PYGZgt{}}Educational Implications\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Mirrors pedagogy building complex vocabularies on foundational
+concepts.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}subsec:arithmetic\PYGZhy{}foundations\PYGZdq{}}\PYG{p}{\PYGZgt{}}From Counting to Arithmetic
+Foundations\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Formalizing arithmetic by reinterpreting \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}citation\PYGZdq{}}
+\PYG{n+na}{data\PYGZhy{}cites}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}LakoffNunez2000\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} using deontic\PYGZhy{}normative material
+inferences (\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}citation\PYGZdq{}}
+\PYG{n+na}{data\PYGZhy{}cites}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}SavichEtAl2019\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}).\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}challenges\PYGZhy{}in\PYGZhy{}first\PYGZhy{}person\PYGZhy{}subjectivity\PYGZdq{}}\PYG{p}{\PYGZgt{}}Challenges in
+First\PYGZhy{}Person Subjectivity\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Expressing concepts like linearity in a deontic\PYGZhy{}normative modality
+(commitments/entitlements) differs from alethic modality (objective
+truth).\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlander\PYGZhy{}algorithm\PYGZdq{}}\PYG{p}{\PYGZgt{}}Highlander Algorithm\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Embodies exclusivity: \PYGZdq{}only one assertion can be committed to.\PYGZdq{} (See
+Appendix D for diagram).\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}equality\PYGZhy{}iterator\PYGZhy{}algorithm\PYGZdq{}}\PYG{p}{\PYGZgt{}}Equality\PYGZhy{}Iterator Algorithm\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Formalizes equality of result: different operations yield same
+result. (See Appendix D for diagram).\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}material\PYGZhy{}inferences\PYGZhy{}for\PYGZhy{}object\PYGZhy{}collections\PYGZdq{}}\PYG{p}{\PYGZgt{}}Material Inferences
+for Object Collections\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Defining inferences for vocabulary \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(V\PYGZus{}\PYGZob{}\PYGZbs{}text\PYGZob{}object collection\PYGZcb{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}definition\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Definition 3\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}} (Object Collection Vocabulary). \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(V\PYGZus{}\PYGZob{}\PYGZbs{}text\PYGZob{}object collection\PYGZcb{}\PYGZcb{} = \PYGZbs{}\PYGZob{}\PYGZbs{}text\PYGZob{}bigger\PYGZcb{},
+\PYGZbs{}text\PYGZob{}smaller\PYGZcb{}, =, \PYGZbs{}text\PYGZob{}added to\PYGZcb{}, \PYGZbs{}text\PYGZob{}results in\PYGZcb{}, \PYGZbs{}text\PYGZob{}adding\PYGZcb{},
+\PYGZbs{}text\PYGZob{}result\PYGZcb{}, \PYGZbs{}text\PYGZob{}subtracted from\PYGZcb{}, \PYGZbs{}text\PYGZob{}subtract\PYGZcb{}, \PYGZbs{}text\PYGZob{}zero\PYGZcb{},
+\PYGZbs{}text\PYGZob{}one\PYGZcb{}\PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}material\PYGZhy{}inferences\PYGZhy{}and\PYGZhy{}algorithms\PYGZdq{}}\PYG{p}{\PYGZgt{}}Material Inferences and
+Algorithms\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}(Using symbol legend below)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{ol}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Linearity\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{} A, B
+\PYGZbs{}text\PYGZob{} are obj coll\PYGZcb{}\PYGZbs{}\PYGZcb{} \PYGZbs{}dagger\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{} A \PYG{n+ni}{\PYGZam{}gt;} B \PYGZbs{}\PYGZcb{} \PYGZbs{}vDash\PYGZus{}\PYGZob{}I\PYGZcb{} \PYGZbs{}\PYGZob{} B \PYG{n+ni}{\PYGZam{}lt;} A
+\PYGZbs{}\PYGZcb{} \PYGZbs{}rightarrow \PYGZbs{}neg \PYGZbs{}\PYGZob{} A \PYG{n+ni}{\PYGZam{}lt;} B \PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{} B \PYG{n+ni}{\PYGZam{}gt;} A \PYGZbs{}\PYGZcb{} \PYGZbs{}vDash\PYGZus{}\PYGZob{}I\PYGZcb{} \PYGZbs{}\PYGZob{} A \PYG{n+ni}{\PYGZam{}lt;} B
+\PYGZbs{}\PYGZcb{} \PYGZbs{}rightarrow \PYGZbs{}neg \PYGZbs{}\PYGZob{} B \PYG{n+ni}{\PYGZam{}lt;} A \PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{} A = B \PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Closure\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{} A + B =
+D \PYGZbs{}\PYGZcb{} \PYGZbs{}vDash\PYGZus{}\PYGZob{}I\PYGZcb{} \PYGZbs{}\PYGZob{} D \PYGZbs{}text\PYGZob{} is obj coll\PYGZcb{} \PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Commutativity\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{} A
++ B = C \PYGZbs{}\PYGZcb{} \PYGZbs{}vDash\PYGZus{}\PYGZob{}I\PYGZcb{} \PYGZbs{}\PYGZob{} C = B + A \PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Associativity\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{} D
+= A + (B + C) \PYGZbs{}\PYGZcb{} \PYGZbs{}vDash\PYGZus{}\PYGZob{}I\PYGZcb{} \PYGZbs{}\PYGZob{} D = (A + B) + C \PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Transitivity\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{} A
+\PYG{n+ni}{\PYGZam{}gt;} B \PYGZbs{}land B \PYG{n+ni}{\PYGZam{}gt;} C \PYGZbs{}\PYGZcb{} \PYGZbs{}vDash\PYGZus{}\PYGZob{}I\PYGZcb{} \PYGZbs{}\PYGZob{} A \PYG{n+ni}{\PYGZam{}gt;} C \PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Addition Roles\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{} A
+\PYGZbs{}text\PYGZob{} in addition\PYGZcb{} \PYGZbs{}\PYGZcb{} \PYGZbs{}dagger\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{}
+\PYGZbs{}text\PYGZob{}Added to\PYGZcb{} \PYGZbs{}\PYGZcb{}, \PYGZbs{}\PYGZob{} \PYGZbs{}text\PYGZob{}Added\PYGZcb{} \PYGZbs{}\PYGZcb{}, \PYGZbs{}\PYGZob{} \PYGZbs{}text\PYGZob{}Result\PYGZcb{}
+\PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Stuttering\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{} A \PYGZbs{}\PYGZcb{}
+\PYGZbs{}vDash\PYGZus{}\PYGZob{}I\PYGZcb{} \PYGZbs{}\PYGZob{} A \PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Unlimited Addition\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{} A \PYGZbs{}text\PYGZob{} obj coll\PYGZcb{} \PYGZbs{}\PYGZcb{} \PYGZbs{}rightarrow \PYGZbs{}\PYGZob{} A + B
+\PYGZbs{}text\PYGZob{} results in obj coll\PYGZcb{} \PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Limited Subtraction\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{} B \PYG{n+ni}{\PYGZam{}lt;} A \PYGZbs{}\PYGZcb{} \PYGZbs{}rightarrow \PYGZbs{}\PYGZob{} A \PYGZhy{} B
+\PYGZbs{}text\PYGZob{} is obj coll\PYGZcb{} \PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{} B = A \PYGZbs{}\PYGZcb{} \PYGZbs{}vDash\PYGZus{}\PYGZob{}I\PYGZcb{} \PYGZbs{}\PYGZob{} \PYGZbs{}text\PYGZob{}No
+objects left when \PYGZcb{} A \PYGZbs{}text\PYGZob{} subtracted from \PYGZcb{} B \PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Zero\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{} A = B \PYGZbs{}\PYGZcb{} \PYGZbs{}vDash\PYGZus{}\PYGZob{}I\PYGZcb{} \PYGZbs{}\PYGZob{} \PYGZbs{}text\PYGZob{}No
+objects left when \PYGZcb{} A \PYGZbs{}text\PYGZob{} subtracted from \PYGZcb{} B \PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{} A \PYGZbs{}text\PYGZob{} has no objects\PYGZcb{} \PYGZbs{}\PYGZcb{}
+\PYGZbs{}rightarrow \PYGZbs{}\PYGZob{} A = \PYGZbs{}text\PYGZob{}zero\PYGZcb{} \PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Sequential Ops\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{} B \PYG{n+ni}{\PYGZam{}lt;} A \PYGZbs{}\PYGZcb{} \PYGZbs{}rightarrow \PYGZbs{}\PYGZob{} (A \PYGZhy{} B)
++ C \PYGZbs{}text\PYGZob{} results in obj coll\PYGZcb{} \PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{} A + B \PYG{n+ni}{\PYGZam{}gt;} C \PYGZbs{}\PYGZcb{} \PYGZbs{}rightarrow \PYGZbs{}\PYGZob{} (A
++ B) \PYGZhy{} C \PYGZbs{}text\PYGZob{} is obj coll\PYGZcb{} \PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Equality of Result\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{} A \PYGZbs{}text\PYGZob{} obj coll\PYGZcb{} \PYGZbs{}\PYGZcb{} \PYGZbs{}vDash\PYGZus{}\PYGZob{}I\PYGZcb{} \PYGZbs{}\PYGZob{} \PYGZbs{}text\PYGZob{}Call
+Equality\PYGZhy{}Iterator Alg\PYGZcb{} \PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Preservation of Equality\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{} B = C \PYGZbs{}\PYGZcb{} \PYGZbs{}vDash\PYGZus{}\PYGZob{}I\PYGZcb{} \PYGZbs{}\PYGZob{} A + B = A + C
+\PYGZbs{}\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ol}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}symbol\PYGZhy{}legend\PYGZdq{}}\PYG{p}{\PYGZgt{}}Symbol Legend\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}tab:symbol\PYGZus{}legend\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{table} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}width:95\PYGZpc{};\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{caption}\PYG{p}{\PYGZgt{}}Legend for Symbols Used\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{caption}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{colgroup}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{col} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}width: 20\PYGZpc{}\PYGZdq{}} \PYG{p}{/\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{col} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}width: 75\PYGZpc{}\PYGZdq{}} \PYG{p}{/\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{colgroup}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{thead}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{th} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Symbol\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{th}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{th} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Meaning / Substituted\PYGZhy{}for\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{th}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{thead}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tbody}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Symbol\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Meaning / Substituted\PYGZhy{}for\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}neg\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Precludes entitlement to... / is
+incompatible with\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}rightarrow\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Entitles / has as an inferential
+consequent...\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}vDash\PYGZus{}\PYGZob{}I\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Entitles / incompatibility\PYGZhy{}entails
+...\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}dagger\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Highlander algorithm: \PYGZdq{}entitles only one
+of the following commitments\PYGZdq{}\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(A =
+B\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(A\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} is
+symmetrically intersubstitutable with \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(B\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(A \PYG{n+ni}{\PYGZam{}gt;}
+B\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(A\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} is
+bigger than \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(B\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(A \PYG{n+ni}{\PYGZam{}lt;}
+B\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(A\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} is
+smaller than \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(B\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(A +
+B\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(A\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}
+added to \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(B\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(A \PYGZhy{}
+B\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(B\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}
+subtracted from \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(A\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}land\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}and (in meta\PYGZhy{}language describing
+conditions)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tbody}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{table}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}object\PYGZhy{}collections\PYGZhy{}to\PYGZhy{}arithmetic\PYGZdq{}}\PYG{p}{\PYGZgt{}}Object Collections to
+Arithmetic\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}These inferences ground arithmetic operations in normative
+structures.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{figure} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}fig:AlgorithmicElaboration\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}}Note:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{em}\PYG{p}{\PYGZgt{}} Visualization of expanding object collection
+vocabulary to arithmetic via material substitution inferences (\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}citation\PYGZdq{}} \PYG{n+na}{data\PYGZhy{}cites}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}SavichEtAl2019\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}).\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{figcaption}\PYG{p}{\PYGZgt{}}Algorithmic Elaboration from Object Collections to
+Arithmetic\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{figcaption}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{figure}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}appendices\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h1} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}logic\PYGZhy{}using\PYGZhy{}the\PYGZhy{}reduction\PYGZhy{}formulae\PYGZdq{}}\PYG{p}{\PYGZgt{}}Logic Using the Reduction
+Formulae\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}(This repeats section 1.6 \PYGZhy{} 1.7, perhaps merge or clarify
+purpose)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Reduction schemata simplify formulae and prove theorems.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}unnumbered\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}reduction\PYGZhy{}schemata\PYGZdq{}}\PYG{p}{\PYGZgt{}}Reduction Schemata\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Left Negation (LN): \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(X, Np \PYGZbs{}models Y
+\PYGZbs{}iff X \PYGZbs{}models Y, p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Right Negation (RN): \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(X \PYGZbs{}models Y, Np
+\PYGZbs{}iff X, p \PYGZbs{}models Y\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Left Conjunction (LK): \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(X, Kpq \PYGZbs{}models
+Y \PYGZbs{}iff X, p, q \PYGZbs{}models Y\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Right Conjunction (RK): \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(X \PYGZbs{}models Y,
+Kpq \PYGZbs{}iff X \PYGZbs{}models Y, p \PYGZbs{}text\PYGZob{} and \PYGZcb{} X \PYGZbs{}models Y, q\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Left Necessity (LL): \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(X, Lp \PYGZbs{}models Y
+\PYGZbs{}iff X \PYGZbs{}models Y \PYGZbs{}text\PYGZob{} or \PYGZcb{} \PYGZbs{}not\PYGZbs{}models p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Right Necessity (RL): \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(X \PYGZbs{}models Y, Lp
+\PYGZbs{}iff X \PYGZbs{}models Y \PYGZbs{}text\PYGZob{} or \PYGZcb{} \PYGZbs{}models p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}unnumbered\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}classical\PYGZhy{}logic\PYGZhy{}and\PYGZhy{}modal\PYGZhy{}systems\PYGZdq{}}\PYG{p}{\PYGZgt{}}Classical
+Logic and Modal Systems\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Validates classical logic for \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(N,
+K\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} and S5 for \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(L\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}unnumbered\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}negation\PYGZhy{}properties\PYGZdq{}}\PYG{p}{\PYGZgt{}}Negation Properties\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}If \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{}p\PYGZbs{}\PYGZcb{} \PYGZbs{}in I(X)\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} and \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}\PYGZob{}Np\PYGZbs{}\PYGZcb{} \PYGZbs{}in I(X)\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}, then \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(X \PYGZbs{}in \PYGZbs{}text\PYGZob{}Inc\PYGZcb{}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(NNp \PYGZbs{}approx p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}. (Double
+Negation)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(p \PYGZbs{}models q \PYGZbs{}iff Nq \PYGZbs{}models
+Np\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}. (Contraposition)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Material Consistency: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(I(X) \PYGZbs{}subseteq
+\PYGZbs{}text\PYGZob{}Inc\PYGZcb{} \PYGZbs{}Rightarrow \PYGZbs{}exists Y [Y \PYGZbs{}in I(X) \PYGZbs{}text\PYGZob{} and \PYGZcb{} I(Y) \PYGZbs{}subseteq
+\PYGZbs{}text\PYGZob{}Inc\PYGZcb{}]\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Formal Consistency: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}((X \PYGZbs{}notin I(X)
+\PYGZbs{}text\PYGZob{} and \PYGZcb{} X \PYGZbs{}models p) \PYGZbs{}Rightarrow X \PYGZbs{}not\PYGZbs{}models
+Np\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}unnumbered\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}conjunction\PYGZhy{}properties\PYGZdq{}}\PYG{p}{\PYGZgt{}}Conjunction
+Properties\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(Kpq \PYGZbs{}models p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} and \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(Kpq \PYGZbs{}models q\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}((X \PYGZbs{}models p \PYGZbs{}text\PYGZob{} and \PYGZcb{} X \PYGZbs{}models
+q) \PYGZbs{}iff X \PYGZbs{}models Kpq\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}unnumbered\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}interaction\PYGZdq{}}\PYG{p}{\PYGZgt{}}Interaction\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(KpNp \PYGZbs{}models Y\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}. (Ex Falso
+Quodlibet related)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Distributivity (assuming A is disjunction): \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(Kp(Aqr) \PYGZbs{}approx A(Kpq)(Kpr)\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}. Need
+definition for A.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}unnumbered\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}conditional\PYGZhy{}c\PYGZdq{}}\PYG{p}{\PYGZgt{}}Conditional (C)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Definition: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(Cpq \PYGZbs{}approx
+NKpNq\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}. (Likely meant \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(N(K p (N
+q))\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} \PYGZhy{} Material Implication)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(p \PYGZbs{}models q \PYGZbs{}iff \PYGZbs{}models
+Cpq\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}. (Deduction Theorem)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}models Cpq \PYGZbs{}iff \PYGZbs{}models
+CNqNp\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}. (Contraposition)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(K(Cpq)p \PYGZbs{}models q\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}. (Modus
+Ponens)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h3} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}unnumbered\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}modality\PYGZhy{}s5\PYGZhy{}axioms\PYGZdq{}}\PYG{p}{\PYGZgt{}}Modality (S5 Axioms)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h3}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}K axiom: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}models CLCpqCLpLq\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}.
+(Should be \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}models
+C(L(Cpq))(C(Lp)(Lq))\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} or similar form: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(L(p \PYGZbs{}to q) \PYGZbs{}to (Lp \PYGZbs{}to Lq)\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}T axiom: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}models CLpp\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}.
+(\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(Lp \PYGZbs{}to p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}S4 axiom: \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}models CLpLLp\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}.
+(\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(Lp \PYGZbs{}to LLp\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{li}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{ul}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h1} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}soundness\PYGZhy{}completeness\PYGZhy{}and\PYGZhy{}compactness\PYGZdq{}}\PYG{p}{\PYGZgt{}}Soundness, Completeness,
+and Compactness\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}unnumbered\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}soundness\PYGZdq{}}\PYG{p}{\PYGZgt{}}Soundness\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}16\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}If derivable, then true in all models.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}16\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}text\PYGZob{}If \PYGZcb{} \PYGZbs{}vdash p, \PYGZbs{}text\PYGZob{} then \PYGZcb{}
+\PYGZbs{}models p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}. (Using \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}vdash\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}
+for derivability)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}16\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}System reliability: does not produce falsehoods.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}unnumbered\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}completeness\PYGZdq{}}\PYG{p}{\PYGZgt{}}Completeness\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}17\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}If true in all models, then derivable.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}17\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}text\PYGZob{}If \PYGZcb{} \PYGZbs{}models p, \PYGZbs{}text\PYGZob{} then \PYGZcb{}
+\PYGZbs{}vdash p\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}17\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}System capability: derives all truths.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}unnumbered\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}compactness\PYGZdq{}}\PYG{p}{\PYGZgt{}}Compactness\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}18\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}If every finite subset of \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(X\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} is
+satisfiable, then \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(X\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} is
+satisfiable.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}18\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Standard definition.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}18\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Crucial for infinite sets/structures.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h1} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}semantic\PYGZhy{}reduction\PYGZdq{}}\PYG{p}{\PYGZgt{}}Semantic Reduction\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}unnumbered\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}motivation\PYGZdq{}}\PYG{p}{\PYGZgt{}}Motivation\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Reduce semantic complexity of complex sentences to constituents,
+maintaining compositionality.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}unnumbered\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}semantic\PYGZhy{}reduction\PYGZhy{}lemma\PYGZdq{}}\PYG{p}{\PYGZgt{}}Semantic Reduction
+Lemma\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Provides method for reduction.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}19\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Given \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(L\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}, frame Inc, fragment
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(L\PYGZus{}0 \PYGZbs{}subset L\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}. (Statement seems
+incomplete \PYGZhy{} needs conclusion).\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}19\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Ensures analysis by parts.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}unnumbered\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}existence\PYGZhy{}of\PYGZhy{}the\PYGZhy{}determined\PYGZhy{}frame\PYGZdq{}}\PYG{p}{\PYGZgt{}}Existence
+of the Determined Frame\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Establishes existence of inferentially conservative, minimal frame
+for extensions.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}formal\PYGZhy{}statement\PYGZhy{}20\PYGZdq{}}\PYG{p}{\PYGZgt{}}Formal Statement\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Let \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(L \PYGZbs{}subseteq L\PYG{n+ni}{\PYGZam{}\PYGZsh{}39;}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}, Inc
+frame for \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(L\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}. Then \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}exists \PYGZbs{}text\PYGZob{}Inc\PYGZcb{}\PYG{n+ni}{\PYGZam{}\PYGZsh{}39;}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} frame for \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(L\PYG{n+ni}{\PYGZam{}\PYGZsh{}39;}\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} determined by Inc.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}rationale\PYGZhy{}20\PYGZdq{}}\PYG{p}{\PYGZgt{}}Rationale\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Maintains consistency across language extensions.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h1} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}automaton\PYGZhy{}diagrams\PYGZdq{}}\PYG{p}{\PYGZgt{}}Automaton Diagrams\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}This appendix presents three formal automatons redrawn in a circular
+style, where the start state is identical to the accepting state,
+reflecting a hermeneutic perspective of superpositioned action.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}highlander\PYGZhy{}automaton\PYGZdq{}}\PYG{p}{\PYGZgt{}}Highlander Automaton\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}purpose\PYGZdq{}}\PYG{p}{\PYGZgt{}}Purpose\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Models gradual elimination until one candidate remains. Start state =
+Accept state symbolizes unity of action.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}diagram\PYGZdq{}}\PYG{p}{\PYGZgt{}}Diagram\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{figure} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}fig:highlander\PYGZus{}automaton\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{figcaption}\PYG{p}{\PYGZgt{}}Highlander Automaton Diagram\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{figcaption}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{figure}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}state\PYGZhy{}table\PYGZdq{}}\PYG{p}{\PYGZgt{}}State Table\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{table}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{thead}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{th} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}State\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{th}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{th} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Input/Condition\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{th}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{th} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Next State\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{th}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{th} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{th}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{thead}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tbody}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}S (Start/Accept)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Initialization\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Select\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Process begins; S serves as both start and
+final state.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Select\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Candidate available\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Eliminate\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}A candidate is chosen for evaluation.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Eliminate\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Comparison occurs\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Compare\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Candidates are pruned based on
+criteria.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Compare\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Unique candidate?\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}S\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}If one candidate remains, return to
+S.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tbody}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{table}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}19\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Initiates at S, moves Select \PYGZhy{}\PYG{n+ni}{\PYGZam{}gt;} Eliminate \PYGZhy{}\PYG{n+ni}{\PYGZam{}gt;} Compare. If unique
+candidate found, returns to S.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}bounded\PYGZhy{}region\PYGZhy{}automaton\PYGZdq{}}\PYG{p}{\PYGZgt{}}Bounded Region Automaton\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}purpose\PYGZhy{}1\PYGZdq{}}\PYG{p}{\PYGZgt{}}Purpose\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Branched scheduling based on input falling within a bounded region.
+Circular process: Start = Accept.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}diagram\PYGZhy{}1\PYGZdq{}}\PYG{p}{\PYGZgt{}}Diagram\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{figure} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}fig:bounded\PYGZus{}region\PYGZus{}automaton\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{figcaption}\PYG{p}{\PYGZgt{}}Bounded Region Automaton Diagram\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{figcaption}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{figure}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}state\PYGZhy{}table\PYGZhy{}1\PYGZdq{}}\PYG{p}{\PYGZgt{}}State Table\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{table}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{thead}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{th} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}State\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{th}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{th} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Input/Condition\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{th}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{th} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Next State\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{th}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{th} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{th}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{thead}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tbody}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}S (Start/Accept)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Initialization\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Check Bound\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Begin processing the input.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Check Bound\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Input within bound\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Branch Left\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Branch left if the input is
+acceptable.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Check Bound\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Input outside bound\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Branch Right\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Branch right if the input exceeds
+bounds.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Branch Left\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Process branch\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Merge\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Process the in\PYGZhy{}bound branch.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Branch Right\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Process branch\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Merge\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Process the out\PYGZhy{}of\PYGZhy{}bound branch.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Merge\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}After processing\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}S\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Merge outcomes and return to S.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tbody}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{table}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}20\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Starts at S, moves to Check Bound. Branches Left (in\PYGZhy{}bound) or Right
+(out\PYGZhy{}of\PYGZhy{}bound). Both merge and return to S.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h2} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}equality\PYGZhy{}iterator\PYGZhy{}automaton\PYGZdq{}}\PYG{p}{\PYGZgt{}}Equality\PYGZhy{}Iterator Automaton\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h2}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}purpose\PYGZhy{}2\PYGZdq{}}\PYG{p}{\PYGZgt{}}Purpose\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Iterates by comparing elements to a target until reached. Loop
+structure with Start = Accept.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}diagram\PYGZhy{}2\PYGZdq{}}\PYG{p}{\PYGZgt{}}Diagram\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{figure} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}fig:equality\PYGZus{}iterator\PYGZus{}automaton\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{figcaption}\PYG{p}{\PYGZgt{}}Equality\PYGZhy{}Iterator Automaton Diagram\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{figcaption}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{figure}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}state\PYGZhy{}table\PYGZhy{}2\PYGZdq{}}\PYG{p}{\PYGZgt{}}State Table\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{table}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{thead}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{th} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}State\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{th}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{th} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Input/Condition\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{th}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{th} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Next State\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{th}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{th} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{th}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{thead}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tbody}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}S (Start/Accept)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Initialization\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Compare\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Begin iteration; S serves as start and
+final state.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Compare\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Current \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(\PYGZbs{}neq\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} target\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Update\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}If the current element is not the target,
+proceed to update.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Update\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Value updated\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Compare\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Loop back to compare after updating the
+value.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Compare\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}Current \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span}
+\PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}math inline\PYGZdq{}}\PYG{p}{\PYGZgt{}}\PYGZbs{}(=\PYGZbs{})\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} target\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}S\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{td} \PYG{n+na}{style}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}text\PYGZhy{}align: left;\PYGZdq{}}\PYG{p}{\PYGZgt{}}On reaching equality, return to S.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{td}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tr}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{tbody}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{table}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{h4} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}description\PYGZhy{}21\PYGZdq{}}\PYG{p}{\PYGZgt{}}Description\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h4}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Starts at S, moves to Compare. If not equal, Updates and loops back
+to Compare. If equal, returns to S.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{body}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{html}\PYG{p}{\PYGZgt{}}
+
+\end{MintedVerbatim}

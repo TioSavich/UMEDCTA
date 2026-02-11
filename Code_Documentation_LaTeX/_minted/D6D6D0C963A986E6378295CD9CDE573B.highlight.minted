@@ -1,0 +1,38 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ============================================================}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} PML Axioms \PYGZhy{} Exported from Dialectical Interpreter}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Generated: 11/3/2025, 8:16:11 PM}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Total Axioms: 3}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Formalized Concepts: being\PYGZus{}nothing\PYGZus{}identity\PYGZus{}principle, becoming\PYGZus{}as\PYGZus{}vanishing\PYGZus{}movement, aufhebung\PYGZus{}double\PYGZus{}determination, transition\PYGZus{}to\PYGZus{}existence\PYGZus{}structure, indeterminateness\PYGZus{}paradox\PYGZus{}structure, cognitive\PYGZus{}faculties\PYGZus{}collapse\PYGZus{}pattern, remark\PYGZus{}system\PYGZus{}as\PYGZus{}integration\PYGZus{}method, aufhebung\PYGZus{}as\PYGZus{}universal\PYGZus{}operator, transition\PYGZus{}immediacy\PYGZus{}structure, kant\PYGZus{}critique\PYGZus{}resolution\PYGZus{}pattern, philosophical\PYGZus{}language\PYGZus{}inadequacy\PYGZus{}principle, dialectical\PYGZus{}method\PYGZus{}as\PYGZus{}universal\PYGZus{}template, indeterminateness\PYGZus{}paradox\PYGZus{}as\PYGZus{}self\PYGZus{}determination, judgment\PYGZus{}inadequacy\PYGZus{}for\PYGZus{}speculative\PYGZus{}truth, remark\PYGZus{}integration\PYGZus{}as\PYGZus{}systematic\PYGZus{}method, linguistic\PYGZus{}embodiment\PYGZus{}of\PYGZus{}logical\PYGZus{}structure, empirical\PYGZus{}vs\PYGZus{}logical\PYGZus{}abstraction\PYGZus{}distinction, temporal\PYGZus{}vanishing\PYGZus{}as\PYGZus{}logical\PYGZus{}movement, quiescent\PYGZus{}unity\PYGZus{}as\PYGZus{}preservation\PYGZus{}mode}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ============================================================}
+
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{module}\PYG{p}{(}\PYG{l+s+sAtom}{evolved\PYGZus{}axioms}\PYG{p}{,} \PYG{p}{[]).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{pml\PYGZus{}operators}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{l+s+sAtom}{multifile} \PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:material\PYGZus{}inference}\PYG{o}{/}\PYG{l+m+mf}{3.}
+
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Fundamental dialectical rhythm: unity necessarily generates tension}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Source: core, Type: material}
+
+
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{u}\PYG{p}{)],} \PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{comp\PYGZus{}nec} \PYG{l+s+sAtom}{a}\PYG{p}{),} \PYG{l+s+sAtom}{true}\PYG{p}{).}
+
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Letting go necessarily produces new unity}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Source: core, Type: material}
+
+
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{lg}\PYG{p}{)],} \PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{exp\PYGZus{}nec} \PYG{l+s+sAtom}{u\PYGZus{}prime}\PYG{p}{),} \PYG{l+s+sAtom}{true}\PYG{p}{).}
+
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Subjective compression crystallizes objective content}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Source: core, Type: material}
+
+
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{comp\PYGZus{}nec} \PYG{n+nv}{P}\PYG{p}{)],} \PYG{n+nf}{o}\PYG{p}{(}\PYG{l+s+sAtom}{comp\PYGZus{}nec} \PYG{n+nv}{P}\PYG{p}{),} \PYG{l+s+sAtom}{true}\PYG{p}{).}
+
+\end{MintedVerbatim}

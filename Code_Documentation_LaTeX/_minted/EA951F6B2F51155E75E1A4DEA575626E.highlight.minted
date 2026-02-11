@@ -1,0 +1,352 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{g+gh}{\PYGZsh{} Algorithmic Elaboration Discovery System}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Automated Pattern Analysis for Student Arithmetic Strategies}
+
+This project implements a system for \PYG{g+gs}{**automatically discovering algorithmic elaborations**} between student arithmetic strategies. The analyzer examines Python automaton implementations to identify shared computational patterns and generate Meaning\PYGZhy{}Use Diagrams (MUDs).
+
+\PYG{g+gs}{**What this system does:**} Analyzes student\PYGZhy{}invented arithmetic strategies to discover how they share computational patterns and build upon each other.
+
+\PYG{g+gs}{**Theoretical foundation:**} Inspired by Robert Brandom\PYGZsq{}s Meaning\PYGZhy{}Use Analysis (MUA) and George Lakoff\PYGZsq{}s embodied mathematics, but implemented as a practical pattern analyzer rather than a full formal framework.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} 🚀 Quick Start}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Installation}
+
+\PYG{k}{1.} \PYG{g+gs}{**Clone the repository:**}
+\PYG{l+s+sb}{   ```bash}
+\PYG{+w}{   }git\PYG{+w}{ }clone\PYG{+w}{ }\PYGZlt{}repository\PYGZhy{}url\PYGZgt{}
+\PYG{+w}{   }\PYG{n+nb}{cd}\PYG{+w}{ }LK\PYGZus{}RB\PYGZus{}Synthesis
+\PYG{l+s+sb}{   ```}
+
+\PYG{k}{2.} \PYG{g+gs}{**Install dependencies:**}
+\PYG{l+s+sb}{   ```bash}
+\PYG{+w}{   }pip\PYG{+w}{ }install\PYG{+w}{ }\PYGZhy{}r\PYG{+w}{ }requirements.txt
+\PYG{l+s+sb}{   ```}
+
+\PYG{k}{3.} \PYG{g+gs}{**Run the full analysis pipeline:**}
+\PYG{l+s+sb}{   ```bash}
+\PYG{+w}{   }python\PYG{+w}{ }main.py\PYG{+w}{ }analyze
+\PYG{l+s+sb}{   ```}
+
+That\PYGZsq{}s it! The analyzer will automatically:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Parse all automaton implementations via AST analysis
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Extract rich metadata (embodied metaphors, material inferences) from automata
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Discover computational patterns in the code
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Identify algorithmic elaborations between strategies
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Generate Meaning\PYGZhy{}Use Analysis (MUA) reports in Markdown
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} 📋 What This System Does}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 🔬 Automated Pattern Discovery (AST Analysis)}
+The analyzer uses AST (Abstract Syntax Tree) parsing to examine Python automaton source code and identify computational patterns:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**`base\PYGZus{}decomposition`**}: Breaking numbers into base components (// and \PYGZpc{} operations)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**`incremental\PYGZus{}counting`**}: State\PYGZhy{}based counting loops
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**`iterative\PYGZus{}arithmetic`**}: Repeated addition/subtraction operations
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**`value\PYGZus{}adjustment`**}: Target value calculations
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 🎯 Algorithmic Elaboration Detection}
+Automatically discovers how strategies build upon each other:
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{ADD\PYGZus{}Counting → ADD\PYGZus{}COBO → ADD\PYGZus{}Chunking}
+\PYG{l+s+sb}{    (incremental counting pattern)}
+
+\PYG{l+s+sb}{ADD\PYGZus{}Rounding → ADD\PYGZus{}RMB → ADD\PYGZus{}COBO}
+\PYG{l+s+sb}{    (base decomposition pattern)}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 🧠 Rich Metadata Extraction}
+Automatically extracts and reports existing documentation from automata:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Embodied Metaphors**} (Lakoff \PYGZam{} Núñez): Source/target domains and entailments
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Material Inferences**} (Brandom): Premises, conclusions, and prerequisites
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Visualization Hints**}: Suggested cognitive representations (NumberLine, Object Piles, etc.)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Deployed Vocabulary**}: Key conceptual terms introduced by each strategy
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 📊 Brandomian MUA Reports}
+Generates detailed Meaning\PYGZhy{}Use Analysis reports using Robert Brandom\PYGZsq{}s framework:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }PV\PYGZhy{}Sufficiency (Practices sufficient for Vocabulary)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }PP\PYGZhy{}Sufficiency (Practices sufficient for Practices)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }VP\PYGZhy{}Sufficiency (Vocabulary sufficient for Practices)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }LX Relations (Elaborated\PYGZhy{}Explicating relationships)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Pragmatic Metavocabulary analysis
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Pragmatic Expressive Bootstrapping
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} 🛠️ Usage Guide}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Command Line Interface}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Run Complete Analysis}
+\PYG{l+s+sb}{```bash}
+\PYGZdl{}\PYG{+w}{ }python3\PYG{+w}{ }main.py\PYG{+w}{ }analyze
+\PYG{l+s+sb}{```}
+\PYG{g+gs}{**Output:**}
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{🚀 Starting Analysis Pipeline}
+\PYG{l+s+sb}{============================================================}
+
+\PYG{l+s+sb}{🔬 Phase 1: Analyzing Automata for Computational Patterns}
+
+\PYG{l+s+sb}{📋 Extracting Computational Patterns...}
+\PYG{l+s+sb}{✅ Analyzed ADD\PYGZus{}COBO: 1 patterns found}
+\PYG{l+s+sb}{✅ Analyzed ADD\PYGZus{}Chunking: 1 patterns found}
+\PYG{l+s+sb}{[... 19 more strategies ...]}
+
+\PYG{l+s+sb}{📚 Extracting Strategy Metadata (Metaphors, Inferences)...}
+\PYG{l+s+sb}{✅ Loaded metadata for ADD\PYGZus{}COBO: 1 metaphors, 1 inferences}
+\PYG{l+s+sb}{✅ Loaded metadata for ADD\PYGZus{}Chunking: 1 metaphors, 2 inferences}
+\PYG{l+s+sb}{[... 16 more strategies ...]}
+
+\PYG{l+s+sb}{🔗 Detecting Algorithmic Elaborations...}
+
+\PYG{l+s+sb}{📊 Analysis Complete:}
+\PYG{l+s+sb}{   • 2 computational patterns detected}
+\PYG{l+s+sb}{   • 16 algorithmic elaborations identified}
+\PYG{l+s+sb}{   • 18 strategies with rich metadata}
+\PYG{l+s+sb}{   • 4 unique embodied metaphors found}
+
+\PYG{l+s+sb}{📝 Phase 2: Generating Meaning\PYGZhy{}Use Analysis Reports}
+\PYG{l+s+sb}{   ✅ Generated: output/mua\PYGZus{}full\PYGZus{}report.md}
+\PYG{l+s+sb}{💾 Results saved to output/}
+
+\PYG{l+s+sb}{✅ Analysis Complete!}
+\PYG{l+s+sb}{   📊 Patterns discovered: 2}
+\PYG{l+s+sb}{   🔗 Elaborations found: 16}
+\PYG{l+s+sb}{   📄 MUA report: output/mua\PYGZus{}full\PYGZus{}report.md}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} List All Strategies}
+\PYG{l+s+sb}{```bash}
+\PYGZdl{}\PYG{+w}{ }python3\PYG{+w}{ }main.py\PYG{+w}{ }list
+\PYG{l+s+sb}{```}
+\PYG{g+gs}{**Output:**}
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{📋 Available Strategies (21):}
+\PYG{l+s+sb}{  • ADD\PYGZus{}COBO}
+\PYG{l+s+sb}{  • ADD\PYGZus{}Chunking}
+\PYG{l+s+sb}{  • ADD\PYGZus{}Counting}
+\PYG{l+s+sb}{  • ADD\PYGZus{}RMB}
+\PYG{l+s+sb}{  • ADD\PYGZus{}Rounding}
+\PYG{l+s+sb}{  • CBBO}
+\PYG{l+s+sb}{  • COBO}
+\PYG{l+s+sb}{  • ChunkingA}
+\PYG{l+s+sb}{  • ChunkingB}
+\PYG{l+s+sb}{  • ChunkingC}
+\PYG{l+s+sb}{  • DIV\PYGZus{}CGOB}
+\PYG{l+s+sb}{  • DIV\PYGZus{}DealingByOnes}
+\PYG{l+s+sb}{  • DIV\PYGZus{}IDR}
+\PYG{l+s+sb}{  • DIV\PYGZus{}UCR}
+\PYG{l+s+sb}{  • MULT\PYGZus{}C2C}
+\PYG{l+s+sb}{  • MULT\PYGZus{}CBO}
+\PYG{l+s+sb}{  • MULT\PYGZus{}Commutative\PYGZus{}Reasoning}
+\PYG{l+s+sb}{  • MULT\PYGZus{}DR}
+\PYG{l+s+sb}{  • SUB\PYGZus{}Decomposition}
+\PYG{l+s+sb}{  • SUB\PYGZus{}Rounding}
+\PYG{l+s+sb}{  • SUB\PYGZus{}Sliding}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Generate Report for Specific Strategy}
+\PYG{l+s+sb}{```bash}
+\PYGZdl{}\PYG{+w}{ }python3\PYG{+w}{ }main.py\PYG{+w}{ }report\PYG{+w}{ }\PYGZhy{}\PYGZhy{}strategy\PYG{+w}{ }ADD\PYGZus{}COBO
+\PYG{l+s+sb}{```}
+Generates detailed Meaning\PYGZhy{}Use Analysis report for ADD\PYGZus{}COBO (see Example Output below)
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Interactive Exploration Mode}
+\PYG{l+s+sb}{```bash}
+\PYGZdl{}\PYG{+w}{ }python3\PYG{+w}{ }main.py\PYG{+w}{ }explore
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Interactive Mode}
+
+\PYG{l+s+sb}{```bash}
+python\PYG{+w}{ }main.py\PYG{+w}{ }explore
+\PYG{l+s+sb}{```}
+
+Commands in interactive mode:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`list`} \PYGZhy{} Show all strategies
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`info \PYGZlt{}strategy\PYGZgt{}`} \PYGZhy{} Get strategy details
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`report \PYGZlt{}strategy\PYGZgt{}`} \PYGZhy{} Generate detailed report
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`overview`} \PYGZhy{} Show system overview
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`patterns`} \PYGZhy{} List computational patterns
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`help`} \PYGZhy{} Show commands
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`quit`} \PYGZhy{} Exit
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Advanced Usage}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Generate Custom Reports}
+\PYG{l+s+sb}{```bash}
+\PYG{c+c1}{\PYGZsh{} Markdown report for specific strategy}
+python\PYG{+w}{ }main.py\PYG{+w}{ }report\PYG{+w}{ }\PYGZhy{}\PYGZhy{}strategy\PYG{+w}{ }ADD\PYGZus{}COBO\PYG{+w}{ }\PYGZhy{}\PYGZhy{}format\PYG{+w}{ }markdown
+
+\PYG{c+c1}{\PYGZsh{} Overview report}
+python\PYG{+w}{ }main.py\PYG{+w}{ }report\PYG{+w}{ }\PYGZhy{}\PYGZhy{}format\PYG{+w}{ }markdown\PYG{+w}{ }\PYGZgt{}\PYG{+w}{ }overview.md
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Access Raw Analysis Data}
+\PYG{l+s+sb}{```python}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{mud\PYGZus{}generator}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{AutomatonAnalyzer}\PYG{p}{,} \PYG{n}{MUDGenerator}
+
+\PYG{c+c1}{\PYGZsh{} Analyze automata}
+\PYG{n}{analyzer} \PYG{o}{=} \PYG{n}{AutomatonAnalyzer}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}src/automata\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{results} \PYG{o}{=} \PYG{n}{analyzer}\PYG{o}{.}\PYG{n}{analyze\PYGZus{}all\PYGZus{}automata}\PYG{p}{()}
+
+\PYG{c+c1}{\PYGZsh{} Generate diagrams}
+\PYG{n}{generator} \PYG{o}{=} \PYG{n}{MUDGenerator}\PYG{p}{(}\PYG{n}{results}\PYG{p}{)}
+\PYG{n}{diagrams} \PYG{o}{=} \PYG{n}{generator}\PYG{o}{.}\PYG{n}{generate\PYGZus{}mud\PYGZus{}diagrams}\PYG{p}{()}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} 📁 Project Structure}
+
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{LK\PYGZus{}RB\PYGZus{}Synthesis/}
+\PYG{l+s+sb}{├── main.py                      \PYGZsh{} CLI entry point}
+\PYG{l+s+sb}{├── mud\PYGZus{}generator.py             \PYGZsh{} Pattern analyzer \PYGZam{} metadata extractor}
+\PYG{l+s+sb}{├── mua\PYGZus{}report\PYGZus{}generator.py      \PYGZsh{} Brandomian report generator}
+\PYG{l+s+sb}{├── requirements.txt             \PYGZsh{} Python dependencies}
+\PYG{l+s+sb}{├── README.md                    \PYGZsh{} This file}
+\PYG{l+s+sb}{├── CHANGELOG.md                 \PYGZsh{} Version history and enhancements}
+\PYG{l+s+sb}{├── ENHANCEMENT\PYGZus{}PROPOSALS.md     \PYGZsh{} Future improvement ideas}
+\PYG{l+s+sb}{├── src/}
+\PYG{l+s+sb}{│   ├── automata/                \PYGZsh{} Student strategy implementations}
+\PYG{l+s+sb}{│   │   ├── addition/            \PYGZsh{} Addition strategies (23 files)}
+\PYG{l+s+sb}{│   │   ├── subtraction/         \PYGZsh{} Subtraction strategies}
+\PYG{l+s+sb}{│   │   ├── multiplication/      \PYGZsh{} Multiplication strategies}
+\PYG{l+s+sb}{│   │   └── division/            \PYGZsh{} Division strategies}
+\PYG{l+s+sb}{│   └── analysis/                \PYGZsh{} Analysis utilities}
+\PYG{l+s+sb}{│       ├── MUA\PYGZus{}Metadata.py      \PYGZsh{} Metadata dataclass definitions}
+\PYG{l+s+sb}{│       └── ast\PYGZus{}analyzer.py      \PYGZsh{} AST pattern detection}
+\PYG{l+s+sb}{├── output/                      \PYGZsh{} Generated MUA reports}
+\PYG{l+s+sb}{│   ├── mua\PYGZus{}full\PYGZus{}report.md       \PYGZsh{} Complete analysis report}
+\PYG{l+s+sb}{│   ├── mua\PYGZus{}strategy\PYGZus{}*.md        \PYGZsh{} Individual strategy reports}
+\PYG{l+s+sb}{│   └── analysis\PYGZus{}results.json    \PYGZsh{} Raw analysis data}
+\PYG{l+s+sb}{├── Python\PYGZus{}Tests/                \PYGZsh{} Test files and drafts}
+\PYG{l+s+sb}{├── scripts/                     \PYGZsh{} Utility scripts}
+\PYG{l+s+sb}{└── data/                        \PYGZsh{} Data files}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} 🔍 Example Output}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Meaning\PYGZhy{}Use Analysis Report}
+\PYG{l+s+sb}{```markdown}
+\PYG{g+gh}{\PYGZsh{} Meaning\PYGZhy{}Use Analysis: ADD\PYGZus{}COBO}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Strategy Metadata (From Automaton Documentation)}
+
+\PYG{g+gs}{**Full Name:**} COBO (Counting On by Bases and Ones)
+\PYG{g+gs}{**Description:**} Simulates an addition strategy where the second number (B)
+is decomposed into its base\PYGZhy{}ten and ones components...
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Embodied Metaphors (Lakoff \PYGZam{} Núñez)}
+
+\PYG{g+gs}{**Arithmetic as Motion Along a Path**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Source Domain:**} Motion
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Target Domain:**} Arithmetic
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Key Entailments:**} Moving along a path can be done in segments.
+  The final position is the sum of the starting position and the
+  lengths of all segments.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Material Inferences (Brandom)}
+
+\PYG{g+gs}{**Iterative Addition**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Premise:**} A quantity can be added by repeatedly adding a smaller unit.
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Conclusion:**} Adding a number B is equivalent to adding \PYGZsq{}1\PYGZsq{} B times,
+  or adding \PYGZsq{}10\PYGZsq{} (B//10) times and then \PYGZsq{}1\PYGZsq{} (B\PYGZpc{}10) times.
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Prerequisites (PP\PYGZhy{}Necessities):**} Counting skills, Place value decomposition
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} PV\PYGZhy{}Sufficiency Analysis}
+\PYG{g+gs}{**Question:**} What practices (P) are PV\PYGZhy{}sufficient to deploy V\PYG{g+ge}{\PYGZus{}ADD\PYGZus{}}COBO?
+
+The following computational practices are necessary:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**P\PYGZus{}incremental\PYGZus{}counting**}: State\PYGZhy{}based iteration with accumulation
+
+\PYG{g+gs}{**Interpretation:**} To deploy the vocabulary of ADD\PYGZus{}COBO,
+a practitioner must master these computational practices.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} PP\PYGZhy{}Sufficiency Analysis}
+\PYG{g+gs}{**Question:**} What practices are PP\PYGZhy{}sufficient for P\PYG{g+ge}{\PYGZus{}ADD\PYGZus{}}COBO?
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Prerequisite Strategies (PP\PYGZhy{}Necessities)}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**P\PYGZus{}ADD\PYGZus{}Counting**} (via incremental\PYGZus{}counting)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**P\PYGZus{}ADD\PYGZus{}Chunking**} (via incremental\PYGZus{}counting)
+
+\PYG{g+gs}{**Interpretation:**} ADD\PYGZus{}COBO is algorithmically elaborated from
+these prerequisite strategies.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Pragmatic Metavocabulary Analysis}
+Following Lakoff \PYGZam{} Núñez, embodied practices likely serve as metavocabulary:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**V\PYGZus{}Embodied**} (e.g., \PYGZsq{}collect objects\PYGZsq{}, \PYGZsq{}move along line\PYGZsq{})
+
+\PYG{g+gs}{**Expressive Bootstrapping:**} Weaker vocabularies (Python, patterns, embodiment)
+serve as metavocabularies for stronger vocabulary (arithmetic).
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} 🎯 Key Features}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} ✅ Fully Automated}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }No manual specification of relationships required
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Discovers patterns from actual computational behavior
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Scales to any number of strategies
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 🎨 Theoretically Grounded Reports}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Brandomian Meaning\PYGZhy{}Use Analysis framework
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Lakoff \PYGZam{} Núñez embodied metaphors with entailments
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Material inferences with premises and conclusions
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }PV/VP/PP\PYGZhy{}sufficiency analyses
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }LX relation identification
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Pragmatic metavocabulary analysis
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Confidence scores for elaboration relationships
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 🔬 Research Driven}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Inspired by Brandom\PYGZsq{}s Meaning\PYGZhy{}Use Analysis framework
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Informed by Lakoff \PYGZam{} Núñez\PYGZsq{}s embodied mathematics
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Reveals computational structure of student arithmetic strategies
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} ⚠️ Scope and Limitations}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} What This System Does}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ Discovers computational patterns in automaton source code (AST analysis)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ Extracts rich metadata (embodied metaphors, material inferences) from automata
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ Identifies algorithmic elaborations based on shared patterns
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ Generates Brandomian MUA reports (PV/VP/PP\PYGZhy{}sufficiency, LX relations)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ Analyzes pragmatic metavocabulary and expressive bootstrapping
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }✅ Provides confidence\PYGZhy{}scored elaboration relationships
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} What This System Does NOT Do}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }❌ Does not generate visual MUD diagrams (reports only)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }❌ Does not implement full Brandomian deontic scorekeeping
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }❌ Does not model Lakoff\PYGZsq{}s conceptual metaphor mappings formally
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }❌ Does not identify practical elaboration through training (only algorithmic)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }❌ Does not perform theorem proving or formal verification
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }❌ Does not include LLM\PYGZhy{}based pragmatic projection capabilities
+
+This is an \PYG{g+gs}{**analysis tool**} for studying existing strategy implementations. It reveals computational structure that may correspond to Brandomian MUA concepts, but verification of philosophical claims requires human judgment.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} 🤝 Contributing}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Adding New Strategies}
+\PYG{k}{1.} Create automaton in appropriate \PYG{l+s+sb}{`src/automata/\PYGZlt{}operation\PYGZgt{}/`} directory
+\PYG{k}{2.} Follow the \PYG{l+s+sb}{`BaseAutomaton`} interface
+\PYG{k}{3.} Run \PYG{l+s+sb}{`python main.py analyze`} to include in analysis
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Extending Pattern Detection}
+Modify \PYG{l+s+sb}{`mud\PYGZus{}generator.py`} to add new computational pattern detectors.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} 📚 Research Background}
+
+This analyzer is a practical tool for studying student\PYGZhy{}invented arithmetic strategies. It discovers how strategies share computational patterns, revealing structural relationships between different approaches to arithmetic.
+
+\PYG{g+gs}{**Theoretical motivation:**} The analysis framework is inspired by Brandom\PYGZsq{}s Meaning\PYGZhy{}Use Analysis and Lakoff \PYGZam{} Núñez\PYGZsq{}s embodied mathematics, applying these ideas to study actual computational implementations of student strategies.
+
+\PYG{g+gs}{**What it analyzes:**} Python automaton implementations of 23+ student strategies from Carpenter \PYGZam{} Moser\PYGZsq{}s Cognitively Guided Instruction (CGI) research.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} 📄 License}
+
+[Add license information here]
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} 🙏 Acknowledgments}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Robert Brandom\PYGZsq{}s \PYG{g+ge}{*Between Saying and Doing*}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }George Lakoff and Rafael Núñez\PYGZsq{}s \PYG{g+ge}{*Where Mathematics Comes From*}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }The automata implementations that make this analysis possible
+\end{MintedVerbatim}

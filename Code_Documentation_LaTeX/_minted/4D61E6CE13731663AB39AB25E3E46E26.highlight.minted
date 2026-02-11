@@ -1,0 +1,132 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} src/analysis/MUD\PYGZus{}Generator.py}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{graphviz}
+\PYG{c+c1}{\PYGZsh{} from src.analysis.MUA\PYGZus{}Metadata import StrategyMetadata}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{typing}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{List}
+
+\PYG{c+c1}{\PYGZsh{} Dummy classes to allow the code to run standalone for now}
+\PYG{c+c1}{\PYGZsh{} In the final implementation, these would be imported from MUA\PYGZus{}Metadata.py}
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{Practice}\PYG{p}{:}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n+nb}{id}\PYG{p}{,} \PYG{n}{description}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{id} \PYG{o}{=} \PYG{n+nb}{id}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{description} \PYG{o}{=} \PYG{n}{description}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{StrategyMetadata}\PYG{p}{:}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}id}\PYG{p}{,} \PYG{n}{strategy\PYGZus{}name}\PYG{p}{,} \PYG{n}{deployed\PYGZus{}vocabulary}\PYG{p}{,} \PYG{n}{pp\PYGZus{}necessities}\PYG{p}{,} \PYG{n}{pp\PYGZus{}sufficiencies\PYGZus{}alg\PYGZus{}elaboration}\PYG{p}{,} \PYG{n}{lx\PYGZus{}relations}\PYG{p}{,} \PYG{o}{**}\PYG{n}{kwargs}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}id} \PYG{o}{=} \PYG{n}{strategy\PYGZus{}id}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}name} \PYG{o}{=} \PYG{n}{strategy\PYGZus{}name}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{deployed\PYGZus{}vocabulary} \PYG{o}{=} \PYG{n}{deployed\PYGZus{}vocabulary}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{pp\PYGZus{}necessities} \PYG{o}{=} \PYG{p}{[}\PYG{n}{Practice}\PYG{p}{(}\PYG{o}{**}\PYG{n}{p}\PYG{p}{)} \PYG{k}{for} \PYG{n}{p} \PYG{o+ow}{in} \PYG{n}{pp\PYGZus{}necessities}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{pp\PYGZus{}sufficiencies\PYGZus{}alg\PYGZus{}elaboration} \PYG{o}{=} \PYG{p}{[}\PYG{n}{Practice}\PYG{p}{(}\PYG{o}{**}\PYG{n}{p}\PYG{p}{)} \PYG{k}{for} \PYG{n}{p} \PYG{o+ow}{in} \PYG{n}{pp\PYGZus{}sufficiencies\PYGZus{}alg\PYGZus{}elaboration}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{lx\PYGZus{}relations} \PYG{o}{=} \PYG{n}{lx\PYGZus{}relations}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{generate\PYGZus{}structural\PYGZus{}MUD}\PYG{p}{(}\PYG{n}{meta}\PYG{p}{:} \PYG{n}{StrategyMetadata}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Generates a structural Brandomian MUD.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{dot} \PYG{o}{=} \PYG{n}{graphviz}\PYG{o}{.}\PYG{n}{Digraph}\PYG{p}{(}\PYG{n}{comment}\PYG{o}{=}\PYG{l+s+sa}{f}\PYG{l+s+s1}{\PYGZsq{}MUD for }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{meta}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+    \PYG{c+c1}{\PYGZsh{} Define Styles (Similar to TikZ example)}
+    \PYG{n}{V\PYGZus{}STYLE} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}shape\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}ellipse\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}style\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}filled\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}fillcolor\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}E0E0E0\PYGZsq{}}\PYG{p}{\PYGZcb{}}
+    \PYG{n}{P\PYGZus{}STYLE} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}shape\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}rectangle\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}style\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}rounded,filled\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}fillcolor\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}A0A0A0\PYGZsq{}}\PYG{p}{\PYGZcb{}}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} V\PYGZhy{}Space \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+    \PYG{n}{V\PYGZus{}Core} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}V\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{meta}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}id}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{n}{dot}\PYG{o}{.}\PYG{n}{node}\PYG{p}{(}\PYG{n}{V\PYGZus{}Core}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}V: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{meta}\PYG{o}{.}\PYG{n}{deployed\PYGZus{}vocabulary}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{o}{**}\PYG{n}{V\PYGZus{}STYLE}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} P\PYGZhy{}Space: Core Practice \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+    \PYG{n}{P\PYGZus{}Core} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}P\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{meta}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}id}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{n}{dot}\PYG{o}{.}\PYG{n}{node}\PYG{p}{(}\PYG{n}{P\PYGZus{}Core}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}P: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{meta}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{o}{**}\PYG{n}{P\PYGZus{}STYLE}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Relation: PV\PYGZhy{}Sufficiency (Practice is sufficient to deploy the Vocabulary)}
+    \PYG{n}{dot}\PYG{o}{.}\PYG{n}{edge}\PYG{p}{(}\PYG{n}{P\PYGZus{}Core}\PYG{p}{,} \PYG{n}{V\PYGZus{}Core}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}PV\PYGZhy{}Suff\PYGZdq{}}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}black\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} P\PYGZhy{}Space: Algorithmic Elaboration (PP\PYGZhy{}Sufficiencies) \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+    \PYG{c+c1}{\PYGZsh{} Create a cluster to visualize the composition of the elaboration}
+    \PYG{k}{with} \PYG{n}{dot}\PYG{o}{.}\PYG{n}{subgraph}\PYG{p}{(}\PYG{n}{name}\PYG{o}{=}\PYG{l+s+sa}{f}\PYG{l+s+s1}{\PYGZsq{}cluster\PYGZus{}AlgEl\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{meta}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}id}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{c}\PYG{p}{:}
+        \PYG{n}{c}\PYG{o}{.}\PYG{n}{attr}\PYG{p}{(}\PYG{n}{label}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}Algorithmic Elaboration (P\PYGZhy{}AlgEl)\PYGZsq{}}\PYG{p}{)}
+        \PYG{n}{c}\PYG{o}{.}\PYG{n}{attr}\PYG{p}{(}\PYG{n}{style}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}dashed\PYGZsq{}}\PYG{p}{)}
+        \PYG{n}{alg\PYGZus{}nodes} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{k}{for} \PYG{n}{p} \PYG{o+ow}{in} \PYG{n}{meta}\PYG{o}{.}\PYG{n}{pp\PYGZus{}sufficiencies\PYGZus{}alg\PYGZus{}elaboration}\PYG{p}{:}
+            \PYG{n}{node\PYGZus{}id} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}P\PYGZus{}AlgEl\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{meta}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}id}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{p}\PYG{o}{.}\PYG{n}{id}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+            \PYG{n}{c}\PYG{o}{.}\PYG{n}{node}\PYG{p}{(}\PYG{n}{node\PYGZus{}id}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{p}\PYG{o}{.}\PYG{n}{id}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{p}\PYG{o}{.}\PYG{n}{description}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{shape}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}box\PYGZsq{}}\PYG{p}{)}
+            \PYG{n}{alg\PYGZus{}nodes}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{node\PYGZus{}id}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Relation: PP\PYGZhy{}Sufficiency (Elaboration is sufficient for the Core Practice)}
+    \PYG{k}{if} \PYG{n}{alg\PYGZus{}nodes}\PYG{p}{:}
+        \PYG{c+c1}{\PYGZsh{} Use ltail/lhead to connect edges to the cluster boundary}
+        \PYG{c+c1}{\PYGZsh{} We connect from the first node inside the cluster for layout purposes, but use ltail to point from the cluster itself.}
+        \PYG{n}{dot}\PYG{o}{.}\PYG{n}{edge}\PYG{p}{(}\PYG{n}{alg\PYGZus{}nodes}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],} \PYG{n}{P\PYGZus{}Core}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}PP\PYGZhy{}Suff (Composition)\PYGZdq{}}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}darkgreen\PYGZsq{}}\PYG{p}{,} \PYG{n}{ltail}\PYG{o}{=}\PYG{l+s+sa}{f}\PYG{l+s+s1}{\PYGZsq{}cluster\PYGZus{}AlgEl\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{meta}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}id}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} P\PYGZhy{}Space: Prerequisites (PP\PYGZhy{}Necessities) \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+    \PYG{n}{P\PYGZus{}Prereq} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}P\PYGZus{}Prereq\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{meta}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}id}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{n}{prereq\PYGZus{}label} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Prerequisites (P\PYGZhy{}Base):}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{([}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{p}\PYG{o}{.}\PYG{n}{description}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}} \PYG{k}{for} \PYG{n}{p} \PYG{o+ow}{in} \PYG{n}{meta}\PYG{o}{.}\PYG{n}{pp\PYGZus{}necessities}\PYG{p}{])}
+    \PYG{n}{dot}\PYG{o}{.}\PYG{n}{node}\PYG{p}{(}\PYG{n}{P\PYGZus{}Prereq}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{n}{prereq\PYGZus{}label}\PYG{p}{,} \PYG{o}{**}\PYG{n}{P\PYGZus{}STYLE}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Relation: PP\PYGZhy{}Necessity (Prerequisites are necessary for the Elaboration)}
+    \PYG{k}{if} \PYG{n}{alg\PYGZus{}nodes}\PYG{p}{:}
+         \PYG{n}{dot}\PYG{o}{.}\PYG{n}{edge}\PYG{p}{(}\PYG{n}{P\PYGZus{}Prereq}\PYG{p}{,} \PYG{n}{alg\PYGZus{}nodes}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}PP\PYGZhy{}Nec\PYGZdq{}}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}gray\PYGZsq{}}\PYG{p}{,} \PYG{n}{style}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}dashed\PYGZsq{}}\PYG{p}{,} \PYG{n}{lhead}\PYG{o}{=}\PYG{l+s+sa}{f}\PYG{l+s+s1}{\PYGZsq{}cluster\PYGZus{}AlgEl\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{meta}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}id}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{n}{dot}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}wrap\PYGZus{}label}\PYG{p}{(}\PYG{n}{label}\PYG{p}{,} \PYG{n}{max\PYGZus{}width}\PYG{o}{=}\PYG{l+m+mi}{20}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Wraps a label into multiple lines if it\PYGZsq{}s too long.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{words} \PYG{o}{=} \PYG{n}{label}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{} \PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[]}
+    \PYG{n}{current\PYGZus{}line} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+    \PYG{k}{for} \PYG{n}{word} \PYG{o+ow}{in} \PYG{n}{words}\PYG{p}{:}
+        \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{current\PYGZus{}line}\PYG{p}{)} \PYG{o}{+} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{word}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mi}{1} \PYG{o}{\PYGZgt{}} \PYG{n}{max\PYGZus{}width}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{current\PYGZus{}line}\PYG{p}{)}
+            \PYG{n}{current\PYGZus{}line} \PYG{o}{=} \PYG{n}{word}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{current\PYGZus{}line}\PYG{p}{:}
+                \PYG{n}{current\PYGZus{}line} \PYG{o}{+=} \PYG{l+s+s2}{\PYGZdq{} \PYGZdq{}}
+            \PYG{n}{current\PYGZus{}line} \PYG{o}{+=} \PYG{n}{word}
+    \PYG{k}{if} \PYG{n}{current\PYGZus{}line}\PYG{p}{:}
+        \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{current\PYGZus{}line}\PYG{p}{)}
+    \PYG{k}{return} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s1}{n\PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{)}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{generate\PYGZus{}LX\PYGZus{}Hierarchy}\PYG{p}{(}\PYG{n}{metadata\PYGZus{}list}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n}{StrategyMetadata}\PYG{p}{]):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Visualizes the full dependency graph of strategies, highlighting LX relationships.}
+\PYG{l+s+sd}{    This version adheres to the specified Brandomian MUD visual conventions.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{dot} \PYG{o}{=} \PYG{n}{graphviz}\PYG{o}{.}\PYG{n}{Digraph}\PYG{p}{(}\PYG{n}{comment}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}Full Strategy Dependency Hierarchy\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{dot}\PYG{o}{.}\PYG{n}{attr}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}graph\PYGZsq{}}\PYG{p}{,} \PYG{n}{rankdir}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}TB\PYGZsq{}}\PYG{p}{,} \PYG{n}{splines}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}ortho\PYGZsq{}}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}Full Strategy Dependency Hierarchy\PYGZsq{}}\PYG{p}{,} \PYG{n}{labelloc}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}t\PYGZsq{}}\PYG{p}{,} \PYG{n}{fontsize}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}16\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{dot}\PYG{o}{.}\PYG{n}{attr}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}node\PYGZsq{}}\PYG{p}{,} \PYG{n}{fontname}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}Serif\PYGZsq{}}\PYG{p}{,} \PYG{n}{fontsize}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}12\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{dot}\PYG{o}{.}\PYG{n}{attr}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}edge\PYGZsq{}}\PYG{p}{,} \PYG{n}{fontname}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}Serif\PYGZsq{}}\PYG{p}{,} \PYG{n}{fontsize}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}10\PYGZsq{}}\PYG{p}{,} \PYG{n}{penwidth}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}2.0\PYGZsq{}}\PYG{p}{,} \PYG{n}{arrowhead}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}stealth\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{n}{id\PYGZus{}map} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{n}{meta}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}id}\PYG{p}{:} \PYG{n}{meta} \PYG{k}{for} \PYG{n}{meta} \PYG{o+ow}{in} \PYG{n}{metadata\PYGZus{}list}\PYG{p}{\PYGZcb{}}
+
+    \PYG{c+c1}{\PYGZsh{} Add all practices (strategies) as nodes first}
+    \PYG{k}{for} \PYG{n}{meta} \PYG{o+ow}{in} \PYG{n}{metadata\PYGZus{}list}\PYG{p}{:}
+        \PYG{n}{wrapped\PYGZus{}label} \PYG{o}{=} \PYG{n}{\PYGZus{}wrap\PYGZus{}label}\PYG{p}{(}\PYG{n}{meta}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}name}\PYG{p}{)}
+        \PYG{n}{dot}\PYG{o}{.}\PYG{n}{node}\PYG{p}{(}\PYG{n}{meta}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}id}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}P\PYGZus{}}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{wrapped\PYGZus{}label}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{shape}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}box\PYGZsq{}}\PYG{p}{,} \PYG{n}{style}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}filled,rounded\PYGZsq{}}\PYG{p}{,}
+                 \PYG{n}{fillcolor}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}gray70\PYGZsq{}}\PYG{p}{,} \PYG{n}{fontcolor}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}white\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{n}{edge\PYGZus{}counter} \PYG{o}{=} \PYG{l+m+mi}{1}
+    \PYG{c+c1}{\PYGZsh{} Add edges for both PP\PYGZhy{}Necessity and LX relations}
+    \PYG{k}{for} \PYG{n}{meta} \PYG{o+ow}{in} \PYG{n}{metadata\PYGZus{}list}\PYG{p}{:}
+        \PYG{c+c1}{\PYGZsh{} 1. Add PP\PYGZhy{}Necessity edges (basic relations)}
+        \PYG{k}{for} \PYG{n}{prereq} \PYG{o+ow}{in} \PYG{n}{meta}\PYG{o}{.}\PYG{n}{pp\PYGZus{}necessities}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{prereq}\PYG{o}{.}\PYG{n}{id} \PYG{o+ow}{in} \PYG{n}{id\PYGZus{}map}\PYG{p}{:}
+                \PYG{c+c1}{\PYGZsh{} Edge goes from the prerequisite to the strategy that requires it}
+                \PYG{n}{dot}\PYG{o}{.}\PYG{n}{edge}\PYG{p}{(}\PYG{n}{prereq}\PYG{o}{.}\PYG{n}{id}\PYG{p}{,} \PYG{n}{meta}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}id}\PYG{p}{,}
+                         \PYG{n}{label}\PYG{o}{=}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{edge\PYGZus{}counter}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{: PP\PYGZhy{}nec\PYGZdq{}}\PYG{p}{,}
+                         \PYG{n}{style}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}solid\PYGZsq{}}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}black\PYGZsq{}}\PYG{p}{)}
+                \PYG{n}{edge\PYGZus{}counter} \PYG{o}{+=} \PYG{l+m+mi}{1}
+
+        \PYG{c+c1}{\PYGZsh{} 2. Add LX\PYGZhy{}relation edges (resultant relations)}
+        \PYG{c+c1}{\PYGZsh{} These are emergent from the PP\PYGZhy{}Nec/PP\PYGZhy{}Suff/PV\PYGZhy{}Suff structure}
+        \PYG{k}{for} \PYG{n}{lx\PYGZus{}rel} \PYG{o+ow}{in} \PYG{n}{meta}\PYG{o}{.}\PYG{n}{lx\PYGZus{}relations}\PYG{p}{:}
+            \PYG{n}{target\PYGZus{}id} \PYG{o}{=} \PYG{n}{lx\PYGZus{}rel}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}elaborates\PYGZus{}strategy\PYGZus{}id\PYGZsq{}}\PYG{p}{]}
+            \PYG{k}{if} \PYG{n}{target\PYGZus{}id} \PYG{o+ow}{in} \PYG{n}{id\PYGZus{}map}\PYG{p}{:}
+                \PYG{c+c1}{\PYGZsh{} The resultant arrow shows that meta.strategy\PYGZus{}id makes explicit what is in target\PYGZus{}id}
+                \PYG{c+c1}{\PYGZsh{} This is a VV\PYGZhy{}Resultant relation, shown as a dashed gray arrow}
+                \PYG{n}{dot}\PYG{o}{.}\PYG{n}{edge}\PYG{p}{(}\PYG{n}{target\PYGZus{}id}\PYG{p}{,} \PYG{n}{meta}\PYG{o}{.}\PYG{n}{strategy\PYGZus{}id}\PYG{p}{,}
+                         \PYG{n}{label}\PYG{o}{=}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Res\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{edge\PYGZus{}counter}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{: LX for\PYGZdq{}}\PYG{p}{,}
+                         \PYG{n}{style}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}dashed\PYGZsq{}}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}gray\PYGZsq{}}\PYG{p}{,}
+                         \PYG{n}{tooltip}\PYG{o}{=}\PYG{n}{\PYGZus{}wrap\PYGZus{}label}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Makes explicit the principle: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{lx\PYGZus{}rel}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}explicit\PYGZus{}principle\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+m+mi}{40}\PYG{p}{))}
+                \PYG{n}{edge\PYGZus{}counter} \PYG{o}{+=} \PYG{l+m+mi}{1}
+
+    \PYG{k}{return} \PYG{n}{dot}
+
+\end{MintedVerbatim}

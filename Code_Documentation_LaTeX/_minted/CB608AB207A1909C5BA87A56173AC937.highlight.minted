@@ -1,0 +1,209 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}!DOCTYPE html\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{html}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{head}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{title}\PYG{p}{\PYGZgt{}}Division: Strategic Trials\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{title}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{link} \PYG{n+na}{rel}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}stylesheet\PYGZdq{}} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}strategy\PYGZus{}styles.css\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+    \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} MathJax for mathematical notation \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{script} \PYG{n+na}{src}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://polyfill.io/v3/polyfill.min.js?features=es6\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{script} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}MathJax\PYGZhy{}script\PYGZdq{}} \PYG{n+na}{async} \PYG{n+na}{src}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex\PYGZhy{}mml\PYGZhy{}chtml.js\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{head}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{body}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}container\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}back\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}index.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}← Back to Calculator\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}container\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}Division Strategies \PYGZhy{} Strategic Trials\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}
+
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}control\PYGZhy{}section\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{label} \PYG{n+na}{for}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}stratTotalInput\PYGZdq{}}\PYG{p}{\PYGZgt{}}Total Items:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{label}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{input} \PYG{n+na}{type}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}number\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}stratTotalInput\PYGZdq{}} \PYG{n+na}{value}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}56\PYGZdq{}} \PYG{n+na}{min}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}1\PYGZdq{}}\PYG{p}{\PYGZgt{}} \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Example \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{label} \PYG{n+na}{for}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}stratGroupsInput\PYGZdq{}}\PYG{p}{\PYGZgt{}}Number of Groups:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{label}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{input} \PYG{n+na}{type}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}number\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}stratGroupsInput\PYGZdq{}} \PYG{n+na}{value}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}8\PYGZdq{}} \PYG{n+na}{min}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}1\PYGZdq{}}\PYG{p}{\PYGZgt{}} \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Example \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}setupTrialSimulation()\PYGZdq{}}\PYG{p}{\PYGZgt{}}Set Up / Reset\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}performNextTrial()\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}trialBtn\PYGZdq{}} \PYG{n+na}{disabled}\PYG{p}{\PYGZgt{}}Perform Next Trial\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+         \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}statusMessage\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}trials\PYGZhy{}section\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+         \PYG{p}{\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Trials:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}
+         \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}trialsDisplay\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+             \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Trial visualizations will be added here \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+         \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+     \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}result\PYGZhy{}section\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Result (Items per group):\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}} \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}finalResultValue\PYGZdq{}}\PYG{p}{\PYGZgt{}}?\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Simulation State Variables \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{totalItems}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{currentTrialSize}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// \PYGZhy{}1 indicates simulation not started or needs initial guess}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{attempts}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[];}\PYG{+w}{ }\PYG{c+c1}{// Stores history: \PYGZob{} trialSize: number, trialResult: number, outcome: string \PYGZcb{}}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{finalGroupSize}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// The correct answer when found}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{isTrialComplete}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} DOM Element References \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{totalInput}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}stratTotalInput\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{groupsInput}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}stratGroupsInput\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{finalResultValueSpan}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}finalResultValue\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{trialsDisplay}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}trialsDisplay\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{trialBtn}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}trialBtn\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{statusMessage}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}statusMessage\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Simulation Functions \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{        }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{setupTrialSimulation}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n+nx}{totalItems}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{parseInt}\PYG{p}{(}\PYG{n+nx}{totalInput}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{numGroups}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{parseInt}\PYG{p}{(}\PYG{n+nx}{groupsInput}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{);}
+
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{isNaN}\PYG{p}{(}\PYG{n+nx}{totalItems}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{isNaN}\PYG{p}{(}\PYG{n+nx}{numGroups}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nx}{totalItems}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{statusMessage}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Please enter valid positive numbers (Groups \PYGZgt{} 0).\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{trialBtn}\PYG{p}{.}\PYG{n+nx}{disabled}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{isTrialComplete}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{finalResultValueSpan}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}?\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{trialsDisplay}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Clear previous trials}
+\PYG{+w}{                }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{c+c1}{// Make the first guess intentionally off (e.g., +/\PYGZhy{} 1 or 2 from rough estimate)}
+\PYG{+w}{            }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{roughEstimate}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{max}\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{round}\PYG{p}{(}\PYG{n+nx}{totalItems}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{p}{));}\PYG{+w}{ }\PYG{c+c1}{// Ensure guess is at least 1}
+\PYG{+w}{            }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{randomOffset}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{random}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mf}{0.5}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{roughEstimate}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Offset by +/\PYGZhy{} 1}
+\PYG{+w}{            }\PYG{n+nx}{currentTrialSize}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{roughEstimate}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{randomOffset}\PYG{p}{;}
+\PYG{+w}{            }\PYG{c+c1}{// Ensure guess isn\PYGZsq{}t accidentally correct if estimate was close}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{currentTrialSize}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{n+nx}{totalItems}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nx}{currentTrialSize}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{currentTrialSize}\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Adjust if first guess happens to be right}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{             }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{currentTrialSize}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{n+nx}{currentTrialSize}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Ensure guess is at least 1}
+
+
+\PYG{+w}{            }\PYG{n+nx}{attempts}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[];}\PYG{+w}{ }\PYG{c+c1}{// Clear history}
+\PYG{+w}{            }\PYG{n+nx}{finalGroupSize}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{isTrialComplete}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{n+nx}{statusMessage}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Ready. Initial trial guess: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{currentTrialSize}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ items per group.`}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{finalResultValueSpan}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}?\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{trialsDisplay}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Clear previous trials visually}
+\PYG{+w}{            }\PYG{n+nx}{trialBtn}\PYG{p}{.}\PYG{n+nx}{disabled}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{performNextTrial}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{isTrialComplete}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{statusMessage}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Found correct group size! Press Reset to start again.\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{trialBtn}\PYG{p}{.}\PYG{n+nx}{disabled}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{n+nx}{statusMessage}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Trying }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{currentTrialSize}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ items per group...`}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// 1. Multiply to get trial total}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{trialResult}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{currentTrialSize}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{// 2. Check against actual total}
+\PYG{+w}{            }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{outcome}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{outcomeClass}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{trialResult}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{n+nx}{totalItems}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{outcome}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Correct!\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{outcomeClass}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}trial\PYGZhy{}correct\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{finalGroupSize}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{currentTrialSize}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{isTrialComplete}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{trialBtn}\PYG{p}{.}\PYG{n+nx}{disabled}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Disable button once correct}
+\PYG{+w}{                 }\PYG{n+nx}{statusMessage}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Found correct group size: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{finalGroupSize}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{!`}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{n+nx}{finalResultValueSpan}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{finalGroupSize}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{trialResult}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{totalItems}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{outcome}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Too Low (}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{trialResult}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZlt{} }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{totalItems}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{)`}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{outcomeClass}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}trial\PYGZhy{}incorrect\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{c+c1}{// trialResult \PYGZgt{} totalItems}
+\PYG{+w}{                }\PYG{n+nx}{outcome}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Too High (}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{trialResult}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ \PYGZgt{} }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{totalItems}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{)`}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{n+nx}{outcomeClass}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}trial\PYGZhy{}incorrect\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{c+c1}{// 3. Store attempt}
+\PYG{+w}{            }\PYG{n+nx}{attempts}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{(\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{trialSize}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{currentTrialSize}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nx}{trialResult}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{trialResult}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nx}{outcome}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{outcome}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nx}{outcomeClass}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{outcomeClass}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{});}
+
+\PYG{+w}{             }\PYG{c+c1}{// 4. Draw this attempt}
+\PYG{+w}{             }\PYG{n+nx}{drawTrialVisualization}\PYG{p}{(}\PYG{n+nx}{currentTrialSize}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{trialResult}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{outcome}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{outcomeClass}\PYG{p}{);}
+
+
+\PYG{+w}{            }\PYG{c+c1}{// 5. Adjust for next trial (if not correct)}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{isTrialComplete}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{trialResult}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{totalItems}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                     }\PYG{c+c1}{// Increase guess (could be smarter, e.g., based on how far off)}
+\PYG{+w}{                     }\PYG{n+nx}{currentTrialSize}\PYG{o}{++}\PYG{p}{;}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                     }\PYG{c+c1}{// Decrease guess}
+\PYG{+w}{                     }\PYG{n+nx}{currentTrialSize}\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{p}{;}
+\PYG{+w}{                     }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{currentTrialSize}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{n+nx}{currentTrialSize}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Don\PYGZsq{}t guess 0 or negative}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                 }\PYG{n+nx}{statusMessage}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{` Adjusting guess to }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{currentTrialSize}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{.`}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{drawTrialVisualization}\PYG{p}{(}\PYG{n+nx}{trialSize}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{groups}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{result}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{outcome}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{outcomeClass}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{trialDiv}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElement}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}div\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{trialDiv}\PYG{p}{.}\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}trial\PYGZhy{}visualization\PYGZsq{}}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{groupContainer}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElement}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}div\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{groupContainer}\PYG{p}{.}\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}group\PYGZhy{}container\PYGZsq{}}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{g}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{g}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{groups}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{g}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{groupBox}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElement}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}div\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{                }\PYG{n+nx}{groupBox}\PYG{p}{.}\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}group\PYGZhy{}box\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{                }\PYG{c+c1}{// groupBox.innerHTML = `\PYGZlt{}span class=\PYGZdq{}group\PYGZhy{}box\PYGZhy{}label\PYGZdq{}\PYGZgt{}Group \PYGZdl{}\PYGZob{}g + 1\PYGZcb{}\PYGZlt{}/span\PYGZgt{}`; // Optional label}
+
+\PYG{+w}{                 }\PYG{c+c1}{// Arrange items within the box (e.g., simple horizontal flow)}
+\PYG{+w}{                 }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{itemsHtml}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{itemsPerRow}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{max}\PYG{p}{(}\PYG{l+m+mf}{5}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{ceil}\PYG{p}{(}\PYG{n+nb}{Math}\PYG{p}{.}\PYG{n+nx}{sqrt}\PYG{p}{(}\PYG{n+nx}{trialSize}\PYG{p}{)));}\PYG{+w}{ }\PYG{c+c1}{// Simple layout heuristic}
+\PYG{+w}{                 }\PYG{k}{for}\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{trialSize}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                     }\PYG{n+nx}{itemsHtml}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+sb}{`\PYGZlt{}span class=\PYGZdq{}item\PYGZhy{}block\PYGZdq{}\PYGZgt{}\PYGZlt{}/span\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{                     }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{((}\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n+nx}{itemsPerRow}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{n+nx}{itemsHtml}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZlt{}br\PYGZgt{}\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Add line break}
+\PYG{+w}{                 }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                 }\PYG{n+nx}{groupBox}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{n+nx}{itemsHtml}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{n+nx}{groupContainer}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{groupBox}\PYG{p}{);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{            }\PYG{n+nx}{trialDiv}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{groupContainer}\PYG{p}{);}
+
+\PYG{+w}{             }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{summary}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElement}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}div\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{             }\PYG{n+nx}{summary}\PYG{p}{.}\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}trial\PYGZhy{}summary\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{             }\PYG{n+nx}{summary}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Trial: }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{groups}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ groups × }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{trialSize}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ items/group = }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{result}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{. \PYGZlt{}span class=\PYGZdq{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{outcomeClass}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZdq{}\PYGZgt{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{outcome}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{\PYGZlt{}/span\PYGZgt{}`}\PYG{p}{;}
+\PYG{+w}{             }\PYG{n+nx}{trialDiv}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{summary}\PYG{p}{);}
+
+
+\PYG{+w}{            }\PYG{n+nx}{trialsDisplay}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{trialDiv}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{trialsDisplay}\PYG{p}{.}\PYG{n+nx}{scrollTop}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{trialsDisplay}\PYG{p}{.}\PYG{n+nx}{scrollHeight}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Scroll to bottom}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Helper SVG/Typeset Functions (Not needed for this block viz) \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{        }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{typesetMath}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{c+cm}{/* Placeholder */}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Initialize \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{        }\PYG{n+nx}{setupTrialSimulation}\PYG{p}{();}\PYG{+w}{ }\PYG{c+c1}{// Initialize state on load}
+
+
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}pdf\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}pdf\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}openPdfViewer()\PYGZdq{}}\PYG{p}{\PYGZgt{}}📄 Learn More: View Detailed PDF Documentation\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\PYG{+w}{    }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{openPdfViewer}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// Opens the PDF documentation for the strategy.}
+\PYG{+w}{        }\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{open}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}./SMR\PYGZus{}DIV\PYGZus{}Strategic\PYGZus{}Trials.pdf\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}blank\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}} \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} End Container \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{body}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{html}\PYG{p}{\PYGZgt{}}
+\end{MintedVerbatim}

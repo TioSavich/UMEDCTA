@@ -1,0 +1,132 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/** \PYGZlt{}module\PYGZgt{} The Dialectical Engine (The Rhythm of Thought)}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  This module implements the core engine driving the dialectical rhythm}
+\PYG{c+cm}{ *  (Compression ↓ and Expansion ↑). It integrates the Finite State Machine (FSM)}
+\PYG{c+cm}{ *  engine with the high\PYGZhy{}level execution controller (ORR Cycle).}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  It manages the execution flow, handles perturbations (Tension A), and}
+\PYG{c+cm}{ *  initiates the critique/sublation process.}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  (Synthesis\PYGZus{}1, Chapter 4.2)}
+\PYG{c+cm}{ */}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{module}\PYG{p}{(}\PYG{l+s+sAtom}{dialectical\PYGZus{}engine}\PYG{p}{,}
+          \PYG{p}{[}
+            \PYG{l+s+sAtom}{run\PYGZus{}computation}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{c+c1}{\PYGZpc{} Main entry point for the ORR cycle}
+            \PYG{l+s+sAtom}{run\PYGZus{}fsm}\PYG{o}{/}\PYG{l+m+mi}{4}          \PYG{c+c1}{\PYGZpc{} Generic FSM executor}
+          \PYG{p}{]).}
+
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics}\PYG{p}{,} \PYG{p}{[}\PYG{l+s+sAtom}{proves}\PYG{o}{/}\PYG{l+m+mi}{4}\PYG{p}{]).}
+\PYG{c+c1}{\PYGZpc{} The critique module is used to handle the response to perturbations.}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{critique}\PYG{p}{,} \PYG{p}{[}\PYG{l+s+sAtom}{accommodate}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{p}{]).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{utils}\PYG{p}{,} \PYG{p}{[}\PYG{l+s+sAtom}{select}\PYG{o}{/}\PYG{l+m+mi}{3}\PYG{p}{]).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Part 1: The Execution Controller (ORR Cycle Management)}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{c+c1}{\PYGZpc{}!      run\PYGZus{}computation(+Sequent:term, +Limit:integer) is semidet.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}       The main entry point for the dialectical engine (the ORR cycle).}
+\PYG{c+c1}{\PYGZpc{}       It attempts to prove the given Sequent within the resource Limit.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}       If a perturbation occurs (e.g., resource exhaustion, incoherence),}
+\PYG{c+c1}{\PYGZpc{}       it catches the error and initiates the critique/accommodation process.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}       @param Sequent The sequent to be proven.}
+\PYG{c+c1}{\PYGZpc{}       @param Limit The maximum number of inference steps allowed.}
+\PYG{n+nf}{run\PYGZus{}computation}\PYG{p}{(}\PYG{n+nv}{Sequent}\PYG{p}{,} \PYG{n+nv}{Limit}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZhy{}\PYGZhy{}\PYGZhy{} Initiating Computation (Limit: \PYGZti{}w) \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Limit}\PYG{p}{]),}
+    \PYG{c+c1}{\PYGZpc{} The prover (Observe/Reflect) runs, potentially throwing a perturbation.}
+    \PYG{n+nf}{catch}\PYG{p}{(}
+        \PYG{n+nf}{call\PYGZus{}prover}\PYG{p}{(}\PYG{n+nv}{Sequent}\PYG{p}{,} \PYG{n+nv}{Limit}\PYG{p}{,} \PYG{n+nv}{Proof}\PYG{p}{),}
+        \PYG{n+nv}{Error}\PYG{p}{,}
+        \PYG{c+c1}{\PYGZpc{} If a perturbation is caught, initiate Reorganization/Accommodation.}
+        \PYG{n+nf}{handle\PYGZus{}perturbation}\PYG{p}{(}\PYG{n+nv}{Error}\PYG{p}{,} \PYG{n+nv}{Sequent}\PYG{p}{,} \PYG{n+nv}{Limit}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}!      call\PYGZus{}prover(+Sequent, +Limit, \PYGZhy{}Proof) is det.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}       Wrapper for the embodied prover.}
+\PYG{n+nf}{call\PYGZus{}prover}\PYG{p}{(}\PYG{n+nv}{Sequent}\PYG{p}{,} \PYG{n+nv}{Limit}\PYG{p}{,} \PYG{n+nv}{Proof}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{proves}\PYG{p}{(}\PYG{n+nv}{Sequent}\PYG{p}{,} \PYG{n+nv}{Limit}\PYG{p}{,} \PYG{n+nv}{R\PYGZus{}Out}\PYG{p}{,} \PYG{n+nv}{Proof}\PYG{p}{),}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZhy{}\PYGZhy{}\PYGZhy{} Computation Successful (Resources Remaining: \PYGZti{}w) \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{R\PYGZus{}Out}\PYG{p}{]).}
+    \PYG{c+c1}{\PYGZpc{} Optionally, proactive reflection could be added here (analyze Proof for optimizations).}
+
+\PYG{c+c1}{\PYGZpc{}!      handle\PYGZus{}perturbation(+Error, +Sequent, +Limit) is semidet.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}       Catches perturbations from the prover and initiates the accommodation process.}
+\PYG{c+c1}{\PYGZpc{}       After accommodation, it retries the computation.}
+\PYG{c+c1}{\PYGZpc{}       Note: Proof is not available here as the error occurred during execution.}
+\PYG{n+nf}{handle\PYGZus{}perturbation}\PYG{p}{(}\PYG{n+nf}{perturbation}\PYG{p}{(}\PYG{n+nv}{Type}\PYG{p}{),} \PYG{n+nv}{Sequent}\PYG{p}{,} \PYG{n+nv}{Limit}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZhy{}\PYGZhy{}\PYGZhy{} Perturbation Detected: \PYGZti{}w. Initiating Critique/Accommodation \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Type}\PYG{p}{]),}
+
+    \PYG{c+c1}{\PYGZpc{} Create the trigger for the critique module.}
+    \PYG{n+nv}{Trigger} \PYG{o}{=} \PYG{n+nf}{perturbation}\PYG{p}{(}\PYG{n+nv}{Type}\PYG{p}{,} \PYG{n+nv}{Sequent}\PYG{p}{),}
+
+    \PYG{c+c1}{\PYGZpc{} Attempt to accommodate the disequilibrium (Reorganize).}
+    \PYG{p}{(} \PYG{n+nf}{accommodate}\PYG{p}{(}\PYG{n+nv}{Trigger}\PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZhy{}\PYGZhy{}\PYGZhy{} Accommodation Complete. Retrying Computation \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZsq{}}\PYG{p}{),}
+        \PYG{c+c1}{\PYGZpc{} Retry the original computation.}
+        \PYG{n+nf}{run\PYGZus{}computation}\PYG{p}{(}\PYG{n+nv}{Sequent}\PYG{p}{,} \PYG{n+nv}{Limit}\PYG{p}{)}
+    \PYG{p}{;}
+        \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZhy{}\PYGZhy{}\PYGZhy{} Accommodation Failed. Computation halted. \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[]),}
+        \PYG{l+s+sAtom}{fail}
+    \PYG{p}{).}
+
+\PYG{n+nf}{handle\PYGZus{}perturbation}\PYG{p}{(}\PYG{n+nv}{Error}\PYG{p}{,} \PYG{k}{\PYGZus{}}\PYG{p}{,} \PYG{k}{\PYGZus{}}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{c+c1}{\PYGZpc{} Handle unexpected errors.}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}An unhandled error occurred: \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Error}\PYG{p}{]),}
+    \PYG{l+s+sAtom}{fail}\PYG{p}{.}
+
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Part 2: Finite State Machine (FSM) Engine}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} A generic engine for running automata (practices/abilities).}
+
+\PYG{c+c1}{\PYGZpc{}!      run\PYGZus{}fsm(+Module, +InitialState, +Parameters, \PYGZhy{}History) is det.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}       Generic FSM execution engine.}
+\PYG{c+c1}{\PYGZpc{}       The Module must define transition/3, accept\PYGZus{}state/1.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}       @param Module The module containing the FSM definition.}
+\PYG{c+c1}{\PYGZpc{}       @param InitialState The starting state.}
+\PYG{c+c1}{\PYGZpc{}       @param Parameters Contextual parameters for the FSM.}
+\PYG{c+c1}{\PYGZpc{}       @param History The execution history (list of steps).}
+\PYG{n+nf}{run\PYGZus{}fsm}\PYG{p}{(}\PYG{n+nv}{Module}\PYG{p}{,} \PYG{n+nv}{InitialState}\PYG{p}{,} \PYG{n+nv}{Parameters}\PYG{p}{,} \PYG{n+nv}{History}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{run\PYGZus{}fsm\PYGZus{}loop}\PYG{p}{(}\PYG{n+nv}{Module}\PYG{p}{,} \PYG{n+nv}{InitialState}\PYG{p}{,} \PYG{n+nv}{Parameters}\PYG{p}{,} \PYG{p}{[],} \PYG{n+nv}{ReversedHistory}\PYG{p}{),}
+    \PYG{n+nf}{reverse}\PYG{p}{(}\PYG{n+nv}{ReversedHistory}\PYG{p}{,} \PYG{n+nv}{History}\PYG{p}{).}
+
+\PYG{n+nf}{run\PYGZus{}fsm\PYGZus{}loop}\PYG{p}{(}\PYG{n+nv}{Module}\PYG{p}{,} \PYG{n+nv}{CurrentState}\PYG{p}{,} \PYG{n+nv}{Parameters}\PYG{p}{,} \PYG{n+nv}{AccHistory}\PYG{p}{,} \PYG{n+nv}{FinalHistory}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{c+c1}{\PYGZpc{} Check if this is an accept state}
+    \PYG{p}{(} \PYG{n+nf}{call}\PYG{p}{(}\PYG{n+nv}{Module}\PYG{l+s+sAtom}{:}\PYG{n+nf}{accept\PYGZus{}state}\PYG{p}{(}\PYG{n+nv}{CurrentState}\PYG{p}{))} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{c+c1}{\PYGZpc{} Terminal state reached}
+        \PYG{p}{(}\PYG{n+nf}{current\PYGZus{}predicate}\PYG{p}{(}\PYG{n+nv}{Module}\PYG{l+s+sAtom}{:final\PYGZus{}interpretation}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+            \PYG{n+nf}{call}\PYG{p}{(}\PYG{n+nv}{Module}\PYG{l+s+sAtom}{:}\PYG{n+nf}{final\PYGZus{}interpretation}\PYG{p}{(}\PYG{n+nv}{CurrentState}\PYG{p}{,} \PYG{n+nv}{Interpretation}\PYG{p}{))}
+        \PYG{p}{;}
+            \PYG{n+nv}{Interpretation} \PYG{o}{=} \PYG{l+s+sAtom}{accept}
+        \PYG{p}{),}
+        \PYG{n+nf}{create\PYGZus{}history\PYGZus{}entry}\PYG{p}{(}\PYG{n+nv}{CurrentState}\PYG{p}{,} \PYG{n+nv}{Interpretation}\PYG{p}{,} \PYG{n+nv}{HistoryEntry}\PYG{p}{),}
+        \PYG{n+nv}{FinalHistory} \PYG{o}{=} \PYG{p}{[}\PYG{n+nv}{HistoryEntry} \PYG{p}{|} \PYG{n+nv}{AccHistory}\PYG{p}{]}
+    \PYG{p}{;}
+        \PYG{c+c1}{\PYGZpc{} Try to make a transition}
+        \PYG{p}{(} \PYG{n+nf}{call}\PYG{p}{(}\PYG{n+nv}{Module}\PYG{l+s+sAtom}{:}\PYG{n+nf}{transition}\PYG{p}{(}\PYG{n+nv}{CurrentState}\PYG{p}{,} \PYG{n+nv}{NextState}\PYG{p}{,} \PYG{n+nv}{Interpretation}\PYG{p}{))} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+            \PYG{n+nf}{create\PYGZus{}history\PYGZus{}entry}\PYG{p}{(}\PYG{n+nv}{CurrentState}\PYG{p}{,} \PYG{n+nv}{Interpretation}\PYG{p}{,} \PYG{n+nv}{HistoryEntry}\PYG{p}{),}
+            \PYG{n+nf}{run\PYGZus{}fsm\PYGZus{}loop}\PYG{p}{(}\PYG{n+nv}{Module}\PYG{p}{,} \PYG{n+nv}{NextState}\PYG{p}{,} \PYG{n+nv}{Parameters}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{HistoryEntry} \PYG{p}{|} \PYG{n+nv}{AccHistory}\PYG{p}{],} \PYG{n+nv}{FinalHistory}\PYG{p}{)}
+        \PYG{p}{;}
+            \PYG{c+c1}{\PYGZpc{} Handle failure to transition (Stuck state)}
+            \PYG{n+nv}{Interpretation} \PYG{o}{=} \PYG{l+s+sAtom}{stuck}\PYG{p}{,}
+            \PYG{n+nf}{create\PYGZus{}history\PYGZus{}entry}\PYG{p}{(}\PYG{n+nv}{CurrentState}\PYG{p}{,} \PYG{n+nv}{Interpretation}\PYG{p}{,} \PYG{n+nv}{HistoryEntry}\PYG{p}{),}
+            \PYG{n+nv}{FinalHistory} \PYG{o}{=} \PYG{p}{[}\PYG{n+nv}{HistoryEntry} \PYG{p}{|} \PYG{n+nv}{AccHistory}\PYG{p}{]}
+        \PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{n+nf}{create\PYGZus{}history\PYGZus{}entry}\PYG{p}{(}\PYG{n+nv}{State}\PYG{p}{,} \PYG{n+nv}{Interpretation}\PYG{p}{,} \PYG{n+nf}{step}\PYG{p}{(}\PYG{n+nv}{StateName}\PYG{p}{,} \PYG{n+nv}{StateData}\PYG{p}{,} \PYG{n+nv}{Interpretation}\PYG{p}{))} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{extract\PYGZus{}state\PYGZus{}info}\PYG{p}{(}\PYG{n+nv}{State}\PYG{p}{,} \PYG{n+nv}{StateName}\PYG{p}{,} \PYG{n+nv}{StateData}\PYG{p}{).}
+
+\PYG{n+nf}{extract\PYGZus{}state\PYGZus{}info}\PYG{p}{(}\PYG{n+nf}{state}\PYG{p}{(}\PYG{n+nv}{Name}\PYG{p}{,} \PYG{n+nv}{Data}\PYG{p}{),} \PYG{n+nv}{Name}\PYG{p}{,} \PYG{n+nv}{Data}\PYG{p}{)} \PYG{p}{:\PYGZhy{}} \PYG{p}{!.}
+\PYG{n+nf}{extract\PYGZus{}state\PYGZus{}info}\PYG{p}{(}\PYG{n+nf}{state}\PYG{p}{(}\PYG{n+nv}{Name}\PYG{p}{),} \PYG{n+nv}{Name}\PYG{p}{,} \PYG{p}{[])} \PYG{p}{:\PYGZhy{}} \PYG{p}{!.}
+\PYG{n+nf}{extract\PYGZus{}state\PYGZus{}info}\PYG{p}{(}\PYG{n+nv}{State}\PYG{p}{,} \PYG{n+nv}{State}\PYG{p}{,} \PYG{p}{[]).}
+
+\end{MintedVerbatim}

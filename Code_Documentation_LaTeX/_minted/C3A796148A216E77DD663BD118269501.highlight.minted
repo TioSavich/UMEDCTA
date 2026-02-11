@@ -1,0 +1,139 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ============================================================}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} PML Axioms \PYGZhy{} Exported from Dialectical Interpreter}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Generated: Example Export}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Total Axioms: 8}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Formalized Concepts: Being, Nothing, immediacy, determinacy, Becoming}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Iteration Depth: 3}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ============================================================}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} This is an EXAMPLE of what gets exported after working through}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Hegel\PYGZsq{}s Being/Nothing/Becoming dialectic across multiple readings.}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Your actual exports will differ based on your interpretations!}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} To use: Save as evolved\PYGZus{}axioms.pl and add to load.pl after semantic\PYGZus{}axioms:}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}   :\PYGZhy{} use\PYGZus{}module(evolved\PYGZus{}axioms).}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ============================================================}
+
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{module}\PYG{p}{(}\PYG{l+s+sAtom}{evolved\PYGZus{}axioms}\PYG{p}{,} \PYG{p}{[]).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{pml\PYGZus{}operators}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{l+s+sAtom}{multifile} \PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:material\PYGZus{}inference}\PYG{o}{/}\PYG{l+m+mf}{3.}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ============================================================}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Core Axioms (From Base System)}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ============================================================}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Fundamental dialectical rhythm: unity necessarily generates tension}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Source: core, Type: material}
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{u}\PYG{p}{)],} \PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{comp\PYGZus{}nec} \PYG{l+s+sAtom}{a}\PYG{p}{),} \PYG{l+s+sAtom}{true}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Letting go necessarily produces new unity}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Source: core, Type: material}
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{lg}\PYG{p}{)],} \PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{exp\PYGZus{}nec} \PYG{l+s+sAtom}{u\PYGZus{}prime}\PYG{p}{),} \PYG{l+s+sAtom}{true}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Subjective compression crystallizes objective content}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Source: core, Type: material}
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{comp\PYGZus{}nec} \PYG{n+nv}{P}\PYG{p}{)],} \PYG{n+nf}{o}\PYG{p}{(}\PYG{l+s+sAtom}{comp\PYGZus{}nec} \PYG{n+nv}{P}\PYG{p}{),} \PYG{l+s+sAtom}{true}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ============================================================}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Evolved Axioms (From Iteration on Being/Nothing)}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ============================================================}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Being\PYGZsq{}s lack of determination necessitates Nothing}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Source: evolved, Type: material}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Added: 2025\PYGZhy{}11\PYGZhy{}03 14:23:15}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Rationale: Pure Being has no determinations, making it indistinguishable from Nothing}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Addresses: How does indeterminate Being relate to Nothing?}
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{being}\PYG{p}{)],} \PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{comp\PYGZus{}nec} \PYG{l+s+sAtom}{nothing}\PYG{p}{),} \PYG{l+s+sAtom}{true}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Nothing\PYGZsq{}s lack of determination necessitates Being}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Source: evolved, Type: material}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Added: 2025\PYGZhy{}11\PYGZhy{}03 14:23:42}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Rationale: Pure Nothing has no determinations, making it indistinguishable from Being}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Addresses: The symmetry of the Being/Nothing oscillation}
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{nothing}\PYG{p}{)],} \PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{comp\PYGZus{}nec} \PYG{l+s+sAtom}{being}\PYG{p}{),} \PYG{l+s+sAtom}{true}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Being/Nothing oscillation creates compressive bad infinite}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Source: evolved, Type: material}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Added: 2025\PYGZhy{}11\PYGZhy{}03 14:24:18}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Rationale: The mutual transition between Being and Nothing forms a closed compressive cycle}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Addresses: Why does the dialectic feel stuck/frustrating before Becoming?}
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{being}\PYG{p}{),} \PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{nothing}\PYG{p}{)],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{comp\PYGZus{}nec} \PYG{n+nf}{pathology}\PYG{p}{(}\PYG{l+s+sAtom}{bad\PYGZus{}infinite}\PYG{p}{)),}
+    \PYG{l+s+sAtom}{true}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Recognition of Being/Nothing instability enables Becoming}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Source: evolved, Type: material → formal (after iteration 2)}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Added: 2025\PYGZhy{}11\PYGZhy{}03 14:25:33}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Rationale: Awareness of the oscillation opens possibility of Becoming as sublation}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Addresses: How does Becoming emerge from Being/Nothing?}
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{comp\PYGZus{}nec} \PYG{n+nf}{pathology}\PYG{p}{(}\PYG{l+s+sAtom}{bad\PYGZus{}infinite}\PYG{p}{))],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{exp\PYGZus{}poss} \PYG{l+s+sAtom}{becoming}\PYG{p}{),}
+    \PYG{l+s+sAtom}{true}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Becoming necessarily sublates Being/Nothing oscillation}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Source: evolved, Type: formal (formalized on iteration 3)}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Added: 2025\PYGZhy{}11\PYGZhy{}03 14:26:05}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Rationale: Becoming is the movement itself, not oscillation between static terms}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Addresses: What is Becoming\PYGZsq{}s logical status?}
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{becoming}\PYG{p}{)],}
+    \PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{exp\PYGZus{}nec} \PYG{n+nf}{sublation}\PYG{p}{(}\PYG{l+s+sAtom}{being}\PYG{p}{,} \PYG{l+s+sAtom}{nothing}\PYG{p}{)),}
+    \PYG{l+s+sAtom}{true}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ============================================================}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Formalization Notes}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ============================================================}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ITERATION 1 (First Reading):}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} \PYGZhy{} All axioms were material (discovering what Being/Nothing/Becoming mean)}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} \PYGZhy{} Heavy cognitive load \PYGZhy{} every concept novel}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} \PYGZhy{} Lots of tension/confusion}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ITERATION 2 (Second Reading):}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} \PYGZhy{} Being, Nothing, immediacy became formal background}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} \PYGZhy{} Reduced cognitive load for known concepts}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} \PYGZhy{} Focus shifted to Becoming as novel element}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} \PYGZhy{} \PYGZdq{}Recognition of instability\PYGZdq{} axiom started formalizing}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ITERATION 3 (Third Reading):}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} \PYGZhy{} Most concepts now formal scaffolding}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} \PYGZhy{} Only advanced relations (sublation structure) still material}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} \PYGZhy{} Reading feels smooth/natural}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} \PYGZhy{} Becoming fully formalized \PYGZhy{} can use it to read new texts}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} This progression models EXPERTISE DEVELOPMENT.}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Material inference → Formal inference through iteration.}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ============================================================}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ============================================================}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Usage Example}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ============================================================}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} After loading this module, you can:}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} 1. Prove sequents using your evolved logic:}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}    ?\PYGZhy{} proves([s(being)] =\PYGZgt{} [s(nothing)], 100, R, Proof).}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} 2. Check if new texts trigger your axioms:}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}    ?\PYGZhy{} material\PYGZus{}inference([s(being)], X, true).}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} 3. Build on this for new Hegel passages:}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}    Load this module, read next section, export new axioms}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}    Your logic grows with your understanding!}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} 4. Compare with other readers:}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}    Have a friend export their axioms from the same text}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}    See how formalization processes differ}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}    Merge insights to build collective hermeneutic system}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ============================================================}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} END OF EXPORTED AXIOMS}
+
+\end{MintedVerbatim}

@@ -1,0 +1,236 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/** \PYGZlt{}module\PYGZgt{} Gödel Numbering Examples for Manuscript}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ * This module provides pedagogically accessible examples of Gödel numbering}
+\PYG{c+cm}{ * for the manuscript. Instead of computing astronomically large numbers,}
+\PYG{c+cm}{ * we express them symbolically to make the concept clear.}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ * @author UMEDCA System}
+\PYG{c+cm}{ * @date October 4, 2025}
+\PYG{c+cm}{ */}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{module}\PYG{p}{(}\PYG{l+s+sAtom}{godel\PYGZus{}examples}\PYG{p}{,} \PYG{p}{[}
+    \PYG{l+s+sAtom}{manuscript\PYGZus{}example\PYGZus{}state\PYGZus{}encoding}\PYG{o}{/}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{l+s+sAtom}{manuscript\PYGZus{}example\PYGZus{}transition}\PYG{o}{/}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{l+s+sAtom}{manuscript\PYGZus{}example\PYGZus{}full\PYGZus{}computation}\PYG{o}{/}\PYG{l+m+mi}{0}
+\PYG{p}{]).}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ========================================================================}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Pedagogical Examples for Manuscript}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ========================================================================}
+
+\PYG{c+c1}{\PYGZpc{}!  manuscript\PYGZus{}example\PYGZus{}state\PYGZus{}encoding is det.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   Provides a clear example of how C2C states are encoded as Gödel numbers.}
+
+\PYG{n+nf}{manuscript\PYGZus{}example\PYGZus{}state\PYGZus{}encoding} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}=== GÖDEL ENCODING EXAMPLE FOR MANUSCRIPT ===\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}The C2C Multiplication Strategy: 3 × 4\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Step 1: Assign Gödel numbers to symbols\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}State names:\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  g(q\PYGZus{}init) = 1\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  g(q\PYGZus{}check\PYGZus{}G) = 2\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  g(q\PYGZus{}count\PYGZus{}items) = 3\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  g(q\PYGZus{}next\PYGZus{}group) = 4\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  g(q\PYGZus{}accept) = 5\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Natural numbers:\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  g(0) = 100\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  g(1) = 101\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  g(2) = 102\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  g(3) = 103\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  g(4) = 104\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Step 2: Encode a complete state configuration\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Initial state: state(q\PYGZus{}init, 0, 0, 0, 3, 4)\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  Components: StateName, GroupsDone, ItemInGroup, Total, NumGroups, GroupSize\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Encoding formula:\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  G = 2\PYGZca{}g(StateName) × 3\PYGZca{}g(GroupsDone) × 5\PYGZca{}g(ItemInGroup) × \PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}      7\PYGZca{}g(Total) × 11\PYGZca{}g(NumGroups) × 13\PYGZca{}g(GroupSize)\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}For state(q\PYGZus{}init, 0, 0, 0, 3, 4):\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  G = 2\PYGZca{}1 × 3\PYGZca{}100 × 5\PYGZca{}100 × 7\PYGZca{}100 × 11\PYGZca{}103 × 13\PYGZca{}104\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}This is an astronomically large number, but it is:\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  • Unique (by fundamental theorem of arithmetic)\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  • Computable (we know the formula)\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  • Reversible (prime factorization recovers the state)\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Step 3: A transition example\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}From: state(q\PYGZus{}count\PYGZus{}items, 0, 1, 1, 3, 4)\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}To:   state(q\PYGZus{}count\PYGZus{}items, 0, 2, 2, 3, 4)\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}The transition increments ItemInGroup and Total:\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  From state G₁ = 2\PYGZca{}3 × 3\PYGZca{}100 × 5\PYGZca{}101 × 7\PYGZca{}101 × 11\PYGZca{}103 × 13\PYGZca{}104\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  To state   G₂ = 2\PYGZca{}3 × 3\PYGZca{}100 × 5\PYGZca{}102 × 7\PYGZca{}102 × 11\PYGZca{}103 × 13\PYGZca{}104\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Notice: Only exponents of 5 and 7 changed (ItemInGroup and Total).\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{.}
+
+\PYG{c+c1}{\PYGZpc{}!  manuscript\PYGZus{}example\PYGZus{}transition is det.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   Shows how the Transition predicate works arithmetically.}
+
+\PYG{n+nf}{manuscript\PYGZus{}example\PYGZus{}transition} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}=== THE TRANSITION PREDICATE (ARITHMETIC FORMULATION) ===\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}The key insight: \PYGZdq{}Valid Transition\PYGZdq{} can be expressed arithmetically.\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}For C2C, the counting transition is:\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  IF state = q\PYGZus{}count\PYGZus{}items AND ItemInGroup \PYGZlt{} GroupSize\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  THEN:\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}    • ItemInGroup\PYGZbs{}\PYGZsq{}} \PYG{o}{=} \PYG{n+nv}{ItemInGroup} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{l+s+sAtom}{\PYGZsq{}),}
+\PYG{l+s+sAtom}{    writeln(\PYGZsq{}}    \PYG{l+s+sAtom}{•} \PYG{n+nv}{Total}\PYG{l+s+sAtom}{\PYGZbs{}\PYGZsq{} = Total + 1\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}    • All other components unchanged\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}In arithmetic terms (operating on Gödel numbers X and Y):\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  Transition(X, Y) is TRUE if and only if:\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  1. Extract components from X:\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}     • State\PYGZus{}X = exponent of 2 in X\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}     • Item\PYGZus{}X = exponent of 5 in X\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}     • Total\PYGZus{}X = exponent of 7 in X\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}     • Size\PYGZus{}X = exponent of 13 in X\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  2. Extract components from Y (same process)\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  3. Verify the transition rule:\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}     • State\PYGZus{}X = 3 (q\PYGZus{}count\PYGZus{}items)\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}     • State\PYGZus{}Y = 3 (unchanged)\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}     • Item\PYGZus{}X \PYGZlt{} Size\PYGZus{}X\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}     • Item\PYGZus{}Y = Item\PYGZus{}X + 1\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}     • Total\PYGZus{}Y = Total\PYGZus{}X + 1\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}     • Groups\PYGZus{}X = Groups\PYGZus{}Y\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}     • Size\PYGZus{}X = Size\PYGZus{}Y\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}CRUCIAL: All of these checks use ONLY:\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  • Addition\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  • Multiplication\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  • Exponentiation\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  • Comparison (\PYGZlt{}, =)\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}This makes Transition(X,Y) a PRIMITIVE RECURSIVE predicate.\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Therefore: The HC can EXPRESS (as an arithmetic statement)\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}           propositions ABOUT its own computational process.\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{.}
+
+\PYG{c+c1}{\PYGZpc{}!  manuscript\PYGZus{}example\PYGZus{}full\PYGZus{}computation is det.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   Shows the structure of a complete proof/computation.}
+
+\PYG{n+nf}{manuscript\PYGZus{}example\PYGZus{}full\PYGZus{}computation} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}=== ENCODING A COMPLETE COMPUTATION ===\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}A computation of 3 × 4 is a SEQUENCE of states:\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  C₀: state(q\PYGZus{}init, 0, 0, 0, 3, 4)\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  C₁: state(q\PYGZus{}check\PYGZus{}G, 0, 0, 0, 3, 4)\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  C₂: state(q\PYGZus{}count\PYGZus{}items, 0, 0, 0, 3, 4)\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  C₃: state(q\PYGZus{}count\PYGZus{}items, 0, 1, 1, 3, 4)\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  ...\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  C₁₂: state(q\PYGZus{}accept, 3, 0, 12, 3, 4)\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}The entire computation is encoded as ONE Gödel number:\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  T = 2\PYGZca{}g(C₀) × 3\PYGZca{}g(C₁) × 5\PYGZca{}g(C₂) × 7\PYGZca{}g(C₃) × ... × P₁₂\PYGZca{}g(C₁₂)\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}where P\PYGZus{}n is the nth prime number.\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}The predicate \PYGZdq{}T is a valid computation\PYGZdq{} becomes:\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  ValidComputation(T) ≡\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}    ∀i \PYGZlt{} length(T): Transition(Configuration\PYGZus{}i, Configuration\PYGZus{}\PYGZob{}i+1\PYGZcb{})\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}This is also expressible using primitive recursive arithmetic!\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}THE GÖDEL SENTENCE:\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Using the Diagonal Lemma, we construct a sentence G such that:\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  G ≡ ¬∃T: ValidComputation(T) ∧ FinalResult(T) = g(G)\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}In English: \PYGZdq{}There is no valid computation that proves me.\PYGZdq{}\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}If the HC is consistent:\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  • G cannot be proven (otherwise G would be false, contradiction)\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  • ¬G cannot be proven (because G is actually true)\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Therefore: G is TRUE but UNPROVABLE in the HC.\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}           The formalized student strategies are INCOMPLETE.\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}IMPLICATION:\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}The elementary arithmetic that children invent necessarily\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}transcends any finite formalization of it. We are those who\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}break our boundaries.\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{.}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ========================================================================}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Summary for Manuscript}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ========================================================================}
+
+\PYG{c+c1}{\PYGZpc{}!  manuscript\PYGZus{}summary is det.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   A complete summary suitable for manuscript inclusion.}
+
+\PYG{n+nf}{manuscript\PYGZus{}summary} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}========================================\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}SUMMARY FOR MANUSCRIPT\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}========================================\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}1. FORMALIZATION\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}   We formalized student\PYGZhy{}invented arithmetic strategies as\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}   finite state machines (the Hermeneutic Calculator).\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}2. EXPRESSIVE POWER\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}   The HC implements addition and multiplication, making it\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}   sufficiently expressive for Gödel\PYGZbs{}\PYGZsq{}s} \PYG{l+s+sAtom}{theorem} \PYG{l+s+sAtom}{to} \PYG{l+s+sAtom}{apply}\PYG{p}{.}\PYG{l+s+sAtom}{\PYGZsq{}),}
+\PYG{l+s+sAtom}{    nl,}
+
+\PYG{l+s+sAtom}{    writeln(\PYGZsq{}}\PYG{l+m+mf}{3.} \PYG{n+nv}{ARITHMETIZATION}\PYG{l+s+sAtom}{\PYGZsq{}),}
+\PYG{l+s+sAtom}{    writeln(\PYGZsq{}}   \PYG{n+nv}{Using} \PYG{n+nv}{Gödel} \PYG{n+nn}{numbering}\PYG{p}{:}\PYG{l+s+sAtom}{\PYGZsq{}),}
+\PYG{l+s+sAtom}{    writeln(\PYGZsq{}}   \PYG{l+s+sAtom}{•} \PYG{n+nv}{Each} \PYG{l+s+sAtom}{state} \PYG{l+s+sAtom}{→} \PYG{l+s+sAtom}{unique} \PYG{l+s+sAtom}{natural} \PYG{l+s+sAtom}{number\PYGZsq{}),}
+\PYG{l+s+sAtom}{    writeln(\PYGZsq{}}   \PYG{l+s+sAtom}{•} \PYG{n+nv}{Each} \PYG{l+s+sAtom}{transition} \PYG{l+s+sAtom}{→} \PYG{l+s+sAtom}{arithmetic} \PYG{l+s+sAtom}{predicate\PYGZsq{}),}
+\PYG{l+s+sAtom}{    writeln(\PYGZsq{}}   \PYG{l+s+sAtom}{•} \PYG{n+nv}{Each} \PYG{l+s+sAtom}{computation} \PYG{l+s+sAtom}{→} \PYG{l+s+sAtom}{one} \PYG{n+nv}{Gödel} \PYG{l+s+sAtom}{number\PYGZsq{}),}
+\PYG{l+s+sAtom}{    nl,}
+
+\PYG{l+s+sAtom}{    writeln(\PYGZsq{}}\PYG{l+m+mf}{4.} \PYG{n+nv}{SELF}\PYG{o}{\PYGZhy{}}\PYG{n+nv}{REFERENCE}\PYG{l+s+sAtom}{\PYGZsq{}),}
+\PYG{l+s+sAtom}{    writeln(\PYGZsq{}}   \PYG{n+nv}{The} \PYG{l+s+sAtom}{system} \PYG{l+s+sAtom}{can} \PYG{l+s+sAtom}{express} \PYG{l+s+sAtom}{arithmetic} \PYG{l+s+sAtom}{statements} \PYG{l+s+sAtom}{about} \PYG{l+s+sAtom}{its\PYGZsq{}),}
+\PYG{l+s+sAtom}{    writeln(\PYGZsq{}}   \PYG{l+s+sAtom}{own} \PYG{l+s+sAtom}{computational} \PYG{n+nf}{processes} \PYG{p}{(}\PYG{n+nv}{Transition}\PYG{p}{,} \PYG{n+nv}{ValidComputation}\PYG{p}{).}\PYG{l+s+sAtom}{\PYGZsq{}),}
+\PYG{l+s+sAtom}{    nl,}
+
+\PYG{l+s+sAtom}{    writeln(\PYGZsq{}}\PYG{l+m+mf}{5.} \PYG{n+nv}{INCOMPLETENESS}\PYG{l+s+sAtom}{\PYGZsq{}),}
+\PYG{l+s+sAtom}{    writeln(\PYGZsq{}}   \PYG{n+nv}{By} \PYG{n+nv}{Gödel}\PYG{l+s+sAtom}{\PYGZbs{}\PYGZsq{}s First Incompleteness Theorem, if the HC is\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}   consistent, there exists a true arithmetic statement G\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}   that cannot be proven within the HC.\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}6. PHILOSOPHICAL IMPLICATION\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}   The formalization PROVES that student\PYGZhy{}invented arithmetic\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}   necessarily exceeds any finite characterization.\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}   This demolishes the \PYGZdq{}finite vessel\PYGZdq{} view of education.\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}   We are *in*finite—those who transcend boundaries.\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{.}
+
+\end{MintedVerbatim}

@@ -1,0 +1,131 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{g+gh}{\PYGZsh{} The Hermeneutic Calculator \PYGZhy{} Quick Start Guide}
+
+An interactive system for exploring arithmetic strategies, their formal logic, and mathematical connections.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Quick Start}
+
+Open \PYG{g+gs}{**[index.html](index.html)**} to access the main calculator interface with interactive strategy explorations.
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Folder Organization by Audience}
+
+This repository serves three distinct audiences:
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 🍎 For Teachers \PYGZam{} Educators}
+\PYG{g+gs}{**Interactive Strategy Exploration**}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Start here:**} [\PYG{n+nt}{index.html}](\PYG{n+na}{index.html}) \PYGZhy{} Main calculator interface
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Strategy pages:**} Click any button to explore individual arithmetic strategies with interactive visualizations
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**[AceofBases/](AceofBases/)**} \PYGZhy{} Explore arithmetic in different number bases (binary, ternary, etc.)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**PDF Documentation:**} Each strategy has a detailed PDF explaining the underlying automaton
+
+\PYG{g+gs}{**What you\PYGZsq{}ll find:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Visual number line demonstrations
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Step\PYGZhy{}by\PYGZhy{}step explanations of student thinking
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Interactive tools for classroom exploration
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 🔬 For Researchers}
+\PYG{g+gs}{**Mathematical Connections Between Strategies**}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**[LK\PYGZus{}RB\PYGZus{}Synthesis/](LK\PYGZus{}RB\PYGZus{}Synthesis/)**} \PYGZhy{} Formal analysis connecting strategies to Robinson Arithmetic and Logical Knowledge
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**[Hermeneutic\PYGZus{}Calculator.pdf](Hermeneutic\PYGZus{}Calculator.pdf)**} \PYGZhy{} Draft manuscript explaining the theoretical framework
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**[Combined\PYGZus{}Strategies\PYGZus{}and\PYGZus{}Automata.pdf](Combined\PYGZus{}Strategies\PYGZus{}and\PYGZus{}Automata.pdf)**} \PYGZhy{} Complete technical documentation
+
+\PYG{g+gs}{**What you\PYGZsq{}ll find:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Formal proofs of strategy equivalences
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Connections to foundational mathematics (Peano Arithmetic, Robinson Arithmetic)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Analysis of incompatibility semantics and inferential movement
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 💻 For Developers \PYGZam{} Logicians}
+\PYG{g+gs}{**Formal Logic Implementation**}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**[Prolog/](Prolog/)**} \PYGZhy{} Complete Prolog implementation of the arithmetic strategies
+\PYG{+w}{  }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Incompatibility semantics
+\PYG{+w}{  }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Meta\PYGZhy{}interpretation and reflection
+\PYG{+w}{  }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Neuro\PYGZhy{}symbolic bridge
+\PYG{+w}{  }\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Self\PYGZhy{}reorganizing knowledge base
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**[Python\PYGZus{}Tests/](Python\PYGZus{}Tests/)**} \PYGZhy{} Python implementations and testing harness
+
+\PYG{g+gs}{**What you\PYGZsq{}ll find:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Executable formal logic for all strategies
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Meta\PYGZhy{}interpreter for strategy composition
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Automated testing and verification
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Neuro\PYGZhy{}symbolic integration examples
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} File Structure}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} HTML Strategy Files}
+Individual strategy visualizations following the pattern:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`SAR\PYGZus{}ADD\PYGZus{}*.html`} \PYGZhy{} Addition strategies
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`SAR\PYGZus{}SUB\PYGZus{}*.html`} \PYGZhy{} Subtraction strategies
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`SMR\PYGZus{}MULT\PYGZus{}*.html`} \PYGZhy{} Multiplication strategies
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`SMR\PYGZus{}DIV\PYGZus{}*.html`} \PYGZhy{} Division strategies
+
+Each includes:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Interactive input fields
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Real\PYGZhy{}time visualization (SVG number lines, etc.)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Step\PYGZhy{}by\PYGZhy{}step textual explanation
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Link to detailed PDF documentation
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} PDF Documentation}
+Comprehensive automaton descriptions for each strategy, showing:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Formal state transitions
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Mathematical foundations
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Pedagogical context
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Support Files}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`strategy\PYGZus{}styles.css`} \PYGZhy{} Unified styling for all strategy pages
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`counting.html`} \PYGZhy{} Foundational counting strategies
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`presentation.html`} \PYGZhy{} IMERS 2025 conference presentation
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Strategy Abbreviations}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**COBO**} \PYGZhy{} Counting On by Bases and Ones
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**ABAO**} \PYGZhy{} Add Bases And Ones
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**RMB**} \PYGZhy{} Right Minus Both
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**C2C**} \PYGZhy{} Coordinating Two Counts
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**DR**} \PYGZhy{} Distributive Reasoning
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**IDP**} \PYGZhy{} Inverse of Distributive Property
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**UCR**} \PYGZhy{} Using Coordinated Rounds
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**CGOB**} \PYGZhy{} Conversion to Groups Other than Bases
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Philosophy}
+
+The Hermeneutic Calculator represents arithmetic strategies as \PYG{g+gs}{**autonomous automata**} that can be:
+\PYG{k}{1.} \PYG{g+gs}{**Executed**} \PYGZhy{} Run interactively by students/teachers
+\PYG{k}{2.} \PYG{g+gs}{**Analyzed**} \PYGZhy{} Studied for mathematical connections by researchers
+\PYG{k}{3.} \PYG{g+gs}{**Formalized**} \PYGZhy{} Implemented in logic by developers
+
+This tri\PYGZhy{}level structure reflects the project\PYGZsq{}s commitment to making mathematical thinking accessible, rigorous, and executable.
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Navigation}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**[index.html](index.html)**} \PYGZhy{} Main calculator interface
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**[README.md](README.md)**} \PYGZhy{} Theoretical background on diagonalization, reflective abstraction, and self\PYGZhy{}modifying systems
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**This file (QUICK\PYGZus{}START.md)**} \PYGZhy{} Practical navigation guide
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Questions?}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**For pedagogy:**} Explore the interactive HTML files
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**For theory:**} Read the PDFs and LK\PYGZus{}RB\PYGZus{}Synthesis documentation
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**For implementation:**} Dive into the Prolog folder
+
+Each layer builds on the others, creating a coherent system from classroom practice to formal foundations.
+
+\end{MintedVerbatim}

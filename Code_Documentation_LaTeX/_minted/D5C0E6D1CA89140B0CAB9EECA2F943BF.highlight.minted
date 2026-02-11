@@ -1,0 +1,9 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+\PYG{g+gu}{title: Test}
+\PYG{g+gu}{\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+
+\PYG{g+gh}{\PYGZsh{} Heading}
+Simple paragraph.
+
+\end{MintedVerbatim}

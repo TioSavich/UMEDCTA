@@ -1,0 +1,319 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{g+gh}{\PYGZsh{} PML Core Framework}
+
+\PYG{g+gs}{**Polarized Modal Logic**} \PYGZhy{} A domain\PYGZhy{}agnostic framework for embodied, pragmatic, dialectical reasoning.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Overview}
+
+The PML Core Framework implements:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Polarized Modal Logic**}: 3 contexts (S/O/N) × 4 modalities (comp\PYGZus{}nec, exp\PYGZus{}nec, comp\PYGZus{}poss, exp\PYGZus{}poss)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Incompatibility Semantics**}: Brandomian material inferences with commitment/entitlement tracking
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Resource\PYGZhy{}Tracked Proving**}: Cognitive budget constraints on proof search
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Dialectical Dynamics**}: U → A → LG → U\PYGZsq{} rhythm with compressive/expansive transitions
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Critique Mechanisms**}: ORR cycle (Observe → Reflect → Reorganize → Retry)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Trace Mechanisms**}: Möbius dynamic for proof erasure and resistance to stabilization
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Structure}
+
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{Prolog/}
+\PYG{l+s+sb}{├── load.pl                         \PYGZsh{} Master loader}
+\PYG{l+s+sb}{├── Core Modules/}
+\PYG{l+s+sb}{│   ├── pml\PYGZus{}operators.pl            \PYGZsh{} Modal operators and vocabulary}
+\PYG{l+s+sb}{│   ├── utils.pl                    \PYGZsh{} Helper predicates}
+\PYG{l+s+sb}{│   ├── incompatibility\PYGZus{}semantics.pl \PYGZsh{} Embodied prover (11K lines)}
+\PYG{l+s+sb}{│   ├── automata.pl                 \PYGZsh{} Highlander, Arche\PYGZhy{}Trace, Primes}
+\PYG{l+s+sb}{│   ├── semantic\PYGZus{}axioms.pl          \PYGZsh{} PML dynamics (U→A→LG→U\PYGZsq{})}
+\PYG{l+s+sb}{│   ├── pragmatic\PYGZus{}axioms.pl         \PYGZsh{} I\PYGZus{}f, Unsatisfiable Desire}
+\PYG{l+s+sb}{│   ├── intersubjective\PYGZus{}praxis.pl   \PYGZsh{} Oobleck, Recognition}
+\PYG{l+s+sb}{│   ├── critique.pl                 \PYGZsh{} Pathology detection, accommodation}
+\PYG{l+s+sb}{│   └── dialectical\PYGZus{}engine.pl       \PYGZsh{} FSM execution, ORR cycle}
+\PYG{l+s+sb}{│}
+\PYG{l+s+sb}{├── tests/                          \PYGZsh{} Core framework tests}
+\PYG{l+s+sb}{│   ├── simple\PYGZus{}test.pl              \PYGZsh{} 10 basic tests}
+\PYG{l+s+sb}{│   ├── core\PYGZus{}test.pl                \PYGZsh{} Comprehensive test suite}
+\PYG{l+s+sb}{│   ├── critique\PYGZus{}test.pl            \PYGZsh{} 7 critique mechanism tests}
+\PYG{l+s+sb}{│   ├── TEST\PYGZus{}SUMMARY.md             \PYGZsh{} Test documentation}
+\PYG{l+s+sb}{│   └── CRITIQUE\PYGZus{}IMPLEMENTATION.md  \PYGZsh{} Critique technical docs}
+\PYG{l+s+sb}{│}
+\PYG{l+s+sb}{└── math/                           \PYGZsh{} Math domain instantiation}
+\PYG{l+s+sb}{    ├── README.md                   \PYGZsh{} Math domain documentation}
+\PYG{l+s+sb}{    ├── load\PYGZus{}math.pl                \PYGZsh{} Math content loader}
+\PYG{l+s+sb}{    ├── lakoff\PYGZus{}metaphors.pl         \PYGZsh{} Embodied metaphors (Lakoff)}
+\PYG{l+s+sb}{    ├── arithmetic\PYGZus{}strategies.pl    \PYGZsh{} Brandomian strategies}
+\PYG{l+s+sb}{    ├── lakoff\PYGZus{}brandom\PYGZus{}test.pl      \PYGZsh{} 29 math content tests}
+\PYG{l+s+sb}{    └── *.pl                        \PYGZsh{} Legacy strategy files}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Quick Start}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Load Core Framework Only}
+
+\PYG{l+s+sb}{```bash}
+swipl\PYG{+w}{ }load.pl
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Run Core Tests}
+
+\PYG{l+s+sb}{```bash}
+\PYG{n+nb}{cd}\PYG{+w}{ }tests
+swipl\PYG{+w}{ }\PYGZhy{}g\PYG{+w}{ }run\PYGZus{}tests\PYG{+w}{ }\PYGZhy{}t\PYG{+w}{ }halt\PYG{+w}{ }simple\PYGZus{}test.pl\PYG{+w}{      }\PYG{c+c1}{\PYGZsh{} 10 basic tests}
+swipl\PYG{+w}{ }\PYGZhy{}g\PYG{+w}{ }run\PYGZus{}all\PYGZus{}tests\PYG{+w}{ }\PYGZhy{}t\PYG{+w}{ }halt\PYG{+w}{ }core\PYGZus{}test.pl\PYG{+w}{    }\PYG{c+c1}{\PYGZsh{} Comprehensive}
+swipl\PYG{+w}{ }\PYGZhy{}g\PYG{+w}{ }run\PYGZus{}all\PYGZus{}tests\PYG{+w}{ }\PYGZhy{}t\PYG{+w}{ }halt\PYG{+w}{ }critique\PYGZus{}test.pl\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} Critique mechanisms}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Load with Math Domain}
+
+\PYG{l+s+sb}{```bash}
+\PYG{n+nb}{cd}\PYG{+w}{ }math
+swipl\PYG{+w}{ }load\PYGZus{}math.pl
+
+\PYG{c+c1}{\PYGZsh{} Run math tests}
+swipl\PYG{+w}{ }\PYGZhy{}g\PYG{+w}{ }run\PYGZus{}all\PYGZus{}tests\PYG{+w}{ }\PYGZhy{}t\PYG{+w}{ }halt\PYG{+w}{ }lakoff\PYGZus{}brandom\PYGZus{}test.pl\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} 29 tests}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Core Concepts}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Polarized Modal Logic (PML)}
+
+Three \PYG{g+gs}{**modal contexts**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**S**} (Subjective): Felt experience, embodied practices
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**O**} (Objective): Stabilized, reified objects
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**N**} (Normative): Ought\PYGZhy{}to\PYGZhy{}be, social practices
+
+Four \PYG{g+gs}{**modalities**} per context:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**comp\PYGZus{}nec**} (□↓): Compressive necessity (tension, constraint)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**exp\PYGZus{}nec**} (□↑): Expansive necessity (release, must\PYGZhy{}become)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**comp\PYGZus{}poss**} (◊↓): Compressive possibility (can\PYGZhy{}tighten)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**exp\PYGZus{}poss**} (◊↑): Expansive possibility (can\PYGZhy{}expand)
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. Dialectical Rhythm}
+
+The fundamental U → A → LG → U\PYGZsq{} pattern:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**U**} (Undifferentiated): Pre\PYGZhy{}reflective unity
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**A**} (Awareness): Compressive tension, negation
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**LG**} (Logical Genesis): Expansive resolution
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**U\PYGZsq{}**} (Unity Prime): Enriched unity
+
+Implemented as:
+\PYG{l+s+sb}{```prolog}
+\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{u}\PYG{p}{)],} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{a}\PYG{p}{)),} \PYG{l+s+sAtom}{true}\PYG{p}{).}
+\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{a}\PYG{p}{)],} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{exp\PYGZus{}poss}\PYG{p}{(}\PYG{l+s+sAtom}{lg}\PYG{p}{)),} \PYG{l+s+sAtom}{true}\PYG{p}{).}
+\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{lg}\PYG{p}{)],} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{exp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{u\PYGZus{}prime}\PYG{p}{)),} \PYG{l+s+sAtom}{true}\PYG{p}{).}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. The Arche\PYGZhy{}Trace (Möbius Dynamic)}
+
+Using SWI\PYGZhy{}Prolog attributed variables to model the \PYG{g+gs}{**elusive subject**} (I\PYGZus{}f):
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Resists stabilization (unification with concrete terms fails)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Contaminates proofs (trace propagation → proof erasure)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Implements the \PYGZdq{}Unsatisfiable Desire\PYGZdq{} (C\PYGZus{}Id cannot represent I\PYGZus{}f)
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Critique Mechanisms}
+
+\PYG{g+gs}{**Detection**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Bad Infinites (cycle detection in proof trees)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Incoherence (P ∧ ¬P detection)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Resource exhaustion (budget depletion)
+
+\PYG{g+gs}{**Accommodation**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Stress map tracking (which commitments fail most)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Belief revision (dynamic assertion of incoherence)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Sublation diagnostics (signals need for higher concepts)
+
+\PYG{g+gs}{**ORR Cycle**}:
+\PYG{l+s+sb}{```prolog}
+\PYG{n+nf}{run\PYGZus{}computation}\PYG{p}{(}\PYG{n+nv}{Sequent}\PYG{p}{,} \PYG{n+nv}{Limit}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{catch}\PYG{p}{(}
+        \PYG{n+nf}{proves}\PYG{p}{(}\PYG{n+nv}{Sequent}\PYG{p}{,} \PYG{n+nv}{Limit}\PYG{p}{,} \PYG{k}{\PYGZus{}}\PYG{p}{,} \PYG{n+nv}{Proof}\PYG{p}{),}
+        \PYG{n+nf}{perturbation}\PYG{p}{(}\PYG{n+nv}{Type}\PYG{p}{),}
+        \PYG{n+nf}{handle\PYGZus{}perturbation}\PYG{p}{(}\PYG{n+nv}{Type}\PYG{p}{,} \PYG{n+nv}{Sequent}\PYG{p}{,} \PYG{n+nv}{Limit}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{n+nf}{handle\PYGZus{}perturbation}\PYG{p}{(}\PYG{n+nv}{Error}\PYG{p}{,} \PYG{n+nv}{Sequent}\PYG{p}{,} \PYG{n+nv}{Limit}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{accommodate}\PYG{p}{(}\PYG{n+nv}{Error}\PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nf}{run\PYGZus{}computation}\PYG{p}{(}\PYG{n+nv}{Sequent}\PYG{p}{,} \PYG{n+nv}{Limit}\PYG{p}{)}  \PYG{c+c1}{\PYGZpc{} Retry}
+    \PYG{p}{;}
+        \PYG{l+s+sAtom}{fail}\PYG{p}{.}  \PYG{c+c1}{\PYGZpc{} Halt}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Test Results}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Core Framework Tests}
+
+\PYG{g+gs}{**10/10 Simple Tests**} ✅
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Module loading
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Automata (Highlander, Primes, Trace)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Prover basics (Identity, Explosion)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }PML dynamics (Dialectical rhythm, Oobleck)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Pragmatic axioms (I\PYGZhy{}Feeling, Unsatisfiable Desire)
+
+\PYG{g+gs}{**7/7 Critique Tests**} ✅
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Stress map tracking
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Commitment extraction
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Bad Infinite detection (cycle finding)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Stressed commitment identification
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Resource exhaustion handling
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Incoherence accommodation
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Sublation mechanism
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Math Domain Tests}
+
+\PYG{g+gs}{**29/29 Math Content Tests**} ✅
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Grounding metaphors (The 4Gs)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Basic Metaphor of Infinity (BMI)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }BMI pathologies (Being↔Nothing, Zeno, Russell)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Arithmetic strategies (Sliding, Counting On, RMB)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }PP\PYGZhy{}necessities and sufficiencies
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }LX\PYGZhy{}relations (elaboration)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }PML dynamics integration
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }ORR cycle with strategies
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Conceptual blends (Euler\PYGZsq{}s formula)
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Key Features}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Domain\PYGZhy{}Agnostic Core}
+
+The core framework makes \PYG{g+gs}{**no assumptions**} about domain content. It provides:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Logic (modal operators, inference rules)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Mechanisms (proof search, critique, trace)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Architecture (ORR cycle, dialectical rhythm)
+
+Domain instantiations (like math/) add:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Material inferences (domain\PYGZhy{}specific \PYGZdq{}axioms\PYGZdq{})
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Practices (strategies, heuristics, patterns)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Content for critique (pathologies, incoherences)
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. Embodied Reasoning}
+
+\PYG{g+gs}{**Not**} abstract symbol manipulation. The prover:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Tracks \PYG{g+gs}{**modal context**} (S/O/N) and switches have \PYG{g+gs}{**cost**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Consumes \PYG{g+gs}{**cognitive resources**} (budget depletion → failure)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Exhibits \PYG{g+gs}{**modal dynamics**} (compression → tension, expansion → release)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Can \PYG{g+gs}{**fail**} (resource exhaustion, incoherence, cycles)
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. Self\PYGZhy{}Critique}
+
+The system can detect its own limitations:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Bad Infinites**}: Closed compressive cycles (e.g., Being ↔ Nothing)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Incoherence**}: Contradictory commitments
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Resource Limits**}: Cannot prove within budget
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Missing Prerequisites**}: Practices lack foundations
+
+This is \PYG{g+gs}{**not**} just error handling—it\PYGZsq{}s \PYG{g+gs}{**reflection**} on the system\PYGZsq{}s own structure.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Proof Erasure}
+
+Proofs involving trace (I\PYGZus{}f) are \PYG{g+gs}{**erased**}, not just marked invalid:
+\PYG{l+s+sb}{```prolog}
+\PYG{n+nf}{construct\PYGZus{}proof}\PYG{p}{(}\PYG{n+nv}{Rule}\PYG{p}{,} \PYG{n+nv}{Sequent}\PYG{p}{,} \PYG{n+nv}{SubProofs}\PYG{p}{,} \PYG{n+nv}{Proof}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{p}{(} \PYG{n+nf}{member}\PYG{p}{(}\PYG{n+nf}{erasure}\PYG{p}{(}\PYG{k}{\PYGZus{}}\PYG{p}{),} \PYG{n+nv}{SubProofs}\PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nv}{Proof} \PYG{o}{=} \PYG{n+nf}{erasure}\PYG{p}{(}\PYG{l+s+sAtom}{propagation}\PYG{p}{)}  \PYG{c+c1}{\PYGZpc{} Contamination}
+    \PYG{p}{;} \PYG{n+nf}{contains\PYGZus{}trace}\PYG{p}{(}\PYG{n+nv}{Sequent}\PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nv}{Proof} \PYG{o}{=} \PYG{n+nf}{erasure}\PYG{p}{(}\PYG{n+nv}{Rule}\PYG{p}{)}          \PYG{c+c1}{\PYGZpc{} Entity\PYGZhy{}level}
+    \PYG{p}{;}
+        \PYG{n+nv}{Proof} \PYG{o}{=} \PYG{n+nf}{proof}\PYG{p}{(}\PYG{n+nv}{Rule}\PYG{p}{,} \PYG{n+nv}{Sequent}\PYG{p}{,} \PYG{n+nv}{SubProofs}\PYG{p}{)}  \PYG{c+c1}{\PYGZpc{} Normal}
+    \PYG{p}{).}
+\PYG{l+s+sb}{```}
+
+This models the \PYG{g+gs}{**impossibility of objectifying the subject**}.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Theoretical Foundations}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Brandom\PYGZsq{}s Inferentialism}
+
+Meaning is \PYG{g+gs}{**use**} in material\PYGZhy{}inferential practices:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Material inferences (not formal deduction)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Commitment and entitlement tracking
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Social\PYGZhy{}normative pragmatics
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Lakoff\PYGZsq{}s Embodied Cognition}
+
+Mathematical concepts are \PYG{g+gs}{**grounded**} in sensory\PYGZhy{}motor experience:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Grounding metaphors (4Gs: Collection, Construction, Measurement, Motion)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Linking metaphors (extending to abstract domains)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Conceptual blends (integrating multiple metaphors)
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Hegel\PYGZsq{}s Dialectical Logic}
+
+\PYG{g+gs}{**Not**} thesis\PYGZhy{}antithesis\PYGZhy{}synthesis, but:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Determinate negation (specific tension, not general \PYGZdq{}not\PYGZdq{})
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Bad Infinite vs. True Infinite (closed vs. open spirals)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Sublation (Aufhebung): preserving\PYGZhy{}while\PYGZhy{}transcending
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} For Developers}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Adding Domain Content}
+
+\PYG{k}{1.} Create a domain folder: \PYG{l+s+sb}{`Prolog/[domain]/`}
+\PYG{k}{2.} Create a loader: \PYG{l+s+sb}{`load\PYGZus{}[domain].pl`} that loads \PYG{l+s+sb}{`../load.pl`} then your modules
+\PYG{k}{3.} Define material inferences for your domain
+\PYG{k}{4.} Define practices (strategies, heuristics) with prerequisites
+\PYG{k}{5.} Write tests showing critique mechanisms work
+
+Example structure:
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{Prolog/physics/}
+\PYG{l+s+sb}{├── load\PYGZus{}physics.pl}
+\PYG{l+s+sb}{├── newtonian\PYGZus{}mechanics.pl}
+\PYG{l+s+sb}{├── lagrangian\PYGZus{}mechanics.pl}
+\PYG{l+s+sb}{└── physics\PYGZus{}test.pl}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Module Architecture}
+
+All modules use \PYG{g+gs}{**multifile predicates**} to extend the core prover:
+\PYG{l+s+sb}{```prolog}
+\PYG{p}{:\PYGZhy{}} \PYG{l+s+sAtom}{multifile} \PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:material\PYGZus{}inference}\PYG{o}{/}\PYG{l+m+mf}{3.}
+\PYG{p}{:\PYGZhy{}} \PYG{l+s+sAtom}{multifile} \PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:is\PYGZus{}incoherent}\PYG{o}{/}\PYG{l+m+mf}{1.}
+
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nv}{Antecedents}\PYG{p}{],}
+    \PYG{n+nv}{Consequent}\PYG{p}{,}
+    \PYG{n+nv}{Body}  \PYG{c+c1}{\PYGZpc{} Callable predicate (often just \PYGZsq{}true\PYGZsq{})}
+\PYG{p}{).}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Testing Pattern}
+
+\PYG{l+s+sb}{```prolog}
+\PYG{n+nf}{run\PYGZus{}test}\PYG{p}{(}\PYG{n+nv}{Name}\PYG{p}{,} \PYG{n+nv}{Goal}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZti{}n[TEST] \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Name}\PYG{p}{]),}
+    \PYG{p}{(} \PYG{n+nf}{catch}\PYG{p}{(}\PYG{n+nv}{Goal}\PYG{p}{,} \PYG{n+nv}{Error}\PYG{p}{,} \PYG{p}{(}\PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  ERROR: \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Error}\PYG{p}{]),} \PYG{l+s+sAtom}{fail}\PYG{p}{))} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  PASS\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{;}
+        \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  FAIL\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{).}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Documentation}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**[tests/TEST\PYGZus{}SUMMARY.md](tests/TEST\PYGZus{}SUMMARY.md)**}: Core framework test results
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**[tests/CRITIQUE\PYGZus{}IMPLEMENTATION.md](tests/CRITIQUE\PYGZus{}IMPLEMENTATION.md)**}: Critique mechanisms technical documentation
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**[math/README.md](math/README.md)**}: Math domain documentation
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**[math/LAKOFF\PYGZus{}BRANDOM\PYGZus{}INTEGRATION.md](math/LAKOFF\PYGZus{}BRANDOM\PYGZus{}INTEGRATION.md)**}: Math integration technical details
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Status}
+
+✅ \PYG{g+gs}{**PRODUCTION READY**}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Core Framework**}: Complete and tested (10/10 + 7/7 tests passing)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Math Domain**}: Complete and tested (29/29 tests passing)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Documentation**}: Extensive
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Domain Separation**}: Clean (core is agnostic, math is in math/)
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} For the Book}
+
+This implementation provides supplementary materials demonstrating:
+
+\PYG{k}{1.} \PYG{g+gs}{**Embodied cognition is formalizable**}: Lakoff\PYGZsq{}s metaphors become executable logic
+\PYG{k}{2.} \PYG{g+gs}{**Pragmatism is computational**}: Brandom\PYGZsq{}s inferentialism becomes running programs
+\PYG{k}{3.} \PYG{g+gs}{**Dialectical logic is not abstract**}: Hegel\PYGZsq{}s patterns appear in real content
+
+The system is \PYG{g+gs}{**not**} just modal logic—it\PYGZsq{}s \PYG{g+gs}{**logic that reasons about practices**} using insights from cognitive science, pragmatist philosophy, and dialectical thinking.
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gs}{**This is what it means for logic to be embodied, pragmatic, and dialectical.**}
+
+\end{MintedVerbatim}

@@ -1,0 +1,101 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{run\PYGZus{}full\PYGZus{}analysis.py: Master script to run the complete analytic pipeline for the EPLE system.}
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{os}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{sys}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{subprocess}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{run\PYGZus{}command}\PYG{p}{(}\PYG{n}{command}\PYG{p}{,} \PYG{n}{description}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Run a command and print status.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZhy{}\PYGZhy{}\PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{description}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{try}\PYG{p}{:}
+        \PYG{n}{result} \PYG{o}{=} \PYG{n}{subprocess}\PYG{o}{.}\PYG{n}{run}\PYG{p}{(}\PYG{n}{command}\PYG{p}{,} \PYG{n}{shell}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{check}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{capture\PYGZus{}output}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{text}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}✅ }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{description}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ completed successfully\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{result}\PYG{o}{.}\PYG{n}{stdout}\PYG{p}{:}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{result}\PYG{o}{.}\PYG{n}{stdout}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{())}
+        \PYG{k}{return} \PYG{k+kc}{True}
+    \PYG{k}{except} \PYG{n}{subprocess}\PYG{o}{.}\PYG{n}{CalledProcessError} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}❌ }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{description}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ failed:\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{e}\PYG{o}{.}\PYG{n}{stderr}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{())}
+        \PYG{k}{return} \PYG{k+kc}{False}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{():}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Run the complete analytic pipeline.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}🚀 Starting EPLE Full Analytic Pipeline\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}=\PYGZdq{}} \PYG{o}{*} \PYG{l+m+mi}{50}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Get the project root}
+    \PYG{n}{script\PYGZus{}dir} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{dirname}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{abspath}\PYG{p}{(}\PYG{n+nv+vm}{\PYGZus{}\PYGZus{}file\PYGZus{}\PYGZus{}}\PYG{p}{))}
+    \PYG{n}{project\PYGZus{}root} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{dirname}\PYG{p}{(}\PYG{n}{script\PYGZus{}dir}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Change to project root}
+    \PYG{n}{os}\PYG{o}{.}\PYG{n}{chdir}\PYG{p}{(}\PYG{n}{project\PYGZus{}root}\PYG{p}{)}
+
+    \PYG{n}{success} \PYG{o}{=} \PYG{k+kc}{True}
+
+    \PYG{c+c1}{\PYGZsh{} Step 1: Parse conceptual metaphors from knowledge base}
+    \PYG{k}{if} \PYG{n}{success}\PYG{p}{:}
+        \PYG{n}{success} \PYG{o}{=} \PYG{n}{run\PYGZus{}command}\PYG{p}{(}
+            \PYG{l+s+s2}{\PYGZdq{}python3 scripts/parse\PYGZus{}metaphor\PYGZus{}kb.py\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}Parsing conceptual metaphors from Metaphor\PYGZus{}Knowledge\PYGZus{}Base.md\PYGZdq{}}
+        \PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Step 2: Parse strategy metadata from Brandomian analysis}
+    \PYG{k}{if} \PYG{n}{success}\PYG{p}{:}
+        \PYG{n}{success} \PYG{o}{=} \PYG{n}{run\PYGZus{}command}\PYG{p}{(}
+            \PYG{l+s+s2}{\PYGZdq{}python3 scripts/parse\PYGZus{}jules\PYGZus{}analysis.py\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}Parsing strategy metadata from brandomian\PYGZus{}analysis.md\PYGZdq{}}
+        \PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Step 3: Parse strategies from HTML files}
+    \PYG{k}{if} \PYG{n}{success}\PYG{p}{:}
+        \PYG{n}{success} \PYG{o}{=} \PYG{n}{run\PYGZus{}command}\PYG{p}{(}
+            \PYG{l+s+s2}{\PYGZdq{}python3 \PYGZhy{}c }\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+s2}{from eple.domains.arithmetic.parsing import parse\PYGZus{}strategies; parse\PYGZus{}strategies(\PYGZsq{}eple/assets/data/raw\PYGZus{}html\PYGZsq{}, \PYGZsq{}eple/assets/data/processed/strategies.csv\PYGZsq{})}\PYG{l+s+se}{\PYGZbs{}\PYGZdq{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}Parsing strategies from HTML files\PYGZdq{}}
+        \PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Step 4: Generate LX hierarchy analysis}
+    \PYG{k}{if} \PYG{n}{success}\PYG{p}{:}
+        \PYG{n}{success} \PYG{o}{=} \PYG{n}{run\PYGZus{}command}\PYG{p}{(}
+            \PYG{l+s+s2}{\PYGZdq{}python3 scripts/run\PYGZus{}lx\PYGZus{}analysis.py\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}Generating LX hierarchy dependency graphs\PYGZdq{}}
+        \PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Step 5: Generate Meaning\PYGZhy{}Use Diagrams}
+    \PYG{k}{if} \PYG{n}{success}\PYG{p}{:}
+        \PYG{n}{success} \PYG{o}{=} \PYG{n}{run\PYGZus{}command}\PYG{p}{(}
+            \PYG{l+s+s2}{\PYGZdq{}python3 scripts/run\PYGZus{}visualization.py\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}Generating Meaning\PYGZhy{}Use Diagrams for all strategies\PYGZdq{}}
+        \PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Step 6: Run MUA analysis tests}
+    \PYG{k}{if} \PYG{n}{success}\PYG{p}{:}
+        \PYG{n}{success} \PYG{o}{=} \PYG{n}{run\PYGZus{}command}\PYG{p}{(}
+            \PYG{l+s+s2}{\PYGZdq{}python3 eple/domains/arithmetic/elaboration\PYGZus{}analysis.py\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}Running MUA elaboration analysis\PYGZdq{}}
+        \PYG{p}{)}
+
+    \PYG{k}{if} \PYG{n}{success}\PYG{p}{:}
+        \PYG{n}{success} \PYG{o}{=} \PYG{n}{run\PYGZus{}command}\PYG{p}{(}
+            \PYG{l+s+s2}{\PYGZdq{}python3 eple/domains/arithmetic/metaphor\PYGZus{}test.py\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}Running conceptual metaphor validation\PYGZdq{}}
+        \PYG{p}{)}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}=\PYGZdq{}} \PYG{o}{*} \PYG{l+m+mi}{50}\PYG{p}{)}
+    \PYG{k}{if} \PYG{n}{success}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}🎉 EPLE Full Analytic Pipeline completed successfully!\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Generated outputs:\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} eple/assets/data/processed/cmt\PYGZus{}data.json (conceptual metaphors)\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} data/strategy\PYGZus{}metadata.json (strategy analysis)\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} eple/assets/data/processed/strategies.csv (parsed strategies)\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} eple/assets/output/visualizations/Full\PYGZus{}LX\PYGZus{}Hierarchy.* (LX hierarchy)\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{} eple/assets/output/visualizations/MUD\PYGZus{}*.gv (Meaning\PYGZhy{}Use Diagrams)\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}💥 EPLE Full Analytic Pipeline failed. Check errors above.\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{sys}\PYG{o}{.}\PYG{n}{exit}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZsq{}}\PYG{p}{:}
+    \PYG{n}{main}\PYG{p}{()}
+\end{MintedVerbatim}

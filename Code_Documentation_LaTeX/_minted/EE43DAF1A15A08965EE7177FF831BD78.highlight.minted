@@ -1,0 +1,245 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZlt{}!DOCTYPE html\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{html}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{head}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{title}\PYG{p}{\PYGZgt{}}Division: Using Commutative Reasoning (Dealing by Rounds)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{title}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{link} \PYG{n+na}{rel}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}stylesheet\PYGZdq{}} \PYG{n+na}{href}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}strategy\PYGZus{}styles.css\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+    \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} MathJax for mathematical notation \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{script} \PYG{n+na}{src}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://polyfill.io/v3/polyfill.min.js?features=es6\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{script} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}MathJax\PYGZhy{}script\PYGZdq{}} \PYG{n+na}{async} \PYG{n+na}{src}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex\PYGZhy{}mml\PYGZhy{}chtml.js\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{head}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{body}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}container\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}back\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}window.location.href=\PYGZsq{}index.html\PYGZsq{}\PYGZdq{}}\PYG{p}{\PYGZgt{}}← Back to Calculator\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}container\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}Division Strategies \PYGZhy{} Using Commutative Reasoning (Dealing by Rounds)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{h1}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}Reframing Sharing (Total ÷ Groups = ?) as Measurement (How many \PYGZdq{}Groups\PYGZdq{} fit in Total?). Each round deals 1 item to each group.\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{p}\PYG{p}{\PYGZgt{}}
+
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}control\PYGZhy{}section\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{label} \PYG{n+na}{for}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}commTotalInput\PYGZdq{}}\PYG{p}{\PYGZgt{}}Total Items:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{label}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{input} \PYG{n+na}{type}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}number\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}commTotalInput\PYGZdq{}} \PYG{n+na}{value}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}56\PYGZdq{}} \PYG{n+na}{min}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}0\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{label} \PYG{n+na}{for}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}commGroupsInput\PYGZdq{}}\PYG{p}{\PYGZgt{}}Number of Groups:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{label}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{input} \PYG{n+na}{type}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}number\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}commGroupsInput\PYGZdq{}} \PYG{n+na}{value}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}8\PYGZdq{}} \PYG{n+na}{min}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}1\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}setupCommutativeSimulation()\PYGZdq{}}\PYG{p}{\PYGZgt{}}Set Up / Reset\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}dealNextRound()\PYGZdq{}} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}dealBtn\PYGZdq{}} \PYG{n+na}{disabled}\PYG{p}{\PYGZgt{}}Deal Next Round (Deal 1 to each Group)\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+         \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}statusMessage\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}pile\PYGZhy{}section\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Items Remaining in Pile:\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}} \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}pileCount\PYGZdq{}}\PYG{p}{\PYGZgt{}}0\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}pileDisplay\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}pile\PYGZhy{}container\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}groups\PYGZhy{}section\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+         \PYG{p}{\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Groups (Items dealt):\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}
+         \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}groupsDisplay\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}groups\PYGZhy{}container\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+             \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} Group boxes will be added here \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+         \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+     \PYG{p}{\PYGZlt{}}\PYG{n+nt}{div} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}result\PYGZhy{}section\PYGZdq{}}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}}Result (Items per group):\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{strong}\PYG{p}{\PYGZgt{}} \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}resultValue\PYGZdq{}}\PYG{p}{\PYGZgt{}}?\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}}
+        \PYG{p}{\PYGZlt{}}\PYG{n+nt}{span} \PYG{n+na}{id}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}remainderValue\PYGZdq{}}\PYG{p}{\PYGZgt{}\PYGZlt{}/}\PYG{n+nt}{span}\PYG{p}{\PYGZgt{}} \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} For remainder \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Simulation State Variables \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{initialTotalItems}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{itemsRemaining}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{itemsInEachGroup}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// How many items are currently *in* each group box}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{roundsCompleted}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// How many rounds of dealing have happened (this *is* the items per group)}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{isDealingComplete}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} DOM Element References \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{        }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{resultValueSpan}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{pileDisplay}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{pileCountSpan}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{groupsDisplay}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{dealBtn}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{statusMessage}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{totalInput}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{groupsInput}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{remainderValueSpan}\PYG{p}{;}
+
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Helper: Draw Block \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{        }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{drawBlock}\PYG{p}{(}\PYG{n+nx}{parent}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{size}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{color}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{item}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElement}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}div\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}item\PYGZhy{}block\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{width}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{size}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}px\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{height}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{size}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}px\PYGZsq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{item}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{backgroundColor}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{color}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{parent}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{item}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} End Helpers \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+
+
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Simulation Functions \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{        }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{setupCommutativeSimulation}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// Get elements if not already assigned (needed for reset)}
+\PYG{+w}{            }\PYG{n+nx}{resultValueSpan}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{resultValueSpan}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}resultValue\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{pileDisplay}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{pileDisplay}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}pileDisplay\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{pileCountSpan}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{pileCountSpan}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}pileCount\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{groupsDisplay}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{groupsDisplay}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}groupsDisplay\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{dealBtn}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{dealBtn}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}dealBtn\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{statusMessage}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{statusMessage}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}statusMessage\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{totalInput}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{totalInput}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}commTotalInput\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{groupsInput}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{groupsInput}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}commGroupsInput\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{remainderValueSpan}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{remainderValueSpan}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}remainderValue\PYGZdq{}}\PYG{p}{);}
+
+
+\PYG{+w}{            }\PYG{n+nx}{initialTotalItems}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{parseInt}\PYG{p}{(}\PYG{n+nx}{totalInput}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{numGroups}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{parseInt}\PYG{p}{(}\PYG{n+nx}{groupsInput}\PYG{p}{.}\PYG{n+nx}{value}\PYG{p}{);}
+
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{isNaN}\PYG{p}{(}\PYG{n+nx}{initialTotalItems}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{isNaN}\PYG{p}{(}\PYG{n+nx}{numGroups}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nx}{initialTotalItems}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{statusMessage}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Please enter valid positive numbers (Groups \PYGZgt{} 0).\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{dealBtn}\PYG{p}{.}\PYG{n+nx}{disabled}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{isDealingComplete}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{resultValueSpan}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}?\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{remainderValueSpan}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{pileCountSpan}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}0\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{pileDisplay}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{groupsDisplay}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{                }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{n+nx}{itemsRemaining}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{initialTotalItems}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{itemsInEachGroup}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Reset items *in* boxes}
+\PYG{+w}{            }\PYG{n+nx}{roundsCompleted}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Reset rounds}
+\PYG{+w}{            }\PYG{n+nx}{isDealingComplete}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{itemsRemaining}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Cannot deal even one round if not enough items}
+
+\PYG{+w}{            }\PYG{n+nx}{statusMessage}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{isDealingComplete}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+sb}{`Not enough items (}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{itemsRemaining}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{) to deal into }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{numGroups}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ groups.`}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Ready to deal first round.\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{resultValueSpan}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}?\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{remainderValueSpan}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{updatePileDisplay}\PYG{p}{();}
+\PYG{+w}{            }\PYG{n+nx}{drawGroupContainers}\PYG{p}{();}\PYG{+w}{ }\PYG{c+c1}{// Draw the empty boxes}
+\PYG{+w}{            }\PYG{n+nx}{dealBtn}\PYG{p}{.}\PYG{n+nx}{disabled}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{isDealingComplete}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{dealNextRound}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{isDealingComplete}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{statusMessage}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Dealing complete!\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{dealBtn}\PYG{p}{.}\PYG{n+nx}{disabled}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{c+c1}{// Check if enough items remain for this round}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{itemsRemaining}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                 }\PYG{n+nx}{isDealingComplete}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{n+nx}{dealBtn}\PYG{p}{.}\PYG{n+nx}{disabled}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{remainder}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{itemsRemaining}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{n+nx}{resultValueSpan}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{roundsCompleted}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Result is rounds completed}
+\PYG{+w}{                 }\PYG{n+nx}{remainderValueSpan}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{remainder}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+sb}{` Remainder }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{remainder}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{n+nx}{statusMessage}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Dealing complete! Not enough items left for a full round.`}\PYG{p}{;}
+\PYG{+w}{                 }\PYG{n+nx}{updatePileDisplay}\PYG{p}{();}\PYG{+w}{ }\PYG{c+c1}{// Update pile to show final remainder}
+\PYG{+w}{                 }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+
+\PYG{+w}{            }\PYG{n+nx}{statusMessage}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Clear message}
+
+\PYG{+w}{            }\PYG{c+c1}{// 1. Decrement remaining items by number of groups}
+\PYG{+w}{            }\PYG{n+nx}{itemsRemaining}\PYG{+w}{ }\PYG{o}{\PYGZhy{}=}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{roundsCompleted}\PYG{o}{++}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// This round added 1 item to each group}
+\PYG{+w}{            }\PYG{n+nx}{itemsInEachGroup}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{roundsCompleted}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Update items shown per box}
+
+\PYG{+w}{            }\PYG{c+c1}{// 2. Visually update pile and ALL group boxes}
+\PYG{+w}{            }\PYG{n+nx}{updatePileDisplay}\PYG{p}{();}
+\PYG{+w}{            }\PYG{n+nx}{updateAllGroupBoxes}\PYG{p}{();}
+
+\PYG{+w}{            }\PYG{c+c1}{// 3. Check for completion}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{itemsRemaining}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{c+c1}{// Check if enough remain for the *next* round}
+\PYG{+w}{                }\PYG{n+nx}{isDealingComplete}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{dealBtn}\PYG{p}{.}\PYG{n+nx}{disabled}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{;}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{remainder}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{itemsRemaining}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{resultValueSpan}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{roundsCompleted}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{remainderValueSpan}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{remainder}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+sb}{` Remainder }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{remainder}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{statusMessage}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Dealing complete!\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{remainder}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s+sb}{` }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{remainder}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ items remaining.`}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{                 }\PYG{n+nx}{updatePileDisplay}\PYG{p}{();}\PYG{+w}{ }\PYG{c+c1}{// Show final pile count (remainder)}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                 }\PYG{n+nx}{statusMessage}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Dealt Round }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{roundsCompleted}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ (1 item to each of }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{numGroups}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ groups). }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{itemsRemaining}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{ left.`}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{updatePileDisplay}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{pileDisplay}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{o}{!}\PYG{n+nx}{pileCountSpan}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{pileCountSpan}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{itemsRemaining}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{pileDisplay}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Clear previous}
+\PYG{+w}{            }\PYG{c+c1}{// Draw remaining items in pile}
+\PYG{+w}{            }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{itemsRemaining}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nx}{drawBlock}\PYG{p}{(}\PYG{n+nx}{pileDisplay}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{12}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}dodgerblue\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// Use helper}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{drawGroupContainers}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{groupsDisplay}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nx}{groupsDisplay}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Clear previous}
+\PYG{+w}{            }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{groupBox}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElement}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}div\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{                }\PYG{n+nx}{groupBox}\PYG{p}{.}\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}group\PYGZhy{}box\PYGZdq{}}\PYG{p}{;}
+
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{label}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElement}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}div\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{                }\PYG{n+nx}{label}\PYG{p}{.}\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}group\PYGZhy{}box\PYGZhy{}label\PYGZdq{}}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{label}\PYG{p}{.}\PYG{n+nx}{textContent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`Group }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n+nx}{groupBox}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{label}\PYG{p}{);}
+
+\PYG{+w}{                }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{itemContainer}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{createElement}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}div\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{                }\PYG{n+nx}{itemContainer}\PYG{p}{.}\PYG{n+nx}{id}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+sb}{`group\PYGZhy{}items\PYGZhy{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{i}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Assign ID for adding items later}
+\PYG{+w}{                }\PYG{n+nx}{itemContainer}\PYG{p}{.}\PYG{n+nx}{className}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}group\PYGZhy{}items\PYGZhy{}container\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Add class for flexbox styling}
+\PYG{+w}{                }\PYG{n+nx}{groupBox}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{itemContainer}\PYG{p}{);}
+
+\PYG{+w}{                }\PYG{n+nx}{groupsDisplay}\PYG{p}{.}\PYG{n+nx}{appendChild}\PYG{p}{(}\PYG{n+nx}{groupBox}\PYG{p}{);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{         }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{updateAllGroupBoxes}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// Redraw items in *all* boxes based on itemsInEachGroup}
+\PYG{+w}{             }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{numGroups}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                 }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{itemContainer}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+sb}{`group\PYGZhy{}items\PYGZhy{}}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{i}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{);}
+\PYG{+w}{                 }\PYG{k}{if}\PYG{p}{(}\PYG{n+nx}{itemContainer}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                     }\PYG{n+nx}{itemContainer}\PYG{p}{.}\PYG{n+nx}{innerHTML}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Clear previous items in this box}
+\PYG{+w}{                     }\PYG{k}{for}\PYG{p}{(}\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n+nx}{j}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{j}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{itemsInEachGroup}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nx}{j}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                        }\PYG{n+nx}{drawBlock}\PYG{p}{(}\PYG{n+nx}{itemContainer}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{12}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}cornflowerblue\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{                     }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{                 }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{             }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{         }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c+c1}{// \PYGZhy{}\PYGZhy{}\PYGZhy{} Initialize after DOM is loaded \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{+w}{        }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{addEventListener}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DOMContentLoaded\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kd}{function}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// Assign elements to variables now that DOM is ready}
+\PYG{+w}{            }\PYG{n+nx}{resultValueSpan}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}resultValue\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{pileDisplay}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}pileDisplay\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{pileCountSpan}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}pileCount\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{groupsDisplay}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}groupsDisplay\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{dealBtn}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}dealBtn\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{statusMessage}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}statusMessage\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{totalInput}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}commTotalInput\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{groupsInput}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}commGroupsInput\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n+nx}{remainderValueSpan}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementById}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}remainderValue\PYGZdq{}}\PYG{p}{);}
+
+
+\PYG{+w}{            }\PYG{c+c1}{// Make functions globally available for HTML onclick}
+\PYG{+w}{            }\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{setupCommutativeSimulation}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{setupSimulation}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{dealNextRound}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{dealOneItem}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// OOPS! Needs to call dealNextRound}
+
+\PYG{+w}{            }\PYG{c+c1}{// Fix the above line:}
+\PYG{+w}{            }\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{dealNextRound}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{dealNextRound}\PYG{p}{;}
+
+
+\PYG{+w}{            }\PYG{c+c1}{// Initialize the display on page load}
+\PYG{+w}{            }\PYG{n+nx}{setupCommutativeSimulation}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{p}{\PYGZcb{});}\PYG{+w}{ }\PYG{c+c1}{// End of DOMContentLoaded}
+\PYG{+w}{    }\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}} \PYG{c+cm}{\PYGZlt{}!\PYGZhy{}\PYGZhy{} End Container \PYGZhy{}\PYGZhy{}\PYGZgt{}}
+    \PYG{p}{\PYGZlt{}}\PYG{n+nt}{button} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}pdf\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{class}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}pdf\PYGZhy{}button\PYGZdq{}} \PYG{n+na}{onclick}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}openPdfViewer()\PYGZdq{}}\PYG{p}{\PYGZgt{}}📄 Learn More: View Detailed PDF Documentation\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{button}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\PYG{+w}{    }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{openPdfViewer}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// Opens the PDF documentation for the strategy.}
+\PYG{+w}{        }\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{open}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}./SMR\PYGZus{}DIV\PYGZus{}UCR.pdf\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}blank\PYGZsq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{script}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{div}\PYG{p}{\PYGZgt{}}
+
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{body}\PYG{p}{\PYGZgt{}}
+\PYG{p}{\PYGZlt{}/}\PYG{n+nt}{html}\PYG{p}{\PYGZgt{}}
+\end{MintedVerbatim}

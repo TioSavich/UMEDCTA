@@ -1,0 +1,55 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+PML Core Framework Loaded.
+
+=== CRITIQUE MECHANISM TESTS ===
+
+
+[TEST] Stress Map: Recording Failures
+  Stress tracking working correctly
+  PASS
+
+[TEST] Commitment Extraction from Proof
+  Successfully extracted commitments from proof
+  PASS
+
+[TEST] Bad Infinite: Cycle Detection
+  Cycle detection requires proof generation
+  Structure defined (implementation pending)
+  PASS
+
+[TEST] Identify Most Stressed Commitment
+  Correctly identified most stressed commitment
+  PASS
+
+[TEST] Resource Exhaustion: Stress Recording
+Handling Resource Exhaustion for: [s(u)]=\PYGZgt{}[s(comp\PYGZus{}nec(a))]
+  Incremented stress for: [s(u)]=\PYGZgt{}[s(comp\PYGZus{}nec(a))]
+  Resource exhaustion recorded. External intervention required.
+  Resource exhaustion recorded in stress map
+  PASS
+
+[TEST] Incoherence: Belief Revision
+  Testing belief revision mechanism...
+Handling Incoherence in Commitments: [([a,b]=\PYGZgt{}c)]
+Retracting/Modifying stressed commitment: [a,b]=\PYGZgt{}c
+Blocking problematic commitment: [a,b]=\PYGZgt{}c
+  Belief revision attempted (dynamic assertion may vary)
+  PASS
+
+[TEST] Bad Infinite: Sublation Mechanism
+  Testing sublation mechanism...
+Handling Bad Infinite (Pathological Cycle): [node(pml\PYGZus{}rhythm((s(t\PYGZus{}b)=\PYGZgt{}s(comp\PYGZus{}nec(t\PYGZus{}n)))),([s(t\PYGZus{}b)]=\PYGZgt{}[s(comp\PYGZus{}nec(t\PYGZus{}n))])),node(pml\PYGZus{}rhythm((s(t\PYGZus{}n)=\PYGZgt{}s(comp\PYGZus{}nec(t\PYGZus{}b)))),([s(t\PYGZus{}n)]=\PYGZgt{}[s(comp\PYGZus{}nec(t\PYGZus{}b))]))]
+  Detected oscillation between: [([s(t\PYGZus{}b)]=\PYGZgt{}[s(comp\PYGZus{}nec(t\PYGZus{}n))]),([s(t\PYGZus{}n)]=\PYGZgt{}[s(comp\PYGZus{}nec(t\PYGZus{}b))])]
+  SUBLATION REQUIRED: Introduce higher\PYGZhy{}level concept to resolve oscillation
+  Example: Being \PYGZlt{}\PYGZhy{}\PYGZgt{} Nothing requires \PYGZdq{}Becoming\PYGZdq{}
+  System cannot auto\PYGZhy{}generate new concepts yet.
+    Marked as stressed: [s(t\PYGZus{}b)]=\PYGZgt{}[s(comp\PYGZus{}nec(t\PYGZus{}n))] via pml\PYGZus{}rhythm((s(t\PYGZus{}b)=\PYGZgt{}s(comp\PYGZus{}nec(t\PYGZus{}n))))
+    Marked as stressed: [s(t\PYGZus{}n)]=\PYGZgt{}[s(comp\PYGZus{}nec(t\PYGZus{}b))] via pml\PYGZus{}rhythm((s(t\PYGZus{}n)=\PYGZgt{}s(comp\PYGZus{}nec(t\PYGZus{}b))))
+  External conceptual intervention required.
+  Bad Infinite elements marked as stressed
+  PASS
+
+=== CRITIQUE TESTS COMPLETE ===
+
+
+\end{MintedVerbatim}

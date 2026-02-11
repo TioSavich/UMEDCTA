@@ -1,0 +1,79 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{os}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{sys}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{json}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{typing}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{List}
+
+\PYG{c+c1}{\PYGZsh{} Add the project root to the Python path}
+\PYG{n}{project\PYGZus{}root} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{abspath}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{dirname}\PYG{p}{(}\PYG{n+nv+vm}{\PYGZus{}\PYGZus{}file\PYGZus{}\PYGZus{}}\PYG{p}{),} \PYG{l+s+s1}{\PYGZsq{}..\PYGZsq{}}\PYG{p}{))}
+\PYG{n}{sys}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{project\PYGZus{}root}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} We import the classes and the function we just modified}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{src.analysis.MUD\PYGZus{}Generator}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{StrategyMetadata}\PYG{p}{,} \PYG{n}{generate\PYGZus{}LX\PYGZus{}Hierarchy}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{load\PYGZus{}metadata}\PYG{p}{(}\PYG{n}{metadata\PYGZus{}path}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{List}\PYG{p}{[}\PYG{n}{StrategyMetadata}\PYG{p}{]:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Loads a list of StrategyMetadata objects from a JSON file,}
+\PYG{l+s+sd}{    ensuring that strategy\PYGZus{}id is unique for graph generation.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{metadata\PYGZus{}path}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}r\PYGZsq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+        \PYG{n}{data} \PYG{o}{=} \PYG{n}{json}\PYG{o}{.}\PYG{n}{load}\PYG{p}{(}\PYG{n}{f}\PYG{p}{)}
+
+    \PYG{n}{id\PYGZus{}counts} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}
+    \PYG{n}{processed\PYGZus{}data} \PYG{o}{=} \PYG{p}{[]}
+    \PYG{k}{for} \PYG{n}{item} \PYG{o+ow}{in} \PYG{n}{data}\PYG{p}{:}
+        \PYG{n}{original\PYGZus{}id} \PYG{o}{=} \PYG{n}{item}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}strategy\PYGZus{}id\PYGZsq{}}\PYG{p}{]}
+        \PYG{k}{if} \PYG{n}{original\PYGZus{}id} \PYG{o+ow}{in} \PYG{n}{id\PYGZus{}counts}\PYG{p}{:}
+            \PYG{n}{id\PYGZus{}counts}\PYG{p}{[}\PYG{n}{original\PYGZus{}id}\PYG{p}{]} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{n}{item}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}strategy\PYGZus{}id\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{original\PYGZus{}id}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{id\PYGZus{}counts}\PYG{p}{[}\PYG{n}{original\PYGZus{}id}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{id\PYGZus{}counts}\PYG{p}{[}\PYG{n}{original\PYGZus{}id}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n}{processed\PYGZus{}data}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{item}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{p}{[}\PYG{n}{StrategyMetadata}\PYG{p}{(}\PYG{o}{**}\PYG{n}{item}\PYG{p}{)} \PYG{k}{for} \PYG{n}{item} \PYG{o+ow}{in} \PYG{n}{processed\PYGZus{}data}\PYG{p}{]}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{main}\PYG{p}{():}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    This script generates a single MUD showing the full dependency graph}
+\PYG{l+s+sd}{    of all arithmetic strategies, focusing on PP\PYGZhy{}Necessity and LX\PYGZhy{}relations.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Starting full LX hierarchy analysis...\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Define paths relative to the project root}
+    \PYG{n}{METADATA\PYGZus{}JSON} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{project\PYGZus{}root}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}data/strategy\PYGZus{}metadata.json\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{OUTPUT\PYGZus{}DIR} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{project\PYGZus{}root}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}eple/assets/output/visualizations\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{output\PYGZus{}path\PYGZus{}gv} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{OUTPUT\PYGZus{}DIR}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Full\PYGZus{}LX\PYGZus{}Hierarchy.gv\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{output\PYGZus{}path\PYGZus{}pdf} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{OUTPUT\PYGZus{}DIR}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Full\PYGZus{}LX\PYGZus{}Hierarchy.pdf\PYGZdq{}}\PYG{p}{)}
+
+
+    \PYG{c+c1}{\PYGZsh{} Create output directory if it doesn\PYGZsq{}t exist}
+    \PYG{n}{os}\PYG{o}{.}\PYG{n}{makedirs}\PYG{p}{(}\PYG{n}{OUTPUT\PYGZus{}DIR}\PYG{p}{,} \PYG{n}{exist\PYGZus{}ok}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Load the metadata}
+    \PYG{k}{try}\PYG{p}{:}
+        \PYG{n}{metadata\PYGZus{}list} \PYG{o}{=} \PYG{n}{load\PYGZus{}metadata}\PYG{p}{(}\PYG{n}{METADATA\PYGZus{}JSON}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Successfully loaded }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{metadata\PYGZus{}list}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ strategies from metadata.\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{except} \PYG{n+ne}{Exception} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Error loading or parsing metadata from }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{METADATA\PYGZus{}JSON}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{return}
+
+    \PYG{c+c1}{\PYGZsh{} Generate the graph}
+    \PYG{n}{dot} \PYG{o}{=} \PYG{n}{generate\PYGZus{}LX\PYGZus{}Hierarchy}\PYG{p}{(}\PYG{n}{metadata\PYGZus{}list}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Save the .gv source and render it to a PDF}
+    \PYG{k}{try}\PYG{p}{:}
+        \PYG{n}{dot}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{n}{output\PYGZus{}path\PYGZus{}pdf}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.pdf\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),} \PYG{n+nb}{format}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}pdf\PYGZsq{}}\PYG{p}{,} \PYG{n}{cleanup}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Successfully rendered dependency graph to: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{output\PYGZus{}path\PYGZus{}pdf}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} Also save the .gv file for inspection}
+        \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{output\PYGZus{}path\PYGZus{}gv}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}w\PYGZsq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+            \PYG{n}{f}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{dot}\PYG{o}{.}\PYG{n}{source}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Graphviz source saved to: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{output\PYGZus{}path\PYGZus{}gv}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{except} \PYG{n+ne}{Exception} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Error rendering Graphviz file. Make sure Graphviz is installed and in your system\PYGZsq{}s PATH. Error: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    \PYG{n}{main}\PYG{p}{()}
+
+\end{MintedVerbatim}

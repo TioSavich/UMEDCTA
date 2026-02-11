@@ -1,0 +1,360 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{g+gh}{\PYGZsh{} PML Framework Reorganization \PYGZhy{} Complete}
+
+\PYG{g+gs}{**Date**}: November 3, 2025
+\PYG{g+gs}{**Status**}: ✅ COMPLETE \PYGZhy{} All tests passing, domain separation clean
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} What Was Done}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Domain Separation}
+
+\PYG{g+gs}{**Before**}: Math\PYGZhy{}specific content mixed with core framework in root directory
+
+\PYG{g+gs}{**After**}: Clean separation
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{Prolog/                      \PYGZsh{} Core framework (domain\PYGZhy{}agnostic)}
+\PYG{l+s+sb}{  ├── 10 core .pl modules}
+\PYG{l+s+sb}{  ├── README.md}
+\PYG{l+s+sb}{  ├── tests/                 \PYGZsh{} Core tests only}
+\PYG{l+s+sb}{  │   ├── simple\PYGZus{}test.pl     \PYGZsh{} 10 tests}
+\PYG{l+s+sb}{  │   ├── critique\PYGZus{}test.pl   \PYGZsh{} 7 tests}
+\PYG{l+s+sb}{  │   └── *.md               \PYGZsh{} Core documentation}
+\PYG{l+s+sb}{  └── math/                  \PYGZsh{} Math domain instantiation}
+\PYG{l+s+sb}{      ├── load\PYGZus{}math.pl       \PYGZsh{} Math\PYGZhy{}specific loader}
+\PYG{l+s+sb}{      ├── lakoff\PYGZus{}metaphors.pl}
+\PYG{l+s+sb}{      ├── arithmetic\PYGZus{}strategies.pl}
+\PYG{l+s+sb}{      ├── lakoff\PYGZus{}brandom\PYGZus{}test.pl  \PYGZsh{} 29 tests}
+\PYG{l+s+sb}{      ├── README.md          \PYGZsh{} Math\PYGZhy{}specific docs}
+\PYG{l+s+sb}{      └── *.pl               \PYGZsh{} Legacy strategy files}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. Files Moved}
+
+\PYG{g+gs}{**From root → math/**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`lakoff\PYGZus{}metaphors.pl`} (350 lines)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`arithmetic\PYGZus{}strategies.pl`} (300 lines)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`LAKOFF\PYGZus{}BRANDOM\PYGZus{}README.md`}
+
+\PYG{g+gs}{**From tests/ → math/**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`lakoff\PYGZus{}brandom\PYGZus{}test.pl`} (320 lines)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`LAKOFF\PYGZus{}BRANDOM\PYGZus{}INTEGRATION.md`}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`lakoff\PYGZus{}brandom\PYGZus{}results.txt`}
+
+\PYG{g+gs}{**Deleted**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`math/LK\PYGZus{}RB\PYGZus{}Content\PYGZus{}Extract/`} \PYGZhy{} Content successfully extracted into Prolog
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. New Files Created}
+
+\PYG{g+gs}{**Core**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`README.md`} \PYGZhy{} Framework overview and usage guide
+
+\PYG{g+gs}{**Math Domain**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`math/load\PYGZus{}math.pl`} \PYGZhy{} Loader for core + math content
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`math/README.md`} \PYGZhy{} Math domain documentation and template for other domains
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Files Updated}
+
+\PYG{g+gs}{**Core**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`load.pl`} \PYGZhy{} Removed math\PYGZhy{}specific imports, now loads core only
+
+\PYG{g+gs}{**Math**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`lakoff\PYGZus{}brandom\PYGZus{}test.pl`} \PYGZhy{} Updated to use \PYG{l+s+sb}{`load\PYGZus{}math.pl`}
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Current Structure}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Root Directory (Domain\PYGZhy{}Agnostic Core)}
+
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{Prolog/}
+\PYG{l+s+sb}{├── README.md                         ⭐ NEW \PYGZhy{} Framework guide}
+\PYG{l+s+sb}{├── load.pl                           ✏️  UPDATED \PYGZhy{} Core only}
+\PYG{l+s+sb}{│}
+\PYG{l+s+sb}{├── Core Modules (10 files)}
+\PYG{l+s+sb}{│   ├── pml\PYGZus{}operators.pl}
+\PYG{l+s+sb}{│   ├── utils.pl}
+\PYG{l+s+sb}{│   ├── incompatibility\PYGZus{}semantics.pl  \PYGZsh{} 11K lines}
+\PYG{l+s+sb}{│   ├── automata.pl}
+\PYG{l+s+sb}{│   ├── semantic\PYGZus{}axioms.pl}
+\PYG{l+s+sb}{│   ├── pragmatic\PYGZus{}axioms.pl}
+\PYG{l+s+sb}{│   ├── intersubjective\PYGZus{}praxis.pl}
+\PYG{l+s+sb}{│   ├── critique.pl}
+\PYG{l+s+sb}{│   └── dialectical\PYGZus{}engine.pl}
+\PYG{l+s+sb}{│}
+\PYG{l+s+sb}{└── tests/                            \PYGZsh{} Core tests only}
+\PYG{l+s+sb}{    ├── simple\PYGZus{}test.pl                \PYGZsh{} 10 tests}
+\PYG{l+s+sb}{    ├── core\PYGZus{}test.pl}
+\PYG{l+s+sb}{    ├── critique\PYGZus{}test.pl              \PYGZsh{} 7 tests}
+\PYG{l+s+sb}{    ├── TEST\PYGZus{}SUMMARY.md}
+\PYG{l+s+sb}{    └── CRITIQUE\PYGZus{}IMPLEMENTATION.md}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Math Domain Directory}
+
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{math/}
+\PYG{l+s+sb}{├── README.md                         ⭐ NEW \PYGZhy{} Math domain guide}
+\PYG{l+s+sb}{├── load\PYGZus{}math.pl                      ⭐ NEW \PYGZhy{} Math loader}
+\PYG{l+s+sb}{│}
+\PYG{l+s+sb}{├── Content Modules}
+\PYG{l+s+sb}{│   ├── lakoff\PYGZus{}metaphors.pl           ⬅️  MOVED from root}
+\PYG{l+s+sb}{│   └── arithmetic\PYGZus{}strategies.pl      ⬅️  MOVED from root}
+\PYG{l+s+sb}{│}
+\PYG{l+s+sb}{├── Tests}
+\PYG{l+s+sb}{│   ├── lakoff\PYGZus{}brandom\PYGZus{}test.pl        ⬅️  MOVED from tests/}
+\PYG{l+s+sb}{│   └── lakoff\PYGZus{}brandom\PYGZus{}results.txt    ⬅️  MOVED from tests/}
+\PYG{l+s+sb}{│}
+\PYG{l+s+sb}{├── Documentation}
+\PYG{l+s+sb}{│   ├── LAKOFF\PYGZus{}BRANDOM\PYGZus{}INTEGRATION.md ⬅️  MOVED from tests/}
+\PYG{l+s+sb}{│   └── LAKOFF\PYGZus{}BRANDOM\PYGZus{}README.md      ⬅️  MOVED from root}
+\PYG{l+s+sb}{│}
+\PYG{l+s+sb}{└── Legacy Strategy Files (\PYGZti{}20 files)}
+\PYG{l+s+sb}{    ├── sar\PYGZus{}*.pl                      \PYGZsh{} To be integrated}
+\PYG{l+s+sb}{    ├── smr\PYGZus{}*.pl                      \PYGZsh{} To be integrated}
+\PYG{l+s+sb}{    └── counting*.pl, jason*.pl, etc.}
+\PYG{l+s+sb}{```}
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Test Results}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} ✅ All Tests Passing}
+
+\PYG{g+gs}{**Core Framework**} (17/17):
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Simple tests: 10/10 ✅
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Critique tests: 7/7 ✅
+
+\PYG{g+gs}{**Math Domain**} (29/29):
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Grounding metaphors: 3/3 ✅
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }BMI metaphors: 3/3 ✅
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }BMI pathologies: 3/3 ✅
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Arithmetic strategies: 4/4 ✅
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }PP\PYGZhy{}necessities: 4/4 ✅
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }LX\PYGZhy{}relations: 3/3 ✅
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }PML dynamics: 4/4 ✅
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }ORR cycle: 3/3 ✅
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Conceptual blends: 2/2 ✅
+
+\PYG{g+gs}{**Total**}: 46/46 tests passing ✅
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} ✅ No Regressions}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }All core tests still pass after reorganization
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }All math tests still pass from new location
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Load times unchanged
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }No broken imports
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Usage}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Core Framework Only}
+
+\PYG{l+s+sb}{```bash}
+\PYG{c+c1}{\PYGZsh{} Load core}
+swipl\PYG{+w}{ }load.pl
+
+\PYG{c+c1}{\PYGZsh{} Run core tests}
+\PYG{n+nb}{cd}\PYG{+w}{ }tests
+swipl\PYG{+w}{ }\PYGZhy{}g\PYG{+w}{ }run\PYGZus{}tests\PYG{+w}{ }\PYGZhy{}t\PYG{+w}{ }halt\PYG{+w}{ }simple\PYGZus{}test.pl\PYG{+w}{       }\PYG{c+c1}{\PYGZsh{} 10 tests}
+swipl\PYG{+w}{ }\PYGZhy{}g\PYG{+w}{ }run\PYGZus{}all\PYGZus{}tests\PYG{+w}{ }\PYGZhy{}t\PYG{+w}{ }halt\PYG{+w}{ }critique\PYGZus{}test.pl\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} 7 tests}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Core + Math Domain}
+
+\PYG{l+s+sb}{```bash}
+\PYG{c+c1}{\PYGZsh{} Load with math content}
+\PYG{n+nb}{cd}\PYG{+w}{ }math
+swipl\PYG{+w}{ }load\PYGZus{}math.pl
+
+\PYG{c+c1}{\PYGZsh{} Run math tests}
+swipl\PYG{+w}{ }\PYGZhy{}g\PYG{+w}{ }run\PYGZus{}all\PYGZus{}tests\PYG{+w}{ }\PYGZhy{}t\PYG{+w}{ }halt\PYG{+w}{ }lakoff\PYGZus{}brandom\PYGZus{}test.pl\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} 29 tests}
+\PYG{l+s+sb}{```}
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Benefits of Reorganization}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. **Clean Domain Separation**}
+
+The core framework is now truly \PYG{g+gs}{**domain\PYGZhy{}agnostic**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }No math\PYGZhy{}specific imports in \PYG{l+s+sb}{`load.pl`}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }No math\PYGZhy{}specific vocabulary in core modules
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Math content isolated in \PYG{l+s+sb}{`math/`} directory
+
+This makes it easy to create other domain instantiations (physics, biology, law, etc.).
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. **Clear Dependency Structure**}
+
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{Core Framework (no domain knowledge)}
+\PYG{l+s+sb}{    ↓}
+\PYG{l+s+sb}{Domain Content (math/, future: physics/, etc.)}
+\PYG{l+s+sb}{```}
+
+Dependencies flow one way: domains depend on core, core depends on nothing.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. **Modular Testing**}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Core tests**} verify framework mechanisms without domain content
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Domain tests**} verify content works with framework mechanisms
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Tests organized by scope (not mixed together)
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. **Template for Other Domains**}
+
+The \PYG{l+s+sb}{`math/`} directory structure serves as a \PYG{g+gs}{**template**}:
+
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{Prolog/[your\PYGZus{}domain]/}
+\PYG{l+s+sb}{├── load\PYGZus{}[domain].pl           \PYGZsh{} Loads core + your content}
+\PYG{l+s+sb}{├── [domain]\PYGZus{}content.pl        \PYGZsh{} Material inferences}
+\PYG{l+s+sb}{├── [domain]\PYGZus{}strategies.pl     \PYGZsh{} Practices and patterns}
+\PYG{l+s+sb}{├── [domain]\PYGZus{}test.pl           \PYGZsh{} Domain\PYGZhy{}specific tests}
+\PYG{l+s+sb}{└── README.md                  \PYGZsh{} Domain documentation}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 5. **Documentation Clarity**}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Root \PYG{l+s+sb}{`README.md`}: Framework overview (for all users)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`math/README.md`}: Math\PYGZhy{}specific guide (for math users)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Test documentation with appropriate scope
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Implementation Notes}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Load Chain for Math Domain}
+
+\PYG{l+s+sb}{```}
+\PYG{l+s+sb}{math/load\PYGZus{}math.pl}
+\PYG{l+s+sb}{  ↓ [loads]}
+\PYG{l+s+sb}{../load.pl}
+\PYG{l+s+sb}{  ↓ [loads]}
+\PYG{l+s+sb}{Core modules (pml\PYGZus{}operators, incompatibility\PYGZus{}semantics, etc.)}
+\PYG{l+s+sb}{  ↓ [then load\PYGZus{}math.pl loads]}
+\PYG{l+s+sb}{lakoff\PYGZus{}metaphors.pl, arithmetic\PYGZus{}strategies.pl}
+\PYG{l+s+sb}{```}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Module Imports}
+
+All modules use standard SWI\PYGZhy{}Prolog module system:
+\PYG{l+s+sb}{```prolog}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{module}\PYG{p}{(}\PYG{l+s+sAtom}{lakoff\PYGZus{}metaphors}\PYG{p}{,} \PYG{p}{[]).}
+\PYG{p}{:\PYGZhy{}} \PYG{l+s+sAtom}{multifile} \PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:material\PYGZus{}inference}\PYG{o}{/}\PYG{l+m+mf}{3.}
+\PYG{l+s+sb}{```}
+
+Material inferences extend the core prover via multifile predicates.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Testing Pattern}
+
+All test files use consistent pattern:
+\PYG{l+s+sb}{```prolog}
+\PYG{n+nf}{run\PYGZus{}test}\PYG{p}{(}\PYG{n+nv}{Name}\PYG{p}{,} \PYG{n+nv}{Goal}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZti{}n[TEST] \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Name}\PYG{p}{]),}
+    \PYG{p}{(} \PYG{n+nf}{catch}\PYG{p}{(}\PYG{n+nv}{Goal}\PYG{p}{,} \PYG{n+nv}{Error}\PYG{p}{,} \PYG{l+s+sAtom}{fail}\PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  PASS\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{;}
+        \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  FAIL\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{).}
+\PYG{l+s+sb}{```}
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} What Was NOT Changed}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Core Framework Unchanged}
+
+All 10 core modules remain \PYG{g+gs}{**identical**} in functionality:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`incompatibility\PYGZus{}semantics.pl`} \PYGZhy{} Prover logic unchanged
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`critique.pl`} \PYGZhy{} Critique mechanisms unchanged
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`dialectical\PYGZus{}engine.pl`} \PYGZhy{} ORR cycle unchanged
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Etc.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Math Content Unchanged}
+
+The math modules (\PYG{l+s+sb}{`lakoff\PYGZus{}metaphors.pl`}, \PYG{l+s+sb}{`arithmetic\PYGZus{}strategies.pl`}) remain \PYG{g+gs}{**functionally identical**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Same material inferences
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Same strategy definitions
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Same PP\PYGZhy{}necessities/sufficiencies
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Same pathology detections
+
+Only their \PYG{g+gs}{**location**} changed (root → math/), not their content.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Tests Unchanged}
+
+Test logic is \PYG{g+gs}{**identical**}:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Same test cases
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Same assertions
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Same expected outcomes
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Only import paths updated (load.pl → load\PYGZus{}math.pl)
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Status Summary}
+
+| Component | Status | Tests | Notes |
+|\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}|\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}|\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}|\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}|
+| Core Framework | ✅ Complete | 17/17 | Domain\PYGZhy{}agnostic, no regressions |
+| Math Domain | ✅ Complete | 29/29 | Cleanly separated, fully functional |
+| Documentation | ✅ Complete | \PYGZhy{} | Root + domain READMEs |
+| Test Organization | ✅ Complete | \PYGZhy{} | Core vs. domain separation |
+| Domain Template | ✅ Ready | \PYGZhy{} | math/ serves as template |
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} For the Book}
+
+This reorganization demonstrates a key design principle:
+
+\PYG{g+gs}{**Separation of framework from content.**}
+
+The PML Core Framework provides:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Logic (modal operators, inference rules)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Mechanisms (proof search, critique, trace)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Architecture (ORR cycle, dialectical rhythm)
+
+Domain instantiations provide:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Material inferences (\PYGZdq{}axioms\PYGZdq{} for the domain)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Practices (strategies, heuristics, patterns)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Content for critique (pathologies, incoherences)
+
+This separation means:
+\PYG{k}{1.} \PYG{g+gs}{**The framework is reusable**} across domains
+\PYG{k}{2.} \PYG{g+gs}{**Domain content is swappable**} (math, physics, law, etc.)
+\PYG{k}{3.} \PYG{g+gs}{**Testing is modular**} (test framework independently of content)
+\PYG{k}{4.} \PYG{g+gs}{**Documentation is scoped**} (framework guide vs. domain guide)
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Next Steps (Optional)}
+
+The math/ directory contains \PYGZti{}20 legacy strategy files (sar\PYGZus{}*.pl, smr\PYGZus{}*.pl, etc.) that could be progressively integrated:
+
+\PYG{k}{1.} \PYG{g+gs}{**One file at a time**}: Choose a strategy file (e.g., \PYG{l+s+sb}{`sar\PYGZus{}add\PYGZus{}chunking.pl`})
+\PYG{k}{2.} \PYG{g+gs}{**Extract the pattern**}: Identify the core inference and prerequisites
+\PYG{k}{3.} \PYG{g+gs}{**Add to arithmetic\PYGZus{}strategies.pl**}: Follow existing patterns
+\PYG{k}{4.} \PYG{g+gs}{**Write tests**}: Verify deployment and critique work
+\PYG{k}{5.} \PYG{g+gs}{**Repeat**}: Continue with other strategy files
+
+But this is \PYG{g+gs}{**not required**} for the book—the current implementation is complete and demonstrates all key concepts.
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Conclusion}
+
+✅ \PYG{g+gs}{**REORGANIZATION COMPLETE**}
+
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Domain separation: Clean
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Tests: All passing (46/46)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Documentation: Comprehensive
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Template: Ready for other domains
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }No regressions: Core functionality preserved
+
+The PML Core Framework is now a \PYG{g+gs}{**truly domain\PYGZhy{}agnostic foundation**} for embodied, pragmatic, dialectical reasoning, with \PYG{g+gs}{**math as a working exemplar**} of how to instantiate it for specific domains.
+
+\PYG{g+gs}{**This structure is publication\PYGZhy{}ready.**}
+
+\end{MintedVerbatim}

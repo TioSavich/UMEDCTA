@@ -1,0 +1,8 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+[0] Config.pm:328\PYGZgt{} INFO \PYGZhy{} This is Biber 2.21
+[0] Config.pm:331\PYGZgt{} INFO \PYGZhy{} Logfile is \PYGZsq{}Jason.tex.blg\PYGZsq{}
+[32] biber\PYGZhy{}darwin:342\PYGZgt{} INFO \PYGZhy{} === Thu Sep  4, 2025, 11:07:57
+[109] Utils.pm:479\PYGZgt{} ERROR \PYGZhy{} Cannot find \PYGZsq{}Jason.tex.bcf\PYGZsq{}!
+[110] Biber.pm:137\PYGZgt{} INFO \PYGZhy{} ERRORS: 1
+
+\end{MintedVerbatim}

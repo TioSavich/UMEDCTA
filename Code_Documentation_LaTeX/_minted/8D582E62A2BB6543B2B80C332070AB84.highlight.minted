@@ -1,0 +1,34 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/** \PYGZlt{}module\PYGZgt{} Normalization for Grounded Fractional Arithmetic}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ * This module provides normalization operations for fractional arithmetic}
+\PYG{c+cm}{ * results. Normalization simplifies quantity representations by applying}
+\PYG{c+cm}{ * equivalence rules and combining units.}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ * @author UMEDCA System}
+\PYG{c+cm}{ * @license MIT}
+\PYG{c+cm}{ */}
+
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{module}\PYG{p}{(}\PYG{l+s+sAtom}{normalization}\PYG{p}{,} \PYG{p}{[}
+    \PYG{l+s+sAtom}{normalize}\PYG{o}{/}\PYG{l+m+mi}{2}
+\PYG{p}{]).}
+
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{grounded\PYGZus{}arithmetic}\PYG{p}{,} \PYG{p}{[}\PYG{l+s+sAtom}{incur\PYGZus{}cost}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{p}{]).}
+
+\PYG{c+c1}{\PYGZpc{}! normalize(+QuantityIn, \PYGZhy{}QuantityOut) is det.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{} Normalizes a quantity representation by simplifying and combining units.}
+\PYG{c+c1}{\PYGZpc{} Currently implements a simple pass\PYGZhy{}through with cost tracking.}
+\PYG{c+c1}{\PYGZpc{} More sophisticated normalization (applying equivalence rules, simplifying}
+\PYG{c+c1}{\PYGZpc{} nested structures) can be added as needed.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{} @param QuantityIn Input quantity (list of units)}
+\PYG{c+c1}{\PYGZpc{} @param QuantityOut Normalized quantity}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{n+nf}{normalize}\PYG{p}{(}\PYG{n+nv}{QuantityIn}\PYG{p}{,} \PYG{n+nv}{QuantityOut}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{incur\PYGZus{}cost}\PYG{p}{(}\PYG{l+s+sAtom}{normalization}\PYG{p}{),}
+    \PYG{c+c1}{\PYGZpc{} Simple implementation: pass through}
+    \PYG{c+c1}{\PYGZpc{} TODO: Apply equivalence rules, combine like units, simplify nested structures}
+    \PYG{n+nv}{QuantityOut} \PYG{o}{=} \PYG{n+nv}{QuantityIn}\PYG{p}{.}
+
+\end{MintedVerbatim}

@@ -1,0 +1,393 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/** \PYGZlt{}module\PYGZgt{} Gödel Numbering for the Hermeneutic Calculator}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ * This module implements Gödel numbering (arithmetization) for the}
+\PYG{c+cm}{ * Hermeneutic Calculator\PYGZsq{}s automata. It demonstrates how the syntax}
+\PYG{c+cm}{ * and semantics of student\PYGZhy{}invented arithmetic strategies can be}
+\PYG{c+cm}{ * encoded as natural numbers, enabling the system to \PYGZdq{}talk about itself.\PYGZdq{}}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ * This is crucial for demonstrating that Gödel\PYGZsq{}s Incompleteness Theorem}
+\PYG{c+cm}{ * applies to the formalized student strategies.}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ * @author UMEDCA System}
+\PYG{c+cm}{ * @date October 4, 2025}
+\PYG{c+cm}{ */}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{module}\PYG{p}{(}\PYG{l+s+sAtom}{godel\PYGZus{}numbering}\PYG{p}{,} \PYG{p}{[}
+    \PYG{c+c1}{\PYGZpc{} Core encoding functions}
+    \PYG{l+s+sAtom}{encode\PYGZus{}state}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{,}
+    \PYG{l+s+sAtom}{decode\PYGZus{}state}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{,}
+    \PYG{l+s+sAtom}{encode\PYGZus{}transition}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{,}
+    \PYG{l+s+sAtom}{encode\PYGZus{}configuration}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{,}
+    \PYG{l+s+sAtom}{encode\PYGZus{}trace}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{,}
+
+    \PYG{c+c1}{\PYGZpc{} Prime number utilities}
+    \PYG{l+s+sAtom}{nth\PYGZus{}prime}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{,}
+    \PYG{l+s+sAtom}{prime\PYGZus{}factorization}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{,}
+
+    \PYG{c+c1}{\PYGZpc{} Demonstration predicates}
+    \PYG{l+s+sAtom}{demo\PYGZus{}c2c\PYGZus{}encoding}\PYG{o}{/}\PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{l+s+sAtom}{demo\PYGZus{}transition\PYGZus{}encoding}\PYG{o}{/}\PYG{l+m+mi}{0}
+\PYG{p}{]).}
+
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{n+nf}{library}\PYG{p}{(}\PYG{l+s+sAtom}{clpfd}\PYG{p}{)).}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ========================================================================}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Prime Number Utilities}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ========================================================================}
+
+\PYG{c+c1}{\PYGZpc{}!  nth\PYGZus{}prime(+N:integer, \PYGZhy{}Prime:integer) is det.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   Returns the Nth prime number (1\PYGZhy{}indexed).}
+\PYG{c+c1}{\PYGZpc{}   Uses a simple trial division method (sufficient for demonstration).}
+\PYG{n+nf}{nth\PYGZus{}prime}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{)} \PYG{p}{:\PYGZhy{}} \PYG{p}{!.}
+\PYG{n+nf}{nth\PYGZus{}prime}\PYG{p}{(}\PYG{n+nv}{N}\PYG{p}{,} \PYG{n+nv}{Prime}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nv}{N} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n+nf}{nth\PYGZus{}prime\PYGZus{}helper}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n+nv}{N}\PYG{p}{,} \PYG{n+nv}{Prime}\PYG{p}{).}
+
+\PYG{n+nf}{nth\PYGZus{}prime\PYGZus{}helper}\PYG{p}{(}\PYG{n+nv}{Candidate}\PYG{p}{,} \PYG{n+nv}{Count}\PYG{p}{,} \PYG{n+nv}{Target}\PYG{p}{,} \PYG{n+nv}{Prime}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nv}{Count} \PYG{o}{=:=} \PYG{n+nv}{Target}\PYG{p}{,}
+    \PYG{p}{!,}
+    \PYG{n+nv}{Prime} \PYG{o}{=} \PYG{n+nv}{Candidate}\PYG{p}{.}
+\PYG{n+nf}{nth\PYGZus{}prime\PYGZus{}helper}\PYG{p}{(}\PYG{n+nv}{Candidate}\PYG{p}{,} \PYG{n+nv}{Count}\PYG{p}{,} \PYG{n+nv}{Target}\PYG{p}{,} \PYG{n+nv}{Prime}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nv}{Count} \PYG{o}{\PYGZlt{}} \PYG{n+nv}{Target}\PYG{p}{,}
+    \PYG{n+nv}{NextCandidate} \PYG{o}{is} \PYG{n+nv}{Candidate} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{p}{(} \PYG{n+nf}{is\PYGZus{}prime}\PYG{p}{(}\PYG{n+nv}{NextCandidate}\PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nv}{NewCount} \PYG{o}{is} \PYG{n+nv}{Count} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,}
+        \PYG{n+nf}{nth\PYGZus{}prime\PYGZus{}helper}\PYG{p}{(}\PYG{n+nv}{NextCandidate}\PYG{p}{,} \PYG{n+nv}{NewCount}\PYG{p}{,} \PYG{n+nv}{Target}\PYG{p}{,} \PYG{n+nv}{Prime}\PYG{p}{)}
+    \PYG{p}{;}
+        \PYG{n+nf}{nth\PYGZus{}prime\PYGZus{}helper}\PYG{p}{(}\PYG{n+nv}{NextCandidate}\PYG{p}{,} \PYG{n+nv}{Count}\PYG{p}{,} \PYG{n+nv}{Target}\PYG{p}{,} \PYG{n+nv}{Prime}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}!  is\PYGZus{}prime(+N:integer) is semidet.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   True if N is prime.}
+\PYG{n+nf}{is\PYGZus{}prime}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{)} \PYG{p}{:\PYGZhy{}} \PYG{p}{!.}
+\PYG{n+nf}{is\PYGZus{}prime}\PYG{p}{(}\PYG{n+nv}{N}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nv}{N} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{2}\PYG{p}{,}
+    \PYG{n+nv}{N} \PYG{o}{mod} \PYG{l+m+mi}{2} \PYG{l+s+sAtom}{=\PYGZbs{}=} \PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{l+s+sAtom}{\PYGZbs{}+} \PYG{n+nf}{has\PYGZus{}divisor}\PYG{p}{(}\PYG{n+nv}{N}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{).}
+
+\PYG{n+nf}{has\PYGZus{}divisor}\PYG{p}{(}\PYG{n+nv}{N}\PYG{p}{,} \PYG{n+nv}{D}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nv}{D} \PYG{o}{*} \PYG{n+nv}{D} \PYG{o}{=\PYGZlt{}} \PYG{n+nv}{N}\PYG{p}{,}
+    \PYG{p}{(} \PYG{n+nv}{N} \PYG{o}{mod} \PYG{n+nv}{D} \PYG{o}{=:=} \PYG{l+m+mi}{0} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{l+s+sAtom}{true}
+    \PYG{p}{;}
+        \PYG{n+nv}{D2} \PYG{o}{is} \PYG{n+nv}{D} \PYG{o}{+} \PYG{l+m+mi}{2}\PYG{p}{,}
+        \PYG{n+nf}{has\PYGZus{}divisor}\PYG{p}{(}\PYG{n+nv}{N}\PYG{p}{,} \PYG{n+nv}{D2}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}!  prime\PYGZus{}power(+Prime:integer, +Exponent:integer, \PYGZhy{}Result:integer) is det.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   Computes Prime\PYGZca{}Exponent efficiently.}
+\PYG{n+nf}{prime\PYGZus{}power}\PYG{p}{(}\PYG{k}{\PYGZus{}}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{p}{:\PYGZhy{}} \PYG{p}{!.}
+\PYG{n+nf}{prime\PYGZus{}power}\PYG{p}{(}\PYG{n+nv}{Prime}\PYG{p}{,} \PYG{n+nv}{Exp}\PYG{p}{,} \PYG{n+nv}{Result}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nv}{Exp} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{,}
+    \PYG{n+nv}{Exp1} \PYG{o}{is} \PYG{n+nv}{Exp} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n+nf}{prime\PYGZus{}power}\PYG{p}{(}\PYG{n+nv}{Prime}\PYG{p}{,} \PYG{n+nv}{Exp1}\PYG{p}{,} \PYG{n+nv}{Result1}\PYG{p}{),}
+    \PYG{n+nv}{Result} \PYG{o}{is} \PYG{n+nv}{Prime} \PYG{o}{*} \PYG{n+nv}{Result1}\PYG{p}{.}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ========================================================================}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Symbol Encoding}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ========================================================================}
+
+\PYG{c+c1}{\PYGZpc{}!  encode\PYGZus{}symbol(+Symbol, \PYGZhy{}GödelNumber) is det.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   Assigns Gödel numbers to the symbols used in the HC automata.}
+\PYG{c+c1}{\PYGZpc{}   This creates a bijection between symbols and natural numbers.}
+
+\PYG{c+c1}{\PYGZpc{} State names}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+s+sAtom}{q\PYGZus{}init}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+s+sAtom}{q\PYGZus{}check\PYGZus{}G}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+s+sAtom}{q\PYGZus{}count\PYGZus{}items}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+s+sAtom}{q\PYGZus{}next\PYGZus{}group}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+s+sAtom}{q\PYGZus{}accept}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} Additional states from other strategies}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+s+sAtom}{q\PYGZus{}add\PYGZus{}bases}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+s+sAtom}{q\PYGZus{}add\PYGZus{}ones}\PYG{p}{,} \PYG{l+m+mi}{11}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+s+sAtom}{q\PYGZus{}idle}\PYG{p}{,} \PYG{l+m+mi}{12}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} Registers/Variables (for general use)}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+s+sAtom}{reg\PYGZus{}groups\PYGZus{}done}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+s+sAtom}{reg\PYGZus{}item\PYGZus{}in\PYGZus{}group}\PYG{p}{,} \PYG{l+m+mi}{21}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+s+sAtom}{reg\PYGZus{}total}\PYG{p}{,} \PYG{l+m+mi}{22}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+s+sAtom}{reg\PYGZus{}num\PYGZus{}groups}\PYG{p}{,} \PYG{l+m+mi}{23}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+s+sAtom}{reg\PYGZus{}group\PYGZus{}size}\PYG{p}{,} \PYG{l+m+mi}{24}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} Operations}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+s+sAtom}{increment}\PYG{p}{,} \PYG{l+m+mi}{30}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+s+sAtom}{decrement}\PYG{p}{,} \PYG{l+m+mi}{31}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+s+sAtom}{check\PYGZus{}zero}\PYG{p}{,} \PYG{l+m+mi}{32}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+s+sAtom}{check\PYGZus{}equal}\PYG{p}{,} \PYG{l+m+mi}{33}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} Natural numbers (0\PYGZhy{}9 for demonstration)}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{101}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{102}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{103}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{,} \PYG{l+m+mi}{104}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{105}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+m+mi}{6}\PYG{p}{,} \PYG{l+m+mi}{106}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+m+mi}{7}\PYG{p}{,} \PYG{l+m+mi}{107}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+m+mi}{8}\PYG{p}{,} \PYG{l+m+mi}{108}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{l+m+mi}{9}\PYG{p}{,} \PYG{l+m+mi}{109}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} Catch\PYGZhy{}all for atoms}
+\PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{n+nv}{Atom}\PYG{p}{,} \PYG{n+nv}{Code}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{atom}\PYG{p}{(}\PYG{n+nv}{Atom}\PYG{p}{),}
+    \PYG{l+s+sAtom}{\PYGZbs{}+} \PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{n+nv}{Atom}\PYG{p}{,} \PYG{k}{\PYGZus{}}\PYG{p}{),}  \PYG{c+c1}{\PYGZpc{} Not already defined}
+    \PYG{n+nf}{atom\PYGZus{}codes}\PYG{p}{(}\PYG{n+nv}{Atom}\PYG{p}{,} \PYG{n+nv}{Codes}\PYG{p}{),}
+    \PYG{n+nf}{encode\PYGZus{}atom\PYGZus{}codes}\PYG{p}{(}\PYG{n+nv}{Codes}\PYG{p}{,} \PYG{n+nv}{Code}\PYG{p}{).}
+
+\PYG{n+nf}{encode\PYGZus{}atom\PYGZus{}codes}\PYG{p}{([],} \PYG{l+m+mi}{0}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}atom\PYGZus{}codes}\PYG{p}{([}\PYG{n+nv}{H}\PYG{p}{|}\PYG{n+nv}{T}\PYG{p}{],} \PYG{n+nv}{Code}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{encode\PYGZus{}atom\PYGZus{}codes}\PYG{p}{(}\PYG{n+nv}{T}\PYG{p}{,} \PYG{n+nv}{TailCode}\PYG{p}{),}
+    \PYG{n+nv}{Code} \PYG{o}{is} \PYG{n+nv}{H} \PYG{o}{+} \PYG{l+m+mi}{256} \PYG{o}{*} \PYG{n+nv}{TailCode}\PYG{p}{.}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ========================================================================}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} State Encoding}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ========================================================================}
+
+\PYG{c+c1}{\PYGZpc{}!  encode\PYGZus{}state(+State, \PYGZhy{}GödelNumber) is det.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   Encodes a complete state configuration as a Gödel number.}
+\PYG{c+c1}{\PYGZpc{}   Uses the fundamental theorem of arithmetic (unique prime factorization).}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   Example: state(q\PYGZus{}count\PYGZus{}items, 2, 3, 10, 3, 4)}
+\PYG{c+c1}{\PYGZpc{}   is encoded as: 2\PYGZca{}g(q\PYGZus{}count\PYGZus{}items) × 3\PYGZca{}g(2) × 5\PYGZca{}g(3) × 7\PYGZca{}g(10) × 11\PYGZca{}g(3) × 13\PYGZca{}g(4)}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   where g(x) is the Gödel number of symbol x.}
+
+\PYG{n+nf}{encode\PYGZus{}state}\PYG{p}{(}\PYG{n+nf}{state}\PYG{p}{(}\PYG{n+nv}{StateName}\PYG{p}{),} \PYG{n+nv}{GödelNum}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{p}{!,}
+    \PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{n+nv}{StateName}\PYG{p}{,} \PYG{n+nv}{GödelNum}\PYG{p}{).}
+
+\PYG{n+nf}{encode\PYGZus{}state}\PYG{p}{(}\PYG{n+nf}{state}\PYG{p}{(}\PYG{n+nv}{StateName}\PYG{p}{,} \PYG{n+nv}{Reg1}\PYG{p}{),} \PYG{n+nv}{GödelNum}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{p}{!,}
+    \PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{n+nv}{StateName}\PYG{p}{,} \PYG{n+nv}{G1}\PYG{p}{),}
+    \PYG{n+nf}{encode\PYGZus{}value}\PYG{p}{(}\PYG{n+nv}{Reg1}\PYG{p}{,} \PYG{n+nv}{G2}\PYG{p}{),}
+    \PYG{n+nf}{nth\PYGZus{}prime}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n+nv}{P1}\PYG{p}{),}
+    \PYG{n+nf}{nth\PYGZus{}prime}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n+nv}{P2}\PYG{p}{),}
+    \PYG{n+nf}{prime\PYGZus{}power}\PYG{p}{(}\PYG{n+nv}{P1}\PYG{p}{,} \PYG{n+nv}{G1}\PYG{p}{,} \PYG{n+nv}{Term1}\PYG{p}{),}
+    \PYG{n+nf}{prime\PYGZus{}power}\PYG{p}{(}\PYG{n+nv}{P2}\PYG{p}{,} \PYG{n+nv}{G2}\PYG{p}{,} \PYG{n+nv}{Term2}\PYG{p}{),}
+    \PYG{n+nv}{GödelNum} \PYG{o}{is} \PYG{n+nv}{Term1} \PYG{o}{*} \PYG{n+nv}{Term2}\PYG{p}{.}
+
+\PYG{n+nf}{encode\PYGZus{}state}\PYG{p}{(}\PYG{n+nf}{state}\PYG{p}{(}\PYG{n+nv}{StateName}\PYG{p}{,} \PYG{n+nv}{Reg1}\PYG{p}{,} \PYG{n+nv}{Reg2}\PYG{p}{,} \PYG{n+nv}{Reg3}\PYG{p}{,} \PYG{n+nv}{Reg4}\PYG{p}{,} \PYG{n+nv}{Reg5}\PYG{p}{),} \PYG{n+nv}{GödelNum}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{c+c1}{\PYGZpc{} Full C2C state: state(Name, GroupsDone, ItemInGroup, Total, NumGroups, GroupSize)}
+    \PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{n+nv}{StateName}\PYG{p}{,} \PYG{n+nv}{G1}\PYG{p}{),}
+    \PYG{n+nf}{encode\PYGZus{}value}\PYG{p}{(}\PYG{n+nv}{Reg1}\PYG{p}{,} \PYG{n+nv}{G2}\PYG{p}{),}
+    \PYG{n+nf}{encode\PYGZus{}value}\PYG{p}{(}\PYG{n+nv}{Reg2}\PYG{p}{,} \PYG{n+nv}{G3}\PYG{p}{),}
+    \PYG{n+nf}{encode\PYGZus{}value}\PYG{p}{(}\PYG{n+nv}{Reg3}\PYG{p}{,} \PYG{n+nv}{G4}\PYG{p}{),}
+    \PYG{n+nf}{encode\PYGZus{}value}\PYG{p}{(}\PYG{n+nv}{Reg4}\PYG{p}{,} \PYG{n+nv}{G5}\PYG{p}{),}
+    \PYG{n+nf}{encode\PYGZus{}value}\PYG{p}{(}\PYG{n+nv}{Reg5}\PYG{p}{,} \PYG{n+nv}{G6}\PYG{p}{),}
+
+    \PYG{c+c1}{\PYGZpc{} Compute 2\PYGZca{}G1 × 3\PYGZca{}G2 × 5\PYGZca{}G3 × 7\PYGZca{}G4 × 11\PYGZca{}G5 × 13\PYGZca{}G6}
+    \PYG{n+nf}{nth\PYGZus{}prime}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n+nv}{P1}\PYG{p}{),} \PYG{n+nf}{nth\PYGZus{}prime}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n+nv}{P2}\PYG{p}{),} \PYG{n+nf}{nth\PYGZus{}prime}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{n+nv}{P3}\PYG{p}{),}
+    \PYG{n+nf}{nth\PYGZus{}prime}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{,} \PYG{n+nv}{P4}\PYG{p}{),} \PYG{n+nf}{nth\PYGZus{}prime}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{n+nv}{P5}\PYG{p}{),} \PYG{n+nf}{nth\PYGZus{}prime}\PYG{p}{(}\PYG{l+m+mi}{6}\PYG{p}{,} \PYG{n+nv}{P6}\PYG{p}{),}
+
+    \PYG{n+nf}{prime\PYGZus{}power}\PYG{p}{(}\PYG{n+nv}{P1}\PYG{p}{,} \PYG{n+nv}{G1}\PYG{p}{,} \PYG{n+nv}{T1}\PYG{p}{),}
+    \PYG{n+nf}{prime\PYGZus{}power}\PYG{p}{(}\PYG{n+nv}{P2}\PYG{p}{,} \PYG{n+nv}{G2}\PYG{p}{,} \PYG{n+nv}{T2}\PYG{p}{),}
+    \PYG{n+nf}{prime\PYGZus{}power}\PYG{p}{(}\PYG{n+nv}{P3}\PYG{p}{,} \PYG{n+nv}{G3}\PYG{p}{,} \PYG{n+nv}{T3}\PYG{p}{),}
+    \PYG{n+nf}{prime\PYGZus{}power}\PYG{p}{(}\PYG{n+nv}{P4}\PYG{p}{,} \PYG{n+nv}{G4}\PYG{p}{,} \PYG{n+nv}{T4}\PYG{p}{),}
+    \PYG{n+nf}{prime\PYGZus{}power}\PYG{p}{(}\PYG{n+nv}{P5}\PYG{p}{,} \PYG{n+nv}{G5}\PYG{p}{,} \PYG{n+nv}{T5}\PYG{p}{),}
+    \PYG{n+nf}{prime\PYGZus{}power}\PYG{p}{(}\PYG{n+nv}{P6}\PYG{p}{,} \PYG{n+nv}{G6}\PYG{p}{,} \PYG{n+nv}{T6}\PYG{p}{),}
+
+    \PYG{n+nv}{GödelNum} \PYG{o}{is} \PYG{n+nv}{T1} \PYG{o}{*} \PYG{n+nv}{T2} \PYG{o}{*} \PYG{n+nv}{T3} \PYG{o}{*} \PYG{n+nv}{T4} \PYG{o}{*} \PYG{n+nv}{T5} \PYG{o}{*} \PYG{n+nv}{T6}\PYG{p}{.}
+
+\PYG{c+c1}{\PYGZpc{}!  encode\PYGZus{}value(+Value, \PYGZhy{}EncodedValue) is det.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   Encodes a register value (integer or symbol).}
+\PYG{n+nf}{encode\PYGZus{}value}\PYG{p}{(}\PYG{n+nv}{Value}\PYG{p}{,} \PYG{n+nv}{Encoded}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{integer}\PYG{p}{(}\PYG{n+nv}{Value}\PYG{p}{),}
+    \PYG{p}{!,}
+    \PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{n+nv}{Value}\PYG{p}{,} \PYG{n+nv}{Encoded}\PYG{p}{).}
+\PYG{n+nf}{encode\PYGZus{}value}\PYG{p}{(}\PYG{n+nv}{Value}\PYG{p}{,} \PYG{n+nv}{Encoded}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{n+nv}{Value}\PYG{p}{,} \PYG{n+nv}{Encoded}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ========================================================================}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Configuration Encoding}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ========================================================================}
+
+\PYG{c+c1}{\PYGZpc{}!  encode\PYGZus{}configuration(+Configuration, \PYGZhy{}GödelNumber) is det.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   A configuration is a snapshot of the automaton during execution.}
+\PYG{c+c1}{\PYGZpc{}   For now, equivalent to state encoding, but could be extended to}
+\PYG{c+c1}{\PYGZpc{}   include input tape position, etc.}
+
+\PYG{n+nf}{encode\PYGZus{}configuration}\PYG{p}{(}\PYG{n+nv}{Config}\PYG{p}{,} \PYG{n+nv}{GödelNum}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{encode\PYGZus{}state}\PYG{p}{(}\PYG{n+nv}{Config}\PYG{p}{,} \PYG{n+nv}{GödelNum}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ========================================================================}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Transition Encoding}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ========================================================================}
+
+\PYG{c+c1}{\PYGZpc{}!  encode\PYGZus{}transition(+Transition, \PYGZhy{}GödelNumber) is det.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   Encodes a transition as a tuple: (CurrentState, NextState, Action).}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   Encoded as: 2\PYGZca{}g(CurrentState) × 3\PYGZca{}g(NextState) × 5\PYGZca{}g(Action)}
+
+\PYG{n+nf}{encode\PYGZus{}transition}\PYG{p}{(}\PYG{n+nf}{transition}\PYG{p}{(}\PYG{n+nv}{State1}\PYG{p}{,} \PYG{n+nv}{State2}\PYG{p}{,} \PYG{n+nv}{Action}\PYG{p}{),} \PYG{n+nv}{GödelNum}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{encode\PYGZus{}state}\PYG{p}{(}\PYG{n+nv}{State1}\PYG{p}{,} \PYG{n+nv}{G1}\PYG{p}{),}
+    \PYG{n+nf}{encode\PYGZus{}state}\PYG{p}{(}\PYG{n+nv}{State2}\PYG{p}{,} \PYG{n+nv}{G2}\PYG{p}{),}
+    \PYG{n+nf}{encode\PYGZus{}symbol}\PYG{p}{(}\PYG{n+nv}{Action}\PYG{p}{,} \PYG{n+nv}{G3}\PYG{p}{),}
+
+    \PYG{n+nf}{nth\PYGZus{}prime}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n+nv}{P1}\PYG{p}{),}
+    \PYG{n+nf}{nth\PYGZus{}prime}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n+nv}{P2}\PYG{p}{),}
+    \PYG{n+nf}{nth\PYGZus{}prime}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{n+nv}{P3}\PYG{p}{),}
+
+    \PYG{n+nf}{prime\PYGZus{}power}\PYG{p}{(}\PYG{n+nv}{P1}\PYG{p}{,} \PYG{n+nv}{G1}\PYG{p}{,} \PYG{n+nv}{T1}\PYG{p}{),}
+    \PYG{n+nf}{prime\PYGZus{}power}\PYG{p}{(}\PYG{n+nv}{P2}\PYG{p}{,} \PYG{n+nv}{G2}\PYG{p}{,} \PYG{n+nv}{T2}\PYG{p}{),}
+    \PYG{n+nf}{prime\PYGZus{}power}\PYG{p}{(}\PYG{n+nv}{P3}\PYG{p}{,} \PYG{n+nv}{G3}\PYG{p}{,} \PYG{n+nv}{T3}\PYG{p}{),}
+
+    \PYG{n+nv}{GödelNum} \PYG{o}{is} \PYG{n+nv}{T1} \PYG{o}{*} \PYG{n+nv}{T2} \PYG{o}{*} \PYG{n+nv}{T3}\PYG{p}{.}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ========================================================================}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Trace Encoding}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ========================================================================}
+
+\PYG{c+c1}{\PYGZpc{}!  encode\PYGZus{}trace(+Trace, \PYGZhy{}GödelNumber) is det.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   Encodes a complete execution trace (sequence of configurations).}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   For trace [C₀, C₁, C₂, ..., Cₙ]:}
+\PYG{c+c1}{\PYGZpc{}   Gödel number = 2\PYGZca{}g(C₀) × 3\PYGZca{}g(C₁) × 5\PYGZca{}g(C₂) × ... × Pₙ\PYGZca{}g(Cₙ)}
+
+\PYG{n+nf}{encode\PYGZus{}trace}\PYG{p}{([],} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{p}{:\PYGZhy{}} \PYG{p}{!.}  \PYG{c+c1}{\PYGZpc{} Empty trace = 1 (multiplicative identity)}
+\PYG{n+nf}{encode\PYGZus{}trace}\PYG{p}{(}\PYG{n+nv}{Trace}\PYG{p}{,} \PYG{n+nv}{GödelNum}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{encode\PYGZus{}trace\PYGZus{}helper}\PYG{p}{(}\PYG{n+nv}{Trace}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n+nv}{GödelNum}\PYG{p}{).}
+
+\PYG{n+nf}{encode\PYGZus{}trace\PYGZus{}helper}\PYG{p}{([],} \PYG{k}{\PYGZus{}}\PYG{p}{,} \PYG{n+nv}{Acc}\PYG{p}{,} \PYG{n+nv}{Acc}\PYG{p}{)} \PYG{p}{:\PYGZhy{}} \PYG{p}{!.}
+\PYG{n+nf}{encode\PYGZus{}trace\PYGZus{}helper}\PYG{p}{([}\PYG{n+nv}{Config}\PYG{p}{|}\PYG{n+nv}{Rest}\PYG{p}{],} \PYG{n+nv}{PrimeIndex}\PYG{p}{,} \PYG{n+nv}{Acc}\PYG{p}{,} \PYG{n+nv}{GödelNum}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{encode\PYGZus{}configuration}\PYG{p}{(}\PYG{n+nv}{Config}\PYG{p}{,} \PYG{n+nv}{G}\PYG{p}{),}
+    \PYG{n+nf}{nth\PYGZus{}prime}\PYG{p}{(}\PYG{n+nv}{PrimeIndex}\PYG{p}{,} \PYG{n+nv}{Prime}\PYG{p}{),}
+    \PYG{n+nf}{prime\PYGZus{}power}\PYG{p}{(}\PYG{n+nv}{Prime}\PYG{p}{,} \PYG{n+nv}{G}\PYG{p}{,} \PYG{n+nv}{Term}\PYG{p}{),}
+    \PYG{n+nv}{NewAcc} \PYG{o}{is} \PYG{n+nv}{Acc} \PYG{o}{*} \PYG{n+nv}{Term}\PYG{p}{,}
+    \PYG{n+nv}{NextIndex} \PYG{o}{is} \PYG{n+nv}{PrimeIndex} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,}
+    \PYG{n+nf}{encode\PYGZus{}trace\PYGZus{}helper}\PYG{p}{(}\PYG{n+nv}{Rest}\PYG{p}{,} \PYG{n+nv}{NextIndex}\PYG{p}{,} \PYG{n+nv}{NewAcc}\PYG{p}{,} \PYG{n+nv}{GödelNum}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ========================================================================}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} Demonstrations}
+\PYG{c+c1}{\PYGZpc{}\PYGZpc{} ========================================================================}
+
+\PYG{c+c1}{\PYGZpc{}!  demo\PYGZus{}c2c\PYGZus{}encoding is det.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   Demonstrates Gödel encoding of C2C multiplication states.}
+
+\PYG{n+nf}{demo\PYGZus{}c2c\PYGZus{}encoding} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}=== GÖDEL NUMBERING DEMONSTRATION: C2C MULTIPLICATION ===\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{c+c1}{\PYGZpc{} Example: 3 × 4 = 12}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Computing 3 × 4 using C2C strategy\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),}
+
+    \PYG{c+c1}{\PYGZpc{} Initial state: state(q\PYGZus{}init, 0, 0, 0, 3, 4)}
+    \PYG{n+nv}{State0} \PYG{o}{=} \PYG{n+nf}{state}\PYG{p}{(}\PYG{l+s+sAtom}{q\PYGZus{}init}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{),}
+    \PYG{n+nf}{encode\PYGZus{}state}\PYG{p}{(}\PYG{n+nv}{State0}\PYG{p}{,} \PYG{n+nv}{G0}\PYG{p}{),}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Initial State: \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{State0}\PYG{p}{]),}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Gödel Number: \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{G0}\PYG{p}{]),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{c+c1}{\PYGZpc{} After initialization: state(q\PYGZus{}check\PYGZus{}G, 0, 0, 0, 3, 4)}
+    \PYG{n+nv}{State1} \PYG{o}{=} \PYG{n+nf}{state}\PYG{p}{(}\PYG{l+s+sAtom}{q\PYGZus{}check\PYGZus{}G}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{),}
+    \PYG{n+nf}{encode\PYGZus{}state}\PYG{p}{(}\PYG{n+nv}{State1}\PYG{p}{,} \PYG{n+nv}{G1}\PYG{p}{),}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}After Init: \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{State1}\PYG{p}{]),}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Gödel Number: \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{G1}\PYG{p}{]),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{c+c1}{\PYGZpc{} Counting first item: state(q\PYGZus{}count\PYGZus{}items, 0, 1, 1, 3, 4)}
+    \PYG{n+nv}{State2} \PYG{o}{=} \PYG{n+nf}{state}\PYG{p}{(}\PYG{l+s+sAtom}{q\PYGZus{}count\PYGZus{}items}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{),}
+    \PYG{n+nf}{encode\PYGZus{}state}\PYG{p}{(}\PYG{n+nv}{State2}\PYG{p}{,} \PYG{n+nv}{G2}\PYG{p}{),}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}First Count: \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{State2}\PYG{p}{]),}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Gödel Number: \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{G2}\PYG{p}{]),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{c+c1}{\PYGZpc{} Final state: state(q\PYGZus{}accept, 3, 0, 12, 3, 4)}
+    \PYG{n+nv}{StateFinal} \PYG{o}{=} \PYG{n+nf}{state}\PYG{p}{(}\PYG{l+s+sAtom}{q\PYGZus{}accept}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{),}
+    \PYG{n+nf}{encode\PYGZus{}state}\PYG{p}{(}\PYG{n+nv}{StateFinal}\PYG{p}{,} \PYG{n+nv}{GFinal}\PYG{p}{),}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Accept State: \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{StateFinal}\PYG{p}{]),}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Gödel Number: \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{GFinal}\PYG{p}{]),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Each distinct state has a unique Gödel number.\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}By the Fundamental Theorem of Arithmetic, this encoding is bijective.\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{.}
+
+\PYG{c+c1}{\PYGZpc{}!  demo\PYGZus{}transition\PYGZus{}encoding is det.}
+\PYG{c+c1}{\PYGZpc{}}
+\PYG{c+c1}{\PYGZpc{}   Demonstrates how transitions can be encoded arithmetically.}
+
+\PYG{n+nf}{demo\PYGZus{}transition\PYGZus{}encoding} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}=== TRANSITION ENCODING DEMONSTRATION ===\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{c+c1}{\PYGZpc{} Example transition from C2C}
+    \PYG{n+nv}{State1} \PYG{o}{=} \PYG{n+nf}{state}\PYG{p}{(}\PYG{l+s+sAtom}{q\PYGZus{}count\PYGZus{}items}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{),}
+    \PYG{n+nv}{State2} \PYG{o}{=} \PYG{n+nf}{state}\PYG{p}{(}\PYG{l+s+sAtom}{q\PYGZus{}count\PYGZus{}items}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{),}
+    \PYG{n+nv}{Action} \PYG{o}{=} \PYG{l+s+sAtom}{increment}\PYG{p}{,}
+
+    \PYG{n+nv}{Transition} \PYG{o}{=} \PYG{n+nf}{transition}\PYG{p}{(}\PYG{n+nv}{State1}\PYG{p}{,} \PYG{n+nv}{State2}\PYG{p}{,} \PYG{n+nv}{Action}\PYG{p}{),}
+    \PYG{n+nf}{encode\PYGZus{}transition}\PYG{p}{(}\PYG{n+nv}{Transition}\PYG{p}{,} \PYG{n+nv}{GT}\PYG{p}{),}
+
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Transition: \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Transition}\PYG{p}{]),}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Gödel Number: \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{GT}\PYG{p}{]),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}This shows that transitions (the \PYGZdq{}cognitive moves\PYGZdq{}) are arithmetic objects.\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}The predicate Transition(x,y) = \PYGZdq{}x and y are consecutive configurations\PYGZdq{}\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}can be expressed using only addition, multiplication, and exponentiation.\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{nl}\PYG{p}{,}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}This is the KEY INSIGHT for Gödel\PYGZbs{}\PYGZsq{}s} \PYG{n+nn}{theorem}\PYG{p}{:}\PYG{l+s+sAtom}{\PYGZsq{}),}
+\PYG{l+s+sAtom}{    writeln(\PYGZsq{}}\PYG{n+nv}{The} \PYG{n+nv}{MECHANICS} \PYG{l+s+sAtom}{of} \PYG{l+s+sAtom}{the} \PYG{l+s+sAtom}{automaton} \PYG{l+s+sAtom}{are} \PYG{n+nv}{ARITHMETIC} \PYG{n+nv}{PREDICATES}\PYG{p}{.}\PYG{l+s+sAtom}{\PYGZsq{}),}
+\PYG{l+s+sAtom}{    writeln(\PYGZsq{}}\PYG{n+nv}{Therefore}\PYG{p}{,} \PYG{l+s+sAtom}{the} \PYG{l+s+sAtom}{system} \PYG{l+s+sAtom}{can} \PYG{l+s+s2}{\PYGZdq{}talk about\PYGZdq{}} \PYG{l+s+sAtom}{its} \PYG{l+s+sAtom}{own} \PYG{l+s+sAtom}{computational} \PYG{l+s+sAtom}{process}\PYG{p}{.}\PYG{l+s+sAtom}{\PYGZsq{}),}
+\PYG{l+s+sAtom}{    nl.}
+
+\PYG{l+s+sAtom}{\PYGZpc{}\PYGZpc{} ========================================================================}
+\PYG{l+s+sAtom}{\PYGZpc{}\PYGZpc{} Arithmetic Predicates (Sketch)}
+\PYG{l+s+sAtom}{\PYGZpc{}\PYGZpc{} ========================================================================}
+
+\PYG{l+s+sAtom}{\PYGZpc{}!  is\PYGZus{}transition(+X, +Y) is semidet.}
+\PYG{l+s+sAtom}{\PYGZpc{}}
+\PYG{l+s+sAtom}{\PYGZpc{}   Arithmetic predicate: true if X and Y encode consecutive configurations.}
+\PYG{l+s+sAtom}{\PYGZpc{}}
+\PYG{l+s+sAtom}{\PYGZpc{}   This is a SKETCH showing how this would be expressed arithmetically.}
+\PYG{l+s+sAtom}{\PYGZpc{}   In practice, this would use modular arithmetic to extract prime exponents}
+\PYG{l+s+sAtom}{\PYGZpc{}   and verify the transition rules are satisfied.}
+\PYG{l+s+sAtom}{\PYGZpc{}}
+\PYG{l+s+sAtom}{\PYGZpc{}   The crucial point: this predicate uses only +, ×, \PYGZca{}, and comparison.}
+
+\PYG{l+s+sAtom}{is\PYGZus{}transition(X, Y) :\PYGZhy{}}
+\PYG{l+s+sAtom}{    \PYGZpc{} Sketch: decode states from X and Y}
+\PYG{l+s+sAtom}{    \PYGZpc{} Check if transition rules are satisfied}
+\PYG{l+s+sAtom}{    \PYGZpc{} This is primitive recursive!}
+
+\PYG{l+s+sAtom}{    \PYGZpc{} For demonstration, we just note that this is arithmetically definable}
+\PYG{l+s+sAtom}{    format(\PYGZsq{}}\PYG{n+nv}{Checking} \PYG{l+s+sAtom}{if} \PYG{l+s+sAtom}{\PYGZti{}w} \PYG{l+s+sAtom}{→} \PYG{l+s+sAtom}{\PYGZti{}w} \PYG{o}{is} \PYG{l+s+sAtom}{a} \PYG{l+s+sAtom}{valid} \PYG{l+s+sAtom}{transition\PYGZti{}n\PYGZsq{}, [X, Y]),}
+\PYG{l+s+sAtom}{    writeln(\PYGZsq{}}\PYG{p}{(}\PYG{n+nv}{This} \PYG{l+s+sAtom}{check} \PYG{l+s+sAtom}{uses} \PYG{l+s+sAtom}{only} \PYG{l+s+sAtom}{arithmetic} \PYG{l+s+sAtom}{operations} \PYG{l+s+sAtom}{on} \PYG{n+nv}{Gödel} \PYG{l+s+sAtom}{numbers}\PYG{p}{)}\PYG{l+s+sAtom}{\PYGZsq{}),}
+
+\PYG{l+s+sAtom}{    \PYGZpc{} In a full implementation, we would:}
+\PYG{l+s+sAtom}{    \PYGZpc{} 1. Extract exponents of primes from X and Y}
+\PYG{l+s+sAtom}{    \PYGZpc{} 2. Decode the state components}
+\PYG{l+s+sAtom}{    \PYGZpc{} 3. Verify the transition matches one of the FSM rules}
+\PYG{l+s+sAtom}{    \PYGZpc{} 4. All using primitive recursive arithmetic}
+
+\PYG{l+s+sAtom}{    true.  \PYGZpc{} Placeholder}
+
+\PYG{l+s+sAtom}{\PYGZpc{}!  is\PYGZus{}valid\PYGZus{}trace(+T) is semidet.}
+\PYG{l+s+sAtom}{\PYGZpc{}}
+\PYG{l+s+sAtom}{\PYGZpc{}   Arithmetic predicate: true if T encodes a valid execution trace.}
+\PYG{l+s+sAtom}{\PYGZpc{}}
+\PYG{l+s+sAtom}{\PYGZpc{}   T is valid if:}
+\PYG{l+s+sAtom}{\PYGZpc{}   ∀i: is\PYGZus{}transition(Configuration\PYGZus{}i, Configuration\PYGZus{}\PYGZob{}i+1\PYGZcb{})}
+\PYG{l+s+sAtom}{\PYGZpc{}}
+\PYG{l+s+sAtom}{\PYGZpc{}   This can be expressed arithmetically using bounded quantification.}
+
+\PYG{l+s+sAtom}{is\PYGZus{}valid\PYGZus{}trace(T) :\PYGZhy{}}
+\PYG{l+s+sAtom}{    format(\PYGZsq{}}\PYG{n+nv}{Checking} \PYG{l+s+sAtom}{if} \PYG{l+s+sAtom}{\PYGZti{}w} \PYG{l+s+sAtom}{encodes} \PYG{l+s+sAtom}{a} \PYG{l+s+sAtom}{valid} \PYG{l+s+sAtom}{trace\PYGZti{}n\PYGZsq{}, [T]),}
+\PYG{l+s+sAtom}{    writeln(\PYGZsq{}}\PYG{p}{(}\PYG{n+nv}{Verifying} \PYG{l+s+sAtom}{all} \PYG{l+s+sAtom}{consecutive} \PYG{l+s+sAtom}{pairs} \PYG{l+s+sAtom}{are} \PYG{l+s+sAtom}{valid} \PYG{l+s+sAtom}{transitions}\PYG{p}{)}\PYG{l+s+sAtom}{\PYGZsq{}),}
+\PYG{l+s+sAtom}{    writeln(\PYGZsq{}}\PYG{p}{(}\PYG{n+nv}{Using} \PYG{l+s+sAtom}{only} \PYG{l+s+sAtom}{arithmetic} \PYG{l+s+sAtom}{operations}\PYG{p}{)}\PYG{err}{\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{true}\PYG{p}{.}  \PYG{c+c1}{\PYGZpc{} Placeholder}
+
+\end{MintedVerbatim}

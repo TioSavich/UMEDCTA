@@ -1,0 +1,57 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k}{import}\PYG{+w}{ }\PYG{n+nx}{express}\PYG{+w}{ }\PYG{k+kr}{from}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}express\PYGZsq{}}\PYG{p}{;}
+\PYG{k}{import}\PYG{+w}{ }\PYG{n+nx}{cors}\PYG{+w}{ }\PYG{k+kr}{from}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}cors\PYGZsq{}}\PYG{p}{;}
+\PYG{k}{import}\PYG{+w}{ }\PYG{n+nx}{dotenv}\PYG{+w}{ }\PYG{k+kr}{from}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}dotenv\PYGZsq{}}\PYG{p}{;}
+
+\PYG{n+nx}{dotenv}\PYG{p}{.}\PYG{n+nx}{config}\PYG{p}{();}
+
+\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{app}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{express}\PYG{p}{();}
+\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{PORT}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{3001}\PYG{p}{;}
+
+\PYG{c+c1}{// Middleware}
+\PYG{n+nx}{app}\PYG{p}{.}\PYG{n+nx}{use}\PYG{p}{(}\PYG{n+nx}{cors}\PYG{p}{());}
+\PYG{n+nx}{app}\PYG{p}{.}\PYG{n+nx}{use}\PYG{p}{(}\PYG{n+nx}{express}\PYG{p}{.}\PYG{n+nx}{json}\PYG{p}{(\PYGZob{}}\PYG{+w}{ }\PYG{n+nx}{limit}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}10mb\PYGZsq{}}\PYG{+w}{ }\PYG{p}{\PYGZcb{}));}
+
+\PYG{c+c1}{// Proxy endpoint for Anthropic API}
+\PYG{n+nx}{app}\PYG{p}{.}\PYG{n+nx}{post}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}/api/anthropic\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{async}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{req}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{res}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{apiKey}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{process}\PYG{p}{.}\PYG{n+nx}{env}\PYG{p}{.}\PYG{n+nx}{VITE\PYGZus{}ANTHROPIC\PYGZus{}API\PYGZus{}KEY}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{apiKey}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{res}\PYG{p}{.}\PYG{n+nx}{status}\PYG{p}{(}\PYG{l+m+mf}{500}\PYG{p}{).}\PYG{n+nx}{json}\PYG{p}{(\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nx}{error}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}API key not configured. Please create a .env file with VITE\PYGZus{}ANTHROPIC\PYGZus{}API\PYGZus{}KEY\PYGZsq{}}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{response}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{await}\PYG{+w}{ }\PYG{n+nx}{fetch}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}https://api.anthropic.com/v1/messages\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{method}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}POST\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{headers}\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{l+s+s1}{\PYGZsq{}Content\PYGZhy{}Type\PYGZsq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}application/json\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{l+s+s1}{\PYGZsq{}x\PYGZhy{}api\PYGZhy{}key\PYGZsq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{apiKey}\PYG{p}{,}
+\PYG{+w}{        }\PYG{l+s+s1}{\PYGZsq{}anthropic\PYGZhy{}version\PYGZsq{}}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}2023\PYGZhy{}06\PYGZhy{}01\PYGZsq{}}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{      }\PYG{n+nx}{body}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nb}{JSON}\PYG{p}{.}\PYG{n+nx}{stringify}\PYG{p}{(}\PYG{n+nx}{req}\PYG{p}{.}\PYG{n+nx}{body}\PYG{p}{)}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{});}
+
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{data}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{await}\PYG{+w}{ }\PYG{n+nx}{response}\PYG{p}{.}\PYG{n+nx}{json}\PYG{p}{();}
+
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n+nx}{response}\PYG{p}{.}\PYG{n+nx}{ok}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{res}\PYG{p}{.}\PYG{n+nx}{status}\PYG{p}{(}\PYG{n+nx}{response}\PYG{p}{.}\PYG{n+nx}{status}\PYG{p}{).}\PYG{n+nx}{json}\PYG{p}{(}\PYG{n+nx}{data}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nx}{res}\PYG{p}{.}\PYG{n+nx}{json}\PYG{p}{(}\PYG{n+nx}{data}\PYG{p}{);}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{catch}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{error}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{error}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Server error:\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{error}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n+nx}{res}\PYG{p}{.}\PYG{n+nx}{status}\PYG{p}{(}\PYG{l+m+mf}{500}\PYG{p}{).}\PYG{n+nx}{json}\PYG{p}{(\PYGZob{}}
+\PYG{+w}{      }\PYG{n+nx}{error}\PYG{o}{:}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Failed to process request\PYGZsq{}}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n+nx}{message}\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{error}\PYG{p}{.}\PYG{n+nx}{message}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{});}
+
+\PYG{n+nx}{app}\PYG{p}{.}\PYG{n+nx}{listen}\PYG{p}{(}\PYG{n+nx}{PORT}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{log}\PYG{p}{(}\PYG{l+s+sb}{`🚀 Backend server running on http://localhost:}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{PORT}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{);}
+\PYG{+w}{  }\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{log}\PYG{p}{(}\PYG{l+s+sb}{`📡 Ready to proxy requests to Anthropic API`}\PYG{p}{);}
+\PYG{p}{\PYGZcb{});}
+
+\end{MintedVerbatim}

@@ -1,0 +1,41 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/** \PYGZlt{}module\PYGZgt{} PML Core Loader}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  This script loads all components of the Polarized Modal Logic (PML) Core Framework}
+\PYG{c+cm}{ *  in the correct order.}
+\PYG{c+cm}{ */}
+
+\PYG{c+c1}{\PYGZpc{} Suppress singleton variable warnings, often common in DSL definitions.}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{style\PYGZus{}check}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+s+sAtom}{singleton}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Load Order}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{c+c1}{\PYGZpc{} 1. Utilities and Core Vocabulary}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{utils}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{pml\PYGZus{}operators}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} 2. Core Prover (must be loaded before axioms that extend it)}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} 3. Semantic Foundations (Axioms extending the prover)}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{semantic\PYGZus{}axioms}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} 4. Pragmatic Foundations}
+\PYG{c+c1}{\PYGZpc{} Automata must be loaded before Pragmatic Axioms that use them (e.g., Trace).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{automata}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{pragmatic\PYGZus{}axioms}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{intersubjective\PYGZus{}praxis}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} 5. The Dialectical Engine and Critique}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{critique}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{dialectical\PYGZus{}engine}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Initialization}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{initialization}\PYG{p}{(}\PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}PML Core Framework Loaded.\PYGZsq{}}\PYG{p}{)).}
+
+\end{MintedVerbatim}

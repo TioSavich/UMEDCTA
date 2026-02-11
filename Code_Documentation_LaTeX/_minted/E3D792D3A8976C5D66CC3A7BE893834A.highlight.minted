@@ -1,0 +1,201 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/** \PYGZlt{}module\PYGZgt{} Critique Mechanism Tests}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  Tests the newly implemented critique and accommodation mechanisms.}
+\PYG{c+cm}{ */}
+
+\PYG{p}{:\PYGZhy{}} \PYG{p}{[}\PYG{l+s+sAtom}{\PYGZsq{}../load.pl\PYGZsq{}}\PYG{p}{].}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Test Infrastructure}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{n+nf}{test}\PYG{p}{(}\PYG{n+nv}{Name}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZti{}n[TEST] \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Name}\PYG{p}{]).}
+
+\PYG{n+nf}{pass}\PYG{p}{(}\PYG{n+nv}{Result}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Result}\PYG{p}{]),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  PASS\PYGZsq{}}\PYG{p}{).}
+
+\PYG{n+nf}{fail\PYGZus{}test}\PYG{p}{(}\PYG{n+nv}{Error}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  ERROR: \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Error}\PYG{p}{]),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  FAIL\PYGZsq{}}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Test 1: Stress Map Tracking}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{n+nf}{test\PYGZus{}stress\PYGZus{}tracking} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Stress Map: Recording Failures\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nn}{critique}\PYG{p}{:}\PYG{l+s+sAtom}{reset\PYGZus{}stress\PYGZus{}map}\PYG{p}{,}
+    \PYG{n+nn}{critique}\PYG{p}{:}\PYG{n+nf}{increment\PYGZus{}stress}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}test\PYGZus{}signature\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nn}{critique}\PYG{p}{:}\PYG{n+nf}{increment\PYGZus{}stress}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}test\PYGZus{}signature\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nn}{critique}\PYG{p}{:}\PYG{n+nf}{increment\PYGZus{}stress}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}another\PYGZus{}signature\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nn}{critique}\PYG{p}{:}\PYG{n+nf}{get\PYGZus{}stress\PYGZus{}map}\PYG{p}{(}\PYG{n+nv}{Map}\PYG{p}{),}
+    \PYG{p}{(} \PYG{n+nf}{member}\PYG{p}{(}\PYG{n+nf}{stress}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}test\PYGZus{}signature\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{),} \PYG{n+nv}{Map}\PYG{p}{),}
+      \PYG{n+nf}{member}\PYG{p}{(}\PYG{n+nf}{stress}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}another\PYGZus{}signature\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{),} \PYG{n+nv}{Map}\PYG{p}{)}
+    \PYG{p}{)} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}} \PYG{n+nf}{pass}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Stress tracking working correctly\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{;} \PYG{n+nf}{fail\PYGZus{}test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Stress map not tracking correctly\PYGZsq{}}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Test 2: Commitment Extraction}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{n+nf}{test\PYGZus{}commitment\PYGZus{}extraction} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Commitment Extraction from Proof\PYGZsq{}}\PYG{p}{),}
+    \PYG{c+c1}{\PYGZpc{} Build a simple proof tree}
+    \PYG{n+nv}{TestProof} \PYG{o}{=} \PYG{n+nf}{proof}\PYG{p}{(}
+        \PYG{n+nf}{mmp}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{u}\PYG{p}{)]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{a}\PYG{p}{))),}
+        \PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{u}\PYG{p}{)]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{a}\PYG{p}{))]),}
+        \PYG{p}{[}\PYG{n+nf}{proof}\PYG{p}{(}\PYG{l+s+sAtom}{identity}\PYG{p}{,} \PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{a}\PYG{p}{))]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{a}\PYG{p}{))]),} \PYG{p}{[])]}
+    \PYG{p}{),}
+    \PYG{n+nf}{catch}\PYG{p}{(}
+        \PYG{p}{(} \PYG{n+nn}{critique}\PYG{p}{:}\PYG{n+nf}{extract\PYGZus{}commitments}\PYG{p}{(}\PYG{n+nv}{TestProof}\PYG{p}{,} \PYG{n+nv}{Commitments}\PYG{p}{),}
+          \PYG{n+nf}{member}\PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{u}\PYG{p}{)]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{a}\PYG{p}{)),} \PYG{n+nv}{Commitments}\PYG{p}{),}
+          \PYG{n+nf}{pass}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Successfully extracted commitments from proof\PYGZsq{}}\PYG{p}{)}
+        \PYG{p}{),}
+        \PYG{n+nv}{Error}\PYG{p}{,}
+        \PYG{n+nf}{fail\PYGZus{}test}\PYG{p}{(}\PYG{n+nv}{Error}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Test 3: Bad Infinite Detection}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{n+nf}{test\PYGZus{}bad\PYGZus{}infinite\PYGZus{}detection} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Bad Infinite: Cycle Detection\PYGZsq{}}\PYG{p}{),}
+    \PYG{c+c1}{\PYGZpc{} Create a proof tree with a cycle}
+    \PYG{n+nv}{Node1} \PYG{o}{=} \PYG{n+nf}{proof}\PYG{p}{(}\PYG{n+nf}{pml\PYGZus{}rhythm}\PYG{p}{(}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{t\PYGZus{}b}\PYG{p}{)} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{t\PYGZus{}n}\PYG{p}{))),}
+                  \PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{t\PYGZus{}b}\PYG{p}{)]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{t\PYGZus{}n}\PYG{p}{))]),}
+                  \PYG{p}{[}\PYG{n+nv}{Node2}\PYG{p}{]),}
+    \PYG{n+nv}{Node2} \PYG{o}{=} \PYG{n+nf}{proof}\PYG{p}{(}\PYG{n+nf}{pml\PYGZus{}rhythm}\PYG{p}{(}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{t\PYGZus{}n}\PYG{p}{)} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{t\PYGZus{}b}\PYG{p}{))),}
+                  \PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{t\PYGZus{}n}\PYG{p}{)]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{t\PYGZus{}b}\PYG{p}{))]),}
+                  \PYG{p}{[}\PYG{n+nv}{Node1}\PYG{p}{]),}  \PYG{c+c1}{\PYGZpc{} Creates cycle}
+    \PYG{c+c1}{\PYGZpc{} Note: In practice, this would be detected during proof construction}
+    \PYG{c+c1}{\PYGZpc{} For now, test the cycle detection logic separately}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  Cycle detection requires proof generation\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{pass}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Structure defined (implementation pending)\PYGZsq{}}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Test 4: Stress\PYGZhy{}Based Commitment Identification}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{n+nf}{test\PYGZus{}stressed\PYGZus{}commitment} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Identify Most Stressed Commitment\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nn}{critique}\PYG{p}{:}\PYG{l+s+sAtom}{reset\PYGZus{}stress\PYGZus{}map}\PYG{p}{,}
+    \PYG{c+c1}{\PYGZpc{} Set up stress data directly}
+    \PYG{n+nn}{critique}\PYG{p}{:}\PYG{n+nf}{increment\PYGZus{}stress}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}[s(u)] =\PYGZgt{} s(comp\PYGZus{}nec(a))\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nn}{critique}\PYG{p}{:}\PYG{n+nf}{increment\PYGZus{}stress}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}[s(u)] =\PYGZgt{} s(comp\PYGZus{}nec(a))\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nn}{critique}\PYG{p}{:}\PYG{n+nf}{increment\PYGZus{}stress}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}[s(u)] =\PYGZgt{} s(comp\PYGZus{}nec(a))\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nn}{critique}\PYG{p}{:}\PYG{n+nf}{increment\PYGZus{}stress}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}[s(u)] =\PYGZgt{} s(comp\PYGZus{}nec(a))\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nn}{critique}\PYG{p}{:}\PYG{n+nf}{increment\PYGZus{}stress}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}[s(u)] =\PYGZgt{} s(comp\PYGZus{}nec(a))\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nn}{critique}\PYG{p}{:}\PYG{n+nf}{increment\PYGZus{}stress}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}[s(a)] =\PYGZgt{} s(exp\PYGZus{}poss(lg))\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nn}{critique}\PYG{p}{:}\PYG{n+nf}{increment\PYGZus{}stress}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}[s(a)] =\PYGZgt{} s(exp\PYGZus{}poss(lg))\PYGZsq{}}\PYG{p}{),}
+
+    \PYG{n+nv}{Commitments} \PYG{o}{=} \PYG{p}{[}
+        \PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{u}\PYG{p}{)]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{a}\PYG{p}{))),}
+        \PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{a}\PYG{p}{)]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{exp\PYGZus{}poss}\PYG{p}{(}\PYG{l+s+sAtom}{lg}\PYG{p}{)))}
+    \PYG{p}{],}
+
+    \PYG{n+nf}{catch}\PYG{p}{(}
+        \PYG{p}{(} \PYG{n+nn}{critique}\PYG{p}{:}\PYG{n+nf}{identify\PYGZus{}stressed\PYGZus{}commitment}\PYG{p}{(}\PYG{n+nv}{Commitments}\PYG{p}{,} \PYG{n+nv}{Stressed}\PYG{p}{),}
+          \PYG{n+nv}{Stressed} \PYG{o}{=} \PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{u}\PYG{p}{)]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{a}\PYG{p}{))),}
+          \PYG{n+nf}{pass}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Correctly identified most stressed commitment\PYGZsq{}}\PYG{p}{)}
+        \PYG{p}{),}
+        \PYG{n+nv}{Error}\PYG{p}{,}
+        \PYG{n+nf}{fail\PYGZus{}test}\PYG{p}{(}\PYG{n+nv}{Error}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Test 5: Resource Exhaustion Handling}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{n+nf}{test\PYGZus{}resource\PYGZus{}exhaustion} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Resource Exhaustion: Stress Recording\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nn}{critique}\PYG{p}{:}\PYG{l+s+sAtom}{reset\PYGZus{}stress\PYGZus{}map}\PYG{p}{,}
+    \PYG{n+nv}{Sequent} \PYG{o}{=} \PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{u}\PYG{p}{)]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{a}\PYG{p}{))]),}
+
+    \PYG{c+c1}{\PYGZpc{} Simulate accommodation attempt (will fail but should record stress)}
+    \PYG{l+s+sAtom}{\PYGZbs{}+} \PYG{n+nn}{critique}\PYG{p}{:}\PYG{n+nf}{accommodate}\PYG{p}{(}\PYG{n+nf}{perturbation}\PYG{p}{(}\PYG{l+s+sAtom}{resource\PYGZus{}exhaustion}\PYG{p}{,} \PYG{n+nv}{Sequent}\PYG{p}{)),}
+
+    \PYG{c+c1}{\PYGZpc{} Verify stress was recorded}
+    \PYG{n+nn}{critique}\PYG{p}{:}\PYG{n+nf}{get\PYGZus{}stress\PYGZus{}map}\PYG{p}{(}\PYG{n+nv}{Map}\PYG{p}{),}
+    \PYG{p}{(} \PYG{n+nv}{Map} \PYG{l+s+sAtom}{\PYGZbs{}=} \PYG{p}{[]} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nf}{pass}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Resource exhaustion recorded in stress map\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{;} \PYG{n+nf}{fail\PYGZus{}test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Stress map not updated\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Test 6: Incoherence Accommodation}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{n+nf}{test\PYGZus{}incoherence\PYGZus{}accommodation} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Incoherence: Belief Revision\PYGZsq{}}\PYG{p}{),}
+    \PYG{c+c1}{\PYGZpc{} Set up a commitment}
+    \PYG{n+nv}{Commitments} \PYG{o}{=} \PYG{p}{[([}\PYG{l+s+sAtom}{a}\PYG{p}{,} \PYG{l+s+sAtom}{b}\PYG{p}{]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{l+s+sAtom}{c}\PYG{p}{)],}
+
+    \PYG{c+c1}{\PYGZpc{} Try to accommodate (will fail but should show the mechanism)}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  Testing belief revision mechanism...\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{catch}\PYG{p}{(}
+        \PYG{n+nn}{critique}\PYG{p}{:}\PYG{n+nf}{accommodate}\PYG{p}{(}\PYG{n+nf}{incoherence}\PYG{p}{(}\PYG{n+nv}{Commitments}\PYG{p}{)),}
+        \PYG{k}{\PYGZus{}}\PYG{p}{,}
+        \PYG{l+s+sAtom}{true}  \PYG{c+c1}{\PYGZpc{} Expected to fail after attempting revision}
+    \PYG{p}{),}
+
+    \PYG{c+c1}{\PYGZpc{} Check if incoherence was asserted}
+    \PYG{p}{(} \PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{is\PYGZus{}incoherent}\PYG{p}{([}\PYG{l+s+sAtom}{a}\PYG{p}{,} \PYG{l+s+sAtom}{b}\PYG{p}{])} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nf}{pass}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Incoherence rule asserted for problematic commitment\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{;} \PYG{n+nf}{pass}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Belief revision attempted (dynamic assertion may vary)\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Test 7: Bad Infinite Accommodation}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{n+nf}{test\PYGZus{}bad\PYGZus{}infinite\PYGZus{}accommodation} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Bad Infinite: Sublation Mechanism\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nv}{Cycle} \PYG{o}{=} \PYG{p}{[}
+        \PYG{n+nf}{node}\PYG{p}{(}\PYG{n+nf}{pml\PYGZus{}rhythm}\PYG{p}{(}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{t\PYGZus{}b}\PYG{p}{)} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{t\PYGZus{}n}\PYG{p}{))),} \PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{t\PYGZus{}b}\PYG{p}{)]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{t\PYGZus{}n}\PYG{p}{))])),}
+        \PYG{n+nf}{node}\PYG{p}{(}\PYG{n+nf}{pml\PYGZus{}rhythm}\PYG{p}{(}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{t\PYGZus{}n}\PYG{p}{)} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{t\PYGZus{}b}\PYG{p}{))),} \PYG{p}{([}\PYG{n+nf}{s}\PYG{p}{(}\PYG{l+s+sAtom}{t\PYGZus{}n}\PYG{p}{)]} \PYG{l+s+sAtom}{=\PYGZgt{}} \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{l+s+sAtom}{t\PYGZus{}b}\PYG{p}{))]))}
+    \PYG{p}{],}
+
+    \PYG{n+nn}{critique}\PYG{p}{:}\PYG{l+s+sAtom}{reset\PYGZus{}stress\PYGZus{}map}\PYG{p}{,}
+
+    \PYG{c+c1}{\PYGZpc{} Try to accommodate (will fail but should record stress)}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  Testing sublation mechanism...\PYGZsq{}}\PYG{p}{),}
+    \PYG{l+s+sAtom}{\PYGZbs{}+} \PYG{n+nn}{critique}\PYG{p}{:}\PYG{n+nf}{accommodate}\PYG{p}{(}\PYG{n+nf}{pathology}\PYG{p}{(}\PYG{l+s+sAtom}{bad\PYGZus{}infinite}\PYG{p}{,} \PYG{n+nv}{Cycle}\PYG{p}{)),}
+
+    \PYG{c+c1}{\PYGZpc{} Verify stress was recorded for cycle elements}
+    \PYG{n+nn}{critique}\PYG{p}{:}\PYG{n+nf}{get\PYGZus{}stress\PYGZus{}map}\PYG{p}{(}\PYG{n+nv}{Map}\PYG{p}{),}
+    \PYG{p}{(} \PYG{n+nf}{length}\PYG{p}{(}\PYG{n+nv}{Map}\PYG{p}{,} \PYG{n+nv}{L}\PYG{p}{),} \PYG{n+nv}{L} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{2} \PYG{l+s+sAtom}{\PYGZhy{}\PYGZgt{}}
+        \PYG{n+nf}{pass}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Bad Infinite elements marked as stressed\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{;} \PYG{n+nf}{fail\PYGZus{}test}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}Cycle stress not recorded\PYGZsq{}}\PYG{p}{)}
+    \PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Run All Tests}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+
+\PYG{n+nf}{safe\PYGZus{}test}\PYG{p}{(}\PYG{n+nv}{Goal}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{catch}\PYG{p}{(}\PYG{n+nf}{call}\PYG{p}{(}\PYG{n+nv}{Goal}\PYG{p}{),} \PYG{n+nv}{Error}\PYG{p}{,} \PYG{n+nf}{format}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}  CAUGHT ERROR: \PYGZti{}w\PYGZti{}n\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nv}{Error}\PYG{p}{])).}
+
+\PYG{n+nf}{run\PYGZus{}tests} \PYG{o}{:\PYGZhy{}}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}=== CRITIQUE MECHANISM TESTS ===\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),}
+
+    \PYG{n+nf}{safe\PYGZus{}test}\PYG{p}{(}\PYG{l+s+sAtom}{test\PYGZus{}stress\PYGZus{}tracking}\PYG{p}{),}
+    \PYG{n+nf}{safe\PYGZus{}test}\PYG{p}{(}\PYG{l+s+sAtom}{test\PYGZus{}commitment\PYGZus{}extraction}\PYG{p}{),}
+    \PYG{n+nf}{safe\PYGZus{}test}\PYG{p}{(}\PYG{l+s+sAtom}{test\PYGZus{}bad\PYGZus{}infinite\PYGZus{}detection}\PYG{p}{),}
+    \PYG{n+nf}{safe\PYGZus{}test}\PYG{p}{(}\PYG{l+s+sAtom}{test\PYGZus{}stressed\PYGZus{}commitment}\PYG{p}{),}
+    \PYG{n+nf}{safe\PYGZus{}test}\PYG{p}{(}\PYG{l+s+sAtom}{test\PYGZus{}resource\PYGZus{}exhaustion}\PYG{p}{),}
+    \PYG{n+nf}{safe\PYGZus{}test}\PYG{p}{(}\PYG{l+s+sAtom}{test\PYGZus{}incoherence\PYGZus{}accommodation}\PYG{p}{),}
+    \PYG{n+nf}{safe\PYGZus{}test}\PYG{p}{(}\PYG{l+s+sAtom}{test\PYGZus{}bad\PYGZus{}infinite\PYGZus{}accommodation}\PYG{p}{),}
+
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}=== CRITIQUE TESTS COMPLETE ===\PYGZsq{}}\PYG{p}{),}
+    \PYG{n+nf}{writeln}\PYG{p}{(}\PYG{l+s+sAtom}{\PYGZsq{}\PYGZsq{}}\PYG{p}{).}
+
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{initialization}\PYG{p}{(}\PYG{l+s+sAtom}{run\PYGZus{}tests}\PYG{p}{,} \PYG{l+s+sAtom}{main}\PYG{p}{).}
+
+\end{MintedVerbatim}

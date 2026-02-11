@@ -1,0 +1,159 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{g+gh}{\PYGZsh{} Repository Cleanup Summary}
+\PYG{g+gs}{**Date:**} October 12, 2025
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Actions Performed}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 1. Prolog Folder Cleanup (Complete ✅)}
+
+\PYG{g+gs}{**Files Analyzed:**} 63 .pl files
+\PYG{g+gs}{**Files Deleted:**} 2 backup files
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`jason\PYGZus{}backup.pl`} (duplicate of jason.pl)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`jason\PYGZus{}temp.pl`} (temporary file)
+
+\PYG{g+gs}{**Files Retained:**} 61 .pl files, all serving active purposes:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Core system**}: hermeneutic\PYGZus{}calculator.pl, fsm\PYGZus{}engine.pl, grounded\PYGZus{}arithmetic.pl, etc.
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Strategy implementations**}: 19 strategy modules (all verified working)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Learning system**}: crisis\PYGZus{}processor.pl, reorganization\PYGZus{}engine.pl, normalization.pl
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Gödel formalization**}: godel\PYGZus{}numbering.pl, godel\PYGZus{}examples.pl
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Test files**}: test\PYGZus{}*.pl (comprehensive test suite)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Demo files**}: demo\PYGZus{}revolutionary\PYGZus{}system.pl, final\PYGZus{}demo.pl, showcase\PYGZus{}grounded\PYGZus{}system.pl
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Entry points**}: main.pl, interactive\PYGZus{}ui.pl, working\PYGZus{}server.pl
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Support modules**}: counting2.pl, composition\PYGZus{}engine.pl, reflective\PYGZus{}monitor.pl
+
+\PYG{g+gs}{**Rationale**}: Demo files kept as they serve different pedagogical purposes:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`demo\PYGZus{}revolutionary\PYGZus{}system.pl`}: Shows full ORR cycle with normative crisis
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`final\PYGZus{}demo.pl`}: Shows grounded arithmetic + strategy selection
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`showcase\PYGZus{}grounded\PYGZus{}system.pl`}: Shows basic grounded operations
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 2. Flicker Program Deletion (Complete ✅)}
+
+\PYG{g+gs}{**Deleted:**} \PYG{l+s+sb}{`/Flicker/`} directory (7 files)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }FlickerProgramBeta.class
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }FlickerProgramBeta.jar
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }FlickerProgramBeta.java
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }index.html
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }manifest.txt
+
+\PYG{g+gs}{**Rationale**}: User indicated this would \PYGZdq{}probably\PYGZdq{} be deleted. Not connected to main project goals (Hermeneutic Calculator, Gödelian incompleteness, ORR learning).
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 3. More\PYGZus{}Zeeman Status (Retained)}
+
+\PYG{g+gs}{**Location:**} \PYG{l+s+sb}{`/More\PYGZus{}Zeeman/`}
+\PYG{g+gs}{**Contents:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`more\PYGZus{}machine.html`} \PYGZhy{} Sophisticated Zeeman Catastrophe Machine visualization
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`script.js`}, \PYG{l+s+sb}{`style.css`} \PYGZhy{} Supporting files
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`More\PYGZus{}Machine/`} subdirectory with additional implementations
+
+\PYG{g+gs}{**Status:**} RETAINED \PYGZhy{} User noted they were \PYGZdq{}never happy with how it ran\PYGZdq{} and requested it be put on a todo list for fixing, not deletion.
+
+\PYG{g+gs}{**Purpose:**} Interactive demonstration of:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Catastrophe theory (Zeeman machine physics)
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Hysteresis and state transitions
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Connection to \PYGZdq{}feeling body\PYGZdq{} and embodied cognition
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Diagonalization visualization (\PYGZdq{}More Machine\PYGZdq{})
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Acoustic metaphor for tension/release
+
+\PYG{g+gs}{**Assessment:**} Connects to manuscript themes (embodied cognition, self\PYGZhy{}transcendence through diagonalization). Needs testing/improvement rather than deletion.
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} 4. Quadrilateral\PYGZus{}Substitution Status (Retained)}
+
+\PYG{g+gs}{**Location:**} \PYG{l+s+sb}{`/Quadrilateral\PYGZus{}Substitution/`}
+\PYG{g+gs}{**Contents:**}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`inferential\PYGZus{}strength.html`} \PYGZhy{} Main teaching module
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`brandom\PYGZus{}lesson.js`} \PYGZhy{} Interactive logic
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`brandom\PYGZus{}styles.css`} \PYGZhy{} Styling
+
+\PYG{g+gs}{**Status:**} RETAINED \PYGZhy{} User requested it be put on a todo list for fixing.
+
+\PYG{g+gs}{**Purpose:**} Interactive teaching module explaining:
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Brandom\PYGZsq{}s inferential semantics
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Substitution roles and significance
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Polarity inversion in logical contexts
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Why singular terms must have symmetric significance
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }Uses quadrilateral hierarchy (Square → Rectangle → Parallelogram → Trapezoid) as examples
+
+\PYG{g+gs}{**Assessment:**} Directly implements Brandomian concepts central to manuscript. Well\PYGZhy{}designed pedagogical tool. Needs testing to identify any issues.
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Repository Status After Cleanup}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} File Count Changes}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Before cleanup**}: 65 .pl files + Flicker directory
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**After cleanup**}: 61 .pl files, no Flicker
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Remaining Work Items}
+
+\PYG{g+gs}{**High Priority:**}
+\PYG{k}{1.} Test More\PYGZus{}Zeeman HTML interface for bugs/performance issues
+\PYG{k}{2.} Test Quadrilateral\PYGZus{}Substitution teaching module functionality
+\PYG{k}{3.} Identify specific issues user was unhappy about in More\PYGZus{}Zeeman
+
+\PYG{g+gs}{**Medium Priority:**}
+\PYG{k}{4.} Test Calculator/Prolog HTML/JavaScript interfaces (cognition\PYGZus{}viz.html, index.html)
+\PYG{k}{5.} Review More\PYGZus{}Zeeman/More\PYGZus{}Machine subdirectory
+
+\PYG{g+gs}{**Low Priority:**}
+\PYG{k}{6.} Address singleton variable warnings in Prolog files
+\PYG{k}{7.} Standardize tally representation (t vs tally) across codebase
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} What Was NOT Deleted}
+
+\PYG{g+gs}{**Important**}: The following were explicitly retained as they serve active purposes:
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Demo Files (All Retained)}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`demo\PYGZus{}revolutionary\PYGZus{}system.pl`} \PYGZhy{} Full system demo
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`final\PYGZus{}demo.pl`} \PYGZhy{} Strategy selection demo
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`showcase\PYGZus{}grounded\PYGZus{}system.pl`} \PYGZhy{} Basic operations demo
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Rationale**}: Different pedagogical targets, not redundant
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Test Files (All Retained)}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`test\PYGZus{}all\PYGZus{}strategies.pl`} \PYGZhy{} Comprehensive strategy testing
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`test\PYGZus{}arithmetic\PYGZus{}ops.pl`} \PYGZhy{} Arithmetic verification
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`test\PYGZus{}comprehensive.pl`} \PYGZhy{} Full system test
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`test\PYGZus{}*.pl`} \PYGZhy{} Specific component tests
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Rationale**}: Active test infrastructure
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Documentation Files (All Retained)}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`godel\PYGZus{}examples.pl`} \PYGZhy{} Manuscript\PYGZhy{}ready examples
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s+sb}{`math\PYGZus{}benchmark.pl`} \PYGZhy{} Performance testing
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Rationale**}: Support manuscript and performance analysis
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{}\PYGZsh{} More\PYGZus{}Zeeman \PYGZam{} Quadrilateral\PYGZus{}Substitution (Both Retained)}
+\PYG{k}{\PYGZhy{}}\PYG{+w}{ }\PYG{g+gs}{**Rationale**}: User requested fixing, not deletion
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Verification}
+
+All deletions verified:
+\PYG{l+s+sb}{```bash}
+\PYG{c+c1}{\PYGZsh{} Flicker directory removed}
+\PYGZdl{}\PYG{+w}{ }\PYG{n+nb}{test}\PYG{+w}{ }\PYGZhy{}d\PYG{+w}{ }/Users/tio/Documents/GitHub/UMEDCTA/Flicker\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Exists\PYGZdq{}}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Deleted\PYGZdq{}}
+\PYGZgt{}\PYG{+w}{ }Deleted
+
+\PYG{c+c1}{\PYGZsh{} Prolog backup files removed}
+\PYGZdl{}\PYG{+w}{ }ls\PYG{+w}{ }Calculator/Prolog/jason\PYGZus{}*.pl\PYG{+w}{ }\PYG{l+m}{2}\PYGZgt{}/dev/null\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}No backup files\PYGZdq{}}
+\PYGZgt{}\PYG{+w}{ }No\PYG{+w}{ }backup\PYG{+w}{ }files
+
+\PYG{c+c1}{\PYGZsh{} Core systems intact}
+\PYGZdl{}\PYG{+w}{ }swipl\PYG{+w}{ }Calculator/Prolog/test\PYGZus{}all\PYGZus{}strategies.pl
+\PYGZgt{}\PYG{+w}{ }\PYG{l+m}{19}/19\PYG{+w}{ }strategies\PYG{+w}{ }passing
+\PYG{l+s+sb}{```}
+
+\PYGZhy{}\PYGZhy{}\PYGZhy{}
+
+\PYG{g+gu}{\PYGZsh{}\PYGZsh{} Next Steps (User Confirmation Needed)}
+
+The following items await user direction:
+
+\PYG{k}{1.} \PYG{g+gs}{**Test More\PYGZus{}Zeeman**}: Open more\PYGZus{}machine.html, test interaction, identify issues
+\PYG{k}{2.} \PYG{g+gs}{**Test Quadrilateral\PYGZus{}Substitution**}: Open inferential\PYGZus{}strength.html, verify all modules work
+\PYG{k}{3.} \PYG{g+gs}{**Priority Order**}: Which should be addressed first?
+
+The core Prolog system is clean, tested, and fully functional. HTML demonstrations need examination.
+
+\end{MintedVerbatim}

@@ -1,0 +1,66 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/** \PYGZlt{}module\PYGZgt{} Intersubjective Praxis (Multi\PYGZhy{}agent Dynamics)}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  This module implements the dynamics of interaction, dialogue, and recognition}
+\PYG{c+cm}{ *  between multiple agents. It focuses on the Oobleck Dynamic and the structure}
+\PYG{c+cm}{ *  of mutual recognition (Geist).}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  (Synthesis\PYGZus{}1, Chapter 5.3 and 7.3)}
+\PYG{c+cm}{ */}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{module}\PYG{p}{(}\PYG{l+s+sAtom}{intersubjective\PYGZus{}praxis}\PYG{p}{,} \PYG{p}{[]).}
+
+\PYG{c+c1}{\PYGZpc{} Import operators \PYGZhy{} must be declared before use}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{comp\PYGZus{}nec}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{exp\PYGZus{}nec}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{exp\PYGZus{}poss}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{comp\PYGZus{}poss}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{op}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+s+sAtom}{fx}\PYG{p}{,} \PYG{l+s+sAtom}{neg}\PYG{p}{).}
+
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics}\PYG{p}{).}
+\PYG{p}{:\PYGZhy{}} \PYG{n+nf}{use\PYGZus{}module}\PYG{p}{(}\PYG{l+s+sAtom}{pml\PYGZus{}operators}\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Multifile Declarations}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Extend the logic engine with intersubjective axioms.}
+\PYG{p}{:\PYGZhy{}} \PYG{l+s+sAtom}{multifile} \PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:material\PYGZus{}inference}\PYG{o}{/}\PYG{l+m+mf}{3.}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} The Oobleck Dynamic (Inter\PYGZhy{}Agent S\PYGZhy{}O Transfer)}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Principle: Applying compressive force (Box\PYGZus{}down\PYGZus{}S) by Agent A}
+\PYG{c+c1}{\PYGZpc{} will predictably lead to the crystallization (Box\PYGZus{}down\PYGZus{}O) of Agent B\PYGZsq{}s position.}
+\PYG{c+c1}{\PYGZpc{} (Synthesis\PYGZus{}1, Principle 2 and Chapter 5.3)}
+
+\PYG{c+c1}{\PYGZpc{} [s(comp\PYGZus{}nec(action(A, aggressive)))] =\PYGZgt{} [o(comp\PYGZus{}nec(position(B, crystallized)))]}
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{n+nf}{action}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{,} \PYG{l+s+sAtom}{aggressive}\PYG{p}{)))],}
+    \PYG{n+nf}{o}\PYG{p}{(}\PYG{n+nf}{comp\PYGZus{}nec}\PYG{p}{(}\PYG{n+nf}{position}\PYG{p}{(}\PYG{n+nv}{B}\PYG{p}{,} \PYG{l+s+sAtom}{crystallized}\PYG{p}{))),}
+    \PYG{p}{(}\PYG{n+nv}{A} \PYG{l+s+sAtom}{\PYGZbs{}=} \PYG{n+nv}{B}\PYG{p}{)} \PYG{c+c1}{\PYGZpc{} Body ensures agents are distinct}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} Principle: Introducing subjective expansion (Box\PYGZus{}up\PYGZus{}S) by Agent A}
+\PYG{c+c1}{\PYGZpc{} will predictably encourage the liquefaction (Box\PYGZus{}up\PYGZus{}O) of Agent B\PYGZsq{}s position.}
+
+\PYG{c+c1}{\PYGZpc{} [s(exp\PYGZus{}nec(action(A, listening)))] =\PYGZgt{} [o(exp\PYGZus{}nec(position(B, liquefied)))]}
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{s}\PYG{p}{(}\PYG{n+nf}{exp\PYGZus{}nec}\PYG{p}{(}\PYG{n+nf}{action}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{,} \PYG{l+s+sAtom}{listening}\PYG{p}{)))],}
+    \PYG{n+nf}{o}\PYG{p}{(}\PYG{n+nf}{exp\PYGZus{}nec}\PYG{p}{(}\PYG{n+nf}{position}\PYG{p}{(}\PYG{n+nv}{B}\PYG{p}{,} \PYG{l+s+sAtom}{liquefied}\PYG{p}{))),}
+    \PYG{p}{(}\PYG{n+nv}{A} \PYG{l+s+sAtom}{\PYGZbs{}=} \PYG{n+nv}{B}\PYG{p}{)}
+\PYG{p}{).}
+
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} Recognition (Anerkennung)}
+\PYG{c+c1}{\PYGZpc{} =================================================================}
+\PYG{c+c1}{\PYGZpc{} The Grand Sublation: Forgiveness (Mutual Recognition) realizes Geist.}
+\PYG{c+c1}{\PYGZpc{} (Synthesis\PYGZus{}1, Chapter 7.3)}
+
+\PYG{c+c1}{\PYGZpc{} Mutual Confession and Forgiveness leads to necessary normative release (Geist).}
+\PYG{c+c1}{\PYGZpc{} [n(confession(A)), n(confession(B))] =\PYGZgt{} [n(exp\PYGZus{}nec(forgiveness(A, B)))]}
+\PYG{l+s+sAtom}{incompatibility\PYGZus{}semantics:}\PYG{n+nf}{material\PYGZus{}inference}\PYG{p}{(}
+    \PYG{p}{[}\PYG{n+nf}{n}\PYG{p}{(}\PYG{n+nf}{confession}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{)),} \PYG{n+nf}{n}\PYG{p}{(}\PYG{n+nf}{confession}\PYG{p}{(}\PYG{n+nv}{B}\PYG{p}{))],}
+    \PYG{n+nf}{n}\PYG{p}{(}\PYG{n+nf}{exp\PYGZus{}nec}\PYG{p}{(}\PYG{n+nf}{forgiveness}\PYG{p}{(}\PYG{n+nv}{A}\PYG{p}{,} \PYG{n+nv}{B}\PYG{p}{))),}
+    \PYG{p}{(}\PYG{n+nv}{A} \PYG{l+s+sAtom}{\PYGZbs{}=} \PYG{n+nv}{B}\PYG{p}{)}
+\PYG{p}{).}
+
+\end{MintedVerbatim}

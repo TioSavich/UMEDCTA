@@ -1,0 +1,245 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{sys}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{os}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{time}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{random}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{contextlib}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{io}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{pandas}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{pd}
+
+\PYG{c+c1}{\PYGZsh{} Add the Python\PYGZus{}Tests directory to sys.path so we can import the modules}
+\PYG{n}{current\PYGZus{}dir} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{dirname}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{abspath}\PYG{p}{(}\PYG{n+nv+vm}{\PYGZus{}\PYGZus{}file\PYGZus{}\PYGZus{}}\PYG{p}{))}
+\PYG{n}{strategies\PYGZus{}dir} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{current\PYGZus{}dir}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Calculator\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Python\PYGZus{}Tests\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{sys}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{strategies\PYGZus{}dir}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Context manager to suppress stdout during imports of scripts that run code on import}
+\PYG{n+nd}{@contextlib}\PYG{o}{.}\PYG{n}{contextmanager}
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{suppress\PYGZus{}stdout}\PYG{p}{():}
+    \PYG{n}{s} \PYG{o}{=} \PYG{n}{io}\PYG{o}{.}\PYG{n}{StringIO}\PYG{p}{()}
+    \PYG{n}{old\PYGZus{}stdout} \PYG{o}{=} \PYG{n}{sys}\PYG{o}{.}\PYG{n}{stdout}
+    \PYG{n}{sys}\PYG{o}{.}\PYG{n}{stdout} \PYG{o}{=} \PYG{n}{s}
+    \PYG{k}{try}\PYG{p}{:}
+        \PYG{k}{yield}
+    \PYG{k}{finally}\PYG{p}{:}
+        \PYG{n}{sys}\PYG{o}{.}\PYG{n}{stdout} \PYG{o}{=} \PYG{n}{old\PYGZus{}stdout}
+
+\PYG{c+c1}{\PYGZsh{} Import the strategy modules safely}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Loading Educational Modules...\PYGZdq{}}\PYG{p}{)}
+\PYG{k}{with} \PYG{n}{suppress\PYGZus{}stdout}\PYG{p}{():}
+    \PYG{k}{try}\PYG{p}{:}
+        \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{SAR\PYGZus{}ADD\PYGZus{}RMB}
+        \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{SAR\PYGZus{}SUB\PYGZus{}Sliding}
+        \PYG{c+c1}{\PYGZsh{} We might need to copy the DPDA logic if counting\PYGZus{}on\PYGZus{}back is hard to import}
+        \PYG{c+c1}{\PYGZsh{} But let\PYGZsq{}s try importing it.}
+        \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{counting\PYGZus{}on\PYGZus{}back}
+    \PYG{k}{except} \PYG{n+ne}{ImportError} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Error loading modules: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Make sure you are running this from the UMEDCTA root directory.\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{sys}\PYG{o}{.}\PYG{n}{exit}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{k}{except} \PYG{n+ne}{Exception} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}
+        \PYG{c+c1}{\PYGZsh{} Some other error during execution of the scripts}
+        \PYG{k}{pass}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Modules Loaded Successfully.\PYGZdq{}}\PYG{p}{)}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{PedagogyQuest}\PYG{p}{:}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{score} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{name} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{clear\PYGZus{}screen}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n}{os}\PYG{o}{.}\PYG{n}{system}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}cls\PYGZsq{}} \PYG{k}{if} \PYG{n}{os}\PYG{o}{.}\PYG{n}{name} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}nt\PYGZsq{}} \PYG{k}{else} \PYG{l+s+s1}{\PYGZsq{}clear\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{type\PYGZus{}text}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{text}\PYG{p}{,} \PYG{n}{speed}\PYG{o}{=}\PYG{l+m+mf}{0.02}\PYG{p}{,} \PYG{n}{newline}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{):}
+        \PYG{k}{for} \PYG{n}{char} \PYG{o+ow}{in} \PYG{n}{text}\PYG{p}{:}
+            \PYG{n}{sys}\PYG{o}{.}\PYG{n}{stdout}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{char}\PYG{p}{)}
+            \PYG{n}{sys}\PYG{o}{.}\PYG{n}{stdout}\PYG{o}{.}\PYG{n}{flush}\PYG{p}{()}
+            \PYG{n}{time}\PYG{o}{.}\PYG{n}{sleep}\PYG{p}{(}\PYG{n}{speed}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{newline}\PYG{p}{:}
+            \PYG{n+nb}{print}\PYG{p}{()}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{get\PYGZus{}input}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{prompt}\PYG{p}{):}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{prompt}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZgt{} \PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{start}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{clear\PYGZus{}screen}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Welcome to the UMEDCTA Pedagogical Simulator.\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}You are a Master Teacher training to diagnose and guide student thinking.\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{name} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{get\PYGZus{}input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Enter your name, Professor:\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{while} \PYG{k+kc}{True}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{clear\PYGZus{}screen}\PYG{p}{()}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Professor }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ | Score: }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{score}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}=\PYGZdq{}}\PYG{o}{*}\PYG{l+m+mi}{40}\PYG{p}{)}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}SELECT A MODULE:\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}1. The Robot Counter (Algorithmic Thinking)\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}2. Sarah\PYGZsq{}s Addition (Rearranging to Make Bases)\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}3. Sam\PYGZsq{}s Subtraction (Sliding/Constant Difference)\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Q. Quit\PYGZdq{}}\PYG{p}{)}
+
+            \PYG{n}{choice} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{get\PYGZus{}input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Choose a module:\PYGZdq{}}\PYG{p}{)}
+
+            \PYG{k}{if} \PYG{n}{choice} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}1\PYGZsq{}}\PYG{p}{:}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{run\PYGZus{}counting\PYGZus{}level}\PYG{p}{()}
+            \PYG{k}{elif} \PYG{n}{choice} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}2\PYGZsq{}}\PYG{p}{:}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{run\PYGZus{}rmb\PYGZus{}level}\PYG{p}{()}
+            \PYG{k}{elif} \PYG{n}{choice} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}3\PYGZsq{}}\PYG{p}{:}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{run\PYGZus{}sliding\PYGZus{}level}\PYG{p}{()}
+            \PYG{k}{elif} \PYG{n}{choice}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}q\PYGZsq{}}\PYG{p}{:}
+                \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Class dismissed.\PYGZdq{}}\PYG{p}{)}
+                \PYG{k}{break}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Invalid selection.\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{time}\PYG{o}{.}\PYG{n}{sleep}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} LEVEL 1: COUNTING (DPDA) \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{run\PYGZus{}counting\PYGZus{}level}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{clear\PYGZus{}screen}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}MODULE 1: THE ROBOT COUNTER\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}A robot uses a stack of plates to count. H=Hundreds, T=Tens, U=Units.\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}It processes \PYGZsq{}ticks\PYGZsq{} (count up) and \PYGZsq{}tocks\PYGZsq{} (count down).\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Generate a problem}
+        \PYG{n}{start\PYGZus{}val} \PYG{o}{=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{)}
+        \PYG{n}{ticks} \PYG{o}{=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{15}\PYG{p}{)}
+        \PYG{n}{direction} \PYG{o}{=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{choice}\PYG{p}{([}\PYG{l+s+s1}{\PYGZsq{}up\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}down\PYGZsq{}}\PYG{p}{])}
+
+        \PYG{c+c1}{\PYGZsh{} If down, make sure we don\PYGZsq{}t go below zero for this simple level}
+        \PYG{k}{if} \PYG{n}{direction} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}down\PYGZsq{}} \PYG{o+ow}{and} \PYG{n}{ticks} \PYG{o}{\PYGZgt{}} \PYG{n}{start\PYGZus{}val}\PYG{p}{:}
+            \PYG{n}{start\PYGZus{}val} \PYG{o}{=} \PYG{n}{ticks} \PYG{o}{+} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Scenario: The robot starts with }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{start\PYGZus{}val}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}It receives }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{ticks}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZsq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}tick\PYGZsq{}}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{direction}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}up\PYGZsq{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}tock\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZsq{} signals.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Use the imported logic to get the real answer}
+        \PYG{k}{try}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{} The count\PYGZus{}dpda function in counting\PYGZus{}on\PYGZus{}back.py takes (N, k, direction)}
+            \PYG{c+c1}{\PYGZsh{} N is initial ticks, k is additional operations}
+            \PYG{c+c1}{\PYGZsh{} So we simulate N=start\PYGZus{}val, k=ticks}
+            \PYG{n}{correct\PYGZus{}val} \PYG{o}{=} \PYG{n}{counting\PYGZus{}on\PYGZus{}back}\PYG{o}{.}\PYG{n}{count\PYGZus{}dpda}\PYG{p}{(}\PYG{n}{start\PYGZus{}val}\PYG{p}{,} \PYG{n}{ticks}\PYG{p}{,} \PYG{n}{direction}\PYG{p}{)}
+
+            \PYG{n}{ans} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{get\PYGZus{}input}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}What number will the robot display?\PYGZdq{}}\PYG{p}{)}
+
+            \PYG{k}{if} \PYG{n}{ans}\PYG{o}{.}\PYG{n}{isdigit}\PYG{p}{()} \PYG{o+ow}{and} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{ans}\PYG{p}{)} \PYG{o}{==} \PYG{n}{correct\PYGZus{}val}\PYG{p}{:}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Correct! The automaton state matches your prediction.\PYGZdq{}}\PYG{p}{)}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{score} \PYG{o}{+=} \PYG{l+m+mi}{10}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Incorrect. The robot displays }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{correct\PYGZus{}val}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Remember: The robot handles carries and borrows automatically via stack rules.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{except} \PYG{n+ne}{Exception} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Simulation Error: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Press Enter to continue...\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} LEVEL 2: ADDITION (RMB) \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{run\PYGZus{}rmb\PYGZus{}level}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{clear\PYGZus{}screen}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}MODULE 2: REARRANGING TO MAKE BASES (RMB)\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Student: Sarah. Strategy: Make 10 (or Base B).\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{base} \PYG{o}{=} \PYG{l+m+mi}{10}
+        \PYG{n}{A} \PYG{o}{=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{6}\PYG{p}{,} \PYG{l+m+mi}{9}\PYG{p}{)}
+        \PYG{n}{B} \PYG{o}{=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{,} \PYG{l+m+mi}{9}\PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} Ensure we actually cross a ten}
+        \PYG{k}{if} \PYG{n}{A} \PYG{o}{+} \PYG{n}{B} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{10}\PYG{p}{:} \PYG{n}{B} \PYG{o}{=} \PYG{l+m+mi}{10} \PYG{o}{\PYGZhy{}} \PYG{n}{A} \PYG{o}{+} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Problem: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{A}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ + }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{B}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Sarah wants to keep the }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{A}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ and make it a }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Run simulation to get the \PYGZdq{}truth\PYGZdq{}}
+        \PYG{n}{rmb} \PYG{o}{=} \PYG{n}{SAR\PYGZus{}ADD\PYGZus{}RMB}\PYG{o}{.}\PYG{n}{RMBAutomatonIterative}\PYG{p}{(}\PYG{n}{A}\PYG{p}{,} \PYG{n}{B}\PYG{p}{,} \PYG{n}{Base}\PYG{o}{=}\PYG{n}{base}\PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} We run it to populate history, but we want to step through it conceptually}
+        \PYG{n}{rmb}\PYG{o}{.}\PYG{n}{run}\PYG{p}{()}
+        \PYG{n}{history} \PYG{o}{=} \PYG{n}{rmb}\PYG{o}{.}\PYG{n}{history}
+
+        \PYG{c+c1}{\PYGZsh{} Step 1: Gap}
+        \PYG{n}{target\PYGZus{}base} \PYG{o}{=} \PYG{p}{((}\PYG{n}{A} \PYG{o}{//} \PYG{n}{base}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{*} \PYG{n}{base}
+        \PYG{n}{k\PYGZus{}needed} \PYG{o}{=} \PYG{n}{target\PYGZus{}base} \PYG{o}{\PYGZhy{}} \PYG{n}{A}
+
+        \PYG{n}{ans} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{get\PYGZus{}input}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}How many does }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{A}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ need to become }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{target\PYGZus{}base}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{?\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{ans} \PYG{o}{==} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{k\PYGZus{}needed}\PYG{p}{):}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Correct. That is the Gap (K).\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{score} \PYG{o}{+=} \PYG{l+m+mi}{5}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Not quite. }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{A}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ needs }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{k\PYGZus{}needed}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ to reach }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{target\PYGZus{}base}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Step 2: Decompose B}
+        \PYG{n}{b\PYGZus{}rem} \PYG{o}{=} \PYG{n}{B} \PYG{o}{\PYGZhy{}} \PYG{n}{k\PYGZus{}needed}
+        \PYG{n}{ans} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{get\PYGZus{}input}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}If she takes }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{k\PYGZus{}needed}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ from }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{B}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, what is left?\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{ans} \PYG{o}{==} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{b\PYGZus{}rem}\PYG{p}{):}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Correct. That is the Remainder.\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{score} \PYG{o}{+=} \PYG{l+m+mi}{5}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}No. }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{B}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{k\PYGZus{}needed}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ = }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{b\PYGZus{}rem}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Step 3: Result}
+        \PYG{n}{result} \PYG{o}{=} \PYG{n}{A} \PYG{o}{+} \PYG{n}{B}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}So she has }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{target\PYGZus{}base}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ + }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{b\PYGZus{}rem}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{ans} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{get\PYGZus{}input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Final Answer?\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{ans} \PYG{o}{==} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{result}\PYG{p}{):}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Excellent. You have successfully guided the student.\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{score} \PYG{o}{+=} \PYG{l+m+mi}{10}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}The answer is }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{result}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Press Enter to continue...\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} LEVEL 3: SUBTRACTION (SLIDING) \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{run\PYGZus{}sliding\PYGZus{}level}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{clear\PYGZus{}screen}\PYG{p}{()}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}MODULE 3: SLIDING (CONSTANT DIFFERENCE)\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Student: Sam. Strategy: Adjust both numbers to make subtraction easy.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{M} \PYG{o}{=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{30}\PYG{p}{,} \PYG{l+m+mi}{90}\PYG{p}{)}
+        \PYG{n}{S} \PYG{o}{=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{11}\PYG{p}{,} \PYG{n}{M} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{10}\PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} Ensure S is not a multiple of 10, to make it interesting}
+        \PYG{k}{if} \PYG{n}{S} \PYG{o}{\PYGZpc{}} \PYG{l+m+mi}{10} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:} \PYG{n}{S} \PYG{o}{+=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{9}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{S} \PYG{o}{\PYGZgt{}} \PYG{n}{M}\PYG{p}{:} \PYG{n}{S} \PYG{o}{=} \PYG{n}{M} \PYG{o}{\PYGZhy{}} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Safety check}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Problem: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{M}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{S}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Sam wants to slide the numbers so the subtrahend (bottom number) becomes a friendly base.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Run simulation}
+        \PYG{n}{slider} \PYG{o}{=} \PYG{n}{SAR\PYGZus{}SUB\PYGZus{}Sliding}\PYG{o}{.}\PYG{n}{SlidingAutomaton}\PYG{p}{(}\PYG{n}{M}\PYG{p}{,} \PYG{n}{S}\PYG{p}{)}
+        \PYG{n}{slider}\PYG{o}{.}\PYG{n}{run}\PYG{p}{()}
+
+        \PYG{c+c1}{\PYGZsh{} Step 1: Target}
+        \PYG{n}{target\PYGZus{}s} \PYG{o}{=} \PYG{p}{((}\PYG{n}{S} \PYG{o}{//} \PYG{l+m+mi}{10}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{*} \PYG{l+m+mi}{10}
+        \PYG{n}{k} \PYG{o}{=} \PYG{n}{target\PYGZus{}s} \PYG{o}{\PYGZhy{}} \PYG{n}{S}
+
+        \PYG{n}{ans} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{get\PYGZus{}input}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}What is the nearest higher multiple of 10 for }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{S}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{?\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{ans} \PYG{o}{==} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{target\PYGZus{}s}\PYG{p}{):}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Correct.\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{score} \PYG{o}{+=} \PYG{l+m+mi}{5}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Target is }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{target\PYGZus{}s}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Step 2: Adjustment}
+        \PYG{n}{ans} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{get\PYGZus{}input}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}How much do we add to both numbers (the slide)?\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{ans} \PYG{o}{==} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{k}\PYG{p}{):}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Correct. We slide up by }\PYG{l+s+si}{\PYGZob{}k\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{score} \PYG{o}{+=} \PYG{l+m+mi}{5}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}We need to add }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{k}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Step 3: New Problem}
+        \PYG{n}{new\PYGZus{}m} \PYG{o}{=} \PYG{n}{M} \PYG{o}{+} \PYG{n}{k}
+        \PYG{n}{new\PYGZus{}s} \PYG{o}{=} \PYG{n}{S} \PYG{o}{+} \PYG{n}{k}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}New Problem: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{new\PYGZus{}m}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{new\PYGZus{}s}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{ans} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{get\PYGZus{}input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Final Result?\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{ans} \PYG{o}{==} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{new\PYGZus{}m} \PYG{o}{\PYGZhy{}} \PYG{n}{new\PYGZus{}s}\PYG{p}{):}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Perfect. The distance remains constant.\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{score} \PYG{o}{+=} \PYG{l+m+mi}{10}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{type\PYGZus{}text}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Result is }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{new\PYGZus{}m}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{new\PYGZus{}s}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Press Enter to continue...\PYGZdq{}}\PYG{p}{)}
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    \PYG{n}{game} \PYG{o}{=} \PYG{n}{PedagogyQuest}\PYG{p}{()}
+    \PYG{n}{game}\PYG{o}{.}\PYG{n}{start}\PYG{p}{()}
+
+\end{MintedVerbatim}
