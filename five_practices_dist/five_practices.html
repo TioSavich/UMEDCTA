@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5 Practices for Orchestrating Productive Math Discussions</title>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Crimson+Pro:ital,wght@0,400;1,400&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #070d1a;
+      --panel-bg: rgba(10, 18, 35, 0.92);
+      --star-color: #ffe066;
+      --star-glow: #ffb700;
+      --jocelyn-color: #5bc4f5;
+      --dujuan-color: #6fe8a0;
+      --leah-color: #f5a55b;
+      --elsie-color: #c97af5;
+      --link-color: rgba(255, 255, 255, 0.18);
+      --bright-link: #a0f0ff;
+      --text: #e8eaf6;
+      --muted: #7986a3;
+      --accent: #5bc4f5;
+      --nav-h: 70px;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+    }
+
+    /* ── CANVAS ── */
+    #canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ── STARFIELD ── */
+    #starfield {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    /* ── OVERLAY PANEL ── */
+    #overlay {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      width: min(420px, calc(100vw - 48px));
+      background: var(--panel-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px 28px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: 10;
+      transition: opacity 0.4s ease;
+    }
+
+    .state-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(91, 196, 245, 0.15);
+      border: 1px solid rgba(91, 196, 245, 0.35);
+      border-radius: 100px;
+      padding: 4px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .state-badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse-dot 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: .4;
+        transform: scale(0.7)
+      }
+    }
+
+    #overlay h2 {
+      font-size: 19px;
+      font-weight: 800;
+      line-height: 1.3;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    #overlay p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #b0c4de;
+      margin-bottom: 10px;
+    }
+
+    #overlay p:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .question-box {
+      margin-top: 14px;
+      background: rgba(91, 196, 245, 0.07);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-style: italic;
+      color: #c8dff5;
+      line-height: 1.6;
+    }
+
+    .question-box strong {
+      font-style: normal;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .connect-list {
+      margin-top: 14px;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .connect-list li {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #c8dff5;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: rgba(160, 240, 255, 0.06);
+      border-left: 3px solid var(--bright-link);
+    }
+
+    /* ── PROGRESS DOTS ── */
+    #progress {
+      position: fixed;
+      top: 50%;
+      right: 28px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      z-index: 10;
+    }
+
+    .pdot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .pdot.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+    }
+
+    .pdot:hover::after {
+      content: attr(data-label);
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      white-space: nowrap;
+      background: rgba(10, 18, 35, 0.9);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* ── NAV BAR ── */
+    #nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-h);
+      background: rgba(7, 13, 26, 0.9);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      z-index: 10;
+    }
+
+    .nav-btn {
+      padding: 10px 28px;
+      border-radius: 100px;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    #btn-prev {
+      background: rgba(255, 255, 255, 0.07);
+      color: #aab;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    #btn-prev:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.13);
+      color: #fff;
+    }
+
+    #btn-prev:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    #btn-next {
+      background: linear-gradient(135deg, #5bc4f5, #3a8fd4);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(91, 196, 245, 0.4);
+    }
+
+    #btn-next:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 28px rgba(91, 196, 245, 0.55);
+    }
+
+    #btn-next:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    #state-counter {
+      font-size: 13px;
+      color: var(--muted);
+      min-width: 80px;
+      text-align: center;
+    }
+
+    /* ── LEGEND ── */
+    #legend {
+      position: fixed;
+      bottom: calc(var(--nav-h) + 16px);
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      z-index: 10;
+      background: rgba(10, 18, 35, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 100px;
+      padding: 8px 20px;
+      backdrop-filter: blur(8px);
+      font-size: 12px;
+      transition: opacity 0.4s ease;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: #8a9bb5;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── TOOLTIP ── */
+    #tooltip {
+      position: fixed;
+      background: rgba(10, 18, 35, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #c8dff5;
+      max-width: 260px;
+      pointer-events: none;
+      z-index: 50;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    #tooltip strong {
+      color: #fff;
+      font-size: 13px;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    /* ── FADE TRANSITION ── */
+    .fade-out {
+      opacity: 0 !important;
+      transition: opacity 0.3s ease;
+    }
+
+    /* ── GOAL SWITCHER ── */
+    #goal-switcher {
+      position: fixed;
+      top: 20px;
+      right: 52px;
+      z-index: 15;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(10, 18, 35, 0.88);
+      border: 1px solid rgba(255, 224, 102, 0.3);
+      border-radius: 100px;
+      padding: 7px 16px;
+      backdrop-filter: blur(12px);
+      font-size: 12px;
+      color: #ffe066;
+      font-weight: 600;
+    }
+
+    #goal-switcher label {
+      white-space: nowrap;
+    }
+
+    #goal-select {
+      background: rgba(255, 224, 102, 0.1);
+      border: 1px solid rgba(255, 224, 102, 0.4);
+      border-radius: 100px;
+      color: #fff;
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      padding: 4px 10px;
+      cursor: pointer;
+      outline: none;
+      max-width: 220px;
+    }
+
+    #goal-select option {
+      background: #0d1a30;
+      color: #fff;
+    }
+
+    /* ── STUDENT WORK PANEL ── */
+    #work-panel {
+      position: fixed;
+      bottom: calc(var(--nav-h) + 90px);
+      right: 24px;
+      width: 300px;
+      background: rgba(10, 18, 35, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 0;
+      backdrop-filter: blur(14px);
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      transform: translateY(12px);
+      overflow: hidden;
+    }
+
+    #work-panel.visible {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0);
+    }
+
+    #work-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    #work-panel-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: #fff;
+    }
+
+    #work-panel-close {
+      background: none;
+      border: none;
+      color: #7986a3;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 0 4px;
+      line-height: 1;
+    }
+
+    #work-panel-close:hover {
+      color: #fff;
+    }
+
+    #work-panel img {
+      width: 100%;
+      display: block;
+      background: #fff;
+      border-radius: 0 0 0 0;
+    }
+
+    #work-panel-caption {
+      padding: 10px 16px 14px;
+      font-size: 12px;
+      color: #8a9bb5;
+      line-height: 1.5;
+    }
+
+    /* ── QUIZ MODAL ── */
+    #quiz-modal {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      background: rgba(7, 13, 26, 0.75);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    #quiz-modal.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    #quiz-box {
+      background: rgba(12, 22, 45, 0.98);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      padding: 28px 32px;
+      max-width: 520px;
+      width: calc(100vw - 48px);
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    #quiz-badge {
+      display: inline-block;
+      background: rgba(91, 196, 245, 0.15);
+      border: 1px solid rgba(91, 196, 245, 0.35);
+      border-radius: 100px;
+      padding: 3px 12px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    #quiz-question {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    #quiz-prompt {
+      font-size: 13px;
+      color: #8a9bb5;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .quiz-option {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #c8dff5;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      line-height: 1.5;
+    }
+
+    .quiz-option:hover {
+      background: rgba(91, 196, 245, 0.1);
+      border-color: rgba(91, 196, 245, 0.4);
+      color: #fff;
+    }
+
+    .quiz-option.correct {
+      background: rgba(111, 232, 160, 0.15);
+      border-color: #6fe8a0;
+      color: #6fe8a0;
+    }
+
+    .quiz-option.incorrect {
+      background: rgba(245, 100, 80, 0.12);
+      border-color: rgba(245, 100, 80, 0.5);
+      color: #f57070;
+    }
+
+    #quiz-feedback {
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.6;
+      display: none;
+    }
+
+    #quiz-feedback.show {
+      display: block;
+    }
+
+    #quiz-feedback.good {
+      background: rgba(111, 232, 160, 0.1);
+      border: 1px solid rgba(111, 232, 160, 0.3);
+      color: #a8f0c0;
+    }
+
+    #quiz-feedback.try {
+      background: rgba(245, 165, 91, 0.1);
+      border: 1px solid rgba(245, 165, 91, 0.3);
+      color: #f5c87a;
+    }
+
+    #quiz-close-btn {
+      margin-top: 16px;
+      display: none;
+      width: 100%;
+      padding: 10px;
+      border-radius: 100px;
+      border: none;
+      background: linear-gradient(135deg, #5bc4f5, #3a8fd4);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    #quiz-close-btn.show {
+      display: block;
+    }
+
+    #quiz-dismiss {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: #7986a3;
+      font-size: 20px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    #quiz-dismiss:hover {
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="starfield"></canvas>
+  <svg id="canvas"></svg>
+
+  <!-- Goal Switcher -->
+  <div id="goal-switcher">
+    <label for="goal-select">★ Goal:</label>
+    <select id="goal-select">
+      <option value="place-value">Decompose Place Value (Jocelyn + Leah)</option>
+      <option value="compensation">Round &amp; Compensate (DuJuan + Elsie)</option>
+    </select>
+  </div>
+
+  <div id="overlay">
+    <div class="state-badge"><span class="dot"></span><span id="badge-text">Practice 0 &amp; 1</span></div>
+    <h2 id="overlay-title">Loading…</h2>
+    <p id="overlay-body"></p>
+    <div id="overlay-extra"></div>
+  </div>
+
+  <div id="progress">
+    <div class="pdot active" data-label="0&1 · Set Goals &amp; Anticipate" data-state="0"></div>
+    <div class="pdot" data-label="2 · Monitor (Assessing)" data-state="1"></div>
+    <div class="pdot" data-label="2 · Monitor (Advancing)" data-state="2"></div>
+    <div class="pdot" data-label="3&4 · Select &amp; Sequence" data-state="3"></div>
+    <div class="pdot" data-label="5 · Connect" data-state="4"></div>
+  </div>
+
+  <div id="legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#5bc4f5"></div>Jocelyn
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#6fe8a0"></div>DuJuan
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#f5a55b"></div>Leah
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#c97af5"></div>Elsie
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#ffe066"></div>Lesson Goal ★
+    </div>
+  </div>
+
+  <!-- Student Work Panel -->
+  <div id="work-panel">
+    <div id="work-panel-header">
+      <span id="work-panel-name">Student Work</span>
+      <button id="work-panel-close" title="Close">×</button>
+    </div>
+    <img id="work-panel-img" src="" alt="Student work" />
+    <div id="work-panel-caption"></div>
+  </div>
+
+  <!-- Quiz Modal -->
+  <div id="quiz-modal">
+    <div id="quiz-box">
+      <button id="quiz-dismiss" title="Dismiss">×</button>
+      <div id="quiz-badge">Practice 2 · Monitor</div>
+      <div id="quiz-question"></div>
+      <div id="quiz-prompt">Which type of teacher question is this?</div>
+      <button class="quiz-option" id="quiz-opt-a"></button>
+      <button class="quiz-option" id="quiz-opt-b"></button>
+      <div id="quiz-feedback"></div>
+      <button id="quiz-close-btn">Continue →</button>
+    </div>
+  </div>
+
+  <nav id="nav">
+    <button class="nav-btn" id="btn-prev" disabled>← Back</button>
+    <span id="state-counter">1 / 5</span>
+    <button class="nav-btn" id="btn-next">Next →</button>
+  </nav>
+
+  <div id="tooltip"></div>
+
+  <script>
+    // ─────────────────────────────────────────────
+    //  STARFIELD BACKGROUND
+    // ─────────────────────────────────────────────
+    (function () {
+      const canvas = document.getElementById('starfield');
+      const ctx = canvas.getContext('2d');
+      let W, H, stars;
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+        stars = Array.from({ length: 160 }, () => ({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: Math.random() * 1.2 + 0.2,
+          a: Math.random(),
+          speed: Math.random() * 0.004 + 0.001
+        }));
+      }
+      function draw(t) {
+        ctx.clearRect(0, 0, W, H);
+        stars.forEach(s => {
+          s.a = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(t * s.speed + s.x));
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(200,220,255,${s.a})`;
+          ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      }
+      resize();
+      window.addEventListener('resize', resize);
+      requestAnimationFrame(draw);
+    })();
+
+    // ─────────────────────────────────────────────
+    //  DATA
+    // ─────────────────────────────────────────────
+    // ── Per-goal weights: place-value goal favors Jocelyn+Leah; compensation goal favors DuJuan+Elsie
+    const STUDENTS = [
+      {
+        id: 'jocelyn', label: 'Jocelyn', color: '#5bc4f5',
+        strategy: 'Concrete modeling',
+        detail: 'Drew base-ten blocks: 6 tens and 9 ones. Crossed out 4 tens. Counted remaining: 2 tens + 9 ones = 29.',
+        image: 'images/media/Jocelyn.png',
+        goalWeights: { 'place-value': 8, 'compensation': 3 },
+        goalWeight: 8
+      },
+      {
+        id: 'dujuan', label: 'DuJuan', color: '#6fe8a0',
+        strategy: '120 Chart (spatial)',
+        detail: 'Started at 69 on the 120 chart, jumped backward by 10 four times, landing on 29.',
+        image: 'images/media/DuJuan.png',
+        goalWeights: { 'place-value': 3, 'compensation': 6 },
+        goalWeight: 3
+      },
+      {
+        id: 'leah', label: 'Leah', color: '#f5a55b',
+        strategy: 'Abstract decomposition',
+        detail: 'Wrote: 6 – 4 = 2 (tens) and 9 – 0 = 9 (ones), so 20 + 9 = 29.',
+        image: 'images/media/Leah.png',
+        goalWeights: { 'place-value': 7, 'compensation': 2 },
+        goalWeight: 7
+      },
+      {
+        id: 'elsie', label: 'Elsie', color: '#c97af5',
+        strategy: 'Compensation',
+        detail: 'Wrote: 70 – 40 – 1 = 29. Rounded 69 up to 70, subtracted 40, then subtracted the extra 1.',
+        image: 'images/media/Elsie.png',
+        goalWeights: { 'place-value': 3, 'compensation': 9 },
+        goalWeight: 3
+      }
+    ];
+
+    const GOAL = {
+      id: 'goal', label: 'Lesson Goal ★', color: '#ffe066',
+      detail: 'Decompose and recompose numbers to make relationships visible.\nSubtract tens from tens, ones from ones.\nUse rounding + compensation as a bridge strategy.'
+    };
+
+    const PEER_LINKS = [
+      { source: 'jocelyn', target: 'dujuan', q: 'Jocelyn → DuJuan: Your 4 backward jumps — where do my 4 crossed-out tens appear on the chart?' },
+      { source: 'dujuan', target: 'jocelyn', q: 'DuJuan → Jocelyn: Can you show me which block in your drawing represents each jump?' },
+      { source: 'jocelyn', target: 'leah', q: 'Jocelyn → Leah: In your equation 6–4=2, which drawing pieces are the 6 and the 4?' },
+      { source: 'leah', target: 'jocelyn', q: 'Leah → Jocelyn: Your crossing-out of tens — does that match my equation for the tens place?' },
+      { source: 'dujuan', target: 'elsie', q: 'DuJuan → Elsie: After your 4 jumps, you fix a 1 — is that like my final landing?' },
+      { source: 'elsie', target: 'dujuan', q: 'Elsie → DuJuan: How would rounding to 70 look as a jump on your 120 chart?' },
+      { source: 'leah', target: 'elsie', q: 'Leah → Elsie: Your "–1" fix matches my separated tens — why do both work?' }
+    ];
+
+    // ─────────────────────────────────────────────
+    //  GOAL DEFINITIONS  (drives switcher + sequencing)
+    // ─────────────────────────────────────────────
+    const GOALS = {
+      'place-value': {
+        label: 'Decompose Place Value',
+        detail: 'Decomposing and recomposing numbers (tens from tens, ones from ones) makes relationships visible.',
+        sequence: ['jocelyn', 'leah'],
+        sidelined: ['dujuan', 'elsie']
+      },
+      'compensation': {
+        label: 'Round & Compensate',
+        detail: 'Numbers can be rounded to a multiple of ten before subtracting, then compensated for at the end.',
+        sequence: ['dujuan', 'elsie'],
+        sidelined: ['jocelyn', 'leah']
+      }
+    };
+    let currentGoal = 'place-value';
+
+    // ─────────────────────────────────────────────
+    //  QUIZ DATA  (per student)
+    // ─────────────────────────────────────────────
+    const QUIZ = {
+      jocelyn: {
+        question: 'You sit beside Jocelyn and observe her drawing of crossed-out ten-sticks.',
+        optA: {
+          text: '“Why did you cross out 4 of the tens?”', type: 'assessing',
+          feedback: '✓ Assessing — this draws out Jocelyn’s existing reasoning without directing her forward. You’re learning what she already understands.'
+        },
+        optB: {
+          text: '“Can you write an equation to match your drawing?”', type: 'advancing',
+          feedback: '✓ Advancing — this pushes Jocelyn to abstract her physical model into symbolic form, moving toward the lesson goal.'
+        }
+      },
+      dujuan: {
+        question: 'DuJuan is pointing at his 120 chart, tracing the four backward jumps.',
+        optA: {
+          text: '“What number did you land on after your first jump?”', type: 'assessing',
+          feedback: '✓ Assessing — you’re uncovering the step-by-step logic DuJuan already uses, not yet redirecting it.'
+        },
+        optB: {
+          text: '“Could you make that same move in one jump of 40?”', type: 'advancing',
+          feedback: '✓ Advancing — you’re pressing DuJuan to compress four jumps of 10 into one, bridging toward compensation.'
+        }
+      },
+      leah: {
+        question: 'Leah has written two separate equations: 6 – 4 = 2 and 9 – 0 = 9.',
+        optA: {
+          text: '“What do the 6 and 4 in your first equation represent?”', type: 'assessing',
+          feedback: '✓ Assessing — you’re clarifying the place-value meaning behind Leah’s notation, making her reasoning visible.'
+        },
+        optB: {
+          text: '“How does your first equation connect to Jocelyn’s crossed-out tens?”', type: 'advancing',
+          feedback: '✓ Advancing — you’re bridging Leah’s abstract notation to Jocelyn’s concrete model.'
+        }
+      },
+      elsie: {
+        question: 'Elsie has written: 70 – 40 – 1 = 29.',
+        optA: {
+          text: '“Tell me where the 70 came from.”', type: 'assessing',
+          feedback: '✓ Assessing — this uncovers whether Elsie understands her own rounding move, not just the procedure.'
+        },
+        optB: {
+          text: '“Why did you need to subtract the extra 1 at the end?”', type: 'advancing',
+          feedback: '✓ Advancing — this presses Elsie to articulate the compensation logic, the heart of the lesson’s most advanced goal.'
+        }
+      }
+    };
+
+    // ─────────────────────────────────────────────
+    //  STATE CONTENT
+    // ─────────────────────────────────────────────
+    const STATES = [
+      {
+        badge: 'Practice 0 & 1 · Set Goals & Anticipate',
+        title: 'The Gravitational Star is Born',
+        body: 'Before the lesson begins, the teacher establishes a specific mathematical goal (Practice 0) and anticipates how students might solve the task (Practice 1). The Lesson Goal is the star that will guide all instructional decisions, and anticipating allows the teacher to prepare specific questions for different expected strategies.',
+        extra: '<div class="question-box"><strong>Teacher Prep:</strong> Identifying the goal <em>first</em> allows the teacher to create a monitoring chart with planned assessing and advancing questions for strategies they expect to see — like Jocelyn\'s base-ten blocks or Elsie\'s compensation.</div>'
+      },
+      {
+        badge: 'Practice 2 · Monitor (Assessing)',
+        title: 'Illuminating Student Thinking',
+        body: 'As students work, the teacher circulates to track their thinking. The teacher asks <strong>Assessing Questions</strong> to draw out what a student currently understands without leading them. This makes the student\'s internal logic visible to the teacher.',
+        extra: '<div class="question-box"><strong>Assessing Questions Example:</strong> "Tell me about your thinking." · "What does the 69 represent? The 40?"<br/><br/><em style="color:#5bc4f5">👆 Click any student sphere to see their actual work and practice identifying question types.</em></div>'
+      },
+      {
+        badge: 'Practice 2 · Monitor (Advancing)',
+        title: 'Bending Toward the Goal',
+        body: 'Once the teacher understands the student\'s approach, they ask <strong>Advancing Questions</strong>. These build on the student\'s current understanding and press them to extend their thinking toward the Lesson Goal.',
+        extra: '<div class="question-box"><strong>Advancing Questions Example:</strong> "What equation could you use to represent your model?" · "Could you jump 40 in one move instead of four jumps of 10?"<br/><br/><em style="color:#5bc4f5">👆 Click any student sphere to see their work and practice identifying question types.</em></div>'
+      },
+      {
+        badge: 'Practice 3 & 4 · Select & Sequence',
+        title: 'Building the Conceptual Staircase',
+        body: 'The teacher selects specific student work and sequences it intentionally to build a mathematically coherent storyline. The order is designed to make the mathematics accessible while moving toward the goal. <em>Switch the Goal ★ dropdown to see how the staircase changes.</em>',
+        extra: '<div class="question-box"><strong>Sequencing Rationale:</strong> Concrete base-ten → Spatial chart → Abstract compensation builds from physical models to numeric relationships.</div>'
+      },
+      {
+        badge: 'Practice 5 · Connect',
+        title: 'Weaving the Shared Web',
+        body: 'During the whole-class discussion, the teacher asks questions that help students connect different solutions to each other and back to the Lesson Goal. The mathematical relationships become explicit and shared.',
+        extra: '<ul class="connect-list"><li>🔗 "Where do Jocelyn\'s crossed-out tens show up in DuJuan\'s jumps on the chart?"</li><li>🔗 "How do ALL of these strategies show that subtracting tens from tens works?"</li></ul>'
+      }
+    ];
+
+    // ─────────────────────────────────────────────
+    //  D3 SETUP
+    // ─────────────────────────────────────────────
+    const svg = d3.select('#canvas');
+    let W = window.innerWidth, H = window.innerHeight;
+
+    // Layers
+    const glowLayer = svg.append('g').attr('id', 'glow-layer');
+    const webLayer = svg.append('g').attr('id', 'web-layer');
+    const linkLayer = svg.append('g').attr('id', 'link-layer');
+    const goalLinkLayer = svg.append('g').attr('id', 'goal-link-layer');
+    const nodeLayer = svg.append('g').attr('id', 'node-layer');
+    const labelLayer = svg.append('g').attr('id', 'label-layer');
+
+    // SVG defs for filters
+    const defs = svg.append('defs');
+
+    // Glow filter — soft
+    function makeGlow(id, color, stdDev = 8) {
+      const f = defs.append('filter').attr('id', id).attr('x', '-50%').attr('y', '-50%').attr('width', '200%').attr('height', '200%');
+      f.append('feGaussianBlur').attr('stdDeviation', stdDev).attr('result', 'blur');
+      const merge = f.append('feMerge');
+      merge.append('feMergeNode').attr('in', 'blur');
+      merge.append('feMergeNode').attr('in', 'SourceGraphic');
+    }
+    makeGlow('glow-blue', '#5bc4f5', 10);
+    makeGlow('glow-green', '#6fe8a0', 10);
+    makeGlow('glow-orange', '#f5a55b', 10);
+    makeGlow('glow-purple', '#c97af5', 10);
+    makeGlow('glow-star', '#ffe066', 16);
+    makeGlow('glow-web', '#a0f0ff', 4);
+    makeGlow('glow-bright', '#a0f0ff', 12);
+
+    // Arrow marker
+    defs.append('marker')
+      .attr('id', 'arrow').attr('viewBox', '0 -5 10 10').attr('refX', 14).attr('refY', 0)
+      .attr('markerWidth', 6).attr('markerHeight', 6).attr('orient', 'auto')
+      .append('path').attr('d', 'M0,-5L10,0L0,5').attr('fill', 'rgba(160,240,255,0.7)');
+
+    defs.append('marker')
+      .attr('id', 'arrow-goal').attr('viewBox', '0 -5 10 10').attr('refX', 16).attr('refY', 0)
+      .attr('markerWidth', 7).attr('markerHeight', 7).attr('orient', 'auto')
+      .append('path').attr('d', 'M0,-5L10,0L0,5').attr('fill', '#ffe066');
+
+    // Radial gradient for star
+    const starGrad = defs.append('radialGradient').attr('id', 'star-grad');
+    starGrad.append('stop').attr('offset', '0%').attr('stop-color', '#fff7c0');
+    starGrad.append('stop').attr('offset', '60%').attr('stop-color', '#ffe066');
+    starGrad.append('stop').attr('offset', '100%').attr('stop-color', '#ffb700').attr('stop-opacity', '0.8');
+
+    // ─────────────────────────────────────────────
+    //  NODE POSITIONS & FORCE SIM
+    // ─────────────────────────────────────────────
+    function getStudentInitPos(i, total) {
+      // Spread students in a loose cluster, off-center left
+      const cx = W * 0.52, cy = H * 0.48;
+      const angle = (i / total) * Math.PI * 2 - Math.PI * 0.25;
+      const r = Math.min(W, H) * 0.22;
+      return { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) };
+    }
+
+    const studentNodes = STUDENTS.map((s, i) => {
+      const pos = getStudentInitPos(i, STUDENTS.length);
+      return { ...s, x: pos.x, y: pos.y, fx: null, fy: null, isStudent: true };
+    });
+
+    const goalNode = { ...GOAL, x: W * 0.5, y: H * 0.5, fx: null, fy: null, isGoal: true };
+    const allNodes = [...studentNodes, goalNode];
+
+    // Internal spiderweb points for State 2
+    let webPoints = [], webLinks = [];
+
+    function buildWebPoints(cx, cy, r = 62) {
+      const pts = [];
+      // Spoke points
+      for (let i = 0; i < 8; i++) {
+        const a = (i / 8) * Math.PI * 2;
+        pts.push({ x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) });
+      }
+      // Inner ring
+      for (let i = 0; i < 6; i++) {
+        const a = (i / 6) * Math.PI * 2;
+        pts.push({ x: cx + r * 0.5 * Math.cos(a), y: cy + r * 0.5 * Math.sin(a) });
+      }
+      pts.push({ x: cx, y: cy }); // center
+      return pts;
+    }
+
+    function buildWebLinks(pts) {
+      const links = [];
+      // Spokes to center (index 14)
+      for (let i = 0; i < 8; i++) links.push({ s: i, t: 14 });
+      // Outer ring
+      for (let i = 0; i < 8; i++) links.push({ s: i, t: (i + 1) % 8 });
+      // Inner ring
+      for (let i = 8; i < 14; i++) links.push({ s: i, t: i === 13 ? 8 : i + 1 });
+      // Cross links
+      links.push({ s: 0, t: 9 }, { s: 1, t: 10 }, { s: 2, t: 11 }, { s: 3, t: 12 }, { s: 4, t: 13 }, { s: 5, t: 8 });
+      return links;
+    }
+
+    // ─────────────────────────────────────────────
+    //  RENDER ELEMENTS
+    // ─────────────────────────────────────────────
+    // Student circles
+    const nodeG = nodeLayer.selectAll('g.student')
+      .data(studentNodes)
+      .join('g').attr('class', 'student').style('cursor', 'pointer');
+
+    // Glow halos
+    nodeG.append('circle').attr('class', 'halo')
+      .attr('r', 46)
+      .attr('fill', d => d.color)
+      .attr('opacity', 0.12)
+      .attr('filter', d => `url(#glow-${d.id === 'jocelyn' ? 'blue' : d.id === 'dujuan' ? 'green' : d.id === 'leah' ? 'orange' : 'purple'})`);
+
+    // Main circles
+    nodeG.append('circle').attr('class', 'body')
+      .attr('r', 32)
+      .attr('fill', d => d.color)
+      .attr('stroke', '#fff')
+      .attr('stroke-width', 1.5)
+      .attr('opacity', 0.9);
+
+    // Tooltip interaction
+    const tooltip = document.getElementById('tooltip');
+
+    // ── Work Panel ──
+    const workPanel = document.getElementById('work-panel');
+    const workPanelName = document.getElementById('work-panel-name');
+    const workPanelImg = document.getElementById('work-panel-img');
+    const workPanelCaption = document.getElementById('work-panel-caption');
+    document.getElementById('work-panel-close').addEventListener('click', () => workPanel.classList.remove('visible'));
+
+    function showWorkPanel(d) {
+      workPanelName.textContent = d.label + "'s Work";
+      workPanelName.style.color = d.color;
+      workPanelImg.src = d.image;
+      workPanelImg.alt = d.label + ' work sample';
+      workPanelCaption.textContent = d.detail;
+      workPanel.classList.add('visible');
+    }
+
+    // ── Quiz Modal ──
+    const quizModal = document.getElementById('quiz-modal');
+    const quizQuestion = document.getElementById('quiz-question');
+    const quizOptA = document.getElementById('quiz-opt-a');
+    const quizOptB = document.getElementById('quiz-opt-b');
+    const quizFeedback = document.getElementById('quiz-feedback');
+    const quizCloseBtn = document.getElementById('quiz-close-btn');
+
+    function showQuiz(d) {
+      const q = QUIZ[d.id]; if (!q) return;
+      quizQuestion.textContent = q.question;
+      quizOptA.textContent = q.optA.text;
+      quizOptB.textContent = q.optB.text;
+      quizOptA.className = 'quiz-option'; quizOptB.className = 'quiz-option';
+      quizFeedback.className = 'quiz-feedback'; quizFeedback.textContent = '';
+      quizCloseBtn.className = 'quiz-close-btn';
+      quizOptA.disabled = false; quizOptB.disabled = false;
+      function pick(chosen, other, data) {
+        chosen.classList.add('correct'); other.classList.add('incorrect');
+        quizFeedback.textContent = data.feedback;
+        quizFeedback.className = 'quiz-feedback show good';
+        quizCloseBtn.className = 'quiz-close-btn show';
+        quizOptA.disabled = true; quizOptB.disabled = true;
+      }
+      quizOptA.onclick = () => pick(quizOptA, quizOptB, q.optA);
+      quizOptB.onclick = () => pick(quizOptB, quizOptA, q.optB);
+      quizModal.classList.add('visible');
+    }
+    document.getElementById('quiz-dismiss').addEventListener('click', () => quizModal.classList.remove('visible'));
+    quizCloseBtn.addEventListener('click', () => quizModal.classList.remove('visible'));
+
+    nodeG.on('mouseenter', function (event, d) {
+      tooltip.style.opacity = '1';
+      tooltip.innerHTML = `<strong>${d.label}</strong><em>${d.strategy}</em><br/><span style="color:#8a9bb5;font-size:11px;margin-top:4px;display:block">${d.detail}</span>`;
+    }).on('mousemove', function (event) {
+      tooltip.style.left = (event.clientX + 16) + 'px';
+      tooltip.style.top = (event.clientY - 10) + 'px';
+    }).on('mouseleave', function () {
+      tooltip.style.opacity = '0';
+    }).on('click', function (event, d) {
+      showWorkPanel(d);
+      if (currentState === 1 || currentState === 2) showQuiz(d);
+    });
+
+    // Labels under circles
+    const labelG = labelLayer.selectAll('text.student-label')
+      .data(studentNodes)
+      .join('text').attr('class', 'student-label')
+      .attr('text-anchor', 'middle')
+      .attr('dy', 52)
+      .style('font-size', '12px').style('font-weight', '700')
+      .style('fill', '#fff').style('pointer-events', 'none')
+      .text(d => d.label);
+
+    const stratLabel = labelLayer.selectAll('text.strat-label')
+      .data(studentNodes)
+      .join('text').attr('class', 'strat-label')
+      .attr('text-anchor', 'middle')
+      .attr('dy', 67)
+      .style('font-size', '10px').style('fill', '#8a9bb5').style('pointer-events', 'none')
+      .text(d => d.strategy);
+
+    // Goal star
+    const goalG = nodeLayer.append('g').attr('id', 'goal-node').style('cursor', 'pointer').style('opacity', 0);
+    goalG.append('circle').attr('r', 55)
+      .attr('fill', 'rgba(255,224,102,0.08)')
+      .attr('filter', 'url(#glow-star)');
+
+    // Star polygon
+    function starPath(cx, cy, ro, ri, n = 5) {
+      let pts = '';
+      for (let i = 0; i < n * 2; i++) {
+        const r = i % 2 === 0 ? ro : ri;
+        const a = (i * Math.PI / n) - Math.PI / 2;
+        pts += `${cx + r * Math.cos(a)},${cy + r * Math.sin(a)} `;
+      }
+      return pts.trim();
+    }
+    const starPoly = goalG.append('polygon')
+      .attr('fill', 'url(#star-grad)')
+      .attr('stroke', '#fff7c0').attr('stroke-width', 1.5)
+      .attr('filter', 'url(#glow-star)');
+
+    goalG.append('text').attr('text-anchor', 'middle').attr('dy', '70px')
+      .style('font-size', '13px').style('font-weight', '800').style('fill', '#ffe066')
+      .text('Lesson Goal');
+    goalG.append('text').attr('text-anchor', 'middle').attr('dy', '84px')
+      .style('font-size', '10px').style('fill', '#c8a800')
+      .text('(The Gravitational Star)');
+
+    goalG.on('mouseenter', function (event) {
+      tooltip.style.opacity = '1';
+      tooltip.innerHTML = `<strong>Lesson Goal ★</strong><span style="color:#8a9bb5;font-size:11px;display:block;margin-top:4px">${GOAL.detail}</span>`;
+    }).on('mousemove', function (event) {
+      tooltip.style.left = (event.clientX + 16) + 'px'; tooltip.style.top = (event.clientY - 10) + 'px';
+    }).on('mouseleave', () => tooltip.style.opacity = '0');
+
+    // Peer links (hidden initially)
+    const peerLinkSel = linkLayer.selectAll('line.peer')
+      .data(PEER_LINKS)
+      .join('line').attr('class', 'peer')
+      .attr('stroke', 'rgba(160,240,255,0.5)')
+      .attr('stroke-width', 1.5)
+      .attr('opacity', 0)
+      .attr('marker-end', 'url(#arrow)');
+
+    // Goal links (hidden initially)
+    const goalLinkData = studentNodes.map(s => ({ source: s.id, target: 'goal', weight: s.goalWeight }));
+    const goalLinkSel = goalLinkLayer.selectAll('line.goal-link')
+      .data(goalLinkData)
+      .join('line').attr('class', 'goal-link')
+      .attr('stroke', '#ffe066')
+      .attr('stroke-width', d => d.weight * 0.6)
+      .attr('stroke-dasharray', '6 4')
+      .attr('opacity', 0)
+      .attr('marker-end', 'url(#arrow-goal)');
+
+    // Internal web (State 2)
+    const webLineG = webLayer.selectAll('line.web').data([]).join('line');
+
+    // ─────────────────────────────────────────────
+    //  FORCE SIMULATION
+    // ─────────────────────────────────────────────
+    const sim = d3.forceSimulation(studentNodes)
+      .force('charge', d3.forceManyBody().strength(-200))
+      .force('collision', d3.forceCollide(50))
+      .on('tick', ticked)
+      .stop();
+
+    function ticked() {
+      // Student nodes
+      nodeG.attr('transform', d => `translate(${d.x},${d.y})`);
+      labelG.attr('x', d => d.x).attr('y', d => d.y);
+      stratLabel.attr('x', d => d.x).attr('y', d => d.y);
+
+      // Peer links
+      peerLinkSel
+        .attr('x1', d => nodeById(d.source).x)
+        .attr('y1', d => nodeById(d.source).y)
+        .attr('x2', d => nodeById(d.target).x)
+        .attr('y2', d => nodeById(d.target).y);
+
+      // Goal links
+      goalLinkSel
+        .attr('x1', d => nodeById(d.source).x)
+        .attr('y1', d => nodeById(d.source).y)
+        .attr('x2', goalNode.x)
+        .attr('y2', goalNode.y);
+    }
+
+    function nodeById(id) { return studentNodes.find(n => n.id === id); }
+
+    // ─────────────────────────────────────────────
+    //  STATE MACHINE
+    // ─────────────────────────────────────────────
+    let currentState = -1;
+    const totalStates = 5;
+
+    function goToState(s) {
+      if (s < 0 || s >= totalStates) return;
+      currentState = s;
+      updateNav();
+      updateProgress();
+      updateOverlay();
+      runStateVisual(s);
+    }
+
+    function updateNav() {
+      document.getElementById('btn-prev').disabled = currentState === 0;
+      document.getElementById('btn-next').disabled = currentState === totalStates - 1;
+      document.getElementById('state-counter').textContent = `${currentState + 1} / ${totalStates}`;
+    }
+
+    function updateProgress() {
+      document.querySelectorAll('.pdot').forEach((el, i) => {
+        el.classList.toggle('active', i === currentState);
+      });
+    }
+
+    function updateOverlay() {
+      const s = STATES[currentState];
+      document.getElementById('badge-text').textContent = s.badge;
+      document.getElementById('overlay-title').textContent = s.title;
+      document.getElementById('overlay-body').innerHTML = s.body;
+      const extra = document.getElementById('overlay-extra');
+      extra.innerHTML = s.extra || '';
+    }
+
+    // ─────────────────────────────────────────────
+    //  VISUAL STATES
+    // ─────────────────────────────────────────────
+    // Clears all transient visual effects
+    function clearTransients(keepGoal = false) {
+      // Peer links off
+      peerLinkSel.transition().duration(400).attr('opacity', 0);
+      // Goal links off
+      goalLinkSel.transition().duration(400).attr('opacity', 0);
+      // Goal node (maybe)
+      if (!keepGoal) goalG.transition().duration(500).style('opacity', 0);
+      // Internal web
+      webLayer.selectAll('*').transition().duration(400).attr('opacity', 0).remove();
+      // Remove staircase arrows
+      glowLayer.selectAll('*').remove();
+      // Reset node appearance
+      nodeG.select('circle.body')
+        .transition().duration(400)
+        .attr('r', 32).attr('opacity', 0.9)
+        .attr('stroke', '#fff').attr('stroke-width', 1.5);
+      nodeG.select('circle.halo')
+        .transition().duration(400).attr('opacity', 0.12);
+    }
+
+    // ── STATE 1: Set Goals & Anticipate (Practice 0+1) — star visible from the start ──
+    function state1() {
+      clearTransients(true); // KEEP goal — star is born before the lesson begins
+      studentNodes.forEach(n => { n.fx = null; n.fy = null; });
+      const cx = W * 0.46, cy = H * 0.47;
+      studentNodes.forEach((n, i) => {
+        const angle = (i / studentNodes.length) * Math.PI * 2 - 0.4;
+        const r = Math.min(W, H) * 0.24;
+        n.x = cx + r * Math.cos(angle);
+        n.y = cy + r * Math.sin(angle);
+      });
+      nodeG.select('circle.body').transition().duration(600).attr('opacity', 0.85);
+      nodeG.select('circle.halo').transition().duration(600).attr('opacity', 0.1);
+      // Star sits at top-right, established before lesson, label reflects current goal
+      goalNode.x = W * 0.82; goalNode.y = H * 0.38;
+      goalG.attr('transform', `translate(${goalNode.x},${goalNode.y})`)
+        .transition().duration(800).style('opacity', 1);
+      starPoly.attr('points', starPath(0, 0, 34, 14, 5));
+      goalG.selectAll('text').nodes()[0] &&
+        d3.select(goalG.selectAll('text').nodes()[0]).text(GOALS[currentGoal].label);
+      sim.force('center', null)
+        .force('x', d3.forceX(d => d.x).strength(0.05))
+        .force('y', d3.forceY(d => d.y).strength(0.05))
+        .alpha(0.5).restart();
+      setTimeout(() => sim.stop(), 2000);
+      ticked();
+      if (typeof workPanel !== 'undefined') workPanel.classList.remove('visible');
+    }
+
+    // ── STATE 2: Assessing Questions — Jocelyn internal web ──
+    function state2() {
+      clearTransients(false);
+
+      // Dim all non-Jocelyn students
+      nodeG.select('circle.body').transition().duration(600)
+        .attr('opacity', d => d.id === 'jocelyn' ? 0.95 : 0.2);
+      nodeG.select('circle.halo').transition().duration(600)
+        .attr('opacity', d => d.id === 'jocelyn' ? 0.3 : 0.04);
+
+      // Draw internal web inside Jocelyn
+      const jn = nodeById('jocelyn');
+      const pts = buildWebPoints(jn.x, jn.y, 58);
+      const wlinks = buildWebLinks(pts);
+
+      let delay = 0;
+      wlinks.forEach(lk => {
+        const p1 = pts[lk.s], p2 = pts[lk.t];
+        delay += 30;
+        webLayer.append('line')
+          .attr('x1', jn.x).attr('y1', jn.y)
+          .attr('x2', jn.x).attr('y2', jn.y)
+          .attr('stroke', '#a0f0ff').attr('stroke-width', 0.8)
+          .attr('opacity', 0).attr('filter', 'url(#glow-web)')
+          .transition().delay(delay).duration(350)
+          .attr('x1', p1.x).attr('y1', p1.y)
+          .attr('x2', p2.x).attr('y2', p2.y)
+          .attr('opacity', 0.65);
+      });
+    }
+
+    // ── STATE 3: Advancing Questions — Goal appears, gravity bends web ──
+    function state3() {
+      clearTransients(false);
+
+      // All students restored
+      nodeG.select('circle.body').transition().duration(600).attr('opacity', 0.9);
+      nodeG.select('circle.halo').transition().duration(600).attr('opacity', 0.15);
+
+      // Place goal at right-center and reveal it
+      goalNode.x = W * 0.82; goalNode.y = H * 0.45;
+      goalG.attr('transform', `translate(${goalNode.x},${goalNode.y})`)
+        .transition().duration(700).style('opacity', 1);
+      starPoly.attr('points', starPath(0, 0, 34, 14, 5));
+
+      // Pull one student (Jocelyn) toward the goal — bending effect
+      const jn = nodeById('jocelyn');
+
+      // Draw internal web inside Jocelyn first
+      const pts = buildWebPoints(jn.x, jn.y, 55);
+      const wlinks = buildWebLinks(pts);
+      let delay = 0;
+      wlinks.forEach(lk => {
+        const p1 = pts[lk.s], p2 = pts[lk.t];
+        delay += 20;
+        webLayer.append('line')
+          .attr('x1', p1.x).attr('y1', p1.y)
+          .attr('x2', p2.x).attr('y2', p2.y)
+          .attr('stroke', '#a0f0ff').attr('stroke-width', 0.8)
+          .attr('opacity', 0).attr('filter', 'url(#glow-web)')
+          .transition().delay(delay).duration(300)
+          .attr('opacity', 0.5)
+          .transition().delay(delay + 700).duration(900)
+          // Stretch each endpoint toward the goal
+          .attr('x1', lerp(p1.x, goalNode.x, 0.22))
+          .attr('y1', lerp(p1.y, goalNode.y, 0.22))
+          .attr('x2', lerp(p2.x, goalNode.x, 0.22))
+          .attr('y2', lerp(p2.y, goalNode.y, 0.22))
+          .attr('stroke', '#ffe09a').attr('opacity', 0.45);
+      });
+
+      // Show goal link from Jocelyn only
+      goalLinkSel.filter(d => d.source === 'jocelyn')
+        .transition().delay(1200).duration(600).attr('opacity', 0.7);
+    }
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    // ── STATE 4: Select & Sequence — staircase driven by currentGoal ──
+    function state4() {
+      clearTransients(true); // keep goal
+      if (typeof workPanel !== 'undefined') workPanel.classList.remove('visible');
+
+      const goalDef = GOALS[currentGoal];
+      const seq = goalDef.sequence;      // e.g. ['jocelyn','leah'] or ['dujuan','elsie']
+      const sideline = goalDef.sidelined;
+      const startY = H * 0.72;
+      const stepH = (H * 0.56) / Math.max(seq.length - 1, 1);
+      const cx = W * 0.44;
+
+      // Animate selected students into staircase
+      seq.forEach((id, i) => {
+        const tx = cx + i * 38;
+        const ty = startY - i * stepH;
+        const n = nodeById(id);
+        n.fx = tx; n.fy = ty;
+        nodeG.filter(d => d.id === id)
+          .transition().duration(900).delay(i * 220)
+          .attr('transform', `translate(${tx},${ty})`);
+        nodeG.filter(d => d.id === id).select('circle.body')
+          .transition().duration(500).attr('opacity', 0.95);
+      });
+
+      // Sideline non-sequenced students
+      sideline.forEach((id, i) => {
+        const n = nodeById(id);
+        n.fx = W * (0.08 + i * 0.09); n.fy = H * 0.42;
+        nodeG.filter(d => d.id === id)
+          .transition().duration(700)
+          .attr('transform', `translate(${n.fx},${n.fy})`);
+        nodeG.filter(d => d.id === id).select('circle.body')
+          .transition().duration(700).attr('opacity', 0.25);
+      });
+
+      // Staircase connector lines
+      for (let i = 0; i < seq.length - 1; i++) {
+        const x1 = cx + i * 38, y1 = startY - i * stepH;
+        const x2 = cx + (i + 1) * 38, y2 = startY - (i + 1) * stepH;
+        glowLayer.append('line')
+          .attr('x1', x1).attr('y1', y1).attr('x2', x2).attr('y2', y2)
+          .attr('stroke', 'rgba(91,196,245,0.4)').attr('stroke-width', 2)
+          .attr('stroke-dasharray', '5 4').attr('opacity', 0)
+          .attr('filter', 'url(#glow-blue)')
+          .transition().delay(900 + i * 200).duration(600).attr('opacity', 1);
+      }
+
+      // Star and line from top node to star
+      goalNode.x = W * 0.82; goalNode.y = H * 0.45;
+      goalG.attr('transform', `translate(${goalNode.x},${goalNode.y})`).style('opacity', 1);
+      starPoly.attr('points', starPath(0, 0, 34, 14, 5));
+      goalG.selectAll('text').nodes()[0] &&
+        d3.select(goalG.selectAll('text').nodes()[0]).text(GOALS[currentGoal].label);
+
+      const lx = cx + (seq.length - 1) * 38, ly = startY - (seq.length - 1) * stepH;
+      glowLayer.append('line')
+        .attr('x1', lx).attr('y1', ly).attr('x2', goalNode.x).attr('y2', goalNode.y)
+        .attr('stroke', 'rgba(255,224,102,0.5)').attr('stroke-width', 2.5)
+        .attr('stroke-dasharray', '8 5').attr('opacity', 0)
+        .attr('filter', 'url(#glow-star)')
+        .transition().delay(1600).duration(700).attr('opacity', 1);
+
+      ticked();
+    }
+
+    // ── STATE 5: Connect — bright shared web ──
+    function state5() {
+      clearTransients(true); // keep goal
+
+      // Free positions — let sim run briefly
+      studentNodes.forEach(n => { n.fx = null; n.fy = null; });
+      // Reset to spread positions
+      const cx = W * 0.48, cy = H * 0.47, r = Math.min(W, H) * 0.22;
+      studentNodes.forEach((n, i) => {
+        const angle = (i / studentNodes.length) * Math.PI * 2 - 0.4;
+        n.x = cx + r * Math.cos(angle);
+        n.y = cy + r * Math.sin(angle);
+      });
+
+      goalNode.x = W * 0.82; goalNode.y = H * 0.45;
+      goalG.attr('transform', `translate(${goalNode.x},${goalNode.y})`).style('opacity', 1);
+      starPoly.attr('points', starPath(0, 0, 34, 14, 5));
+
+      nodeG.select('circle.body').transition().duration(500).attr('opacity', 0.95);
+      nodeG.select('circle.halo').transition().duration(500).attr('opacity', 0.2);
+
+      ticked();
+
+      // Peer links, sequenced and bright
+      peerLinkSel.each(function (d, i) {
+        d3.select(this)
+          .transition().delay(i * 120).duration(600)
+          .attr('opacity', 0.7);
+      });
+
+      // Goal links, all of them
+      goalLinkSel.each(function (d, i) {
+        d3.select(this)
+          .transition().delay(300 + i * 150).duration(700)
+          .attr('opacity', 0.75)
+          .attr('stroke-width', d => d.weight * 0.7);
+      });
+
+      // Bright glow rings on each node
+      nodeG.each(function (d, i) {
+        d3.select(this).select('circle.halo')
+          .transition().delay(200 + i * 80).duration(700)
+          .attr('opacity', 0.28).attr('r', 52);
+      });
+    }
+
+    // ─────────────────────────────────────────────
+    //  RESIZE
+    // ─────────────────────────────────────────────
+    window.addEventListener('resize', () => {
+      W = window.innerWidth; H = window.innerHeight;
+      svg.attr('width', W).attr('height', H);
+      if (currentState >= 0) runStateVisual(currentState);
+    });
+
+    function runStateVisual(s) {
+      [state1, state2, state3, state4, state5][s]();
+    }
+
+    // ─────────────────────────────────────────────
+    //  NAVIGATION
+    // ─────────────────────────────────────────────
+    document.getElementById('btn-next').addEventListener('click', () => goToState(currentState + 1));
+    document.getElementById('btn-prev').addEventListener('click', () => goToState(currentState - 1));
+    document.querySelectorAll('.pdot').forEach(el => {
+      el.addEventListener('click', () => goToState(+el.dataset.state));
+    });
+
+    // ─────────────────────────────────────────────
+    //  GOAL SWITCHER
+    // ─────────────────────────────────────────────
+    document.getElementById('goal-select').addEventListener('change', function () {
+      currentGoal = this.value;
+      const gDef = GOALS[currentGoal];
+      // Update each node's goalWeight
+      studentNodes.forEach(n => { n.goalWeight = n.goalWeights[currentGoal]; });
+      // Update goal-link widths live
+      goalLinkData.forEach(d => {
+        const sn = studentNodes.find(n => n.id === d.source);
+        if (sn) d.weight = sn.goalWeights[currentGoal];
+      });
+      goalLinkSel.attr('stroke-width', d => d.weight * 0.6);
+      // Update star label
+      goalG.selectAll('text').nodes()[0] &&
+        d3.select(goalG.selectAll('text').nodes()[0]).text(gDef.label);
+      // Re-run current state so staircase and gravity update
+      if (currentState >= 0) runStateVisual(currentState);
+    });
+
+    // ─────────────────────────────────────────────
+    //  KEYBOARD SHORTCUTS
+    // ─────────────────────────────────────────────
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goToState(currentState + 1);
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goToState(currentState - 1);
+    });
+
+    // ─────────────────────────────────────────────
+    //  INIT
+    // ─────────────────────────────────────────────
+    svg.attr('width', W).attr('height', H);
+    goalG.attr('transform', `translate(${W * 0.5},${H * 0.5})`);
+    starPoly.attr('points', starPath(0, 0, 34, 14, 5));
+    goToState(0);
+  </script>
+</body>
+
+</html>
