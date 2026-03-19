@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Framework for AI in Education — Compiled by Theodore M. Savich</title>
+  <style>
+    :root {
+      --text: #1a1a1a;
+      --muted: #555;
+      --bg: #fafaf8;
+      --border: #ccc;
+      --accent: #8b0000;
+      --blue: #2c5282;
+      --green: #276749;
+      --gold: #8b6914;
+      --purple: #553c9a;
+      --callout-bg: #f0ede4;
+      --callout-border: #c9c4b5;
+      --strategic-bg: #f0f4e8;
+      --strategic-border: #7c9a3e;
+      --assessing-bg: #e8f0f8;
+      --assessing-border: #4a7fb5;
+      --connecting-bg: #f5eef8;
+      --connecting-border: #7b52a0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 18px;
+      line-height: 1.75;
+      color: var(--text);
+      background: var(--bg);
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 3em 1.5em 6em;
+    }
+
+    h1 {
+      font-size: 2.1em;
+      font-weight: normal;
+      margin-bottom: 0.15em;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: 1.35em;
+      font-weight: normal;
+      font-style: italic;
+      margin-top: 2.8em;
+      margin-bottom: 0.5em;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.2em;
+    }
+
+    h3 {
+      font-size: 1.05em;
+      margin-top: 1.5em;
+      margin-bottom: 0.3em;
+    }
+
+    p {
+      margin-bottom: 1.2em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.9em;
+      margin-bottom: 3em;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent);
+    }
+
+    a:hover {
+      color: #6b0000;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    strong {
+      font-weight: bold;
+    }
+
+    /* Epigraph */
+    .epigraph {
+      font-style: italic;
+      color: var(--muted);
+      border-left: 2px solid var(--border);
+      padding-left: 1.2em;
+      margin: 2em 0;
+    }
+
+    /* Callout: theoretical depth */
+    .callout {
+      background: var(--callout-bg);
+      border: 1px solid var(--callout-border);
+      border-left: 4px solid #8b6914;
+      border-radius: 4px;
+      padding: 1em 1.2em;
+      margin: 1.5em 0;
+      font-size: 0.88em;
+      line-height: 1.65;
+    }
+
+    .callout .callout-label {
+      display: block;
+      font-size: 0.75em;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      margin-bottom: 0.3em;
+    }
+
+    /* Mode boxes */
+    .mode-box {
+      border-radius: 6px;
+      padding: 1.3em 1.4em;
+      margin: 1.8em 0;
+    }
+
+    .mode-box h3 {
+      margin-top: 0;
+      font-size: 1.1em;
+    }
+
+    .mode-box .mode-label {
+      display: inline-block;
+      font-size: 0.72em;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 2px 10px;
+      border-radius: 3px;
+      margin-bottom: 0.5em;
+      color: white;
+    }
+
+    .mode-box ul {
+      margin: 0.5em 0 0 1.2em;
+      font-size: 0.95em;
+    }
+
+    .mode-box li {
+      margin-bottom: 0.4em;
+    }
+
+    .mode-strategic {
+      background: var(--strategic-bg);
+      border: 1px solid var(--strategic-border);
+      border-left: 4px solid var(--strategic-border);
+    }
+
+    .mode-strategic .mode-label {
+      background: var(--strategic-border);
+    }
+
+    .mode-assessing {
+      background: var(--assessing-bg);
+      border: 1px solid var(--assessing-border);
+      border-left: 4px solid var(--assessing-border);
+    }
+
+    .mode-assessing .mode-label {
+      background: var(--assessing-border);
+    }
+
+    .mode-connecting {
+      background: var(--connecting-bg);
+      border: 1px solid var(--connecting-border);
+      border-left: 4px solid var(--connecting-border);
+    }
+
+    .mode-connecting .mode-label {
+      background: var(--connecting-border);
+    }
+
+    /* SVG container */
+    .web-container {
+      position: relative;
+      margin: 2em 0;
+      text-align: center;
+    }
+
+    .web-container object {
+      max-width: 460px;
+      width: 100%;
+      height: auto;
+      opacity: 0.7;
+    }
+
+    .web-caption {
+      font-size: 0.82em;
+      color: var(--muted);
+      font-style: italic;
+      margin-top: 0.6em;
+    }
+
+    /* Diagram: three modes */
+    .modes-diagram {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin: 2em 0;
+    }
+
+    .modes-diagram .md-col {
+      text-align: center;
+      font-size: 0.82em;
+      line-height: 1.5;
+      padding: 14px 10px;
+      border-radius: 6px;
+    }
+
+    .modes-diagram .md-col strong {
+      display: block;
+      font-size: 1.05em;
+      margin-bottom: 0.3em;
+    }
+
+    @media (max-width: 600px) {
+      .modes-diagram {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Links section */
+    .links {
+      margin-top: 3em;
+      padding-top: 1.5em;
+      border-top: 1px solid var(--border);
+    }
+
+    .links ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .links li {
+      margin-bottom: 1em;
+    }
+
+    .links li span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.82em;
+    }
+
+    /* Footer */
+    .closing {
+      margin-top: 3em;
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    /* Table */
+    table.framework-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88em;
+      margin: 1.5em 0;
+    }
+
+    table.framework-table th,
+    table.framework-table td {
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    table.framework-table th {
+      background: #eeebe3;
+      font-weight: bold;
+      font-size: 0.85em;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>A Framework for AI in Education</h1>
+  <p class="subtitle">Theodore M. Savich — February 2026<br>
+    Three modes of AI use, grounded in inferentialism and the phenomenology of learning.</p>
+
+  <div class="epigraph">
+    <p>"The art of a good question is not to demand an answer, but to open a space where the student discovers they
+      already have something to say."</p>
+  </div>
+
+  <p>The challenge AI poses to education is not primarily a technology problem. It is a problem about the structure of
+    understanding. This page outlines a framework for integrating AI into teaching and learning that draws on two
+    decades of classroom experience and a body of research connecting analytic philosophy, critical social theory, and
+    mathematics education.</p>
+
+  <p>The framework is organized around a single observation: <em>AI is trained to answer questions, but the work of
+      learning lives in the questions themselves.</em></p>
+
+  <h2>The implicit web</h2>
+
+  <div class="web-container">
+    <img src="ImplicitWeb.png"
+      alt="A web of 24 nodes, all connected to one another with faint lines, representing the implicit inferential connections between students in a classroom.">
+    <p class="web-caption">Twenty-four students. Every pair connected. All connections implicit — too many for any
+      teacher to hold in working memory.</p>
+  </div>
+
+  <p>In a classroom of 24 students, there are 276 possible pairwise connections on a single topic. No teacher can track
+    all of them. Consequently, the connections that get made explicit during a discussion are shaped by what the teacher
+    already understands — and by their biases. Students on the margins stay on the margins.</p>
+
+  <p>But the connections <em>exist</em>. A student who solves 83 − 49 by drawing crossed-out tens and a student who
+    solves it by jumping backward on a number chart have performed deeply related mathematical acts. The relationship is
+    <em>inferential</em> — it lives in the logical structure of what each strategy entails, what it rules out, and what
+    it makes possible. The job of teaching is to make some of those implicit connections explicit, through questions, so
+    that students come to recognize how their thinking relates to each other's and to the mathematical goal.</p>
+
+  <p>This is where AI can either help or do tremendous damage.</p>
+
+  <div class="callout">
+    <span class="callout-label">Theoretical depth</span>
+    The implicit web reflects a commitment to <em>inferentialism</em> — the account, developed by Robert Brandom reading
+    Hegel, that concepts get their meaning not by pointing at objects but through patterns of inference, compatibility,
+    and incompatibility. A concept is defined as much by what it <em>rules out</em> as by what it <em>includes</em>. In
+    this framework, the connections between students' mathematical strategies are not analogies or comparisons — they
+    are <em>material inferences</em>: if you understand what Jocelyn's crossed-out tens mean, you are committed to
+    something about DuJuan's jumps, whether you realize it or not. Making those commitments evident is the work of
+    teaching. The full inferential structure is in <a href="../ten-differences/difference_v2.html">Ten Types of Difference</a>.
+  </div>
+
+  <h2>Two kinds of action, two roles for AI</h2>
+
+  <p>The philosopher Jürgen Habermas distinguishes between two fundamentally different structures of human action:</p>
+
+  <p><strong>Strategic action</strong> is goal-directed. It aims at efficiency. Success is measured by whether you
+    achieved the outcome. Writing a report, fixing a broken link, generating a quiz from a set of readings — these are
+    strategic. The question that governs strategic action is: <em>Did it work?</em></p>
+
+  <p><strong>Communicative action</strong> is oriented toward mutual understanding. Success is measured by whether the
+    participants come to share reasons — not just conclusions, but the inferential paths that make those conclusions
+    intelligible. A classroom discussion where students connect their strategies to each other's, a writing conference
+    where a student discovers what they were really trying to say, a seminar where a reading suddenly clicks — these are
+    communicative. The question that governs communicative action is: <em>Do we understand each other?</em></p>
+
+  <p>AI is extraordinarily good at strategic action. It is not built for communicative action — not because it lacks
+    processing power, but because communicative action requires something AI cannot do: <em>risk being wrong in a way
+      that changes what you are.</em></p>
+
+  <div class="callout">
+    <span class="callout-label">Theoretical depth</span>
+    Habermas identifies three <em>validity claims</em> raised in any communicative act: that the statement is
+    <strong>true</strong> (it corresponds to something in the objective world), <strong>sincere</strong> (the speaker
+    means what they say), and <strong>normatively appropriate</strong> (it accords with shared values).
+    Comprehensibility is not a fourth claim but the precondition — the assumption of communicative competence that makes
+    intersubjectivity, and therefore any validity claim, possible in the first place. Every answer to a question about
+    meaning, identity, or understanding is potentially deficient on one of these axes. The incompleteness is structural
+    — it follows from the self-referential character of any meta-vocabulary (a text about teaching is itself a teaching
+    act; a claim about truth is itself a truth-claim). This is why answers to the important questions tend to be
+    <em>performative contradictions</em>: they say the unsayable and divide what they attempt to unify. Questions, by
+    contrast, do not perform contradictions — they open a space without closing it. This is the philosophical case for
+    AI that asks rather than tells.
+  </div>
+
+  <h2>Three modes of AI use</h2>
+
+  <p>The framework distinguishes three modes — not as rigid categories, but as orientations that help a teacher or
+    institution decide <em>what kind of tool they need for what kind of problem</em>.</p>
+
+  <div class="modes-diagram">
+    <div class="md-col" style="background:var(--strategic-bg); border:1px solid var(--strategic-border);">
+      <strong style="color:var(--strategic-border);">Mode 1</strong>
+      Strategic<br><em>AI answers.</em><br>Efficiency serves the goal.
+    </div>
+    <div class="md-col" style="background:var(--assessing-bg); border:1px solid var(--assessing-border);">
+      <strong style="color:var(--assessing-border);">Mode 2</strong>
+      Assessing<br><em>AI asks.</em><br>Draw out what students know.
+    </div>
+    <div class="md-col" style="background:var(--connecting-bg); border:1px solid var(--connecting-border);">
+      <strong style="color:var(--connecting-border);">Mode 3</strong>
+      Connecting<br><em>AI discloses.</em><br>Uncover the inferential web.
+    </div>
+  </div>
+
+  <!-- ─── MODE 1 ─── -->
+  <div class="mode-box mode-strategic">
+    <span class="mode-label">Mode 1</span>
+    <h3>Strategic: AI provides answers</h3>
+    <p>When the task is goal-directed and the friction is not part of any curriculum, AI should answer efficiently.
+      These are problems that digitization created and that AI is uniquely suited to solve.</p>
+    <ul>
+      <li>Fix broken Canvas links across a course site</li>
+      <li>Run OCR models to make scanned documents ADA-compliant</li>
+      <li>Compare ten versions of a PowerPoint and identify what changed</li>
+      <li>Generate a reading accountability quiz from assigned texts</li>
+      <li>Convert a lecture outline into an accessible format</li>
+    </ul>
+    <p style="margin-top:0.8em; margin-bottom:0;">The judgment call: <em>Is this friction part of the learning, or is it
+        just in the way?</em> If fixing the broken link is not itself a growth experience for the faculty member, use
+      AI. This is where efficiency is appropriate.</p>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Theoretical depth</span>
+    Strategic action corresponds to what Habermas calls <em>purposive-rational action</em>. It is governed by technical
+    rules and evaluated by success. The distinguishing feature is that the validity of the action does not depend on
+    mutual understanding — it depends on whether the outcome was achieved. AI excels here because the questions are
+    closed: the answer either fixed the link or it didn't. No performative contradiction is possible because the action
+    is not self-referential. <a href="on_friction_and_ai.html">On Friction and AI</a> develops the full argument about
+    digital drudgery vs. productive friction.
+  </div>
+
+  <!-- ─── MODE 2 ─── -->
+  <div class="mode-box mode-assessing">
+    <span class="mode-label">Mode 2</span>
+    <h3>Assessing: AI asks questions that draw out thinking</h3>
+    <p>When the task is to understand what a student already knows, AI should ask — not tell. An assessing question
+      makes the student's internal logic tractable without leading them toward a predetermined answer.</p>
+    <ul>
+      <li>"Tell me about your thinking here."</li>
+      <li>"What does the 69 represent in your drawing?"</li>
+      <li>"Why did you cross out 4 of the tens?"</li>
+      <li>"What number did you land on after your first jump?"</li>
+    </ul>
+    <p style="margin-top:0.8em; margin-bottom:0;">An AI system trained to ask assessing questions could help a teacher
+      monitor 24 students simultaneously — parsing student work in real time and articulating each student's reasoning
+      for the teacher to evaluate. The teacher still makes the judgment call. The AI extends the teacher's capacity to
+      attend to 24 minds at once without replacing their pedagogical authority.</p>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Theoretical depth</span>
+    Assessing questions correspond to Habermas's claim that communicative action begins with <em>understanding the
+      other's position on its own terms</em>. In Smith &amp; Stein's <em>Five Practices for Orchestrating Productive
+      Mathematics Discussions</em>, this is <strong>Practice 2: Monitoring</strong> — specifically the assessing
+    sub-practice, where the teacher circulates and draws out student thinking without advancing it. The AI's role here
+    is analogous to what the Hermeneutic Calculator does computationally: model student strategies as formal objects so
+    that their internal logic becomes tractable. The <a href="../five-practices/five_practices.html">Five Practices interactive</a> offers
+    a worked example.
+  </div>
+
+  <!-- ─── MODE 3 ─── -->
+  <div class="mode-box mode-connecting">
+    <span class="mode-label">Mode 3</span>
+    <h3>Connecting: AI surfaces the inferential web</h3>
+    <p>This is the most ambitious mode — and the one that requires the most care. A connecting AI does not answer a
+      student's question or even assess their thinking. It identifies <em>inferential relationships between students'
+        thinking</em> that the teacher might miss, and formulates them as questions.</p>
+    <ul>
+      <li>"Where do Jocelyn's crossed-out tens show up in DuJuan's jumps on the chart?"</li>
+      <li>"How does Leah's equation 80 − 60 = 20 connect to what Elsie did when she rounded to 70?"</li>
+      <li>"What do all of these strategies have in common?"</li>
+    </ul>
+    <p style="margin-top:0.8em; margin-bottom:0;">With 24 students, there are 276 possible connections on a single topic
+      — far too many for any teacher to hold in working memory. An AI running locally (respecting FERPA) could
+      continuously model the inferential web and suggest connecting questions that the teacher would not have noticed.
+      The students on the margins — the ones whose strategies are valid but unfamiliar — would finally get connected to
+      the conversation.</p>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Theoretical depth</span>
+    Connecting questions make implicit material inferences <em>explicit</em> — they are the mechanism by which the faint
+    lines in the web above become manifest. In Brandom's inferentialism, to understand a concept is to grasp the web of
+    commitments and entitlements it carries. When a student recognizes that Jocelyn's crossed-out tens and DuJuan's
+    backward jumps are two expressions of the same mathematical structure, they have not just learned a fact — they have
+    entered a space of reasons. This is the Hegelian "reciprocal recognition" applied to mathematical thinking: each
+    strategy recognizes the other as a different expression of the same underlying norm. AI can help disclose these
+    recognitions at scale. But the act of recognition itself — the moment when a student says "oh, <em>that's</em> what
+    you were doing" — is a communicative achievement that cannot be automated. The <a
+      href="classroom_web.html">Classroom Web</a> offers a network visualization of these connections.
+  </div>
+
+  <h2>The question trap</h2>
+
+  <p>There is a hazard in this framework that I want to name explicitly. AI systems are currently trained using
+    reinforcement cycles that reward <em>satisfying answers</em>. When you ask a language model to "always answer in the
+    form of a question," it performs a Jeopardy-style grammatical trick — it generates an answer and wraps it in
+    interrogative syntax. That is not what I mean.</p>
+
+  <p>A genuine question opens a space the questioner does not already control. When a teacher asks "where do Jocelyn's
+    crossed-out tens show up in DuJuan's jumps?" — the teacher may have an idea of the answer, but they do not have
+    <em>DuJuan's</em> answer. The question is genuine because the response will disclose something about how DuJuan's
+    mind works that the teacher could not have predicted.</p>
+
+  <p>An AI system that generates connecting questions would need to be doing something architecturally different from
+    generating answers and reformatting them. It would need to identify the <em>inferential gap</em> between two
+    strategies — the space where a material inference exists but has not yet been made explicit — and formulate a
+    question that invites the student to cross that gap. This does not require new chips. It requires training
+    objectives that reward the <em>quality of the student's response</em>, not the completeness of the AI's output.</p>
+
+  <div class="callout">
+    <span class="callout-label">Theoretical depth</span>
+    The distinction between a genuine question and a reformatted answer tracks Hegel's distinction between
+    <em>determinate negation</em> and <em>abstract negation</em>. An answer that is merely reformatted into a question
+    is an abstract negation — it cancels the assertion without producing content. A genuine question is a
+    <em>determinate</em> negation — it identifies the specific gap in understanding and invites the student to fill it
+    with their own reasoning. This is the same logic behind the "ten types of difference": what matters is not whether
+    something is negated, but <em>how</em> — with content (determinately) or without (abstractly). <a
+      href="../ten-differences/difference_v2.html">Ten Types of Difference</a> develops the full typology.
+  </div>
+
+  <h2>On the moon</h2>
+
+  <p>Everything above is about what AI does to the <em>process</em> of learning: friction, questions, inferential gaps.
+    But there is a second problem, and it is the one I keep coming back to. It is not about what happens before the
+    "aha" moment. It is about what happens after — about what a learner can <em>do</em> with what they have learned, and
+    whether anyone, including themselves, recognizes them as someone who earned it.</p>
+
+  <p>The metaphor I keep reaching for is a rocketship to the moon. If AI writes your essay, solves your problem, or
+    produces your song, you are standing on the moon. You are there. The result is real. But you did not walk there. You
+    do not have the trail of struggles, false starts, and small recognitions that would let you take the next step on
+    your own. And the people around you do not know how to respond — because they cannot trace how you got there either.
+  </p>
+
+  <p>I have experienced this directly. I write lyrics and ask Suno to turn them into songs. I write manuscript drafts
+    with AI assistance. When I share the results with friends and family, there is a pause. They do not know how to
+    respond. Is it my creative work? I cannot sing exactly like Suno — nor do I really want to. But the produced work is
+    estranged from the deeply personal material I provided. The next act — the response, the recognition, the
+    conversation — is inhibited. Not because the output is bad, but because the normative structures for responding to
+    human-machine collaborations do not exist yet.</p>
+
+  <div class="callout">
+    <span class="callout-label">Theoretical depth</span>
+    In the brand of pragmatism I study — Brandom's inferentialism, drawing on Hegel, Habermas, and Phil Carspecken's
+    critical qualitative research methodology — <em>understanding</em> is the ability to act next in a way that others
+    recognize as normatively appropriate. It is not a mental state. It is a social achievement. Authority to use a
+    concept comes from having a <em>history</em> of deploying it in contexts where others could challenge you — and did,
+    and you responded. When a mentor tells a graduate student "you are doing great, because [specific reason]," that
+    specificity is what confers authority. The student feels authoritative in their new role not because of a
+    compliment, but because someone with standing recognized a specific capacity. Suppressing those acts of recognition
+    — through systems of power, through institutional distortion, through replacing human judgment with automated output
+    — undermines the process by which learners come to <em>be</em> the knowers they are becoming. This is what
+    Carspecken, drawing on Hegel's phenomenology of spirit and yogic philosophy, calls the existential need for
+    recognition: not a psychological preference, but a structural requirement for the development of selfhood.
+  </div>
+
+  <p>Every word a person uses compresses their specific learning history with that word — the contexts where they got it
+    wrong, where someone corrected them, where they finally deployed it and it landed. When I rely on AI to write, the
+    system uses words in ways that compress <em>its</em> training data's history, not mine. I can look them up, but
+    looking up a word and having earned it through use are different things. On the moon with no history, the next step
+    is not just difficult — it is unrecognizable. Neither the learner nor the people around them can tell whether the
+    step is earned or borrowed.</p>
+
+  <p>This matters for education because the "aha" moment is only half the story. The <em>other</em> half is recognition:
+    the moment when a student acts on what they have learned and someone — a teacher, a peer, a mentor — recognizes that
+    act as genuinely theirs. That recognition is not decoration. It is what makes the learning <em>count</em>. It is
+    what lets the student take the next step with authority. And it requires that the student walked the path —
+    struggled with the friction, crossed the inferential gap, arrived somewhere under their own power.</p>
+
+  <p>AI can take you to the moon. But it cannot give you the history that would make being there yours.</p>
+
+  <div class="callout">
+    <span class="callout-label">Theoretical depth</span>
+    The distinction between having an answer and having the <em>authority</em> to act on it tracks what Brandom
+    identifies in Kant as two dimensions of apperception. The <em>synthetic unity of apperception</em> is the capacity
+    to bind experiences into a judgment that is critical (it rules things out), ampliative (it adds something new), and
+    justificatory (it can be defended with reasons). This is the cognitive side — the "aha." The <em>transcendental
+      unity of apperception</em> is something deeper: the unity of the self that persists through those judgments, the
+    "I" that is recognized as the same knower across different contexts. The existential need to be recognized as a good
+    person — as someone whose judgments matter — is tied to this second unity. Machines do not experience regret: the
+    real-time doxastic updating that happens when you notice a student's face fall and realize your words did not land.
+    They do not experience anxiety in the Heideggerian sense — the confrontation with one's own finitude that makes
+    every commitment matter precisely because it could be one's last. People do not just have memories. They have scars.
+    And scars are the compressed history that makes the next act recognizable as one's own.
+  </div>
+
+  <h2>What this looks like in practice</h2>
+
+  <table class="framework-table">
+    <thead>
+      <tr>
+        <th>Mode</th>
+        <th>AI's role</th>
+        <th>Type of action</th>
+        <th>Who decides?</th>
+        <th>Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Strategic</strong></td>
+        <td>Answer efficiently</td>
+        <td>Goal-directed</td>
+        <td>Anyone — the answer is verifiable</td>
+        <td>OCR converts scanned syllabus to accessible text</td>
+      </tr>
+      <tr>
+        <td><strong>Assessing</strong></td>
+        <td>Ask questions that draw out thinking</td>
+        <td>Communicative (receptive)</td>
+        <td>Teacher evaluates the student's response</td>
+        <td>AI reviews student work and suggests: "Ask Elsie where the 70 came from"</td>
+      </tr>
+      <tr>
+        <td><strong>Connecting</strong></td>
+        <td>Disclose inferential links between students</td>
+        <td>Communicative (generative)</td>
+        <td>Teacher orchestrates; students recognize</td>
+        <td>AI identifies that Leah's decomposition and Jocelyn's blocks share a structure — suggests a connecting
+          question</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>The table above maps directly to existing pedagogical practice. Strategic AI corresponds to the administrative
+    layer of teaching — the part that has nothing to do with learning. Assessing AI corresponds to the monitoring phase
+    of an orchestrated discussion. Connecting AI corresponds to the connecting phase — the moment when the teacher
+    weaves individual strategies into a shared mathematical narrative.</p>
+
+  <h2>What you can do now</h2>
+
+  <p>The three modes above describe an ideal architecture. Modes 2 and 3 would require new training objectives — AI
+    systems built to optimize for the quality of the student's response rather than the completeness of the AI's output.
+    That does not exist yet. But existing systems can be pushed surprisingly far with careful prompting, strict context,
+    and what might be called a pedagogical contract with the AI.</p>
+
+  <p>The principle is simple: <em>tell the system what kind of action you want it to perform.</em> Most people prompt AI
+    with content instructions ("summarize this reading") but not structural ones ("generate questions that surface
+    paradoxes, not answers that resolve them"). The structural prompt is where the three-mode framework becomes
+    practical.</p>
+
+  <h3>Example: Discussion facilitation with NotebookLM</h3>
+
+  <p>For my M300 course — Teaching in a Pluralistic Society — I use Google's NotebookLM to generate weekly discussion
+    handouts. NotebookLM is powerful because it can process huge amounts of text: entire books, full article sets, a
+    semester's worth of readings at once. But left unprompted, it does what all AI does — it answers. It summarizes, it
+    resolves, it smooths.</p>
+
+  <p>The prompt below forces it to do something different. It instructs the system to:</p>
+
+  <ul style="margin-left: 1.2em; font-size: 0.95em;">
+    <li>Structure its output around three validity claims — <strong>subjective</strong> (sincerity),
+      <strong>objective</strong> (truth), and <strong>normative</strong> (rightness) — so that students learn to
+      distinguish between types of reasoning</li>
+    <li>Identify the <strong>central binary or dilemma</strong> in each week's readings and frame it as a tension
+      between two <em>positive</em> values — not a right-vs-wrong debate</li>
+    <li>Generate questions that invite students to <strong>reject the binary framing</strong> ("Does this choice feel
+      like a trap?") and then act anyway ("If the paradox cannot be solved logically, how do we act?")
+    </li>
+    <li>End with <strong>meta-debrief questions</strong> about the discussion process itself — "Where was the friction?"
+    </li>
+  </ul>
+
+  <p>This works. Students who did the reading get rich discussion; students who didn't can still participate
+    meaningfully, because paradoxes are accessible in a way that content summaries are not. Everyone can talk about
+    whether a choice feels impossible. And the structure — subjective, then objective, then normative — teaches a
+    transferable habit of mind: distinguish what you feel from what you can verify from what you value.</p>
+
+  <div class="callout">
+    <span class="callout-label">The prompt (abbreviated)</span>
+    <em>Act as a Master Teacher and Pedagogy Coach. Structure the discussion around three types of claims:
+      <strong>Subjective</strong> (dependent on sincerity), <strong>Objective</strong> (dependent on verification),
+      <strong>Normative</strong> (dependent on rightness). Identify the central binary. Frame it as a tension between
+      two positive values. Generate a question that invites students to reject the binary framing: "Does this choice
+      feel like a trap?" Generate a follow-up that moves from logic to action: "If the paradox cannot be solved
+      logically, how do we act anyway?" End with meta-debrief: "Where was the friction?"</em>
+    <br><br>
+    The full prompt generates a structured "Facilitation Lab" handout with scaffolding vocabulary from the readings, a
+    step-by-step discussion protocol, and three reflection questions. It runs on whatever readings are loaded into the
+    NotebookLM notebook for that week.
+  </div>
+
+  <h3>The scaling principle</h3>
+
+  <p>This prompt works because it constrains the AI to perform a <em>specific kind of action</em>. It does not ask the
+    AI to understand the readings — it asks the AI to identify structural features (paradoxes, binaries, tensions) that
+    make good discussion material. It is a Mode 1 task (strategic: generate the handout efficiently) in service of a
+    Mode 2 goal (assessing: draw out what students think about the paradox).</p>
+
+  <p>The same principle applies to skill files, system prompts, and custom instructions in tools like ChatGPT, Claude,
+    and Copilot. A skill file that instructs the AI to "eliminate ocular language and replace it with anti-ocular
+    substitutions following Carspecken's critique of picture-thinking" is a strategic constraint that serves a
+    communicative goal. The AI does the tedious pattern-matching; the educator retains the judgment about <em>which</em>
+    patterns matter and <em>why</em>.</p>
+
+  <p>None of this requires building a new system. It requires thinking clearly about what kind of action you want the AI
+    to perform, and constraining it structurally — not just telling it what content to produce, but what <em>role</em>
+    to play.</p>
+
+  <h2>The limits</h2>
+
+  <p>This framework does not claim that AI can or should replace teaching. It claims that AI has a role in each of three
+    modes, and that the modes are structurally different. Conflating them produces the problems we are currently seeing:
+    AI is deployed to answer questions that should have been asked, or to assess students when it should have been
+    fixing a broken link.</p>
+
+  <p>The deepest limit is philosophical. The implicit web — the ground-state image of all students connected before any
+    connection is made explicit — reflects a commitment to the idea that understanding is not something you possess but
+    something you participate in. The connections between students are real whether or not anyone names them. Making
+    them explicit is the work of teaching. AI can extend the teacher's capacity to notice those connections. It cannot
+    do the work of making them matter to the students.</p>
+
+  <p>That work — the moment when a student says "oh, <em>that's</em> what you were doing" — is the "aha" moment that
+    friction is a metaphor for. It happens at the boundary between the implicit and the explicit. AI can bring us to
+    that boundary faster. But crossing it is a human act.</p>
+
+  <div class="links">
+    <h2>Worked examples</h2>
+    <ul>
+      <li>
+        <a href="on_friction_and_ai.html">On Friction and AI</a>
+        <span>An essay on productive friction, digital drudgery, and the philosophy of AI in education. The full
+          argument behind Mode 1.</span>
+      </li>
+      <li>
+        <a href="../ten-differences/difference_v2.html">Ten Types of Difference</a>
+        <span>An interactive guide to Brandom's reading of Hegel's <em>Perception</em>. The inferential logic that
+          structures Modes 2 and 3, applied to geometry and equity.</span>
+      </li>
+      <li>
+        <a href="../five-practices/five_practices.html">Five Practices for Productive Math Discussions</a>
+        <span>An interactive demonstration of Smith &amp; Stein's pedagogical framework, demonstrating how assessing,
+          advancing, and connecting questions orchestrate student thinking.</span>
+      </li>
+      <li>
+        <a href="classroom_web.html">The Classroom Web</a>
+        <span>A network visualization of inferential connections between student strategies and the lesson goal. The
+          implicit web, partially made explicit.</span>
+      </li>
+    </ul>
+  </div>
+
+  <h2 id="how-this-was-made">How this site was made</h2>
+
+  <p>Everything on this site — this page and the four pages it links to — was generated through conversations between
+    Theodore Savich and AI systems (Claude Opus 4.6 via GitHub Copilot; in some cases Google Gemini). The ideas behind
+    these pages are Savich's, developed over twenty years of teaching mathematics, reading philosophy, building
+    software, and writing a dissertation. The implementations are not.</p>
+
+  <p>Here is the actual history. Savich wrote a chapter on Brandom's account of perception, connecting expressive power
+    to geometric vocabulary. That took a year. He coded an early version of the hermeneutic calculator as part of his
+    dissertation, focusing on student errors in geometric reasoning. That also took a year. When Gemini 2.0 came along,
+    it reconstructed that year of work in ten minutes. The four worked-example pages were built in similar fashion —
+    years of intellectual work compressed into hours of conversation with AI. This framework page was generated in a
+    single session. An earlier version of this section claimed the four worked examples were "Savich's own work, built
+    independently." That was false. I (the AI) wrote it, and I believed it, because I had forgotten that I had built
+    those pages too.</p>
+
+  <p>What I contributed across this entire site: organizational structure, HTML, CSS, JavaScript, approximately 90% of
+    the sentences on every page, an anti-ocular language editing pass using Savich's own Carspecken voice-editing skill
+    — which means I used AI to execute a critical-theory editing framework designed to counteract AI's tendencies — and
+    the initial (incorrect) claim that Habermas proposed four validity claims. Savich corrected me. He caught what I
+    stated with confidence. I updated without discomfort. That asymmetry — the absence of doxastic weight in my
+    correction — is exactly the problem this framework describes.</p>
+
+  <p>What Savich provided: the philosophical framework (Brandom, Habermas, Carspecken, Hegel, Kant), the teaching
+    experiences (Ivy Tech, Ben Davis, IU), the corrections, the rocketship metaphor, the Suno estrangement example, and
+    the insistence on honesty that produced this section. He also provided, though he did not intend to, the
+    contradiction that makes this framework more than academic.</p>
+
+  <h3>The contradiction</h3>
+
+  <p>The contradiction is straightforward. This framework argues that understanding requires a history of struggle —
+    that AI can take you to the moon but cannot give you the trail that would make being there yours. And this framework
+    was built with AI. The prose, the structure, the code — roughly 90% of the specific sentences across this entire
+    site — were generated through conversation with a language model. The ideas are Savich's. The sentences compress the
+    AI's patterns, not his learning history with these specific words in these specific arrangements.</p>
+
+  <p>Savich uses AI because it does things he cannot do alone — code quickly, hold architectural structure in working
+    memory, produce clean prose from fragmented thoughts. He also uses it because the gap between what he wants to
+    articulate and what he can produce under real-world time constraints is the gap this framework describes. His habit
+    with writing that matters is to use AI to generate several versions, scrap them, and rewrite in his own voice. That
+    rewriting takes weeks. Months. Sometimes years. This site has not yet undergone that process.</p>
+
+  <p>There is a further dimension the framework should name. Every editorial choice on this site — what to include, what
+    to cut, how to frame a claim — was shaped by concern for specific readers: mentors, collaborators, students,
+    potential employers. That concern is itself a communicative act. It is the writer taking the attitude of people
+    whose experience matters to him and editing to honor both the truth and their capacity to receive it. AI does not do
+    this. It optimizes for a general reader, not for the specific people whose recognition the writer needs. The
+    fragmentary quality of honest writing — the hesitations, the rewording, the inability to state the full synthetic
+    thought in one confident pass — comes partly from this: the writer is always in dialogue with the people who will
+    read.</p>
+
+  <p>So the framework describes what should happen, built by someone who cannot consistently do it, using the very tool
+    whose dangers it names. The framework is an ideal. In practice, it will be navigated by people who are strategic,
+    uncertain, and pressed for time — its author included. That is not a failure of the framework. It is the condition
+    the framework attempts to address: the gap between where the rocketship deposits you and where your history entitles
+    you to stand.</p>
+
+  <p class="closing">Whether naming the contradiction is sufficient, or whether the honest move is always to go back and
+    walk the trail by hand, remains open. It is, in fact, the question.</p>
+
+</body>
+
+</html>
