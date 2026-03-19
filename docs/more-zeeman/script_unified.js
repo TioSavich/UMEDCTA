@@ -111,6 +111,9 @@ document.addEventListener('DOMContentLoaded', () => {
             this.isStable = true;
             this.currentStability = 1.0;
 
+            // Debounce grow() — catastrophe zone can re-trigger snap on consecutive frames
+            this._lastGrow = 0;
+
             this.bindEvents();
             this.loop();
         }
@@ -275,7 +278,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.statusEl.textContent = 'Stable - ' + currentOutput;
                 // Trigger matrix growth on catastrophe
                 if (snapped && !wasStable) {
-                    this.automaton.grow(currentOutput);
+                    const now = Date.now();
+                    if (now - this._lastGrow > 500) {
+                        this._lastGrow = now;
+                        this.automaton.grow(currentOutput);
+                    }
                 }
             } else {
                 this.statusEl.textContent = 'Superimposed (Indeterminate)';
