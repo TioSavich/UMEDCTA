@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UMEDCTA — Tio Savich</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f0f12;
+      --surface: #17171d;
+      --border: #2a2a35;
+      --text: #d4d4d8;
+      --muted: #71717a;
+      --accent: #a78bfa;
+      --accent-dim: #7c3aed22;
+      --link: #c4b5fd;
+      --link-hover: #ede9fe;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    body {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 4rem 2rem 6rem;
+    }
+
+    /* --- Header --- */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .site-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #fafafa;
+      line-height: 1.3;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* --- Section headings --- */
+    h2 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+      margin-top: 3rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* --- Prose --- */
+    p {
+      margin-bottom: 1.25rem;
+      color: var(--text);
+    }
+
+    .framing {
+      border-left: 2px solid var(--accent);
+      padding-left: 1.5rem;
+      margin: 2rem 0 2.5rem;
+    }
+
+    .framing p {
+      color: #b4b4be;
+      font-style: italic;
+    }
+
+    /* --- Tool cards --- */
+    .tool-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .tool-card {
+      display: block;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.25rem 1.5rem;
+      text-decoration: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .tool-card:hover {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    .tool-name {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--link);
+      margin-bottom: 0.35rem;
+    }
+
+    .tool-card:hover .tool-name {
+      color: var(--link-hover);
+    }
+
+    .tool-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* --- Footer --- */
+    footer {
+      margin-top: 5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    footer a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--link-hover);
+    }
+
+    em { font-style: italic; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <p class="site-title">UMEDCTA &mdash; Tio Savich</p>
+    <h1>Understanding Mathematical Experience, Discourse, and Cognition Through Analytic Pragmatism</h1>
+    <p class="subtitle">Interactive tools companion to the manuscript <em>UMEDCA</em></p>
+  </header>
+
+  <section>
+    <p>These tools were built to teach specific philosophical and mathematical ideas — and to find where the teaching breaks down. That breakdown is not incidental. The central argument of the accompanying manuscript is that formalisms productively exceed themselves when they are applied consistently. The tools here are designed to make that excess tangible.</p>
+
+    <div class="framing">
+      <p>Each of these pages models something: a reasoning strategy, an inferential structure, a physical system, a logical typology. The modeling is honest about what it leaves out. A Prolog formalization of a child's arithmetic strategy is not a theory of mathematical cognition. A Zeeman catastrophe machine running in a browser is not a metaphysics of embodied compression. What they are: tools for noticing where the formalization stops and the interesting philosophy begins.</p>
+    </div>
+
+    <p>The tools are companion artifacts to an ongoing manuscript project rooted in Robert Brandom's analytic pragmatism, Hegel's dialectics of determinate negation, and Phil Carspecken's critical ethnography. The Prolog and Python formalization work — the Manuscript Formalization archive — is not included here; that material is research in progress, and claiming it "works" in any philosophically significant sense would be premature.</p>
+  </section>
+
+  <h2>Children's Mathematical Reasoning</h2>
+  <div class="tool-list">
+    <a class="tool-card" href="calculator/index.html">
+      <div class="tool-name">The Hermeneutic Calculator</div>
+      <div class="tool-desc">Each button opens a page modeling one formal reasoning strategy from research on children's arithmetic. The strategies are drawn from Susan Jo Russell's work: addition, subtraction, multiplication, and division. The formalization makes explicit what a child's reasoning procedure commits to inferentially — and where those commitments run out.</div>
+    </a>
+    <a class="tool-card" href="calculator/AceofBases/index.html">
+      <div class="tool-name">Ace of Bases</div>
+      <div class="tool-desc">A base system explorer. Users experiment with number representation in bases other than ten. The goal is not to teach base conversion but to make the contingency of base-ten notation available for examination — a starting point for understanding what a number system commits you to.</div>
+    </a>
+  </div>
+
+  <h2>AI in Education</h2>
+  <div class="tool-list">
+    <a class="tool-card" href="ai-framework/framework.html">
+      <div class="tool-name">A Framework for AI in Education</div>
+      <div class="tool-desc">Three modes of AI use in classroom settings — distinguished by whether AI takes a role in the conversation or produces content for students to engage with. The framework draws on Habermas's distinction between communicative and strategic action. The framework describes a teacher's options, not a theory of learning.</div>
+    </a>
+    <a class="tool-card" href="ai-framework/on_friction_and_ai.html">
+      <div class="tool-name">On Friction and AI</div>
+      <div class="tool-desc">An essay on what productive difficulty does in learning, and what AI removes when it removes difficulty. Built through conversation with AI; the ideas are the author's, the implementation is not. The essay describes how this was made and what that process can and cannot mean for questions of authorship.</div>
+    </a>
+    <a class="tool-card" href="ai-framework/classroom_web.html">
+      <div class="tool-name">The Classroom Web</div>
+      <div class="tool-desc">A network visualization of how mathematical ideas connect across classroom discussions. Students and their contributions appear as nodes; the connections track inferential dependencies rather than conversational sequence.</div>
+    </a>
+  </div>
+
+  <h2>Types of Difference</h2>
+  <div class="tool-list">
+    <a class="tool-card" href="ten-differences/difference_v2.html">
+      <div class="tool-name">Ten Types of Difference</div>
+      <div class="tool-desc">An interactive guide to Brandom's reading of Hegel's <em>Perception</em> chapter. Ten logical structures of difference, rendered through geometry and equity examples. The geometry is not a metaphor for the logic — it instantiates the same inferential relations. The equity framing came from a class on pluralism where geometric examples worked where political ones did not.</div>
+    </a>
+    <a class="tool-card" href="quadrilateral-sub/inferential_strength.html">
+      <div class="tool-name">Quadrilateral Substitution</div>
+      <div class="tool-desc">A worked demonstration of Brandom's substitution inference in Chapter 4 of <em>Articulating Reasons</em>, using quadrilaterals. Substitution inference — the move from "this is a square" to "this is a rectangle" — turns out to require inferential commitment, not just conceptual inclusion. The geometry makes the commitment structure available to examination.</div>
+    </a>
+    <a class="tool-card" href="five-practices/five_practices.html">
+      <div class="tool-name">Five Practices for Productive Math Discussions</div>
+      <div class="tool-desc">An interactive demonstration of the Smith &amp; Stein pedagogical framework — anticipating, monitoring, selecting, sequencing, and connecting student thinking. The tool is designed to help teacher candidates recognize the framework's inferential logic, not to train them in it.</div>
+    </a>
+  </div>
+
+  <h2>The Zeeman Catastrophe Machine</h2>
+  <div class="tool-list">
+    <a class="tool-card" href="more-zeeman/index_unified.html">
+      <div class="tool-name">More Zeeman</div>
+      <div class="tool-desc">A model of the Zeeman catastrophe machine — a physical device with two elastic bands attached to a rotating disc, where the control point can be dragged into a region where the disc snaps discontinuously between two stable positions. In the manuscript's appendix, the machine serves as a model for embodied compression and relaxation: the moment before a snap, the system is in a superimposed state; after, it has resolved — but the resolution carries information about the path. The "sound of time" visualizer registers angular velocity as acoustic displacement, so you can hear the snap. The matrix automaton in the corner grows by Cantorian diagonalization each time a catastrophe occurs.</div>
+    </a>
+  </div>
+
+  <footer>
+    <p>Tio Savich &mdash; <a href="https://recognitionstudies.org">recognitionstudies.org</a></p>
+    <p style="margin-top: 0.5rem;">These tools accompany <em>Understanding Mathematical Experience, Discourse, and Cognition Through Analytic Pragmatism</em>, a manuscript under ongoing revision. The code is available at <a href="https://github.com/TioSavich/UMEDCTA">github.com/TioSavich/UMEDCTA</a>.</p>
+  </footer>
+
+</body>
+</html>
