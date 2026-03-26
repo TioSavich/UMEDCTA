@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergent Behavior in Automata - Theodore M. Savich</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+            background-color: #f8f8f8;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2em;
+            padding-bottom: 1em;
+            border-bottom: 2px solid #4a4a6a;
+        }
+
+        h1, h2, h3, h4 {
+            color: #4a4a6a;
+            margin-top: 1.5em;
+        }
+
+        h1 {
+            font-size: 1.8em;
+            margin-top: 0.8em;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 0.3em;
+        }
+
+        /* Abstract styling */
+        .abstract {
+            background-color: #f0f0f7;
+            padding: 1.5em;
+            border-left: 4px solid #4a4a6a;
+            margin: 2em 0;
+        }
+
+        /* Table styling */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1.5em 0;
+            font-size: 0.9em;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+        }
+
+        th {
+            background-color: #e6e6ef;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f5f5f5;
+        }
+
+        /* Code block styling */
+        pre {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 1em;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Courier New', monospace;
+            line-height: 1.4;
+        }
+        
+        code {
+            font-family: Consolas, Monaco, 'Courier New', monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        /* Prolog syntax highlighting */
+        .comment { color: #008000; }
+        .directive { color: #800000; font-weight: bold; }
+        .predicate { color: #0000FF; }
+        .variable { color: #B00060; }
+        .symbol { color: #000080; }
+        .number { color: #009999; }
+        .string { color: #a31515; }
+        .operator { color: #666600; }
+
+        /* List styling */
+        ul, ol {
+            padding-left: 1.5em;
+        }
+
+        li {
+            margin-bottom: 0.5em;
+        }
+
+        /* Figures and images */
+        figure {
+            margin: 1.5em 0;
+            text-align: center;
+        }
+
+        figcaption {
+            font-style: italic;
+            font-size: 0.9em;
+            margin-top: 0.5em;
+            color: #666;
+        }
+
+        /* References */
+        .references {
+            margin-top: 2em;
+            border-top: 1px solid #ddd;
+            padding-top: 1em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Emergent Looping in a Simple Automaton: A Proof of Concept and Educational Metaphor</h1>
+        <p><strong>Compiled by Theodore M. Savich</strong></p>
+    </header>
+
+    <div class="abstract">
+        <h2>Abstract</h2>
+        <p>Computational models like automata are valuable for understanding rule-based processes. This paper presents a proof of concept demonstrating how emergent, complex behavior—specifically, non-halting loops—can arise in a simple pushdown automaton (PDA) through the introduction of a rudimentary self-referential mechanism. We first describe a PDA designed to model a common cognitive strategy for addition ("Rearranging to Make Bases"). We then detail how this model is implemented in Prolog, leveraging the language's symbolic processing and dynamic code modification capabilities. By introducing a specific rule allowing the automaton to react to its own encoded state under certain input conditions, we demonstrate that it enters a predictable, infinite loop for specific inputs, a behavior not explicitly programmed but resulting from the confluence of the ruleset and the data. We analyze this emergent behavior critically, acknowledging its simplicity while arguing for its conceptual significance. Finally, we discuss the potential relevance of this phenomenon as a computational metaphor for understanding certain patterns observed in mathematics education, such as students engaging in non-productive, rule-bound procedural loops, highlighting the role of external guidance in overcoming such computational impasses.</p>
+    </div>
+
+    <section>
+        <h2>1. Introduction</h2>
+        <p>Automata theory provides a formal framework for modeling systems that operate based on discrete states and predefined transitions. From finite automata recognizing regular languages to more powerful models like pushdown automata (PDAs) utilizing stack memory, these constructs are foundational in computer science. Typically, their behavior is deterministic and predictable based on their defined rules and input. However, questions arise regarding whether such systems can exhibit more complex, <em>emergent</em> behaviors—outcomes not explicitly specified for particular inputs but arising naturally from the interaction of the system's components and rules, especially when elements of self-reference are introduced.</p>
+        
+        <p>Inspired conceptually by the implications of self-reference in formal systems, as famously explored by Gödel (Newman &amp; Nagel, 2012), this paper investigates whether a simple PDA model can demonstrate such emergent complexity. We focus on a specific behavior: non-halting execution arising not from infinite input, but from an internal, data-dependent loop triggered by a form of self-recognition.</p>
+        
+        <p>This paper aims to:</p>
+        <ol>
+            <li>Describe a PDA modeling a cognitive strategy for arithmetic.</li>
+            <li>Explain how a self-referential capability is introduced into this model.</li>
+            <li>Detail the implementation of this model in the Prolog programming language, justifying its suitability.</li>
+            <li>Demonstrate and analyze the emergent non-halting loop produced under specific conditions.</li>
+            <li>Discuss the potential pedagogical relevance of this computational phenomenon as a metaphor for understanding certain learning behaviors in mathematics.</li>
+        </ol>
+        
+        <p>The goal is not to present a sophisticated cognitive model, but rather a clear proof of concept illustrating how simple rules and rudimentary self-reference can lead to computationally interesting, emergent dynamics with potential parallels in educational contexts.</p>
+    </section>
+
+    <section>
+        <h2>2. The Modeled System: Rearranging to Make Bases (RMB) Automaton</h2>
+        <p>The automaton models a common strategy children use for addition, particularly sums crossing a base boundary (e.g., base 10). For a problem like <code>A + B</code> (e.g., <code>8 + 5</code>), the "Rearranging to Make Bases" (RMB) strategy involves (Carpenter et al., 1999):</p>
+        <ol>
+            <li>Determining the complement <code>k</code> needed to make <code>A</code> reach the base (e.g., <code>k = 10 - 8 = 2</code>).</li>
+            <li>Checking if <code>B</code> is large enough (<code>B &gt;= k</code>).</li>
+            <li>If so, conceptually decomposing <code>B</code> into <code>k</code> and <code>B-k</code> (e.g., <code>5 = 2 + 3</code>).</li>
+            <li>Recombining as <code>(A+k) + (B-k)</code> (e.g., <code>(8+2) + 3 = 10 + 3 = 13</code>).</li>
+        </ol>
+        
+        <p>A PDA can model this using its states to track the process phase (reading A, reading B, deciding, rearranging) and its stack to store the digits of A and B temporarily. Key states include an initial state, states for reading digits, a decision state after input ends, a state for performing the rearrangement on the stack representation, an accept state, and an error state (e.g., if <code>B &lt; k</code>).</p>
+        
+        <h3>Formal PDA 6-Tuple Definition</h3>
+        <p>The reflective RMB automaton can be formally defined as a 6-tuple P = (Q, Σ, Γ, δ, q₀, F):</p>
+        
+        <ul>
+            <li>
+                <p><strong>Q (Finite Set of States):</strong> Q = {1, 2, 3, 4, 5, 6, 7}</p>
+                <ul>
+                    <li>1: Initial state, reading digits of A.</li>
+                    <li>2: Reading digits of B (after '+').</li>
+                    <li>3: Decision state (end of input).</li>
+                    <li>4: Accept state.</li>
+                    <li>5: Error state.</li>
+                    <li>6: Reflection state (iterative <code>+6 mod 10</code> loop).</li>
+                    <li>7: Rearrangement state (performing RMB).</li>
+                </ul>
+            </li>
+            <li><p><strong>Σ (Input Alphabet):</strong> Σ = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, +}</p></li>
+            <li>
+                <p><strong>Γ (Stack Alphabet):</strong> Γ = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, #, Z₀}</p>
+                <ul>
+                    <li>Digits 0-9: Represent parts of numbers A and B, and the <code>B mod Base</code> value in state 6.</li>
+                    <li><code>#</code>: Separator symbol pushed after A is read.</li>
+                    <li><code>Z₀</code>: Conceptual initial stack symbol (Prolog uses an empty list <code>[]</code>).</li>
+                </ul>
+            </li>
+            <li><p><strong>δ (Transition Function):</strong> Defined piecewise below and more clearly in the State Table. Maps <code>Q × (Σ ∪ {ε}) × Γ</code> to finite subsets of <code>Q × Γ*</code>. (Where ε is the empty string, representing transitions without consuming input).</p></li>
+            <li><p><strong>q₀ (Initial State):</strong> q₀ = 1</p></li>
+            <li><p><strong>F (Set of Accepting States):</strong> F = {4}</p></li>
+        </ul>
+    </section>
+
+    <section>
+        <h3>2. State Transition Table (δ)</h3>
+        <p>This table details the transitions. 'X' represents any symbol in Γ (or the top of the relevant stack portion). <code>ε</code> denotes an epsilon transition (no input consumed). Stack Operations describe the net change: Push(Y) adds Y to top, Pop removes top, Replace(Y) replaces top with Y, NoOp leaves stack unchanged. Actions listed relate to the Prolog implementation.</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Current State</th>
+                    <th>Input Symbol</th>
+                    <th>Stack Top</th>
+                    <th>Next State</th>
+                    <th>Stack Operation</th>
+                    <th>Associated Action / Condition</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><code>d</code> (digit)</td>
+                    <td>X</td>
+                    <td>1</td>
+                    <td>Push(d)</td>
+                    <td><code>push(d)</code></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><code>+</code></td>
+                    <td>X</td>
+                    <td>2</td>
+                    <td>Push('#')</td>
+                    <td><code>push('#')</code></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><code>d</code> (digit)</td>
+                    <td>X</td>
+                    <td>2</td>
+                    <td>Push(d)</td>
+                    <td><code>push(d)</code></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><code>ε</code></td>
+                    <td>X</td>
+                    <td>3</td>
+                    <td>NoOp</td>
+                    <td><code>noop</code> (End of input reached)</td>
+                </tr>
+                <tr>
+                    <td><strong>3</strong></td>
+                    <td><code>ε</code></td>
+                    <td>X</td>
+                    <td><strong>6</strong></td>
+                    <td>Replace(DigitsB, Bmod10)</td>
+                    <td><code>setup_reflect_stack</code> <em>(Condition: Reflect trigger met)¹</em></td>
+                </tr>
+                <tr>
+                    <td><strong>3</strong></td>
+                    <td><code>ε</code></td>
+                    <td>X</td>
+                    <td><strong>7</strong></td>
+                    <td>(See Note 2)</td>
+                    <td><code>rearrange_action</code> <em>(Condition: RMB possible, no reflect trigger)</em></td>
+                </tr>
+                <tr>
+                    <td><strong>3</strong></td>
+                    <td><code>ε</code></td>
+                    <td>X</td>
+                    <td><strong>5</strong></td>
+                    <td>NoOp</td>
+                    <td><code>noop</code> <em>(Condition: Error case, RMB not possible)</em></td>
+                </tr>
+                <tr>
+                    <td>4 (Accept)</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>(Terminal State)</td>
+                </tr>
+                <tr>
+                    <td>5 (Error)</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>(Terminal State)</td>
+                </tr>
+                <tr>
+                    <td><strong>6</strong></td>
+                    <td><code>ε</code></td>
+                    <td><strong>0</strong></td>
+                    <td><strong>4</strong></td>
+                    <td>NoOp</td>
+                    <td><em>(Internal Check: BmodBase == 0)³</em></td>
+                </tr>
+                <tr>
+                    <td><strong>6</strong></td>
+                    <td><code>ε</code></td>
+                    <td><code>b</code> (≠ 0)</td>
+                    <td><strong>6</strong></td>
+                    <td>Replace(b, new_b)</td>
+                    <td><code>reflect_add_6_step</code> <em>(Internal Check: BmodBase != 0)³</em></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td><code>ε</code></td>
+                    <td>X</td>
+                    <td>4</td>
+                    <td>NoOp</td>
+                    <td><code>noop</code> (Assumes <code>rearrange_action</code> finished successfully)</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h4>Notes on the Table:</h4>
+        <ol>
+            <li>
+                <p><strong>State 3 Dynamics:</strong> The transitions from state 3 are determined <em>dynamically</em> by the Prolog code based on decoding the <em>entire</em> stack (to get A and B) and checking the <code>reflection_enabled</code> flag.</p>
+                <ul>
+                    <li>The <code>setup_reflect_stack</code> action replaces the <code>DigitsB</code> part of the stack with the single value <code>B mod Base</code> before entering state 6.</li>
+                </ul>
+            </li>
+            <li><p><strong>Rearrangement Action:</strong> The <code>rearrange_action</code> in the transition <code>3 -&gt; 7</code> performs the complex stack manipulation described by the RMB strategy (calculating k, updating A and B parts on the stack). The 'Stack Operation' column doesn't fully capture this complexity.</p></li>
+            <li>
+                <p><strong>State 6 Internal Logic:</strong> State 6's behavior isn't based on standard transitions read from <code>transition/5</code> facts but is handled by <code>handle_reflection_state/4</code>. It checks the stack top (<code>CurrentBmodBase</code>).</p>
+                <ul>
+                    <li>If <code>b</code> is 0, it transitions to state 4 (Accept).</li>
+                    <li>If <code>b</code> is non-zero, it calculates <code>new_b = (b + 6) mod 10</code>, replaces <code>b</code> with <code>new_b</code> on the stack, and loops back to state 6.</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <p>This formal description captures the structure and intended flow of the automaton, acknowledging where the Prolog implementation uses capabilities (like full stack inspection or internal conditional logic) slightly beyond the simplest formal definition of δ.</p>
+    </section>
+
+    <section>
+        <h2>3. Introducing Self-Reference</h2>
+        <p>To explore emergence, we augment the basic RMB automaton with a conditional, self-referential mechanism. This is inspired by the concept of arithmetization, where system components (like states) can be assigned numerical codes, allowing the system potentially to reason about its own structure.</p>
+        
+        <p>Our mechanism is simpler:</p>
+        <ol>
+            <li><strong>State Encoding:</strong> States are assigned numerical identifiers (e.g., <code>q1=1</code>, <code>q2=2</code>, …, <code>q6=6</code>). We designate state <code>q6</code> as a special "reflective" state.</li>
+            <li>
+                <strong>Trigger Condition:</strong> A specific scenario is defined to activate the reflective behavior. If:
+                <ul>
+                    <li>The "reflection enabled" flag is set (an external parameter).</li>
+                    <li>The problem requires adding a complement <code>k</code> that numerically matches the identifier of the reflective state (<code>k=6</code> in our case, which occurs when <code>A=4</code> for base 10).</li>
+                    <li>The second number <code>B</code> is sufficiently large (<code>B &gt;= k</code>).</li>
+                </ul>
+            </li>
+            <li><strong>Reflective State Activation:</strong> When the trigger condition is met in the decision state (<code>q3</code>), instead of proceeding to the standard rearrangement state, the automaton transitions to the reflective state (<code>q6</code>).</li>
+            <li>
+                <strong>State q6 Logic (The Self-Referential Action):</strong> State <code>q6</code> embodies the operation "+6" (its own numerical identifier). Its logic is distinct from standard rearrangement:
+                <ul>
+                    <li>It operates on the value of <code>B</code> modulo the base (e.g., <code>B mod 10</code>), stored on the stack.</li>
+                    <li>It repeatedly applies the "+6 mod base" operation to this value.</li>
+                    <li>It checks the result: if the result is 0 (mod base), it halts and accepts. If not, it loops back to itself to apply the operation again.</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <p>The "self-reference" lies in state <code>q6</code> being triggered when the <em>required operation</em> (<code>k=6</code>) matches its <em>own identity</em> (<code>q6=6</code>), and its subsequent action involves repeatedly applying that inherent "+6" operation.</p>
+    </section>
+
+    <section>
+        <h2>4. Prolog Implementation</h2>
+        <p>The automaton, including the reflective mechanism, was implemented in SWI-Prolog.</p>
+        
+        <h3>4.1 Why Prolog?</h3>
+        <p>Prolog is well-suited for this type of simulation due to:</p>
+        <ul>
+            <li><strong>Symbolic Representation:</strong> States (<code>1</code>, <code>2</code>, <code>6</code>), symbols (<code>'+'</code>, <code>#</code>, digits), and actions (<code>push(D)</code>, <code>rearrange_action</code>, <code>reflect_add_6_step</code>) are naturally represented as Prolog terms.</li>
+            <li><strong>Rule-Based Execution:</strong> Transitions are easily expressed as logical rules (<code>transition(From, Symbol, To, Action, Flag)</code>). Prolog's inference engine naturally executes these rules.</li>
+            <li><strong>Pattern Matching:</strong> Unification allows flexible matching of states, inputs, and conditions within rules.</li>
+            <li><strong>Dynamic Database:</strong> Prolog permits predicates (like <code>transition/5</code>) to be declared <code>dynamic</code>. This allows the program to modify its own "code" during runtime by adding (<code>assertz</code>) or removing (<code>retractall</code>) transition rules. This is essential for implementing the dynamic path alteration where the decision state (<code>q3</code>) asserts a specific transition based on the reflection check, effectively changing the automaton's configured pathways on the fly.</li>
+            <li><strong>List Processing:</strong> The stack is naturally represented and manipulated as a Prolog list.</li>
+        </ul>
+        
+        <h3>4.2 Implementation Details</h3>
+        <p>The provided Prolog code (see <code>refrmb_corrected.pl</code>) implements the logic as follows:</p>
+        <ul>
+            <li><strong>States &amp; Stack:</strong> States are integers. The stack is managed implicitly through argument passing in the main <code>step/4</code> predicate and explicitly updated via <code>set_global_stack/1</code> within <code>apply_action</code> predicates that modify it (ensuring consistency).</li>
+            <li><strong>Transitions:</strong> Base transitions (reading digits, handling '+') are asserted initially.</li>
+            <li><strong>Decision (q3):</strong> When state <code>q3</code> is reached, <code>make_decision_at_q3/2</code> decodes the stack, checks the reflection trigger condition (<code>A=:= (Base - 6)</code>, <code>B &gt;= 6</code>, <code>reflection_enabled(y)</code>), and determines the outcome (<code>accept</code>, <code>error</code>, or <code>reflect</code>).</li>
+            <li><strong>Dynamic Transition from q3:</strong> Based on the decision, <code>setup_q3_transition/1</code> asserts <em>one</em> new <code>transition/5</code> clause directing flow from <code>q3</code> to <code>q7</code> (rearrange), <code>q5</code> (error), or <code>q6</code> (reflect).</li>
+            <li><strong>Reflection Setup (Action):</strong> If transitioning to <code>q6</code>, the <code>setup_reflect_stack</code> action modifies the stack, replacing the digits of <code>B</code> with the single value <code>B mod Base</code>.</li>
+            <li><strong>State q6 Logic:</strong> This is handled specially within <code>step/4</code> by <code>handle_reflection_state/4</code>. It checks the stack top (<code>CurrentBmodBase</code>).
+                <ul>
+                    <li>If <code>CurrentBmodBase == 0</code>, it sets the next state to <code>4</code> (accept) and calls <code>step/4</code> to terminate.</li>
+                    <li>If <code>CurrentBmodBase \== 0</code>, it applies the <code>reflect_add_6_step</code> action (which calculates <code>(CurrentBmodBase + 6) mod Base</code> and updates the stack) and sets the next state to <code>6</code>, calling <code>step/4</code> recursively to continue the loop.</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>5. Analysis of Emergent Behavior</h2>
+        
+        <h3>5.1 The Loop</h3>
+        <p>When the automaton is run with reflection enabled (<code>y</code>) and input representing <code>4 + 7</code>:</p>
+        <ol>
+            <li><code>A=4</code>, <code>B=7</code>. In <code>q3</code>, <code>k = 10 - 4 = 6</code>. Since <code>A=4</code>, <code>B&gt;=6</code>, and reflection is on, the decision is <code>reflect</code>.</li>
+            <li>A transition <code>3 -&gt; 6</code> is asserted.</li>
+            <li>The <code>setup_reflect_stack</code> action prepares the stack with <code>7 mod 10 = 7</code> on top.</li>
+            <li><code>handle_reflection_state</code> takes over for state <code>q6</code>.</li>
+            <li>It sees <code>7</code> (non-zero), applies <code>reflect_add_6_step</code> calculating <code>(7+6) mod 10 = 3</code>, updates the stack top to <code>3</code>, and loops back to <code>q6</code>.</li>
+            <li>It sees <code>3</code> (non-zero), calculates <code>(3+6) mod 10 = 9</code>, updates stack, loops.</li>
+            <li>It sees <code>9</code> (non-zero), calculates <code>(9+6) mod 10 = 5</code>, updates stack, loops.</li>
+            <li>It sees <code>5</code> (non-zero), calculates <code>(5+6) mod 10 = 1</code>, updates stack, loops.</li>
+            <li>It sees <code>1</code> (non-zero), calculates <code>(1+6) mod 10 = 7</code>, updates stack, loops.</li>
+            <li>The stack top value cycles <code>7 -&gt; 3 -&gt; 9 -&gt; 5 -&gt; 1 -&gt; 7 ...</code> indefinitely because 0 is never reached. The automaton never meets the halting condition defined within its state <code>q6</code> logic.</li>
+        </ol>
+        
+        <h3>5.2 Emergence vs. Artifact</h3>
+        <p>Is this infinite loop truly emergent, or just a cleverly programmed artifact (or bug)?</p>
+        <ul>
+            <li>
+                <strong>Argument for Emergence:</strong> The loop is not explicitly coded for the input <code>4+7</code>. The code implements a <em>general</em> rule for state <code>q6</code>: "Repeatedly apply <code>+6 mod 10</code> unless the result is 0." This rule applies regardless of the starting value on the stack top. The infinite loop arises specifically when the starting value (derived from the input <code>B=7</code>) happens to belong to an arithmetic cycle under <code>+6 mod 10</code> that does not contain 0. The automaton discovers this non-halting cycle through executing its general rule. It's a consequence of the interaction between the rule and the specific data, not a hardcoded outcome for that data.
+            </li>
+            <li>
+                <strong>Skepticism/Limitations:</strong> The model is extremely simple. The trigger condition is specific (<code>k=6</code>). The reflective action (<code>+6</code>) is directly tied to the trigger. It's a minimal case. However, it <em>does</em> demonstrate the principle: local, deterministic rules combined with a simple self-reference mechanism can lead to system behavior (non-halting) that is qualitatively different from its primary designed function (finite addition) and is dependent on specific data properties interacting with those rules. While not complex emergence, it is non-trivial.
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>6. Relevance to Mathematics Education</h2>
+        <p>While an infinite loop in a program is typically undesirable, viewing this automaton's behavior through an educational lens offers potentially interesting perspectives:</p>
+        
+        <ul>
+            <li><strong>Metaphor for Procedural Loops:</strong> Mathematics educators sometimes observe students, particularly in areas like algebra, entering non-productive procedural loops. A student might repeatedly add a term to both sides of an equation, then subtract it, then add it again. Each step follows a valid algebraic rule ("do the same to both sides"), but the sequence makes no progress towards the strategic goal (e.g., isolating a variable). The student appears "stuck," executing locally valid steps without effective higher-level strategic direction.</li>
+            
+            <li><strong>Automaton as Cognitive Model:</strong> The automaton in its looping state serves as a simple computational metaphor for this phenomenon. It correctly applies its local rule (<code>+6 mod 10</code>) but lacks the "strategic oversight" to recognize the cyclical, non-productive nature of the sequence for that specific data. It cannot break the loop from within using only its defined <code>q6</code> rules.</li>
+            
+            <li><strong>The Teacher as External Meta-Controller:</strong> Just as the Prolog program requires external termination (e.g., Ctrl+C), the student often requires teacher intervention. The teacher observes the non-productive loop and provides the "stop" signal. More importantly, the teacher typically redirects the student's focus from the locally correct but globally ineffective procedure back to the overall <em>goal</em> and helps select <em>different</em>, more productive procedures or rules. The teacher acts as an external executive function or meta-cognitive monitor that the student may not be effectively deploying internally in that situation.</li>
+            
+            <li><strong>Understanding Difficulty:</strong> This perspective might frame such student difficulties not just as "errors" but as getting trapped in a computational state where locally valid rules lead to globally unproductive behavior due to a lack of, or temporary lapse in, strategic monitoring. This highlights the importance of teaching not just procedural rules but also strategic thinking, goal monitoring, and meta-cognitive awareness in mathematics.</li>
+        </ul>
+        
+        <p>Therefore, while this automaton is basic, its emergent failure mode provides a concrete, mechanistic analogy that may resonate with educators' experiences and offer a different lens for considering certain types of student struggles.</p>
+    </section>
+
+    <section>
+        <h2>7. Limitations and Future Directions</h2>
+        <p>This model is intentionally simple. Key limitations include: the highly specific trigger for reflection, the direct link between the trigger value (<code>k=6</code>) and the reflective action (<code>+6</code>), and the simplicity of the action itself. Future work could explore:</p>
+        <ul>
+            <li>More complex or generalized triggers for reflection.</li>
+            <li>Reflective actions that involve more complex computations or modifications to the automaton's own rules (dynamic transition modification beyond the single <code>q3</code> decision).</li>
+            <li>Modeling the external intervention (the "teacher") as another layer of control or observation within the system.</li>
+            <li>Using such models to explore conditions under which systems might learn to detect and break out of their own non-productive loops.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>8. Conclusion</h2>
+        <p>We have presented and implemented a simple pushdown automaton in Prolog that exhibits emergent non-halting behavior. By incorporating a rule allowing the automaton to enter a special state (<code>q6</code>) based on recognizing its own identifier (<code>6</code>) within the problem data (<code>k=6</code>), the system enters an infinite loop for inputs leading to non-terminating arithmetic cycles under the state's rule (<code>+6 mod 10</code>). This behavior, while simple, is emergent as it arises from the interaction of general rules and specific data, rather than being explicitly programmed. This proof of concept, beyond its computational interest, offers a potentially useful metaphor for mathematics educators, analogizing the automaton's loop to certain non-productive procedural cycles observed in student learning and highlighting the crucial role of goal-directedness and external (or internalized) meta-cognitive control.</p>
+    </section>
+
+    <section class="references">
+        <h2>References</h2>
+        <ul>
+            <li>Carpenter, T. P., Fennema, E., Franke, M. L., Levi, L., &amp; Empson, S. B. (1999). <em>Children's mathematics: Cognitively guided instruction</em>. Heinemann, in association with The National Council of Teachers of Mathematics, Inc.</li>
+            <li>Gaifman, H. (2006). Naming and diagonalization, from cantor to Gödel to Kleene. <em>Logic Journal of the IGPL, 14</em>(5), 709-728. <em>(Relevant for Prolog's capability)</em></li>
+            <li>Newman, J. R., &amp; Nagel, E. (2012). <em>Gödel's proof</em>. Routledge.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Appendix: Prolog Code</h2>
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <title>Prolog Code: Reflective RMB Automaton</title>
+        <style>
+        body {
+          font-family: sans-serif;
+          background-color: #f4f4f4;
+        }
+        pre {
+          background-color: #ffffff;
+          border: 1px solid #cccccc;
+          padding: 10px;
+          font-family: monospace;
+          overflow-x: auto; /* Handle long lines */
+          white-space: pre; /* Preserve whitespace */
+          font-size: 14px;
+          line-height: 1.4;
+        }
+        code .prolog-comment { color: #008000; font-style: italic; }
+        code .prolog-directive { color: #0000ff; font-weight: bold; }
+        code .prolog-predicate-head { color: #a52a2a; /* Brown */ } /* Style predicate names in heads */
+        code .prolog-builtin { color: #00008b; /* DarkBlue */ }
+        code .prolog-operator { color: #b22222; /* Firebrick */ }
+        code .prolog-variable { color: #8a2be2; /* BlueViolet */ }
+        code .prolog-atom { color: #228b22; /* ForestGreen */ }
+        code .prolog-number { color: #ff4500; /* OrangeRed */ }
+        code .prolog-string { color: #d2691e; /* Chocolate */ }
+        code .prolog-list-brackets { color: #555555; font-weight: bold; } /* Style list brackets */
+        code .prolog-control { color: #b22222; font-weight: bold; } /* -> ; ! */
+        </style>
+        </head>
+        <body>
+        
+        <h1>Prolog Code: Reflective RMB Automaton (Corrected)</h1>
+        
+        <pre><code class="language-prolog"><span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        <span class="prolog-comment">% Reflective Pushdown Automaton for A+B using Rearranging to Make Bases %</span>
+        <span class="prolog-comment">% Author: Theodore M. Savich (Concept), Revised Implementation (AI Assist)%</span>
+        <span class="prolog-comment">% Date: 2023-11-16 (Corrected Version)                                    %</span>
+        <span class="prolog-comment">%                                                                         %</span>
+        <span class="prolog-comment">% Description:                                                            %</span>
+        <span class="prolog-comment">% Implements a PDA that processes input "A+B".                            %</span>
+        <span class="prolog-comment">% Primary strategy: Rearranging to Make Bases (RMB) for A+B.              %</span>
+        <span class="prolog-comment">% Special Feature: If reflection is enabled AND A=4, B>=6 (for base 10),  %</span>
+        <span class="prolog-comment">% the automaton enters a reflective state (q6) which repeatedly applies   %</span>
+        <span class="prolog-comment">% "+6 mod 10" to the stack representation of B. This state loops          %</span>
+        <span class="prolog-comment">% indefinitely unless the value becomes 0, demonstrating emergence.       %</span>
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        
+        <span class="prolog-directive">:- module(refrmb_corrected, [run/4]).</span>
+        <span class="prolog-directive">:- use_module(library(lists)).</span>
+        
+        <span class="prolog-comment">% --- Dynamic Predicates for State ---</span>
+        <span class="prolog-directive">:- dynamic stored_A/1.</span>          <span class="prolog-comment">% Stores decoded value of A</span>
+        <span class="prolog-directive">:- dynamic stored_B/1.</span>          <span class="prolog-comment">% Stores decoded value of B</span>
+        <span class="prolog-directive">:- dynamic transition/5.</span>        <span class="prolog-comment">% Stores transitions: transition(From, Sym, To, Action, IsReflective)</span>
+        <span class="prolog-directive">:- dynamic stack_item/1.</span>        <span class="prolog-comment">% Represents the current stack contents (list managed externally)</span>
+        <span class="prolog-directive">:- dynamic reflection_enabled/1.</span><span class="prolog-comment">% Flag: y/n</span>
+        <span class="prolog-directive">:- dynamic decision_made/1.</span>     <span class="prolog-comment">% Tracks if decision phase at q3 has occurred for the current run</span>
+        
+        <span class="prolog-comment">% --- Configuration ---</span>
+        <span class="prolog-predicate-head">base</span>(<span class="prolog-number">10</span>). <span class="prolog-comment">% Base for arithmetic</span>
+        
+        <span class="prolog-comment">% --- Define valid digits ---</span>
+        <span class="prolog-predicate-head">digit</span>(<span class="prolog-variable">D</span>) <span class="prolog-operator">:-</span> <span class="prolog-builtin">member</span>(<span class="prolog-variable">D</span>, <span class="prolog-list-brackets">[</span><span class="prolog-number">0</span>,<span class="prolog-number">1</span>,<span class="prolog-number">2</span>,<span class="prolog-number">3</span>,<span class="prolog-number">4</span>,<span class="prolog-number">5</span>,<span class="prolog-number">6</span>,<span class="prolog-number">7</span>,<span class="prolog-number">8</span>,<span class="prolog-number">9</span><span class="prolog-list-brackets">]</span>).
+        
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        <span class="prolog-comment">%           Main Entry Point           %</span>
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        
+        <span class="prolog-predicate-head">run</span>(<span class="prolog-variable">Start</span>, <span class="prolog-variable">Input</span>, <span class="prolog-variable">Result</span>, <span class="prolog-variable">ReflectFlag</span>) <span class="prolog-operator">:-</span>
+            <span class="prolog-comment">% --- Cleanup from any previous run ---</span>
+            <span class="prolog-builtin">retractall</span>(stored_A(<span class="prolog-variable">_</span>))<span class="prolog-operator">,</span>
+            <span class="prolog-builtin">retractall</span>(stored_B(<span class="prolog-variable">_</span>))<span class="prolog-operator">,</span>
+            <span class="prolog-builtin">retractall</span>(reflection_enabled(<span class="prolog-variable">_</span>))<span class="prolog-operator">,</span>
+            <span class="prolog-builtin">retractall</span>(stack_item(<span class="prolog-variable">_</span>))<span class="prolog-operator">,</span>
+            <span class="prolog-builtin">retractall</span>(transition(<span class="prolog-variable">_</span>,<span class="prolog-variable">_</span>,<span class="prolog-variable">_</span>,<span class="prolog-variable">_</span>,<span class="prolog-variable">_</span>))<span class="prolog-operator">,</span> <span class="prolog-comment">% Clear ALL dynamic transitions</span>
+            <span class="prolog-builtin">retractall</span>(decision_made(<span class="prolog-variable">_</span>))<span class="prolog-operator">,</span>
+        
+            <span class="prolog-comment">% --- Setup for new run ---</span>
+            <span class="prolog-builtin">assertz</span>(reflection_enabled(<span class="prolog-variable">ReflectFlag</span>))<span class="prolog-operator">,</span>
+            set_global_stack(<span class="prolog-list-brackets">[]</span>)<span class="prolog-operator">,</span>        <span class="prolog-comment">% Initialize empty stack</span>
+            setup_base_transitions<span class="prolog-operator">,</span>      <span class="prolog-comment">% Setup only static, non-conditional transitions</span>
+            <span class="prolog-builtin">write</span>(<span class="prolog-string">'Starting run with reflection='</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">ReflectFlag</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span>
+        
+            <span class="prolog-comment">% --- Start processing ---</span>
+            step(<span class="prolog-variable">Start</span>, <span class="prolog-variable">Input</span>, <span class="prolog-list-brackets">[]</span>, <span class="prolog-variable">Result</span>). <span class="prolog-comment">% Initial call to step predicate</span>
+        
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        <span class="prolog-comment">%        Main Processing Step          %</span>
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        
+        <span class="prolog-predicate-head">step</span>(<span class="prolog-variable">State</span>, <span class="prolog-variable">Input</span>, <span class="prolog-variable">Stack</span>, <span class="prolog-variable">Result</span>) <span class="prolog-operator">:-</span>
+            print_config(<span class="prolog-variable">State</span>, <span class="prolog-variable">Input</span>, <span class="prolog-variable">Stack</span>)<span class="prolog-operator">,</span> <span class="prolog-comment">% Display current stack state (uses passed Stack)</span>
+        
+            <span class="prolog-comment">% --- Handle Terminal States ---</span>
+            ( <span class="prolog-variable">State</span> <span class="prolog-operator">==</span> <span class="prolog-number">4</span> <span class="prolog-control">-></span> <span class="prolog-comment">% Accept state</span>
+                <span class="prolog-variable">Result</span> = <span class="prolog-atom">accept</span><span class="prolog-operator">,</span>
+                <span class="prolog-builtin">write</span>(<span class="prolog-string">'*** ACCEPT reached. ***'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span>
+            <span class="prolog-control">;</span> <span class="prolog-variable">State</span> <span class="prolog-operator">==</span> <span class="prolog-number">5</span> <span class="prolog-control">-></span> <span class="prolog-comment">% Error state</span>
+                <span class="prolog-variable">Result</span> = <span class="prolog-atom">error</span><span class="prolog-operator">,</span>
+                <span class="prolog-builtin">write</span>(<span class="prolog-string">'*** ERROR reached. ***'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span>
+        
+            <span class="prolog-comment">% --- Handle State 3: Decision Phase ---</span>
+            <span class="prolog-control">;</span> <span class="prolog-variable">State</span> <span class="prolog-operator">==</span> <span class="prolog-number">3</span><span class="prolog-operator">,</span> <span class="prolog-builtin">\+</span> decision_made(<span class="prolog-variable">_</span>) <span class="prolog-control">-></span> <span class="prolog-comment">% Check if decision needed and not yet made</span>
+                <span class="prolog-control">!</span><span class="prolog-operator">,</span> <span class="prolog-comment">% Prevent backtracking once decision logic starts</span>
+                make_decision_at_q3(<span class="prolog-variable">Stack</span>, <span class="prolog-variable">Decision</span>)<span class="prolog-operator">,</span>
+                <span class="prolog-builtin">assertz</span>(decision_made(<span class="prolog-variable">Decision</span>))<span class="prolog-operator">,</span> <span class="prolog-comment">% Mark decision as made for this run</span>
+                setup_q3_transition(<span class="prolog-variable">Decision</span>)<span class="prolog-operator">,</span> <span class="prolog-comment">% Assert the chosen transition FROM q3</span>
+                step(<span class="prolog-variable">State</span>, <span class="prolog-variable">Input</span>, <span class="prolog-variable">Stack</span>, <span class="prolog-variable">Result</span>) <span class="prolog-comment">% Re-call step to take the newly added transition</span>
+        
+            <span class="prolog-comment">% --- Handle State 6: Reflection Loop ---</span>
+            <span class="prolog-control">;</span> <span class="prolog-variable">State</span> <span class="prolog-operator">==</span> <span class="prolog-number">6</span> <span class="prolog-control">-></span>
+                handle_reflection_state(<span class="prolog-variable">State</span>, <span class="prolog-variable">Input</span>, <span class="prolog-variable">Stack</span>, <span class="prolog-variable">Result</span>)
+        
+            <span class="prolog-comment">% --- Default Transition Handling ---</span>
+            <span class="prolog-control">;</span> select_transition(<span class="prolog-variable">State</span>, <span class="prolog-variable">Input</span>, <span class="prolog-variable">Stack</span>, <span class="prolog-variable">NextState</span>, <span class="prolog-variable">NextInput</span>, <span class="prolog-variable">NextStack</span>, <span class="prolog-variable">Action</span>) <span class="prolog-control">-></span>
+                <span class="prolog-comment">% Note: select_transition now handles applying the action and updating stack</span>
+                print_transition(<span class="prolog-variable">State</span>, <span class="prolog-variable">Input</span>, <span class="prolog-variable">Action</span>, <span class="prolog-variable">NextState</span>)<span class="prolog-operator">,</span> <span class="prolog-comment">% Print applied transition</span>
+                step(<span class="prolog-variable">NextState</span>, <span class="prolog-variable">NextInput</span>, <span class="prolog-variable">NextStack</span>, <span class="prolog-variable">Result</span>)
+        
+            <span class="prolog-comment">% --- No Transition Found ---</span>
+            <span class="prolog-control">;</span> <span class="prolog-builtin">write</span>(<span class="prolog-string">'*** ERROR: No transition found from state '</span>)<span class="prolog-operator">,</span> print_state(<span class="prolog-variable">State</span>)<span class="prolog-operator">,</span>
+              <span class="prolog-builtin">write</span>(<span class="prolog-string">' with input '</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">Input</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-string">' and stack '</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">Stack</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span>
+              <span class="prolog-variable">Result</span> = <span class="prolog-atom">error</span>
+            ).
+        
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        <span class="prolog-comment">%       State-Specific Logic         %</span>
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        
+        <span class="prolog-comment">% --- State 3: Decision Making & Transition Setup ---</span>
+        <span class="prolog-predicate-head">make_decision_at_q3</span>(<span class="prolog-variable">Stack</span>, <span class="prolog-variable">Decision</span>) <span class="prolog-operator">:-</span>
+            decode_stack_final(<span class="prolog-variable">Stack</span>, <span class="prolog-variable">A</span>, <span class="prolog-variable">B</span>, <span class="prolog-variable">K</span>, <span class="prolog-variable">Possible</span>)<span class="prolog-operator">,</span> <span class="prolog-comment">% Decode A, B, calculate K</span>
+            ( <span class="prolog-variable">Possible</span> <span class="prolog-operator">==</span> <span class="prolog-atom">error</span> <span class="prolog-control">-></span>
+                <span class="prolog-builtin">write</span>(<span class="prolog-string">'Decision@q3: Stack format error.'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span>
+                <span class="prolog-variable">Decision</span> = <span class="prolog-atom">error</span>
+            <span class="prolog-control">;</span> reflection_enabled(<span class="prolog-variable">RF</span>)<span class="prolog-operator">,</span> <span class="prolog-variable">RF</span> <span class="prolog-operator">==</span> <span class="prolog-atom">y</span><span class="prolog-operator">,</span> base(<span class="prolog-variable">Base</span>)<span class="prolog-operator">,</span> <span class="prolog-variable">A</span> <span class="prolog-operator">=:=</span> (<span class="prolog-variable">Base</span> - <span class="prolog-number">6</span>)<span class="prolog-operator">,</span> <span class="prolog-variable">B</span> <span class="prolog-operator">>=</span> <span class="prolog-number">6</span> <span class="prolog-control">-></span> <span class="prolog-comment">% Generalized reflection trigger (k=6)</span>
+                <span class="prolog-builtin">write</span>(<span class="prolog-string">'Decision@q3: Conditions met for Reflection (k=6).'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span>
+                <span class="prolog-variable">Decision</span> = <span class="prolog-atom">reflect</span>
+            <span class="prolog-control">;</span> <span class="prolog-variable">B</span> <span class="prolog-operator">>=</span> <span class="prolog-variable">K</span> <span class="prolog-control">-></span> <span class="prolog-comment">% Standard rearrangement condition</span>
+                <span class="prolog-builtin">write</span>(<span class="prolog-string">'Decision@q3: Conditions met for Rearrangement (Accept).'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span>
+                <span class="prolog-variable">Decision</span> = <span class="prolog-atom">accept</span>
+            <span class="prolog-control">;</span> <span class="prolog-comment">% B < K and not reflection case</span>
+                <span class="prolog-builtin">write</span>(<span class="prolog-string">'Decision@q3: B < K, cannot rearrange standardly. Error.'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span>
+                <span class="prolog-variable">Decision</span> = <span class="prolog-atom">error</span>
+            ).
+        
+        <span class="prolog-comment">% Assert the single transition leading OUT of q3 based on the decision</span>
+        <span class="prolog-predicate-head">setup_q3_transition</span>(<span class="prolog-atom">accept</span>) <span class="prolog-operator">:-</span>
+            <span class="prolog-builtin">assertz</span>(transition(<span class="prolog-number">3</span>, <span class="prolog-atom">epsilon</span>, <span class="prolog-number">7</span>, <span class="prolog-atom">rearrange_action</span>, <span class="prolog-atom">no</span>))<span class="prolog-operator">,</span> <span class="prolog-comment">% Go to q7 (rearrange)</span>
+            print_dynamic_transition(<span class="prolog-number">3</span>, <span class="prolog-atom">epsilon</span>, <span class="prolog-number">7</span>, <span class="prolog-atom">rearrange_action</span>).
+        <span class="prolog-predicate-head">setup_q3_transition</span>(<span class="prolog-atom">error</span>) <span class="prolog-operator">:-</span>
+            <span class="prolog-builtin">assertz</span>(transition(<span class="prolog-number">3</span>, <span class="prolog-atom">epsilon</span>, <span class="prolog-number">5</span>, <span class="prolog-atom">noop</span>, <span class="prolog-atom">no</span>))<span class="prolog-operator">,</span> <span class="prolog-comment">% Go to q5 (error)</span>
+            print_dynamic_transition(<span class="prolog-number">3</span>, <span class="prolog-atom">epsilon</span>, <span class="prolog-number">5</span>, <span class="prolog-atom">noop</span>).
+        <span class="prolog-predicate-head">setup_q3_transition</span>(<span class="prolog-atom">reflect</span>) <span class="prolog-operator">:-</span>
+            <span class="prolog-builtin">assertz</span>(transition(<span class="prolog-number">3</span>, <span class="prolog-atom">epsilon</span>, <span class="prolog-number">6</span>, <span class="prolog-atom">setup_reflect_stack</span>, <span class="prolog-atom">no</span>))<span class="prolog-operator">,</span> <span class="prolog-comment">% Go to q6 (reflect)</span>
+            print_dynamic_transition(<span class="prolog-number">3</span>, <span class="prolog-atom">epsilon</span>, <span class="prolog-number">6</span>, <span class="prolog-atom">setup_reflect_stack</span>).
+        
+        <span class="prolog-comment">% --- State 6: Reflection Loop Handling ---</span>
+        <span class="prolog-predicate-head">handle_reflection_state</span>(<span class="prolog-variable">State</span>, <span class="prolog-variable">Input</span>, <span class="prolog-variable">Stack</span>, <span class="prolog-variable">Result</span>) <span class="prolog-operator">:-</span>
+            <span class="prolog-variable">Stack</span> = <span class="prolog-list-brackets">[</span><span class="prolog-variable">CurrentBmodBase</span> | <span class="prolog-variable">_RestStack</span><span class="prolog-list-brackets">]</span><span class="prolog-operator">,</span> <span class="prolog-comment">% Peek at stack top (must be B mod Base)</span>
+            ( <span class="prolog-variable">CurrentBmodBase</span> <span class="prolog-operator">==</span> <span class="prolog-number">0</span> <span class="prolog-control">-></span>
+                <span class="prolog-comment">% HALT CONDITION MET: B mod Base is 0</span>
+                <span class="prolog-builtin">write</span>(<span class="prolog-string">'State q6: Halt condition met (Stack top == 0). Transitioning to Accept (q4).'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span>
+                <span class="prolog-variable">NextState</span> = <span class="prolog-number">4</span><span class="prolog-operator">,</span>
+                <span class="prolog-variable">NextInput</span> = <span class="prolog-variable">Input</span><span class="prolog-operator">,</span> <span class="prolog-comment">% Input unchanged (epsilon transition conceptually)</span>
+                <span class="prolog-variable">NextStack</span> = <span class="prolog-variable">Stack</span><span class="prolog-operator">,</span> <span class="prolog-comment">% Stack unchanged for this pseudo-transition</span>
+                print_pseudo_transition(<span class="prolog-variable">State</span>, <span class="prolog-atom">'halt_check'</span>, <span class="prolog-variable">NextState</span>)<span class="prolog-operator">,</span> <span class="prolog-comment">% Log the decision</span>
+                <span class="prolog-comment">% Proceed directly to the accept state by calling step/4</span>
+                step(<span class="prolog-variable">NextState</span>, <span class="prolog-variable">NextInput</span>, <span class="prolog-variable">NextStack</span>, <span class="prolog-variable">Result</span>)
+            <span class="prolog-control">;</span>
+                <span class="prolog-comment">% HALT CONDITION NOT MET: Continue looping</span>
+                <span class="prolog-builtin">write</span>(<span class="prolog-string">'State q6: Continuing reflection loop...'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span>
+                <span class="prolog-variable">Action</span> = <span class="prolog-atom">reflect_add_6_step</span><span class="prolog-operator">,</span>
+                apply_action(<span class="prolog-variable">Action</span>, <span class="prolog-variable">Stack</span>, <span class="prolog-variable">NextStack</span>)<span class="prolog-operator">,</span> <span class="prolog-comment">% Apply the +6 mod 10 update (this now updates global stack too)</span>
+                <span class="prolog-variable">NextState</span> = <span class="prolog-number">6</span><span class="prolog-operator">,</span> <span class="prolog-comment">% Loop back to self</span>
+                <span class="prolog-variable">NextInput</span> = <span class="prolog-variable">Input</span><span class="prolog-operator">,</span> <span class="prolog-comment">% Input unchanged (epsilon transition)</span>
+                print_pseudo_transition(<span class="prolog-variable">State</span>, <span class="prolog-variable">Action</span>, <span class="prolog-variable">NextState</span>)<span class="prolog-operator">,</span> <span class="prolog-comment">% Log the loop step</span>
+                step(<span class="prolog-variable">NextState</span>, <span class="prolog-variable">NextInput</span>, <span class="prolog-variable">NextStack</span>, <span class="prolog-variable">Result</span>) <span class="prolog-comment">% Continue loop</span>
+            ).
+        
+        
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        <span class="prolog-comment">%        Transition Selection          %</span>
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        
+        <span class="prolog-comment">% Select transition based on input symbol</span>
+        <span class="prolog-comment">% Modified to apply action and return the resulting NextStack</span>
+        <span class="prolog-predicate-head">select_transition</span>(<span class="prolog-variable">State</span>, <span class="prolog-list-brackets">[</span><span class="prolog-variable">Sym</span>|<span class="prolog-variable">RestInput</span><span class="prolog-list-brackets">]</span>, <span class="prolog-variable">Stack</span>, <span class="prolog-variable">NextState</span>, <span class="prolog-variable">RestInput</span>, <span class="prolog-variable">NextStack</span>, <span class="prolog-variable">Action</span>) <span class="prolog-operator">:-</span>
+            transition(<span class="prolog-variable">State</span>, <span class="prolog-variable">Sym</span>, <span class="prolog-variable">NextState</span>, <span class="prolog-variable">Action</span>, <span class="prolog-variable">_</span>)<span class="prolog-operator">,</span> <span class="prolog-comment">% Match on Sym</span>
+            <span class="prolog-control">!</span><span class="prolog-operator">,</span> <span class="prolog-comment">% Commit to the first matching transition</span>
+            apply_action(<span class="prolog-variable">Action</span>, <span class="prolog-variable">Stack</span>, <span class="prolog-variable">NextStack</span>). <span class="prolog-comment">% Apply action, get new stack</span>
+        
+        <span class="prolog-comment">% Select epsilon transition if no symbol match</span>
+        <span class="prolog-comment">% Modified to apply action and return the resulting NextStack</span>
+        <span class="prolog-predicate-head">select_transition</span>(<span class="prolog-variable">State</span>, <span class="prolog-variable">Input</span>, <span class="prolog-variable">Stack</span>, <span class="prolog-variable">NextState</span>, <span class="prolog-variable">Input</span>, <span class="prolog-variable">NextStack</span>, <span class="prolog-variable">Action</span>) <span class="prolog-operator">:-</span>
+            transition(<span class="prolog-variable">State</span>, <span class="prolog-atom">epsilon</span>, <span class="prolog-variable">NextState</span>, <span class="prolog-variable">Action</span>, <span class="prolog-variable">_</span>)<span class="prolog-operator">,</span> <span class="prolog-comment">% Match on epsilon</span>
+            <span class="prolog-control">!</span><span class="prolog-operator">,</span> <span class="prolog-comment">% Commit to the first matching epsilon transition</span>
+            apply_action(<span class="prolog-variable">Action</span>, <span class="prolog-variable">Stack</span>, <span class="prolog-variable">NextStack</span>). <span class="prolog-comment">% Apply action, get new stack</span>
+        
+        
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        <span class="prolog-comment">%           Action Handlers            %</span>
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        
+        <span class="prolog-comment">% Dispatcher for actions - Actions NOW update global stack if they modify it</span>
+        
+        <span class="prolog-predicate-head">apply_action</span>(<span class="prolog-atom">noop</span>, <span class="prolog-variable">Stack</span>, <span class="prolog-variable">Stack</span>). <span class="prolog-comment">% No operation - doesn't change stack</span>
+        
+        <span class="prolog-predicate-head">apply_action</span>(push(<span class="prolog-variable">X</span>), <span class="prolog-variable">Stack</span>, <span class="prolog-variable">NewStack</span>) <span class="prolog-operator">:-</span> <span class="prolog-comment">% Push symbol X onto stack</span>
+            (digit(<span class="prolog-variable">X</span>) <span class="prolog-control">;</span> <span class="prolog-variable">X</span> <span class="prolog-operator">==</span> <span class="prolog-atom">'#'</span>)<span class="prolog-operator">,</span> <span class="prolog-control">!</span><span class="prolog-operator">,</span> <span class="prolog-comment">% Ensure valid symbol is pushed</span>
+            <span class="prolog-variable">NewStack</span> = <span class="prolog-list-brackets">[</span><span class="prolog-variable">X</span>|<span class="prolog-variable">Stack</span><span class="prolog-list-brackets">]</span><span class="prolog-operator">,</span>
+            set_global_stack(<span class="prolog-variable">NewStack</span>). <span class="prolog-comment">% Update global stack</span>
+        
+        <span class="prolog-predicate-head">apply_action</span>(pop, <span class="prolog-list-brackets">[</span><span class="prolog-variable">_</span>|<span class="prolog-variable">Stack</span><span class="prolog-list-brackets">]</span>, <span class="prolog-variable">NewStack</span>) <span class="prolog-operator">:-</span> <span class="prolog-control">!</span><span class="prolog-operator">,</span> <span class="prolog-comment">% Pop from stack</span>
+            <span class="prolog-variable">NewStack</span> = <span class="prolog-variable">Stack</span><span class="prolog-operator">,</span>
+            set_global_stack(<span class="prolog-variable">NewStack</span>). <span class="prolog-comment">% Update global stack</span>
+        <span class="prolog-predicate-head">apply_action</span>(pop, <span class="prolog-list-brackets">[]</span>, <span class="prolog-list-brackets">[]</span>) <span class="prolog-operator">:-</span> <span class="prolog-control">!</span><span class="prolog-operator">,</span> <span class="prolog-comment">% Pop from empty stack is noop</span>
+            <span class="prolog-builtin">write</span>(<span class="prolog-string">'Warning: Pop attempted on empty stack.'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">.</span>
+            <span class="prolog-comment">% No need to set stack if it was already empty</span>
+        
+        <span class="prolog-predicate-head">apply_action</span>(<span class="prolog-atom">rearrange_action</span>, <span class="prolog-variable">InitialStack</span>, <span class="prolog-variable">FinalStack</span>) <span class="prolog-operator">:-</span>
+            <span class="prolog-builtin">write</span>(<span class="prolog-string">'Action: Performing RMB rearrangement...'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span>
+            rearrange_stack(<span class="prolog-variable">InitialStack</span>, <span class="prolog-variable">FinalStack</span>)<span class="prolog-operator">,</span> <span class="prolog-comment">% This predicate now updates global stack internally</span>
+            <span class="prolog-control">!</span><span class="prolog-operator">.</span> <span class="prolog-comment">% Commit to this action if rearrangement succeeds</span>
+        
+        <span class="prolog-predicate-head">apply_action</span>(<span class="prolog-atom">setup_reflect_stack</span>, <span class="prolog-variable">Stack</span>, <span class="prolog-variable">NewStack</span>) <span class="prolog-operator">:-</span>
+            <span class="prolog-builtin">write</span>(<span class="prolog-string">'Action: Setting up stack for reflection state q6...'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span>
+            split_at_hash(<span class="prolog-variable">Stack</span>, <span class="prolog-variable">APart</span>, <span class="prolog-variable">BPart</span>)<span class="prolog-operator">,</span> <span class="prolog-comment">% Original stack: [DigitsB | ['#' | DigitsA]]</span>
+            digits_to_num(<span class="prolog-variable">BPart</span>, <span class="prolog-variable">B</span>)<span class="prolog-operator">,</span>
+            base(<span class="prolog-variable">Base</span>)<span class="prolog-operator">,</span>
+            <span class="prolog-variable">BmodBase</span> <span class="prolog-operator">is</span> <span class="prolog-variable">B</span> <span class="prolog-builtin">mod</span> <span class="prolog-variable">Base</span><span class="prolog-operator">,</span>
+            <span class="prolog-builtin">append</span>(<span class="prolog-list-brackets">[</span><span class="prolog-atom">'#'</span><span class="prolog-list-brackets">]</span>, <span class="prolog-variable">APart</span>, <span class="prolog-variable">RestOfStack</span>)<span class="prolog-operator">,</span> <span class="prolog-comment">% Keep A part and separator</span>
+            <span class="prolog-variable">NewStack</span> = <span class="prolog-list-brackets">[</span><span class="prolog-variable">BmodBase</span> | <span class="prolog-variable">RestOfStack</span><span class="prolog-list-brackets">]</span><span class="prolog-operator">,</span> <span class="prolog-comment">% New stack: [BmodBase, '#', DigitsA...]</span>
+            <span class="prolog-builtin">write</span>(<span class="prolog-string">' -> New stack top for B (mod Base): '</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">BmodBase</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span>
+            set_global_stack(<span class="prolog-variable">NewStack</span>)<span class="prolog-operator">,</span><span class="prolog-control">!</span>. <span class="prolog-comment">% Update global stack state</span>
+        
+        <span class="prolog-predicate-head">apply_action</span>(<span class="prolog-atom">reflect_add_6_step</span>, <span class="prolog-variable">Stack</span>, <span class="prolog-variable">NewStack</span>) <span class="prolog-operator">:-</span>
+            <span class="prolog-variable">Stack</span> = <span class="prolog-list-brackets">[</span><span class="prolog-variable">CurrentB</span> | <span class="prolog-variable">Rest</span><span class="prolog-list-brackets">]</span><span class="prolog-operator">,</span> <span class="prolog-control">!</span><span class="prolog-operator">,</span> <span class="prolog-comment">% CurrentB is B mod Base from previous step</span>
+            base(<span class="prolog-variable">Base</span>)<span class="prolog-operator">,</span>
+            <span class="prolog-variable">K_reflect</span> <span class="prolog-operator">is</span> <span class="prolog-number">6</span><span class="prolog-operator">,</span> <span class="prolog-comment">% The "self" value being added</span>
+            <span class="prolog-variable">NewB</span> <span class="prolog-operator">is</span> (<span class="prolog-variable">CurrentB</span> + <span class="prolog-variable">K_reflect</span>) <span class="prolog-builtin">mod</span> <span class="prolog-variable">Base</span><span class="prolog-operator">,</span>
+            <span class="prolog-builtin">write</span>(<span class="prolog-string">'Action: Reflection step: '</span>)<span class="prolog-operator">,</span>
+            <span class="prolog-builtin">write</span>(<span class="prolog-variable">CurrentB</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-string">' + '</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">K_reflect</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-string">' mod '</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">Base</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-string">' = '</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">NewB</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span>
+            <span class="prolog-variable">NewStack</span> = <span class="prolog-list-brackets">[</span><span class="prolog-variable">NewB</span> | <span class="prolog-variable">Rest</span><span class="prolog-list-brackets">]</span><span class="prolog-operator">,</span> <span class="prolog-comment">% Push the new value back</span>
+            set_global_stack(<span class="prolog-variable">NewStack</span>). <span class="prolog-comment">% Update global stack state</span>
+        
+        <span class="prolog-predicate-head">apply_action</span>(<span class="prolog-variable">Action</span>, <span class="prolog-variable">Stack</span>, <span class="prolog-variable">Stack</span>) <span class="prolog-operator">:-</span> <span class="prolog-comment">% Default: if action unknown, do nothing</span>
+            <span class="prolog-builtin">write</span>(<span class="prolog-string">'Warning: Unknown action encountered: '</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">Action</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">.</span>
+        
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        <span class="prolog-comment">%      RMB Rearrangement Logic         %</span>
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        
+        <span class="prolog-comment">% Modified to use InitialStack argument instead of current_stack</span>
+        <span class="prolog-predicate-head">rearrange_stack</span>(<span class="prolog-variable">InitialStack</span>, <span class="prolog-variable">FinalStack</span>) <span class="prolog-operator">:-</span>
+            decode_stack_final(<span class="prolog-variable">InitialStack</span>, <span class="prolog-variable">A</span>, <span class="prolog-variable">B</span>, <span class="prolog-variable">K</span>, <span class="prolog-variable">Possible</span>)<span class="prolog-operator">,</span> <span class="prolog-comment">% Use argument stack for decoding</span>
+            ( <span class="prolog-variable">Possible</span> <span class="prolog-operator">==</span> <span class="prolog-atom">ok</span><span class="prolog-operator">,</span> <span class="prolog-variable">B</span> <span class="prolog-operator">>=</span> <span class="prolog-variable">K</span> <span class="prolog-control">-></span> <span class="prolog-comment">% Ensure it's possible and B is large enough</span>
+                base(<span class="prolog-variable">Base</span>)<span class="prolog-operator">,</span>
+                <span class="prolog-variable">Anew</span> <span class="prolog-operator">is</span> <span class="prolog-variable">A</span> + <span class="prolog-variable">K</span><span class="prolog-operator">,</span> <span class="prolog-comment">% Should always equal Base</span>
+                <span class="prolog-variable">Bnew</span> <span class="prolog-operator">is</span> <span class="prolog-variable">B</span> - <span class="prolog-variable">K</span><span class="prolog-operator">,</span>
+                <span class="prolog-builtin">write</span>(<span class="prolog-string">' -> Rearranging: A='</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">A</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-string">', B='</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">B</span>)<span class="prolog-operator">,</span>
+                <span class="prolog-builtin">write</span>(<span class="prolog-string">', K='</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">K</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span>
+                <span class="prolog-builtin">write</span>(<span class="prolog-string">'    -> New A=(A+K)='</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">Anew</span>)<span class="prolog-operator">,</span>
+                <span class="prolog-builtin">write</span>(<span class="prolog-string">', New B=(B-K)='</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">Bnew</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span>
+                num_to_digits(<span class="prolog-variable">Anew</span>, <span class="prolog-variable">AnewDigits</span>)<span class="prolog-operator">,</span>
+                num_to_digits(<span class="prolog-variable">Bnew</span>, <span class="prolog-variable">BnewDigits</span>)<span class="prolog-operator">,</span>
+                <span class="prolog-builtin">reverse</span>(<span class="prolog-variable">BnewDigits</span>, <span class="prolog-variable">RevB</span>)<span class="prolog-operator">,</span>
+                <span class="prolog-builtin">reverse</span>(<span class="prolog-variable">AnewDigits</span>, <span class="prolog-variable">RevA</span>)<span class="prolog-operator">,</span>
+                <span class="prolog-builtin">append</span>(<span class="prolog-variable">RevB</span>, <span class="prolog-list-brackets">[</span><span class="prolog-atom">'#'</span>|<span class="prolog-variable">RevA</span><span class="prolog-list-brackets">]</span>, <span class="prolog-variable">NewStackReversed</span>)<span class="prolog-operator">,</span> <span class="prolog-comment">% Build new stack content</span>
+                <span class="prolog-builtin">reverse</span>(<span class="prolog-variable">NewStackReversed</span>, <span class="prolog-variable">FinalStack</span>)<span class="prolog-operator">,</span>
+                set_global_stack(<span class="prolog-variable">FinalStack</span>)<span class="prolog-operator">,</span> <span class="prolog-comment">% Update global stack - *THIS* is the action's effect</span>
+                <span class="prolog-builtin">write</span>(<span class="prolog-string">' -> Rearrangement complete. New stack: '</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">FinalStack</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span>
+            <span class="prolog-control">;</span> <span class="prolog-comment">% Condition not met or error during decode</span>
+              <span class="prolog-builtin">write</span>(<span class="prolog-string">'Error: Rearrange action called inappropriately or decode failed.'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span>
+              <span class="prolog-variable">FinalStack</span> = <span class="prolog-variable">InitialStack</span> <span class="prolog-comment">% Return original stack on failure</span>
+            ).
+        
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        <span class="prolog-comment">%          Stack & Arithmetic          %</span>
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        
+        <span class="prolog-comment">% Decode stack into A, B, K. Returns 'ok' or 'error' in Possible.</span>
+        <span class="prolog-comment">% Operates purely on the input Stack argument.</span>
+        <span class="prolog-predicate-head">decode_stack_final</span>(<span class="prolog-variable">Stack</span>, <span class="prolog-variable">A</span>, <span class="prolog-variable">B</span>, <span class="prolog-variable">K</span>, <span class="prolog-variable">Possible</span>) <span class="prolog-operator">:-</span>
+            ( <span class="prolog-builtin">member</span>(<span class="prolog-atom">'#'</span>, <span class="prolog-variable">Stack</span>) <span class="prolog-control">-></span>
+                split_at_hash(<span class="prolog-variable">Stack</span>, <span class="prolog-variable">APart</span>, <span class="prolog-variable">BPart</span>)<span class="prolog-operator">,</span>
+                ( digits_to_num(<span class="prolog-variable">APart</span>, <span class="prolog-variable">A</span>)<span class="prolog-operator">,</span> digits_to_num(<span class="prolog-variable">BPart</span>, <span class="prolog-variable">B</span>) <span class="prolog-control">-></span> <span class="prolog-comment">% Ensure conversion works</span>
+                    <span class="prolog-builtin">retractall</span>(stored_A(<span class="prolog-variable">_</span>))<span class="prolog-operator">,</span> <span class="prolog-builtin">retractall</span>(stored_B(<span class="prolog-variable">_</span>))<span class="prolog-operator">,</span> <span class="prolog-comment">% Clear old stored values</span>
+                    <span class="prolog-builtin">assertz</span>(stored_A(<span class="prolog-variable">A</span>))<span class="prolog-operator">,</span> <span class="prolog-builtin">assertz</span>(stored_B(<span class="prolog-variable">B</span>))<span class="prolog-operator">,</span> <span class="prolog-comment">% Store for potential later use</span>
+                    base(<span class="prolog-variable">Base</span>)<span class="prolog-operator">,</span>
+                    ( <span class="prolog-variable">A</span> <span class="prolog-operator">=<</span> <span class="prolog-variable">Base</span> <span class="prolog-control">-></span> <span class="prolog-variable">K</span> <span class="prolog-operator">is</span> <span class="prolog-variable">Base</span> - <span class="prolog-variable">A</span><span class="prolog-operator">,</span> <span class="prolog-variable">Possible</span> = <span class="prolog-atom">ok</span> <span class="prolog-comment">% Calculate K if A is valid</span>
+                    <span class="prolog-control">;</span> <span class="prolog-builtin">write</span>(<span class="prolog-string">'Error: Decoded A > Base.'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span> <span class="prolog-variable">Possible</span> = <span class="prolog-atom">error</span> <span class="prolog-comment">% A is already >= Base? Error case.</span>
+                    )
+                <span class="prolog-control">;</span> <span class="prolog-builtin">write</span>(<span class="prolog-string">'Error: Failed to convert digits to numbers.'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span> <span class="prolog-variable">Possible</span> = <span class="prolog-atom">error</span><span class="prolog-operator">,</span> <span class="prolog-variable">A</span> = -<span class="prolog-number">1</span><span class="prolog-operator">,</span> <span class="prolog-variable">B</span> = -<span class="prolog-number">1</span><span class="prolog-operator">,</span> <span class="prolog-variable">K</span> = -<span class="prolog-number">1</span>
+                )
+            <span class="prolog-control">;</span> <span class="prolog-comment">% Stack doesn't contain '#', invalid format</span>
+                <span class="prolog-builtin">write</span>(<span class="prolog-string">'Error: Stack missing "#" separator.'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span>
+                <span class="prolog-variable">Possible</span> = <span class="prolog-atom">error</span><span class="prolog-operator">,</span> <span class="prolog-variable">A</span> = -<span class="prolog-number">1</span><span class="prolog-operator">,</span> <span class="prolog-variable">B</span> = -<span class="prolog-number">1</span><span class="prolog-operator">,</span> <span class="prolog-variable">K</span> = -<span class="prolog-number">1</span> <span class="prolog-comment">% Assign dummy values</span>
+            ).
+        
+        <span class="prolog-comment">% Split stack list at '#' marker</span>
+        <span class="prolog-predicate-head">split_at_hash</span>(<span class="prolog-variable">Stack</span>, <span class="prolog-variable">APart</span>, <span class="prolog-variable">BPart</span>) <span class="prolog-operator">:-</span>
+            <span class="prolog-builtin">reverse</span>(<span class="prolog-variable">Stack</span>, <span class="prolog-variable">RevStack</span>)<span class="prolog-operator">,</span> <span class="prolog-comment">% Example: [5, '#', 8] -> [8, '#', 5] (A=8, B=5)</span>
+            <span class="prolog-builtin">append</span>(<span class="prolog-variable">RevA</span>, <span class="prolog-list-brackets">[</span><span class="prolog-atom">'#'</span>|<span class="prolog-variable">RevB</span><span class="prolog-list-brackets">]</span>, <span class="prolog-variable">RevStack</span>)<span class="prolog-operator">,</span> <span class="prolog-control">!</span><span class="prolog-operator">,</span> <span class="prolog-comment">% RevA=[8], RevB=[5] ; Use cut as only one solution expected</span>
+            <span class="prolog-builtin">reverse</span>(<span class="prolog-variable">RevA</span>, <span class="prolog-variable">APart</span>)<span class="prolog-operator">,</span> <span class="prolog-comment">% APart=[8]</span>
+            <span class="prolog-builtin">reverse</span>(<span class="prolog-variable">RevB</span>, <span class="prolog-variable">BPart</span>). <span class="prolog-comment">% BPart=[5]</span>
+        
+        <span class="prolog-comment">% Convert list of digits to number</span>
+        <span class="prolog-predicate-head">digits_to_num</span>(<span class="prolog-variable">Digs</span>, <span class="prolog-variable">N</span>) <span class="prolog-operator">:-</span>
+            <span class="prolog-builtin">foldl</span>(add_digit, <span class="prolog-variable">Digs</span>, <span class="prolog-number">0</span>, <span class="prolog-variable">N</span>).
+        <span class="prolog-predicate-head">add_digit</span>(<span class="prolog-variable">D</span>, <span class="prolog-variable">Acc</span>, <span class="prolog-variable">Val</span>) <span class="prolog-operator">:-</span> <span class="prolog-variable">Val</span> <span class="prolog-operator">is</span> <span class="prolog-variable">Acc</span>*<span class="prolog-number">10</span> + <span class="prolog-variable">D</span>.
+        
+        <span class="prolog-comment">% Convert number to list of digits</span>
+        <span class="prolog-predicate-head">num_to_digits</span>(<span class="prolog-number">0</span>, <span class="prolog-list-brackets">[</span><span class="prolog-number">0</span><span class="prolog-list-brackets">]</span>) <span class="prolog-operator">:-</span> <span class="prolog-control">!</span>.
+        <span class="prolog-predicate-head">num_to_digits</span>(<span class="prolog-variable">N</span>, <span class="prolog-variable">Digs</span>) <span class="prolog-operator">:-</span> <span class="prolog-variable">N</span> > <span class="prolog-number">0</span><span class="prolog-operator">,</span> num_to_digits_acc(<span class="prolog-variable">N</span>, <span class="prolog-list-brackets">[]</span>, <span class="prolog-variable">Digs</span>).
+        <span class="prolog-predicate-head">num_to_digits_acc</span>(<span class="prolog-number">0</span>, <span class="prolog-variable">Acc</span>, <span class="prolog-variable">Acc</span>) <span class="prolog-operator">:-</span> <span class="prolog-control">!</span>. <span class="prolog-comment">% Cut for termination</span>
+        <span class="prolog-predicate-head">num_to_digits_acc</span>(<span class="prolog-variable">N</span>, <span class="prolog-variable">Acc</span>, <span class="prolog-variable">Digs</span>) <span class="prolog-operator">:-</span>
+            <span class="prolog-variable">N</span> > <span class="prolog-number">0</span><span class="prolog-operator">,</span>
+            <span class="prolog-variable">D</span> <span class="prolog-operator">is</span> <span class="prolog-variable">N</span> <span class="prolog-builtin">mod</span> <span class="prolog-number">10</span><span class="prolog-operator">,</span>
+            <span class="prolog-variable">N1</span> <span class="prolog-operator">is</span> <span class="prolog-variable">N</span> <span class="prolog-operator">//</span> <span class="prolog-number">10</span><span class="prolog-operator">,</span>
+            num_to_digits_acc(<span class="prolog-variable">N1</span>, <span class="prolog-list-brackets">[</span><span class="prolog-variable">D</span>|<span class="prolog-variable">Acc</span><span class="prolog-list-brackets">]</span>, <span class="prolog-variable">Digs</span>).
+        
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        <span class="prolog-comment">%         Global Stack Access          %</span>
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        
+        <span class="prolog-comment">% Update the global stack representation (used by actions that modify stack)</span>
+        <span class="prolog-predicate-head">set_global_stack</span>(<span class="prolog-variable">NewStack</span>) <span class="prolog-operator">:-</span>
+            <span class="prolog-builtin">retractall</span>(stack_item(<span class="prolog-variable">_</span>))<span class="prolog-operator">,</span>
+            <span class="prolog-builtin">forall</span>(<span class="prolog-builtin">member</span>(<span class="prolog-variable">E</span>, <span class="prolog-variable">NewStack</span>), <span class="prolog-builtin">assertz</span>(stack_item(<span class="prolog-variable">E</span>))).
+        
+        <span class="prolog-comment">% Retrieve the current global stack (ONLY for external query/debug if needed)</span>
+        <span class="prolog-comment">% Note: Main logic should rely on stack passed through step/4 arguments.</span>
+        <span class="prolog-predicate-head">current_stack_global</span>(<span class="prolog-variable">Stack</span>) <span class="prolog-operator">:-</span>
+            <span class="prolog-builtin">findall</span>(<span class="prolog-variable">X</span>, stack_item(<span class="prolog-variable">X</span>), <span class="prolog-variable">S</span>)<span class="prolog-operator">,</span>
+            <span class="prolog-builtin">reverse</span>(<span class="prolog-variable">S</span>, <span class="prolog-variable">Stack</span>). <span class="prolog-comment">% Stack items are asserted head first, so reverse to get logical order</span>
+        
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        <span class="prolog-comment">%     Static Transition Setup          %</span>
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        
+        <span class="prolog-predicate-head">setup_base_transitions</span> <span class="prolog-operator">:-</span>
+            <span class="prolog-comment">% q1: reading A until '+'</span>
+            <span class="prolog-builtin">forall</span>(digit(<span class="prolog-variable">D</span>), <span class="prolog-builtin">assertz</span>(transition(<span class="prolog-number">1</span>, <span class="prolog-variable">D</span>, <span class="prolog-number">1</span>, push(<span class="prolog-variable">D</span>), <span class="prolog-atom">no</span>)))<span class="prolog-operator">,</span>
+            <span class="prolog-builtin">assertz</span>(transition(<span class="prolog-number">1</span>, <span class="prolog-atom">'+'</span>, <span class="prolog-number">2</span>, push(<span class="prolog-atom">'#'</span>), <span class="prolog-atom">no</span>))<span class="prolog-operator">,</span> <span class="prolog-comment">% Push separator on '+'</span>
+            <span class="prolog-comment">% q2: reading B digits until end of input</span>
+            <span class="prolog-builtin">forall</span>(digit(<span class="prolog-variable">D</span>), <span class="prolog-builtin">assertz</span>(transition(<span class="prolog-number">2</span>, <span class="prolog-variable">D</span>, <span class="prolog-number">2</span>, push(<span class="prolog-variable">D</span>), <span class="prolog-atom">no</span>)))<span class="prolog-operator">,</span>
+            <span class="prolog-builtin">assertz</span>(transition(<span class="prolog-number">2</span>, <span class="prolog-atom">epsilon</span>, <span class="prolog-number">3</span>, <span class="prolog-atom">noop</span>, <span class="prolog-atom">no</span>))<span class="prolog-operator">,</span> <span class="prolog-comment">% End of input -> goto decision q3</span>
+            <span class="prolog-comment">% q7: after successful rearranging, go to q4 (accept)</span>
+            <span class="prolog-builtin">assertz</span>(transition(<span class="prolog-number">7</span>, <span class="prolog-atom">epsilon</span>, <span class="prolog-number">4</span>, <span class="prolog-atom">noop</span>, <span class="prolog-atom">no</span>)).
+            <span class="prolog-comment">% Transitions FROM q3 and the loop/halt FROM q6 are handled dynamically.</span>
+        
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        <span class="prolog-comment">%       Printing & Debug Helpers       %</span>
+        <span class="prolog-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+        
+        <span class="prolog-comment">% Modified to print the Stack argument passed to it.</span>
+        <span class="prolog-predicate-head">print_config</span>(<span class="prolog-variable">State</span>, <span class="prolog-variable">Input</span>, <span class="prolog-variable">Stack</span>) <span class="prolog-operator">:-</span>
+            <span class="prolog-builtin">write</span>(<span class="prolog-string">'--------------------------------------'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">,</span>
+            <span class="prolog-builtin">write</span>(<span class="prolog-string">'State: '</span>)<span class="prolog-operator">,</span> print_state(<span class="prolog-variable">State</span>)<span class="prolog-operator">,</span>
+            <span class="prolog-builtin">write</span>(<span class="prolog-string">' | Input: '</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">Input</span>)<span class="prolog-operator">,</span>
+            <span class="prolog-builtin">write</span>(<span class="prolog-string">' | Stack: '</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">Stack</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">.</span> <span class="prolog-comment">% USE THE ARGUMENT Stack</span>
+        
+        <span class="prolog-predicate-head">print_state</span>(<span class="prolog-variable">S</span>) <span class="prolog-operator">:-</span> <span class="prolog-builtin">write</span>(<span class="prolog-atom">'q'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">S</span>).
+        
+        <span class="prolog-comment">% Print standard transitions found via transition/5</span>
+        <span class="prolog-predicate-head">print_transition</span>(<span class="prolog-variable">SFrom</span>, <span class="prolog-variable">Input</span>, <span class="prolog-variable">Action</span>, <span class="prolog-variable">STo</span>) <span class="prolog-operator">:-</span>
+            ( <span class="prolog-variable">Input</span> <span class="prolog-operator">==</span> <span class="prolog-list-brackets">[]</span> <span class="prolog-control">-></span> <span class="prolog-variable">InputSym</span> = <span class="prolog-atom">'epsilon'</span>
+            <span class="prolog-control">;</span> <span class="prolog-variable">Input</span> = <span class="prolog-list-brackets">[</span><span class="prolog-variable">InputSym</span>|<span class="prolog-variable">_</span><span class="prolog-list-brackets">]</span>
+            )<span class="prolog-operator">,</span>
+            <span class="prolog-builtin">write</span>(<span class="prolog-string">'Transition: '</span>)<span class="prolog-operator">,</span> print_state(<span class="prolog-variable">SFrom</span>)<span class="prolog-operator">,</span>
+            <span class="prolog-builtin">write</span>(<span class="prolog-string">' --['</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">InputSym</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-atom">':'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">Action</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-string">']--> '</span>)<span class="prolog-operator">,</span>
+            print_state(<span class="prolog-variable">STo</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">.</span>
+        
+        <span class="prolog-comment">% Print dynamically added transitions from q3</span>
+        <span class="prolog-predicate-head">print_dynamic_transition</span>(<span class="prolog-variable">SFrom</span>, <span class="prolog-variable">Sym</span>, <span class="prolog-variable">STo</span>, <span class="prolog-variable">Action</span>) <span class="prolog-operator">:-</span>
+             <span class="prolog-builtin">write</span>(<span class="prolog-string">'Dynamically Added Transition: '</span>)<span class="prolog-operator">,</span> print_state(<span class="prolog-variable">SFrom</span>)<span class="prolog-operator">,</span>
+             <span class="prolog-builtin">write</span>(<span class="prolog-string">' --['</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">Sym</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-atom">':'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">Action</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-string">']--> '</span>)<span class="prolog-operator">,</span>
+             print_state(<span class="prolog-variable">STo</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">.</span>
+        
+        <span class="prolog-comment">% Print pseudo-transitions decided within state 6 logic</span>
+        <span class="prolog-predicate-head">print_pseudo_transition</span>(<span class="prolog-variable">SFrom</span>, <span class="prolog-variable">ActionOrCheck</span>, <span class="prolog-variable">STo</span>) <span class="prolog-operator">:-</span>
+             <span class="prolog-builtin">write</span>(<span class="prolog-string">'State q6 Logic: '</span>)<span class="prolog-operator">,</span> print_state(<span class="prolog-variable">SFrom</span>)<span class="prolog-operator">,</span>
+             <span class="prolog-builtin">write</span>(<span class="prolog-string">' --['</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-atom">'epsilon'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-atom">':'</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-variable">ActionOrCheck</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">write</span>(<span class="prolog-string">']--> '</span>)<span class="prolog-operator">,</span>
+             print_state(<span class="prolog-variable">STo</span>)<span class="prolog-operator">,</span> <span class="prolog-builtin">nl</span><span class="prolog-operator">.</span>
+        
+        </code></pre>
+        
+        </body>
+        </html>

@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Theodore M. Savich" />
+  <meta name="dcterms.date" content="2025-04-01" />
+  <title>Integrating Brandom’s Semantics with Dialectical Logic and Mathematical Foundations</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Integrating Brandom’s Semantics with Dialectical Logic
+and Mathematical Foundations</h1>
+<p class="author">Theodore M. Savich</p>
+<p class="date">2025-04-01</p>
+</header>
+<h1 id="robert-brandoms-incompatibility-semantics">Robert Brandom’s (2008)
+Incompatibility Semantics</h1>
+
+<h2 id="definitions-and-axioms">Definitions and Axioms</h2>
+<p>We are given a language <span class="math inline">\(L\)</span> (set
+of sentences). <span class="math inline">\(L\)</span> is proper if, for
+each <span class="math inline">\(p \in L\)</span> and each <span
+class="math inline">\(q\)</span> a subformula of <span
+class="math inline">\(p\)</span>, we also have <span
+class="math inline">\(q \in L\)</span>. All languages under
+consideration are proper.</p>
+<h3 id="axiom-persistence">Axiom: Persistence</h3>
+<h4 id="description">Description</h4>
+<p>If a set of sentences is incoherent (Inc), adding more sentences to
+it cannot make it coherent.</p>
+<h4 id="formal-statement">Formal Statement</h4>
+<p><span class="math display">\[\label{eq:persistence}
+\forall X, Y \subseteq L, (X \subseteq Y \wedge X \in \text{Inc})
+\rightarrow Y \in \text{Inc}\]</span></p>
+<h4 id="rationale">Rationale</h4>
+<p>Incoherence, once established, cannot be resolved by merely adding
+more sentences. Contradictions require removal or correction of
+conflicting elements.</p>
+<h3 id="axiom-partition">Axiom: Partition</h3>
+<h4 id="description-1">Description</h4>
+<p>Two sets of sentences are incompatible (<span
+class="math inline">\(I\)</span>) if and only if their union is
+incoherent (<span class="math inline">\(\text{Inc}\)</span>).</p>
+<h4 id="formal-statement-1">Formal Statement</h4>
+<p><span class="math display">\[\label{eq:partition}
+X \cup Y \in \text{Inc} \iff X \in I(Y)\]</span></p>
+<h4 id="rationale-1">Rationale</h4>
+<p>Incompatibility between sets is equivalent to their union being
+incoherent. Combining incompatible statements leads to
+contradiction.</p>
+<h3 id="entailment">Entailment</h3>
+<h4 id="description-2">Description</h4>
+<p>One set of sentences entails (<span
+class="math inline">\(\models_I\)</span>) another if everything
+incompatible with the conclusion is incompatible with the premise.</p>
+<h4 id="formal-statement-2">Formal Statement</h4>
+<p><span class="math display">\[\label{eq:entailment}
+X \models_I Y \iff \bigcup_{p \in Y} I(\{p\}) \subseteq
+I(X)\]</span></p>
+<h4 id="rationale-2">Rationale</h4>
+<p>Entailment means the truth (or commitment to) <span
+class="math inline">\(X\)</span> guarantees the truth (or commitment to)
+<span class="math inline">\(Y\)</span>. If anything contradicts <span
+class="math inline">\(Y\)</span>, it must also contradict <span
+class="math inline">\(X\)</span>.</p>
+<h2 id="connective-definitions">Connective Definitions</h2>
+<p>Axioms governing <span class="math inline">\(N\)</span> (Negation),
+<span class="math inline">\(K\)</span> (Conjunction), and <span
+class="math inline">\(L\)</span> (Necessity).</p>
+<h3 id="axiom-negation-introduction-ni">Axiom: Negation Introduction
+(NI)</h3>
+<h4 id="description-3">Description</h4>
+<p>Introducing negation (<span class="math inline">\(N\)</span>) based
+on incoherence. <span class="math inline">\(Np\)</span> means "not <span
+class="math inline">\(p\)</span>".</p>
+<h4 id="formal-statement-3">Formal Statement</h4>
+<p><span class="math display">\[\label{eq:ni}
+X \cup \{Np\} \in \text{Inc} \iff X \models \{p\}\]</span></p>
+<h4 id="rationale-3">Rationale</h4>
+<p>Adding <span class="math inline">\(Np\)</span> yields incoherence iff
+<span class="math inline">\(X\)</span> entails <span
+class="math inline">\(p\)</span>. Reflects contradiction arising from
+<span class="math inline">\(p\)</span> and <span
+class="math inline">\(\neg p\)</span>.</p>
+<h3 id="axiom-conjunction-introduction-ci">Axiom: Conjunction
+Introduction (CI)</h3>
+<h4 id="description-4">Description</h4>
+<p>Introducing conjunction (<span class="math inline">\(K\)</span>)
+based on incoherence. <span class="math inline">\(Kpq\)</span> means
+"both <span class="math inline">\(p\)</span> and <span
+class="math inline">\(q\)</span>".</p>
+<h4 id="formal-statement-4">Formal Statement</h4>
+<p><span class="math display">\[\label{eq:ci}
+X \cup \{Kpq\} \in \text{Inc} \iff X \cup \{p, q\} \in
+\text{Inc}\]</span></p>
+<h4 id="rationale-4">Rationale</h4>
+<p>Conjunction <span class="math inline">\(Kpq\)</span> leads to
+incoherence iff combining <span class="math inline">\(X\)</span> with
+both <span class="math inline">\(p\)</span> and <span
+class="math inline">\(q\)</span> does. Reflects that conjunction is true
+iff both conjuncts are.</p>
+<h3 id="axiom-l-introduction-li">Axiom: L Introduction (LI)</h3>
+<h4 id="description-5">Description</h4>
+<p>Introducing necessity (<span class="math inline">\(L\)</span>). <span
+class="math inline">\(Lp\)</span> means "necessarily <span
+class="math inline">\(p\)</span>".</p>
+<h4 id="formal-statement-5">Formal Statement</h4>
+<p><span class="math display">\[\label{eq:li}
+X \cup \{Lp\} \in \text{Inc} \iff X \in \text{Inc} \text{ or } \exists Y
+[X \cup Y \not\in \text{Inc} \text{ and } Y \not\models
+\{p\}]\]</span></p>
+<h4 id="rationale-5">Rationale</h4>
+<p><span class="math inline">\(Lp\)</span> leads to incoherence with
+<span class="math inline">\(X\)</span> if <span
+class="math inline">\(X\)</span> is already incoherent, or if there’s a
+consistent extension <span class="math inline">\(Y\)</span> of <span
+class="math inline">\(X\)</span> that doesn’t entail <span
+class="math inline">\(p\)</span>. Captures necessity’s link to
+consistency across contexts.</p>
+<h2 id="basic-lemmas">Basic Lemmas</h2>
+<h3 id="lemma-weakening">Lemma: Weakening</h3>
+<h4 id="description-6">Description</h4>
+<p>Adding assumptions and conclusions preserves entailment (<span
+class="math inline">\(\models\)</span>).</p>
+<h4 id="formal-statement-6">Formal Statement</h4>
+<p><span class="math display">\[\text{If } X \models Y, \text{ then } X,
+W \models Y, V\]</span></p>
+<h4 id="rationale-6">Rationale</h4>
+<p>Reflects monotonicity: more information doesn’t invalidate previous
+inferences.</p>
+<h3 id="lemma-cut">Lemma: Cut</h3>
+<h4 id="description-7">Description</h4>
+<p>Transitivity of entailment.</p>
+<h4 id="formal-statement-7">Formal Statement</h4>
+<p><span class="math display">\[\text{If } X \models q, Y \text{ and }
+q, W \models V, \text{ then } X, W \models Y, V\]</span></p>
+<h4 id="rationale-7">Rationale</h4>
+<p>Allows breaking complex inferences into steps via intermediate
+statements.</p>
+<h2 id="some-modal-properties">Some Modal Properties</h2>
+<h3 id="lemma-3.1">Lemma 3.1</h3>
+<h4 id="description-8">Description</h4>
+<p>Condition relating non-entailment and non-tautology.</p>
+<h4 id="formal-statement-8">Formal Statement</h4>
+<p><span class="math display">\[\exists Y [Y \not\models \emptyset
+\text{ and } Y \not\models p] \iff \not\models p\]</span></p>
+<h4 id="rationale-8">Rationale</h4>
+<p>If there’s a consistent context <span
+class="math inline">\(Y\)</span> not entailing <span
+class="math inline">\(p\)</span>, then <span
+class="math inline">\(p\)</span> is not universally entailed (not a
+tautology).</p>
+<h3 id="lemma-3.2">Lemma 3.2</h3>
+<h4 id="description-9">Description</h4>
+<p>Condition relating necessity and inconsistency.</p>
+<h4 id="formal-statement-9">Formal Statement</h4>
+<p><span class="math display">\[Lp \models \emptyset \iff \models
+\emptyset \text{ or } \not\models p\]</span></p>
+<h4 id="rationale-9">Rationale</h4>
+<p><span class="math inline">\(Lp\)</span> entails inconsistency iff the
+base system is inconsistent or <span class="math inline">\(p\)</span> is
+not universally entailed. Necessity’s failure can signal inconsistency
+or contingency.</p>
+<h2 id="reduction-schemata-for-non-modal-connectives">Reduction Schemata
+for Non-Modal Connectives</h2>
+<h3 id="left-negation-ln">Left Negation (LN)</h3>
+<h4 id="description-10">Description</h4>
+<p>Negation on the left.</p>
+<h4 id="formal-statement-10">Formal Statement</h4>
+<p><span class="math display">\[\label{eq:ln}
+X, Np \models Y \iff X \models Y, p\]</span></p>
+<h4 id="rationale-10">Rationale</h4>
+<p>Moves negation from premise-side to conclusion-side.</p>
+<h3 id="right-negation-rn">Right Negation (RN)</h3>
+<h4 id="description-11">Description</h4>
+<p>Negation on the right.</p>
+<h4 id="formal-statement-11">Formal Statement</h4>
+<p><span class="math display">\[\label{eq:rn}
+X \models Y, Np \iff X, p \models Y\]</span></p>
+<h4 id="rationale-11">Rationale</h4>
+<p>Moves negation from conclusion-side to premise-side.</p>
+<h3 id="left-conjunction-lk">Left Conjunction (LK)</h3>
+<h4 id="description-12">Description</h4>
+<p>Conjunction on the left.</p>
+<h4 id="formal-statement-12">Formal Statement</h4>
+<p><span class="math display">\[\label{eq:lk}
+X, Kpq \models Y \iff X, p, q \models Y\]</span></p>
+<h4 id="rationale-12">Rationale</h4>
+<p>Breaks down conjunction in premises.</p>
+<h3 id="right-conjunction-rk">Right Conjunction (RK)</h3>
+<h4 id="description-13">Description</h4>
+<p>Conjunction on the right.</p>
+<h4 id="formal-statement-13">Formal Statement</h4>
+<p><span class="math display">\[\label{eq:rk}
+X \models Y, Kpq \iff X \models Y, p \text{ and } X \models Y,
+q\]</span></p>
+<h4 id="rationale-13">Rationale</h4>
+<p>Distributes entailment over conjunction in conclusions.</p>
+<h2 id="reduction-schemata-for-modal-connectives">Reduction Schemata for
+Modal Connectives</h2>
+<h3 id="left-necessity-ll">Left Necessity (LL)</h3>
+<h4 id="description-14">Description</h4>
+<p>Necessity on the left.</p>
+<h4 id="formal-statement-14">Formal Statement</h4>
+<p><span class="math display">\[\label{eq:ll}
+X, Lp \models Y \iff X \models Y \text{ or } \not\models p\]</span></p>
+<h4 id="rationale-14">Rationale</h4>
+<p>Necessity in premise adds a strong condition related to universal
+entailment of <span class="math inline">\(p\)</span>.</p>
+<h3 id="right-necessity-rl">Right Necessity (RL)</h3>
+<h4 id="description-15">Description</h4>
+<p>Necessity on the right.</p>
+<h4 id="formal-statement-15">Formal Statement</h4>
+<p><span class="math display">\[\label{eq:rl}
+X \models Y, Lp \iff X \models Y \text{ or } \models p\]</span></p>
+<h4 id="rationale-15">Rationale</h4>
+<p>Entailing necessary <span class="math inline">\(p\)</span> requires
+either entailing <span class="math inline">\(Y\)</span> or <span
+class="math inline">\(p\)</span> being universally entailed.</p>
+<h2 id="validity-of-classical-logic">Validity of Classical Logic</h2>
+<p>The reduction schemata show that the incompatibility semantics
+validates classical logic for <span class="math inline">\(N\)</span> and
+<span class="math inline">\(K\)</span>, and the modal system S5 for
+<span class="math inline">\(L\)</span>.</p>
+<h1 id="sec:mathematics">Mathematics</h1>
+<p>Von Neumann ordinals provide a foundational method for representing
+natural numbers within set theory. They are adopted here as a normative
+standard.</p>
+<div class="definition">
+<p><strong>Definition 1</strong> (Von Neumann Ordinal). Each natural
+number is represented as the set of all smaller natural numbers: <span
+class="math display">\[0 = \varnothing, \quad 1 = \{0\} =
+\{\varnothing\}, \quad 2 = \{0, 1\} = \{\varnothing, \{\varnothing\}\},
+\quad \ldots\]</span></p>
+</div>
+<p>Construction requires the empty set, guaranteed by axioms (e.g., in
+ZF or KP). The empty set <span class="math inline">\(\varnothing = \{ x
+\mid x \neq x \}\)</span> aligns with the normative understanding that
+objects cannot possess mutually incompatible properties (<span
+class="citation" data-cites="Brandom2008"></span>). <span
+class="math inline">\(\varnothing\)</span> serves as a foundational
+building block.</p>
+<div id="tab:von_neumann">
+<table>
+<caption>Von Neumann Ordinals</caption>
+<thead>
+<tr>
+<th style="text-align: left;">Number</th>
+<th style="text-align: left;">Successor Representation</th>
+<th style="text-align: left;">Representation as Sets</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">{}</td>
+<td style="text-align: left;"><span
+class="math inline">\(\varnothing\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;"><span
+class="math inline">\(\{0\}\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(\{\varnothing\}\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;"><span class="math inline">\(\{0,
+1\}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\{\varnothing,
+\{\varnothing\}\}\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;"><span class="math inline">\(\{0, 1,
+2\}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\{\varnothing,
+\{\varnothing\}, \{\varnothing, \{\varnothing\}\}\}\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><em>Note:</em> Von Neumann ordinals used as the normative standard
+for numbers.</p>
+<h2 id="subsec:mathematical-judgment">Mathematical Judgment</h2>
+<p>Foundational judgment involves **Particular Instantiations (PINs)**
+of properties (<span class="citation" data-cites="Priest2018"></span>).
+E.g., "PIN<sub>A</sub> of <span class="math inline">\(P\)</span> is
+distinct from PIN<sub>B</sub> of <span
+class="math inline">\(P\)</span>."</p>
+<p>Example:</p>
+<ol>
+<li><p><em>Pokey and Buddy are distinct dogs.</em></p></li>
+<li><p>Implicitly: <em>Pokey is a dog.</em></p></li>
+</ol>
+<p>Recognizing "Pokey is a dog" relies on intersubjective agreement
+within a recognitive community.</p>
+<h4 id="intersubjectivity">Intersubjectivity</h4>
+<p>Judgments presuppose an audience and shared understanding
+(lifeworld), often implicit.</p>
+<h4 id="structure-of-judgments">Structure of Judgments</h4>
+<p>Judgments occur with intentions. Asserting "Pokey is a dog"
+anticipates numerical/logical structures based on purposes.</p>
+<h4 id="apperception-and-judgment">Apperception and Judgment</h4>
+<div class="definition">
+<p><strong>Definition 2</strong> (Apperception). The process by which
+judgments unify and differentiate entities through negation, ensuring
+consistency within a normative framework.</p>
+</div>
+<h4 id="the-i-think">The "I-think"</h4>
+<p>Every judgment involves the subject’s awareness. Representing this
+formally:</p>
+<ol start="2">
+<li><p><em>Pokey is a dog.</em></p></li>
+<li><p><em><span class="math inline">\(\vdash\)</span> Pokey is a
+dog.</em></p></li>
+<li><p><em>{Pokey is a dog}.</em></p></li>
+<li><p><em>{Pokey <span class="math inline">\(\varnothing\)</span> is a
+dog}.</em></p></li>
+<li><p><em>I said <span class="math inline">\(\varnothing\)</span>
+‘Pokey <span class="math inline">\(\varnothing\)</span> is a
+dog’.</em></p></li>
+<li><p><em>I said <span class="math inline">\(\varnothing\)</span> ‘I
+said <span class="math inline">\(\varnothing\)</span> ‘Pokey <span
+class="math inline">\(\varnothing\)</span> is a dog’.’</em></p></li>
+<li><p><em>Pokey and Buddy are {<span
+class="math inline">\(\varnothing\)</span>, {<span
+class="math inline">\(\varnothing\)</span>}} distinct
+dogs.</em></p></li>
+<li><p><em>Pokey and Buddy are 2 distinct dogs.</em></p></li>
+</ol>
+<p>Here, <span class="math inline">\(\varnothing\)</span> marks the
+subject’s role. Numerical terms emerge from relational properties of
+judgments, aligning with von Neumann ordinals: <span
+class="math inline">\(2 \leftrightarrow \{\varnothing,
+\{\varnothing\}\}\)</span>.</p>
+<h4 id="anaphoric-number-and-successor-function">Anaphoric Number and
+Successor Function</h4>
+<p>Numbers act anaphorically, referencing prior judgments. The sequence
+(2)-(8) reflects the successor function inherent in von Neumann
+ordinals.</p>
+<h4 id="transition-to-object-collections">Transition to Object
+Collections</h4>
+<p>Numeral dependency on object collections suggests a distinction
+explored later.</p>
+<h2 id="subsec:the-exercise">The Exercise</h2>
+<p>Connecting mathematical concepts to embodied experience via
+proprioception (<span class="citation"
+data-cites="Carspecken1999"></span>).</p>
+<h4 id="proprioceptive-relaxation-exercise">Proprioceptive Relaxation
+Exercise</h4>
+<p>Sequence: Relax -&gt; Identify Tension -&gt; Let Go -&gt; Perceive
+Unity -&gt; Judge Feelings -&gt; Reflect on Rules -&gt; Observe
+Breath/Judgment -&gt; Philosophical Reflection (Unity/Individuality,
+Self/Other).</p>
+<h4 id="connection-to-mathematical-concepts">Connection to Mathematical
+Concepts</h4>
+<p>The exercise highlights unity/differentiation interplay. Judging
+disrupts unity, creating distinct entities, paralleling number emergence
+from judgments. The self (’I’) creates abstractions through
+negation/unification. <span class="citation"
+data-cites="Hegel1977"></span> notes the ’I’ as pure negativity forming
+unities.</p>
+<h2 id="subsec:algorithmic-elaboration">Algorithmic Elaboration: From
+Body Feelings to Concepts</h2>
+<p>Algorithmically elaborating **categories** (concepts, predicates,
+universals) from body feelings.</p>
+<h4 id="bounded-regions-and-categories">Bounded Regions and
+Categories</h4>
+<p>Proprioception defines boundaries (interior/exterior). Rules for
+"bounded region" vocabulary:</p>
+<ol>
+<li><p>In region <span class="math inline">\(\implies\)</span> not
+out.</p></li>
+<li><p>Out of region <span class="math inline">\(\implies\)</span> not
+in.</p></li>
+<li><p>Deep in region <span class="math inline">\(\implies\)</span> far
+from out.</p></li>
+<li><p>On edge of region <span class="math inline">\(\implies\)</span>
+close to in.</p></li>
+</ol>
+<figure id="fig:AlgorithmForBoundedRegions">
+<p><em>Note:</em> Branched-schedule algorithm for articulating bounded
+regions.</p>
+<figcaption>Algorithm for Bounded Regions</figcaption>
+</figure>
+<h4 id="substitution-rules-for-categories">Substitution Rules for
+Categories</h4>
+<ol>
+<li><p>"Categories" for "Bounded regions".</p></li>
+<li><p>"Category members" for "Objects inside".</p></li>
+<li><p>"Subcategory" for "Region inside another".</p></li>
+</ol>
+<p>This grounds category vocabulary in body-feeling.</p>
+<figure id="fig:AlgorithmForCategories">
+
+<figcaption>Algorithm for Categories</figcaption>
+</figure>
+<h4 id="educational-implications">Educational Implications</h4>
+<p>Mirrors pedagogy building complex vocabularies on foundational
+concepts.</p>
+<h2 id="subsec:arithmetic-foundations">From Counting to Arithmetic
+Foundations</h2>
+<p>Formalizing arithmetic by reinterpreting <span class="citation"
+data-cites="LakoffNunez2000"></span> using deontic-normative material
+inferences (<span class="citation"
+data-cites="SavichEtAl2019"></span>).</p>
+<h4 id="challenges-in-first-person-subjectivity">Challenges in
+First-Person Subjectivity</h4>
+<p>Expressing concepts like linearity in a deontic-normative modality
+(commitments/entitlements) differs from alethic modality (objective
+truth).</p>
+<h4 id="highlander-algorithm">Highlander Algorithm</h4>
+<p>Embodies exclusivity: "only one assertion can be committed to." (See
+Appendix D for diagram).</p>
+<h4 id="equality-iterator-algorithm">Equality-Iterator Algorithm</h4>
+<p>Formalizes equality of result: different operations yield same
+result. (See Appendix D for diagram).</p>
+<h4 id="material-inferences-for-object-collections">Material Inferences
+for Object Collections</h4>
+<p>Defining inferences for vocabulary <span
+class="math inline">\(V_{\text{object collection}}\)</span>.</p>
+<div class="definition">
+<p><strong>Definition 3</strong> (Object Collection Vocabulary). <span
+class="math inline">\(V_{\text{object collection}} = \{\text{bigger},
+\text{smaller}, =, \text{added to}, \text{results in}, \text{adding},
+\text{result}, \text{subtracted from}, \text{subtract}, \text{zero},
+\text{one}\}\)</span></p>
+</div>
+<h4 id="material-inferences-and-algorithms">Material Inferences and
+Algorithms</h4>
+<p>(Using symbol legend below)</p>
+<ol>
+<li><p><strong>Linearity</strong>: <span class="math inline">\(\{ A, B
+\text{ are obj coll}\} \dagger\)</span></p>
+<ul>
+<li><p><span class="math inline">\(\{ A &gt; B \} \vDash_{I} \{ B &lt; A
+\} \rightarrow \neg \{ A &lt; B \}\)</span></p></li>
+<li><p><span class="math inline">\(\{ B &gt; A \} \vDash_{I} \{ A &lt; B
+\} \rightarrow \neg \{ B &lt; A \}\)</span></p></li>
+<li><p><span class="math inline">\(\{ A = B \}\)</span></p></li>
+</ul></li>
+<li><p><strong>Closure</strong>: <span class="math inline">\(\{ A + B =
+D \} \vDash_{I} \{ D \text{ is obj coll} \}\)</span></p></li>
+<li><p><strong>Commutativity</strong>: <span class="math inline">\(\{ A
++ B = C \} \vDash_{I} \{ C = B + A \}\)</span></p></li>
+<li><p><strong>Associativity</strong>: <span class="math inline">\(\{ D
+= A + (B + C) \} \vDash_{I} \{ D = (A + B) + C \}\)</span></p></li>
+<li><p><strong>Transitivity</strong>: <span class="math inline">\(\{ A
+&gt; B \land B &gt; C \} \vDash_{I} \{ A &gt; C \}\)</span></p></li>
+<li><p><strong>Addition Roles</strong>: <span class="math inline">\(\{ A
+\text{ in addition} \} \dagger\)</span> <span class="math inline">\(\{
+\text{Added to} \}, \{ \text{Added} \}, \{ \text{Result}
+\}\)</span></p></li>
+<li><p><strong>Stuttering</strong>: <span class="math inline">\(\{ A \}
+\vDash_{I} \{ A \}\)</span></p></li>
+<li><p><strong>Unlimited Addition</strong>: <span
+class="math inline">\(\{ A \text{ obj coll} \} \rightarrow \{ A + B
+\text{ results in obj coll} \}\)</span></p></li>
+<li><p><strong>Limited Subtraction</strong>:</p>
+<ul>
+<li><p><span class="math inline">\(\{ B &lt; A \} \rightarrow \{ A - B
+\text{ is obj coll} \}\)</span></p></li>
+<li><p><span class="math inline">\(\{ B = A \} \vDash_{I} \{ \text{No
+objects left when } A \text{ subtracted from } B \}\)</span></p></li>
+</ul></li>
+<li><p><strong>Zero</strong>:</p>
+<ul>
+<li><p><span class="math inline">\(\{ A = B \} \vDash_{I} \{ \text{No
+objects left when } A \text{ subtracted from } B \}\)</span></p></li>
+<li><p><span class="math inline">\(\{ A \text{ has no objects} \}
+\rightarrow \{ A = \text{zero} \}\)</span></p></li>
+</ul></li>
+<li><p><strong>Sequential Ops</strong>:</p>
+<ul>
+<li><p><span class="math inline">\(\{ B &lt; A \} \rightarrow \{ (A - B)
++ C \text{ results in obj coll} \}\)</span></p></li>
+<li><p><span class="math inline">\(\{ A + B &gt; C \} \rightarrow \{ (A
++ B) - C \text{ is obj coll} \}\)</span></p></li>
+</ul></li>
+<li><p><strong>Equality of Result</strong>: <span
+class="math inline">\(\{ A \text{ obj coll} \} \vDash_{I} \{ \text{Call
+Equality-Iterator Alg} \}\)</span></p></li>
+<li><p><strong>Preservation of Equality</strong>: <span
+class="math inline">\(\{ B = C \} \vDash_{I} \{ A + B = A + C
+\}\)</span></p></li>
+</ol>
+<h4 id="symbol-legend">Symbol Legend</h4>
+<div id="tab:symbol_legend">
+<table style="width:95%;">
+<caption>Legend for Symbols Used</caption>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Symbol</th>
+<th style="text-align: left;">Meaning / Substituted-for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Symbol</td>
+<td style="text-align: left;">Meaning / Substituted-for</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span
+class="math inline">\(\neg\)</span></td>
+<td style="text-align: left;">Precludes entitlement to... / is
+incompatible with</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span
+class="math inline">\(\rightarrow\)</span></td>
+<td style="text-align: left;">Entitles / has as an inferential
+consequent...</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span
+class="math inline">\(\vDash_{I}\)</span></td>
+<td style="text-align: left;">Entitles / incompatibility-entails
+...</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span
+class="math inline">\(\dagger\)</span></td>
+<td style="text-align: left;">Highlander algorithm: "entitles only one
+of the following commitments"</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span class="math inline">\(A =
+B\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(A\)</span> is
+symmetrically intersubstitutable with <span
+class="math inline">\(B\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><span class="math inline">\(A &gt;
+B\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(A\)</span> is
+bigger than <span class="math inline">\(B\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><span class="math inline">\(A &lt;
+B\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(A\)</span> is
+smaller than <span class="math inline">\(B\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><span class="math inline">\(A +
+B\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(A\)</span>
+added to <span class="math inline">\(B\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><span class="math inline">\(A -
+B\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(B\)</span>
+subtracted from <span class="math inline">\(A\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><span
+class="math inline">\(\land\)</span></td>
+<td style="text-align: left;">and (in meta-language describing
+conditions)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="object-collections-to-arithmetic">Object Collections to
+Arithmetic</h4>
+<p>These inferences ground arithmetic operations in normative
+structures.</p>
+<figure id="fig:AlgorithmicElaboration">
+<p><em>Note:</em> Visualization of expanding object collection
+vocabulary to arithmetic via material substitution inferences (<span
+class="citation" data-cites="SavichEtAl2019"></span>).</p>
+<figcaption>Algorithmic Elaboration from Object Collections to
+Arithmetic</figcaption>
+</figure>
+<div class="appendices">
+<h1 id="logic-using-the-reduction-formulae">Logic Using the Reduction
+Formulae</h1>
+<p>(This repeats section 1.6 - 1.7, perhaps merge or clarify
+purpose)</p>
+<p>Reduction schemata simplify formulae and prove theorems.</p>
+<h2 class="unnumbered" id="reduction-schemata">Reduction Schemata</h2>
+<ul>
+<li><p>Left Negation (LN): <span class="math inline">\(X, Np \models Y
+\iff X \models Y, p\)</span></p></li>
+<li><p>Right Negation (RN): <span class="math inline">\(X \models Y, Np
+\iff X, p \models Y\)</span></p></li>
+<li><p>Left Conjunction (LK): <span class="math inline">\(X, Kpq \models
+Y \iff X, p, q \models Y\)</span></p></li>
+<li><p>Right Conjunction (RK): <span class="math inline">\(X \models Y,
+Kpq \iff X \models Y, p \text{ and } X \models Y, q\)</span></p></li>
+<li><p>Left Necessity (LL): <span class="math inline">\(X, Lp \models Y
+\iff X \models Y \text{ or } \not\models p\)</span></p></li>
+<li><p>Right Necessity (RL): <span class="math inline">\(X \models Y, Lp
+\iff X \models Y \text{ or } \models p\)</span></p></li>
+</ul>
+<h2 class="unnumbered" id="classical-logic-and-modal-systems">Classical
+Logic and Modal Systems</h2>
+<p>Validates classical logic for <span class="math inline">\(N,
+K\)</span> and S5 for <span class="math inline">\(L\)</span>.</p>
+<h3 class="unnumbered" id="negation-properties">Negation Properties</h3>
+<ul>
+<li><p>If <span class="math inline">\(\{p\} \in I(X)\)</span> and <span
+class="math inline">\(\{Np\} \in I(X)\)</span>, then <span
+class="math inline">\(X \in \text{Inc}\)</span>.</p></li>
+<li><p><span class="math inline">\(NNp \approx p\)</span>. (Double
+Negation)</p></li>
+<li><p><span class="math inline">\(p \models q \iff Nq \models
+Np\)</span>. (Contraposition)</p></li>
+<li><p>Material Consistency: <span class="math inline">\(I(X) \subseteq
+\text{Inc} \Rightarrow \exists Y [Y \in I(X) \text{ and } I(Y) \subseteq
+\text{Inc}]\)</span>.</p></li>
+<li><p>Formal Consistency: <span class="math inline">\((X \notin I(X)
+\text{ and } X \models p) \Rightarrow X \not\models
+Np\)</span>.</p></li>
+</ul>
+<h3 class="unnumbered" id="conjunction-properties">Conjunction
+Properties</h3>
+<ul>
+<li><p><span class="math inline">\(Kpq \models p\)</span> and <span
+class="math inline">\(Kpq \models q\)</span>.</p></li>
+<li><p><span class="math inline">\((X \models p \text{ and } X \models
+q) \iff X \models Kpq\)</span>.</p></li>
+</ul>
+<h3 class="unnumbered" id="interaction">Interaction</h3>
+<ul>
+<li><p><span class="math inline">\(KpNp \models Y\)</span>. (Ex Falso
+Quodlibet related)</p></li>
+<li><p>Distributivity (assuming A is disjunction): <span
+class="math inline">\(Kp(Aqr) \approx A(Kpq)(Kpr)\)</span>. Need
+definition for A.</p></li>
+</ul>
+<h3 class="unnumbered" id="conditional-c">Conditional (C)</h3>
+<ul>
+<li><p>Definition: <span class="math inline">\(Cpq \approx
+NKpNq\)</span>. (Likely meant <span class="math inline">\(N(K p (N
+q))\)</span> - Material Implication)</p></li>
+<li><p><span class="math inline">\(p \models q \iff \models
+Cpq\)</span>. (Deduction Theorem)</p></li>
+<li><p><span class="math inline">\(\models Cpq \iff \models
+CNqNp\)</span>. (Contraposition)</p></li>
+<li><p><span class="math inline">\(K(Cpq)p \models q\)</span>. (Modus
+Ponens)</p></li>
+</ul>
+<h3 class="unnumbered" id="modality-s5-axioms">Modality (S5 Axioms)</h3>
+<ul>
+<li><p>K axiom: <span class="math inline">\(\models CLCpqCLpLq\)</span>.
+(Should be <span class="math inline">\(\models
+C(L(Cpq))(C(Lp)(Lq))\)</span> or similar form: <span
+class="math inline">\(L(p \to q) \to (Lp \to Lq)\)</span>)</p></li>
+<li><p>T axiom: <span class="math inline">\(\models CLpp\)</span>.
+(<span class="math inline">\(Lp \to p\)</span>)</p></li>
+<li><p>S4 axiom: <span class="math inline">\(\models CLpLLp\)</span>.
+(<span class="math inline">\(Lp \to LLp\)</span>)</p></li>
+</ul>
+<h1 id="soundness-completeness-and-compactness">Soundness, Completeness,
+and Compactness</h1>
+<h2 class="unnumbered" id="soundness">Soundness</h2>
+<h4 id="description-16">Description</h4>
+<p>If derivable, then true in all models.</p>
+<h4 id="formal-statement-16">Formal Statement</h4>
+<p><span class="math inline">\(\text{If } \vdash p, \text{ then }
+\models p\)</span>. (Using <span class="math inline">\(\vdash\)</span>
+for derivability)</p>
+<h4 id="rationale-16">Rationale</h4>
+<p>System reliability: does not produce falsehoods.</p>
+<h2 class="unnumbered" id="completeness">Completeness</h2>
+<h4 id="description-17">Description</h4>
+<p>If true in all models, then derivable.</p>
+<h4 id="formal-statement-17">Formal Statement</h4>
+<p><span class="math inline">\(\text{If } \models p, \text{ then }
+\vdash p\)</span>.</p>
+<h4 id="rationale-17">Rationale</h4>
+<p>System capability: derives all truths.</p>
+<h2 class="unnumbered" id="compactness">Compactness</h2>
+<h4 id="description-18">Description</h4>
+<p>If every finite subset of <span class="math inline">\(X\)</span> is
+satisfiable, then <span class="math inline">\(X\)</span> is
+satisfiable.</p>
+<h4 id="formal-statement-18">Formal Statement</h4>
+<p>Standard definition.</p>
+<h4 id="rationale-18">Rationale</h4>
+<p>Crucial for infinite sets/structures.</p>
+<h1 id="semantic-reduction">Semantic Reduction</h1>
+<h2 class="unnumbered" id="motivation">Motivation</h2>
+<p>Reduce semantic complexity of complex sentences to constituents,
+maintaining compositionality.</p>
+<h2 class="unnumbered" id="semantic-reduction-lemma">Semantic Reduction
+Lemma</h2>
+<p>Provides method for reduction.</p>
+<h4 id="formal-statement-19">Formal Statement</h4>
+<p>Given <span class="math inline">\(L\)</span>, frame Inc, fragment
+<span class="math inline">\(L_0 \subset L\)</span>. (Statement seems
+incomplete - needs conclusion).</p>
+<h4 id="rationale-19">Rationale</h4>
+<p>Ensures analysis by parts.</p>
+<h2 class="unnumbered" id="existence-of-the-determined-frame">Existence
+of the Determined Frame</h2>
+<p>Establishes existence of inferentially conservative, minimal frame
+for extensions.</p>
+<h4 id="formal-statement-20">Formal Statement</h4>
+<p>Let <span class="math inline">\(L \subseteq L&#39;\)</span>, Inc
+frame for <span class="math inline">\(L\)</span>. Then <span
+class="math inline">\(\exists \text{Inc}&#39;\)</span> frame for <span
+class="math inline">\(L&#39;\)</span> determined by Inc.</p>
+<h4 id="rationale-20">Rationale</h4>
+<p>Maintains consistency across language extensions.</p>
+<h1 id="automaton-diagrams">Automaton Diagrams</h1>
+<p>This appendix presents three formal automatons redrawn in a circular
+style, where the start state is identical to the accepting state,
+reflecting a hermeneutic perspective of superpositioned action.</p>
+<h2 id="highlander-automaton">Highlander Automaton</h2>
+<h4 id="purpose">Purpose</h4>
+<p>Models gradual elimination until one candidate remains. Start state =
+Accept state symbolizes unity of action.</p>
+<h4 id="diagram">Diagram</h4>
+<figure id="fig:highlander_automaton">
+
+<figcaption>Highlander Automaton Diagram</figcaption>
+</figure>
+<h4 id="state-table">State Table</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>State</strong></th>
+<th style="text-align: left;"><strong>Input/Condition</strong></th>
+<th style="text-align: left;"><strong>Next State</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">S (Start/Accept)</td>
+<td style="text-align: left;">Initialization</td>
+<td style="text-align: left;">Select</td>
+<td style="text-align: left;">Process begins; S serves as both start and
+final state.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Select</td>
+<td style="text-align: left;">Candidate available</td>
+<td style="text-align: left;">Eliminate</td>
+<td style="text-align: left;">A candidate is chosen for evaluation.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Eliminate</td>
+<td style="text-align: left;">Comparison occurs</td>
+<td style="text-align: left;">Compare</td>
+<td style="text-align: left;">Candidates are pruned based on
+criteria.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Compare</td>
+<td style="text-align: left;">Unique candidate?</td>
+<td style="text-align: left;">S</td>
+<td style="text-align: left;">If one candidate remains, return to
+S.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="description-19">Description</h4>
+<p>Initiates at S, moves Select -&gt; Eliminate -&gt; Compare. If unique
+candidate found, returns to S.</p>
+<h2 id="bounded-region-automaton">Bounded Region Automaton</h2>
+<h4 id="purpose-1">Purpose</h4>
+<p>Branched scheduling based on input falling within a bounded region.
+Circular process: Start = Accept.</p>
+<h4 id="diagram-1">Diagram</h4>
+<figure id="fig:bounded_region_automaton">
+
+<figcaption>Bounded Region Automaton Diagram</figcaption>
+</figure>
+<h4 id="state-table-1">State Table</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>State</strong></th>
+<th style="text-align: left;"><strong>Input/Condition</strong></th>
+<th style="text-align: left;"><strong>Next State</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">S (Start/Accept)</td>
+<td style="text-align: left;">Initialization</td>
+<td style="text-align: left;">Check Bound</td>
+<td style="text-align: left;">Begin processing the input.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Check Bound</td>
+<td style="text-align: left;">Input within bound</td>
+<td style="text-align: left;">Branch Left</td>
+<td style="text-align: left;">Branch left if the input is
+acceptable.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Check Bound</td>
+<td style="text-align: left;">Input outside bound</td>
+<td style="text-align: left;">Branch Right</td>
+<td style="text-align: left;">Branch right if the input exceeds
+bounds.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Branch Left</td>
+<td style="text-align: left;">Process branch</td>
+<td style="text-align: left;">Merge</td>
+<td style="text-align: left;">Process the in-bound branch.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Branch Right</td>
+<td style="text-align: left;">Process branch</td>
+<td style="text-align: left;">Merge</td>
+<td style="text-align: left;">Process the out-of-bound branch.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Merge</td>
+<td style="text-align: left;">After processing</td>
+<td style="text-align: left;">S</td>
+<td style="text-align: left;">Merge outcomes and return to S.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="description-20">Description</h4>
+<p>Starts at S, moves to Check Bound. Branches Left (in-bound) or Right
+(out-of-bound). Both merge and return to S.</p>
+<h2 id="equality-iterator-automaton">Equality-Iterator Automaton</h2>
+<h4 id="purpose-2">Purpose</h4>
+<p>Iterates by comparing elements to a target until reached. Loop
+structure with Start = Accept.</p>
+<h4 id="diagram-2">Diagram</h4>
+<figure id="fig:equality_iterator_automaton">
+
+<figcaption>Equality-Iterator Automaton Diagram</figcaption>
+</figure>
+<h4 id="state-table-2">State Table</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>State</strong></th>
+<th style="text-align: left;"><strong>Input/Condition</strong></th>
+<th style="text-align: left;"><strong>Next State</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">S (Start/Accept)</td>
+<td style="text-align: left;">Initialization</td>
+<td style="text-align: left;">Compare</td>
+<td style="text-align: left;">Begin iteration; S serves as start and
+final state.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Compare</td>
+<td style="text-align: left;">Current <span
+class="math inline">\(\neq\)</span> target</td>
+<td style="text-align: left;">Update</td>
+<td style="text-align: left;">If the current element is not the target,
+proceed to update.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Update</td>
+<td style="text-align: left;">Value updated</td>
+<td style="text-align: left;">Compare</td>
+<td style="text-align: left;">Loop back to compare after updating the
+value.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Compare</td>
+<td style="text-align: left;">Current <span
+class="math inline">\(=\)</span> target</td>
+<td style="text-align: left;">S</td>
+<td style="text-align: left;">On reaching equality, return to S.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="description-21">Description</h4>
+<p>Starts at S, moves to Compare. If not equal, Updates and loops back
+to Compare. If equal, returns to S.</p>
+</div>
+</body>
+</html>

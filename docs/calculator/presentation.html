@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentation: The Hermeneutic Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        header {
+            background-color: #4a4a6a; /* A calm, deep blue/purple */
+            color: #fff;
+            padding: 2em 0;
+            text-align: center;
+            border-bottom: 5px solid #d8b86f; /* Gold accent */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        header p {
+            margin: 0.5em 0 0;
+            font-size: 1.1em;
+            font-style: italic;
+        }
+
+        nav {
+            background-color: #f0f0f0;
+            padding: 0.5em 0;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #4a4a6a;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #d8b86f;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 2em auto;
+            padding: 0 20px;
+        }
+
+        section {
+            background-color: #fff;
+            margin-bottom: 2.5em;
+            padding: 2em;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-left: 5px solid #4a4a6a;
+        }
+
+        h2 {
+            color: #4a4a6a;
+            border-bottom: 2px solid #d8b86f;
+            padding-bottom: 0.3em;
+            margin-top: 0;
+            font-size: 1.8em;
+            font-weight: 400;
+        }
+
+        h3 {
+            color: #5a5a8a; /* Slightly lighter purple */
+            margin-top: 1.5em;
+            font-size: 1.4em;
+            font-weight: 400;
+        }
+
+        .highlight {
+            color: #d8b86f; /* Gold */
+            font-weight: bold;
+        }
+
+        .concept {
+            font-style: italic;
+            color: #666;
+        }
+
+        .quote {
+            font-style: italic;
+            border-left: 3px solid #ccc;
+            padding-left: 1em;
+            margin: 1em 0;
+            color: #555;
+        }
+
+        .resource-link {
+            display: inline-block;
+            margin: 0.5em 1em 0.5em 0;
+            padding: 0.8em 1.2em;
+            background-color: #4a4a6a;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .resource-link:hover {
+            background-color: #5a5a8a;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1em auto;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Single column layout by default */
+        .content-block {
+            margin-bottom: 2em;
+        }
+
+        /* Optional two columns for specific content */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2em;
+        }
+        
+        /* Citation styling */
+        .citation {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 0.5em;
+            font-style: italic;
+        }
+        
+        /* Important concept styling */
+        .key-concept {
+            background-color: #f0f0f5;
+            border-left: 3px solid #4a4a6a;
+            padding: 0.8em;
+            margin: 1em 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        /* Table styling for automata state tables */
+        .state-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1em 0;
+        }
+        
+        .state-table th, .state-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .state-table th {
+            background-color: #4a4a6a;
+            color: white;
+        }
+        
+        .state-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        /* Adjust for smaller screens */
+        @media (max-width: 700px) {
+            .two-columns {
+                grid-template-columns: 1fr; /* Stack columns */
+            }
+            header h1 { font-size: 2em; }
+            h2 { font-size: 1.5em; }
+            h3 { font-size: 1.2em; }
+            nav { position: static; } /* Stop nav sticking on small screens */
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3em;
+            padding: 1em;
+            color: #777;
+            font-size: 0.9em;
+        }
+
+        /* Diagonal strikethrough styling */
+        .cancel {
+          position: relative; /* Establishes a positioning context for the pseudo-element */
+          display: inline-block; /* Ensures the span behaves like a block for positioning, but flows inline */
+          /* Optional: Add padding if the line feels too close */
+          /* padding: 0 0.1em; */
+        }
+
+        .cancel::after {
+          content: ''; /* Necessary for the pseudo-element to be generated */
+          position: absolute; /* Position relative to the parent .cancel span */
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+
+          /* Create the diagonal line using a sharp gradient */
+          /* Goes from bottom-left to top-right (like '/') */
+          background: linear-gradient(
+            to top right,
+            transparent calc(50% - 1px), /* Transparent up to the line */
+            currentColor calc(50% - 1px), /* Start color (uses text color) */
+            currentColor calc(50% + 1px), /* End color (uses text color) */
+            transparent calc(50% + 1px)  /* Transparent after the line */
+          );
+
+          /* Make sure the line doesn't interfere with text selection */
+          pointer-events: none;
+        }
+
+        .cantor-visualization {
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .cantor-row {
+            display: flex;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        .cantor-element {
+            margin: 0 5px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .cantor-row-label {
+            width: 80px;
+            font-weight: bold;
+            text-align: right;
+            margin-right: 15px;
+        }
+        .cantor-square {
+            width: 30px;
+            height: 30px;
+            background-color: #FF9248;
+            border: 1px solid #333;
+        }
+        .cantor-triangle {
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 26px solid #5AB95E;
+        }
+        .highlight-cell {
+            position: relative;
+        }
+        .highlight-cell::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border: 2px solid red;
+            border-radius: 5px;
+            pointer-events: none;
+        }
+        .cantor-diagonal {
+            position: absolute;
+            height: 2px;
+            background-color: red;
+            transform: rotate(45deg);
+            transform-origin: left top;
+            z-index: 10;
+            opacity: 0.7;
+        }
+        .operation-arrow {
+            font-size: 24px;
+            margin: 0 10px;
+            color: #4a4a6a;
+        }
+    </style>
+    
+    <!-- Add MathJax support -->
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+</head>
+<body>
+
+    <header>
+        <h1>The Hermeneutic Calculator</h1>
+        <p>Bridging Formal Mathematics, Student Thinking, and Human Freedom</p>
+        <p>Theodore M. Savich</p>
+    </header>
+
+    <nav>
+        <a href="#intro">Introduction</a>
+        <a href="#student-thinking">Student Thinking</a>
+        <a href="#pattern">The Core Pattern</a>
+        <a href="#calculator">The Calculator</a>
+        <a href="#implications">Implications</a>
+        <a href="#resources">Resources</a>
+    </nav>
+
+    <main>
+
+        <details open>
+            <summary><h2>What is a "Hermeneutic" Calculator?</h2></summary>
+            <section id="intro">
+            <p>In education, we often see a gap between the formal, structured world of mathematics and the dynamic, sometimes messy ways students actually <span class="highlight">invent strategies</span> and make sense of numbers.</p>
+            
+            <p><span class="highlight">"Hermeneutic"</span> means "meaningful" or "interpretive." The term comes from the practice of interpreting texts, where understanding operates in a circle: the parts of a text make sense only in relation to the whole, and the whole can only be understood through its parts. Binary terms like "conceptual/procedural" or "inside/outside" are hard to define without contradiction &mdash; their meanings depend on each other in ways that are often paradoxical.</p>
+            
+            <p>The <span class="highlight">Hermeneutic Calculator</span> project bridges three worlds:</p>
+            <ul>
+                <li><b>Mathematics Education:</b> Understanding and valuing students' invented arithmetic strategies</li>
+                <li><b>Formal Mathematics:</b> Using automata theory to model these mathematical strategies <span class="highlight">mathematically</span>></li>
+                <li><b>Philosophy:</b> Connecting these models to ideas about how systems transcend their own limits</li>
+            </ul>
+            
+            <p>My step-daughter Maddy once declared, while learning to ride her bike in a circle: <span class="highlight">"To move in a circle, go diagonally."</span> This slogan won't help with the details, but might serve as a mnemotic device for the technical connections between the mathematical technique of <span class="highlight">diagonalization ($\delta$)</span> and the hermeneutic circle.</p>
+
+            <p>The goal? To show how student thinking illuminates not just mathematics, but also fundamental ideas about <span class="highlight">human freedom and recognition</span>.</p>
+            
+            <details>
+                <summary><strong>History and Development of the Project</strong> (click to expand)</summary>
+                <p>This approach draws on N101, the course Amy Hackenberg designed for pre-service teachers at Indiana University-Bloomington. The original version of the Hermeneutic Calculator in my dissertation (Savich, 2022) focused on formalizing misconceptions—creating a 'negative' version of mathematics using Robert Brandom's incompatibility semantics.</p>
+                
+                <p>As an N101 instructor, I wanted to develop teaching resources for students to practice with these strategies. The current collection draws on Cognitively Guided Instruction (Carpenter et al., 1999), which emphasizes building on children's existing mathematical understanding.</p>
+                
+                <p>My framework, <span class="highlight">theoretical auto-ethnography</span>, builds on Phil Carspecken's theories of critical action (1999) and ethnography (1995), applying them to mathematical thinking and representation.</p>
+            </details>
+            
+            <p><span class="highlight">Human/Machine Collaboration:</span> While I conceptualized, designed, and refined this project through numerous iterations, I also leveraged AI tools and consulted existing literature (Sudkamp, 2006) to implement aspects of the formal representations. I purposefully adapted formal automata theory to better express my philosophy of number and action &mdash; such as drawing automata as circles to represent the inherently reflective aspects of human mathematical activity. I include the formalizations to explore philosophical concepts through analogy. Very few of them would just 'work' if plugged into an automaton testing package like pytest or JFLAP. What fascinates me about these formal structures is that they allow for a mathematical action to be represented mathematically. That fascination has not yet transferred into any kind of technical acumen. My automatons. I will not be able to answer every technical question that may arise, but I will do my best!</p>
+
+            <p><span class="highlight">Call to action:</span> I welcome contributions from experts in mathematics education, cognitive science, computer science, or philosophy. The software is licensed under CC BY-SA 4.0 to encourage collaboration. Graduate student researchers might find opportunities to study how these tools impact student understanding in courses like N101.</p>
+            
+            <details>
+                <summary><strong>More on the Project's Scope</strong> (click to expand)</summary>
+                <p>This project operates at the intersection of several disciplines, each with its own technical language and traditions. For math educators, the focus is on validating and systematizing the rich variety of student-invented strategies.</p>
+                <p> For computer or cognitive scientists, please read the formal structures as analogies - they do not 'work.' An undergraduate studying computer science would fail the course if they turned in my Push-Down Stack Automatons. That said, there are places where an expert could take this work and do interesting things with it. For example, I conduct a pseudo-Gödelian arithmetization of an extraordinarily simple arithemtic strategy (rearranging to make bases) to demonstrate emergent behaviors in a formal system. Genuine arithmetization requires multiplication and addition. Rather than taking a 'complete' formal system and proving its incompleteness, I bootstrap a very basic arithmetic procedure by naming the states by what they do. An automaton whose 6th state is to add 6 has that state name as a <span class="highlight">fixed point</span>. Much like Gaifman's (2005) example <span class="highlight">'yields when applied to itself a sentence containing twenty words' yields when applied to itself a sentence containing twenty words</span>, this 6th state is where subject meets predicate. When programmed in the right language, the automaton can trip itself into an infinite loop of adding 6, never reaching the accept state without being programmed to do so explicitly. Again, if I turned in a program that just loops indefinitely for my Computer Science 101 project, I would not pass the course. It appears "broken," but the point is to break at the limits of thought &mdash; reflection &mdash; and see if something new might arise.</p>
+                <p>If interested, the Prolog code for this arithmetization is here: <a href="https://tiosavich.github.io/UMEDCTA/Calculator/Prolog/RMB.pl" target="_blank" class="resource-link">Prolog code</a></p>
+                <p>By formalizing these strategies using automata theory, we create precise descriptions of how students think about numbers, which helps us better understand student cognition and design more effective instructional approaches.</p>
+            </details>
+        </section>
+        </details>
+
+        <details open>
+            <summary><h2>Understanding Transcendence: A Foundational Star</h2></summary>
+            <section id="sneetches">
+            
+            <div class="key-concept">
+                <h3>Dr. Seuss's Sneetches: A Metaphor for Development and Diagonalization</h3>
+                <p>To understand complex ideas like diagonalization, let's start with Dr. Seuss's story of the Sneetches &mdash; a surprisingly apt metaphor for how systems grow beyond themselves.</p>
+                <div class="content-block">
+                    <img src="./images/sneechtriptyche.png" alt="Sneetch Triptych - Visualizing the pattern of transcendence" style="max-width: 90%; margin: 0 auto; display: block;">
+                </div>
+                <p>In the story, Sneetches with stars (&#9733;) thought they were better than those without. But when Sylvester McMonkey McBean's machine could add or remove stars at will, the distinction collapsed. The Sneetches realized: <strong>"The day they decided that Sneetches are Sneetches and no kind of Sneetch is the best on the beaches."</strong></p>
+                <p>This illustrates a profound pattern in mathematics: When a system tries to define itself by a fixed marker/definition/axiom (the star), that marker can be used to transcend the systems fixity, forcing the system to evolve beyond its original definition. Mathematically, we'd write this as: $\delta(&#9733;)=$<span class="cancel">&#9733;</span>. The stars are not removed from all the Sneetches, nor does every Sneetch get a star. Crossing out the star does not represent a complete erasure of it, like one might do in a proof by contradiction. Rather, the star is preserved though its meaning changes. </p>
+            </div>
+            
+            <h3>Try It Yourself: The Cantor Escape Game</h3>
+            <div class="content-block">
+                <p>Let's experience this pattern of transcendence hands-on:</p>
+                <ol>
+                    <li>You'll receive two sets of geometric shapes (i.e., orange squares and green triangles) &mdash; these are stand-ins for Cantor's binary system of mutually exclusive symbols (usually 0 and 1 in most reconstructions of the proof, though Cantor's original text is worth reviewing) </li>
+                    <li>Make a few rows of patterns with those shapes, but imagine that all you do for the rest of your life is arrange these shapes in rows </li>
+                    <li> Challenge: Can you create a new row that <span class="highlight">must</span> be different from every other row you created?</li>
+                    <li>Hint: For the new row, exchange the first-row/first-column with the other shape. 
+                        <ol type="A">
+                            <li>That is, if the first element is a square, replace it with a triangle</li>
+                            <li>If the first element is a triangle, replace it with a square. 
+                            <li>For the second element of the new row, look at the second row in your pattern and exchange the second element of the second row with its opposing shape</li>
+                            <li>For the third element of the new row, look at the third row in your pattern and exchange the third element of the third row with its opposing shape</li>
+                            <li> Do this forever.</li>
+                        </ol> 
+                    <li> Notice that the new row cannot be equivalent to any of the rows you already created. It differs from the first in the first column, the second in the second column, etc. </li>
+                </ol>
+
+                <div class="cantor-visualization">
+                    <h4>Visualizing Cantor's Diagonalization</h4>
+                    <p>Suppose you have these rows of shapes:</p>
+                    
+                    <div class="cantor-row">
+                        <div class="cantor-row-label">Row 1:</div>
+                        <div class="cantor-element highlight-cell"><div class="cantor-square"></div></div>
+                        <div class="cantor-element"><div class="cantor-square"></div></div>
+                        <div class="cantor-element"><div class="cantor-triangle"></div></div>
+                        <div class="cantor-element"><div class="cantor-square"></div></div>
+                        <div class="cantor-element">...</div>
+                    </div>
+                    
+                    <div class="cantor-row">
+                        <div class="cantor-row-label">Row 2:</div>
+                        <div class="cantor-element"><div class="cantor-triangle"></div></div>
+                        <div class="cantor-element highlight-cell"><div class="cantor-triangle"></div></div>
+                        <div class="cantor-element"><div class="cantor-square"></div></div>
+                        <div class="cantor-element"><div class="cantor-triangle"></div></div>
+                        <div class="cantor-element">...</div>
+                    </div>
+                    
+                    <div class="cantor-row">
+                        <div class="cantor-row-label">Row 3:</div>
+                        <div class="cantor-element"><div class="cantor-square"></div></div>
+                        <div class="cantor-element"><div class="cantor-square"></div></div>
+                        <div class="cantor-element highlight-cell"><div class="cantor-square"></div></div>
+                        <div class="cantor-element"><div class="cantor-triangle"></div></div>
+                        <div class="cantor-element">...</div>
+                    </div>
+                    
+                    <div class="cantor-row">
+                        <div class="cantor-row-label">Row 4:</div>
+                        <div class="cantor-element"><div class="cantor-triangle"></div></div>
+                        <div class="cantor-element"><div class="cantor-square"></div></div>
+                        <div class="cantor-element"><div class="cantor-triangle"></div></div>
+                        <div class="cantor-element highlight-cell"><div class="cantor-square"></div></div>
+                        <div class="cantor-element">...</div>
+                    </div>
+                    
+                    <div class="cantor-row">
+                        <div class="cantor-row-label">⋮</div>
+                        <div class="cantor-element">⋮</div>
+                        <div class="cantor-element">⋮</div>
+                        <div class="cantor-element">⋮</div>
+                        <div class="cantor-element">⋮</div>
+                        <div class="cantor-element">⋱</div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <p><strong>The Diagonal Operation (δ):</strong> Flip each shape along the diagonal:</p>
+                        <div style="display: flex; align-items: center; margin-left: 95px;">
+                            <div class="cantor-element"><div class="cantor-square"></div></div>
+                            <div class="operation-arrow">→</div>
+                            <div class="cantor-element"><div class="cantor-triangle"></div></div>
+                            <div style="margin: 0 15px;">and</div>
+                            <div class="cantor-element"><div class="cantor-triangle"></div></div>
+                            <div class="operation-arrow">→</div>
+                            <div class="cantor-element"><div class="cantor-square"></div></div>
+                        </div>
+                    </div>
+                    
+                    <p><strong>The new row created by diagonalization:</strong></p>
+                    
+                    <div class="cantor-row">
+                        <div class="cantor-row-label">New Row:</div>
+                        <div class="cantor-element highlight-cell"><div class="cantor-triangle"></div></div>
+                        <div class="cantor-element highlight-cell"><div class="cantor-square"></div></div>
+                        <div class="cantor-element highlight-cell"><div class="cantor-triangle"></div></div>
+                        <div class="cantor-element highlight-cell"><div class="cantor-triangle"></div></div>
+                        <div class="cantor-element">...</div>
+                    </div>
+                    
+                    <p><strong>Why is this row unique?</strong> It differs from every existing row in at least one position:</p>
+                    <ul>
+                        <li>Different from Row 1 in column 1: square → triangle</li>
+                        <li>Different from Row 2 in column 2: triangle → square</li>
+                        <li>Different from Row 3 in column 3: square → triangle</li>
+                        <li>Different from Row 4 in column 4: square → triangle</li>
+                        <li>And so on for any other row we might add...</li>
+                    </ul>
+                    
+                    <p>This demonstrates Cantor's key insight: for any list of patterns we create, we can always construct a new pattern that isn't on our list using diagonalization.</p>
+                </div>
+
+                <p>By attempting to "escape" these supposedly complete categories, you'll experience firsthand how mathematical thinking transcends boundaries. This example demonstrates Cantor's insight that no matter how comprehensive our list of patterns seems, there's always a way to construct something new that doesn't fit.</p>
+            </div>
+        </section>
+        </details>
+
+        <details open>
+            <summary><h2>Diagonalization: Mathematics That Transcends Itself</h2></summary>
+            <section id="pattern">
+            <p>When we formalize arithmetic strategies and examine foundational mathematical proofs, a recurring pattern emerges: <span class="highlight">"A Foundational Star."</span></p>
+            
+            <h3>From Sneetches to Mathematics: The Same Pattern</h3>
+            <p>This same pattern of transcendence appears in foundational mathematical proofs:</p>
+            
+            <div class="content-block">
+                <h4>Diagonalization in Mathematical Proofs:</h4>
+                <ul>
+                    <li><b>Euclid's Proof of Infinite Primes:</b> For any finite list of primes $(A, B, \Gamma)$, we can construct $\delta(A,B,\Gamma) = A \times B \times \Gamma + 1$ that cannot be divided by any of the original primes</li>
+                    <li><b>Cantor's Proof of Uncountable Reals:</b> For any list of real numbers, we can construct a new real number not on the list by systematically flipping digits along the diagonal</li>
+                    <li><b>Gödel's Incompleteness Theorem:</b> Any consistent formal system containing basic arithmetic can construct statements about itself that are true but unprovable within the system</li>
+                </ul>
+                <p class="citation">
+                    (Cantor, 1891; Gaifman, 2006; Nagel & Newman, 2012)
+                </p>
+            </div>
+            
+            <div class="content-block">
+                <h4>Sublation in Number Systems:</h4>
+                <p>The same pattern appears in number systems. Think about tally marks: <code>|||||||||</code> (9). When we add one more, we don't just get ten marks. We <span class="highlight">negate</span> the individual marks, <span class="highlight">preserve</span> their value, and <span class="highlight">transform</span> them into a new unit: <code>10</code>.</p>
+                <p><span class="concept">|||||||||| → <span class="cancel">|||||||||</span> → 10</span></p>
+                <p>The old form is overcome but contained within the new, richer structure - just like the Sneetches had to move beyond their star markers.</p>
+                <p class="citation">
+                    (Hegel, 1977; Inwood, 1992)
+                </p>
+            </div>
+            
+            <details>
+                <summary><strong>More Mathematical Details</strong> (click to expand)</summary>
+                <p><b>Euclid's proof</b> doesn't assert "infinite primes" as commonly claimed. Instead, he shows that for any given list of primes $(A, B, \Gamma)$, we can construct $\delta(A,B,\Gamma) = A \times B \times \Gamma + 1$ that must be either prime itself or measured by a prime not in our original list.</p>
+                <p><b>Cantor's 1891 proof</b> uses symbols M and W (not 0s and 1s as often presented), which interestingly are rotationally symmetric—suggesting mathematical truths might appear different but equivalent from different perspectives.</p>
+                <p>Both proofs follow the same pattern: they take a supposedly complete system, use the system's own elements to construct something new, and thereby show the system cannot contain everything.</p>
+                <p class="citation">
+                    (Euclid, 2007; Gaifman, 2006)
+                </p>
+            </details>
+            
+            <div class="highlight" style="text-align: center; margin: 20px 0; padding: 10px; background: #f8f8f8; border-radius: 5px;">
+                Both sublation and diagonalization demonstrate how systems <b>grow and transcend limitations from within</b> - just like the Sneetches had to move beyond their star-based identity.
+            </div>
+        </section>
+        </details>
+
+        <details open>
+            <summary><h2>The Hermeneutic Calculator in Action: Rearranging to Make Bases</h2></summary>
+            <section id="student-thinking">
+            <p>Students often develop intuitive strategies to simplify addition by rearranging numbers to form complete base units.</p>
+            
+            <div>
+              <h3>RMB Strategy in Action from Carpenter et. al (1999) and Amy Hackenberg's work for N101</h3>
+              <li><strong>Teacher:</strong> Lucy is eight fish. She buys five more fish. How many fish will Lucy have then?</li>
+                <li><strong>Sarah:</strong> 13.</li>
+                <li><strong>Teacher:</strong> How'd you get 13?</li>
+                <li><strong>Sarah:</strong> Well, because eight plus two is ten, but then two plus three is five. And she wants to buy five more fish. So you take care of two, and you need to add three more. And so I add three more, and you get 13.</li>
+                </ul>
+                <ul>
+                <li><b>Adding 8 + 5:</b> Instead of directly adding 8 and 5, the strategy shifts 2 ones from the 5 to the 8. This creates 10 (a complete base) and leaves a remainder of 3. Thus, 10 + 3 = 13.</li>
+              </ul>
+              <p>This approach demonstrates how rearranging numbers can simplify the addition process.</p>
+            </div>
+          
+            <div class="content-block">
+              <img src="./images/Easy_Pictures/SAR_ADD_RMB/2x/Asset 1@2x.png" alt="RMB strategy visualization" style="max-width: 70%; margin: 0 auto; display: block;">
+              <p style="text-align: center;"><small>Rearranging to Make Bases (RMB) strategy visualization</small></p>
+            </div>
+          
+            <div>
+              <h3>Formal Representation</h3>
+              <p>We can model the RMB strategy using a formal automaton approach. In this model, a pushdown automaton (PDA) is used to capture the key steps:</p>
+              <ul>
+                <li>Identify the gap from the current addend to the next complete base.</li>
+                <li>Transfer the necessary ones from the other addend to complete that base.</li>
+                <li>Combine the adjusted numbers to obtain the final sum.</li>
+              </ul>
+              <p>This formal model helps reveal the underlying structure of the RMB strategy.</p>
+            </div>
+
+            <img src="./images/SAR_ADD_RMB_diagram.svg" alt="Transition Diagram for Rearranging to Make Bases" style="max-width: 80%; margin: 0 auto; display: block;">
+            <p style="text-align: center;"><small>Transition Diagram for Rearranging to Make Bases - I diagonalized a version of this to demonstrate emergent behavior.</small></p>
+
+            <details>
+              <summary><strong>Formal Automaton Details for RMB</strong> (click to expand)</summary>
+              <div class="content-block">
+                <p>The RMB strategy can be metaphorically formalized as a pushdown automaton defined as:</p>
+                <p><b>M = (Q, Σ, Γ, δ, q<sub>0</sub>, Z<sub>0</sub>, F)</b>, where:</p>
+                <ul>
+                  <li><b>Q</b> = {q<sub>0</sub>, q<sub>1</sub>, q<sub>2</sub>, q<sub>3</sub>, q<sub>4</sub>, q<sub>5</sub>}</li>
+                  <li><b>Σ</b> = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, +}</li>
+                  <li><b>Γ</b> includes symbols that represent the number of ones transferred</li>
+                  <li><b>q<sub>0</sub></b> is the start (and accept) state</li>
+                  <li><b>F</b> = {q<sub>0</sub>}</li>
+                </ul>
+                <p>Key transitions include calculating the deficit to reach a full base, transferring the needed ones, and finally combining the adjusted addends. This mixes a formal PDA and an algorthmic description. To truly formalize this, a recursive counting automaton would have to be embedded in the PDA. I try to draw such an automaton in the Counting part of the Hermeneutic Calculator, but it is still a work in progress. </p>
+              </div>
+            </details>
+          
+            <h3>Why Formalize the RMB Strategy?</h3>
+            <div class="content-block">
+              <p>This formalization not only clarifies the computation process but also emphasizes that even intuitive methods have a rigorous underlying logic. By modeling the RMB strategy, we better understand how simple rearrangements can lead to more efficient calculations.</p>
+            </div>
+            
+            <a href="https://tiosavich.github.io/UMEDCTA/Calculator/index.html" target="_blank" class="resource-link">Explore the Calculator Interface</a>
+          </section>
+        </details>
+          
+        <details open>
+            <summary><h2>Implications: Freedom, Recognition, and Math Ed</h2></summary>
+            <section id="implications">
+            <p>What does connecting student strategies, automata, and diagonalization offer math educators?</p>
+            <div class="content-block">
+                <p><b>A Richer View of Student Thinking:</b> Instead of just "right" or "wrong," we see student strategies as steps in a developmental process, reflecting their current understanding of number structure (<span class="concept">structuration</span>).</p>
+                
+                <p><b>Mathematics as Dynamic:</b> Formal proofs of incompleteness (Gödel) and uncountability (Cantor) show that mathematics itself is not a closed, static system. It inherently points beyond its current boundaries.</p>
+                
+                <p><b>Connecting Math to Freedom:</b> The pattern of transcendence (diagonalization) seen in math mirrors the human capacity to move beyond fixed definitions or limitations. Recognizing this pattern formally helps argue for educational approaches that <span class="highlight">respect student agency and potential for growth</span>, rather than confining them to predetermined algorithms.</p>
+                
+                <p><b>Recognition:</b> Just as the Sneetches had to recognize each other beyond the stars, understanding mathematics requires recognizing the underlying structures and relationships, not just surface procedures. It involves recognizing the <span class="highlight">shared human capacity</span> for mathematical reasoning.</p>
+                
+                
+            </div>
+            
+                      
+            <details>
+                <summary><strong>Philosophical Implications</strong> (click to expand)</summary>
+                <p>
+                    The connection between mathematical diagonalization and human freedom runs deeper than analogy. In both cases, we see how any attempt to establish final, fixed boundaries leads to their transcendence through the system's own resources.
+                </p>
+                <p>
+                    When we recognize that mathematics itself has this structure, we gain a powerful argument against educational approaches that treat students as mere executors of fixed algorithms. Such approaches contradict the very nature of mathematics.
+                </p>
+                <p>
+                    This perspective resonates with Hegel's concept of mutual recognition, where genuine freedom emerges through recognizing others as free beings capable of growth and self-determination.
+                </p>
+                </details>
+        </section>
+        </details>
+
+        <details open>
+            <summary><h2>Conclusion & Resources</h2></summary>
+            <section id="resources">
+            <p>
+                The Hermeneutic Calculator project argues that by formally modeling student thinking, we uncover deep connections between math education, formal mathematics, and philosophical ideas about growth and transcendence.
+            </p>
+            <div class="content-block">
+                <p>This shared pattern (<span class="concept">sublation/diagonalization</span>) suggests that learning mathematics is not just about acquiring facts, but about participating in a process of <span class="highlight">recognizing and moving beyond limits</span> &mdash; a process fundamental to both mathematical discovery and human development.</p>
+               
+            </div>
+            <div class="content-block">
+                <h3>Key Takeaways:</h3>
+                <ol>
+                    <li>Student "invented" strategies are not just preliminary steps toward standard algorithms, but meaningful mathematical actions in their own right.</li>
+                    <li>The formal structure of mathematics inherently points beyond itself - this is not a flaw but its deepest strength.</li>
+                    <li>Educational approaches that value student agency align with the structure of mathematics itself.</li>
+                </ol>
+            </div>
+            
+            <details>
+                <summary><h3>Next Steps: Extending the Hermeneutic Calculator</h3></summary>
+                <p>Where does this research go from here? Two promising directions:</p>
+                
+                <div class="content-block">
+                    <h3>1. Incompatibility Semantics</h3>
+                    <p>Integrating Robert Brandom's philosophical framework to analyze the <span class="highlight">commitments and entitlements</span> involved in mathematical reasoning:</p>
+                    <ul>
+                        <li>How different arithmetic strategies create different patterns of inference</li>
+                        <li>When strategies are compatible or incompatible with each other</li>
+                        <li>How mathematical reasoning involves normative judgments, not just computations</li>
+                    </ul>
+                    <p><small>This approach helps us understand arithmetic as a <span class="concept">space of reasons</span>, not just procedures.</small></p>
+                   
+                </div>
+                
+                <div class="content-block">
+                    <h3>2. Emergent Mathematical Behavior</h3>
+                    <p>Exploring how automata that model student strategies can demonstrate <span class="highlight">emergent behavior</span> through self-reference:</p>
+                    <ul>
+                        <li>Building networks of multiple interconnected strategies</li>
+                        <li>Using Gödelian encoding to allow automata to "reflect" on their own rules</li>
+                        <li>Demonstrating how new strategies emerge from existing ones</li>
+                    </ul>
+                    <p><small>This suggests students should be treated as having <span class="concept">non-finite potential</span> - just as these machines transcend their initial programming.</small></p>
+                   
+                </div>
+                
+                <p class="quote">
+                    "Any system that claims completeness contains within itself the seeds of its own transcendence... No fixed set of strategies is ever complete."
+                </p>
+                
+                <p>These extensions further reinforce our core argument: the mathematical mind is fundamentally <span class="highlight">creative and transcendent</span>, not merely computational.</p>
+            </details>
+            
+            <h3>Explore Further:</h3>
+             <a href="https://tiosavich.github.io/UMEDCTA/Calculator/index.html" target="_blank" class="resource-link">Hermeneutic Calculator</a>
+             <a href="Presentation_Next_Steps.html" class="resource-link">Next Steps for the Project</a>
+             <a href="Incompatibility_Semantics.html" class="resource-link">Incompatibility Semantics & Mathematical Foundations</a>
+             <a href="Emergent_Behavior.html" class="resource-link">Emergent Behavior in Automata</a>
+             <a href="https://tiosavich.github.io/UMEDCTA/Calculator/A_Foundational_Star_DRAFT_CHAPTER.pdf" class="resource-link" id="ref-star">Draft chapter from my (perpetually upcoming) book: A Foundational Star [.pdf]</a>
+             <a href="https://tiosavich.github.io/UMEDCTA/Calculator/Hermeneutic_Calculator.pdf" class="resource-link" id="ref-star">Draft paper: The Hermeneutic Calculator [.pdf]</a>
+             <p>Thank you for your attention. Questions?</p>
+             <p>Contact: <span class="contact-info">tmsavich AT iu DOT edu</span></p>
+        </section>
+        </details>
+
+        <details open>
+            <summary><h2>References</h2></summary>
+
+<p>Brandom, R. B. (1994). <i>Making it explicit: Reasoning, representing, and discursive commitment</i>. Harvard University Press.</p>
+
+<p>Brandom, R. B. (2008). <i>Between Saying and Doing: Towards an Analytic Pragmatism</i>. Oxford University Press.</p>
+
+<p>Brandom, R. B. (2019). <i>A Spirit of Trust: A Reading of Hegel's Phenomenology</i>. The Belknap Press of Harvard University Press.</p>
+
+<p>Cantor, G. (1891). Ueber eine elementare Frage der Mannigfaltigkeitslehre. <i>Jahresbericht der Deutschen Mathematiker-Vereinigung</i>, <i>1</i>, 75–78.</p>
+
+<p>Carnielli, W., & Coniglio, M. E. (2020). Combining Logics. In E. N. Zalta (Ed.), <i>The Stanford Encyclopedia of Philosophy</i> (Fall 2020 ed.). Metaphysics Research Lab, Stanford University. <a href="https://plato.stanford.edu/archives/fall2020/entries/logic-combining/">https://plato.stanford.edu/archives/fall2020/entries/logic-combining/</a></p>
+
+<p>Carpenter, T. P., Fennema, E., Franke, M. L., Levi, L., & Empson, S. B. (1999). <i>Children's mathematics: Cognitively guided instruction – Videotape logs</i> [Supplementary material]. Heinemann; The National Council of Teachers of Mathematics.</p>
+
+<p>Carspecken, P. F. (1995). <i>Critical ethnography in educational research: A theoretical and practical guide</i>. Routledge.</p>
+
+<p>Carspecken, P. F. (1999). <i>Four Scenes for Posing the Question of Meaning and Other Essays in Critical Philosophy and Critical Methodology</i>. Peter Lang AG.</p>
+
+<p>Carspecken, P. F. (2018). The Missing Infinite. In R. Winkle-Wagner, J. Lee-Johnson, & T. Gaskew (Eds.), <i>Critical Theory and Qualitative Data Analysis in Education</i> (p. 32). Routledge. <a href="https://doi.org/10.4324/9781315158860-2">https://doi.org/10.4324/9781315158860-2</a></p>
+
+<p>Euclid. (2007). <i>Euclid's Elements of Geometry</i> (R. Fitzpatrick, Trans.; Rev. & corr. ed.). Richard Fitzpatrick.</p>
+
+<p>Franzén, T. (2004). <i>Inexhaustibility: A Non-Exhaustive Treatment: Lecture Notes in Logic 16</i> (1st ed.). A K Peters/CRC Press.</p>
+
+<p>Franzén, T. (2005). <i>Gödel's theorem: An incomplete guide to its use and abuse</i>. AK Peters/CRC Press.</p>
+
+<p>Gaifman, H. (2005). <i>The Easy Way to Gödel's Proof and Related Matters</i> [Unpublished manuscript].</p>
+
+<p>Gaifman, H. (2006). Naming and Diagonalization, from Cantor to Gödel to Kleene. <i>Logic Journal of the IGPL</i>, <i>14</i>(5), 709–728. <a href="https://doi.org/10.1093/jigpal/jzl006">https://doi.org/10.1093/jigpal/jzl006</a></p>
+
+<p>Gödel, K. (1931). Über formal unentscheidbare Sätze der Principia Mathematica und verwandter Systeme I. <i>Monatshefte für Mathematik und Physik</i>, 38(1), 173-198.</p>
+
+<p>Hegel, G. W. F. (1977). <i>Phenomenology of spirit</i> (A. V. Miller, Trans.). Oxford University Press. (Original work published 1807)</p>
+
+<p>Inwood, M. J. (1992). <i>A Hegel dictionary</i>. Blackwell.</p>
+
+<p>Nagel, E., & Newman, J. R. (2012). <i>Gödel's proof</i>. Routledge. (Original work published 1958)</p>
+
+<p>Savich, T. M. (2022). <i>Towards a critical mathematics</i>. Indiana University.</p>
+
+<p>Savich, T. M. (2024, February). <i>Built to Break: An Introduction to Theoretical Auto-Ethnography</i> [Invited talk presented at Solent University]. <a href="https://iu.mediaspace.kaltura.com/media/t/1_v1qmm3g9">https://iu.mediaspace.kaltura.com/media/t/1_v1qmm3g9</a></p>
+
+<p>Seuss, Dr. (1961). <i>The Sneetches and Other Stories</i> (1st ed.). Random House Books for Young Readers.</p>
+
+<p>Sudkamp, T. A. (2006). <i>Languages and Machines: An Introduction to the Theory of Computer Science</i>. Pearson Addison-Wesley.</p>
+
+<p>Taylor, C. (2021). The politics of recognition. In <i>Campus wars</i> (pp. 249–263). Routledge.</p>
+
+<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://tiosavich.github.io/UMEDCTA/Calculator/index.html">The Hermeneutic Calculator</a> by <span property="cc:attributionName">Theodore M. Savich</span> is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">Creative Commons Attribution-ShareAlike 4.0 International<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt=""></a></p>
+        </details>
+    </main>
+
+    <footer>
+        Presentation based on ongoing research by Theodore M. Savich.
+    </footer>
+
+    <!-- Simple script for smooth scrolling -->
+    <script>
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                // Ensure targetId starts with '#' and has more characters
+                if (targetId && targetId.length > 1) {
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                         targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+
+
+</body>
+</html>

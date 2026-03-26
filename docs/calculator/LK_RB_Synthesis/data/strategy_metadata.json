@@ -1,0 +1,679 @@
+[
+    {
+        "strategy_id": "S",
+        "strategy_name": "Sliding",
+        "deployed_vocabulary": "",
+        "pp_necessities": [
+            {
+                "id": "P_NumberLineIntuition",
+                "description": "A basic understanding of numbers as positions on a line, and of subtraction as measuring the distance between two points."
+            },
+            {
+                "id": "P_Counting/BasicArithmetic",
+                "description": "The ability to perform simple addition and subtraction, at least with multiples of 10."
+            },
+            {
+                "id": "P_Base-10Structure",
+                "description": "Recognizing that numbers ending in 0 are \"easier\" to work with."
+            }
+        ],
+        "pp_sufficiencies_alg_elaboration": [
+            {
+                "id": "P_DifferenceInvariance",
+                "description": "The practical ability to add or subtract the same number from both the minuend and subtrahend. This is the core practice of the strategy."
+            },
+            {
+                "id": "P_StrategicAdjustment",
+                "description": "The ability to identify a target number (usually a multiple of 10) and calculate the necessary adjustment to \"slide\" the subtrahend to that target."
+            }
+        ],
+        "lx_relations": [],
+        "inferences": [],
+        "metaphors": [],
+        "description": "",
+        "visualization_hints": []
+    },
+    {
+        "strategy_id": "CO",
+        "strategy_name": "Counting On",
+        "deployed_vocabulary": "",
+        "pp_necessities": [
+            {
+                "id": "P_StableOrderPrinciple",
+                "description": "The ability to recite the number words in a fixed, repeatable order (e.g., \"one, two, three...\")."
+            },
+            {
+                "id": "P_One-to-OneCorrespondence",
+                "description": "The ability to assign exactly one number word to each item being counted. In this case, the \"items\" are the counting acts themselves."
+            },
+            {
+                "id": "P_CardinalityPrinciple",
+                "description": "Understanding that the last number word said in a count represents the total number of items."
+            },
+            {
+                "id": "P_NumberRecognition",
+                "description": "The ability to recognize the starting number."
+            }
+        ],
+        "pp_sufficiencies_alg_elaboration": [
+            {
+                "id": "P_IteratedSuccession",
+                "description": "The ability to begin at a given number and proceed through the number sequence, one step at a time."
+            },
+            {
+                "id": "P_TerminationCondition",
+                "description": "The ability to keep track of how many steps have been taken and to stop when the required number of steps has been completed."
+            }
+        ],
+        "lx_relations": [],
+        "inferences": [],
+        "metaphors": [],
+        "description": "",
+        "visualization_hints": []
+    },
+    {
+        "strategy_id": "RTMB",
+        "strategy_name": "Rearranging to Make Bases",
+        "deployed_vocabulary": "",
+        "pp_necessities": [
+            {
+                "id": "P_CountingOn",
+                "description": "The ability to perform basic addition, which might be used to solve the final, simplified problem (e.g., `30 + 5`)."
+            },
+            {
+                "id": "P_Base-10Structure",
+                "description": "A robust understanding of the base-10 system, including identifying the \"next base\" for a given number."
+            },
+            {
+                "id": "P_NumberDecomposition",
+                "description": "The ability to break a number into two or more parts (e.g., seeing 7 as 2 + 5)."
+            }
+        ],
+        "pp_sufficiencies_alg_elaboration": [
+            {
+                "id": "P_GapCalculation",
+                "description": "The ability to calculate the difference between a number and the next multiple of 10 (e.g., for 28, the gap to 30 is 2)."
+            },
+            {
+                "id": "P_StrategicDecomposition",
+                "description": "The ability to decompose the second number in a way that is useful for the strategy (i.e., using the gap calculated in P4)."
+            },
+            {
+                "id": "P_Re-association",
+                "description": "The ability to mentally re-group the numbers according to the associative principle (i.e., grouping the first number with the \"gap\" part of the second number)."
+            }
+        ],
+        "lx_relations": [
+            {
+                "elaborates_strategy_id": "CO",
+                "implicit_practice": "Implicitly bridging 10 when counting.",
+                "explicit_principle": "Associativity of addition can be used for strategic advantage.",
+                "explanation": "RMB makes the associative property explicit to form convenient groups, while Counting On just implicitly relies on number system structure."
+            }
+        ],
+        "inferences": [],
+        "metaphors": [],
+        "description": "",
+        "visualization_hints": []
+    },
+    {
+        "strategy_id": "CCOBBTO",
+        "strategy_name": "COBO (Counting On by Bases then Ones)",
+        "deployed_vocabulary": "",
+        "pp_necessities": [
+            {
+                "id": "P_CountingOn",
+                "description": "Needed to perform the final step of adding the ones."
+            },
+            {
+                "id": "P_PlaceValueUnderstanding",
+                "description": "The ability to decompose a number into its base components (e.g., knowing 34 is 3 tens and 4 ones)."
+            },
+            {
+                "id": "P_CountingbyTens",
+                "description": "The ability to count in jumps of 10 from any number (e.g., 28, 38, 48...)."
+            }
+        ],
+        "pp_sufficiencies_alg_elaboration": [
+            {
+                "id": "P_StrategicDecomposition",
+                "description": "The ability to decompose the second number into bases and ones for the purpose of addition."
+            },
+            {
+                "id": "P_IteratedBase-Jumping",
+                "description": "The practice of repeatedly adding the base value."
+            },
+            {
+                "id": "P_SequentialProcessing",
+                "description": "The ability to manage the two-stage process: first adding the bases, then adding the ones."
+            }
+        ],
+        "lx_relations": [],
+        "inferences": [],
+        "metaphors": [],
+        "description": "",
+        "visualization_hints": []
+    },
+    {
+        "strategy_id": "RAA",
+        "strategy_name": "Rounding and Adjusting (Addition)",
+        "deployed_vocabulary": "",
+        "pp_necessities": [
+            {
+                "id": "P_BasicAddition/Subtraction",
+                "description": "Needed to perform the addition with the rounded number and the final adjustment."
+            },
+            {
+                "id": "P_Base-10Structure",
+                "description": "Understanding of bases and how to round a number to the nearest base."
+            },
+            {
+                "id": "P_CompensationPrinciple",
+                "description": "A basic intuition that if you change a number, you have to do something else to \"make up for it\"."
+            }
+        ],
+        "pp_sufficiencies_alg_elaboration": [
+            {
+                "id": "P_StrategicRounding",
+                "description": "The ability to identify an addend that is close to a base and calculate the amount needed to round it up."
+            },
+            {
+                "id": "P_ProblemTransformation",
+                "description": "The ability to perform the simplified addition."
+            },
+            {
+                "id": "P_CompensatoryAdjustment",
+                "description": "The ability to remember the rounding amount and subtract it from the intermediate sum to get the final answer."
+            }
+        ],
+        "lx_relations": [],
+        "inferences": [],
+        "metaphors": [],
+        "description": "",
+        "visualization_hints": []
+    },
+    {
+        "strategy_id": "C",
+        "strategy_name": "Chunking (Addition)",
+        "deployed_vocabulary": "",
+        "pp_necessities": [
+            {
+                "id": "P_BasicAddition",
+                "description": "Needed to add the chunks together."
+            },
+            {
+                "id": "P_NumberDecomposition",
+                "description": "The ability to break a number into parts (e.g., 34 is 30 and 4)."
+            },
+            {
+                "id": "P_PlaceValueUnderstanding",
+                "description": "To guide the decomposition into meaningful (base-ten) chunks."
+            }
+        ],
+        "pp_sufficiencies_alg_elaboration": [
+            {
+                "id": "P_StrategicChunking",
+                "description": "The ability to decompose an addend into chunks that are easy to work with (e.g., multiples of 10)."
+            },
+            {
+                "id": "P_IterativeAddition",
+                "description": "The practice of sequentially adding the chunks to the running total."
+            },
+            {
+                "id": "P_WorkingMemory",
+                "description": "The ability to keep track of the intermediate sums and the remaining chunks to be added."
+            }
+        ],
+        "lx_relations": [],
+        "inferences": [],
+        "metaphors": [],
+        "description": "",
+        "visualization_hints": []
+    },
+    {
+        "strategy_id": "SC",
+        "strategy_name": "Subtraction Chunking (Backwards by Part)",
+        "deployed_vocabulary": "",
+        "pp_necessities": [
+            {
+                "id": "P_BasicSubtraction",
+                "description": "Needed to subtract the individual chunks."
+            },
+            {
+                "id": "P_NumberDecomposition",
+                "description": "The ability to break the subtrahend into parts."
+            },
+            {
+                "id": "P_PlaceValueUnderstanding",
+                "description": "To guide the decomposition into meaningful chunks (e.g., 47 is 40 and 7)."
+            }
+        ],
+        "pp_sufficiencies_alg_elaboration": [
+            {
+                "id": "P_StrategicChunking",
+                "description": "The ability to decompose the subtrahend into chunks that are easy to subtract."
+            },
+            {
+                "id": "P_IterativeSubtraction",
+                "description": "The practice of sequentially subtracting the chunks from the running total."
+            },
+            {
+                "id": "P_WorkingMemory",
+                "description": "The ability to hold the intermediate results in memory as the subtraction proceeds."
+            }
+        ],
+        "lx_relations": [],
+        "inferences": [],
+        "metaphors": [],
+        "description": "",
+        "visualization_hints": []
+    },
+    {
+        "strategy_id": "SC",
+        "strategy_name": "Subtraction Chunking (Forwards from Part)",
+        "deployed_vocabulary": "",
+        "pp_necessities": [
+            {
+                "id": "P_Addition/CountingOn",
+                "description": "The core of the strategy is addition."
+            },
+            {
+                "id": "P_InverseRelationshipofAdd/Sub",
+                "description": "A conceptual understanding that subtraction and addition are inverse operations."
+            },
+            {
+                "id": "P_NumberDecomposition",
+                "description": "To make strategic jumps (e.g., knowing to jump to the next ten)."
+            }
+        ],
+        "pp_sufficiencies_alg_elaboration": [
+            {
+                "id": "P_ProblemReframing",
+                "description": "The ability to transform the subtraction problem into a \"missing addend\" problem."
+            },
+            {
+                "id": "P_StrategicJumps",
+                "description": "The ability to plan and execute a series of jumps from S to M, often using multiples of 10."
+            },
+            {
+                "id": "P_AccumulatingtheDifference",
+                "description": "The ability to keep a running total of the jumps made, which will be the final answer."
+            }
+        ],
+        "lx_relations": [],
+        "inferences": [],
+        "metaphors": [],
+        "description": "",
+        "visualization_hints": []
+    },
+    {
+        "strategy_id": "SC",
+        "strategy_name": "Subtraction Chunking (Backwards to Part)",
+        "deployed_vocabulary": "",
+        "pp_necessities": [
+            {
+                "id": "P_BasicSubtraction",
+                "description": "Needed to perform the jumps."
+            },
+            {
+                "id": "P_NumberLineIntuition",
+                "description": "A strong sense of the number line to navigate backwards."
+            },
+            {
+                "id": "P_PlaceValueUnderstanding",
+                "description": "To identify strategic \"landing spots\" (multiples of 10)."
+            }
+        ],
+        "pp_sufficiencies_alg_elaboration": [
+            {
+                "id": "P_Goal-OrientedJumps",
+                "description": "The ability to plan and execute a series of backward jumps from M with the goal of landing on S."
+            },
+            {
+                "id": "P_AccumulatingtheDifference",
+                "description": "The ability to keep a running total of the jumps made."
+            },
+            {
+                "id": "P_WorkingMemory",
+                "description": "To hold the current position on the number line and the accumulated difference simultaneously."
+            }
+        ],
+        "lx_relations": [],
+        "inferences": [],
+        "metaphors": [],
+        "description": "",
+        "visualization_hints": []
+    },
+    {
+        "strategy_id": "SC",
+        "strategy_name": "Subtraction COBO (Missing Addend)",
+        "deployed_vocabulary": "",
+        "pp_necessities": [
+            {
+                "id": "P_InverseRelationshipofAdd/Sub",
+                "description": "The ability to reframe subtraction as a missing addend problem."
+            },
+            {
+                "id": "P_PlaceValue/Base-10Structure",
+                "description": "To understand the concept of jumping by tens."
+            },
+            {
+                "id": "P_CountingbyTens",
+                "description": "The ability to add 10 to any number."
+            },
+            {
+                "id": "P_CountingOn",
+                "description": "To handle the final \"ones\" jumps."
+            }
+        ],
+        "pp_sufficiencies_alg_elaboration": [
+            {
+                "id": "P_ProblemReframing",
+                "description": "The ability to set up the problem as `S + ? = M`."
+            },
+            {
+                "id": "P_IteratedBase-Jumping",
+                "description": "The practice of repeatedly adding 10 until the next jump would exceed the target (M)."
+            },
+            {
+                "id": "P_FinalOnesCount",
+                "description": "The practice of counting on by ones to cover the remaining distance."
+            },
+            {
+                "id": "P_AccumulatingtheDifference",
+                "description": "Keeping a running total of all the jumps (both base and ones) made."
+            }
+        ],
+        "lx_relations": [],
+        "inferences": [],
+        "metaphors": [],
+        "description": "",
+        "visualization_hints": []
+    },
+    {
+        "strategy_id": "SCCBBBAO",
+        "strategy_name": "Subtraction CBBO (Counting Back by Bases and Ones)",
+        "deployed_vocabulary": "",
+        "pp_necessities": [
+            {
+                "id": "P_PlaceValueUnderstanding",
+                "description": "The ability to decompose the subtrahend into its base components."
+            },
+            {
+                "id": "P_CountingBackbyTens",
+                "description": "The ability to subtract 10 from any number."
+            },
+            {
+                "id": "P_CountingBackbyOnes",
+                "description": "The ability to perform simple subtraction of single-digit numbers."
+            }
+        ],
+        "pp_sufficiencies_alg_elaboration": [
+            {
+                "id": "P_StrategicDecomposition",
+                "description": "The ability to decompose the subtrahend `S` into bases and ones for the purpose of subtraction."
+            },
+            {
+                "id": "P_IteratedBaseSubtraction",
+                "description": "The practice of repeatedly subtracting the base value from the minuend `M`."
+            },
+            {
+                "id": "P_FinalOnesSubtraction",
+                "description": "The practice of subtracting the remaining ones from the intermediate result."
+            },
+            {
+                "id": "P_SequentialProcessing",
+                "description": "The ability to manage the two-stage process: first subtracting bases, then subtracting ones."
+            }
+        ],
+        "lx_relations": [],
+        "inferences": [],
+        "metaphors": [],
+        "description": "",
+        "visualization_hints": []
+    },
+    {
+        "strategy_id": "SD",
+        "strategy_name": "Subtraction Decomposition (Borrowing)",
+        "deployed_vocabulary": "",
+        "pp_necessities": [
+            {
+                "id": "P_BasicSubtractionFacts",
+                "description": "To subtract the digits in each column."
+            },
+            {
+                "id": "P_PlaceValueAlignment",
+                "description": "The ability to write the problem vertically, aligning the place values correctly."
+            },
+            {
+                "id": "P_ConceptualDecomposition",
+                "description": "A basic understanding that a ten is also ten ones, a hundred is ten tens, etc."
+            }
+        ],
+        "pp_sufficiencies_alg_elaboration": [
+            {
+                "id": "P_AlgorithmicProcedure",
+                "description": "The ability to follow the rigid, step-by-step procedure of the algorithm (right to left, borrow when needed)."
+            },
+            {
+                "id": "P_Borrowing/DecompositionPractice",
+                "description": "The practical ability to decrement the higher place value and increment the lower one."
+            },
+            {
+                "id": "P_ColumnarSubtraction",
+                "description": "The practice of subtracting the digits within each column independently."
+            }
+        ],
+        "lx_relations": [],
+        "inferences": [],
+        "metaphors": [],
+        "description": "",
+        "visualization_hints": []
+    },
+    {
+        "strategy_id": "CTBAOCM",
+        "strategy_name": "Conversion to Bases and Ones (CBO Multiplication)",
+        "deployed_vocabulary": "",
+        "pp_necessities": [
+            {
+                "id": "P_BasicMultiplication/Addition/Subtraction",
+                "description": "Needed to perform the simplified multiplication and the final adjustment."
+            },
+            {
+                "id": "P_RoundingSkills",
+                "description": "To round one of the factors to a nearby base."
+            },
+            {
+                "id": "P_DistributivePrinciple",
+                "description": "A conceptual understanding that multiplication distributes over addition/subtraction."
+            }
+        ],
+        "pp_sufficiencies_alg_elaboration": [
+            {
+                "id": "P_StrategicRounding",
+                "description": "The ability to identify a factor that is close to a base and round it, keeping track of the difference `K`."
+            },
+            {
+                "id": "P_ProblemTransformation",
+                "description": "The ability to perform the simplified multiplication `A x B'`."
+            },
+            {
+                "id": "P_CompensatoryCalculation",
+                "description": "The ability to calculate the total adjustment needed (`A x K`)."
+            },
+            {
+                "id": "P_FinalAdjustment",
+                "description": "The ability to correctly add or subtract the compensation from the intermediate product."
+            }
+        ],
+        "lx_relations": [],
+        "inferences": [],
+        "metaphors": [],
+        "description": "",
+        "visualization_hints": []
+    },
+    {
+        "strategy_id": "DBO",
+        "strategy_name": "Dealing by Ones (Division - Sharing)",
+        "deployed_vocabulary": "",
+        "pp_necessities": [
+            {
+                "id": "P_One-to-OneCorrespondence",
+                "description": "To deal out one item at a time to each group."
+            },
+            {
+                "id": "P_Counting",
+                "description": "To count the items in one of the final groups to determine the answer."
+            },
+            {
+                "id": "P_ConservationofNumber",
+                "description": "Understanding that the total number of items remains the same even as they are moved around."
+            }
+        ],
+        "pp_sufficiencies_alg_elaboration": [
+            {
+                "id": "P_GroupFormation",
+                "description": "The ability to set up `N` distinct groups."
+            },
+            {
+                "id": "P_Round-RobinDealing",
+                "description": "The practice of distributing the `T` items one by one into the `N` groups, cycling through the groups."
+            },
+            {
+                "id": "P_ExhaustionRecognition",
+                "description": "The ability to recognize when the total `T` has been fully distributed."
+            },
+            {
+                "id": "P_ResultIdentification",
+                "description": "The practice of counting the items in a single group to find the quotient."
+            }
+        ],
+        "lx_relations": [],
+        "inferences": [],
+        "metaphors": [],
+        "description": "",
+        "visualization_hints": []
+    },
+    {
+        "strategy_id": "IDRD",
+        "strategy_name": "Inverse Distributive Reasoning (Division)",
+        "deployed_vocabulary": "",
+        "pp_necessities": [
+            {
+                "id": "P_BasicMultiplication/DivisionFacts",
+                "description": "To recognize \"friendly\" numbers and calculate the partial quotients."
+            },
+            {
+                "id": "P_NumberDecomposition",
+                "description": "The ability to break a number into parts."
+            },
+            {
+                "id": "P_DistributivePrinciple",
+                "description": "A conceptual understanding that division distributes over addition."
+            },
+            {
+                "id": "P_BasicAddition",
+                "description": "To sum the partial quotients."
+            }
+        ],
+        "pp_sufficiencies_alg_elaboration": [
+            {
+                "id": "P_StrategicDecomposition",
+                "description": "The ability to decompose the dividend into numbers that are convenient multiples of the divisor. This is the key strategic element."
+            },
+            {
+                "id": "P_PartialQuotientsCalculation",
+                "description": "The practice of dividing each part of the decomposed dividend by the divisor."
+            },
+            {
+                "id": "P_SummingPartialQuotients",
+                "description": "The practice of adding the results of the partial divisions to get the final answer."
+            }
+        ],
+        "lx_relations": [],
+        "inferences": [],
+        "metaphors": [],
+        "description": "",
+        "visualization_hints": []
+    },
+    {
+        "strategy_id": "UCRD",
+        "strategy_name": "Using Commutative Reasoning (Division)",
+        "deployed_vocabulary": "",
+        "pp_necessities": [
+            {
+                "id": "P_BasicAddition",
+                "description": "To perform the repeated additions of the divisor `G`."
+            },
+            {
+                "id": "P_Counting",
+                "description": "To count the number of iterations/groups."
+            },
+            {
+                "id": "P_InverseRelationshipofMul/Div",
+                "description": "A conceptual understanding that `E / G = ?` is equivalent to `? x G = E`."
+            }
+        ],
+        "pp_sufficiencies_alg_elaboration": [
+            {
+                "id": "P_ProblemReframing",
+                "description": "The ability to transform the division problem into a \"how many groups of G are in E?\" question."
+            },
+            {
+                "id": "P_IterativeAddition/Accumulation",
+                "description": "The practice of repeatedly adding `G` while keeping a running total."
+            },
+            {
+                "id": "P_TerminationandCounting",
+                "description": "The ability to stop when the running total reaches `E` and to report the number of iterations as the quotient."
+            }
+        ],
+        "lx_relations": [],
+        "inferences": [],
+        "metaphors": [],
+        "description": "",
+        "visualization_hints": []
+    },
+    {
+        "strategy_id": "CTGOTBCD",
+        "strategy_name": "Conversion to Groups Other than Bases (CGOB Division)",
+        "deployed_vocabulary": "",
+        "pp_necessities": [
+            {
+                "id": "P_PlaceValueDecomposition",
+                "description": "To break the dividend into its base-10 components."
+            },
+            {
+                "id": "P_DivisionwithRemainder",
+                "description": "To perform the core analysis of the base unit versus the divisor (e.g., `10 / 6`)."
+            },
+            {
+                "id": "P_DistributiveProperty",
+                "description": "To correctly scale the base/divisor relationship across the magnitude of the dividend's components."
+            },
+            {
+                "id": "P_BasicArithmetic",
+                "description": "For multiplication and addition to consolidate remainders and sum the final partial quotients."
+            }
+        ],
+        "pp_sufficiencies_alg_elaboration": [
+            {
+                "id": "P_Base/DivisorAnalysis",
+                "description": "The core practice of analyzing the base unit (10) in terms of the divisor (`C`) to find a quotient (`q`) and remainder (`r`)."
+            },
+            {
+                "id": "P_RemainderConsolidation",
+                "description": "The ability to correctly scale the remainder `r` from the base analysis, add it to the original remainder from the dividend, and then divide that sum by the divisor."
+            },
+            {
+                "id": "P_PartialQuotientSynthesis",
+                "description": "The ability to identify all the partial quotients generated during this complex process and sum them to produce the final answer."
+            }
+        ],
+        "lx_relations": [],
+        "inferences": [],
+        "metaphors": [],
+        "description": "",
+        "visualization_hints": []
+    }
+]
