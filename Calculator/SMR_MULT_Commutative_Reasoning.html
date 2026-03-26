@@ -100,10 +100,10 @@
                     output += `<p>Visual representation:</p>\n`;
                     for (let i = 0; i < numFactorA; i++) {
                         output += `<div class='cube-row'>`; // Start a new row for cubes
+                        const rainbowColors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+                        const rowColor = rainbowColors[i % rainbowColors.length]; // each row is one color
                         for (let j = 0; j < numFactorB; j++) {
-                            const rainbowColors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
-                            const colorClass = rainbowColors[j % rainbowColors.length]; // Cycle through rainbow colors
-                            output += `<span class='cube ${colorClass}'></span>`; // Create a cube with color class
+                            output += `<span class='cube ${rowColor}'></span>`;
                         }
                         output += `</div>`; // End the cube row
                     }
