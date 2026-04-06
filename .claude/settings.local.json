@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3:*)",
+      "Bash(test:*)",
+      "Bash(env)",
+      "Bash(node --version:*)",
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(npm cache clean:*)",
+      "Bash(sudo chown:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "WebFetch(domain:tiosavich.github.io)",
+      "Bash(gh api:*)",
+      "Bash(/usr/local/bin/gh api:*)",
+      "Bash(git -C /Users/tio/Documents/GitHub/UMEDCTA log --oneline -8)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
