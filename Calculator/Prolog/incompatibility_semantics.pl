@@ -439,26 +439,93 @@ proves_impl((Premises => _), _) :-
 % --- PRIORITY 2: Material Inferences and Grounding (Axioms) ---
 
 % --- Arithmetic Grounding (Extended for Q) ---
+% Note: once/1 wraps is_recollection to prevent backtracking into
+% strategy FSMs (which can loop) when the grounding check succeeds
+% but a later condition in the body fails.
 proves_impl(_ => [o(eq(A,B))], _) :-
-    is_recollection(A, _), is_recollection(B, _),
+    once(is_recollection(A, _)), once(is_recollection(B, _)),
     normalize(A, NA), normalize(B, NB),
     NA == NB.
 
 proves_impl(_ => [o(plus(A,B,C))], _) :-
-    is_recollection(A, _), is_recollection(B, _),
+    once(is_recollection(A, _)), once(is_recollection(B, _)),
     arith_op(A, B, +, C),
-    is_recollection(C, _).
+    once(is_recollection(C, _)).
 
 proves_impl(_ => [o(minus(A,B,C))], _) :-
-    current_domain(D), is_recollection(A, _), is_recollection(B, _),
+    current_domain(D), once(is_recollection(A, _)), once(is_recollection(B, _)),
     arith_op(A, B, -, C),
     % Subtraction constraints only apply to N. We must normalize C before comparison.
     normalize(C, NC),
     ((D=n, NC >= 0) ; member(D, [z, q])),
-    is_recollection(C, _).
+    once(is_recollection(C, _)).
 
 % --- Arithmetic Material Inferences ---
 proves_impl([n(plus(A,B,C))] => [n(plus(B,A,C))], _).
+
+% --- Multiplication Grounding ---
+% Derives multiplication facts as theorems (parallels plus grounding above).
+proves_impl(_ => [o(mult(A,B,C))], _) :-
+    once(is_recollection(A, _)), once(is_recollection(B, _)),
+    integer(A), integer(B),
+    C is A * B,
+    once(is_recollection(C, _)).
+
+% Commutativity of multiplication (parallels addition commutativity above).
+proves_impl([n(mult(A,B,C))] => [n(mult(B,A,C))], _).
+
+% =================================================================
+% Robinson Arithmetic (Q) — Axioms Q1-Q7
+% =================================================================
+%
+% Interpretation mapping:
+%   Q's 0       -> HC's 0 (via is_recollection(0, [axiom(zero)]))
+%   Q's S(x)    -> HC's succ(X) where succ(X) = X + 1
+%   Q's +       -> HC's plus/3 in proves_impl
+%   Q's *       -> HC's mult/3 in proves_impl
+%   Q's =       -> HC's eq/2 in proves_impl
+%
+% succ/1 is a logical functor in sequents, grounded by:
+proves_impl(_ => [o(eq(succ(X), SX))], _) :-
+    once(is_recollection(X, _)), integer(X),
+    SX is X + 1,
+    once(is_recollection(SX, _)).
+
+% Q1: S(x) != 0 — zero is not a successor.
+% Expressed as incoherence: claiming succ(X) = 0 is contradictory.
+is_incoherent([o(eq(succ(X), 0))]) :-
+    integer(X), X >= 0, once(is_recollection(X, _)).
+
+% Q2: S(x) = S(y) -> x = y — successor is injective.
+proves_impl([o(eq(succ(X), succ(Y)))] => [o(eq(X, Y))], _) :-
+    once(is_recollection(X, _)), once(is_recollection(Y, _)).
+
+% Q3: x = 0 v exists y (x = S(y)) — every number is zero or a successor.
+proves_impl(_ => [o(is_zero_or_succ(X))], _) :-
+    once(is_recollection(X, _)), integer(X),
+    (X =:= 0 ; X > 0).
+
+% Q4: x + 0 = x
+proves_impl(_ => [o(eq(plus(X, 0), X))], _) :-
+    once(is_recollection(X, _)).
+
+% Q5: x + S(y) = S(x + y)
+proves_impl(_ => [o(eq(plus(X, succ(Y)), succ(plus(X,Y))))], _) :-
+    once(is_recollection(X, _)), once(is_recollection(Y, _)),
+    integer(X), integer(Y),
+    Sum is X + Y, SY is Y + 1, Sum2 is X + SY,
+    Sum2 =:= Sum + 1.
+
+% Q6: x * 0 = 0
+proves_impl(_ => [o(eq(mult(X, 0), 0))], _) :-
+    once(is_recollection(X, _)).
+
+% Q7: x * S(y) = (x * y) + x
+proves_impl(_ => [o(eq(mult(X, succ(Y)), plus(mult(X,Y), X)))], _) :-
+    once(is_recollection(X, _)), once(is_recollection(Y, _)),
+    integer(X), integer(Y),
+    Prod is X * Y, SY is Y + 1, Prod2 is X * SY,
+    Prod2 =:= Prod + X.
 
 % --- EML Material Inferences (Axioms) - UPDATED ---
 % Commitment 2: Emergence of Awareness (Temporal Compression)
